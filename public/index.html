@@ -447,6 +447,40 @@ tbody tr:hover { background: var(--surface2); }
 }
 .del-btn:hover { background: var(--red-light); color: var(--red); }
 
+.qty-cell {
+  font-family: var(--mono);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: background 0.15s;
+  display: inline-block;
+  min-width: 48px;
+  text-align: right;
+}
+.qty-cell:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.qty-cell.editing {
+  background: var(--accent-light);
+  outline: 2px solid var(--accent);
+  color: var(--text);
+  cursor: text;
+}
+.qty-input-inline {
+  font-family: var(--mono);
+  font-size: 13px;
+  width: 80px;
+  padding: 2px 6px;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent-light);
+  color: var(--text);
+  outline: none;
+  text-align: right;
+}
+
 
 
 .loading-wrap {
@@ -813,7 +847,7 @@ function renderTable() {
       <tr>
         <td><span class="ticker-pill">${s.ticker}</span> <span class="dr-tag">DR</span></td>
         <td style="color:var(--text2);font-size:12px">${underlying}</td>
-        <td class="mono">${fmtN(s.qty,0)}</td>
+        <td><span class="qty-cell" onclick="startEditQty(${s.id}, this)">${fmtN(s.qty,0)}</span></td>
         <td class="mono">${fmt(s.buyPrice)}</td>
         <td><span class="price-loading">กำลังโหลด...</span></td>
         <td>—</td><td class="mono">${fmt(cost)}</td><td>—</td><td>—</td>
@@ -831,7 +865,7 @@ function renderTable() {
       <tr>
         <td><span class="ticker-pill">${s.ticker}</span> <span class="dr-tag">DR</span></td>
         <td style="color:var(--text2);font-size:12px">${underlying}</td>
-        <td class="mono">${fmtN(s.qty,0)}</td>
+        <td><span class="qty-cell" onclick="startEditQty(${s.id}, this)">${fmtN(s.qty,0)}</span></td>
         <td class="mono">${fmt(s.buyPrice)}</td>
         <td class="mono" style="font-weight:600">${fmt(p.price)}</td>
         <td>${day!==null?`<span class="${day>=0?'pos-text':'neg-text'}">${day>=0?'▲':'▼'}${Math.abs(day).toFixed(2)}%</span>`:'—'}</td>
@@ -1003,6 +1037,48 @@ function updateCharts() {
 
 
 
+
+// ── INLINE QTY EDIT ──
+function startEditQty(id, el) {
+  const stock = portfolio.find(s => s.id === id);
+  if (!stock) return;
+
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'qty-input-inline';
+  input.value = stock.qty;
+  input.min = 0;
+  input.step = 1;
+
+  el.replaceWith(input);
+  input.focus();
+  input.select();
+
+  function commit() {
+    const newQty = parseFloat(input.value);
+    if (!isNaN(newQty) && newQty > 0) {
+      stock.qty = newQty;
+      saveAll();
+    } else if (!isNaN(newQty) && newQty === 0) {
+      // ถ้าใส่ 0 → ถามว่าจะลบออกเลยไหม
+      if (confirm(`ลบ ${stock.ticker} ออกจากพอร์ตเลยไหม?`)) {
+        removeStock(id);
+        return;
+      }
+    }
+    renderTable();
+    updateSummary();
+    updateCharts();
+  }
+
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { input.blur(); }
+    if (e.key === 'Escape') {
+      renderTable(); // cancel — rerender without saving
+    }
+  });
+}
 
 // ── BOOT ──
 document.addEventListener('keydown', e => {

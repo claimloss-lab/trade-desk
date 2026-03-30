@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio · TRADE DESK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0a0f; --surface:#111118; --surface2:#16161f; --border:#1e1e2e;
+    --accent:#00ff88; --accent2:#00d4ff; --danger:#ff4466; --warn:#ffaa00;
+    --text:#e8e8f0; --muted:#5a5a72;
+    --mono:'Space Mono',monospace; --sans:'Sora',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,136,.012) 2px,rgba(0,255,136,.012) 4px)}
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(rgba(0,255,136,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.04) 1px,transparent 1px);
+    background-size:60px 60px}
+
+  header{position:relative;z-index:10;padding:20px 40px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(10,10,15,.94);backdrop-filter:blur(20px)}
+  .logo{font-family:var(--mono);font-size:20px;color:var(--accent);letter-spacing:4px;font-weight:700}
+  .logo span{color:var(--muted)}
+  .header-right{display:flex;align-items:center;gap:16px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+  .dr-badge{background:rgba(255,170,0,.12);border:1px solid rgba(255,170,0,.3);color:var(--warn);
+    font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:3px;letter-spacing:1px}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(0,255,136,0)}}
+
+  main{position:relative;z-index:10;max-width:1500px;margin:0 auto;padding:28px 40px}
+
+  .notice{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:4px;
+    padding:10px 16px;font-size:11px;color:var(--accent2);font-family:var(--mono);margin-bottom:18px;line-height:1.7}
+
+  /* ── Summary Cards ── */
+  .summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:18px 20px;position:relative;overflow:hidden;transition:border-color .2s}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),transparent)}
+  .card.cash::before{background:linear-gradient(90deg,var(--accent2),transparent)}
+  .card.pnl-pos::before{background:linear-gradient(90deg,var(--accent),transparent)}
+  .card.pnl-neg::before{background:linear-gradient(90deg,var(--danger),transparent)}
+  .card:hover{border-color:rgba(0,255,136,.22)}
+  .card-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  .card-value{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+  .card-value.pos{color:var(--accent)} .card-value.neg{color:var(--danger)}
+  .card-sub{font-size:11px;color:var(--muted);margin-top:6px}
+  .cash-edit{width:100%;padding:4px 0;background:transparent;border:none;
+    border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);
+    font-family:var(--mono);margin-top:6px;outline:none}
+  .cash-edit:focus{border-bottom-color:var(--accent2);color:var(--text)}
+  .cash-edit::placeholder{color:var(--muted)}
+
+  /* ── Toolbar ── */
+  .toolbar{display:flex;gap:10px;margin-bottom:18px;align-items:center;flex-wrap:wrap}
+  input[type=text],input[type=number],select{
+    background:var(--surface);border:1px solid var(--border);color:var(--text);
+    font-family:var(--mono);font-size:13px;padding:9px 12px;border-radius:4px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:var(--accent)}
+  input::placeholder{color:var(--muted)}
+  .t-ticker{width:120px;text-transform:uppercase}
+  .t-price{width:115px} .t-qty{width:90px}
+  .btn{padding:9px 16px;border-radius:4px;border:none;font-family:var(--mono);
+    font-size:12px;letter-spacing:1px;cursor:pointer;transition:all .2s}
+  .btn-add{background:var(--accent);color:#000;font-weight:700}
+  .btn-add:hover{background:#00ffaa;box-shadow:0 0 18px rgba(0,255,136,.35)}
+  .btn-preset{background:rgba(255,170,0,.12);color:var(--warn);border:1px solid rgba(255,170,0,.3);
+    font-family:var(--mono);font-size:12px;padding:9px 16px;border-radius:4px;cursor:pointer;transition:all .2s}
+  .btn-preset:hover{background:rgba(255,170,0,.22)}
+  .btn-refresh{background:transparent;color:var(--accent2);border:1px solid rgba(0,212,255,.3);
+    font-family:var(--mono);font-size:11px;padding:9px 14px;border-radius:4px;cursor:pointer;transition:all .2s}
+  .btn-refresh:hover{background:rgba(0,212,255,.1)}
+  .btn-ai{background:transparent;color:#cc99ff;border:1px solid rgba(180,120,255,.3);
+    font-family:var(--mono);font-size:12px;padding:9px 16px;border-radius:4px;cursor:pointer;transition:all .2s}
+  .btn-ai:hover{background:rgba(180,120,255,.1)}
+  .btn-del{background:transparent;color:var(--danger);border:1px solid transparent;
+    padding:5px 8px;font-size:11px;cursor:pointer;font-family:var(--mono);border-radius:3px;transition:border-color .2s}
+  .btn-del:hover{border-color:var(--danger)}
+
+  /* ── Table ── */
+  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:auto;margin-bottom:28px}
+  table{width:100%;border-collapse:collapse;min-width:980px}
+  thead tr{background:var(--surface2);border-bottom:1px solid var(--border)}
+  th{padding:11px 14px;text-align:left;font-family:var(--mono);font-size:10px;
+    color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:400;white-space:nowrap}
+  td{padding:12px 14px;border-bottom:1px solid rgba(30,30,46,.6);font-family:var(--mono);
+    font-size:12px;vertical-align:middle;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(0,255,136,.025)}
+  .badge{display:inline-block;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
+    color:var(--accent);padding:3px 8px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:1px}
+  .badge-dr{display:inline-block;background:rgba(255,170,0,.08);border:1px solid rgba(255,170,0,.2);
+    color:var(--warn);padding:2px 6px;border-radius:3px;font-size:9px;letter-spacing:1px;margin-left:4px;vertical-align:middle}
+  .price-loading{color:var(--muted);font-size:10px;animation:blink 1s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .pos{color:var(--accent)} .neg{color:var(--danger)} .neu{color:var(--muted)}
+  .pct{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px}
+  .pct.pos{background:rgba(0,255,136,.1);color:var(--accent)}
+  .pct.neg{background:rgba(255,68,102,.1);color:var(--danger)}
+  .empty-row{text-align:center;padding:50px;color:var(--muted)}
+  .empty-row .big{font-size:36px;margin-bottom:10px}
+
+  /* ── AI Section ── */
+  .ai-section{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+  .ai-header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;
+    border-bottom:1px solid var(--border);background:var(--surface2)}
+  .ai-title{font-family:var(--mono);font-size:11px;color:#cc99ff;letter-spacing:3px;text-transform:uppercase}
+  .ai-body{padding:22px;min-height:160px}
+  .ai-empty{text-align:center;padding:50px 0;color:var(--muted);font-size:13px}
+  .ai-empty .icon{font-size:30px;margin-bottom:10px}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+  .stock-card{background:var(--surface2);border:1px solid var(--border);border-radius:4px;
+    padding:18px;animation:fadeUp .4s ease forwards;opacity:0;transform:translateY(10px)}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  .sc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .rec{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:3px;
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px}
+  .rec-hold{background:rgba(255,170,0,.15);color:var(--warn);border:1px solid rgba(255,170,0,.3)}
+  .rec-buy{background:rgba(0,255,136,.15);color:var(--accent);border:1px solid rgba(0,255,136,.3)}
+  .rec-sell{background:rgba(255,68,102,.15);color:var(--danger);border:1px solid rgba(255,68,102,.3)}
+  .rec-sw{background:rgba(0,212,255,.15);color:var(--accent2);border:1px solid rgba(0,212,255,.3)}
+  .atext{font-size:12px;line-height:1.7;color:rgba(232,232,240,.8)}
+  .loading-bar{display:flex;align-items:center;gap:10px;color:var(--muted);font-family:var(--mono);font-size:12px;padding:20px 0}
+  .spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:#cc99ff;
+    border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .overview-card{background:rgba(180,120,255,.05);border:1px solid rgba(180,120,255,.15);
+    border-radius:4px;padding:16px 18px;margin-bottom:16px;font-size:12px;line-height:1.8;
+    color:rgba(232,232,240,.85)}
+  .overview-card .ov-title{font-family:var(--mono);font-size:10px;color:#cc99ff;letter-spacing:2px;
+    text-transform:uppercase;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TRADE<span>/</span>DESK</div>
+  <div class="header-right">
+    <div class="dot"></div>
+    <span id="last-update">INITIALIZING...</span>
+    <span style="color:var(--border)">|</span>
+    <span class="dr-badge">🇹🇭 SET DR · THB</span>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    🇹🇭 <strong>SET DR Portfolio</strong> — ราคาทั้งหมดเป็น <strong>บาท (THB)</strong> · ดึงราคาจาก Yahoo Finance ด้วย ticker เช่น AMZN80.BK, ASML01.BK ฯลฯ<br>
+    DR = Depositary Receipt อ้างอิงหุ้นต่างประเทศ ซื้อขายในตลาดหุ้นไทย · ราคา realtime จาก Cloudflare Worker · ไม่ใช่คำแนะนำการลงทุน
+  </div>
+
+  <!-- Cards -->
+  <div class="summary-grid">
+    <div class="card">
+      <div class="card-label">EQUITY VALUE</div>
+      <div class="card-value" id="equity-val" style="color:var(--text)">—</div>
+      <div class="card-sub" id="cost-sub">Cost: —</div>
+    </div>
+    <div class="card cash">
+      <div class="card-label">CASH (เงินสด)</div>
+      <div class="card-value" id="cash-val" style="color:var(--accent2)">—</div>
+      <div class="card-sub">
+        <input class="cash-edit" type="number" id="cash-input" placeholder="แก้ไขเงินสด (฿)..."
+          step="0.01" onchange="cashBalance=parseFloat(this.value)||0;saveCash();updateSummary()">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">NET WORTH</div>
+      <div class="card-value" id="net-val" style="color:var(--text)">—</div>
+      <div class="card-sub">หุ้น + เงินสด (THB)</div>
+    </div>
+    <div class="card" id="pnl-card">
+      <div class="card-label">TOTAL P&amp;L</div>
+      <div class="card-value" id="pnl-val">—</div>
+      <div class="card-sub" id="pnl-pct">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">POSITIONS</div>
+      <div class="card-value" id="pos-count" style="color:var(--text)">0</div>
+      <div class="card-sub" id="cash-wt-sub">Cash weight: —</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" class="t-ticker" id="inp-ticker" placeholder="เช่น AMZN80"
+      title="กรอก ticker DR เช่น AMZN80, ASML01, NVDA80 (ไม่ต้องใส่ .BK)">
+    <input type="number" class="t-price" id="inp-price" placeholder="ราคาซื้อ (฿)" step="0.01">
+    <input type="number" class="t-qty" id="inp-qty" placeholder="จำนวน DR">
+    <button class="btn btn-add" onclick="addStock()">+ ADD</button>
+    <button class="btn-preset" onclick="loadPreset()">★ LOAD PRESET</button>
+    <button class="btn-refresh" id="btn-refresh" onclick="refreshAll()">⟳ REFRESH ราคา</button>
+    <button class="btn-ai" id="btn-ai" onclick="analyzeAll()">🤖 AI วิเคราะห์พอร์ต</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>DR TICKER</th><th>อ้างอิง</th><th>จำนวน DR</th><th>ต้นทุน/DR (฿)</th>
+          <th>ราคาปัจจุบัน (฿)</th><th>เปลี่ยน%วัน</th><th>มูลค่า (฿)</th>
+          <th>กำไร/ขาดทุน (฿)</th><th>%</th><th>WEIGHT</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="tbl-body"></tbody>
+    </table>
+  </div>
+
+  <!-- AI Analysis -->
+  <div class="ai-section">
+    <div class="ai-header">
+      <div class="ai-title">◈ AI PORTFOLIO ANALYSIS</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">POWERED BY CLAUDE · ภาษาไทย</div>
+    </div>
+    <div class="ai-body" id="ai-body">
+      <div class="ai-empty">
+        <div class="icon">🧠</div>
+        กด <strong style="color:var(--text)">AI วิเคราะห์พอร์ต</strong> ให้ Claude วิเคราะห์ DR ทุกตัว
+        พร้อมคำแนะนำ HOLD / BUY / SELL / SWITCH
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── STATE ──
+let portfolio = JSON.parse(localStorage.getItem('tdDRPortfolio') || '[]');
+let prices = {};
+let cashBalance = parseFloat(localStorage.getItem('tdDRCash') || '0');
+
+// ── DR Ticker Map: DR code → underlying stock name ──
+const DR_UNDERLYING = {
+  'AMZN80':'Amazon','AMZN':'Amazon',
+  'ASML01':'ASML','ASML':'ASML',
+  'AVGO80':'Broadcom','AVGO':'Broadcom',
+  'CRWD80':'CrowdStrike','CRWD':'CrowdStrike',
+  'GOOG80':'Alphabet (Google)','GOOG':'Alphabet',
+  'LLY80':'Eli Lilly','LLY':'Eli Lilly',
+  'MELI06':'MercadoLibre','MELI':'MercadoLibre',
+  'META80':'Meta','META':'Meta',
+  'MSFT80':'Microsoft','MSFT':'Microsoft',
+  'NVDA80':'NVIDIA','NVDA':'NVIDIA',
+  'PANW80':'Palo Alto Networks','PANW':'Palo Alto',
+  'PLTR06':'Palantir','PLTR':'Palantir',
+  'QQQM19':'Invesco QQQ Mini','QQQM':'Invesco QQQM',
+  'SNOW06':'Snowflake','SNOW':'Snowflake',
+  'SONY80':'Sony','SONY':'Sony',
+};
+
+// ── PRESET (ข้อมูลจากรูป) ──
+// ticker ใช้ code เต็ม เช่น AMZN80 → Yahoo Finance: AMZN80.BK
+const PRESET = [
+  {ticker:'AMZN80', qty:29200,  buyPrice:1.73  },
+  {ticker:'ASML01', qty:2700,   buyPrice:28.43 },
+  {ticker:'AVGO80', qty:26000,  buyPrice:2.28  },
+  {ticker:'CRWD80', qty:4345,   buyPrice:14.94 },
+  {ticker:'GOOG80', qty:4600,   buyPrice:4.55  },
+  {ticker:'LLY80',  qty:4000,   buyPrice:1.35  },
+  {ticker:'MELI06', qty:3420,   buyPrice:2.77  },
+  {ticker:'META80', qty:800,    buyPrice:2.46  },
+  {ticker:'MSFT80', qty:18600,  buyPrice:7.67  },
+  {ticker:'NVDA80', qty:2457,   buyPrice:28.80 },
+  {ticker:'PANW80', qty:8900,   buyPrice:6.08  },
+  {ticker:'PLTR06', qty:7600,   buyPrice:3.03  },
+  {ticker:'QQQM19', qty:1500,   buyPrice:15.95 },
+  {ticker:'SNOW06', qty:15950,  buyPrice:3.07  },
+  {ticker:'SONY80', qty:1550,   buyPrice:4.20  },
+];
+const PRESET_CASH = 26227.52;
+
+function loadPreset() {
+  if (portfolio.length && !confirm('แทนที่ข้อมูลพอร์ตปัจจุบันด้วย preset?')) return;
+  portfolio = PRESET.map((s,i) => ({...s, id: Date.now()+i}));
+  cashBalance = PRESET_CASH;
+  saveAll(); syncCashInput(); renderTable(); updateSummary(); refreshAll();
+}
+
+// ── PERSIST ──
+function saveAll() {
+  localStorage.setItem('tdDRPortfolio', JSON.stringify(portfolio));
+  localStorage.setItem('tdDRCash', cashBalance.toString());
+}
+function saveCash() { localStorage.setItem('tdDRCash', cashBalance.toString()); }
+function syncCashInput() {
+  const el = document.getElementById('cash-input');
+  if (el && cashBalance > 0) el.value = cashBalance;
+}
+
+// ── PRICE FETCH (Yahoo Finance .BK) ──
+// DR ticker in SET: AMZN80.BK, ASML01.BK etc.
+async function fetchPrice(ticker) {
+  // ── Cloudflare Worker handles the Yahoo Finance fetch at the edge ──
+  // No proxy needed — Worker runs server-side at the nearest CF data center
+  try {
+    const r = await fetch(`/api/price?ticker=${encodeURIComponent(ticker)}`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+    if (d.error || !d.price) return null;
+    return {
+      price: d.price,
+      prevClose: d.prevClose || null,
+      currency: d.currency || 'THB',
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function refreshAll() {
+  const btn = document.getElementById('btn-refresh');
+  btn.textContent = '⟳ กำลังโหลด...'; btn.disabled = true;
+  document.getElementById('last-update').textContent = 'FETCHING PRICES...';
+
+  await Promise.all(portfolio.map(async s => {
+    const r = await fetchPrice(s.ticker);
+    if (r) prices[s.ticker] = r;
+  }));
+
+  renderTable(); updateSummary();
+  document.getElementById('last-update').textContent =
+    'อัปเดตล่าสุด ' + new Date().toLocaleTimeString('th-TH');
+  btn.textContent = '⟳ REFRESH ราคา'; btn.disabled = false;
+}
+
+// ── CRUD ──
+function addStock() {
+  const ticker = document.getElementById('inp-ticker').value.trim().toUpperCase();
+  const buyPrice = parseFloat(document.getElementById('inp-price').value);
+  const qty = parseFloat(document.getElementById('inp-qty').value);
+  if (!ticker || !buyPrice || !qty || buyPrice <= 0 || qty <= 0) {
+    alert('กรอกข้อมูลให้ครบถ้วน'); return;
+  }
+  const ex = portfolio.find(s => s.ticker === ticker);
+  if (ex) {
+    const tc = ex.buyPrice * ex.qty + buyPrice * qty;
+    ex.qty += qty; ex.buyPrice = tc / ex.qty;
+  } else {
+    portfolio.push({ ticker, buyPrice, qty, id: Date.now() });
+  }
+  saveAll();
+  ['inp-ticker','inp-price','inp-qty'].forEach(id => document.getElementById(id).value = '');
+  fetchPrice(ticker).then(r => { if(r) prices[ticker] = r; renderTable(); updateSummary(); });
+  renderTable(); updateSummary();
+}
+
+function removeStock(id) {
+  portfolio = portfolio.filter(s => s.id !== id);
+  saveAll(); renderTable(); updateSummary();
+}
+
+// ── HELPERS ──
+function fmtTHB(n) {
+  return '฿' + new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+}
+function fmtN(n, dec=2) {
+  return new Intl.NumberFormat('th-TH',{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(n);
+}
+function getEquity() {
+  return portfolio.reduce((s,x) => {
+    const p = prices[x.ticker];
+    return s + (p ? p.price * x.qty : x.buyPrice * x.qty);
+  }, 0);
+}
+function getCost() {
+  return portfolio.reduce((s,x) => s + x.buyPrice * x.qty, 0);
+}
+function getUnderlying(ticker) {
+  return DR_UNDERLYING[ticker] || ticker.replace(/\d+$/,'');
+}
+
+// ── RENDER TABLE ──
+function renderTable() {
+  const tbody = document.getElementById('tbl-body');
+  if (!portfolio.length) {
+    tbody.innerHTML = `<tr><td colspan="11" class="empty-row">
+      <div class="big">📈</div>ยังไม่มี DR · กด LOAD PRESET หรือเพิ่มเอง</td></tr>`;
+    return;
+  }
+  const net = getEquity() + cashBalance;
+
+  tbody.innerHTML = portfolio.map(s => {
+    const p = prices[s.ticker];
+    const cost = s.buyPrice * s.qty;
+    const underlying = getUnderlying(s.ticker);
+
+    if (!p) return `
+      <tr>
+        <td><span class="badge">${s.ticker}</span><span class="badge-dr">DR</span></td>
+        <td style="color:var(--muted);font-size:11px">${underlying}</td>
+        <td>${fmtN(s.qty,0)}</td>
+        <td>${fmtTHB(s.buyPrice)}</td>
+        <td><span class="price-loading">LOADING...</span></td>
+        <td>—</td><td>${fmtTHB(cost)}</td><td>—</td><td>—</td><td>—</td>
+        <td><button class="btn-del" onclick="removeStock(${s.id})">✕</button></td>
+      </tr>`;
+
+    const val = p.price * s.qty;
+    const pnl = val - cost;
+    const pct = (p.price - s.buyPrice) / s.buyPrice * 100;
+    const day = p.prevClose ? (p.price - p.prevClose) / p.prevClose * 100 : null;
+    const wt = net > 0 ? (val / net * 100).toFixed(1) + '%' : '—';
+
+    return `
+      <tr>
+        <td><span class="badge">${s.ticker}</span><span class="badge-dr">DR</span></td>
+        <td style="color:var(--muted);font-size:11px">${underlying}</td>
+        <td>${fmtN(s.qty,0)}</td>
+        <td>${fmtTHB(s.buyPrice)}</td>
+        <td style="font-weight:700">${fmtTHB(p.price)}</td>
+        <td>${day !== null
+          ? `<span class="${day>=0?'pos':'neg'}">${day>=0?'▲':'▼'}${Math.abs(day).toFixed(2)}%</span>`
+          : '—'}</td>
+        <td>${fmtTHB(val)}</td>
+        <td class="${pnl>=0?'pos':'neg'}">${pnl>=0?'+':''}${fmtTHB(pnl)}</td>
+        <td><span class="pct ${pnl>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(2)}%</span></td>
+        <td style="color:var(--muted)">${wt}</td>
+        <td><button class="btn-del" onclick="removeStock(${s.id})">✕</button></td>
+      </tr>`;
+  }).join('');
+}
+
+// ── SUMMARY ──
+function updateSummary() {
+  const eq = getEquity(), cost = getCost(), net = eq + cashBalance;
+  const pnl = eq - cost;
+  const pct = cost > 0 ? pnl / cost * 100 : 0;
+  const cashWt = net > 0 ? (cashBalance / net * 100).toFixed(1) : 0;
+  const eqWt = net > 0 ? (eq / net * 100).toFixed(1) : 0;
+
+  document.getElementById('equity-val').textContent = fmtTHB(eq);
+  document.getElementById('cost-sub').textContent = 'ต้นทุน: ' + fmtTHB(cost);
+  document.getElementById('cash-val').textContent = fmtTHB(cashBalance);
+  document.getElementById('net-val').textContent = fmtTHB(net);
+
+  const pnlEl = document.getElementById('pnl-val');
+  pnlEl.textContent = (pnl >= 0 ? '+' : '') + fmtTHB(pnl);
+  pnlEl.className = 'card-value ' + (pnl >= 0 ? 'pos' : 'neg');
+  document.getElementById('pnl-pct').textContent =
+    (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+
+  const pnlCard = document.getElementById('pnl-card');
+  pnlCard.className = 'card ' + (pnl >= 0 ? 'pnl-pos' : 'pnl-neg');
+
+  document.getElementById('pos-count').textContent = portfolio.length;
+  document.getElementById('cash-wt-sub').textContent =
+    `หุ้น ${eqWt}% · เงินสด ${cashWt}%`;
+}
+
+// ── AI ANALYZE ──
+async function analyzeAll() {
+  if (!portfolio.length) { alert('กรุณาเพิ่ม DR ก่อน'); return; }
+  const body = document.getElementById('ai-body');
+  const btn = document.getElementById('btn-ai');
+  btn.disabled = true; btn.textContent = '⟳ กำลังวิเคราะห์...';
+  body.innerHTML = `<div class="loading-bar"><div class="spin"></div>
+    Claude กำลังวิเคราะห์ DR ${portfolio.length} ตัว ในพอร์ตของคุณ...</div>`;
+
+  const net = getEquity() + cashBalance;
+  const eq = getEquity();
+  const cost = getCost();
+
+  const snap = portfolio.map(s => {
+    const p = prices[s.ticker];
+    const cur = p?.price || null;
+    const val = cur ? cur * s.qty : s.buyPrice * s.qty;
+    const pnlAmt = cur ? (cur - s.buyPrice) * s.qty : 0;
+    const pnlPct = cur ? ((cur - s.buyPrice) / s.buyPrice * 100).toFixed(2) + '%' : 'N/A';
+    return {
+      drTicker: s.ticker,
+      underlying: getUnderlying(s.ticker),
+      qty: s.qty,
+      avgCostTHB: s.buyPrice,
+      currentPriceTHB: cur || 'N/A (ดึงราคาไม่สำเร็จ)',
+      pnlTHB: pnlAmt.toFixed(2),
+      pnlPercent: pnlPct,
+      portfolioWeight: net > 0 ? (val / net * 100).toFixed(1) + '%' : 'N/A',
+    };
+  });
+
+  const prompt = `คุณเป็น Portfolio Analyst ผู้เชี่ยวชาญ DR (Depositary Receipt) ในตลาดหุ้นไทย (SET)
+
+พอร์ตนี้เป็น DR ที่ซื้อขายในตลาดหลักทรัพย์ไทย อ้างอิงหุ้นต่างประเทศ ราคาเป็นบาท (THB):
+
+${JSON.stringify(snap, null, 2)}
+
+เงินสดในบัญชี: ฿${fmtN(cashBalance,2)} บาท
+Net Worth รวม: ~฿${fmtN(net,2)} บาท
+มูลค่าหุ้น DR: ~฿${fmtN(eq,2)} บาท
+ต้นทุนรวม: ~฿${fmtN(cost,2)} บาท
+กำไร/ขาดทุนรวม: ${eq>=cost?'+':''}฿${fmtN(eq-cost,2)} บาท (${((eq-cost)/cost*100).toFixed(2)}%)
+
+วิเคราะห์แต่ละ DR:
+1. บริษัท underlying หลักหรือ ETF คืออะไร ธุรกิจหลัก แนวโน้มล่าสุด
+2. ผลประกอบการ ปัจจัยบวก ปัจจัยเสี่ยง
+3. คำแนะนำ: HOLD / BUY MORE / SELL / SWITCH
+4. ถ้า SWITCH ระบุว่าควรไปถือ DR ตัวไหนหรือสินทรัพย์อะไรแทน
+
+วิเคราะห์ภาพรวมพอร์ตด้วย (1 block แรก ticker="OVERVIEW"): portfolio diversification, sector concentration, ความเสี่ยงรวม, และข้อแนะนำภาพรวม
+
+ตอบเป็นภาษาไทย กระชับ อ่านง่าย ตอบเป็น JSON array เท่านั้น ห้ามมี text นอก JSON array:
+[
+  {"ticker":"OVERVIEW","recommendation":"OVERVIEW","summary":"สรุปภาพรวม","detail":"วิเคราะห์พอร์ตรวม","switchTo":null},
+  {"ticker":"AMZN80","recommendation":"HOLD","summary":"สรุปสั้น 2 ประโยค","detail":"รายละเอียดปัจจัย ความเสี่ยง แนวโน้ม","switchTo":null}
+]`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    renderAnalysis(JSON.parse(clean));
+  } catch(e) {
+    body.innerHTML = `<div style="color:var(--danger);font-family:var(--mono);font-size:12px;padding:16px">
+      ❌ วิเคราะห์ไม่สำเร็จ: ${e.message}</div>`;
+  }
+  btn.disabled = false; btn.textContent = '🤖 AI วิเคราะห์พอร์ต';
+}
+
+function renderAnalysis(list) {
+  const body = document.getElementById('ai-body');
+  const REC = {
+    HOLD:['rec-hold','◆ HOLD'], BUY:['rec-buy','▲ BUY'],
+    'BUY MORE':['rec-buy','▲ BUY MORE'],
+    SELL:['rec-sell','▼ SELL'], SWITCH:['rec-sw','⇄ SWITCH'],
+    OVERVIEW:['rec-hold','◈ OVERVIEW']
+  };
+
+  // Separate overview from stocks
+  const overview = list.find(a => a.ticker === 'OVERVIEW');
+  const stocks = list.filter(a => a.ticker !== 'OVERVIEW');
+
+  let html = '';
+
+  if (overview) {
+    html += `<div class="overview-card">
+      <div class="ov-title">◈ ภาพรวมพอร์ต</div>
+      <div style="font-weight:600;margin-bottom:6px;color:var(--text)">${overview.summary}</div>
+      <div style="font-size:12px;color:rgba(232,232,240,.75)">${overview.detail}</div>
+    </div>`;
+  }
+
+  html += `<div class="cards-grid">${stocks.map((a, i) => {
+    const r = REC[(a.recommendation || '').toUpperCase()] || ['rec-hold', '—'];
+    const underlying = getUnderlying(a.ticker);
+    const sw = a.switchTo
+      ? `<div style="margin-top:10px;padding:7px 11px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:3px;font-size:11px;color:var(--accent2)">⇄ สลับไป: <strong>${a.switchTo}</strong></div>`
+      : '';
+    return `<div class="stock-card" style="animation-delay:${i * .06}s">
+      <div class="sc-header">
+        <div>
+          <span class="badge">${a.ticker}</span><span class="badge-dr">DR</span>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">${underlying}</div>
+        </div>
+        <span class="rec ${r[0]}">${r[1]}</span>
+      </div>
+      <div class="atext" style="font-weight:600;margin-bottom:8px;color:var(--text)">${a.summary}</div>
+      <div class="atext" style="font-size:11px;color:rgba(232,232,240,.6)">${a.detail}</div>
+      ${sw}
+    </div>`;
+  }).join('')}</div>`;
+
+  body.innerHTML = html;
+}
+
+// ── BOOT ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement.closest('.toolbar')) addStock();
+});
+
+syncCashInput();
+
+if (portfolio.length === 0) {
+  loadPreset();
+} else {
+  renderTable(); updateSummary(); refreshAll();
+}
+
+setInterval(refreshAll, 5 * 60 * 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[build]
+  command = ""
+  destination = "public"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200

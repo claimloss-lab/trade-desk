@@ -328,11 +328,6 @@ input::placeholder { color: var(--text3); }
 }
 .btn-green:hover { background: #28c151; }
 
-.btn-ai {
-  background: linear-gradient(135deg, #6e40c9, #a259ff);
-  color: white;
-}
-.btn-ai:hover { opacity: 0.9; }
 
 /* ── Table ── */
 .table-card {
@@ -452,124 +447,7 @@ tbody tr:hover { background: var(--surface2); }
 }
 .del-btn:hover { background: var(--red-light); color: var(--red); }
 
-/* ── AI Section ── */
-.ai-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border2);
-  overflow: hidden;
-}
 
-.ai-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #faf5ff, #f5f0ff);
-}
-
-.ai-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #6e40c9;
-}
-
-.ai-body { padding: 20px; min-height: 140px; }
-
-.ai-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  color: var(--text3);
-  font-size: 13px;
-  gap: 8px;
-}
-
-.analysis-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
-}
-
-.analysis-overview {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, #faf5ff, #f5f0ff);
-  border: 1px solid rgba(110,64,201,0.15);
-  border-radius: var(--radius-sm);
-  padding: 16px;
-  margin-bottom: 4px;
-}
-
-.analysis-overview .ov-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #a259ff;
-  margin-bottom: 6px;
-}
-
-.stock-analysis-card {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  animation: slideUp 0.3s ease forwards;
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-@keyframes slideUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.ac-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.rec-badge {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-family: var(--mono);
-  letter-spacing: 0.3px;
-}
-
-.rec-hold { background: #fff4e5; color: #c47d00; }
-.rec-buy { background: var(--green-light); color: #1a7f3c; }
-.rec-sell { background: var(--red-light); color: var(--red); }
-.rec-switch { background: var(--accent-light); color: var(--accent); }
-
-.ac-summary {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-  margin-bottom: 6px;
-  line-height: 1.5;
-}
-
-.ac-detail {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.6;
-}
-
-.switch-hint {
-  margin-top: 8px;
-  padding: 6px 10px;
-  background: var(--accent-light);
-  border-radius: 7px;
-  font-size: 11px;
-  color: var(--accent);
-}
 
 .loading-wrap {
   display: flex;
@@ -685,7 +563,6 @@ tbody tr:hover { background: var(--surface2); }
     <button class="btn btn-primary" onclick="addStock()">+ เพิ่ม</button>
     <button class="btn btn-secondary" onclick="loadPreset()">★ Preset</button>
     <button class="btn btn-ghost" id="btn-refresh" onclick="refreshAll()">↻ Refresh ราคา</button>
-    <button class="btn btn-ai" id="btn-ai" onclick="analyzeAll()">✦ AI วิเคราะห์</button>
   </div>
 
   <!-- Table -->
@@ -705,20 +582,6 @@ tbody tr:hover { background: var(--surface2); }
         </thead>
         <tbody id="tbl-body"></tbody>
       </table>
-    </div>
-  </div>
-
-  <!-- AI Analysis -->
-  <div class="ai-card">
-    <div class="ai-header">
-      <div class="ai-title">✦ AI Portfolio Analysis</div>
-      <div style="font-size:11px;color:#a259ff;font-family:var(--mono)">Claude</div>
-    </div>
-    <div class="ai-body" id="ai-body">
-      <div class="ai-empty">
-        <div style="font-size:28px">✦</div>
-        <div>กด <strong>AI วิเคราะห์</strong> เพื่อรับคำแนะนำ HOLD / BUY / SELL / SWITCH</div>
-      </div>
     </div>
   </div>
 
@@ -1071,95 +934,8 @@ function updateCharts() {
   }).join('');
 }
 
-// ── AI ──
-async function analyzeAll() {
-  if (!portfolio.length) { alert('กรุณาเพิ่ม DR ก่อน'); return; }
-  const body = document.getElementById('ai-body');
-  const btn = document.getElementById('btn-ai');
-  btn.disabled = true; btn.textContent = '✦ กำลังวิเคราะห์...';
-  body.innerHTML = `<div class="loading-wrap"><div class="spinner"></div>Claude กำลังวิเคราะห์พอร์ต ${portfolio.length} ตัว...</div>`;
 
-  const net = getEquity() + cashBalance;
-  const snap = portfolio.map(s => {
-    const p = prices[s.ticker];
-    const cur = p?.price || null;
-    const val = cur ? cur*s.qty : s.buyPrice*s.qty;
-    return {
-      dr: s.ticker, underlying: UNDERLYING[s.ticker]||s.ticker,
-      qty: s.qty, avgCost: s.buyPrice, currentPrice: cur||'N/A',
-      pnlPct: cur ? ((cur-s.buyPrice)/s.buyPrice*100).toFixed(2)+'%' : 'N/A',
-      weight: net>0 ? (val/net*100).toFixed(1)+'%' : 'N/A',
-    };
-  });
 
-  const prompt = `คุณเป็น Portfolio Analyst ผู้เชี่ยวชาญ DR (Depositary Receipt) ในตลาดหุ้นไทย (SET) ราคาเป็นบาท
-
-พอร์ต DR:
-${JSON.stringify(snap,null,2)}
-
-เงินสด: ฿${fmtN(cashBalance)} | Net Worth: ฿${fmtN(net)} | P&L: ${((getEquity()-getCost())/getCost()*100).toFixed(2)}%
-
-วิเคราะห์แต่ละ DR (ภาษาไทย กระชับ) และ OVERVIEW ภาพรวมพอร์ต
-
-ตอบเป็น JSON array เท่านั้น:
-[{"ticker":"OVERVIEW","recommendation":"OVERVIEW","summary":"สรุปภาพรวม","detail":"วิเคราะห์ portfolio","switchTo":null},
- {"ticker":"AMZN80","recommendation":"HOLD","summary":"สรุป 1-2 ประโยค","detail":"ปัจจัย ความเสี่ยง","switchTo":null}]`;
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514', max_tokens:4000,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data = await resp.json();
-    const text = data.content?.map(c=>c.text||'').join('');
-    renderAnalysis(JSON.parse(text.replace(/```json|```/g,'').trim()));
-  } catch(e) {
-    body.innerHTML = `<div style="color:var(--red);font-size:13px;padding:16px">❌ ${e.message}</div>`;
-  }
-  btn.disabled=false; btn.textContent='✦ AI วิเคราะห์';
-}
-
-function renderAnalysis(list) {
-  const body = document.getElementById('ai-body');
-  const REC = {
-    HOLD:['rec-hold','HOLD'], BUY:['rec-buy','BUY'], 'BUY MORE':['rec-buy','BUY MORE'],
-    SELL:['rec-sell','SELL'], SWITCH:['rec-switch','SWITCH'], OVERVIEW:['rec-switch','OVERVIEW']
-  };
-  const overview = list.find(a=>a.ticker==='OVERVIEW');
-  const stocks = list.filter(a=>a.ticker!=='OVERVIEW');
-
-  let html = '<div class="analysis-grid">';
-  if (overview) html += `
-    <div class="analysis-overview">
-      <div class="ov-label">ภาพรวมพอร์ต</div>
-      <div style="font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text)">${overview.summary}</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.7">${overview.detail}</div>
-    </div>`;
-
-  html += stocks.map((a,i)=>{
-    const r = REC[(a.recommendation||'').toUpperCase()]||['rec-hold','—'];
-    const sw = a.switchTo ? `<div class="switch-hint">→ สลับไป: <strong>${a.switchTo}</strong></div>` : '';
-    return `
-      <div class="stock-analysis-card" style="animation-delay:${i*.06}s">
-        <div class="ac-head">
-          <div>
-            <span class="ticker-pill" style="margin-bottom:2px">${a.ticker}</span>
-            <div style="font-size:10px;color:var(--text3);margin-top:3px">${UNDERLYING[a.ticker]||''}</div>
-          </div>
-          <span class="rec-badge ${r[0]}">${r[1]}</span>
-        </div>
-        <div class="ac-summary">${a.summary}</div>
-        <div class="ac-detail">${a.detail}</div>
-        ${sw}
-      </div>`;
-  }).join('');
-  html += '</div>';
-  body.innerHTML = html;
-}
 
 // ── BOOT ──
 document.addEventListener('keydown', e => {

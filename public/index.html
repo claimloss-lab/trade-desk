@@ -501,6 +501,56 @@ tbody tr:hover { background: var(--surface2); }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── PIN Lock ── */
+.pin-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(245,245,247,0.97);
+  backdrop-filter: blur(20px);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 24px;
+}
+.pin-box {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 48px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+  max-width: 320px; width: 90%;
+}
+.pin-logo { font-size: 15px; font-weight: 600; margin-bottom: 24px; color: var(--text); }
+.pin-logo em { color: var(--accent); font-style: normal; }
+.pin-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.pin-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+.pin-dots { display: flex; gap: 10px; justify-content: center; margin-bottom: 24px; }
+.pin-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--border);
+  transition: all 0.15s;
+}
+.pin-dot.filled { background: var(--accent); border-color: var(--accent); }
+.pin-dot.error { background: var(--red); border-color: var(--red); animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 60%{transform:translateX(6px)}
+}
+.pin-numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pin-key {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px;
+  font-size: 18px; font-weight: 500; cursor: pointer;
+  transition: all 0.1s; user-select: none;
+  font-family: var(--mono);
+}
+.pin-key:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.pin-key:active { transform: scale(0.94); }
+.pin-key.del-key { font-size: 14px; color: var(--text2); }
+.pin-error-msg { font-size: 12px; color: var(--red); height: 16px; }
+
+/* Hidden values when locked */
+.locked .sensitive { filter: blur(6px); user-select: none; pointer-events: none; transition: filter 0.3s; }
+.unlocked .sensitive { filter: none; }
+
+
 .empty-table {
   text-align: center;
   padding: 48px;
@@ -603,7 +653,7 @@ tbody tr:hover { background: var(--surface2); }
   <div class="summary-row">
     <div class="metric-card hero">
       <div class="metric-label">Net Worth</div>
-      <div class="metric-value" id="net-val">฿0</div>
+      <div class="metric-value sensitive" id="net-val">฿0</div>
       <div class="metric-sub">หุ้น DR + เงินสด</div>
       <div style="margin-top:12px">
         <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">เงินสด</div>
@@ -613,17 +663,17 @@ tbody tr:hover { background: var(--surface2); }
     </div>
     <div class="metric-card">
       <div class="metric-label">Equity Value</div>
-      <div class="metric-value" id="equity-val">฿0</div>
+      <div class="metric-value sensitive" id="equity-val">฿0</div>
       <div class="metric-sub" id="cost-sub">ต้นทุน ฿0</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">Total P&L</div>
-      <div class="metric-value" id="pnl-val">฿0</div>
+      <div class="metric-value sensitive" id="pnl-val">฿0</div>
       <div id="pnl-badge" class="badge neutral">0.00%</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">วันนี้</div>
-      <div class="metric-value" id="day-val">฿0</div>
+      <div class="metric-value sensitive" id="day-val">฿0</div>
       <div id="day-badge" class="badge neutral">0.00%</div>
     </div>
     <div class="metric-card">
@@ -634,7 +684,7 @@ tbody tr:hover { background: var(--surface2); }
   </div>
 
   <!-- Charts -->
-  <div class="charts-row">
+  <div class="charts-row sensitive">
     <div class="chart-card">
       <div class="chart-title">สัดส่วนพอร์ต</div>
       <div class="chart-sub">Weight ของแต่ละ DR</div>
@@ -667,7 +717,7 @@ tbody tr:hover { background: var(--surface2); }
   </div>
 
   <!-- Table -->
-  <div class="table-card">
+  <div class="table-card sensitive">
     <div class="table-header">
       <div class="table-title">พอร์ต DR</div>
       <div style="font-size:12px;color:var(--text3)" id="table-count">0 รายการ</div>
@@ -678,7 +728,7 @@ tbody tr:hover { background: var(--surface2); }
           <tr>
             <th>DR</th><th>อ้างอิง</th><th>จำนวน</th><th>ต้นทุน/DR</th>
             <th>ราคาปัจจุบัน</th><th>เปลี่ยนวัน</th><th>มูลค่า</th>
-            <th>P&L (฿)</th><th>P&L %</th><th>Sparkline</th><th>Weight</th><th></th>
+            <th>P&L (฿)</th><th>P&L %</th><th>Sparkline</th><th>Weight</th>
           </tr>
         </thead>
         <tbody id="tbl-body"></tbody>
@@ -765,8 +815,10 @@ async function refreshAll() {
     if (r) prices[s.ticker] = r;
   }));
   renderTable(); updateSummary(); updateCharts();
-  const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
-  document.getElementById('last-update').textContent = `อัปเดต ${now}`;
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
+  const dateStr = now.toLocaleDateString('th-TH', {day:'numeric',month:'short',year:'2-digit'});
+  document.getElementById('last-update').textContent = `${dateStr} · ${timeStr}`;
   btn.textContent = '↻ Refresh ราคา'; btn.disabled = false;
 }
 
@@ -848,11 +900,10 @@ function renderTable() {
         <td><span class="ticker-pill">${s.ticker}</span> <span class="dr-tag">DR</span></td>
         <td style="color:var(--text2);font-size:12px">${underlying}</td>
         <td><span class="qty-cell" onclick="startEditQty(${s.id}, this)">${fmtN(s.qty,0)}</span></td>
-        <td class="mono">${fmt(s.buyPrice)}</td>
+        <td><span class="qty-cell" onclick="startEditCost(${s.id}, this)">${fmt(s.buyPrice)}</span></td>
         <td><span class="price-loading">กำลังโหลด...</span></td>
         <td>—</td><td class="mono">${fmt(cost)}</td><td>—</td><td>—</td>
         <td></td><td class="muted">—</td>
-        <td><button class="del-btn" onclick="removeStock(${s.id})">✕</button></td>
       </tr>`;
 
     const val = p.price * s.qty;
@@ -866,7 +917,7 @@ function renderTable() {
         <td><span class="ticker-pill">${s.ticker}</span> <span class="dr-tag">DR</span></td>
         <td style="color:var(--text2);font-size:12px">${underlying}</td>
         <td><span class="qty-cell" onclick="startEditQty(${s.id}, this)">${fmtN(s.qty,0)}</span></td>
-        <td class="mono">${fmt(s.buyPrice)}</td>
+        <td><span class="qty-cell" onclick="startEditCost(${s.id}, this)">${fmt(s.buyPrice)}</span></td>
         <td class="mono" style="font-weight:600">${fmt(p.price)}</td>
         <td>${day!==null?`<span class="${day>=0?'pos-text':'neg-text'}">${day>=0?'▲':'▼'}${Math.abs(day).toFixed(2)}%</span>`:'—'}</td>
         <td class="mono">${fmt(val)}</td>
@@ -874,7 +925,6 @@ function renderTable() {
         <td><span class="pct-pill ${pnl>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(2)}%</span></td>
         <td><canvas id="${sparkId}" width="64" height="28" class="sparkline-cell"></canvas></td>
         <td class="muted">${wt}</td>
-        <td><button class="del-btn" onclick="removeStock(${s.id})">✕</button></td>
       </tr>`;
   }).join('');
 
@@ -1059,12 +1109,10 @@ function startEditQty(id, el) {
     if (!isNaN(newQty) && newQty > 0) {
       stock.qty = newQty;
       saveAll();
-    } else if (!isNaN(newQty) && newQty === 0) {
-      // ถ้าใส่ 0 → ถามว่าจะลบออกเลยไหม
-      if (confirm(`ลบ ${stock.ticker} ออกจากพอร์ตเลยไหม?`)) {
-        removeStock(id);
-        return;
-      }
+    } else if (!isNaN(newQty) && newQty <= 0) {
+      // qty = 0 → ลบแถวออกอัตโนมัติ
+      removeStock(id);
+      return;
     }
     renderTable();
     updateSummary();
@@ -1080,11 +1128,96 @@ function startEditQty(id, el) {
   });
 }
 
+
+// ── PIN ──
+const PIN_CORRECT = '018352';
+let pinBuffer = '';
+let pinUnlocked = sessionStorage.getItem('tdPinOk') === '1';
+
+function initPin() {
+  if (pinUnlocked) {
+    document.getElementById('pin-overlay').style.display = 'none';
+    document.body.classList.add('unlocked');
+  } else {
+    document.body.classList.add('locked');
+  }
+}
+
+function pinPress(n) {
+  if (pinBuffer.length >= 6) return;
+  pinBuffer += n;
+  updateDots();
+  if (pinBuffer.length === 6) {
+    setTimeout(checkPin, 120);
+  }
+}
+
+function pinDel() {
+  pinBuffer = pinBuffer.slice(0, -1);
+  updateDots();
+  document.getElementById('pin-error').textContent = '';
+}
+
+function updateDots() {
+  for (let i = 0; i < 6; i++) {
+    const d = document.getElementById('d' + i);
+    d.className = 'pin-dot' + (i < pinBuffer.length ? ' filled' : '');
+  }
+}
+
+function checkPin() {
+  if (pinBuffer === PIN_CORRECT) {
+    sessionStorage.setItem('tdPinOk', '1');
+    document.getElementById('pin-overlay').style.display = 'none';
+    document.body.classList.remove('locked');
+    document.body.classList.add('unlocked');
+  } else {
+    for (let i = 0; i < 6; i++) {
+      document.getElementById('d' + i).className = 'pin-dot error';
+    }
+    document.getElementById('pin-error').textContent = 'PIN ไม่ถูกต้อง ลองใหม่อีกครั้ง';
+    setTimeout(() => { pinBuffer = ''; updateDots(); }, 800);
+  }
+}
+
+// keyboard support
+document.addEventListener('keydown', e => {
+  if (document.getElementById('pin-overlay').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') pinPress(e.key);
+  if (e.key === 'Backspace') pinDel();
+});
+
+// ── EDIT COST ──
+function startEditCost(id, el) {
+  const stock = portfolio.find(s => s.id === id);
+  if (!stock) return;
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'qty-input-inline';
+  input.value = stock.buyPrice;
+  input.min = 0.001;
+  input.step = 0.01;
+  input.style.width = '90px';
+  el.replaceWith(input);
+  input.focus(); input.select();
+  function commit() {
+    const v = parseFloat(input.value);
+    if (!isNaN(v) && v > 0) { stock.buyPrice = v; saveAll(); }
+    renderTable(); updateSummary(); updateCharts();
+  }
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') input.blur();
+    if (e.key === 'Escape') { renderTable(); }
+  });
+}
+
 // ── BOOT ──
 document.addEventListener('keydown', e => {
   if (e.key==='Enter' && ['inp-ticker','inp-price','inp-qty'].includes(document.activeElement.id)) addStock();
 });
 
+initPin();
 syncCashInput();
 if (portfolio.length === 0) {
   loadPreset();
@@ -1093,5 +1226,38 @@ if (portfolio.length === 0) {
 }
 setInterval(refreshAll, 5*60*1000);
 </script>
+
+<!-- PIN Overlay -->
+<div class="pin-overlay" id="pin-overlay">
+  <div class="pin-box">
+    <div class="pin-logo">Trade<em>Desk</em></div>
+    <div class="pin-title">ใส่ PIN เพื่อดูข้อมูล</div>
+    <div class="pin-sub">พอร์ตนี้ถูกป้องกันด้วย PIN</div>
+    <div class="pin-dots" id="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+      <div class="pin-dot" id="d4"></div>
+      <div class="pin-dot" id="d5"></div>
+    </div>
+    <div class="pin-error-msg" id="pin-error"></div>
+    <div class="pin-numpad">
+      <div class="pin-key" onclick="pinPress('1')">1</div>
+      <div class="pin-key" onclick="pinPress('2')">2</div>
+      <div class="pin-key" onclick="pinPress('3')">3</div>
+      <div class="pin-key" onclick="pinPress('4')">4</div>
+      <div class="pin-key" onclick="pinPress('5')">5</div>
+      <div class="pin-key" onclick="pinPress('6')">6</div>
+      <div class="pin-key" onclick="pinPress('7')">7</div>
+      <div class="pin-key" onclick="pinPress('8')">8</div>
+      <div class="pin-key" onclick="pinPress('9')">9</div>
+      <div class="pin-key" onclick="pinPress('')" style="visibility:hidden"></div>
+      <div class="pin-key" onclick="pinPress('0')">0</div>
+      <div class="pin-key del-key" onclick="pinDel()">⌫</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

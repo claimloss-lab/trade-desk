@@ -283,6 +283,15 @@ const STOCK_DB = {
   AMZN:{name:'Amazon US',sector:'Consumer'},
   GOOGL:{name:'Alphabet US',sector:'Tech'},
   NVDA:{name:'NVIDIA US',sector:'Tech'},
+  // Jitta ETFs
+  ICLN:{name:'iShares Clean Energy ETF',sector:'ETF'},
+  IXJ:{name:'iShares Global Healthcare ETF',sector:'ETF'},
+  SMH:{name:'VanEck Semiconductor ETF',sector:'ETF'},
+  IXN:{name:'iShares Global Tech ETF',sector:'ETF'},
+  VTI:{name:'Vanguard Total Market ETF',sector:'ETF'},
+  VCIT:{name:'Vanguard Corp Bond ETF',sector:'ETF'},
+  VEA:{name:'Vanguard Developed Markets ETF',sector:'ETF'},
+  VWO:{name:'Vanguard Emerging Markets ETF',sector:'ETF'},
   // Thai Mutual Funds (DIME)
   'K-GA-A(A)':{name:'Krungsri Global Allocation A',sector:'Mutual Fund'},
   'MEGAWORLD30-A':{name:'Mega World 30 Fund A',sector:'Mutual Fund'},
@@ -325,8 +334,22 @@ if (!portfolios) {
     { id: 'set1', name: 'หุ้นไทย 1', type: 'realtime_th', color: '#30d158', stocks: [], cash: 0, snapshots: [] },
     { id: 'set2', name: 'หุ้นไทย 2', type: 'realtime_th', color: '#ff9500', stocks: [], cash: 0, snapshots: [] },
     { id: 'set3', name: 'หุ้นไทย 3', type: 'realtime_th', color: '#7c3aed', stocks: [], cash: 0, snapshots: [] },
-    { id: 'jitta1', name: 'Jitta พอร์ต 1', type: 'snapshot', color: '#ff3b30', stocks: [], cash: 0, snapshots: [] },
-    { id: 'jitta2', name: 'Jitta พอร์ต 2', type: 'snapshot', color: '#00c7be', stocks: [], cash: 0, snapshots: [] },
+    { id: 'jitta1', name: 'Jitta 1 - Thematic', type: 'realtime_us', color: '#ff3b30', cash: 28*34, snapshots: [],
+      stocks: [
+        {id:1, ticker:'ICLN', qty:15.627,  buyPrice:548.24,  sector:'ETF', underlying:'iShares Clean Energy ETF'},
+        {id:2, ticker:'IXJ',  qty:2.863,   buyPrice:3216.80, sector:'ETF', underlying:'iShares Global Healthcare ETF'},
+        {id:3, ticker:'SMH',  qty:0.709,   buyPrice:9415.44, sector:'ETF', underlying:'VanEck Semiconductor ETF'},
+        {id:4, ticker:'IXN',  qty:2.651,   buyPrice:3171.42, sector:'ETF', underlying:'iShares Global Tech ETF'},
+      ]
+    },
+    { id: 'jitta2', name: 'Jitta 2 - Global ETF', type: 'realtime_us', color: '#00c7be', cash: 28*34, snapshots: [],
+      stocks: [
+        {id:1, ticker:'VTI',  qty:2.342,  buyPrice:9671.84, sector:'ETF', underlying:'Vanguard Total Market ETF'},
+        {id:2, ticker:'VCIT', qty:3.410,  buyPrice:794.93,  sector:'ETF', underlying:'Vanguard Corp Bond ETF'},
+        {id:3, ticker:'VEA',  qty:3.431,  buyPrice:1791.51, sector:'ETF', underlying:'Vanguard Dev. Markets ETF'},
+        {id:4, ticker:'VWO',  qty:2.010,  buyPrice:1582.45, sector:'ETF', underlying:'Vanguard Emerging Markets ETF'},
+      ]
+    },
     { id: 'dime1', name: 'DIME', type: 'realtime_us', color: '#ff6b35', cash: 163286, snapshots: [],
       stocks: [
         {id:1, ticker:'K-GA-A(A)',  qty:1500.2791, buyPrice:12.3310, sector:'Mutual Fund', underlying:'Krungsri Global Allocation A', currency:'THB'},

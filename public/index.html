@@ -296,6 +296,11 @@ const STOCK_DB = {
   'K-GA-A(A)':{name:'Krungsri Global Allocation A',sector:'Mutual Fund'},
   'MEGAWORLD30-A':{name:'Mega World 30 Fund A',sector:'Mutual Fund'},
   // SET Thai stocks (common ones)
+  BDMS:{name:'BDMS',sector:'Healthcare'},CENTEL:{name:'Central Restaurants',sector:'Consumer'},
+  CPALL:{name:'CP All',sector:'Consumer'},CPN:{name:'Central Pattana',sector:'Property'},
+  HMPRO:{name:'HomePro',sector:'Consumer'},MINT:{name:'Minor International',sector:'Consumer'},
+  TISCO:{name:'TISCO',sector:'Finance'},TU:{name:'Thai Union',sector:'Consumer'},
+  WHA:{name:'WHA Corp',sector:'Industrial'},
   PTT:{name:'PTT',sector:'Energy'},PTTEP:{name:'PTTEP',sector:'Energy'},
   KBANK:{name:'กสิกรไทย',sector:'Finance'},SCB:{name:'ไทยพาณิชย์',sector:'Finance'},
   BBL:{name:'กรุงเทพ',sector:'Finance'},KTB:{name:'กรุงไทย',sector:'Finance'},
@@ -331,7 +336,19 @@ let pinOk = sessionStorage.getItem('td_pin') === '1';
 if (!portfolios) {
   portfolios = [
     { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
-    { id: 'set1', name: 'หุ้นไทย 1', type: 'realtime_th', color: '#30d158', stocks: [], cash: 0, snapshots: [] },
+    { id: 'set1', name: 'PI DCA', type: 'realtime_th', color: '#30d158', cash: 6954.08, snapshots: [],
+      stocks: [
+        {id:1, ticker:'BDMS',   qty:2000, buyPrice:24.34, sector:'Healthcare', underlying:'BDMS'},
+        {id:2, ticker:'CENTEL', qty:1200, buyPrice:36.06, sector:'Consumer',   underlying:'Central Restaurants'},
+        {id:3, ticker:'CPALL',  qty:900,  buyPrice:54.08, sector:'Consumer',   underlying:'CP All'},
+        {id:4, ticker:'CPN',    qty:600,  buyPrice:59.72, sector:'Property',   underlying:'Central Pattana'},
+        {id:5, ticker:'HMPRO',  qty:3600, buyPrice:10.12, sector:'Consumer',   underlying:'HomePro'},
+        {id:6, ticker:'MINT',   qty:1600, buyPrice:27.96, sector:'Consumer',   underlying:'Minor International'},
+        {id:7, ticker:'TISCO',  qty:400,  buyPrice:99.09, sector:'Finance',    underlying:'TISCO'},
+        {id:8, ticker:'TU',     qty:3000, buyPrice:13.71, sector:'Consumer',   underlying:'Thai Union'},
+        {id:9, ticker:'WHA',    qty:9100, buyPrice:3.94,  sector:'Industrial', underlying:'WHA Corp'},
+      ]
+    },
     { id: 'set2', name: 'หุ้นไทย 2', type: 'realtime_th', color: '#ff9500', stocks: [], cash: 0, snapshots: [] },
     { id: 'set3', name: 'หุ้นไทย 3', type: 'realtime_th', color: '#7c3aed', stocks: [], cash: 0, snapshots: [] },
     { id: 'jitta1', name: 'Jitta 1 - Thematic', type: 'realtime_us', color: '#ff3b30', cash: 28*34, snapshots: [],
@@ -350,16 +367,22 @@ if (!portfolios) {
         {id:4, ticker:'VWO',  qty:2.010,  buyPrice:1582.45, sector:'ETF', underlying:'Vanguard Emerging Markets ETF'},
       ]
     },
-    { id: 'dime1', name: 'DIME', type: 'realtime_us', color: '#ff6b35', cash: 163286, snapshots: [],
+    { id: 'dime_fund', name: 'DIME กองทุน', type: 'snapshot', color: '#ff6b35', cash: 0, snapshots: [
+        {id:1, date:'2025-03-30', value:31499.98, note:'K-GA-A(A) + MEGAWORLD30-A'}
+      ],
       stocks: [
-        {id:1, ticker:'K-GA-A(A)',  qty:1500.2791, buyPrice:12.3310, sector:'Mutual Fund', underlying:'Krungsri Global Allocation A', currency:'THB'},
-        {id:2, ticker:'MEGAWORLD30-A', qty:1219.1953, buyPrice:10.6628, sector:'Mutual Fund', underlying:'Mega World 30 Fund A', currency:'THB'},
-        {id:3, ticker:'BRK.B', qty:0.4633580, buyPrice:1901.70, sector:'Finance', underlying:'Berkshire Hathaway', currency:'THB'},
-        {id:4, ticker:'JEPQ',  qty:2.6299477, buyPrice:1777.74, sector:'ETF',     underlying:'JPMorgan Nasdaq ETF',    currency:'THB'},
-        {id:5, ticker:'O',     qty:10.3112370,buyPrice:1901.70, sector:'Property',underlying:'Realty Income',          currency:'THB'},
-        {id:6, ticker:'SCHD',  qty:2.3704646, buyPrice:864.68,  sector:'ETF',     underlying:'Schwab Dividend ETF',    currency:'THB'},
-        {id:7, ticker:'TLT',   qty:0.4154889, buyPrice:3026.21, sector:'ETF',     underlying:'iShares 20Y Treasury',   currency:'THB'},
-        {id:8, ticker:'VOO',   qty:0.2091998, buyPrice:16009.86,sector:'ETF',     underlying:'Vanguard S&P500',        currency:'THB'},
+        {id:1, ticker:'K-GA-A(A)',     qty:1500.2791, buyPrice:12.3310, sector:'Mutual Fund', underlying:'Krungsri Global Allocation A'},
+        {id:2, ticker:'MEGAWORLD30-A', qty:1219.1953, buyPrice:10.6628, sector:'Mutual Fund', underlying:'Mega World 30 Fund A'},
+      ]
+    },
+    { id: 'dime_us', name: 'DIME หุ้นอเมริกา', type: 'realtime_us', color: '#f72585', cash: 163286, snapshots: [],
+      stocks: [
+        {id:1, ticker:'BRK.B', qty:0.4633580,  buyPrice:13608.08, sector:'Finance',  underlying:'Berkshire Hathaway'},
+        {id:2, ticker:'JEPQ',  qty:2.6299477,  buyPrice:1777.74,  sector:'ETF',      underlying:'JPMorgan Nasdaq ETF'},
+        {id:3, ticker:'O',     qty:10.3112370, buyPrice:1901.70,  sector:'Property', underlying:'Realty Income'},
+        {id:4, ticker:'SCHD',  qty:2.3704646,  buyPrice:864.68,   sector:'ETF',      underlying:'Schwab Dividend ETF'},
+        {id:5, ticker:'TLT',   qty:0.4154889,  buyPrice:3026.21,  sector:'ETF',      underlying:'iShares 20Y Treasury'},
+        {id:6, ticker:'VOO',   qty:0.2091998,  buyPrice:16009.86, sector:'ETF',      underlying:'Vanguard S&P500'},
       ]
     },
   ];
@@ -671,7 +694,8 @@ function buildRealtimeHTML(port) {
       <input type="number" class="inp-xs" id="${port.id}-qty" placeholder="จำนวน">
       <button class="btn btn-p" onclick="addStock('${port.id}')">+ เพิ่ม</button>
       <button class="btn btn-g" onclick="refreshPort('${port.id}')">↻</button>
-      <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:auto">ลบพอร์ต</button>
+      <button class="btn btn-g btn-sm" onclick="renamePort('${port.id}')">✏️ เปลี่ยนชื่อ</button>
+      <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:4px">ลบพอร์ต</button>
     </div>
 
     <div class="card sens">
@@ -709,7 +733,8 @@ function buildSnapshotHTML(port) {
         </div>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn btn-p" onclick="addSnapshot('${port.id}')">+ บันทึก Snapshot</button>
-          <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:auto">ลบพอร์ต</button>
+          <button class="btn btn-g btn-sm" onclick="renamePort('${port.id}')">✏️ เปลี่ยนชื่อ</button>
+      <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:4px">ลบพอร์ต</button>
         </div>
       </div>
     </div>
@@ -974,6 +999,24 @@ function createPortfolio(){
   savePorts();closeModal('add-port-modal');
   activeTab=portfolios.at(-1).id;
   buildNav();buildPanels();showTab(activeTab);
+}
+function renamePort(portId){
+  const port=getPort(portId);
+  if(!port) return;
+  const newName=prompt('ชื่อพอร์ตใหม่:',port.name);
+  if(!newName||!newName.trim()) return;
+  port.name=newName.trim();
+  savePorts();
+  buildNav();
+  // Re-render panel header without full rebuild
+  const panel=document.getElementById('panel-'+portId);
+  if(panel){
+    const oldPanel=panel.cloneNode(false);
+    oldPanel.innerHTML=port.type==='snapshot'?buildSnapshotHTML(port):buildRealtimeHTML(port);
+    panel.replaceWith(oldPanel);
+    if(port.type==='snapshot') renderSnapshot(portId);
+    else renderPortfolio(portId);
+  }
 }
 function deletePort(portId){
   if(!confirm('ลบพอร์ตนี้? ข้อมูลจะหายทั้งหมด'))return;

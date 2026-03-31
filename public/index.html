@@ -386,7 +386,7 @@ const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#f
 // ══════════════════════════════════════════════════
 // VERSION RESET — bump version string when presets change
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250401_7';
+const DATA_VER = 'v20250401_8';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -613,12 +613,12 @@ function portEquity(port) {
       const p=prices[x.ticker+'_'+port.id];
       const cur=x.currency||'THB';
       if(cur==='USD'){
-        // USD stock: price in USD × rate = THB
         const priceUsd=p?p.price:x.buyPrice;
         return s+(priceUsd*x.qty*usdThbRate);
       } else {
-        // THB mutual fund: use buyPrice (NAV not realtime)
-        return s+(x.buyPrice*x.qty);
+        // THB mutual fund: use currentNav if available, else buyPrice
+        const nav=x.currentNav||x.buyPrice;
+        return s+(nav*x.qty);
       }
     },0);
   }
@@ -868,8 +868,8 @@ function renderDime(portId){
   const usStocks=port.stocks.filter(s=>s.currency==='USD');
 
   // Fund total (THB, no realtime)
-  const fundVal=fundStocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
-  const fundCost=fundVal; // NAV = cost basis for funds (update manually)
+  const fundVal=fundStocks.reduce((s,x)=>s+(x.currentNav||x.buyPrice)*x.qty,0);
+  const fundCost=fundStocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
 
   // US total in THB
   const usValUsd=usStocks.reduce((s,x)=>{const p=prices[x.ticker+'_'+portId];return s+(p?p.price*x.qty:x.buyPrice*x.qty);},0);
@@ -899,15 +899,28 @@ function renderDime(portId){
   if(fb){
     fb.innerHTML=fundStocks.length?fundStocks.map(s=>{
       const val=s.buyPrice*s.qty;
+      const curNav = s.currentNav || s.buyPrice;
+      const fundVal = curNav * s.qty;
+      const fundPnl = (curNav - s.buyPrice) * s.qty;
+      const fundPct = (curNav - s.buyPrice) / s.buyPrice * 100;
       return `<tr>
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
-        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)">${fn(s.buyPrice,4)}</span></td>
-        <td class="muted" style="font-size:11px">อัปเดต NAV เองได้ →</td>
-        <td class="mono">฿${fn(val)}</td>
-        <td class="muted">—</td>
-        <td class="muted">—</td>
+        <td class="mono" style="font-size:11px;color:var(--tx3)">ต้นทุน: ฿${fn(s.buyPrice,4)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="mono" style="font-weight:600">฿${fn(curNav,4)}</span>
+            <button onclick="updateFundNav('${portId}',${s.id})" 
+              style="font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--blue);background:var(--blue-bg);color:var(--blue);cursor:pointer;white-space:nowrap">
+              ✎ NAV
+            </button>
+          </div>
+          ${s.navDate ? '<div style="font-size:10px;color:var(--tx3)">'+s.navDate+'</div>' : '<div style="font-size:10px;color:var(--tx3)">ยังไม่อัปเดต</div>'}
+        </td>
+        <td class="mono">฿${fn(fundVal)}</td>
+        <td class="${fundPnl>=0?'pos':'neg'}">${fundPnl>=0?'+':''}฿${fn(fundPnl)}</td>
+        <td><span class="pct-pill ${fundPnl>=0?'pos':'neg'}">${fundPct>=0?'+':''}${fundPct.toFixed(2)}%</span></td>
       </tr>`;
     }).join('') : '<tr><td colspan="8" class="empty">ยังไม่มีกองทุน</td></tr>';
   }
@@ -1204,8 +1217,12 @@ function renderSnapshot(portId) {
   const port = getPort(portId);
   if (!port) return;
   const snaps=port.snapshots||[];
-  const latestVal=snaps.at(-1)?.value||0;
-  const firstVal=snaps[0]?.value||0;
+  // If port has individual stocks, calculate from stocks with currentNav
+  const hasStocks = port.stocks?.length > 0;
+  const stockVal = hasStocks ? port.stocks.reduce((s,x)=>s+(x.currentNav||x.buyPrice)*x.qty,0) : 0;
+  const stockCost = hasStocks ? port.stocks.reduce((s,x)=>s+x.buyPrice*x.qty,0) : 0;
+  const latestVal = hasStocks ? stockVal : (snaps.at(-1)?.value||0);
+  const firstVal = hasStocks ? stockCost : (snaps[0]?.value||0);
   const pnl=latestVal-firstVal;
   const pct=firstVal>0?pnl/firstVal*100:0;
 
@@ -1217,7 +1234,41 @@ function renderSnapshot(portId) {
   el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
   el('pnlb').textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
   el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
-  el('cnt2').textContent=snaps.length;
+  el('cnt2').textContent = hasStocks ? port.stocks.length+' กองทุน' : snaps.length+' snapshots';
+
+  // Render stock NAV table if port has stocks
+  const stockTableEl = document.getElementById(portId+'-stock-nav-table');
+  if(stockTableEl && hasStocks){
+    stockTableEl.style.display='block';
+    const tbody = document.getElementById(portId+'-stock-nav-body');
+    if(tbody){
+      tbody.innerHTML = port.stocks.map(s=>{
+        const nav = s.currentNav||s.buyPrice;
+        const val = nav*s.qty;
+        const pnl2 = (nav-s.buyPrice)*s.qty;
+        const pct2 = (nav-s.buyPrice)/s.buyPrice*100;
+        return `<tr>
+          <td><span class="tkr">${s.ticker}</span></td>
+          <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
+          <td class="mono">${fn(s.qty,4)}</td>
+          <td class="mono" style="color:var(--tx3)">฿${fn(s.buyPrice,4)}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="mono" style="font-weight:600">฿${fn(nav,4)}</span>
+              <button onclick="updateSnapStockNav('${portId}',${s.id})"
+                style="font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--blue);background:var(--blue-bg);color:var(--blue);cursor:pointer">
+                ✎ NAV
+              </button>
+            </div>
+            <div style="font-size:10px;color:var(--tx3)">${s.navDate||'ยังไม่อัปเดต'}</div>
+          </td>
+          <td class="mono">฿${fn(val)}</td>
+          <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}฿${fn(pnl2)}</td>
+          <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
+        </tr>`;
+      }).join('');
+    }
+  }
 
   // Set today's date
   const sdEl=el('sd'); if(sdEl&&!sdEl.value) sdEl.value=new Date().toISOString().split('T')[0];
@@ -1702,6 +1753,59 @@ function renderSectorFull(){
       <div style="font-size:11px;color:var(--tx2)">${pct}% · ${sData[k].count} ตัว</div>
     </div>`;
   }).join('');
+}
+
+// UPDATE NAV FOR SNAPSHOT PORT STOCKS
+function updateSnapStockNav(portId, stockId){
+  const port=getPort(portId);
+  const stock=port?.stocks.find(s=>s.id===stockId);
+  if(!stock) return;
+  const cur=stock.currentNav||stock.buyPrice;
+  const newNavStr=prompt(stock.ticker+'\nNAV ปัจจุบัน (฿/หน่วย):\nต้นทุน: ฿'+fn(stock.buyPrice,4)+'\nNAV ล่าสุด: ฿'+fn(cur,4), fn(cur,4));
+  if(newNavStr===null) return;
+  const newNav=parseFloat(newNavStr.replace(/,/g,''));
+  if(isNaN(newNav)||newNav<=0){alert('ค่า NAV ไม่ถูกต้อง');return;}
+  stock.currentNav=newNav;
+  stock.navDate=new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+  savePorts(); renderSnapshot(portId); renderOverview();
+}
+
+function addSnapStock(portId){
+  const port=getPort(portId);
+  const ticker=document.getElementById(portId+'-sft').value.trim().toUpperCase();
+  const name=document.getElementById(portId+'-sfn').value.trim();
+  const qty=parseFloat(document.getElementById(portId+'-sfq').value);
+  const price=parseFloat(document.getElementById(portId+'-sfp').value);
+  if(!ticker||!qty||!price){alert('กรอกข้อมูลให้ครบ');return;}
+  if(!port.stocks) port.stocks=[];
+  port.stocks.push({id:Date.now(),ticker,qty,buyPrice:price,sector:'Mutual Fund',underlying:name||ticker,currency:'THB'});
+  savePorts();
+  [portId+'-sft',portId+'-sfn',portId+'-sfq',portId+'-sfp'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderSnapshot(portId); renderOverview();
+}
+
+// UPDATE FUND NAV (DIME)
+function updateFundNav(portId, stockId){
+  const port = getPort(portId);
+  const stock = port?.stocks.find(s=>s.id===stockId);
+  if(!stock) return;
+
+  const curNav = stock.currentNav || stock.buyPrice;
+  const newNavStr = prompt(
+    stock.ticker + '\nNAV ปัจจุบัน (฿/หน่วย):\n\n' +
+    'ต้นทุน: ฿' + fn(stock.buyPrice,4) + '\n' +
+    'NAV ล่าสุด: ฿' + fn(curNav,4),
+    fn(curNav,4)
+  );
+  if(newNavStr===null) return; // cancelled
+  const newNav = parseFloat(newNavStr.replace(/,/g,''));
+  if(isNaN(newNav)||newNav<=0){ alert('ค่า NAV ไม่ถูกต้อง'); return; }
+
+  stock.currentNav = newNav;
+  stock.navDate = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+  savePorts();
+  renderDime(portId);
+  renderOverview();
 }
 
 // MODAL CLOSE

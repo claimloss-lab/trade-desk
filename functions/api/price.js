@@ -18,96 +18,91 @@ export async function onRequest(context) {
 
   const t = ticker.toUpperCase().trim();
 
-  // Skip mutual funds (no realtime price)
-  if (t.includes('-A') || t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA')) {
-    return new Response(JSON.stringify({ error: 'mutual fund - no realtime price', ticker: t }), { status: 404, headers: cors });
-  }
-  // Allow FX pairs like USDTHB=X directly
-  if (t.includes('=X')) {
-    const sym = t;
-    try {
-      const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1d`, { headers });
-      if (res.ok) {
-        const data = await res.json();
-        const meta = data?.chart?.result?.[0]?.meta;
-        if (meta?.regularMarketPrice) {
-          return new Response(JSON.stringify({ ticker: t, symbol: sym, price: meta.regularMarketPrice, currency: 'THB', timestamp: Date.now() }), { headers: cors });
-        }
-      }
-    } catch {}
-    return new Response(JSON.stringify({ error: 'FX rate not found', ticker: t }), { status: 404, headers: cors });
-  }
-
-  // Determine Yahoo Finance symbol:
-  // - Already has .BK suffix → use as-is (SET DR / Thai stocks)
-  // - Looks like SET DR (ends in digits) → add .BK
-  // - Looks like US stock (no suffix, no digits at end) → use raw
-  let sym;
-  if (t.endsWith('.BK')) {
-    sym = t;
-  } else if (/\d{2,}$/.test(t)) {
-    // SET DR: AMZN80, ASML01, etc.
-    sym = t + '.BK';
-  } else if (/^[A-Z]{1,5}$/.test(t) || t.includes('.')) {
-    // US stock/ETF: BRK.B, VOO, SCHD, etc.
-    sym = t;
-  } else {
-    // Default: assume Thai SET stock → add .BK
-    sym = t + '.BK';
-  }
-
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+  // Common headers for Yahoo Finance
+  const yHeaders = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Accept': 'application/json',
     'Accept-Language': 'en-US,en;q=0.9',
     'Referer': 'https://finance.yahoo.com',
   };
 
-  // Try v8 chart API
-  try {
+  // Skip Thai mutual funds — no realtime price on Yahoo
+  if (t.includes('-A') || t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA')) {
+    return new Response(
+      JSON.stringify({ error: 'mutual fund — no realtime price', ticker: t }),
+      { status: 404, headers: cors }
+    );
+  }
+
+  // Determine Yahoo Finance symbol
+  let sym;
+  if (t.endsWith('.BK')) {
+    sym = t;                      // Already has suffix
+  } else if (t.includes('=X')) {
+    sym = t;                      // FX pair e.g. USDTHB=X
+  } else if (/\d{2,}$/.test(t)) {
+    sym = t + '.BK';              // SET DR: AMZN80 → AMZN80.BK
+  } else if (/^[A-Z]{1,5}$/.test(t) || t.includes('.')) {
+    sym = t;                      // US stock/ETF: VOO, BRK.B, SCHD
+  } else {
+    sym = t + '.BK';              // Default: Thai SET stock
+  }
+
+  // Helper: fetch from Yahoo v8 chart API
+  async function fetchV8(symbol) {
     const res = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2d`,
-      { headers, cf: { cacheTtl: 60 } }
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=2d`,
+      { headers: yHeaders, cf: { cacheTtl: 60 } }
     );
-    if (res.ok) {
-      const data = await res.json();
-      const meta = data?.chart?.result?.[0]?.meta;
-      if (meta?.regularMarketPrice) {
-        return new Response(JSON.stringify({
-          ticker: t, symbol: sym,
-          price: meta.regularMarketPrice,
-          prevClose: meta.chartPreviousClose || meta.previousClose || null,
-          currency: meta.currency || 'THB',
-          marketState: meta.marketState || 'UNKNOWN',
-          timestamp: Date.now(),
-        }), { headers: cors });
-      }
-    }
-  } catch {}
+    if (!res.ok) return null;
+    const data = await res.json();
+    const meta = data?.chart?.result?.[0]?.meta;
+    if (!meta?.regularMarketPrice) return null;
+    return {
+      ticker: t,
+      symbol,
+      price: meta.regularMarketPrice,
+      prevClose: meta.chartPreviousClose || meta.previousClose || null,
+      currency: meta.currency || 'THB',
+      marketState: meta.marketState || 'UNKNOWN',
+      timestamp: Date.now(),
+    };
+  }
 
-  // Fallback: v7 quote
+  // Helper: fetch from Yahoo v7 quote API (fallback)
+  async function fetchV7(symbol) {
+    const res = await fetch(
+      `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbol)}`,
+      { headers: yHeaders }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const q = data?.quoteResponse?.result?.[0];
+    if (!q?.regularMarketPrice) return null;
+    return {
+      ticker: t,
+      symbol,
+      price: q.regularMarketPrice,
+      prevClose: q.regularMarketPreviousClose || null,
+      currency: q.currency || 'THB',
+      marketState: q.marketState || 'UNKNOWN',
+      timestamp: Date.now(),
+    };
+  }
+
+  // Try v8 first, fallback to v7
   try {
-    const res2 = await fetch(
-      `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(sym)}`,
-      { headers }
-    );
-    if (res2.ok) {
-      const data2 = await res2.json();
-      const q = data2?.quoteResponse?.result?.[0];
-      if (q?.regularMarketPrice) {
-        return new Response(JSON.stringify({
-          ticker: t, symbol: sym,
-          price: q.regularMarketPrice,
-          prevClose: q.regularMarketPreviousClose || null,
-          currency: q.currency || 'THB',
-          marketState: q.marketState || 'UNKNOWN',
-          timestamp: Date.now(),
-        }), { headers: cors });
-      }
-    }
+    const result = await fetchV8(sym);
+    if (result) return new Response(JSON.stringify(result), { headers: cors });
   } catch {}
 
-  return new Response(JSON.stringify({
-    error: 'Price not found', ticker: t, symbol: sym,
-  }), { status: 404, headers: cors });
+  try {
+    const result = await fetchV7(sym);
+    if (result) return new Response(JSON.stringify(result), { headers: cors });
+  } catch {}
+
+  return new Response(
+    JSON.stringify({ error: 'Price not found', ticker: t, symbol: sym }),
+    { status: 502, headers: cors }
+  );
 }

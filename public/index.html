@@ -745,7 +745,7 @@ function buildDimeHTML(port){
       <div class="tbl-wrap"><table>
         <thead><tr>
           <th>Ticker</th><th>ชื่อ</th><th>Sector</th><th>จำนวน</th>
-          <th>ต้นทุน (USD)</th><th>ราคา (USD)</th><th>เปลี่ยน%</th>
+          <th>ต้นทุน (USD/THB)</th><th>ราคาปัจจุบัน (USD/THB)</th><th>เปลี่ยน%</th>
           <th>มูลค่า (USD)</th><th>มูลค่า (THB)</th><th>P&L (THB)</th><th>%</th>
         </tr></thead>
         <tbody id="${port.id}-us-body"></tbody>
@@ -844,11 +844,18 @@ function renderDime(portId){
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="sec-tag" style="background:${color}22;color:${color}">${s.sector||'—'}</span></td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
-        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)">$${fn(s.buyPrice,2)}</span></td>
-        <td class="mono" style="font-weight:600">${p?'$'+fn(curPriceUsd,2):'<span class="muted" style="font-size:11px">โหลด...</span>'}</td>
+        <td>
+          <span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)" title="คลิกเพื่อแก้ไข (USD)">
+            <span style="font-size:10px;color:var(--tx3)">$${fn(s.buyPrice,2)}</span><br>
+            <span>฿${fn(s.buyPrice*usdThbRate,2)}</span>
+          </span>
+        </td>
+        <td class="mono" style="font-weight:600">
+          ${p?'<span style="font-size:10px;color:var(--tx3)">$'+fn(curPriceUsd,2)+'</span><br><span style="font-weight:700">฿'+fn(curPriceUsd*usdThbRate,2)+'</span>':'<span class="muted" style="font-size:11px">โหลด...</span>'}
+        </td>
         <td>${day!==null?'<span class="'+(day>=0?'pos':'neg')+'">'+(day>=0?'▲':'▼')+Math.abs(day).toFixed(2)+'%</span>':'—'}</td>
-        <td class="mono">${p?'$'+fn(valUsd,2):'—'}</td>
-        <td class="mono" style="font-weight:500">฿${fn(valThb)}</td>
+        <td class="mono" style="font-size:11px;color:var(--tx3)">${p?'$'+fn(valUsd,2):'—'}</td>
+        <td class="mono" style="font-weight:600">฿${fn(valThb)}</td>
         <td class="${pnl>=0?'pos':'neg'}">${pnl>=0?'+':''}฿${fn(pnl)}</td>
         <td><span class="pct-pill ${pnl>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(2)}%</span></td>
       </tr>`;

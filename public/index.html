@@ -900,7 +900,7 @@ function renderDime(portId){
     fb.innerHTML=fundStocks.length?fundStocks.map(s=>{
       const val=s.buyPrice*s.qty;
       return `<tr>
-        <td><span class="tkr">${s.ticker}</span></td>
+        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)">${fn(s.buyPrice,4)}</span></td>
@@ -928,7 +928,7 @@ function renderDime(portId){
       const day=p?.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
       const color=sc(s.sector);
       return `<tr>
-        <td><span class="tkr">${s.ticker}</span></td>
+        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="realtime_us">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="sec-tag" style="background:${color}22;color:${color}">${s.sector||'—'}</span></td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
@@ -1849,6 +1849,15 @@ async function loadStockChart(ticker,portType,range){
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeStockModal();});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.stock-link');
+  if(el){
+    const ticker=el.dataset.ticker;
+    const name=el.dataset.name;
+    const ptype=el.dataset.ptype;
+    if(ticker) openStockModal(ticker,name,ptype);
+  }
+});
 
 </script>
 

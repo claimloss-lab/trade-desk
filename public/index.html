@@ -916,7 +916,12 @@ function renderDime(portId){
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
-        <td class="mono" style="font-size:11px;color:var(--tx3)">ต้นทุน: ฿${fn(s.buyPrice,4)}</td>
+        <td>
+          <span class="edt" onclick="edtDimeFundCost('${portId}',${s.id})" title="คลิกเพื่อแก้ต้นทุน">
+            <span style="font-size:10px;color:var(--tx3)">ต้นทุน:</span>
+            <span class="mono">฿${fn(s.buyPrice,4)}</span>
+          </span>
+        </td>
         <td>
           <div style="display:flex;align-items:center;gap:6px">
             <span class="mono" style="font-weight:600">฿${fn(curNav,4)}</span>
@@ -1838,6 +1843,18 @@ function updateFundNav(portId, stockId){
   savePorts();
   renderDime(portId);
   renderOverview();
+}
+
+function edtDimeFundCost(portId, stockId){
+  const port=getPort(portId);
+  const stock=port?.stocks.find(s=>s.id===stockId);
+  if(!stock) return;
+  const newVal=prompt('แก้ไข NAV ต้นทุน (฿/หน่วย):\n'+stock.ticker, fn(stock.buyPrice,4));
+  if(newVal===null) return;
+  const v=parseFloat(newVal.replace(/,/g,''));
+  if(isNaN(v)||v<=0){alert('ค่าไม่ถูกต้อง');return;}
+  stock.buyPrice=v;
+  savePorts(); renderDime(portId); renderOverview();
 }
 
 // MODAL CLOSE

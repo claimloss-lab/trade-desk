@@ -173,6 +173,37 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 .empty{text-align:center;padding:40px 20px;color:var(--tx3);font-size:13px}
 .empty-ico{font-size:28px;margin-bottom:8px}
 
+/* HAMBURGER */
+.hbg-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:5px;border-radius:6px;transition:background .15s}
+.hbg-btn:hover{background:var(--s2)}
+.hbg-btn span{display:block;width:20px;height:2px;background:var(--tx2);border-radius:2px;transition:all .25s}
+.hbg-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hbg-btn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hbg-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* SIDEBAR */
+.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:299;opacity:0;pointer-events:none;transition:opacity .25s}
+.sb-overlay.on{opacity:1;pointer-events:all}
+.sidebar{position:fixed;top:0;right:0;width:300px;height:100vh;background:var(--surface);z-index:300;
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.1)}
+.sidebar.on{transform:translateX(0)}
+.sb-head{padding:16px 20px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between}
+.sb-logo{font-size:15px;font-weight:600}.sb-logo em{color:var(--blue);font-style:normal}
+.sb-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--tx2);padding:4px 8px;border-radius:6px}
+.sb-close:hover{background:var(--s2);color:var(--tx)}
+.sb-body{flex:1;overflow-y:auto;padding:12px 0}
+.sb-section{padding:8px 20px 4px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--tx3)}
+.sb-item{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;transition:background .15s;font-size:13px;font-weight:500;color:var(--tx2)}
+.sb-item:hover{background:var(--s2);color:var(--tx)}
+.sb-item.on{background:var(--blue-bg);color:var(--blue)}
+.sb-item-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--s2);color:var(--tx3);font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
+
+/* Feature panels */
+.feat-panel{display:none;max-width:1440px;margin:0 auto;padding:22px 24px 60px}
+.feat-panel.on{display:block}
+
 /* RESPONSIVE */
 @media(max-width:900px){.charts-row{grid-template-columns:1fr!important}}
 @media(max-width:600px){
@@ -1370,6 +1401,501 @@ renderOverview();
 renderAll();
 refreshAll(false);
 setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 30000);
+
+// ══════════════════════════════════════════════════
+// SIDEBAR
+// ══════════════════════════════════════════════════
+let sidebarOpen=false;
+let transactions=JSON.parse(localStorage.getItem('td_tx')||'[]');
+let alerts=JSON.parse(localStorage.getItem('td_alerts')||'[]');
+let notes=JSON.parse(localStorage.getItem('td_notes')||'[]');
+let dividends=JSON.parse(localStorage.getItem('td_divs')||'[]');
+function saveFeatures(){
+  localStorage.setItem('td_tx',JSON.stringify(transactions));
+  localStorage.setItem('td_alerts',JSON.stringify(alerts));
+  localStorage.setItem('td_notes',JSON.stringify(notes));
+  localStorage.setItem('td_divs',JSON.stringify(dividends));
+}
+function toggleSidebar(){
+  sidebarOpen=!sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('on',sidebarOpen);
+  document.getElementById('sb-overlay').classList.toggle('on',sidebarOpen);
+  document.querySelector('.hbg-btn').classList.toggle('open',sidebarOpen);
+  if(sidebarOpen) buildSidebarPortList();
+}
+function closeSidebar(){
+  sidebarOpen=false;
+  ['sidebar','sb-overlay'].forEach(id=>document.getElementById(id)?.classList.remove('on'));
+  document.querySelector('.hbg-btn')?.classList.remove('open');
+}
+function buildSidebarPortList(){
+  const el=document.getElementById('sb-port-list');
+  if(!el) return;
+  el.innerHTML=portfolios.map(p=>`
+    <div class="sb-item" onclick="showTab('${p.id}');closeSidebar()">
+      <div class="sb-item-icon" style="background:${p.color}22"><span style="width:8px;height:8px;border-radius:50%;background:${p.color};display:block"></span></div>
+      ${p.name}<span class="sb-badge">${p.stocks?.length||0}</span>
+    </div>`).join('');
+}
+function showFeature(id){
+  closeSidebar();
+  document.querySelectorAll('.tab-panel,.feat-panel').forEach(p=>p.classList.remove('on'));
+  ['overview','transactions','alerts','notes','dividends','analysis'].forEach(f=>{
+    document.getElementById('sb-'+f)?.classList.toggle('on',f===id);
+  });
+  if(id==='overview'||portfolios.find(p=>p.id===id)){
+    showTab(id);
+  } else {
+    document.getElementById('feat-'+id)?.classList.add('on');
+    if(id==='transactions'){renderTransactions();updateTxFilter();}
+    if(id==='alerts') renderAlerts();
+    if(id==='notes') renderNotes();
+    if(id==='dividends') renderDividends();
+    if(id==='analysis') renderSectorFull();
+  }
+  updateSbBadges();
+}
+function updateSbBadges(){
+  const counts={transactions,alerts,notes};
+  Object.entries(counts).forEach(([k,v])=>{
+    const el=document.getElementById('sb-'+k.replace('transactions','tx-count').replace('alerts','al-count').replace('notes','note-count'));
+    if(el) el.textContent=v.length;
+  });
+  document.getElementById('sb-tx-count') && (document.getElementById('sb-tx-count').textContent=transactions.length);
+  document.getElementById('sb-al-count') && (document.getElementById('sb-al-count').textContent=alerts.length);
+  document.getElementById('sb-note-count') && (document.getElementById('sb-note-count').textContent=notes.length);
+}
+function resetAndReload(){
+  if(!confirm('ล้างข้อมูลทั้งหมด?')) return;
+  ['td_ports','td_tx','td_alerts','td_notes','td_divs','td_cash','td_cur','td_ver'].forEach(k=>localStorage.removeItem(k));
+  location.reload();
+}
+
+// TRANSACTIONS
+function addTransaction(){
+  const ticker=document.getElementById('tx-ticker').value.trim().toUpperCase();
+  const type=document.getElementById('tx-type').value;
+  const date=document.getElementById('tx-date').value;
+  const price=parseFloat(document.getElementById('tx-price').value);
+  const qty=parseFloat(document.getElementById('tx-qty').value);
+  const fee=parseFloat(document.getElementById('tx-fee').value)||0;
+  const note=document.getElementById('tx-note').value.trim();
+  if(!ticker||!date||!price||!qty){alert('กรอกข้อมูลให้ครบ');return;}
+  let realizedPnl=null;
+  if(type==='sell'){
+    const stock=portfolios.flatMap(p=>p.stocks).find(s=>s.ticker===ticker);
+    if(stock) realizedPnl=(price-stock.buyPrice)*qty-fee;
+  }
+  transactions.unshift({id:Date.now(),ticker,type,date,price,qty,fee,note,realizedPnl});
+  saveFeatures();
+  ['tx-ticker','tx-price','tx-qty','tx-fee','tx-note'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderTransactions();updateSbBadges();
+}
+function deleteTx(id){transactions=transactions.filter(t=>t.id!==id);saveFeatures();renderTransactions();updateSbBadges();}
+function renderTransactions(){
+  const filter=document.getElementById('tx-filter')?.value||'';
+  const list=filter?transactions.filter(t=>t.ticker===filter):transactions;
+  const body=document.getElementById('tx-body');
+  if(!body) return;
+  if(!list.length){body.innerHTML=`<tr><td colspan="10" class="empty"><div class="empty-ico">📋</div>ยังไม่มี</td></tr>`;return;}
+  body.innerHTML=list.map(t=>{
+    const tag=t.type==='buy'?`<span style="background:var(--green-bg);color:var(--green-tx);padding:2px 8px;border-radius:20px;font-size:11px">ซื้อ</span>`:`<span style="background:var(--red-bg);color:var(--red-tx);padding:2px 8px;border-radius:20px;font-size:11px">ขาย</span>`;
+    const rp=t.realizedPnl!=null?`<span class="${t.realizedPnl>=0?'pos':'neg'}">${t.realizedPnl>=0?'+':''}฿${fn(t.realizedPnl)}</span>`:'—';
+    return `<tr><td class="muted">${t.date}</td><td><span class="tkr">${t.ticker}</span></td><td>${tag}</td><td class="mono">฿${fn(t.price)}</td><td class="mono">${fn(t.qty,0)}</td><td class="mono">฿${fn(t.fee)}</td><td class="mono">฿${fn(t.price*t.qty)}</td><td>${rp}</td><td style="font-size:11px;color:var(--tx2)">${t.note||'—'}</td><td><button onclick="deleteTx(${t.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button></td></tr>`;
+  }).join('');
+  const realized=transactions.filter(t=>t.type==='sell'&&t.realizedPnl!=null).reduce((s,t)=>s+t.realizedPnl,0);
+  const rl=document.getElementById('realized-pnl');
+  if(rl){rl.textContent=(realized>=0?'+':'')+'฿'+fn(realized);rl.style.color=realized>=0?'var(--green-tx)':'var(--red-tx)';}
+  const rs=document.getElementById('realized-sub');
+  if(rs) rs.textContent=transactions.filter(t=>t.type==='sell').length+' รายการขาย';
+}
+function updateTxFilter(){
+  const sel=document.getElementById('tx-filter');
+  if(!sel) return;
+  sel.innerHTML='<option value="">ทุกตัว</option>'+[...new Set(transactions.map(t=>t.ticker))].map(t=>`<option>${t}</option>`).join('');
+}
+function exportCSV(){
+  const h='วันที่,Ticker,ประเภท,ราคา,จำนวน,ค่าธ.,มูลค่า,P&L,หมายเหตุ';
+  const r=transactions.map(t=>[t.date,t.ticker,t.type==='buy'?'ซื้อ':'ขาย',t.price,t.qty,t.fee,t.price*t.qty,t.realizedPnl??'',t.note||''].join(','));
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent([h,...r].join('
+'));
+  a.download='tradedesk.csv';a.click();
+}
+function calcCostAvg(){
+  const ticker=document.getElementById('ca-ticker').value.trim().toUpperCase();
+  const target=parseFloat(document.getElementById('ca-target').value);
+  const stock=portfolios.flatMap(p=>p.stocks).find(s=>s.ticker===ticker||s.ticker===ticker+'.BK');
+  const res=document.getElementById('ca-result');
+  if(!stock){res.textContent='ไม่พบ '+ticker;return;}
+  if(!target||target>=stock.buyPrice){res.textContent='เป้า ≥ ต้นทุนปัจจุบัน (฿'+fn(stock.buyPrice)+')';return;}
+  const port=portfolios.find(p=>p.stocks.includes(stock));
+  const p=prices[stock.ticker+'_'+port?.id];
+  const addPrice=p?p.price:stock.buyPrice*0.9;
+  const addQty=(stock.buyPrice*stock.qty-target*stock.qty)/(target-addPrice);
+  const newAvg=(stock.buyPrice*stock.qty+addPrice*addQty)/(stock.qty+addQty);
+  res.innerHTML=`ซื้อเพิ่ม <strong>${fn(Math.ceil(addQty),0)}</strong> หุ้น ที่ ฿${fn(addPrice)}<br>ต้นทุนใหม่ ~฿${fn(newAvg)}`;
+}
+
+// ALERTS
+function addAlert(){
+  const ticker=document.getElementById('al-ticker').value.trim().toUpperCase();
+  const cond=document.getElementById('al-cond').value;
+  const price=parseFloat(document.getElementById('al-price').value);
+  if(!ticker||!price){alert('กรอกข้อมูลให้ครบ');return;}
+  alerts.push({id:Date.now(),ticker,cond,price,triggered:false});
+  saveFeatures();renderAlerts();updateSbBadges();
+  document.getElementById('al-ticker').value='';document.getElementById('al-price').value='';
+  if(Notification.permission==='default') Notification.requestPermission();
+}
+function deleteAlert(id){alerts=alerts.filter(a=>a.id!==id);saveFeatures();renderAlerts();updateSbBadges();}
+function renderAlerts(){
+  const body=document.getElementById('alerts-body');
+  if(!body) return;
+  if(!alerts.length){body.innerHTML=`<div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div>`;return;}
+  body.innerHTML=alerts.map(a=>{
+    const port=portfolios.find(p=>p.stocks.some(s=>s.ticker===a.ticker));
+    const p=prices[a.ticker+'_'+port?.id];
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd2)">
+      <span class="tkr">${a.ticker}</span>
+      <span style="font-size:12px;color:var(--tx2)">${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)}</span>
+      <span style="font-size:11px;color:var(--tx3)">${p?'฿'+fn(p.price):'—'}</span>
+      ${a.triggered?'<span style="background:var(--red-bg);color:var(--red-tx);padding:2px 8px;border-radius:20px;font-size:11px">🔔 ถึงเป้าแล้ว</span>':''}
+      <button onclick="deleteAlert(${a.id})" style="margin-left:auto;border:none;background:none;color:var(--red-tx);cursor:pointer">ลบ</button>
+    </div>`;
+  }).join('');
+}
+function checkAlerts(){
+  alerts.forEach(a=>{
+    if(a.triggered) return;
+    const port=portfolios.find(p=>p.stocks.some(s=>s.ticker===a.ticker));
+    const p=prices[a.ticker+'_'+port?.id];
+    if(!p) return;
+    if((a.cond==='above'&&p.price>=a.price)||(a.cond==='below'&&p.price<=a.price)){
+      a.triggered=true;
+      if(Notification.permission==='granted') new Notification(`TradeDesk: ${a.ticker}`,{body:`฿${fn(p.price)} ${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)}`});
+    }
+  });
+  saveFeatures();
+}
+
+// NOTES
+function openNoteModal(ticker='',text=''){
+  document.getElementById('note-ticker').value=ticker;
+  document.getElementById('note-text').value=text;
+  document.getElementById('note-modal').style.display='flex';
+}
+function saveNote(){
+  const ticker=document.getElementById('note-ticker').value.trim().toUpperCase();
+  const text=document.getElementById('note-text').value.trim();
+  if(!ticker||!text){alert('กรอกข้อมูลให้ครบ');return;}
+  const ex=notes.find(n=>n.ticker===ticker);
+  if(ex) ex.text=text; else notes.push({id:Date.now(),ticker,text,date:new Date().toLocaleDateString('th-TH')});
+  saveFeatures();closeModal('note-modal');renderNotes();updateSbBadges();
+}
+function deleteNote(id){notes=notes.filter(n=>n.id!==id);saveFeatures();renderNotes();updateSbBadges();}
+function renderNotes(){
+  const body=document.getElementById('notes-body');
+  if(!body) return;
+  if(!notes.length){body.innerHTML=`<div class="empty"><div class="empty-ico">📝</div>ยังไม่มี</div>`;return;}
+  body.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">`+
+    notes.map(n=>`<div style="background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span class="tkr">${n.ticker}</span>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm" onclick="openNoteModal('${n.ticker}','${n.text.replace(/'/g,'&apos;')}')">แก้</button>
+          <button class="btn btn-sm" onclick="deleteNote(${n.id})" style="color:var(--red-tx)">ลบ</button>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.6;white-space:pre-wrap">${n.text}</div>
+      <div style="font-size:10px;color:var(--tx3);margin-top:8px">${n.date}</div>
+    </div>`).join('')+'</div>';
+}
+
+// DIVIDENDS
+function openDivModal(){document.getElementById('div-date').value=new Date().toISOString().split('T')[0];document.getElementById('div-modal').style.display='flex';}
+function saveDividend(){
+  const ticker=document.getElementById('div-ticker').value.trim().toUpperCase();
+  const date=document.getElementById('div-date').value;
+  const perShare=parseFloat(document.getElementById('div-per-share').value);
+  const qty=parseFloat(document.getElementById('div-qty').value);
+  const note=document.getElementById('div-note-text').value.trim();
+  if(!ticker||!date||!perShare||!qty){alert('กรอกข้อมูลให้ครบ');return;}
+  dividends.unshift({id:Date.now(),ticker,date,perShare,qty,total:perShare*qty,note});
+  saveFeatures();closeModal('div-modal');renderDividends();
+}
+function deleteDividend(id){dividends=dividends.filter(d=>d.id!==id);saveFeatures();renderDividends();}
+function renderDividends(){
+  const yr=new Date().getFullYear();
+  const total=dividends.reduce((s,d)=>s+d.total,0);
+  const yrtot=dividends.filter(d=>new Date(d.date).getFullYear()===yr).reduce((s,d)=>s+d.total,0);
+  const cost=portfolios.reduce((s,p)=>s+portCost(p),0);
+  const dt=document.getElementById('div-total');if(dt)dt.textContent='฿'+fn(total);
+  const dy=document.getElementById('div-year');if(dy)dy.textContent='฿'+fn(yrtot);
+  const dk=document.getElementById('div-yield');if(dk)dk.textContent=cost>0?(total/cost*100).toFixed(2)+'%':'0.00%';
+  const body=document.getElementById('div-body');
+  if(!body) return;
+  if(!dividends.length){body.innerHTML=`<tr><td colspan="7" class="empty"><div class="empty-ico">🏦</div>ยังไม่มี</td></tr>`;return;}
+  body.innerHTML=dividends.map(d=>`<tr>
+    <td class="muted">${d.date}</td><td><span class="tkr">${d.ticker}</span></td>
+    <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fn(d.qty,0)}</td>
+    <td class="mono pos">+฿${fn(d.total)}</td>
+    <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
+    <td><button onclick="deleteDividend(${d.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button></td>
+  </tr>`).join('');
+}
+
+// SECTOR ANALYSIS
+function renderSectorFull(){
+  const sData={};
+  portfolios.forEach(port=>{
+    port.stocks.forEach(s=>{
+      const p=prices[s.ticker+'_'+port.id];
+      const rate=port.type==='realtime_us'?usdThbRate:1;
+      const val=(p?p.price*s.qty:s.buyPrice*s.qty)*rate;
+      const sc=s.sector||'Other';
+      if(!sData[sc]) sData[sc]={val:0,count:0};
+      sData[sc].val+=val;sData[sc].count++;
+    });
+  });
+  const total=Object.values(sData).reduce((s,d)=>s+d.val,0);
+  const sc=Object.keys(sData).sort((a,b)=>sData[b].val-sData[a].val);
+  if(charts['sector-pie']) charts['sector-pie'].destroy();
+  const pie=document.getElementById('sector-pie');
+  if(pie) charts['sector-pie']=new Chart(pie.getContext('2d'),{
+    type:'doughnut',
+    data:{labels:sc,datasets:[{data:sc.map(k=>sData[k].val),backgroundColor:sc.map(k=>SECTOR_COLORS[k]||'#888'),borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:8}}}}
+  });
+  const list=document.getElementById('sector-list');
+  if(list) list.innerHTML=sc.map(k=>{
+    const pct=(sData[k].val/total*100).toFixed(1);
+    const color=SECTOR_COLORS[k]||'#888';
+    return `<div style="background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:12px">
+      <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${k}</div>
+      <div style="font-size:13px;font-family:var(--mono);font-weight:600">฿${fn(sData[k].val,0)}</div>
+      <div style="background:var(--bd2);border-radius:4px;height:3px;margin:6px 0"><div style="height:3px;border-radius:4px;background:${color};width:${pct}%"></div></div>
+      <div style="font-size:11px;color:var(--tx2)">${pct}% · ${sData[k].count} ตัว</div>
+    </div>`;
+  }).join('');
+}
+
+// MODAL CLOSE
+function closeModal(id){document.getElementById(id).style.display='none';}
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-bg'))e.target.style.display='none';});
+
+// Init
+document.getElementById('tx-date') && (document.getElementById('tx-date').value=new Date().toISOString().split('T')[0]);
+updateSbBadges();
 </script>
+
+<!-- OVERLAY -->
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">Trade<em>Desk</em></div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sb-body">
+
+    <div class="sb-section">พอร์ตการลงทุน</div>
+    <div class="sb-item" id="sb-overview" onclick="showFeature('overview')">
+      <div class="sb-item-icon" style="background:#f0f0f5">🏠</div>Overview
+    </div>
+    <div id="sb-port-list"></div>
+    <div class="sb-item" onclick="openAddPort();closeSidebar()">
+      <div class="sb-item-icon" style="background:#e8f1fd">＋</div>
+      <span style="color:var(--blue)">เพิ่มพอร์ตใหม่</span>
+    </div>
+
+    <div class="sb-section" style="margin-top:8px">เครื่องมือ</div>
+
+    <div class="sb-item" id="sb-transactions" onclick="showFeature('transactions')">
+      <div class="sb-item-icon" style="background:#fff4e5">📋</div>
+      ประวัติซื้อ-ขาย
+      <span class="sb-badge" id="sb-tx-count">0</span>
+    </div>
+
+    <div class="sb-item" id="sb-alerts" onclick="showFeature('alerts')">
+      <div class="sb-item-icon" style="background:#fff0ef">🔔</div>
+      Price Alerts
+      <span class="sb-badge" id="sb-al-count">0</span>
+    </div>
+
+    <div class="sb-item" id="sb-notes" onclick="showFeature('notes')">
+      <div class="sb-item-icon" style="background:#f3eeff">📝</div>
+      โน้ต
+      <span class="sb-badge" id="sb-note-count">0</span>
+    </div>
+
+    <div class="sb-item" id="sb-dividends" onclick="showFeature('dividends')">
+      <div class="sb-item-icon" style="background:#e5f9eb">🏦</div>
+      Dividend Tracker
+    </div>
+
+    <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
+      <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
+      Sector Analysis
+    </div>
+
+    <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
+    <div class="sb-item" onclick="resetAndReload()">
+      <div class="sb-item-icon" style="background:#fff0ef">↺</div>
+      <span>Reset ข้อมูล</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- FEATURE PANELS -->
+<div class="feat-panel" id="feat-transactions">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📋 ประวัติซื้อ-ขาย</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">บันทึกรายการ</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div><label class="form-lbl">Ticker</label><input type="text" id="tx-ticker" style="width:100%;text-transform:uppercase" placeholder="เช่น PTT.BK"></div>
+        <div><label class="form-lbl">ประเภท</label>
+          <select id="tx-type" style="width:100%"><option value="buy">ซื้อ</option><option value="sell">ขาย</option></select>
+        </div>
+        <div><label class="form-lbl">วันที่</label><input type="date" id="tx-date" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div><label class="form-lbl">ราคา (฿)</label><input type="number" id="tx-price" placeholder="0.00" step="0.01" style="width:100%"></div>
+        <div><label class="form-lbl">จำนวน</label><input type="number" id="tx-qty" placeholder="0" style="width:100%"></div>
+        <div><label class="form-lbl">ค่าธรรมเนียม (฿)</label><input type="number" id="tx-fee" placeholder="0" step="0.01" style="width:100%"></div>
+      </div>
+      <div style="margin-bottom:10px"><label class="form-lbl">หมายเหตุ</label><input type="text" id="tx-note" placeholder="เหตุผล..." style="width:100%"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" onclick="addTransaction()">+ บันทึก</button>
+        <button class="btn btn-g" onclick="exportCSV()">↓ Export CSV</button>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="met"><div class="met-lbl">Realized P&L</div><div class="met-val" id="realized-pnl">฿0</div><div class="met-sub" id="realized-sub">0 รายการ</div></div>
+    <div class="met">
+      <div class="met-lbl">Cost Avg Calculator</div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        <input type="text" id="ca-ticker" placeholder="Ticker" style="width:80px;font-size:13px;text-transform:uppercase">
+        <input type="number" id="ca-target" placeholder="เป้าหมาย ฿" style="width:110px;font-size:13px">
+        <button class="btn btn-sm btn-s" onclick="calcCostAvg()">คำนวณ</button>
+      </div>
+      <div id="ca-result" style="font-size:12px;color:var(--tx2);margin-top:8px;line-height:1.6"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-ti">ประวัติ</div>
+      <select id="tx-filter" onchange="renderTransactions()" style="font-size:12px;padding:4px 8px"><option value="">ทุกตัว</option></select>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>วันที่</th><th>Ticker</th><th>ประเภท</th><th>ราคา</th><th>จำนวน</th><th>ค่าธ.</th><th>มูลค่า</th><th>P&L</th><th>หมายเหตุ</th><th></th></tr></thead>
+      <tbody id="tx-body"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-alerts">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🔔 Price Alerts</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">ตั้งการแจ้งเตือน</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
+        <div><label class="form-lbl">Ticker</label><input type="text" id="al-ticker" placeholder="PTT.BK" style="width:100%;text-transform:uppercase"></div>
+        <div><label class="form-lbl">เงื่อนไข</label>
+          <select id="al-cond" style="width:100%"><option value="above">ราคา ≥</option><option value="below">ราคา ≤</option></select>
+        </div>
+        <div><label class="form-lbl">ราคาเป้า (฿)</label><input type="number" id="al-price" placeholder="0.00" step="0.01" style="width:100%"></div>
+        <button class="btn btn-p" onclick="addAlert()">+ เพิ่ม</button>
+      </div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px">* ต้องอนุญาต browser notification</div>
+    </div>
+  </div>
+  <div class="card"><div class="card-hd"><div class="card-ti">Alerts ที่ตั้งไว้</div></div><div class="card-bd" id="alerts-body"><div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div></div></div>
+</div>
+
+<div class="feat-panel" id="feat-notes">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📝 โน้ต</h2>
+    <button class="btn btn-p btn-sm" onclick="openNoteModal()" style="margin-left:auto">+ เพิ่มโน้ต</button>
+  </div>
+  <div class="card"><div class="card-bd" id="notes-body"><div class="empty"><div class="empty-ico">📝</div>ยังไม่มีโน้ต</div></div></div>
+</div>
+
+<div class="feat-panel" id="feat-dividends">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🏦 Dividend Tracker</h2>
+    <button class="btn btn-p btn-sm" onclick="openDivModal()" style="margin-left:auto">+ บันทึกปันผล</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+    <div class="met"><div class="met-lbl">ปันผลสะสม</div><div class="met-val" id="div-total">฿0</div></div>
+    <div class="met"><div class="met-lbl">ปีนี้</div><div class="met-val" id="div-year">฿0</div></div>
+    <div class="met"><div class="met-lbl">Yield on Cost</div><div class="met-val" id="div-yield">0.00%</div></div>
+  </div>
+  <div class="card"><div class="tbl-wrap"><table>
+    <thead><tr><th>วันที่</th><th>Ticker</th><th>฿/หุ้น</th><th>จำนวน</th><th>รวม</th><th>หมายเหตุ</th><th></th></tr></thead>
+    <tbody id="div-body"></tbody>
+  </table></div></div>
+</div>
+
+<div class="feat-panel" id="feat-analysis">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🗂️ Sector Analysis</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">Sector Breakdown — ทุกพอร์ต</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div style="height:220px;position:relative"><canvas id="sector-pie"></canvas></div>
+        <div id="sector-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTE MODAL -->
+<div class="modal-bg" id="note-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-ti">📝 บันทึกโน้ต</div>
+    <div class="modal-row"><div class="modal-lbl">Ticker</div><input type="text" id="note-ticker" placeholder="PTT.BK" style="text-transform:uppercase"></div>
+    <div class="modal-row"><div class="modal-lbl">โน้ต</div><textarea id="note-text" rows="4" placeholder="เหตุผลที่ซื้อ, target price..."></textarea></div>
+    <div class="modal-acts">
+      <button class="btn btn-g" onclick="closeModal('note-modal')">ยกเลิก</button>
+      <button class="btn btn-p" onclick="saveNote()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDEND MODAL -->
+<div class="modal-bg" id="div-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-ti">🏦 บันทึกปันผล</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div><div class="modal-lbl">Ticker</div><input type="text" id="div-ticker" placeholder="PTT.BK" style="width:100%;text-transform:uppercase"></div>
+      <div><div class="modal-lbl">วันที่</div><input type="date" id="div-date" style="width:100%"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div><div class="modal-lbl">฿/หุ้น</div><input type="number" id="div-per-share" placeholder="0.00" step="0.01" style="width:100%"></div>
+      <div><div class="modal-lbl">จำนวน DR/หุ้น</div><input type="number" id="div-qty" placeholder="0" style="width:100%"></div>
+    </div>
+    <div style="margin-bottom:10px"><div class="modal-lbl">หมายเหตุ</div><input type="text" id="div-note-text" placeholder="Q4 2024..." style="width:100%"></div>
+    <div class="modal-acts">
+      <button class="btn btn-g" onclick="closeModal('div-modal')">ยกเลิก</button>
+      <button class="btn btn-p" onclick="saveDividend()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

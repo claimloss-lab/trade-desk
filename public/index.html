@@ -300,14 +300,14 @@ const STOCK_DB = {
   'K-GA-A(A)':{name:'Krungsri Global Allocation A',sector:'Mutual Fund'},
   'MEGAWORLD30-A':{name:'Mega World 30 Fund A',sector:'Mutual Fund'},
   // SET Thai stocks (common ones)
-  BDMS:{name:'BDMS',sector:'Healthcare'},CENTEL:{name:'Central Restaurants',sector:'Consumer'},
-  CPALL:{name:'CP All',sector:'Consumer'},CPN:{name:'Central Pattana',sector:'Property'},
-  HMPRO:{name:'HomePro',sector:'Consumer'},MINT:{name:'Minor International',sector:'Consumer'},
-  TISCO:{name:'TISCO',sector:'Finance'},TU:{name:'Thai Union',sector:'Consumer'},
-  WHA:{name:'WHA Corp',sector:'Industrial'},
+  'BDMS.BK':{name:'BDMS',sector:'Healthcare'},CENTEL:{name:'Central Restaurants',sector:'Consumer'},
+  'CPALL.BK':{name:'CP All',sector:'Consumer'},CPN:{name:'Central Pattana',sector:'Property'},
+  'HMPRO.BK':{name:'HomePro',sector:'Consumer'},MINT:{name:'Minor International',sector:'Consumer'},
+  'TISCO.BK':{name:'TISCO',sector:'Finance'},TU:{name:'Thai Union',sector:'Consumer'},
+  'WHA.BK':{name:'WHA Corp',sector:'Industrial'},
   'LHSC.BK':{name:'LH Shopping Center',sector:'Healthcare'},
   LHSC:{name:'LH Shopping Center',sector:'Healthcare'},
-  LHHOTEL:{name:'LH Hotel',sector:'Consumer'},
+  'LHHOTEL.BK':{name:'LH Hotel',sector:'Consumer'},
   'MC.BK':{name:'MC Group',sector:'Consumer'},
   MC:{name:'MC Group',sector:'Consumer'},
   PTT:{name:'PTT',sector:'Energy'},PTTEP:{name:'PTTEP',sector:'Energy'},
@@ -315,7 +315,7 @@ const STOCK_DB = {
   BBL:{name:'กรุงเทพ',sector:'Finance'},KTB:{name:'กรุงไทย',sector:'Finance'},
   AOT:{name:'ท่าอากาศยาน',sector:'Transport'},ADVANC:{name:'AIS',sector:'Tech'},
   INTUCH:{name:'Intouch',sector:'Tech'},CPALL:{name:'CP All',sector:'Consumer'},
-  BDMS:{name:'BDMS',sector:'Healthcare'},BH:{name:'Bumrungrad',sector:'Healthcare'},
+  'BDMS.BK':{name:'BDMS',sector:'Healthcare'},BH:{name:'Bumrungrad',sector:'Healthcare'},
   AWC:{name:'AWC',sector:'Property'},CPN:{name:'CPN',sector:'Property'},
   SCC:{name:'ปูนซิเมนต์ไทย',sector:'Industrial'},TRUE:{name:'True',sector:'Tech'},
 };
@@ -331,7 +331,7 @@ const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#f
 // ══════════════════════════════════════════════════
 // VERSION RESET — bump version string when presets change
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250401_5';
+const DATA_VER = 'v20250401_6';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -362,20 +362,20 @@ if (!portfolios) {
     { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
     { id: 'set1', name: 'PI DCA', type: 'realtime_th', color: '#30d158', cash: 6954.08, snapshots: [],
       stocks: [
-        {id:1, ticker:'BDMS',   qty:2000, buyPrice:24.34, sector:'Healthcare', underlying:'BDMS'},
-        {id:2, ticker:'CENTEL', qty:1200, buyPrice:36.06, sector:'Consumer',   underlying:'Central Restaurants'},
-        {id:3, ticker:'CPALL',  qty:900,  buyPrice:54.08, sector:'Consumer',   underlying:'CP All'},
-        {id:4, ticker:'CPN',    qty:600,  buyPrice:59.72, sector:'Property',   underlying:'Central Pattana'},
-        {id:5, ticker:'HMPRO',  qty:3600, buyPrice:10.12, sector:'Consumer',   underlying:'HomePro'},
-        {id:6, ticker:'MINT',   qty:1600, buyPrice:27.96, sector:'Consumer',   underlying:'Minor International'},
-        {id:7, ticker:'TISCO',  qty:400,  buyPrice:99.09, sector:'Finance',    underlying:'TISCO'},
-        {id:8, ticker:'TU',     qty:3000, buyPrice:13.71, sector:'Consumer',   underlying:'Thai Union'},
-        {id:9, ticker:'WHA',    qty:9100, buyPrice:3.94,  sector:'Industrial', underlying:'WHA Corp'},
+        {id:1, ticker:'BDMS.BK',   qty:2000, buyPrice:24.34, sector:'Healthcare', underlying:'BDMS'},
+        {id:2, ticker:'CENTEL.BK', qty:1200, buyPrice:36.06, sector:'Consumer',   underlying:'Central Restaurants'},
+        {id:3, ticker:'CPALL.BK',  qty:900,  buyPrice:54.08, sector:'Consumer',   underlying:'CP All'},
+        {id:4, ticker:'CPN.BK',    qty:600,  buyPrice:59.72, sector:'Property',   underlying:'Central Pattana'},
+        {id:5, ticker:'HMPRO.BK',  qty:3600, buyPrice:10.12, sector:'Consumer',   underlying:'HomePro'},
+        {id:6, ticker:'MINT.BK',   qty:1600, buyPrice:27.96, sector:'Consumer',   underlying:'Minor International'},
+        {id:7, ticker:'TISCO.BK',  qty:400,  buyPrice:99.09, sector:'Finance',    underlying:'TISCO'},
+        {id:8, ticker:'TU.BK',     qty:3000, buyPrice:13.71, sector:'Consumer',   underlying:'Thai Union'},
+        {id:9, ticker:'WHA.BK',    qty:9100, buyPrice:3.94,  sector:'Industrial', underlying:'WHA Corp'},
       ]
     },
     { id: 'set2', name: 'Librarator', type: 'realtime_th', color: '#ff9500', cash: 214.09, snapshots: [],
       stocks: [
-        {id:1, ticker:'LHHOTEL', qty:1800, buyPrice:13.31, sector:'Consumer',   underlying:'LH Hotel'},
+        {id:1, ticker:'LHHOTEL.BK', qty:1800, buyPrice:13.31, sector:'Consumer',   underlying:'LH Hotel'},
         {id:2, ticker:'LHSC.BK', qty:1800, buyPrice:11.21, sector:'Healthcare', underlying:'LH Shopping Center'},
         {id:3, ticker:'MC.BK',   qty:2000, buyPrice:10.88, sector:'Consumer',   underlying:'MC Group'},
       ]
@@ -569,7 +569,8 @@ function portEquity(port) {
   }
   return port.stocks.reduce((s,x)=>{
     const p=prices[x.ticker+'_'+port.id];
-    return s+(p?p.price*x.qty:x.buyPrice*x.qty);
+    const raw=p?p.price*x.qty:x.buyPrice*x.qty;
+    return s+(port.type==='realtime_us'?raw*usdThbRate:raw);
   },0);
 }
 function portCost(port){
@@ -579,7 +580,10 @@ function portCost(port){
       return s+(cur==='USD'?x.buyPrice*x.qty*usdThbRate:x.buyPrice*x.qty);
     },0);
   }
-  return port.stocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
+  return port.stocks.reduce((s,x)=>{
+    const raw=x.buyPrice*x.qty;
+    return s+(port.type==='realtime_us'?raw*usdThbRate:raw);
+  },0);
 }
 function portNet(port) {
   if (port.type==='snapshot') {

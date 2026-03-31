@@ -327,6 +327,20 @@ const SECTOR_COLORS = {
 const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
 
 // ══════════════════════════════════════════════════
+// VERSION RESET — bump version string when presets change
+// ══════════════════════════════════════════════════
+const DATA_VER = 'v20250401_3';
+(function(){
+  const isReset = new URLSearchParams(location.search).get('reset')==='1';
+  const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
+  if(isReset || isOld){
+    ['td_ports','td_tx','td_alerts','td_notes','td_divs','td_cash','td_cur'].forEach(k=>localStorage.removeItem(k));
+    localStorage.setItem('td_ver', DATA_VER);
+    if(location.search) history.replaceState(null,'',location.pathname);
+  }
+})();
+
+// ══════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════
 let portfolios = JSON.parse(localStorage.getItem('td_ports') || 'null');

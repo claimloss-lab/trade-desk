@@ -331,7 +331,7 @@ const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#f
 // ══════════════════════════════════════════════════
 // VERSION RESET — bump version string when presets change
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250401_6';
+const DATA_VER = 'v20250401_7';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -387,18 +387,18 @@ if (!portfolios) {
     },
     { id: 'jitta1', name: 'Jitta 1 - Thematic', type: 'realtime_us', color: '#ff3b30', cash: 28*34, snapshots: [],
       stocks: [
-        {id:1, ticker:'ICLN', qty:15.627,  buyPrice:548.24,  sector:'ETF', underlying:'iShares Clean Energy ETF'},
-        {id:2, ticker:'IXJ',  qty:2.863,   buyPrice:3216.80, sector:'ETF', underlying:'iShares Global Healthcare ETF'},
-        {id:3, ticker:'SMH',  qty:0.709,   buyPrice:9415.44, sector:'ETF', underlying:'VanEck Semiconductor ETF'},
-        {id:4, ticker:'IXN',  qty:2.651,   buyPrice:3171.42, sector:'ETF', underlying:'iShares Global Tech ETF'},
+        {id:1, ticker:'ICLN', qty:15.627,  buyPrice:16.68,  sector:'ETF', underlying:'iShares Clean Energy ETF'},
+        {id:2, ticker:'IXJ',  qty:2.863,   buyPrice:97.89,  sector:'ETF', underlying:'iShares Global Healthcare ETF'},
+        {id:3, ticker:'SMH',  qty:0.709,   buyPrice:286.51, sector:'ETF', underlying:'VanEck Semiconductor ETF'},
+        {id:4, ticker:'IXN',  qty:2.651,   buyPrice:96.51,  sector:'ETF', underlying:'iShares Global Tech ETF'},
       ]
     },
     { id: 'jitta2', name: 'Jitta 2 - Global ETF', type: 'realtime_us', color: '#00c7be', cash: 28*34, snapshots: [],
       stocks: [
-        {id:1, ticker:'VTI',  qty:2.342,  buyPrice:9671.84, sector:'ETF', underlying:'Vanguard Total Market ETF'},
-        {id:2, ticker:'VCIT', qty:3.410,  buyPrice:794.93,  sector:'ETF', underlying:'Vanguard Corp Bond ETF'},
-        {id:3, ticker:'VEA',  qty:3.431,  buyPrice:1791.51, sector:'ETF', underlying:'Vanguard Dev. Markets ETF'},
-        {id:4, ticker:'VWO',  qty:2.010,  buyPrice:1582.45, sector:'ETF', underlying:'Vanguard Emerging Markets ETF'},
+        {id:1, ticker:'VTI',  qty:2.342,  buyPrice:294.29, sector:'ETF', underlying:'Vanguard Total Market ETF'},
+        {id:2, ticker:'VCIT', qty:3.410,  buyPrice:82.48,  sector:'ETF', underlying:'Vanguard Corp Bond ETF'},
+        {id:3, ticker:'VEA',  qty:3.431,  buyPrice:54.52,  sector:'ETF', underlying:'Vanguard Dev. Markets ETF'},
+        {id:4, ticker:'VWO',  qty:2.010,  buyPrice:48.15,  sector:'ETF', underlying:'Vanguard Emerging Markets ETF'},
       ]
     },
     { id: 'dime', name: 'DIME', type: 'dime_mixed', color: '#ff6b35', cash: 0, snapshots: [],

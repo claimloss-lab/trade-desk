@@ -22,6 +22,21 @@ export async function onRequest(context) {
   if (t.includes('-A') || t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA')) {
     return new Response(JSON.stringify({ error: 'mutual fund - no realtime price', ticker: t }), { status: 404, headers: cors });
   }
+  // Allow FX pairs like USDTHB=X directly
+  if (t.includes('=X')) {
+    const sym = t;
+    try {
+      const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1d`, { headers });
+      if (res.ok) {
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        if (meta?.regularMarketPrice) {
+          return new Response(JSON.stringify({ ticker: t, symbol: sym, price: meta.regularMarketPrice, currency: 'THB', timestamp: Date.now() }), { headers: cors });
+        }
+      }
+    } catch {}
+    return new Response(JSON.stringify({ error: 'FX rate not found', ticker: t }), { status: 404, headers: cors });
+  }
 
   // Determine Yahoo Finance symbol:
   // - Already has .BK suffix → use as-is (SET DR / Thai stocks)

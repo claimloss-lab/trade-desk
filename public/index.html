@@ -215,7 +215,11 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
       <button class="cur-btn on" id="btn-thb" onclick="setCur('THB')">฿</button>
       <button class="cur-btn" id="btn-usd" onclick="setCur('USD')">$</button>
     </div>
-    <div class="status"><div class="dot" id="sdot"></div><span id="last-up">กำลังโหลด...</span></div>
+    <div class="status">
+      <div class="dot" id="sdot"></div>
+      <span id="fx-rate" style="color:var(--tx3);margin-right:8px;font-size:10px">USD/THB —</span>
+      <span id="last-up">กำลังโหลด...</span>
+    </div>
   </div>
 </header>
 
@@ -326,7 +330,8 @@ let portfolios = JSON.parse(localStorage.getItem('td_ports') || 'null');
 let prices = {};
 let sparkH = {};
 let currency = localStorage.getItem('td_cur') || 'THB';
-let usdRate = 34;
+let usdRate = 34; // live rate updated by fetchUsdThb()
+let usdThbRate = 34; // alias
 let activeTab = 'overview';
 let charts = {};
 let rtInterval = null;
@@ -367,22 +372,16 @@ if (!portfolios) {
         {id:4, ticker:'VWO',  qty:2.010,  buyPrice:1582.45, sector:'ETF', underlying:'Vanguard Emerging Markets ETF'},
       ]
     },
-    { id: 'dime_fund', name: 'DIME กองทุน', type: 'snapshot', color: '#ff6b35', cash: 0, snapshots: [
-        {id:1, date:'2025-03-30', value:31499.98, note:'K-GA-A(A) + MEGAWORLD30-A'}
-      ],
+    { id: 'dime', name: 'DIME', type: 'dime_mixed', color: '#ff6b35', cash: 0, snapshots: [],
       stocks: [
-        {id:1, ticker:'K-GA-A(A)',     qty:1500.2791, buyPrice:12.3310, sector:'Mutual Fund', underlying:'Krungsri Global Allocation A'},
-        {id:2, ticker:'MEGAWORLD30-A', qty:1219.1953, buyPrice:10.6628, sector:'Mutual Fund', underlying:'Mega World 30 Fund A'},
-      ]
-    },
-    { id: 'dime_us', name: 'DIME หุ้นอเมริกา', type: 'realtime_us', color: '#f72585', cash: 163286, snapshots: [],
-      stocks: [
-        {id:1, ticker:'BRK.B', qty:0.4633580,  buyPrice:13608.08, sector:'Finance',  underlying:'Berkshire Hathaway'},
-        {id:2, ticker:'JEPQ',  qty:2.6299477,  buyPrice:1777.74,  sector:'ETF',      underlying:'JPMorgan Nasdaq ETF'},
-        {id:3, ticker:'O',     qty:10.3112370, buyPrice:1901.70,  sector:'Property', underlying:'Realty Income'},
-        {id:4, ticker:'SCHD',  qty:2.3704646,  buyPrice:864.68,   sector:'ETF',      underlying:'Schwab Dividend ETF'},
-        {id:5, ticker:'TLT',   qty:0.4154889,  buyPrice:3026.21,  sector:'ETF',      underlying:'iShares 20Y Treasury'},
-        {id:6, ticker:'VOO',   qty:0.2091998,  buyPrice:16009.86, sector:'ETF',      underlying:'Vanguard S&P500'},
+        {id:1,  ticker:'K-GA-A(A)',     qty:1500.2791, buyPrice:12.3310,  sector:'Mutual Fund', underlying:'Krungsri Global Alloc A', currency:'THB'},
+        {id:2,  ticker:'MEGAWORLD30-A', qty:1219.1953, buyPrice:10.6628,  sector:'Mutual Fund', underlying:'Mega World 30 Fund A',    currency:'THB'},
+        {id:3,  ticker:'BRK.B', qty:0.4633580,  buyPrice:414.06,  sector:'Finance',  underlying:'Berkshire Hathaway', currency:'USD'},
+        {id:4,  ticker:'JEPQ',  qty:2.6299477,  buyPrice:54.09,   sector:'ETF',      underlying:'JPMorgan Nasdaq ETF', currency:'USD'},
+        {id:5,  ticker:'O',     qty:10.3112370, buyPrice:57.86,   sector:'Property', underlying:'Realty Income',       currency:'USD'},
+        {id:6,  ticker:'SCHD',  qty:2.3704646,  buyPrice:26.31,   sector:'ETF',      underlying:'Schwab Dividend ETF', currency:'USD'},
+        {id:7,  ticker:'TLT',   qty:0.4154889,  buyPrice:92.08,   sector:'ETF',      underlying:'iShares 20Y Treasury',currency:'USD'},
+        {id:8,  ticker:'VOO',   qty:0.2091998,  buyPrice:487.14,  sector:'ETF',      underlying:'Vanguard S&P500',     currency:'USD'},
       ]
     },
   ];
@@ -487,10 +486,15 @@ async function fetchPrice(ticker, portType) {
 
 async function refreshAll(silent=false) {
   if (!silent) { document.getElementById('sdot').style.animation='spin2 .8s linear infinite'; setStatus('กำลังดึงราคา...'); }
-  const rtPorts = portfolios.filter(p=>p.type==='realtime_dr'||p.type==='realtime_th'||p.type==='realtime_us');
+  // Fetch USD/THB rate first
+  await fetchUsdThb();
+  const rtPorts = portfolios.filter(p=>p.type==='realtime_dr'||p.type==='realtime_th'||p.type==='realtime_us'||p.type==='dime_mixed');
   await Promise.all(rtPorts.flatMap(port =>
     port.stocks.map(async s => {
-      const r = await fetchPrice(s.ticker, port.type);
+      // Skip THB mutual funds in dime_mixed
+      if(port.type==='dime_mixed' && (s.currency||'THB')==='THB') return;
+      const fetchType = port.type==='dime_mixed' ? 'realtime_us' : port.type;
+      const r = await fetchPrice(s.ticker, fetchType);
       if (r) prices[s.ticker+'_'+port.id] = r;
     })
   ));
@@ -503,16 +507,51 @@ async function refreshAll(silent=false) {
 }
 function setStatus(t){document.getElementById('last-up').textContent=t;}
 
+async function fetchUsdThb(){
+  try{
+    const r=await fetch('/api/price?ticker=USDTHB%3DX',{signal:AbortSignal.timeout(8000)});
+    if(!r.ok) return;
+    const d=await r.json();
+    if(d.price&&d.price>20&&d.price<60){
+      usdRate=d.price; usdThbRate=d.price;
+      const el=document.getElementById('fx-rate');
+      if(el) el.textContent='USD/THB '+d.price.toFixed(2);
+    }
+  }catch{}
+}
+
 // ══════════════════════════════════════════════════
 // PORTFOLIO HELPERS
 // ══════════════════════════════════════════════════
 function portEquity(port) {
+  if(port.type==='dime_mixed'){
+    return port.stocks.reduce((s,x)=>{
+      const p=prices[x.ticker+'_'+port.id];
+      const cur=x.currency||'THB';
+      if(cur==='USD'){
+        // USD stock: price in USD × rate = THB
+        const priceUsd=p?p.price:x.buyPrice;
+        return s+(priceUsd*x.qty*usdThbRate);
+      } else {
+        // THB mutual fund: use buyPrice (NAV not realtime)
+        return s+(x.buyPrice*x.qty);
+      }
+    },0);
+  }
   return port.stocks.reduce((s,x)=>{
     const p=prices[x.ticker+'_'+port.id];
     return s+(p?p.price*x.qty:x.buyPrice*x.qty);
   },0);
 }
-function portCost(port){ return port.stocks.reduce((s,x)=>s+x.buyPrice*x.qty,0); }
+function portCost(port){
+  if(port.type==='dime_mixed'){
+    return port.stocks.reduce((s,x)=>{
+      const cur=x.currency||'THB';
+      return s+(cur==='USD'?x.buyPrice*x.qty*usdThbRate:x.buyPrice*x.qty);
+    },0);
+  }
+  return port.stocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
+}
 function portNet(port) {
   if (port.type==='snapshot') {
     if (!port.snapshots?.length) return 0;
@@ -564,7 +603,7 @@ function buildPanels() {
     const panel = document.createElement('div');
     panel.className = `tab-panel${activeTab===port.id?' on':''}`;
     panel.id = 'panel-'+port.id;
-    panel.innerHTML = port.type==='snapshot' ? buildSnapshotHTML(port) : buildRealtimeHTML(port);
+    panel.innerHTML = port.type==='snapshot' ? buildSnapshotHTML(port) : port.type==='dime_mixed' ? buildDimeHTML(port) : buildRealtimeHTML(port);
     container.appendChild(panel);
   });
 }
@@ -658,6 +697,216 @@ function renderOverview() {
         scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10},callback:v=>fn(v,0)}}}}
     });
   }
+}
+
+
+// ══════════════════════════════════════════════════
+// DIME MIXED PORTFOLIO (THB กองทุน + USD หุ้นอเมริกา)
+// ══════════════════════════════════════════════════
+function buildDimeHTML(port){
+  return `<div class="page">
+    <!-- Summary Cards -->
+    <div class="met-row sens" style="grid-template-columns:2fr 1fr 1fr 1fr">
+      <div class="met hero" style="background:linear-gradient(135deg,${port.color}dd,${port.color}99)">
+        <div class="met-lbl">Net Worth — ${port.name}</div>
+        <div class="met-val" id="${port.id}-net">฿0</div>
+        <div class="met-sub" id="${port.id}-sub">กองทุน + หุ้น US (แปลง THB)</div>
+      </div>
+      <div class="met sens"><div class="met-lbl">กองทุน (THB)</div><div class="met-val" id="${port.id}-fund">฿0</div><div class="met-sub" id="${port.id}-fundsub">—</div></div>
+      <div class="met sens"><div class="met-lbl">หุ้น US (→THB)</div><div class="met-val" id="${port.id}-us">฿0</div><div class="met-sub" id="${port.id}-ussub">USD/THB <span id="${port.id}-rate">—</span></div></div>
+      <div class="met sens"><div class="met-lbl">P&L รวม</div><div class="met-val" id="${port.id}-pnl">฿0</div><div class="bdg neu" id="${port.id}-pnlb">0%</div></div>
+    </div>
+
+    <!-- Section 1: กองทุนรวม -->
+    <div class="card sens" style="margin-bottom:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(255,107,53,.08),transparent)">
+        <div class="card-ti" style="color:#ff6b35">🏦 กองทุนรวม (THB)</div>
+        <div style="font-size:11px;color:var(--tx3)">ราคาจาก NAV รายวัน · อัปเดตเองได้</div>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>NAV ต้นทุน (฿)</th><th>NAV ปัจจุบัน (฿)</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th></tr></thead>
+        <tbody id="${port.id}-fund-body"></tbody>
+      </table></div>
+      <div style="padding:10px 14px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--bd2)">
+        <input type="text" id="${port.id}-ft" placeholder="Ticker กองทุน" style="width:130px;text-transform:uppercase">
+        <input type="text" id="${port.id}-fn" placeholder="ชื่อกองทุน" style="width:180px">
+        <input type="number" id="${port.id}-fq" placeholder="จำนวนหน่วย" style="width:110px" step="0.0001">
+        <input type="number" id="${port.id}-fp" placeholder="NAV ต้นทุน (฿)" style="width:120px" step="0.0001">
+        <button class="btn btn-p btn-sm" onclick="addDimeStock('${port.id}','THB')">+ เพิ่มกองทุน</button>
+      </div>
+    </div>
+
+    <!-- Section 2: หุ้นสหรัฐ -->
+    <div class="card sens">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,113,227,.08),transparent)">
+        <div class="card-ti" style="color:var(--blue)">🇺🇸 หุ้นสหรัฐ (USD → THB)</div>
+        <div style="font-size:11px;color:var(--tx3)">ราคา USD realtime · แปลง × <span id="${port.id}-fxshow">${usdThbRate.toFixed(2)}</span> = THB</div>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr>
+          <th>Ticker</th><th>ชื่อ</th><th>Sector</th><th>จำนวน</th>
+          <th>ต้นทุน (USD)</th><th>ราคา (USD)</th><th>เปลี่ยน%</th>
+          <th>มูลค่า (USD)</th><th>มูลค่า (THB)</th><th>P&L (THB)</th><th>%</th>
+        </tr></thead>
+        <tbody id="${port.id}-us-body"></tbody>
+      </table></div>
+      <div style="padding:10px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--bd2)">
+        <input type="text" id="${port.id}-ut" placeholder="Ticker US" style="width:100px;text-transform:uppercase" oninput="autoFillDime('${port.id}')">
+        <input type="text" id="${port.id}-un" placeholder="ชื่อบริษัท" style="width:160px">
+        <select id="${port.id}-us-sec" style="width:110px">
+          ${['Tech','Finance','Healthcare','Consumer','ETF','Property','Industrial','Other'].map(s=>'<option>'+s+'</option>').join('')}
+        </select>
+        <input type="number" id="${port.id}-uq" placeholder="จำนวนหุ้น" style="width:110px" step="0.0001">
+        <input type="number" id="${port.id}-up" placeholder="ต้นทุน (USD)" style="width:120px" step="0.01">
+        <button class="btn btn-p btn-sm" onclick="addDimeStock('${port.id}','USD')">+ เพิ่มหุ้น US</button>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn btn-g btn-sm" onclick="renamePort('${port.id}')">✏️ เปลี่ยนชื่อ</button>
+      <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx)">ลบพอร์ต</button>
+    </div>
+  </div>`;
+}
+
+function renderDime(portId){
+  const port=getPort(portId);
+  if(!port) return;
+  const el=id=>document.getElementById(portId+'-'+id);
+  if(!el('net')) return;
+
+  // Separate stocks
+  const fundStocks=port.stocks.filter(s=>(s.currency||'THB')==='THB');
+  const usStocks=port.stocks.filter(s=>s.currency==='USD');
+
+  // Fund total (THB, no realtime)
+  const fundVal=fundStocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
+  const fundCost=fundVal; // NAV = cost basis for funds (update manually)
+
+  // US total in THB
+  const usValUsd=usStocks.reduce((s,x)=>{const p=prices[x.ticker+'_'+portId];return s+(p?p.price*x.qty:x.buyPrice*x.qty);},0);
+  const usCostUsd=usStocks.reduce((s,x)=>s+x.buyPrice*x.qty,0);
+  const usValThb=usValUsd*usdThbRate;
+  const usCostThb=usCostUsd*usdThbRate;
+
+  const totalVal=fundVal+usValThb;
+  const totalCost2=fundCost+usCostThb;
+  const totalPnl=totalVal-totalCost2;
+  const totalPct=totalCost2>0?totalPnl/totalCost2*100:0;
+
+  el('net').textContent='฿'+fn(totalVal);
+  el('fund').textContent='฿'+fn(fundVal);
+  el('fundsub').textContent=fundStocks.length+' กองทุน';
+  el('us').textContent='฿'+fn(usValThb);
+  el('ussub') && (el('ussub').textContent='USD/THB ');
+  if(el('rate')) el('rate').textContent=usdThbRate.toFixed(2);
+  if(el('fxshow')) el('fxshow').textContent=usdThbRate.toFixed(2);
+  el('pnl').textContent=(totalPnl>=0?'+':'')+'฿'+fn(totalPnl);
+  el('pnl').style.color=totalPnl>=0?'var(--green-tx)':'var(--red-tx)';
+  el('pnlb').textContent=(totalPct>=0?'+':'')+totalPct.toFixed(2)+'%';
+  el('pnlb').className='bdg '+(totalPnl>=0?'pos':'neg');
+
+  // Render fund table
+  const fb=el('fund-body');
+  if(fb){
+    fb.innerHTML=fundStocks.length?fundStocks.map(s=>{
+      const val=s.buyPrice*s.qty;
+      return `<tr>
+        <td><span class="tkr">${s.ticker}</span></td>
+        <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)">${fn(s.buyPrice,4)}</span></td>
+        <td class="muted" style="font-size:11px">อัปเดต NAV เองได้ →</td>
+        <td class="mono">฿${fn(val)}</td>
+        <td class="muted">—</td>
+        <td class="muted">—</td>
+      </tr>`;
+    }).join('') : '<tr><td colspan="8" class="empty">ยังไม่มีกองทุน</td></tr>';
+  }
+
+  // Render US stocks table
+  const ub=el('us-body');
+  if(ub){
+    const sc=id=>SECTOR_COLORS[id]||'#888';
+    ub.innerHTML=usStocks.length?usStocks.map(s=>{
+      const p=prices[s.ticker+'_'+portId];
+      const curPriceUsd=p?p.price:s.buyPrice;
+      const valUsd=curPriceUsd*s.qty;
+      const costUsd=s.buyPrice*s.qty;
+      const valThb=valUsd*usdThbRate;
+      const costThb=costUsd*usdThbRate;
+      const pnl=valThb-costThb;
+      const pct=(curPriceUsd-s.buyPrice)/s.buyPrice*100;
+      const day=p?.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
+      const color=sc(s.sector);
+      return `<tr>
+        <td><span class="tkr">${s.ticker}</span></td>
+        <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
+        <td><span class="sec-tag" style="background:${color}22;color:${color}">${s.sector||'—'}</span></td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)">$${fn(s.buyPrice,2)}</span></td>
+        <td class="mono" style="font-weight:600">${p?'$'+fn(curPriceUsd,2):'<span class="muted" style="font-size:11px">โหลด...</span>'}</td>
+        <td>${day!==null?'<span class="'+(day>=0?'pos':'neg')+'">'+(day>=0?'▲':'▼')+Math.abs(day).toFixed(2)+'%</span>':'—'}</td>
+        <td class="mono">${p?'$'+fn(valUsd,2):'—'}</td>
+        <td class="mono" style="font-weight:500">฿${fn(valThb)}</td>
+        <td class="${pnl>=0?'pos':'neg'}">${pnl>=0?'+':''}฿${fn(pnl)}</td>
+        <td><span class="pct-pill ${pnl>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(2)}%</span></td>
+      </tr>`;
+    }).join('') : '<tr><td colspan="11" class="empty">ยังไม่มีหุ้น US</td></tr>';
+  }
+}
+
+function addDimeStock(portId, currency){
+  const port=getPort(portId);
+  let ticker,name,sector,qty,price;
+  if(currency==='THB'){
+    ticker=document.getElementById(portId+'-ft').value.trim().toUpperCase();
+    name=document.getElementById(portId+'-fn').value.trim();
+    qty=parseFloat(document.getElementById(portId+'-fq').value);
+    price=parseFloat(document.getElementById(portId+'-fp').value);
+    sector='Mutual Fund';
+    if(!ticker||!qty||!price){alert('กรอกข้อมูลให้ครบ');return;}
+    port.stocks.push({id:Date.now(),ticker,qty,buyPrice:price,sector,underlying:name||ticker,currency:'THB'});
+    ['ft','fn','fq','fp'].forEach(s=>{const el=document.getElementById(portId+'-'+s);if(el)el.value='';});
+  } else {
+    ticker=document.getElementById(portId+'-ut').value.trim().toUpperCase();
+    name=document.getElementById(portId+'-un').value.trim();
+    sector=document.getElementById(portId+'-us-sec').value||'Other';
+    qty=parseFloat(document.getElementById(portId+'-uq').value);
+    price=parseFloat(document.getElementById(portId+'-up').value);
+    if(!ticker||!qty||!price){alert('กรอกข้อมูลให้ครบ');return;}
+    port.stocks.push({id:Date.now(),ticker,qty,buyPrice:price,sector,underlying:name||autoInfo(ticker).underlying,currency:'USD'});
+    ['ut','un','uq','up'].forEach(s=>{const el=document.getElementById(portId+'-'+s);if(el)el.value='';});
+    fetchPrice(ticker,'realtime_us').then(r=>{if(r)prices[ticker+'_'+portId]=r;renderDime(portId);renderOverview();});
+  }
+  savePorts(); renderDime(portId); renderOverview();
+}
+
+function autoFillDime(portId){
+  const t=document.getElementById(portId+'-ut').value.trim().toUpperCase();
+  const info=autoInfo(t);
+  const n=document.getElementById(portId+'-un');
+  const s=document.getElementById(portId+'-us-sec');
+  if(n&&info.underlying!==t)n.value=info.underlying;
+  if(s)s.value=info.sector;
+}
+
+function edtDime(portId,stockId,field,el){
+  const port=getPort(portId);
+  const stock=port.stocks.find(s=>s.id===stockId);
+  if(!stock)return;
+  const inp=document.createElement('input');
+  inp.type='number';inp.className='edt-inp';
+  inp.value=stock[field];inp.step=field==='qty'?0.0001:0.01;inp.min=0;
+  el.replaceWith(inp);inp.focus();inp.select();
+  function commit(){
+    const v=parseFloat(inp.value);
+    if(!isNaN(v)&&v>0){stock[field]=v;savePorts();}
+    else if(!isNaN(v)&&v<=0&&field==='qty'){port.stocks=port.stocks.filter(s=>s.id!==stockId);savePorts();}
+    renderDime(portId);renderOverview();
+  }
+  inp.addEventListener('blur',commit);
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')inp.blur();if(e.key==='Escape')renderDime(portId);});
 }
 
 // ══════════════════════════════════════════════════
@@ -1048,12 +1297,18 @@ function showTab(id){
   const panel=document.getElementById('panel-'+id);
   if(panel) panel.className='tab-panel on';
   if(id==='overview') renderOverview();
-  else { const port=getPort(id); if(port) port.type==='snapshot'?renderSnapshot(id):renderPortfolio(id); }
+  else { const port=getPort(id); if(port){
+    if(port.type==='snapshot') renderSnapshot(id);
+    else if(port.type==='dime_mixed') renderDime(id);
+    else renderPortfolio(id);
+  }}
 }
 
 function renderAll(){
   portfolios.forEach(port=>{
-    if(port.type!=='snapshot') renderPortfolio(port.id);
+    if(port.type==='snapshot') return;
+    if(port.type==='dime_mixed') renderDime(port.id);
+    else renderPortfolio(port.id);
   });
   renderOverview();
 }

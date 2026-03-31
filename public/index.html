@@ -1466,7 +1466,7 @@ function updateSbBadges(){
   document.getElementById('sb-note-count') && (document.getElementById('sb-note-count').textContent=notes.length);
 }
 function resetAndReload(){
-  if(!confirm('ล้างข้อมูลทั้งหมด?')) return;
+  if(!confirm("ล้างข้อมูลทั้งหมด?")) return;
   ['td_ports','td_tx','td_alerts','td_notes','td_divs','td_cash','td_cur','td_ver'].forEach(k=>localStorage.removeItem(k));
   location.reload();
 }
@@ -1517,8 +1517,8 @@ function updateTxFilter(){
 function exportCSV(){
   const h='วันที่,Ticker,ประเภท,ราคา,จำนวน,ค่าธ.,มูลค่า,P&L,หมายเหตุ';
   const r=transactions.map(t=>[t.date,t.ticker,t.type==='buy'?'ซื้อ':'ขาย',t.price,t.qty,t.fee,t.price*t.qty,t.realizedPnl??'',t.note||''].join(','));
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent([h,...r].join('
-'));
+  const nl='\n';
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([h,...r].join(nl));
   a.download='tradedesk.csv';a.click();
 }
 function calcCostAvg(){
@@ -1579,7 +1579,8 @@ function checkAlerts(){
 }
 
 // NOTES
-function openNoteModal(ticker='',text=''){
+function openNoteModal(ticker,text){
+  ticker=ticker||''; text=text||'';
   document.getElementById('note-ticker').value=ticker;
   document.getElementById('note-text').value=text;
   document.getElementById('note-modal').style.display='flex';
@@ -1602,7 +1603,7 @@ function renderNotes(){
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <span class="tkr">${n.ticker}</span>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-sm" onclick="openNoteModal('${n.ticker}','${n.text.replace(/'/g,'&apos;')}')">แก้</button>
+          <button class="btn btn-sm" onclick="openNoteModal('${n.ticker}',this.dataset.text)" data-text="${n.text}">แก้</button>
           <button class="btn btn-sm" onclick="deleteNote(${n.id})" style="color:var(--red-tx)">ลบ</button>
         </div>
       </div>

@@ -1076,8 +1076,27 @@ function buildSnapshotHTML(port) {
         <div class="met-val" id="${port.id}-net">฿0</div>
         <div class="met-sub" id="${port.id}-sub">—</div>
       </div>
-      <div class="met sens"><div class="met-lbl">P&L จาก Snapshot แรก</div><div class="met-val" id="${port.id}-pnl">฿0</div><div class="bdg neu" id="${port.id}-pnlb">0%</div></div>
-      <div class="met"><div class="met-lbl">จำนวน Snapshot</div><div class="met-val" id="${port.id}-cnt2">${port.snapshots?.length||0}</div><div class="met-sub">ครั้ง</div></div>
+      <div class="met sens"><div class="met-lbl">P&L</div><div class="met-val" id="${port.id}-pnl">฿0</div><div class="bdg neu" id="${port.id}-pnlb">0%</div></div>
+      <div class="met"><div class="met-lbl">จำนวน</div><div class="met-val" id="${port.id}-cnt2">${port.snapshots?.length||0}</div><div class="met-sub">ครั้ง</div></div>
+    </div>
+
+    <!-- Stock NAV Table (shown when port has individual fund stocks) -->
+    <div class="card sens" id="${port.id}-stock-nav-table" style="display:none;margin-bottom:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(139,92,246,.06),transparent)">
+        <div class="card-ti">🏦 รายชื่อกองทุน — กด ✎ NAV เพื่ออัปเดตราคาล่าสุด</div>
+        <div style="font-size:11px;color:var(--tx3)">NAV ประกาศวันละครั้งหลังตลาดปิด</div>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>ต้นทุน/หน่วย</th><th>NAV ปัจจุบัน</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th></tr></thead>
+        <tbody id="${port.id}-stock-nav-body"></tbody>
+      </table></div>
+      <div style="padding:10px 14px;border-top:1px solid var(--bd2);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="${port.id}-sft" placeholder="Ticker กองทุน" style="width:130px;text-transform:uppercase">
+        <input type="text" id="${port.id}-sfn" placeholder="ชื่อกองทุน" style="width:180px">
+        <input type="number" id="${port.id}-sfq" placeholder="จำนวนหน่วย" style="width:110px" step="0.0001">
+        <input type="number" id="${port.id}-sfp" placeholder="ต้นทุน/หน่วย (฿)" style="width:130px" step="0.0001">
+        <button class="btn btn-p btn-sm" onclick="addSnapStock('${port.id}')">+ เพิ่มกองทุน</button>
+      </div>
     </div>
 
     <div class="card" style="margin-bottom:16px">

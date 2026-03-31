@@ -151,6 +151,30 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 .hm-tk{font-family:var(--mono);font-size:10px;font-weight:500;margin-bottom:2px}
 .hm-pct{font-family:var(--mono);font-size:12px;font-weight:600}
 
+/* STOCK CHART MODAL */
+.stock-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:600;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s;pointer-events:none}
+.stock-modal-bg.on{opacity:1;pointer-events:all}
+.stock-modal{background:var(--surface);border-radius:var(--r);box-shadow:0 8px 48px rgba(0,0,0,.2);width:100%;max-width:680px;max-height:90vh;overflow:hidden;transform:translateY(16px);transition:transform .25s;display:flex;flex-direction:column}
+.stock-modal-bg.on .stock-modal{transform:translateY(0)}
+.sm-head{padding:16px 20px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:12px}
+.sm-ticker{font-family:var(--mono);font-size:16px;font-weight:600;background:var(--blue-bg);color:var(--blue);padding:4px 12px;border-radius:20px}
+.sm-name{font-size:14px;color:var(--tx2);flex:1}
+.sm-price{font-family:var(--mono);font-size:18px;font-weight:600}
+.sm-change{font-family:var(--mono);font-size:12px;padding:3px 8px;border-radius:20px;margin-left:4px}
+.sm-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--tx2);padding:4px 8px;border-radius:6px;margin-left:8px}
+.sm-close:hover{background:var(--s2);color:var(--tx)}
+.sm-range-bar{display:flex;gap:4px;padding:10px 20px;border-bottom:1px solid var(--bd2);background:var(--s2)}
+.sm-range-btn{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--tx2);transition:all .15s;font-family:var(--mono)}
+.sm-range-btn:hover{background:var(--bd2);color:var(--tx)}
+.sm-range-btn.on{background:var(--blue);color:#fff}
+.sm-body{padding:16px 20px;flex:1;overflow-y:auto}
+.sm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.sm-stat{background:var(--s2);border-radius:var(--r2);padding:10px 12px}
+.sm-stat-lbl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.sm-stat-val{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--tx)}
+.sm-chart-wrap{position:relative;height:240px;margin-bottom:4px}
+.sm-loading{display:flex;align-items:center;justify-content:center;height:240px;color:var(--tx3);font-size:13px;gap:10px}
+
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px}
 .modal{background:var(--surface);border-radius:var(--r);padding:24px;max-width:440px;width:100%;box-shadow:var(--sh2)}
@@ -1687,6 +1711,145 @@ document.addEventListener('click',e=>{if(e.target.classList.contains('modal-bg')
 // Init
 document.getElementById('tx-date') && (document.getElementById('tx-date').value=new Date().toISOString().split('T')[0]);
 updateSbBadges();
+
+// ══════════════════════════════════════════════════
+// STOCK CHART MODAL
+// ══════════════════════════════════════════════════
+let smChart=null,currentModalTicker=null,currentModalType=null;
+
+function openStockModal(ticker,name,portType){
+  currentModalTicker=ticker; currentModalType=portType;
+  document.getElementById('stock-modal-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+  document.getElementById('sm-ticker').textContent=ticker;
+  document.getElementById('sm-name').textContent=name||ticker;
+  const portId=portfolios.find(p=>p.stocks.some(s=>s.ticker===ticker))?.id;
+  const p=portId?prices[ticker+'_'+portId]:null;
+  const priceEl=document.getElementById('sm-price');
+  const changeEl=document.getElementById('sm-change');
+  if(p){
+    const isTHB=portType!=='realtime_us';
+    priceEl.textContent=isTHB?'฿'+fn(p.price):'$'+fn(p.price,2);
+    if(p.prevClose){
+      const chg=(p.price-p.prevClose)/p.prevClose*100;
+      changeEl.textContent=(chg>=0?'▲':'▼')+Math.abs(chg).toFixed(2)+'%';
+      changeEl.className='sm-change '+(chg>=0?'pos':'neg');
+      changeEl.style.background=chg>=0?'var(--green-bg)':'var(--red-bg)';
+    }
+  } else { priceEl.textContent='—'; changeEl.textContent=''; }
+  document.querySelectorAll('.sm-range-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+  loadStockChart(ticker,portType,'5d');
+}
+
+function closeStockModal(e){
+  if(e&&e.target!==document.getElementById('stock-modal-bg')) return;
+  document.getElementById('stock-modal-bg').classList.remove('on');
+  document.body.style.overflow='';
+  if(smChart){smChart.destroy();smChart=null;}
+}
+
+function setRange(range,btn){
+  document.querySelectorAll('.sm-range-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(currentModalTicker) loadStockChart(currentModalTicker,currentModalType,range);
+}
+
+async function loadStockChart(ticker,portType,range){
+  const loading=document.getElementById('sm-loading');
+  const canvas=document.getElementById('sm-chart');
+  const statsEl=document.getElementById('sm-stats');
+  loading.style.display='flex'; canvas.style.display='none'; statsEl.innerHTML='';
+
+  let sym=ticker.toUpperCase();
+  if(!sym.includes('.')&&!sym.includes('=')&&portType!=='realtime_us') sym+='.BK';
+
+  const iMap={'5d':'15m','1mo':'1d','3mo':'1d','6mo':'1d','1y':'1wk','2y':'1wk','5y':'1mo'};
+  const interval=iMap[range]||'1d';
+
+  try{
+    const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=${interval}&range=${range}`;
+    const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res=await fetch(proxy,{signal:AbortSignal.timeout(12000)});
+    const json=await res.json();
+    const data=JSON.parse(json.contents);
+    const result=data?.chart?.result?.[0];
+    if(!result) throw new Error('ไม่พบข้อมูล');
+
+    const meta=result.meta;
+    const timestamps=result.timestamp||[];
+    const q=result.indicators?.quote?.[0]||{};
+    const closes=q.close||[], highs=q.high||[], lows=q.low||[];
+
+    const valid=timestamps.map((t,i)=>({t:new Date(t*1000),c:closes[i],h:highs[i],l:lows[i]})).filter(d=>d.c!=null);
+    if(!valid.length) throw new Error('ไม่มีข้อมูลราคา');
+
+    const isTHB=portType!=='realtime_us'||meta.currency==='THB';
+    const fmtP=v=>isTHB?'฿'+fn(v,2):'$'+fn(v,2);
+    const first=valid[0].c, last=valid[valid.length-1].c;
+    const high=Math.max(...valid.map(d=>d.h).filter(Boolean));
+    const low=Math.min(...valid.map(d=>d.l).filter(Boolean));
+    const chgPct=(last-first)/first*100;
+    const isPos=last>=first;
+
+    statsEl.innerHTML=[
+      {lbl:'ราคาล่าสุด',val:fmtP(last)},
+      {lbl:'เปลี่ยน '+range.toUpperCase(),val:(chgPct>=0?'+':'')+chgPct.toFixed(2)+'%',color:isPos?'var(--green-tx)':'var(--red-tx)'},
+      {lbl:'High',val:fmtP(high)},
+      {lbl:'Low',val:fmtP(low)},
+    ].map(s=>`<div class="sm-stat"><div class="sm-stat-lbl">${s.lbl}</div><div class="sm-stat-val" style="${s.color?'color:'+s.color:''}">${s.val}</div></div>`).join('');
+
+    const labels=valid.map(d=>{
+      if(range==='5d') return d.t.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+      if(['1y','2y','5y'].includes(range)) return d.t.toLocaleDateString('th-TH',{month:'short',year:'2-digit'});
+      return d.t.toLocaleDateString('th-TH',{day:'numeric',month:'short'});
+    });
+
+    if(smChart){smChart.destroy();smChart=null;}
+    loading.style.display='none'; canvas.style.display='block';
+
+    const clr=isPos?'#30d158':'#ff3b30';
+    smChart=new Chart(canvas.getContext('2d'),{
+      type:'line',
+      data:{labels,datasets:[{
+        data:valid.map(d=>d.c),
+        borderColor:clr,borderWidth:2,fill:true,
+        backgroundColor:(ctx)=>{
+          const g=ctx.chart.ctx.createLinearGradient(0,0,0,240);
+          g.addColorStop(0,isPos?'rgba(48,209,88,0.15)':'rgba(255,59,48,0.15)');
+          g.addColorStop(1,'rgba(255,255,255,0)');
+          return g;
+        },
+        pointRadius:valid.length>60?0:3,pointHoverRadius:5,tension:0.3,
+      }]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            backgroundColor:'rgba(29,29,31,0.9)',titleColor:'#fff',bodyColor:'rgba(255,255,255,0.7)',padding:10,
+            callbacks:{label:ctx=>' '+fmtP(ctx.parsed.y)}
+          }
+        },
+        scales:{
+          x:{grid:{display:false},ticks:{maxTicksLimit:8,font:{size:10},color:'#aeaeb2',maxRotation:0}},
+          y:{position:'right',grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},color:'#aeaeb2',callback:v=>fmtP(v)}}
+        }
+      }
+    });
+
+  } catch(err){
+    loading.innerHTML=`<div style="text-align:center;color:var(--tx3);padding:20px">
+      <div style="font-size:28px;margin-bottom:8px">📊</div>
+      <div>โหลดกราฟไม่สำเร็จ</div>
+      <div style="font-size:11px;margin-top:4px;color:var(--tx3)">${err.message}</div>
+    </div>`;
+    loading.style.display='flex';
+  }
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeStockModal();});
+
 </script>
 
 <!-- OVERLAY -->
@@ -1861,6 +2024,36 @@ updateSbBadges();
         <div style="height:220px;position:relative"><canvas id="sector-pie"></canvas></div>
         <div id="sector-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start"></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- STOCK CHART MODAL -->
+<div class="stock-modal-bg" id="stock-modal-bg" onclick="closeStockModal(event)">
+  <div class="stock-modal">
+    <div class="sm-head">
+      <span class="sm-ticker" id="sm-ticker">—</span>
+      <span class="sm-name" id="sm-name">—</span>
+      <span class="sm-price" id="sm-price">—</span>
+      <span class="sm-change" id="sm-change">—</span>
+      <button class="sm-close" onclick="closeStockModal()">✕</button>
+    </div>
+    <div class="sm-range-bar">
+      <button class="sm-range-btn on" onclick="setRange('5d',this)">5D</button>
+      <button class="sm-range-btn" onclick="setRange('1mo',this)">1M</button>
+      <button class="sm-range-btn" onclick="setRange('3mo',this)">3M</button>
+      <button class="sm-range-btn" onclick="setRange('6mo',this)">6M</button>
+      <button class="sm-range-btn" onclick="setRange('1y',this)">1Y</button>
+      <button class="sm-range-btn" onclick="setRange('2y',this)">2Y</button>
+      <button class="sm-range-btn" onclick="setRange('5y',this)">5Y</button>
+    </div>
+    <div class="sm-body">
+      <div class="sm-stats" id="sm-stats"></div>
+      <div class="sm-chart-wrap">
+        <div class="sm-loading" id="sm-loading"><div class="spin"></div>กำลังโหลดกราฟ...</div>
+        <canvas id="sm-chart" style="display:none"></canvas>
+      </div>
+      <div style="font-size:10px;color:var(--tx3);text-align:right;margin-top:4px">ข้อมูลจาก Yahoo Finance · อาจมี delay</div>
     </div>
   </div>
 </div>

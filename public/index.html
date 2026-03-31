@@ -642,6 +642,10 @@ function portCost(port){
 }
 function portNet(port) {
   if (port.type==='snapshot') {
+    // If port has individual stocks with NAV, use stocks for calculation
+    if (port.stocks?.length) {
+      return port.stocks.reduce((s,x)=>s+(x.currentNav||x.buyPrice)*x.qty, 0) + (port.cash||0);
+    }
     if (!port.snapshots?.length) return 0;
     return port.snapshots[port.snapshots.length-1].value + (port.cash||0);
   }
@@ -649,6 +653,11 @@ function portNet(port) {
 }
 function portPnl(port) {
   if (port.type==='snapshot') {
+    if (port.stocks?.length) {
+      const curVal = port.stocks.reduce((s,x)=>s+(x.currentNav||x.buyPrice)*x.qty, 0);
+      const costVal = port.stocks.reduce((s,x)=>s+x.buyPrice*x.qty, 0);
+      return curVal - costVal;
+    }
     if (port.snapshots?.length<2) return 0;
     const last=port.snapshots[port.snapshots.length-1].value;
     const first=port.snapshots[0].value;
@@ -824,8 +833,8 @@ function buildDimeHTML(port){
       </div>
     </div>
 
-    <!-- Section 2: หุ้นสหรัฐ -->
-    <div class="card sens">
+    <!-- Section 2: หุ้นสหรัฐ (hidden if no USD stocks) -->
+    <div class="card sens" id="${port.id}-us-section" style="${port.stocks.filter(s=>s.currency==='USD').length===0?'display:none':''}">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,113,227,.08),transparent)">
         <div class="card-ti" style="color:var(--blue)">🇺🇸 หุ้นสหรัฐ (USD → THB)</div>
         <div style="font-size:11px;color:var(--tx3)">ราคา USD realtime · แปลง × <span id="${port.id}-fxshow">${usdThbRate.toFixed(2)}</span> = THB</div>
@@ -924,6 +933,10 @@ function renderDime(portId){
       </tr>`;
     }).join('') : '<tr><td colspan="8" class="empty">ยังไม่มีกองทุน</td></tr>';
   }
+
+  // Show/hide US section based on whether there are USD stocks
+  const usSec=document.getElementById(portId+'-us-section');
+  if(usSec) usSec.style.display=usStocks.length?'':'none';
 
   // Render US stocks table
   const ub=el('us-body');

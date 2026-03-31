@@ -308,6 +308,7 @@ const STOCK_DB = {
   'LHSC.BK':{name:'LH Shopping Center',sector:'Healthcare'},
   LHSC:{name:'LH Shopping Center',sector:'Healthcare'},
   LHHOTEL:{name:'LH Hotel',sector:'Consumer'},
+  'MC.BK':{name:'MC Group',sector:'Consumer'},
   MC:{name:'MC Group',sector:'Consumer'},
   PTT:{name:'PTT',sector:'Energy'},PTTEP:{name:'PTTEP',sector:'Energy'},
   KBANK:{name:'กสิกรไทย',sector:'Finance'},SCB:{name:'ไทยพาณิชย์',sector:'Finance'},
@@ -330,7 +331,7 @@ const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#f
 // ══════════════════════════════════════════════════
 // VERSION RESET — bump version string when presets change
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250401_4';
+const DATA_VER = 'v20250401_5';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -376,7 +377,7 @@ if (!portfolios) {
       stocks: [
         {id:1, ticker:'LHHOTEL', qty:1800, buyPrice:13.31, sector:'Consumer',   underlying:'LH Hotel'},
         {id:2, ticker:'LHSC.BK', qty:1800, buyPrice:11.21, sector:'Healthcare', underlying:'LH Shopping Center'},
-        {id:3, ticker:'MC',      qty:2000, buyPrice:10.88, sector:'Consumer',   underlying:'MC Group'},
+        {id:3, ticker:'MC.BK',   qty:2000, buyPrice:10.88, sector:'Consumer',   underlying:'MC Group'},
       ]
     },
     { id: 'set3', name: 'DAOL', type: 'realtime_th', color: '#7c3aed', cash: 0, snapshots: [],

@@ -20,26 +20,110 @@ export async function onRequest(context) {
     'Referer': 'https://finance.yahoo.com',
   };
 
-  // Skip Thai mutual funds
-  if (t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') || t.startsWith('BGOLD') || t.startsWith('RMF') || t.startsWith('ESGSI')) {
-    return new Response(JSON.stringify({ error: 'mutual fund — no realtime price', ticker: t }), { status: 404, headers: cors });
+  // ── THAI MUTUAL FUNDS → Settrade scrape ──
+  // Detect: contains letters+hyphen pattern like BGOLDRMF, RMFBINNOTECH, ESGSI, K-GA-A, MEGA
+  const isMutualFund = (
+    t.startsWith('K-') || t.startsWith('MEGA') ||
+    t.includes('RMF') || t.includes('LTF') || t.includes('SSF') ||
+    t.includes('ESG') || t.includes('THAIESG') ||
+    /^B-/.test(t) || /^KFSDIV/.test(t) || /^TMBG/.test(t) ||
+    /^[A-Z]{2,}-[A-Z]/.test(t)  // pattern like B-SI-THAIESG
+  );
+
+  if (isMutualFund) {
+    return await fetchSettradeFundNAV(t, cors);
   }
 
-  // Determine Yahoo Finance symbol
+  // ── FX pairs ──
+  if (t.includes('=X')) {
+    return await fetchYahoo(t, cors, yHeaders);
+  }
+
+  // ── Determine Yahoo Finance symbol ──
   let sym;
   if (t.endsWith('.BK')) {
-    sym = t;                        // SET stock: PTT.BK
-  } else if (t.includes('=X')) {
-    sym = t;                        // FX: USDTHB=X
+    sym = t;
   } else if (/\d{2,}$/.test(t)) {
-    sym = t + '.BK';                // SET DR: AMZN80 → AMZN80.BK
+    sym = t + '.BK';        // SET DR: AMZN80 → AMZN80.BK
   } else if (t.includes('.')) {
-    sym = t.replace(/\./g, '-');    // US dotted: BRK.B → BRK-B
+    sym = t.replace(/\./g, '-');  // BRK.B → BRK-B
   } else if (/^[A-Z]{1,5}$/.test(t)) {
-    sym = t;                        // US clean: VOO, SCHD, JEPQ
+    sym = t;                // US stocks: VOO, SCHD
   } else {
-    sym = t + '.BK';                // Default: Thai SET
+    sym = t + '.BK';        // Default: Thai SET stock
   }
+
+  return await fetchYahoo(sym, cors, yHeaders, t);
+}
+
+// ── Fetch NAV from Settrade ──
+async function fetchSettradeFundNAV(fundCode, cors) {
+  const stHeaders = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml',
+    'Accept-Language': 'th-TH,th;q=0.9,en;q=0.8',
+    'Referer': 'https://www.settrade.com/',
+  };
+
+  try {
+    const res = await fetch(
+      `https://www.settrade.com/th/mutualfund/quote/${encodeURIComponent(fundCode)}/overview`,
+      { headers: stHeaders, cf: { cacheTtl: 3600 } }
+    );
+
+    if (!res.ok) throw new Error(`Settrade returned ${res.status}`);
+
+    const html = await res.text();
+
+    // Parse NAV from embedded JS data — pattern: navPerUnit:12.3456
+    const navMatch = html.match(/navPerUnit["\s:]+(\d+\.?\d*)/);
+    const dateMatch = html.match(/navDate["\s:]*"([^"]+)"/);
+    const prevMatch = html.match(/previousNavPerUnit["\s:]+(\d+\.?\d*)/);
+
+    if (navMatch) {
+      const nav = parseFloat(navMatch[1]);
+      const prev = prevMatch ? parseFloat(prevMatch[1]) : null;
+      const navDate = dateMatch ? dateMatch[1] : null;
+
+      return new Response(JSON.stringify({
+        ticker: fundCode,
+        symbol: fundCode,
+        price: nav,
+        prevClose: prev,
+        currency: 'THB',
+        navDate,
+        source: 'settrade',
+        timestamp: Date.now(),
+      }), { headers: cors });
+    }
+
+    // Fallback: try another pattern
+    const navMatch2 = html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/);
+    if (navMatch2) {
+      return new Response(JSON.stringify({
+        ticker: fundCode,
+        symbol: fundCode,
+        price: parseFloat(navMatch2[1]),
+        currency: 'THB',
+        source: 'settrade',
+        timestamp: Date.now(),
+      }), { headers: cors });
+    }
+
+    throw new Error('NAV not found in page');
+
+  } catch (e) {
+    return new Response(JSON.stringify({
+      error: 'Settrade NAV fetch failed: ' + e.message,
+      ticker: fundCode,
+      hint: 'ตรวจสอบชื่อกองทุนที่ settrade.com/th/mutualfund/quote/' + fundCode + '/overview'
+    }), { status: 502, headers: cors });
+  }
+}
+
+// ── Fetch from Yahoo Finance ──
+async function fetchYahoo(sym, cors, yHeaders, originalTicker) {
+  const t = originalTicker || sym;
 
   async function fetchV8(symbol) {
     const res = await fetch(

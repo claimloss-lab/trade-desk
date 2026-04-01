@@ -275,6 +275,9 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
       <span id="fx-rate" style="color:var(--tx3);margin-right:8px;font-size:10px">USD/THB —</span>
       <span id="last-up">กำลังโหลด...</span>
     </div>
+    <button class="hbg-btn" onclick="toggleSidebar()" title="เมนู">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -417,7 +420,7 @@ if (!portfolios) {
   portfolios = _buildDefaultPortfolios();
   savePorts();
 }
-function _buildDefaultPortfolios(){ return [
+function _buildDefaultPortfolios(){ const p = [
     { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
     { id: 'set1', name: 'PI DCA', type: 'realtime_th', color: '#30d158', cash: 6954.08, snapshots: [],
       stocks: [
@@ -484,12 +487,12 @@ function _buildDefaultPortfolios(){ return [
     {ticker:'QQQM19',qty:1500,buyPrice:15.95},{ticker:'SNOW06',qty:15950,buyPrice:3.07},
     {ticker:'SONY80',qty:1550,buyPrice:4.20},
   ];
-  portfolios[0].stocks = PRESET.map((s,i)=>({
+  p[0].stocks = PRESET.map((s,i)=>({
     ...s, id:i+1,
     sector: STOCK_DB[s.ticker]?.sector||'Other',
     underlying: STOCK_DB[s.ticker]?.name||s.ticker,
   }));
-  return portfolios;
+  return p;
 }
 
 function savePorts() {

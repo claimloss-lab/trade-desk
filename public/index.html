@@ -568,8 +568,7 @@ function buildSymbol(ticker, portType) {
 async function fetchPrice(ticker, portType) {
   const sym = buildSymbol(ticker, portType);
   if (!sym) return null;
-  // For Mutual Funds (no realtime price available) — skip fetch
-  if (ticker.includes('-A') || ticker.includes('(A)')) return null;
+  // Mutual funds now fetched via Settrade in Worker
   // Determine API ticker: US stocks use raw ticker, others get .BK
   const apiTicker = portType === 'realtime_us' ? ticker : ticker;
   try {
@@ -592,8 +591,7 @@ async function refreshAll(silent=false) {
   const rtPorts = portfolios.filter(p=>p.type==='realtime_dr'||p.type==='realtime_th'||p.type==='realtime_us'||p.type==='dime_mixed');
   await Promise.all(rtPorts.flatMap(port =>
     port.stocks.map(async s => {
-      // Skip THB mutual funds in dime_mixed
-      if(port.type==='dime_mixed' && (s.currency||'THB')==='THB') return;
+      // For dime_mixed THB funds → fetch from Settrade via Worker
       const fetchType = port.type==='dime_mixed' ? 'realtime_us' : port.type;
       const r = await fetchPrice(s.ticker, fetchType);
       if (r) prices[s.ticker+'_'+port.id] = r;
@@ -925,6 +923,12 @@ function renderDime(portId){
   if(fb){
     fb.innerHTML=fundStocks.length?fundStocks.map(s=>{
       const val=s.buyPrice*s.qty;
+      // Use live price from Settrade if available, else currentNav, else buyPrice
+      const livePrice = prices[s.ticker+'_'+portId];
+      if(livePrice && livePrice.price) {
+        s.currentNav = livePrice.price;
+        s.navDate = livePrice.navDate || new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+      }
       const curNav = s.currentNav || s.buyPrice;
       const fundVal = curNav * s.qty;
       const fundPnl = (curNav - s.buyPrice) * s.qty;

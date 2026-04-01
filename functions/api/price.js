@@ -80,21 +80,29 @@ async function fetchSettradeFundNAV(fundCode, cors, url) {
     const dateMatch = html.match(/navDate["\s:]*"([^"]+)"/);
     const prevMatch = html.match(/previousNavPerUnit["\s:]+(\d+\.?\d*)/);
 
-    // Debug mode — return raw HTML snippet for inspection
-    const isDebug = url && url.searchParams && url.searchParams.get('debug') === '1';
-    if (isDebug) {
-      // Find section around nav data
-      const idx30 = html.indexOf('30.');
-      const idx22 = html.indexOf('22.');
-      const snippet = html.substring(Math.max(0, Math.min(idx30,idx22)-200), Math.min(idx30||idx22,idx22||idx30)+500);
+    // Debug mode
+    const debugMode = url && url.searchParams && url.searchParams.get('debug');
+    if (debugMode === '1') {
       return new Response(JSON.stringify({
         debug: true,
         htmlLength: html.length,
-        navMatch: navMatch ? navMatch[0] : null,
-        navMatch2: html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/) ? html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/)[0] : null,
-        snippet30: html.indexOf('30.') > 0 ? html.substring(html.indexOf('30.')-100, html.indexOf('30.')+100) : null,
-        allNavMatches: [...html.matchAll(/navPerUnit[^,}\s]*[\s:]*(\d+\.?\d*)/g)].map(m=>m[0]).slice(0,5),
+        allNavMatches: [...html.matchAll(/navPerUnit[^,}\s]*[\s:]*([\d.]+)/g)].map(m=>m[0]).slice(0,5),
       }), { headers: cors });
+    }
+    if (debugMode === '2') {
+      // Search for the value 30. pattern near key fields
+      const fields = ['latestNAV','currentNAV','lastNAV','navPrice','unitPrice','offer','bid','last','close'];
+      const found = {};
+      fields.forEach(f => {
+        const m = html.match(new RegExp(f+'["\':\\s]*([\d.]+)'));
+        if(m) found[f] = m[1];
+      });
+      // Also find all numbers between 28-35 (likely NAV range for BGOLDRMF)
+      const navRange = [...html.matchAll(/(?:30|31|29|28|32)\.(\d{4})/g)].map(m=>m[0]).slice(0,10);
+      // Find context around 30.6854
+      const idx = html.indexOf('30.6');
+      const snippet = idx > 0 ? html.substring(idx-150, idx+100) : 'not found';
+      return new Response(JSON.stringify({debug:2, found, navRange, snippet}), { headers: cors });
     }
 
     if (navMatch) {

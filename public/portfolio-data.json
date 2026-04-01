@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-01T06:04:26.392Z",
+  "exportDate": "2026-04-01T06:04:58.090Z",
   "exportDateTH": "1 เมษายน 2569 เวลา 13:04",
   "portfolios": [
     {
@@ -470,7 +470,9 @@
           "buyPrice": 10.39,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 10.5174,
+          "navDate": "1 เม.ย. 69"
         }
       ]
     }
@@ -483,6 +485,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 0,
-    "totalNetWorth": "฿1,367,113.68"
+    "totalNetWorth": "฿1,367,325.80"
   }
 }

@@ -20,172 +20,43 @@ export async function onRequest(context) {
     'Referer': 'https://finance.yahoo.com',
   };
 
-  // ── THAI MUTUAL FUNDS → Settrade scrape ──
-  // Detect: contains letters+hyphen pattern like BGOLDRMF, RMFBINNOTECH, ESGSI, K-GA-A, MEGA
-  const isMutualFund = (
-    t.startsWith('K-') || t.startsWith('MEGA') ||
+  // Thai mutual funds — no public API, update NAV manually via ✎ button
+  const isMutualFund =
+    t.startsWith('K-') || t.startsWith('MEGA') || t.startsWith('B-') ||
     t.includes('RMF') || t.includes('LTF') || t.includes('SSF') ||
     t.includes('ESG') || t.includes('THAIESG') ||
-    /^B-/.test(t) || /^KFSDIV/.test(t) || /^TMBG/.test(t) ||
-    /^[A-Z]{2,}-[A-Z]/.test(t)  // pattern like B-SI-THAIESG
-  );
+    /^[A-Z]{2,}-[A-Z]/.test(t);
 
   if (isMutualFund) {
-    return await fetchSettradeFundNAV(t, cors, url);
+    return new Response(
+      JSON.stringify({ error: 'mutual fund — update NAV manually via ✎ button', ticker: t }),
+      { status: 404, headers: cors }
+    );
   }
 
-  // ── FX pairs ──
+  // FX pairs e.g. USDTHB=X
   if (t.includes('=X')) {
-    return await fetchYahoo(t, cors, yHeaders);
+    return await fetchYahoo(t, t, cors, yHeaders);
   }
 
-  // ── Determine Yahoo Finance symbol ──
+  // Determine Yahoo Finance symbol
   let sym;
   if (t.endsWith('.BK')) {
-    sym = t;
+    sym = t;                        // SET stock: PTT.BK
   } else if (/\d{2,}$/.test(t)) {
-    sym = t + '.BK';        // SET DR: AMZN80 → AMZN80.BK
+    sym = t + '.BK';                // SET DR: AMZN80 → AMZN80.BK
   } else if (t.includes('.')) {
-    sym = t.replace(/\./g, '-');  // BRK.B → BRK-B
+    sym = t.replace(/\./g, '-');    // US dotted: BRK.B → BRK-B
   } else if (/^[A-Z]{1,5}$/.test(t)) {
-    sym = t;                // US stocks: VOO, SCHD
+    sym = t;                        // US stocks: VOO, SCHD, JEPQ
   } else {
-    sym = t + '.BK';        // Default: Thai SET stock
+    sym = t + '.BK';                // Default: Thai SET stock
   }
 
-  return await fetchYahoo(sym, cors, yHeaders, t);
+  return await fetchYahoo(sym, t, cors, yHeaders);
 }
 
-// ── Fetch NAV from Settrade API ──
-async function fetchSettradeFundNAV(fundCode, cors, url) {
-  const debugMode = url && url.searchParams && url.searchParams.get('debug');
-
-  const stHeaders = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Language': 'th-TH,th;q=0.9,en;q=0.8',
-    'Referer': 'https://www.settrade.com/th/mutualfund/quote/'+fundCode+'/overview',
-    'Origin': 'https://www.settrade.com',
-  };
-
-  // Try Settrade internal API endpoints
-  const apiEndpoints = [
-    `https://api.settrade.com/api/mutualfund/info/${fundCode}`,
-    `https://www.settrade.com/api/set/mutualfund/${fundCode}/info`,
-    `https://www.settrade.com/api/mutualfund/${fundCode}`,
-    `https://www.settrade.com/_next/data/latest/th/mutualfund/quote/${fundCode}/overview.json`,
-  ];
-
-  if (debugMode === '3') {
-    const results = {};
-    for (const ep of apiEndpoints) {
-      try {
-        const r = await fetch(ep, { headers: stHeaders, signal: AbortSignal.timeout(5000) });
-        results[ep] = { status: r.status, ok: r.ok };
-        if (r.ok) {
-          const txt = await r.text();
-          results[ep].preview = txt.substring(0, 200);
-        }
-      } catch(e) {
-        results[ep] = { error: e.message };
-      }
-    }
-    return new Response(JSON.stringify({ debug: 3, results }), { headers: cors });
-  }
-
-  // Try each API endpoint
-  for (const ep of apiEndpoints) {
-    try {
-      const r = await fetch(ep, { headers: stHeaders, signal: AbortSignal.timeout(5000), cf: { cacheTtl: 3600 } });
-      if (!r.ok) continue;
-      const data = await r.json();
-      // Try to find NAV in response
-      const nav = data?.navPerUnit || data?.nav || data?.lastNav ||
-                  data?.data?.navPerUnit || data?.pageProps?.fundInfo?.navPerUnit ||
-                  data?.mutualFundInfo?.navPerUnit;
-      if (nav && parseFloat(nav) > 0) {
-        return new Response(JSON.stringify({
-          ticker: fundCode, symbol: fundCode,
-          price: parseFloat(nav), currency: 'THB',
-          source: 'settrade-api', endpoint: ep, timestamp: Date.now(),
-        }), { headers: cors });
-      }
-    } catch {}
-  }
-
-  // Fallback: scrape HTML page
-  const htmlHeaders = { ...stHeaders, 'Accept': 'text/html,application/xhtml+xml' };
-
-  try {
-    const res = await fetch(
-      `https://www.settrade.com/th/mutualfund/quote/${encodeURIComponent(fundCode)}/overview`,
-      { headers: htmlHeaders, cf: { cacheTtl: 3600 } }
-    );
-
-    if (!res.ok) throw new Error(`Settrade returned ${res.status}`);
-
-    const html = await res.text();
-
-    // Parse NAV from embedded JS data — pattern: navPerUnit:12.3456
-    const navMatch = html.match(/navPerUnit["\s:]+(\d+\.?\d*)/);
-    const dateMatch = html.match(/navDate["\s:]*"([^"]+)"/);
-    const prevMatch = html.match(/previousNavPerUnit["\s:]+(\d+\.?\d*)/);
-
-    const debugMode2 = url && url.searchParams && url.searchParams.get('debug');
-    if (debugMode2 === '1' || debugMode2 === '2') {
-      const allMatches = [...html.matchAll(/navPerUnit[^,}]{0,30}/g)].map(m=>m[0]).slice(0,5);
-      const navRange = [...html.matchAll(/(?:30|31|29|28|32)\.\d{4}/g)].map(m=>m[0]).slice(0,10);
-      return new Response(JSON.stringify({debug: debugMode2, htmlLength: html.length, allMatches, navRange}), { headers: cors });
-    }
-
-    if (navMatch) {
-      const nav = parseFloat(navMatch[1]);
-      const prev = prevMatch ? parseFloat(prevMatch[1]) : null;
-      const navDate = dateMatch ? dateMatch[1] : null;
-
-      return new Response(JSON.stringify({
-        ticker: fundCode,
-        symbol: fundCode,
-        price: nav,
-        prevClose: prev,
-        currency: 'THB',
-        navDate,
-        source: 'settrade',
-        timestamp: Date.now(),
-      }), { headers: cors });
-    }
-
-    // Fallback: try more patterns
-    const patterns = [
-      /"navPerUnit"[:\s]*(\d+\.?\d*)/,
-      /navPerUnit['":\s]+(\d+\.?\d*)/,
-      /"currentNAV"[:\s]*(\d+\.?\d*)/,
-      /current.nav.{0,20}(\d{2,}\.\d+)/i,
-    ];
-    for (const pat of patterns) {
-      const m = html.match(pat);
-      if (m) {
-        return new Response(JSON.stringify({
-          ticker: fundCode, symbol: fundCode,
-          price: parseFloat(m[1]), currency: 'THB',
-          source: 'settrade', pattern: pat.toString(), timestamp: Date.now(),
-        }), { headers: cors });
-      }
-    }
-
-    throw new Error('NAV not found in page (length=' + html.length + ')');
-
-  } catch (e) {
-    return new Response(JSON.stringify({
-      error: 'Settrade NAV fetch failed: ' + e.message,
-      ticker: fundCode,
-      hint: 'ตรวจสอบชื่อกองทุนที่ settrade.com/th/mutualfund/quote/' + fundCode + '/overview'
-    }), { status: 502, headers: cors });
-  }
-}
-
-// ── Fetch from Yahoo Finance ──
-async function fetchYahoo(sym, cors, yHeaders, originalTicker) {
+async function fetchYahoo(sym, originalTicker, cors, yHeaders) {
   const t = originalTicker || sym;
 
   async function fetchV8(symbol) {
@@ -197,7 +68,14 @@ async function fetchYahoo(sym, cors, yHeaders, originalTicker) {
     const data = await res.json();
     const meta = data?.chart?.result?.[0]?.meta;
     if (!meta?.regularMarketPrice) return null;
-    return { ticker: t, symbol, price: meta.regularMarketPrice, prevClose: meta.chartPreviousClose || meta.previousClose || null, currency: meta.currency || 'THB', marketState: meta.marketState || 'UNKNOWN', timestamp: Date.now() };
+    return {
+      ticker: t, symbol,
+      price: meta.regularMarketPrice,
+      prevClose: meta.chartPreviousClose || meta.previousClose || null,
+      currency: meta.currency || 'THB',
+      marketState: meta.marketState || 'UNKNOWN',
+      timestamp: Date.now(),
+    };
   }
 
   async function fetchV7(symbol) {
@@ -209,11 +87,21 @@ async function fetchYahoo(sym, cors, yHeaders, originalTicker) {
     const data = await res.json();
     const q = data?.quoteResponse?.result?.[0];
     if (!q?.regularMarketPrice) return null;
-    return { ticker: t, symbol, price: q.regularMarketPrice, prevClose: q.regularMarketPreviousClose || null, currency: q.currency || 'THB', marketState: q.marketState || 'UNKNOWN', timestamp: Date.now() };
+    return {
+      ticker: t, symbol,
+      price: q.regularMarketPrice,
+      prevClose: q.regularMarketPreviousClose || null,
+      currency: q.currency || 'THB',
+      marketState: q.marketState || 'UNKNOWN',
+      timestamp: Date.now(),
+    };
   }
 
   try { const r = await fetchV8(sym); if (r) return new Response(JSON.stringify(r), { headers: cors }); } catch {}
   try { const r = await fetchV7(sym); if (r) return new Response(JSON.stringify(r), { headers: cors }); } catch {}
 
-  return new Response(JSON.stringify({ error: 'Price not found', ticker: t, symbol: sym }), { status: 502, headers: cors });
+  return new Response(
+    JSON.stringify({ error: 'Price not found', ticker: t, symbol: sym }),
+    { status: 502, headers: cors }
+  );
 }

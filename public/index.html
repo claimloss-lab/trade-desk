@@ -384,9 +384,9 @@ const SECTOR_COLORS = {
 const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
 
 // ══════════════════════════════════════════════════
-// VERSION RESET — bump version string when presets change
+// VERSION & BOOT
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250401_8';
+const DATA_VER = 'v20250401_9';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -401,6 +401,7 @@ const DATA_VER = 'v20250401_8';
 // STATE
 // ══════════════════════════════════════════════════
 let portfolios = JSON.parse(localStorage.getItem('td_ports') || 'null');
+function getDefaultPortfolios(){ return JSON.parse(localStorage.getItem('td_ports') || 'null') || _buildDefaultPortfolios(); }
 let prices = {};
 let sparkH = {};
 let currency = localStorage.getItem('td_cur') || 'THB';
@@ -413,7 +414,10 @@ let pinOk = sessionStorage.getItem('td_pin') === '1';
 
 // Init default portfolios if first time
 if (!portfolios) {
-  portfolios = [
+  portfolios = _buildDefaultPortfolios();
+  savePorts();
+}
+function _buildDefaultPortfolios(){ return [
     { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
     { id: 'set1', name: 'PI DCA', type: 'realtime_th', color: '#30d158', cash: 6954.08, snapshots: [],
       stocks: [
@@ -485,10 +489,13 @@ if (!portfolios) {
     sector: STOCK_DB[s.ticker]?.sector||'Other',
     underlying: STOCK_DB[s.ticker]?.name||s.ticker,
   }));
-  savePorts();
+  return portfolios;
 }
 
-function savePorts() { localStorage.setItem('td_ports', JSON.stringify(portfolios)); }
+function savePorts() {
+  localStorage.setItem('td_ports', JSON.stringify(portfolios));
+  scheduleGHSave();
+}
 function getPort(id) { return portfolios.find(p=>p.id===id); }
 
 // ══════════════════════════════════════════════════
@@ -1535,14 +1542,45 @@ document.addEventListener('click',e=>{ if(e.target.classList.contains('modal-bg'
 // ══════════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════════
-initPin();
-setCur(currency);
-buildNav();
-buildPanels();
-renderOverview();
-renderAll();
-refreshAll(false);
-setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
+// Boot — load from portfolio-data.json if localStorage is empty
+async function boot(){
+  initPin();
+  setCur(currency);
+
+  if(!portfolios){
+    // Try loading from portfolio-data.json (GitHub preset)
+    try{
+      const res = await fetch('/portfolio-data.json', {cache:'no-cache'});
+      if(res.ok){
+        const data = await res.json();
+        if(data.portfolios?.length){
+          portfolios = data.portfolios;
+          transactions = data.transactions||[];
+          alerts = data.alerts||[];
+          notes = data.notes||[];
+          dividends = data.dividends||[];
+          savePorts(); saveFeatures();
+          showToast('✓ โหลดข้อมูลจาก portfolio-data.json สำเร็จ');
+        }
+      }
+    } catch(e){ console.log('No portfolio-data.json found, using built-in preset'); }
+
+    // If still null (no JSON file), use hardcoded preset
+    if(!portfolios){
+      portfolios = getDefaultPortfolios();
+      savePorts();
+    }
+  }
+
+  updateGHBadge();
+  buildNav();
+  buildPanels();
+  renderOverview();
+  renderAll();
+  refreshAll(false);
+  setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
+}
+boot();
 
 // ══════════════════════════════════════════════════
 // SIDEBAR
@@ -1557,6 +1595,7 @@ function saveFeatures(){
   localStorage.setItem('td_alerts',JSON.stringify(alerts));
   localStorage.setItem('td_notes',JSON.stringify(notes));
   localStorage.setItem('td_divs',JSON.stringify(dividends));
+  scheduleGHSave();
 }
 function toggleSidebar(){
   sidebarOpen=!sidebarOpen;
@@ -1638,6 +1677,216 @@ function updateSbBadges(){
   document.getElementById('sb-al-count') && (document.getElementById('sb-al-count').textContent=alerts.length);
   document.getElementById('sb-note-count') && (document.getElementById('sb-note-count').textContent=notes.length);
 }
+function buildBackupData(){
+  return {
+    version: '1.0',
+    exportDate: new Date().toISOString(),
+    exportDateTH: new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    portfolios, transactions, alerts, notes, dividends,
+    summary:{
+      totalPorts:portfolios.length,
+      totalStocks:portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0),
+      totalTransactions:transactions.length,
+      totalNetWorth:fm(totalNetWorth()),
+    }
+  };
+}
+
+function exportBackup(){
+  const backup = buildBackupData();
+  const json = JSON.stringify(backup, null, 2);
+  const date = new Date().toISOString().split('T')[0];
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  a.download = 'tradedesk-backup-' + date + '.json';
+  a.click();
+  closeSidebar();
+  showToast('✓ Export สำเร็จ!');
+}
+
+function exportAsPreset(){
+  const backup = buildBackupData();
+  const json = JSON.stringify(backup, null, 2);
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  a.download = 'portfolio-data.json';
+  a.click();
+  closeSidebar();
+  showToast('✓ ดาวน์โหลด portfolio-data.json แล้ว — อัปโหลดขึ้น GitHub ที่ public/portfolio-data.json');
+}
+
+function importBackup(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      // Validate
+      if(!data.portfolios || !Array.isArray(data.portfolios)){
+        alert('ไฟล์ไม่ถูกต้อง — ต้องเป็น TradeDesk backup file');
+        return;
+      }
+      const portCount = data.portfolios.length;
+      const stockCount = data.portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0);
+      const txCount = (data.transactions||[]).length;
+      const exportDate = data.exportDateTH || data.exportDate || 'ไม่ทราบ';
+      const msg = "นำเข้าข้อมูลจาก backup นี้?" + "\n\n" +
+        "วันที่ export: " + exportDate + "\n" +
+        portCount + " พอร์ต · " + stockCount + " หุ้น · " + txCount + " รายการซื้อ-ขาย" + "\n\n" +
+        "ข้อมูลปัจจุบันจะถูกแทนที่ทั้งหมด";
+      if(!confirm(msg)) return;
+      // Restore
+      localStorage.setItem('td_ports',  JSON.stringify(data.portfolios));
+      localStorage.setItem('td_tx',     JSON.stringify(data.transactions||[]));
+      localStorage.setItem('td_alerts', JSON.stringify(data.alerts||[]));
+      localStorage.setItem('td_notes',  JSON.stringify(data.notes||[]));
+      localStorage.setItem('td_divs',   JSON.stringify(data.dividends||[]));
+      localStorage.setItem('td_ver',    'v20250401_8');
+      showToast('✓ Import สำเร็จ! กำลัง reload...');
+      setTimeout(()=>location.reload(), 1200);
+    } catch(err){
+      alert('อ่านไฟล์ไม่ได้: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ══════════════════════════════════════════════════
+// GITHUB AUTO-SAVE
+// ══════════════════════════════════════════════════
+let ghSaveTimer = null;
+
+function getGHConfig(){
+  return {
+    token: localStorage.getItem('gh_token')||'',
+    user:  localStorage.getItem('gh_user') ||'claimloss-lab',
+    repo:  localStorage.getItem('gh_repo') ||'trade-desk',
+  };
+}
+
+function openGitHubSettings(){
+  closeSidebar();
+  const cfg = getGHConfig();
+  document.getElementById('gh-token').value = cfg.token;
+  document.getElementById('gh-user').value  = cfg.user;
+  document.getElementById('gh-repo').value  = cfg.repo;
+  document.getElementById('gh-test-result').textContent = '';
+  document.getElementById('gh-modal').style.display = 'flex';
+}
+
+function saveGitHubSettings(){
+  const token = document.getElementById('gh-token').value.trim();
+  const user  = document.getElementById('gh-user').value.trim();
+  const repo  = document.getElementById('gh-repo').value.trim();
+  if(!token||!user||!repo){alert('กรอกข้อมูลให้ครบ');return;}
+  localStorage.setItem('gh_token', token);
+  localStorage.setItem('gh_user',  user);
+  localStorage.setItem('gh_repo',  repo);
+  updateGHBadge();
+  closeModal('gh-modal');
+  showToast('✓ บันทึก GitHub settings แล้ว');
+  // Trigger first save
+  scheduleGHSave();
+}
+
+function clearGitHubSettings(){
+  if(!confirm('ลบ GitHub Token?')) return;
+  ['gh_token','gh_user','gh_repo'].forEach(k=>localStorage.removeItem(k));
+  updateGHBadge();
+  closeModal('gh-modal');
+  showToast('ลบ Token แล้ว');
+}
+
+function updateGHBadge(){
+  const el = document.getElementById('gh-status-badge');
+  if(!el) return;
+  const cfg = getGHConfig();
+  el.textContent = cfg.token ? 'เปิด' : 'ปิด';
+  el.style.background = cfg.token ? 'var(--green-bg)' : 'var(--s2)';
+  el.style.color = cfg.token ? 'var(--green-tx)' : 'var(--tx3)';
+}
+
+async function testGitHubConnection(){
+  const cfg = getGHConfig();
+  const resultEl = document.getElementById('gh-test-result');
+  const token = document.getElementById('gh-token').value.trim();
+  const user  = document.getElementById('gh-user').value.trim();
+  const repo  = document.getElementById('gh-repo').value.trim();
+  if(!token||!user||!repo){resultEl.textContent='กรอกข้อมูลให้ครบ';return;}
+  resultEl.textContent = '⏳ กำลังทดสอบ...';
+  try{
+    const r = await fetch(`https://api.github.com/repos/${user}/${repo}`,{
+      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'}
+    });
+    if(r.ok){
+      resultEl.innerHTML = '<span style="color:var(--green-tx)">✓ เชื่อมต่อสำเร็จ!</span>';
+    } else {
+      resultEl.innerHTML = '<span style="color:var(--red-tx)">✗ Error '+r.status+' — ตรวจสอบ Token และ repo</span>';
+    }
+  } catch(e){
+    resultEl.innerHTML = '<span style="color:var(--red-tx)">✗ Network error</span>';
+  }
+}
+
+// Debounced save — wait 3s after last change before saving
+function scheduleGHSave(){
+  const cfg = getGHConfig();
+  if(!cfg.token) return;
+  if(ghSaveTimer) clearTimeout(ghSaveTimer);
+  ghSaveTimer = setTimeout(()=>doGHSave(), 3000);
+}
+
+async function doGHSave(){
+  const cfg = getGHConfig();
+  if(!cfg.token) return;
+  const backup = buildBackupData();
+  const content64 = btoa(unescape(encodeURIComponent(JSON.stringify(backup, null, 2))));
+  const path = 'public/portfolio-data.json';
+  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
+  try{
+    // Get current file SHA (needed for update)
+    let sha = null;
+    const getRes = await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
+    if(getRes.ok){ const d=await getRes.json(); sha=d.sha; }
+    // Push update
+    const body = {
+      message: 'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'),
+      content: content64,
+      ...(sha ? {sha} : {})
+    };
+    const putRes = await fetch(apiUrl,{
+      method:'PUT',
+      headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if(putRes.ok){
+      showToast('✓ Auto-saved ไป GitHub แล้ว');
+    } else {
+      const err = await putRes.json();
+      console.warn('GitHub save failed:', err.message);
+    }
+  } catch(e){
+    console.warn('GitHub save error:', e.message);
+  }
+}
+
+// Toast notification
+function showToast(msg){
+  let t = document.getElementById('td-toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'td-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>{ t.style.opacity='0'; }, 2500);
+}
+
 function resetAndReload(){
   if(!confirm("ล้างข้อมูลทั้งหมด?")) return;
   ['td_ports','td_tx','td_alerts','td_notes','td_divs','td_cash','td_cur','td_ver'].forEach(k=>localStorage.removeItem(k));
@@ -2126,6 +2375,24 @@ document.addEventListener('click',e=>{
     </div>
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
+    <div class="sb-item" onclick="exportBackup()">
+      <div class="sb-item-icon" style="background:#e5f9eb">↓</div>
+      <span>Export Backup (JSON)</span>
+    </div>
+    <div class="sb-item" onclick="exportAsPreset()">
+      <div class="sb-item-icon" style="background:#e5f9eb">★</div>
+      <span>Save as Preset (portfolio-data.json)</span>
+    </div>
+    <div class="sb-item" onclick="document.getElementById('import-file').click()">
+      <div class="sb-item-icon" style="background:#e8f1fd">↑</div>
+      <span>Import Backup (JSON)</span>
+    </div>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBackup(event)">
+    <div class="sb-item" onclick="openGitHubSettings()">
+      <div class="sb-item-icon" style="background:#f3eeff">⚙</div>
+      <span>GitHub Auto-Save Settings</span>
+      <span class="sb-badge" id="gh-status-badge">ปิด</span>
+    </div>
     <div class="sb-item" onclick="resetAndReload()">
       <div class="sb-item-icon" style="background:#fff0ef">↺</div>
       <span>Reset ข้อมูล</span>
@@ -2276,6 +2543,38 @@ document.addEventListener('click',e=>{
         <canvas id="sm-chart" style="display:none"></canvas>
       </div>
       <div style="font-size:10px;color:var(--tx3);text-align:right;margin-top:4px">ข้อมูลจาก Yahoo Finance · อาจมี delay</div>
+    </div>
+  </div>
+</div>
+
+<!-- GITHUB SETTINGS MODAL -->
+<div class="modal-bg" id="gh-modal" style="display:none">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-ti">⚙ GitHub Auto-Save Settings</div>
+    <div style="background:var(--s2);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--tx2);line-height:1.7">
+      เมื่อตั้งค่าแล้ว ทุกครั้งที่แก้ข้อมูลพอร์ต ระบบจะ save ไปที่ <code style="background:var(--bd2);padding:1px 5px;border-radius:4px">public/portfolio-data.json</code> ใน GitHub อัตโนมัติ
+    </div>
+    <div class="modal-row">
+      <div class="modal-lbl">GitHub Personal Access Token</div>
+      <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="font-family:var(--mono);font-size:12px">
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">Token จะเก็บใน localStorage เท่านั้น ไม่ได้ส่งไปที่อื่น</div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-lbl">GitHub Username</div>
+      <input type="text" id="gh-user" placeholder="claimloss-lab" style="font-family:var(--mono);font-size:12px">
+    </div>
+    <div class="modal-row">
+      <div class="modal-lbl">Repository Name</div>
+      <input type="text" id="gh-repo" placeholder="trade-desk" style="font-family:var(--mono);font-size:12px">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn btn-s btn-sm" onclick="testGitHubConnection()">ทดสอบการเชื่อมต่อ</button>
+      <div id="gh-test-result" style="font-size:12px;color:var(--tx2);display:flex;align-items:center"></div>
+    </div>
+    <div class="modal-acts">
+      <button class="btn btn-g" onclick="clearGitHubSettings()">ลบ Token</button>
+      <button class="btn btn-g" onclick="closeModal('gh-modal')">ยกเลิก</button>
+      <button class="btn btn-p" onclick="saveGitHubSettings()">บันทึก</button>
     </div>
   </div>
 </div>

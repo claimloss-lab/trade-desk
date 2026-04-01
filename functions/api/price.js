@@ -31,7 +31,7 @@ export async function onRequest(context) {
   );
 
   if (isMutualFund) {
-    return await fetchSettradeFundNAV(t, cors);
+    return await fetchSettradeFundNAV(t, cors, url);
   }
 
   // ── FX pairs ──
@@ -57,7 +57,7 @@ export async function onRequest(context) {
 }
 
 // ── Fetch NAV from Settrade ──
-async function fetchSettradeFundNAV(fundCode, cors) {
+async function fetchSettradeFundNAV(fundCode, cors, url) {
   const stHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml',
@@ -80,6 +80,23 @@ async function fetchSettradeFundNAV(fundCode, cors) {
     const dateMatch = html.match(/navDate["\s:]*"([^"]+)"/);
     const prevMatch = html.match(/previousNavPerUnit["\s:]+(\d+\.?\d*)/);
 
+    // Debug mode — return raw HTML snippet for inspection
+    const isDebug = url && url.searchParams && url.searchParams.get('debug') === '1';
+    if (isDebug) {
+      // Find section around nav data
+      const idx30 = html.indexOf('30.');
+      const idx22 = html.indexOf('22.');
+      const snippet = html.substring(Math.max(0, Math.min(idx30,idx22)-200), Math.min(idx30||idx22,idx22||idx30)+500);
+      return new Response(JSON.stringify({
+        debug: true,
+        htmlLength: html.length,
+        navMatch: navMatch ? navMatch[0] : null,
+        navMatch2: html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/) ? html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/)[0] : null,
+        snippet30: html.indexOf('30.') > 0 ? html.substring(html.indexOf('30.')-100, html.indexOf('30.')+100) : null,
+        allNavMatches: [...html.matchAll(/navPerUnit[^,}\s]*[\s:]*(\d+\.?\d*)/g)].map(m=>m[0]).slice(0,5),
+      }), { headers: cors });
+    }
+
     if (navMatch) {
       const nav = parseFloat(navMatch[1]);
       const prev = prevMatch ? parseFloat(prevMatch[1]) : null;
@@ -97,20 +114,25 @@ async function fetchSettradeFundNAV(fundCode, cors) {
       }), { headers: cors });
     }
 
-    // Fallback: try another pattern
-    const navMatch2 = html.match(/"navPerUnit"[:\s]*(\d+\.?\d*)/);
-    if (navMatch2) {
-      return new Response(JSON.stringify({
-        ticker: fundCode,
-        symbol: fundCode,
-        price: parseFloat(navMatch2[1]),
-        currency: 'THB',
-        source: 'settrade',
-        timestamp: Date.now(),
-      }), { headers: cors });
+    // Fallback: try more patterns
+    const patterns = [
+      /"navPerUnit"[:\s]*(\d+\.?\d*)/,
+      /navPerUnit['":\s]+(\d+\.?\d*)/,
+      /"currentNAV"[:\s]*(\d+\.?\d*)/,
+      /current.nav.{0,20}(\d{2,}\.\d+)/i,
+    ];
+    for (const pat of patterns) {
+      const m = html.match(pat);
+      if (m) {
+        return new Response(JSON.stringify({
+          ticker: fundCode, symbol: fundCode,
+          price: parseFloat(m[1]), currency: 'THB',
+          source: 'settrade', pattern: pat.toString(), timestamp: Date.now(),
+        }), { headers: cors });
+      }
     }
 
-    throw new Error('NAV not found in page');
+    throw new Error('NAV not found in page (length=' + html.length + ')');
 
   } catch (e) {
     return new Response(JSON.stringify({

@@ -1349,8 +1349,18 @@ function addStock(portId) {
   const underlying=nameEl?.value.trim()||autoInfo(ticker).underlying;
   if(!ticker||!buyPrice||!qty){alert('กรอกข้อมูลให้ครบ');return;}
   const ex=port.stocks.find(s=>s.ticker===ticker);
+  const isNew=!ex;
   if(ex){ const tc=ex.buyPrice*ex.qty+buyPrice*qty;ex.qty+=qty;ex.buyPrice=tc/ex.qty; }
   else port.stocks.push({ticker,buyPrice,qty,sector,underlying,id:Date.now()});
+  // Auto-log transaction
+  const txDate=new Date().toISOString().split('T')[0];
+  transactions.unshift({
+    id:Date.now(), ticker, type:'buy', date:txDate,
+    price:buyPrice, qty, fee:0,
+    note: isNew?'เพิ่มหุ้นใหม่ (auto)':'ซื้อเพิ่ม (auto)',
+    realizedPnl:null, portId, auto:true
+  });
+  saveFeatures(); updateSbBadges();
   savePorts();
   [portId+'-ti',portId+'-bp',portId+'-qty',portId+'-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   fetchPrice(ticker,port.type).then(r=>{if(r)prices[ticker+'_'+portId]=r;renderPortfolio(portId);renderOverview();});
@@ -1361,14 +1371,34 @@ function edt(portId, stockId, field, el) {
   const port=getPort(portId);
   const stock=port.stocks.find(s=>s.id===stockId);
   if(!stock) return;
+  const oldQty=stock.qty;
+  const oldBuyPrice=stock.buyPrice;
   const inp=document.createElement('input');
   inp.type='number';inp.className='edt-inp';
   inp.value=stock[field];inp.step=field==='qty'?1:0.01;inp.min=0;
   el.replaceWith(inp);inp.focus();inp.select();
   function commit(){
     const v=parseFloat(inp.value);
-    if(!isNaN(v)&&v>0){stock[field]=v;savePorts();}
-    else if(!isNaN(v)&&v<=0&&field==='qty'){port.stocks=port.stocks.filter(s=>s.id!==stockId);savePorts();}
+    if(!isNaN(v)&&v>0){
+      if(field==='qty' && v!==oldQty){
+        autoLogTransaction(portId, stock, oldQty, v);
+      }
+      stock[field]=v;
+      // Recalculate weighted avg cost when buying more
+      if(field==='qty' && v>oldQty){
+        const addQty=v-oldQty;
+        const p=prices[stock.ticker+'_'+portId];
+        const curPrice=p?p.price:stock.buyPrice;
+        const isUS=(port.type==='realtime_us'||port.type==='dime_mixed');
+        const addPriceTHB=isUS?curPrice*usdThbRate:curPrice;
+        stock.buyPrice=(oldBuyPrice*oldQty+addPriceTHB*addQty)/v;
+      }
+      savePorts();
+    } else if(!isNaN(v)&&v<=0&&field==='qty'){
+      autoLogTransaction(portId, stock, oldQty, 0);
+      port.stocks=port.stocks.filter(s=>s.id!==stockId);
+      savePorts();
+    }
     renderPortfolio(portId);renderOverview();
   }
   inp.addEventListener('blur',commit);
@@ -1512,7 +1542,7 @@ buildPanels();
 renderOverview();
 renderAll();
 refreshAll(false);
-setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 30000);
+setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
 
 // ══════════════════════════════════════════════════
 // SIDEBAR
@@ -1567,6 +1597,37 @@ function showFeature(id){
   }
   updateSbBadges();
 }
+function autoLogTransaction(portId, stock, oldQty, newQty){
+  const port=getPort(portId);
+  const diffQty=Math.abs(newQty-oldQty);
+  if(diffQty===0) return;
+  const isBuy=newQty>oldQty;
+  // Get current market price
+  const p=prices[stock.ticker+'_'+portId];
+  const isUS=(port.type==='realtime_us'||port.type==='dime_mixed');
+  let txPrice;
+  if(p){
+    txPrice=isUS?p.price*usdThbRate:p.price;
+  } else {
+    txPrice=stock.buyPrice;
+  }
+  // Calculate realized P&L for sell
+  let realizedPnl=null;
+  if(!isBuy){
+    realizedPnl=(txPrice-stock.buyPrice)*diffQty;
+  }
+  const txDate=new Date().toISOString().split('T')[0];
+  transactions.unshift({
+    id:Date.now(), ticker:stock.ticker,
+    type:isBuy?'buy':'sell',
+    date:txDate,
+    price:txPrice, qty:diffQty, fee:0,
+    note:(isBuy?'ซื้อเพิ่ม':'ขายออก')+' (auto-log จากการแก้จำนวน)',
+    realizedPnl, portId, auto:true
+  });
+  saveFeatures(); updateSbBadges();
+}
+
 function updateSbBadges(){
   const counts={transactions,alerts,notes};
   Object.entries(counts).forEach(([k,v])=>{

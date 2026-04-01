@@ -56,19 +56,70 @@ export async function onRequest(context) {
   return await fetchYahoo(sym, cors, yHeaders, t);
 }
 
-// ── Fetch NAV from Settrade ──
+// ── Fetch NAV from Settrade API ──
 async function fetchSettradeFundNAV(fundCode, cors, url) {
+  const debugMode = url && url.searchParams && url.searchParams.get('debug');
+
   const stHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml',
+    'Accept': 'application/json, text/plain, */*',
     'Accept-Language': 'th-TH,th;q=0.9,en;q=0.8',
-    'Referer': 'https://www.settrade.com/',
+    'Referer': 'https://www.settrade.com/th/mutualfund/quote/'+fundCode+'/overview',
+    'Origin': 'https://www.settrade.com',
   };
+
+  // Try Settrade internal API endpoints
+  const apiEndpoints = [
+    `https://api.settrade.com/api/mutualfund/info/${fundCode}`,
+    `https://www.settrade.com/api/set/mutualfund/${fundCode}/info`,
+    `https://www.settrade.com/api/mutualfund/${fundCode}`,
+    `https://www.settrade.com/_next/data/latest/th/mutualfund/quote/${fundCode}/overview.json`,
+  ];
+
+  if (debugMode === '3') {
+    const results = {};
+    for (const ep of apiEndpoints) {
+      try {
+        const r = await fetch(ep, { headers: stHeaders, signal: AbortSignal.timeout(5000) });
+        results[ep] = { status: r.status, ok: r.ok };
+        if (r.ok) {
+          const txt = await r.text();
+          results[ep].preview = txt.substring(0, 200);
+        }
+      } catch(e) {
+        results[ep] = { error: e.message };
+      }
+    }
+    return new Response(JSON.stringify({ debug: 3, results }), { headers: cors });
+  }
+
+  // Try each API endpoint
+  for (const ep of apiEndpoints) {
+    try {
+      const r = await fetch(ep, { headers: stHeaders, signal: AbortSignal.timeout(5000), cf: { cacheTtl: 3600 } });
+      if (!r.ok) continue;
+      const data = await r.json();
+      // Try to find NAV in response
+      const nav = data?.navPerUnit || data?.nav || data?.lastNav ||
+                  data?.data?.navPerUnit || data?.pageProps?.fundInfo?.navPerUnit ||
+                  data?.mutualFundInfo?.navPerUnit;
+      if (nav && parseFloat(nav) > 0) {
+        return new Response(JSON.stringify({
+          ticker: fundCode, symbol: fundCode,
+          price: parseFloat(nav), currency: 'THB',
+          source: 'settrade-api', endpoint: ep, timestamp: Date.now(),
+        }), { headers: cors });
+      }
+    } catch {}
+  }
+
+  // Fallback: scrape HTML page
+  const htmlHeaders = { ...stHeaders, 'Accept': 'text/html,application/xhtml+xml' };
 
   try {
     const res = await fetch(
       `https://www.settrade.com/th/mutualfund/quote/${encodeURIComponent(fundCode)}/overview`,
-      { headers: stHeaders, cf: { cacheTtl: 3600 } }
+      { headers: htmlHeaders, cf: { cacheTtl: 3600 } }
     );
 
     if (!res.ok) throw new Error(`Settrade returned ${res.status}`);
@@ -80,29 +131,11 @@ async function fetchSettradeFundNAV(fundCode, cors, url) {
     const dateMatch = html.match(/navDate["\s:]*"([^"]+)"/);
     const prevMatch = html.match(/previousNavPerUnit["\s:]+(\d+\.?\d*)/);
 
-    // Debug mode
-    const debugMode = url && url.searchParams && url.searchParams.get('debug');
-    if (debugMode === '1') {
-      return new Response(JSON.stringify({
-        debug: true,
-        htmlLength: html.length,
-        allNavMatches: [...html.matchAll(/navPerUnit[^,}\s]*[\s:]*([\d.]+)/g)].map(m=>m[0]).slice(0,5),
-      }), { headers: cors });
-    }
-    if (debugMode === '2') {
-      // Search for the value 30. pattern near key fields
-      const fields = ['latestNAV','currentNAV','lastNAV','navPrice','unitPrice','offer','bid','last','close'];
-      const found = {};
-      fields.forEach(f => {
-        const m = html.match(new RegExp(f+'["\':\\s]*([\d.]+)'));
-        if(m) found[f] = m[1];
-      });
-      // Also find all numbers between 28-35 (likely NAV range for BGOLDRMF)
-      const navRange = [...html.matchAll(/(?:30|31|29|28|32)\.(\d{4})/g)].map(m=>m[0]).slice(0,10);
-      // Find context around 30.6854
-      const idx = html.indexOf('30.6');
-      const snippet = idx > 0 ? html.substring(idx-150, idx+100) : 'not found';
-      return new Response(JSON.stringify({debug:2, found, navRange, snippet}), { headers: cors });
+    const debugMode2 = url && url.searchParams && url.searchParams.get('debug');
+    if (debugMode2 === '1' || debugMode2 === '2') {
+      const allMatches = [...html.matchAll(/navPerUnit[^,}]{0,30}/g)].map(m=>m[0]).slice(0,5);
+      const navRange = [...html.matchAll(/(?:30|31|29|28|32)\.\d{4}/g)].map(m=>m[0]).slice(0,10);
+      return new Response(JSON.stringify({debug: debugMode2, htmlLength: html.length, allMatches, navRange}), { headers: cors });
     }
 
     if (navMatch) {

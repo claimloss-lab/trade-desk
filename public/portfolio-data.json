@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:05.528Z",
+  "exportDate": "2026-04-03T07:19:09.210Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
@@ -481,6 +481,24 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200746205.614,
+      "ticker": "CPN.BK",
+      "date": "2025-03-17",
+      "perShare": 2.1,
+      "qty": 600,
+      "total": 1260,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200746205.827,
+      "ticker": "CPN.BK",
+      "date": "2026-03-09",
+      "perShare": 2.4,
+      "qty": 600,
+      "total": 1440,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200742519.6145,
       "ticker": "CPALL.BK",

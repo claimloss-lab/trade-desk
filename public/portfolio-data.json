@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:25:51.549Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:25",
+  "exportDate": "2026-04-03T07:32:59.499Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:32",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,222 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201576495.5403,
+      "ticker": "O",
+      "date": "2024-04-30",
+      "perShare": 8.3628,
+      "qty": 10.311237,
+      "total": 86.23,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.8154,
+      "ticker": "O",
+      "date": "2024-06-03",
+      "perShare": 8.558,
+      "qty": 10.311237,
+      "total": 88.24,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.9236,
+      "ticker": "O",
+      "date": "2024-07-01",
+      "perShare": 8.558,
+      "qty": 10.311237,
+      "total": 88.24,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.6409,
+      "ticker": "O",
+      "date": "2024-08-01",
+      "perShare": 8.558,
+      "qty": 10.311237,
+      "total": 88.24,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.17,
+      "ticker": "O",
+      "date": "2024-09-03",
+      "perShare": 8.558,
+      "qty": 10.311237,
+      "total": 88.24,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.7756,
+      "ticker": "O",
+      "date": "2024-10-01",
+      "perShare": 8.5906,
+      "qty": 10.311237,
+      "total": 88.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.8032,
+      "ticker": "O",
+      "date": "2024-11-01",
+      "perShare": 8.5906,
+      "qty": 10.311237,
+      "total": 88.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.4924,
+      "ticker": "O",
+      "date": "2024-12-02",
+      "perShare": 8.5906,
+      "qty": 10.311237,
+      "total": 88.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.2668,
+      "ticker": "O",
+      "date": "2025-01-02",
+      "perShare": 8.5906,
+      "qty": 10.311237,
+      "total": 88.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.0127,
+      "ticker": "O",
+      "date": "2025-02-03",
+      "perShare": 8.5906,
+      "qty": 10.311237,
+      "total": 88.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.2117,
+      "ticker": "O",
+      "date": "2025-03-03",
+      "perShare": 8.7207,
+      "qty": 10.311237,
+      "total": 89.92,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.1748,
+      "ticker": "O",
+      "date": "2025-04-01",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.8308,
+      "ticker": "O",
+      "date": "2025-05-01",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.9736,
+      "ticker": "O",
+      "date": "2025-06-02",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.1177,
+      "ticker": "O",
+      "date": "2025-07-01",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.7458,
+      "ticker": "O",
+      "date": "2025-08-01",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.246,
+      "ticker": "O",
+      "date": "2025-09-02",
+      "perShare": 8.7533,
+      "qty": 10.311237,
+      "total": 90.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.7617,
+      "ticker": "O",
+      "date": "2025-10-01",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.075,
+      "ticker": "O",
+      "date": "2025-10-31",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.7822,
+      "ticker": "O",
+      "date": "2025-11-28",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.2834,
+      "ticker": "O",
+      "date": "2025-12-31",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.3801,
+      "ticker": "O",
+      "date": "2026-01-30",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.3865,
+      "ticker": "O",
+      "date": "2026-02-27",
+      "perShare": 8.7858,
+      "qty": 10.311237,
+      "total": 90.59,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201576495.9724,
+      "ticker": "O",
+      "date": "2026-03-31",
+      "perShare": 8.8183,
+      "qty": 10.311237,
+      "total": 90.93,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201148537.1333,
       "ticker": "NVDA80",
@@ -1575,6 +1791,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 0,
-    "totalNetWorth": "฿1,376,107.12"
+    "totalNetWorth": "฿1,374,068.99"
   }
 }

@@ -2071,9 +2071,16 @@ function renderDividends(){
   const dk=document.getElementById('div-yield');if(dk)dk.textContent=cost>0?(total/cost*100).toFixed(2)+'%':'0.00%';
   const body=document.getElementById('div-body');
   if(!body) return;
-  if(!dividends.length){body.innerHTML=`<tr><td colspan="7" class="empty"><div class="empty-ico">🏦</div>ยังไม่มี</td></tr>`;return;}
-  body.innerHTML=dividends.map(d=>`<tr>
-    <td class="muted">${d.date}</td><td><span class="tkr">${d.ticker}</span></td>
+  updateDivFilterDropdown();
+  const filter = document.getElementById('div-filter-ticker')?.value||'';
+  const list = filter ? dividends.filter(d=>d.ticker===filter) : dividends;
+  if(!list.length){
+    body.innerHTML=`<tr><td colspan="7" class="empty"><div class="empty-ico">🏦</div>${dividends.length?'ไม่มีข้อมูลสำหรับ '+filter:'ยังไม่มี — กด ↓ ดึงปันผล'}</td></tr>`;
+    return;
+  }
+  body.innerHTML=list.map(d=>`<tr>
+    <td class="muted">${d.date}</td>
+    <td><span class="tkr" style="cursor:pointer" onclick="showDivYearPopup('${d.ticker}')" title="คลิกดูปันผลรายปี">${d.ticker}</span></td>
     <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fn(d.qty,0)}</td>
     <td class="mono pos">+฿${fn(d.total)}</td>
     <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
@@ -2185,71 +2192,135 @@ function edtDimeFundCost(portId, stockId){
 function openAutoFetchDiv(){
   const panel = document.getElementById('auto-div-panel');
   panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-  // Populate ticker dropdown from all portfolios
-  const sel = document.getElementById('auto-div-ticker');
-  const tickers = [...new Set(
-    portfolios.flatMap(p => p.stocks?.map(s => s.ticker) || [])
-      .filter(t => !t.includes('K-') && !t.includes('(A)') && !t.startsWith('MEGA'))
-  )].sort();
-  sel.innerHTML = '<option value="">— เลือกหุ้น —</option>' +
-    tickers.map(t => `<option value="${t}">${t}</option>`).join('');
 }
 
-async function fetchDividendAuto(){
-  const ticker = document.getElementById('auto-div-ticker').value;
-  const range  = document.getElementById('auto-div-range').value;
-  const result = document.getElementById('auto-div-result');
-  if(!ticker){ result.textContent = 'เลือกหุ้นก่อน'; return; }
+async function fetchSingleDividend(ticker, range, quiet=false){
+  const res = await fetch(`/api/dividend?ticker=${encodeURIComponent(ticker)}&range=${range}`,
+    { signal: AbortSignal.timeout(12000) });
+  const data = await res.json();
+  if(data.error || !data.dividends?.length) return { ticker, added: 0, total: 0 };
 
-  result.textContent = '⏳ กำลังดึงข้อมูล...';
+  const stock = portfolios.flatMap(p=>p.stocks||[]).find(s=>s.ticker===ticker);
+  const qty = stock?.qty || 0;
+  const isTHB = data.currency === 'THB';
+  const existing = new Set(dividends.map(d=>d.ticker+'_'+d.date));
+  const newDivs = data.dividends.filter(d => !existing.has(ticker+'_'+d.date));
 
-  try {
-    const res = await fetch(`/api/dividend?ticker=${encodeURIComponent(ticker)}&range=${range}`,
-      { signal: AbortSignal.timeout(10000) });
-    const data = await res.json();
-
-    if(data.error){ result.textContent = '✗ ' + data.error; return; }
-    if(!data.dividends?.length){
-      result.textContent = '⚠️ ไม่พบข้อมูลปันผลสำหรับ ' + ticker + ' (' + range + ')';
-      return;
-    }
-
-    // Find qty from portfolio
-    const stock = portfolios.flatMap(p=>p.stocks||[]).find(s=>s.ticker===ticker);
-    const qty = stock?.qty || 0;
-    const isTHB = data.currency === 'THB';
-
-    // Filter out already-recorded dividends
-    const existing = new Set(dividends.map(d=>d.ticker+'_'+d.date));
-    const newDivs = data.dividends.filter(d => !existing.has(ticker+'_'+d.date));
-
-    if(!newDivs.length){
-      result.innerHTML = `✓ ดึงข้อมูลแล้ว แต่มีข้อมูลครบแล้ว (${data.dividends.length} รายการ)`;
-      return;
-    }
-
-    // Add new dividends
-    newDivs.forEach(d => {
-      const amountTHB = isTHB ? d.amount : d.amount * usdThbRate;
-      dividends.unshift({
-        id: Date.now() + Math.random(),
-        ticker,
-        date: d.date,
-        perShare: parseFloat(amountTHB.toFixed(4)),
-        qty: qty,
-        total: parseFloat((amountTHB * qty).toFixed(2)),
-        note: 'auto-fetch (' + data.currency + ')',
-      });
+  newDivs.forEach(d => {
+    const amountTHB = isTHB ? d.amount : d.amount * usdThbRate;
+    dividends.push({
+      id: Date.now() + Math.random(),
+      ticker,
+      date: d.date,
+      perShare: parseFloat(amountTHB.toFixed(4)),
+      qty,
+      total: parseFloat((amountTHB * qty).toFixed(2)),
+      note: 'auto (' + data.currency + ')',
     });
+  });
+  return { ticker, added: newDivs.length, total: data.dividends.length };
+}
 
-    saveFeatures();
-    renderDividends();
-    result.innerHTML = `✓ เพิ่มปันผลใหม่ <strong>${newDivs.length} รายการ</strong> สำหรับ ${ticker}`;
-    showToast(`✓ เพิ่มปันผล ${ticker} จำนวน ${newDivs.length} รายการ`);
+async function fetchAllDividends(){
+  const range   = document.getElementById('auto-div-range').value;
+  const result  = document.getElementById('auto-div-result');
+  const progress= document.getElementById('auto-div-progress');
+  const bar     = document.getElementById('auto-div-bar');
+  const status  = document.getElementById('auto-div-status');
 
-  } catch(e) {
-    result.textContent = '✗ Error: ' + e.message;
+  // Get all eligible tickers (exclude mutual funds)
+  const tickers = [...new Set(
+    portfolios.flatMap(p => p.stocks?.map(s => s.ticker) || [])
+      .filter(t => !t.includes('(A)') && !t.startsWith('K-') && !t.startsWith('MEGA') &&
+                   !t.includes('RMF') && !t.includes('BGOLD') && !t.includes('ESG'))
+  )];
+
+  if(!tickers.length){ result.textContent = 'ไม่มีหุ้นที่ดึงปันผลได้'; return; }
+
+  progress.style.display = 'block';
+  result.textContent = '';
+  const summary = [];
+
+  for(let i=0; i<tickers.length; i++){
+    const t = tickers[i];
+    bar.style.width = ((i+1)/tickers.length*100) + '%';
+    status.textContent = `กำลังดึง ${t} (${i+1}/${tickers.length})...`;
+    try {
+      const r = await fetchSingleDividend(t, range);
+      summary.push(r);
+    } catch {}
+    await new Promise(res=>setTimeout(res,300)); // throttle
   }
+
+  // Sort dividends by date desc
+  dividends.sort((a,b) => b.date.localeCompare(a.date));
+  saveFeatures();
+  renderDividends();
+  updateDivFilterDropdown();
+
+  const added = summary.reduce((s,r)=>s+r.added,0);
+  const withDiv = summary.filter(r=>r.total>0).length;
+  progress.style.display = 'none';
+  result.innerHTML = `✓ ดึงข้อมูลครบแล้ว ${tickers.length} ตัว · พบปันผล ${withDiv} ตัว · เพิ่มใหม่ ${added} รายการ`;
+  if(added > 0) showToast(`✓ เพิ่มปันผลใหม่ ${added} รายการ`);
+}
+
+function updateDivFilterDropdown(){
+  const sel = document.getElementById('div-filter-ticker');
+  if(!sel) return;
+  const tickers = [...new Set(dividends.map(d=>d.ticker))].sort();
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">ทุกตัว</option>' +
+    tickers.map(t=>`<option value="${t}"${t===cur?' selected':''}>${t}</option>`).join('');
+}
+
+function showDivYearPopup(ticker){
+  const divs = dividends.filter(d=>d.ticker===ticker);
+  if(!divs.length) return;
+
+  // Group by year
+  const byYear = {};
+  divs.forEach(d=>{
+    const yr = d.date.substring(0,4);
+    if(!byYear[yr]) byYear[yr] = {total:0, perShare:0, count:0, items:[]};
+    byYear[yr].total += d.total;
+    byYear[yr].perShare += d.perShare;
+    byYear[yr].count++;
+    byYear[yr].items.push(d);
+  });
+
+  const years = Object.keys(byYear).sort((a,b)=>b-a);
+  const maxTotal = Math.max(...years.map(y=>byYear[y].total));
+  const stock = portfolios.flatMap(p=>p.stocks||[]).find(s=>s.ticker===ticker);
+
+  document.getElementById('div-year-title').textContent = 'ปันผล — ' + ticker;
+  document.getElementById('div-year-sub').textContent =
+    (stock?.underlying || ticker) + ' · ' + years.length + ' ปี · รวม ฿' + fn(divs.reduce((s,d)=>s+d.total,0));
+
+  document.getElementById('div-year-body').innerHTML = years.map(yr=>{
+    const d = byYear[yr];
+    const barW = maxTotal > 0 ? (d.total/maxTotal*100) : 0;
+    return `<div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+        <span style="font-size:14px;font-weight:600">${yr}</span>
+        <div style="text-align:right">
+          <span style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--green-tx)">+฿${fn(d.total)}</span>
+          <span style="font-size:11px;color:var(--tx3);margin-left:6px">฿${fn(d.perShare,4)}/หุ้น × ${fn(d.count,0)} ครั้ง</span>
+        </div>
+      </div>
+      <div style="background:var(--bd2);border-radius:4px;height:6px;overflow:hidden">
+        <div style="height:6px;border-radius:4px;background:var(--green);width:${barW}%;transition:width .5s"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
+        ${d.items.sort((a,b)=>a.date.localeCompare(b.date)).map(item=>`
+          <span style="font-size:10px;background:var(--green-bg);color:var(--green-tx);padding:2px 7px;border-radius:10px;font-family:var(--mono)">
+            ${item.date} ฿${fn(item.perShare,4)}
+          </span>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('div-year-modal').style.display = 'flex';
 }
 
 // MODAL CLOSE
@@ -2573,27 +2644,33 @@ document.addEventListener('click',e=>{
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">🏦 Dividend Tracker</h2>
-    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึงปันผลอัตโนมัติ</button>
+    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select id="div-filter-ticker" onchange="renderDividends()" style="width:130px;font-size:12px;padding:5px 8px">
+        <option value="">ทุกตัว</option>
+      </select>
+      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึงปันผล</button>
       <button class="btn btn-p btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
     </div>
   </div>
-  <!-- Auto-fetch dividend panel -->
+  <!-- Auto-fetch all dividends panel -->
   <div id="auto-div-panel" style="display:none;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px;margin-bottom:16px">
     <div style="font-size:13px;font-weight:600;margin-bottom:10px">ดึงประวัติปันผลอัตโนมัติจาก Yahoo Finance</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-      <select id="auto-div-ticker" style="width:160px">
-        <option value="">— เลือกหุ้น —</option>
-      </select>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
       <select id="auto-div-range" style="width:100px">
         <option value="1y">1 ปี</option>
         <option value="2y" selected>2 ปี</option>
         <option value="5y">5 ปี</option>
       </select>
-      <button class="btn btn-p btn-sm" onclick="fetchDividendAuto()">ดึงข้อมูล</button>
+      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึงทุกตัวพร้อมกัน</button>
       <button class="btn btn-g btn-sm" onclick="document.getElementById('auto-div-panel').style.display='none'">ปิด</button>
     </div>
-    <div id="auto-div-result" style="margin-top:10px;font-size:12px;color:var(--tx2)"></div>
+    <div id="auto-div-progress" style="display:none;margin-bottom:8px">
+      <div style="background:var(--bd2);border-radius:4px;height:4px;overflow:hidden">
+        <div id="auto-div-bar" style="height:4px;background:var(--blue);border-radius:4px;width:0%;transition:width .3s"></div>
+      </div>
+      <div id="auto-div-status" style="font-size:11px;color:var(--tx3);margin-top:4px"></div>
+    </div>
+    <div id="auto-div-result" style="font-size:12px;color:var(--tx2)"></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
     <div class="met"><div class="met-lbl">ปันผลสะสม</div><div class="met-val" id="div-total">฿0</div></div>
@@ -2694,6 +2771,20 @@ document.addEventListener('click',e=>{
       <button class="btn btn-g" onclick="closeModal('note-modal')">ยกเลิก</button>
       <button class="btn btn-p" onclick="saveNote()">บันทึก</button>
     </div>
+  </div>
+</div>
+
+<!-- DIVIDEND YEAR POPUP -->
+<div class="modal-bg" id="div-year-modal" style="display:none">
+  <div class="modal" style="max-width:500px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div class="modal-ti" id="div-year-title" style="margin-bottom:2px">ปันผล —</div>
+        <div style="font-size:12px;color:var(--tx2)" id="div-year-sub">—</div>
+      </div>
+      <button class="btn btn-g btn-sm" onclick="closeModal('div-year-modal')">✕</button>
+    </div>
+    <div id="div-year-body"></div>
   </div>
 </div>
 

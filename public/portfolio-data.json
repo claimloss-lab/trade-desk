@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:16.304Z",
+  "exportDate": "2026-04-03T07:19:26.153Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200763151.5728,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-05-27",
+      "perShare": 0.3,
+      "qty": 1800,
+      "total": 540,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.1855,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-08-27",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.6858,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-11-27",
+      "perShare": 0.335,
+      "qty": 1800,
+      "total": 603,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.1626,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-03-12",
+      "perShare": 0.3875,
+      "qty": 1800,
+      "total": 697.5,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.99,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-05-28",
+      "perShare": 0.3,
+      "qty": 1800,
+      "total": 540,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.477,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-08-27",
+      "perShare": 0.27,
+      "qty": 1800,
+      "total": 486,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.778,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-12-02",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200763151.2432,
+      "ticker": "LHHOTEL.BK",
+      "date": "2026-03-11",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200753302.7278,
       "ticker": "HMPRO.BK",

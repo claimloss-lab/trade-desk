@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:20:47.152Z",
+  "exportDate": "2026-04-03T07:20:53.252Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:20",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200850248.1855,
+      "ticker": "WHA.BK",
+      "date": "2024-05-09",
+      "perShare": 0.117,
+      "qty": 9100,
+      "total": 1064.7,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200850248.0977,
+      "ticker": "WHA.BK",
+      "date": "2024-11-21",
+      "perShare": 0.0669,
+      "qty": 9100,
+      "total": 608.79,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200850248.5618,
+      "ticker": "WHA.BK",
+      "date": "2025-05-07",
+      "perShare": 0.1237,
+      "qty": 9100,
+      "total": 1125.67,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200850248.776,
+      "ticker": "WHA.BK",
+      "date": "2025-11-27",
+      "perShare": 0.0669,
+      "qty": 9100,
+      "total": 608.79,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200844143.2217,
       "ticker": "TU.BK",

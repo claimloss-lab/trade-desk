@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:34:20.529Z",
+  "exportDate": "2026-04-03T07:34:30.576Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201667564.4807,
+      "ticker": "VOO",
+      "date": "2024-06-28",
+      "perShare": 58.0514,
+      "qty": 0.2091998,
+      "total": 12.14,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.5227,
+      "ticker": "VOO",
+      "date": "2024-09-27",
+      "perShare": 53.3331,
+      "qty": 0.2091998,
+      "total": 11.16,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.818,
+      "ticker": "VOO",
+      "date": "2024-12-23",
+      "perShare": 56.5871,
+      "qty": 0.2091998,
+      "total": 11.84,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.8708,
+      "ticker": "VOO",
+      "date": "2025-03-27",
+      "perShare": 58.9625,
+      "qty": 0.2091998,
+      "total": 12.33,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.9023,
+      "ticker": "VOO",
+      "date": "2025-06-30",
+      "perShare": 56.7823,
+      "qty": 0.2091998,
+      "total": 11.88,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.6958,
+      "ticker": "VOO",
+      "date": "2025-09-29",
+      "perShare": 56.6196,
+      "qty": 0.2091998,
+      "total": 11.84,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.7422,
+      "ticker": "VOO",
+      "date": "2025-12-22",
+      "perShare": 57.6283,
+      "qty": 0.2091998,
+      "total": 12.06,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201667564.231,
+      "ticker": "VOO",
+      "date": "2026-03-27",
+      "perShare": 60.9149,
+      "qty": 0.2091998,
+      "total": 12.74,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201657527.4958,
       "ticker": "VEA",

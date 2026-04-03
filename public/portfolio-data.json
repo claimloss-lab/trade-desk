@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:34:30.576Z",
+  "exportDate": "2026-04-03T07:34:36.194Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201673185.1372,
+      "ticker": "VTI",
+      "date": "2024-06-28",
+      "perShare": 30.9781,
+      "qty": 2.342,
+      "total": 72.55,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.5093,
+      "ticker": "VTI",
+      "date": "2024-09-27",
+      "perShare": 28.3423,
+      "qty": 2.342,
+      "total": 66.38,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.0618,
+      "ticker": "VTI",
+      "date": "2024-12-23",
+      "perShare": 30.6201,
+      "qty": 2.342,
+      "total": 71.71,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.876,
+      "ticker": "VTI",
+      "date": "2025-03-27",
+      "perShare": 32.0519,
+      "qty": 2.342,
+      "total": 75.07,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.4883,
+      "ticker": "VTI",
+      "date": "2025-06-30",
+      "perShare": 29.709,
+      "qty": 2.342,
+      "total": 69.58,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.1218,
+      "ticker": "VTI",
+      "date": "2025-09-29",
+      "perShare": 29.5138,
+      "qty": 2.342,
+      "total": 69.12,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.9312,
+      "ticker": "VTI",
+      "date": "2025-12-22",
+      "perShare": 30.9455,
+      "qty": 2.342,
+      "total": 72.47,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201673185.3345,
+      "ticker": "VTI",
+      "date": "2026-03-27",
+      "perShare": 32.4749,
+      "qty": 2.342,
+      "total": 76.06,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201667564.4807,
       "ticker": "VOO",

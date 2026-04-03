@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:33:42.615Z",
+  "exportDate": "2026-04-03T07:33:57.436Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:33",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201634431.6973,
+      "ticker": "SONY80",
+      "date": "2024-09-27",
+      "perShare": 0.3791,
+      "qty": 1550,
+      "total": 587.59,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201634431.1025,
+      "ticker": "SONY80",
+      "date": "2025-03-28",
+      "perShare": 0.0726,
+      "qty": 1550,
+      "total": 112.47,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201634431.4585,
+      "ticker": "SONY80",
+      "date": "2025-09-29",
+      "perShare": 0.1812,
+      "qty": 1550,
+      "total": 280.89,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201634431.9038,
+      "ticker": "SONY80",
+      "date": "2026-03-30",
+      "perShare": 0.0125,
+      "qty": 1550,
+      "total": 19.39,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201619614.5989,
       "ticker": "SMH",

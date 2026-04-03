@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:24:42.064Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:24",
+  "exportDate": "2026-04-03T07:25:19.410Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:25",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,33 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201116404.215,
+      "ticker": "LLY80",
+      "date": "2025-08-15",
+      "perShare": 0.0025,
+      "qty": 4000,
+      "total": 9.84,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201116404.8948,
+      "ticker": "LLY80",
+      "date": "2025-11-14",
+      "perShare": 0.0024,
+      "qty": 4000,
+      "total": 9.76,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201116404.3428,
+      "ticker": "LLY80",
+      "date": "2026-02-13",
+      "perShare": 0.0027,
+      "qty": 4000,
+      "total": 10.96,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201079055.272,
       "ticker": "JEPQ",

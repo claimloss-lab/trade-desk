@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:22:47.011Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:22",
+  "exportDate": "2026-04-03T07:23:34.096Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:23",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201011094.706,
+      "ticker": "GOOG80",
+      "date": "2025-06-09",
+      "perShare": 0.0027,
+      "qty": 4600,
+      "total": 12.65,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201011094.2195,
+      "ticker": "GOOG80",
+      "date": "2025-09-08",
+      "perShare": 0.0027,
+      "qty": 4600,
+      "total": 12.42,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201011094.9856,
+      "ticker": "GOOG80",
+      "date": "2025-12-08",
+      "perShare": 0.0027,
+      "qty": 4600,
+      "total": 12.28,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201011094.1272,
+      "ticker": "GOOG80",
+      "date": "2026-03-09",
+      "perShare": 0.0033,
+      "qty": 4600,
+      "total": 15.18,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201009779.6135,
+      "ticker": "ICLN",
+      "date": "2024-06-11",
+      "perShare": 3.1248,
+      "qty": 15.627,
+      "total": 48.83,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201009779.8496,
+      "ticker": "ICLN",
+      "date": "2024-12-17",
+      "perShare": 3.7107,
+      "qty": 15.627,
+      "total": 57.99,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201009779.3745,
+      "ticker": "ICLN",
+      "date": "2025-06-16",
+      "perShare": 4.557,
+      "qty": 15.627,
+      "total": 71.21,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201009779.6902,
+      "ticker": "ICLN",
+      "date": "2025-12-16",
+      "perShare": 4.1664,
+      "qty": 15.627,
+      "total": 65.11,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775200964009.7231,
       "ticker": "AVGO80",
@@ -1080,6 +1152,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 0,
-    "totalNetWorth": "฿1,375,506.25"
+    "totalNetWorth": "฿1,376,107.12"
   }
 }

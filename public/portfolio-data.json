@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:25:42.435Z",
+  "exportDate": "2026-04-03T07:25:51.549Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:25",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201148537.1333,
+      "ticker": "NVDA80",
+      "date": "2025-06-11",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201148537.6472,
+      "ticker": "NVDA80",
+      "date": "2025-09-11",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201148537.657,
+      "ticker": "NVDA80",
+      "date": "2025-12-04",
+      "perShare": 0.0016,
+      "qty": 2457,
+      "total": 3.96,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201148537.1917,
+      "ticker": "NVDA80",
+      "date": "2026-03-11",
+      "perShare": 0.0015,
+      "qty": 2457,
+      "total": 3.78,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201139420.4404,
       "ticker": "MSFT80",

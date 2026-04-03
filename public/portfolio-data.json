@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:33:57.436Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:33",
+  "exportDate": "2026-04-03T07:34:02.614Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,222 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201639608.1123,
+      "ticker": "TLT",
+      "date": "2024-05-01",
+      "perShare": 10.0223,
+      "qty": 0.4154889,
+      "total": 4.16,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.4534,
+      "ticker": "TLT",
+      "date": "2024-06-03",
+      "perShare": 10.0223,
+      "qty": 0.4154889,
+      "total": 4.16,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.645,
+      "ticker": "TLT",
+      "date": "2024-07-01",
+      "perShare": 9.4691,
+      "qty": 0.4154889,
+      "total": 3.93,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.0715,
+      "ticker": "TLT",
+      "date": "2024-08-01",
+      "perShare": 10.2501,
+      "qty": 0.4154889,
+      "total": 4.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.1978,
+      "ticker": "TLT",
+      "date": "2024-09-03",
+      "perShare": 10.185,
+      "qty": 0.4154889,
+      "total": 4.23,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.4434,
+      "ticker": "TLT",
+      "date": "2024-10-01",
+      "perShare": 10.2826,
+      "qty": 0.4154889,
+      "total": 4.27,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.8323,
+      "ticker": "TLT",
+      "date": "2024-11-01",
+      "perShare": 10.1199,
+      "qty": 0.4154889,
+      "total": 4.2,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.1926,
+      "ticker": "TLT",
+      "date": "2024-12-02",
+      "perShare": 10.5755,
+      "qty": 0.4154889,
+      "total": 4.39,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.3643,
+      "ticker": "TLT",
+      "date": "2024-12-18",
+      "perShare": 11.4215,
+      "qty": 0.4154889,
+      "total": 4.75,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.0166,
+      "ticker": "TLT",
+      "date": "2025-02-03",
+      "perShare": 10.1525,
+      "qty": 0.4154889,
+      "total": 4.22,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.534,
+      "ticker": "TLT",
+      "date": "2025-03-03",
+      "perShare": 9.4366,
+      "qty": 0.4154889,
+      "total": 3.92,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.1084,
+      "ticker": "TLT",
+      "date": "2025-04-01",
+      "perShare": 10.608,
+      "qty": 0.4154889,
+      "total": 4.41,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.9556,
+      "ticker": "TLT",
+      "date": "2025-05-01",
+      "perShare": 10.6731,
+      "qty": 0.4154889,
+      "total": 4.43,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.739,
+      "ticker": "TLT",
+      "date": "2025-06-02",
+      "perShare": 10.4128,
+      "qty": 0.4154889,
+      "total": 4.33,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.2048,
+      "ticker": "TLT",
+      "date": "2025-07-01",
+      "perShare": 10.6731,
+      "qty": 0.4154889,
+      "total": 4.43,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.061,
+      "ticker": "TLT",
+      "date": "2025-08-01",
+      "perShare": 10.7707,
+      "qty": 0.4154889,
+      "total": 4.48,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.9873,
+      "ticker": "TLT",
+      "date": "2025-09-02",
+      "perShare": 10.6731,
+      "qty": 0.4154889,
+      "total": 4.43,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.3599,
+      "ticker": "TLT",
+      "date": "2025-10-01",
+      "perShare": 10.0874,
+      "qty": 0.4154889,
+      "total": 4.19,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.0552,
+      "ticker": "TLT",
+      "date": "2025-11-03",
+      "perShare": 10.5755,
+      "qty": 0.4154889,
+      "total": 4.39,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.9668,
+      "ticker": "TLT",
+      "date": "2025-12-01",
+      "perShare": 10.4453,
+      "qty": 0.4154889,
+      "total": 4.34,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.3645,
+      "ticker": "TLT",
+      "date": "2025-12-19",
+      "perShare": 11.1287,
+      "qty": 0.4154889,
+      "total": 4.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.8857,
+      "ticker": "TLT",
+      "date": "2026-02-02",
+      "perShare": 10.8033,
+      "qty": 0.4154889,
+      "total": 4.49,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.0637,
+      "ticker": "TLT",
+      "date": "2026-03-02",
+      "perShare": 9.7945,
+      "qty": 0.4154889,
+      "total": 4.07,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201639608.2778,
+      "ticker": "TLT",
+      "date": "2026-04-01",
+      "perShare": 11.2263,
+      "qty": 0.4154889,
+      "total": 4.66,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201634431.6973,
       "ticker": "SONY80",

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:20:35.594Z",
+  "exportDate": "2026-04-03T07:20:47.152Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:20",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200844143.2217,
+      "ticker": "TU.BK",
+      "date": "2024-08-21",
+      "perShare": 0.31,
+      "qty": 3000,
+      "total": 930,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200844143.5474,
+      "ticker": "TU.BK",
+      "date": "2025-02-28",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200844143.7827,
+      "ticker": "TU.BK",
+      "date": "2025-08-15",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200844143.806,
+      "ticker": "TU.BK",
+      "date": "2026-03-02",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200832592.7393,
       "ticker": "TISCO.BK",

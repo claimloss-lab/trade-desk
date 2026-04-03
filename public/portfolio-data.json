@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:26.153Z",
+  "exportDate": "2026-04-03T07:19:34.508Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
@@ -481,6 +481,114 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200771505.3315,
+      "ticker": "LHSC.BK",
+      "date": "2024-04-04",
+      "perShare": 0.1654,
+      "qty": 1800,
+      "total": 297.78,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.9722,
+      "ticker": "LHSC.BK",
+      "date": "2024-07-08",
+      "perShare": 0.1794,
+      "qty": 1800,
+      "total": 322.89,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.7087,
+      "ticker": "LHSC.BK",
+      "date": "2024-08-27",
+      "perShare": 0.1804,
+      "qty": 1800,
+      "total": 324.69,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.7273,
+      "ticker": "LHSC.BK",
+      "date": "2024-11-11",
+      "perShare": 0.17,
+      "qty": 1800,
+      "total": 306,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.974,
+      "ticker": "LHSC.BK",
+      "date": "2024-12-09",
+      "perShare": 0.15,
+      "qty": 1800,
+      "total": 270,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.4932,
+      "ticker": "LHSC.BK",
+      "date": "2025-03-12",
+      "perShare": 0.205,
+      "qty": 1800,
+      "total": 369,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.7107,
+      "ticker": "LHSC.BK",
+      "date": "2025-04-10",
+      "perShare": 0.18,
+      "qty": 1800,
+      "total": 324,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.6309,
+      "ticker": "LHSC.BK",
+      "date": "2025-07-07",
+      "perShare": 0.18,
+      "qty": 1800,
+      "total": 324,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.4854,
+      "ticker": "LHSC.BK",
+      "date": "2025-08-27",
+      "perShare": 0.18,
+      "qty": 1800,
+      "total": 324,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.9143,
+      "ticker": "LHSC.BK",
+      "date": "2025-10-31",
+      "perShare": 0.18,
+      "qty": 1800,
+      "total": 324,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.3562,
+      "ticker": "LHSC.BK",
+      "date": "2025-12-15",
+      "perShare": 0.22,
+      "qty": 1800,
+      "total": 396,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200771505.817,
+      "ticker": "LHSC.BK",
+      "date": "2026-03-11",
+      "perShare": 0.241,
+      "qty": 1800,
+      "total": 433.8,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200763151.5728,
       "ticker": "LHHOTEL.BK",

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:24:32.360Z",
+  "exportDate": "2026-04-03T07:24:42.064Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:24",
   "portfolios": [
     {
@@ -481,6 +481,222 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201079055.272,
+      "ticker": "JEPQ",
+      "date": "2024-05-01",
+      "perShare": 14.029,
+      "qty": 2.6299477,
+      "total": 36.9,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.498,
+      "ticker": "JEPQ",
+      "date": "2024-06-03",
+      "perShare": 14.6475,
+      "qty": 2.6299477,
+      "total": 38.52,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.9854,
+      "ticker": "JEPQ",
+      "date": "2024-07-01",
+      "perShare": 13.7035,
+      "qty": 2.6299477,
+      "total": 36.04,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.2866,
+      "ticker": "JEPQ",
+      "date": "2024-08-01",
+      "perShare": 13.8988,
+      "qty": 2.6299477,
+      "total": 36.55,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.151,
+      "ticker": "JEPQ",
+      "date": "2024-09-03",
+      "perShare": 18.1303,
+      "qty": 2.6299477,
+      "total": 47.68,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.6316,
+      "ticker": "JEPQ",
+      "date": "2024-10-01",
+      "perShare": 17.9351,
+      "qty": 2.6299477,
+      "total": 47.17,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.5747,
+      "ticker": "JEPQ",
+      "date": "2024-11-01",
+      "perShare": 16.0797,
+      "qty": 2.6299477,
+      "total": 42.29,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.4556,
+      "ticker": "JEPQ",
+      "date": "2024-12-02",
+      "perShare": 16.5354,
+      "qty": 2.6299477,
+      "total": 43.49,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.777,
+      "ticker": "JEPQ",
+      "date": "2024-12-31",
+      "perShare": 14.8428,
+      "qty": 2.6299477,
+      "total": 39.04,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.5483,
+      "ticker": "JEPQ",
+      "date": "2025-02-03",
+      "perShare": 14.6475,
+      "qty": 2.6299477,
+      "total": 38.52,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.3396,
+      "ticker": "JEPQ",
+      "date": "2025-03-03",
+      "perShare": 15.6891,
+      "qty": 2.6299477,
+      "total": 41.26,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.197,
+      "ticker": "JEPQ",
+      "date": "2025-04-01",
+      "perShare": 17.6095,
+      "qty": 2.6299477,
+      "total": 46.31,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.8633,
+      "ticker": "JEPQ",
+      "date": "2025-05-01",
+      "perShare": 19.4649,
+      "qty": 2.6299477,
+      "total": 51.19,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.17,
+      "ticker": "JEPQ",
+      "date": "2025-06-02",
+      "perShare": 20.2135,
+      "qty": 2.6299477,
+      "total": 53.16,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.8816,
+      "ticker": "JEPQ",
+      "date": "2025-07-01",
+      "perShare": 16.0797,
+      "qty": 2.6299477,
+      "total": 42.29,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.6057,
+      "ticker": "JEPQ",
+      "date": "2025-08-01",
+      "perShare": 14.4522,
+      "qty": 2.6299477,
+      "total": 38.01,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.3105,
+      "ticker": "JEPQ",
+      "date": "2025-09-02",
+      "perShare": 14.3871,
+      "qty": 2.6299477,
+      "total": 37.84,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.0571,
+      "ticker": "JEPQ",
+      "date": "2025-10-01",
+      "perShare": 14.5173,
+      "qty": 2.6299477,
+      "total": 38.18,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.3726,
+      "ticker": "JEPQ",
+      "date": "2025-11-03",
+      "perShare": 15.4938,
+      "qty": 2.6299477,
+      "total": 40.75,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.5613,
+      "ticker": "JEPQ",
+      "date": "2025-12-01",
+      "perShare": 18.0002,
+      "qty": 2.6299477,
+      "total": 47.34,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.0217,
+      "ticker": "JEPQ",
+      "date": "2025-12-31",
+      "perShare": 18.7488,
+      "qty": 2.6299477,
+      "total": 49.31,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.192,
+      "ticker": "JEPQ",
+      "date": "2026-02-02",
+      "perShare": 15.1683,
+      "qty": 2.6299477,
+      "total": 39.89,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.2563,
+      "ticker": "JEPQ",
+      "date": "2026-03-02",
+      "perShare": 16.5679,
+      "qty": 2.6299477,
+      "total": 43.57,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201079055.4998,
+      "ticker": "JEPQ",
+      "date": "2026-04-01",
+      "perShare": 18.1955,
+      "qty": 2.6299477,
+      "total": 47.85,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201069354.7644,
       "ticker": "IXN",

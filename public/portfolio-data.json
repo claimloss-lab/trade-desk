@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:34:12.196Z",
+  "exportDate": "2026-04-03T07:34:20.529Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201657527.4958,
+      "ticker": "VEA",
+      "date": "2024-06-21",
+      "perShare": 15.0009,
+      "qty": 3.431,
+      "total": 51.47,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.387,
+      "ticker": "VEA",
+      "date": "2024-09-20",
+      "perShare": 4.6858,
+      "qty": 3.431,
+      "total": 16.08,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.2563,
+      "ticker": "VEA",
+      "date": "2024-12-20",
+      "perShare": 23.201,
+      "qty": 3.431,
+      "total": 79.6,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.24,
+      "ticker": "VEA",
+      "date": "2025-03-21",
+      "perShare": 7.8747,
+      "qty": 3.431,
+      "total": 27.02,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.2642,
+      "ticker": "VEA",
+      "date": "2025-06-20",
+      "perShare": 14.3501,
+      "qty": 3.431,
+      "total": 49.24,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.9614,
+      "ticker": "VEA",
+      "date": "2025-09-19",
+      "perShare": 9.339,
+      "qty": 3.431,
+      "total": 32.04,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.378,
+      "ticker": "VEA",
+      "date": "2025-12-19",
+      "perShare": 33.8416,
+      "qty": 3.431,
+      "total": 116.11,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201657527.4524,
+      "ticker": "VEA",
+      "date": "2026-03-20",
+      "perShare": 3.5469,
+      "qty": 3.431,
+      "total": 12.17,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201649189.2996,
       "ticker": "VCIT",

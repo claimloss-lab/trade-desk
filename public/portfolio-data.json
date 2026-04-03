@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:32:59.499Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:32",
+  "exportDate": "2026-04-03T07:33:21.711Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:33",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201598701.2678,
+      "ticker": "QQQM19",
+      "date": "2025-06-23",
+      "perShare": 0.0172,
+      "qty": 1500,
+      "total": 25.8,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201598701.7263,
+      "ticker": "QQQM19",
+      "date": "2025-09-22",
+      "perShare": 0.0173,
+      "qty": 1500,
+      "total": 25.95,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201598701.2253,
+      "ticker": "QQQM19",
+      "date": "2025-12-22",
+      "perShare": 0.0168,
+      "qty": 1500,
+      "total": 25.2,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201598701.2642,
+      "ticker": "QQQM19",
+      "date": "2026-03-23",
+      "perShare": 0.0164,
+      "qty": 1500,
+      "total": 24.6,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201576495.5403,
       "ticker": "O",

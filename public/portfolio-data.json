@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:25:33.329Z",
+  "exportDate": "2026-04-03T07:25:42.435Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:25",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201139420.4404,
+      "ticker": "MSFT80",
+      "date": "2025-05-15",
+      "perShare": 0.0109,
+      "qty": 18600,
+      "total": 202,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201139420.3127,
+      "ticker": "MSFT80",
+      "date": "2025-08-21",
+      "perShare": 0.0106,
+      "qty": 18600,
+      "total": 197.35,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201139420.258,
+      "ticker": "MSFT80",
+      "date": "2025-11-20",
+      "perShare": 0.0144,
+      "qty": 18600,
+      "total": 267.84,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201139420.417,
+      "ticker": "MSFT80",
+      "date": "2026-02-19",
+      "perShare": 0.0145,
+      "qty": 18600,
+      "total": 269.51,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201130321.0432,
       "ticker": "META80",

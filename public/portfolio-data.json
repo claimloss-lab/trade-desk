@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:52.794Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
+  "exportDate": "2026-04-03T07:20:12.257Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:20",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200809250.814,
+      "ticker": "MINT.BK",
+      "date": "2024-05-02",
+      "perShare": 0.32,
+      "qty": 1600,
+      "total": 512,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200809250.2026,
+      "ticker": "MINT.BK",
+      "date": "2024-09-03",
+      "perShare": 0.25,
+      "qty": 1600,
+      "total": 400,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200809250.3208,
+      "ticker": "MINT.BK",
+      "date": "2025-05-07",
+      "perShare": 0.35,
+      "qty": 1600,
+      "total": 560,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200809250.5352,
+      "ticker": "MINT.BK",
+      "date": "2025-09-01",
+      "perShare": 0.3,
+      "qty": 1600,
+      "total": 480,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200789793.211,
       "ticker": "MC.BK",

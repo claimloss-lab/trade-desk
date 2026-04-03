@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:20:12.257Z",
+  "exportDate": "2026-04-03T07:20:35.594Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:20",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200832592.7393,
+      "ticker": "TISCO.BK",
+      "date": "2024-04-24",
+      "perShare": 5.75,
+      "qty": 400,
+      "total": 2300,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200832592.605,
+      "ticker": "TISCO.BK",
+      "date": "2024-09-10",
+      "perShare": 2,
+      "qty": 400,
+      "total": 800,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200832592.4722,
+      "ticker": "TISCO.BK",
+      "date": "2025-04-25",
+      "perShare": 5.75,
+      "qty": 400,
+      "total": 2300,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200832592.2039,
+      "ticker": "TISCO.BK",
+      "date": "2025-09-10",
+      "perShare": 2,
+      "qty": 400,
+      "total": 800,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200809250.814,
       "ticker": "MINT.BK",

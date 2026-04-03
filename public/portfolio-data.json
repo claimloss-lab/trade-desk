@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:33:21.711Z",
+  "exportDate": "2026-04-03T07:33:34.136Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:33",
   "portfolios": [
     {
@@ -481,6 +481,78 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201611134.762,
+      "ticker": "SCHD",
+      "date": "2024-06-26",
+      "perShare": 8.9377,
+      "qty": 2.3704646,
+      "total": 21.19,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.7966,
+      "ticker": "SCHD",
+      "date": "2024-09-25",
+      "perShare": 8.1892,
+      "qty": 2.3704646,
+      "total": 19.41,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.9749,
+      "ticker": "SCHD",
+      "date": "2024-12-11",
+      "perShare": 8.6231,
+      "qty": 2.3704646,
+      "total": 20.44,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.6711,
+      "ticker": "SCHD",
+      "date": "2025-03-26",
+      "perShare": 8.1025,
+      "qty": 2.3704646,
+      "total": 19.21,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.9668,
+      "ticker": "SCHD",
+      "date": "2025-06-25",
+      "perShare": 8.4604,
+      "qty": 2.3704646,
+      "total": 20.06,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.8015,
+      "ticker": "SCHD",
+      "date": "2025-09-24",
+      "perShare": 8.4604,
+      "qty": 2.3704646,
+      "total": 20.06,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.377,
+      "ticker": "SCHD",
+      "date": "2025-12-10",
+      "perShare": 9.0461,
+      "qty": 2.3704646,
+      "total": 21.44,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201611134.5054,
+      "ticker": "SCHD",
+      "date": "2026-03-25",
+      "perShare": 8.3628,
+      "qty": 2.3704646,
+      "total": 19.82,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201598701.2678,
       "ticker": "QQQM19",

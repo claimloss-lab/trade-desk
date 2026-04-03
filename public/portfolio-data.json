@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:34:36.194Z",
+  "exportDate": "2026-04-03T07:34:43.123Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
@@ -481,6 +481,69 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201680113.4026,
+      "ticker": "VWO",
+      "date": "2024-06-21",
+      "perShare": 5.5318,
+      "qty": 2.01,
+      "total": 11.12,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.8079,
+      "ticker": "VWO",
+      "date": "2024-09-20",
+      "perShare": 4.3604,
+      "qty": 2.01,
+      "total": 8.76,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.1746,
+      "ticker": "VWO",
+      "date": "2024-12-20",
+      "perShare": 34.6876,
+      "qty": 2.01,
+      "total": 69.72,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.8467,
+      "ticker": "VWO",
+      "date": "2025-03-21",
+      "perShare": 1.5294,
+      "qty": 2.01,
+      "total": 3.07,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.6782,
+      "ticker": "VWO",
+      "date": "2025-06-20",
+      "perShare": 4.5231,
+      "qty": 2.01,
+      "total": 9.09,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.7998,
+      "ticker": "VWO",
+      "date": "2025-09-19",
+      "perShare": 9.1112,
+      "qty": 2.01,
+      "total": 18.31,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201680113.9097,
+      "ticker": "VWO",
+      "date": "2025-12-19",
+      "perShare": 33.6138,
+      "qty": 2.01,
+      "total": 67.56,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201673185.1372,
       "ticker": "VTI",

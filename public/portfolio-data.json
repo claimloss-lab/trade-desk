@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:22:34.852Z",
+  "exportDate": "2026-04-03T07:22:47.011Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:22",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200964009.7231,
+      "ticker": "AVGO80",
+      "date": "2025-06-20",
+      "perShare": 0.0038,
+      "qty": 26000,
+      "total": 99.32,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200964009.0674,
+      "ticker": "AVGO80",
+      "date": "2025-09-22",
+      "perShare": 0.0038,
+      "qty": 26000,
+      "total": 98.54,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200964009.2388,
+      "ticker": "AVGO80",
+      "date": "2025-12-22",
+      "perShare": 0.0041,
+      "qty": 26000,
+      "total": 106.6,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200964009.6824,
+      "ticker": "AVGO80",
+      "date": "2026-03-23",
+      "perShare": 0.0041,
+      "qty": 26000,
+      "total": 106.34,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200951846.2615,
       "ticker": "ASML01",

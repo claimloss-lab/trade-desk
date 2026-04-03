@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:34.508Z",
+  "exportDate": "2026-04-03T07:19:52.794Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200789793.211,
+      "ticker": "MC.BK",
+      "date": "2024-10-31",
+      "perShare": 0.4,
+      "qty": 2000,
+      "total": 800,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200789793.1892,
+      "ticker": "MC.BK",
+      "date": "2025-02-27",
+      "perShare": 0.55,
+      "qty": 2000,
+      "total": 1100,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200789793.6267,
+      "ticker": "MC.BK",
+      "date": "2025-11-04",
+      "perShare": 0.41,
+      "qty": 2000,
+      "total": 820,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200789793.889,
+      "ticker": "MC.BK",
+      "date": "2026-02-26",
+      "perShare": 0.52,
+      "qty": 2000,
+      "total": 1040,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200771505.3315,
       "ticker": "LHSC.BK",

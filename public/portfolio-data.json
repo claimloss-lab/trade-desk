@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:34:02.614Z",
+  "exportDate": "2026-04-03T07:34:12.196Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:34",
   "portfolios": [
     {
@@ -481,6 +481,222 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201649189.2996,
+      "ticker": "VCIT",
+      "date": "2024-05-01",
+      "perShare": 9.5017,
+      "qty": 3.41,
+      "total": 32.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.815,
+      "ticker": "VCIT",
+      "date": "2024-06-03",
+      "perShare": 9.7295,
+      "qty": 3.41,
+      "total": 33.18,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.1355,
+      "ticker": "VCIT",
+      "date": "2024-07-01",
+      "perShare": 9.4041,
+      "qty": 3.41,
+      "total": 32.07,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.7468,
+      "ticker": "VCIT",
+      "date": "2024-08-01",
+      "perShare": 9.7945,
+      "qty": 3.41,
+      "total": 33.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.6177,
+      "ticker": "VCIT",
+      "date": "2024-09-03",
+      "perShare": 9.7945,
+      "qty": 3.41,
+      "total": 33.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.0476,
+      "ticker": "VCIT",
+      "date": "2024-10-01",
+      "perShare": 9.6644,
+      "qty": 3.41,
+      "total": 32.96,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.4443,
+      "ticker": "VCIT",
+      "date": "2024-11-01",
+      "perShare": 10.3152,
+      "qty": 3.41,
+      "total": 35.17,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.4731,
+      "ticker": "VCIT",
+      "date": "2024-12-02",
+      "perShare": 9.7295,
+      "qty": 3.41,
+      "total": 33.18,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.6252,
+      "ticker": "VCIT",
+      "date": "2024-12-24",
+      "perShare": 10.1525,
+      "qty": 3.41,
+      "total": 34.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.1829,
+      "ticker": "VCIT",
+      "date": "2025-02-03",
+      "perShare": 10.185,
+      "qty": 3.41,
+      "total": 34.73,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.815,
+      "ticker": "VCIT",
+      "date": "2025-03-03",
+      "perShare": 9.339,
+      "qty": 3.41,
+      "total": 31.85,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.088,
+      "ticker": "VCIT",
+      "date": "2025-04-01",
+      "perShare": 10.3803,
+      "qty": 3.41,
+      "total": 35.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.625,
+      "ticker": "VCIT",
+      "date": "2025-05-01",
+      "perShare": 10.2501,
+      "qty": 3.41,
+      "total": 34.95,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.7488,
+      "ticker": "VCIT",
+      "date": "2025-06-02",
+      "perShare": 10.6731,
+      "qty": 3.41,
+      "total": 36.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.288,
+      "ticker": "VCIT",
+      "date": "2025-07-01",
+      "perShare": 10.4453,
+      "qty": 3.41,
+      "total": 35.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.9966,
+      "ticker": "VCIT",
+      "date": "2025-08-01",
+      "perShare": 11.0961,
+      "qty": 3.41,
+      "total": 37.84,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.9373,
+      "ticker": "VCIT",
+      "date": "2025-09-02",
+      "perShare": 10.6731,
+      "qty": 3.41,
+      "total": 36.4,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.4316,
+      "ticker": "VCIT",
+      "date": "2025-10-01",
+      "perShare": 10.608,
+      "qty": 3.41,
+      "total": 36.17,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.6187,
+      "ticker": "VCIT",
+      "date": "2025-11-03",
+      "perShare": 10.8684,
+      "qty": 3.41,
+      "total": 37.06,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.1973,
+      "ticker": "VCIT",
+      "date": "2025-12-01",
+      "perShare": 10.4779,
+      "qty": 3.41,
+      "total": 35.73,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.0205,
+      "ticker": "VCIT",
+      "date": "2025-12-18",
+      "perShare": 10.9334,
+      "qty": 3.41,
+      "total": 37.28,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.5422,
+      "ticker": "VCIT",
+      "date": "2026-02-02",
+      "perShare": 10.7382,
+      "qty": 3.41,
+      "total": 36.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.1284,
+      "ticker": "VCIT",
+      "date": "2026-03-02",
+      "perShare": 9.8596,
+      "qty": 3.41,
+      "total": 33.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201649189.1956,
+      "ticker": "VCIT",
+      "date": "2026-04-01",
+      "perShare": 11.1938,
+      "qty": 3.41,
+      "total": 38.17,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201639608.1123,
       "ticker": "TLT",

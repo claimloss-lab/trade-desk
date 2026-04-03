@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:25:19.410Z",
+  "exportDate": "2026-04-03T07:25:33.329Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:25",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201130321.0432,
+      "ticker": "META80",
+      "date": "2025-06-16",
+      "perShare": 0.0017,
+      "qty": 800,
+      "total": 1.38,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201130321.4165,
+      "ticker": "META80",
+      "date": "2025-09-22",
+      "perShare": 0.0017,
+      "qty": 800,
+      "total": 1.37,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201130321.9714,
+      "ticker": "META80",
+      "date": "2025-12-15",
+      "perShare": 0.0021,
+      "qty": 800,
+      "total": 1.67,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775201130321.048,
+      "ticker": "META80",
+      "date": "2026-03-16",
+      "perShare": 0.002,
+      "qty": 800,
+      "total": 1.62,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775201116404.215,
       "ticker": "LLY80",

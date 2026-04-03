@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-01T06:58:05.137Z",
-  "exportDateTH": "1 เมษายน 2569 เวลา 13:58",
+  "exportDate": "2026-04-03T07:18:30.224Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:18",
   "portfolios": [
     {
       "id": "dr1",
@@ -480,11 +480,48 @@
   "transactions": [],
   "alerts": [],
   "notes": [],
-  "dividends": [],
+  "dividends": [
+    {
+      "id": 1775200707213.5574,
+      "ticker": "BDMS.BK",
+      "date": "2024-09-10",
+      "perShare": 0.35,
+      "qty": 2000,
+      "total": 700,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200707213.8572,
+      "ticker": "BDMS.BK",
+      "date": "2025-03-12",
+      "perShare": 0.4,
+      "qty": 2000,
+      "total": 800,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200707213.289,
+      "ticker": "BDMS.BK",
+      "date": "2025-09-09",
+      "perShare": 0.35,
+      "qty": 2000,
+      "total": 700,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200707213.819,
+      "ticker": "BDMS.BK",
+      "date": "2026-03-10",
+      "perShare": 0.65,
+      "qty": 2000,
+      "total": 1300,
+      "note": "auto-fetch (THB)"
+    }
+  ],
   "summary": {
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 0,
-    "totalNetWorth": "฿1,377,293.88"
+    "totalNetWorth": "฿1,375,506.25"
   }
 }

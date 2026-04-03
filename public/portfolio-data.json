@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:19:09.210Z",
+  "exportDate": "2026-04-03T07:19:16.304Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200753302.7278,
+      "ticker": "HMPRO.BK",
+      "date": "2024-04-22",
+      "perShare": 0.22,
+      "qty": 3600,
+      "total": 792,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200753302.2122,
+      "ticker": "HMPRO.BK",
+      "date": "2024-09-10",
+      "perShare": 0.18,
+      "qty": 3600,
+      "total": 648,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200753302.401,
+      "ticker": "HMPRO.BK",
+      "date": "2025-04-22",
+      "perShare": 0.25,
+      "qty": 3600,
+      "total": 900,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200753302.9019,
+      "ticker": "HMPRO.BK",
+      "date": "2025-09-10",
+      "perShare": 0.16,
+      "qty": 3600,
+      "total": 576,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200746205.614,
       "ticker": "CPN.BK",

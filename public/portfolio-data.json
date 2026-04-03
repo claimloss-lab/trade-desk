@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:24:19.872Z",
+  "exportDate": "2026-04-03T07:24:32.360Z",
   "exportDateTH": "3 เมษายน 2569 เวลา 14:24",
   "portfolios": [
     {
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201069354.7644,
+      "ticker": "IXN",
+      "date": "2024-06-11",
+      "perShare": 5.208,
+      "qty": 2.651,
+      "total": 13.81,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201069354.0234,
+      "ticker": "IXN",
+      "date": "2024-12-17",
+      "perShare": 6.5425,
+      "qty": 2.651,
+      "total": 17.34,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201069354.4397,
+      "ticker": "IXN",
+      "date": "2025-06-16",
+      "perShare": 5.3382,
+      "qty": 2.651,
+      "total": 14.15,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201069354.4954,
+      "ticker": "IXN",
+      "date": "2025-12-16",
+      "perShare": 30.2389,
+      "qty": 2.651,
+      "total": 80.16,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201056871.889,
       "ticker": "IXJ",

@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:23:34.096Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:23",
+  "exportDate": "2026-04-03T07:24:19.872Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:24",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,42 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775201056871.889,
+      "ticker": "IXJ",
+      "date": "2024-06-11",
+      "perShare": 21.8736,
+      "qty": 2.863,
+      "total": 62.62,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201056871.331,
+      "ticker": "IXJ",
+      "date": "2024-12-17",
+      "perShare": 20.0833,
+      "qty": 2.863,
+      "total": 57.5,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201056871.6335,
+      "ticker": "IXJ",
+      "date": "2025-06-16",
+      "perShare": 24.8356,
+      "qty": 2.863,
+      "total": 71.1,
+      "note": "auto-fetch (USD)"
+    },
+    {
+      "id": 1775201056871.1226,
+      "ticker": "IXJ",
+      "date": "2025-12-16",
+      "perShare": 19.4649,
+      "qty": 2.863,
+      "total": 55.73,
+      "note": "auto-fetch (USD)"
+    },
     {
       "id": 1775201011094.706,
       "ticker": "GOOG80",

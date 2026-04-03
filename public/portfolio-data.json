@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-03T07:18:50.910Z",
-  "exportDateTH": "3 เมษายน 2569 เวลา 14:18",
+  "exportDate": "2026-04-03T07:19:05.528Z",
+  "exportDateTH": "3 เมษายน 2569 เวลา 14:19",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,6 +481,24 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1775200742519.6145,
+      "ticker": "CPALL.BK",
+      "date": "2024-05-07",
+      "perShare": 1,
+      "qty": 900,
+      "total": 900,
+      "note": "auto-fetch (THB)"
+    },
+    {
+      "id": 1775200742519.433,
+      "ticker": "CPALL.BK",
+      "date": "2025-05-06",
+      "perShare": 1.35,
+      "qty": 900,
+      "total": 1215,
+      "note": "auto-fetch (THB)"
+    },
     {
       "id": 1775200727909.7327,
       "ticker": "CENTEL.BK",

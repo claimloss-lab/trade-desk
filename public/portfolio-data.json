@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T11:45:28.109Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 18:45",
+  "exportDate": "2026-04-17T11:47:52.264Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 18:47",
   "portfolios": [
     {
       "id": "dr1",
@@ -481,12 +481,35 @@
       "name": "WealthX",
       "type": "realtime_th",
       "color": "#00c7be",
-      "stocks": [],
+      "stocks": [
+        {
+          "ticker": "TLNDQINCOME-UH-X",
+          "buyPrice": 10.1892,
+          "qty": 196.287,
+          "sector": "Other",
+          "underlying": "TLNDQINCOME-UH-X",
+          "id": 1776426469254
+        }
+      ],
       "cash": 0,
       "snapshots": []
     }
   ],
-  "transactions": [],
+  "transactions": [
+    {
+      "id": 1776426469254,
+      "ticker": "TLNDQINCOME-UH-X",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 10.1892,
+      "qty": 196.287,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "p_1776426325097",
+      "auto": true
+    }
+  ],
   "alerts": [],
   "notes": [],
   "dividends": [
@@ -1699,8 +1722,8 @@
   ],
   "summary": {
     "totalPorts": 9,
-    "totalStocks": 47,
-    "totalTransactions": 0,
-    "totalNetWorth": "฿1,443,480.23"
+    "totalStocks": 48,
+    "totalTransactions": 1,
+    "totalNetWorth": "฿1,445,480.24"
   }
 }

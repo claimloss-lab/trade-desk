@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:50:04.205Z",
+  "exportDate": "2026-04-17T15:50:38.733Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:50",
   "portfolios": [
     {
@@ -374,7 +374,9 @@
           "buyPrice": 12.4024,
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 13.8453,
+          "navDate": "17 เม.ย. 69"
         },
         {
           "id": 2,
@@ -605,6 +607,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 9,
-    "totalNetWorth": "฿1,442,147.22"
+    "totalNetWorth": "฿1,444,415.86"
   }
 }

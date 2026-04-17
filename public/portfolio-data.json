@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:49:15.462Z",
+  "exportDate": "2026-04-17T15:49:53.250Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:49",
   "portfolios": [
     {
@@ -370,7 +370,7 @@
         {
           "id": 1,
           "ticker": "K-GA-A(A)",
-          "qty": 1500.2791,
+          "qty": 1572.2768,
           "buyPrice": 12.331,
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
@@ -605,6 +605,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 9,
-    "totalNetWorth": "฿1,441,147.15"
+    "totalNetWorth": "฿1,442,034.96"
   }
 }

@@ -541,6 +541,10 @@ function setCur(c){
 }
 function cv(thb){ return currency==='USD'?thb/usdRate:thb; }
 function fm(thb){ const v=cv(thb),s=currency==='USD'?'$':'฿'; return s+new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(v); }
+function fq(v){
+  if(v===undefined||v===null||isNaN(v)) return '—';
+  return parseFloat(v.toFixed(4)).toLocaleString('en-US',{maximumFractionDigits:4});
+}
 function fn(n,d=2){ return new Intl.NumberFormat('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}).format(n); }
 
 // ══════════════════════════════════════════════════
@@ -937,7 +941,7 @@ function renderDime(portId){
       return `<tr>
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
-        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
         <td>
           <span class="edt" onclick="edtDimeFundCost('${portId}',${s.id})" title="คลิกเพื่อแก้ต้นทุน">
             <span style="font-size:10px;color:var(--tx3)">ต้นทุน:</span>
@@ -984,7 +988,7 @@ function renderDime(portId){
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="realtime_us">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="sec-tag" style="background:${color}22;color:${color}">${s.sector||'—'}</span></td>
-        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fn(s.qty,4)}</span></td>
+        <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
         <td>
           <span class="edt" onclick="edtDime('${portId}',${s.id},'buyPrice',this)" title="คลิกเพื่อแก้ไข (USD)">
             <span style="font-size:10px;color:var(--tx3)">$${fn(s.buyPrice,2)}</span><br>
@@ -1198,30 +1202,49 @@ function renderPortfolio(portId) {
   const tbody=el('body');
   if(!tbody) return;
   if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="11" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
+  const isUS = port.type==='realtime_us';
   tbody.innerHTML=port.stocks.map(s=>{
     const p=prices[s.ticker+'_'+portId];
-    const cost2=s.buyPrice*s.qty;
+    // For US ports: buyPrice stored in THB, also compute USD
+    const buyTHB = s.buyPrice;
+    const buyUSD = s.buyPriceUSD || (isUS ? buyTHB/usdThbRate : null);
+    const cost2 = isUS ? buyTHB*s.qty : s.buyPrice*s.qty;
     const sc=SECTOR_COLORS[s.sector]||'#888';
     const spId=portId+'_sp_'+s.id;
+    // Cost display: for US show "$USD (฿THB)"
+    const costCell = isUS
+      ? `<div style="line-height:1.6">
+           <span class="edt mono" onclick="edtUSBuyPrice('${portId}',${s.id})" title="คลิกแก้ต้นทุน USD">
+             $${fn(buyUSD,2)}
+           </span>
+           <div style="font-size:10px;color:var(--tx3)">฿${fn(buyTHB,2)}</div>
+         </div>`
+      : `<span class="edt" onclick="edt('${portId}',${s.id},'buyPrice',this)">${fm(s.buyPrice)}</span>`;
     if(!p) return `<tr>
       <td><span class="tkr">${s.ticker}</span></td>
       <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
       <td><span class="sec-tag" style="background:${sc}22;color:${sc}">${s.sector||'—'}</span></td>
-      <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fn(s.qty,0)}</span></td>
-      <td><span class="edt" onclick="edt('${portId}',${s.id},'buyPrice',this)">${fm(s.buyPrice)}</span></td>
+      <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
+      <td>${costCell}</td>
       <td class="muted" style="font-size:11px">โหลด...</td>
       <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td></td></tr>`;
-    const val=p.price*s.qty,pnl2=val-cost2,pct2=(p.price-s.buyPrice)/s.buyPrice*100;
+    const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
+    const pnl2=valTHB-cost2;
+    const pct2=cost2>0?pnl2/cost2*100:0;
     const day2=p.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
     return `<tr>
       <td><span class="tkr">${s.ticker}</span></td>
       <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
       <td><span class="sec-tag" style="background:${sc}22;color:${sc}">${s.sector||'—'}</span></td>
-      <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fn(s.qty,0)}</span></td>
+      <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
       <td><span class="edt" onclick="edt('${portId}',${s.id},'buyPrice',this)">${fm(s.buyPrice)}</span></td>
-      <td class="mono" style="font-weight:600">${fm(p.price)}</td>
+      <td class="mono" style="font-weight:600">${isUS
+        ? `<div style="line-height:1.6">$${fn(p.price,2)}<div style="font-size:10px;color:var(--tx3)">฿${fn(p.price*usdThbRate,2)}</div></div>`
+        : fm(p.price)}</td>
       <td>${day2!==null?`<span class="${day2>=0?'pos':'neg'}">${day2>=0?'▲':'▼'}${Math.abs(day2).toFixed(2)}%</span>`:'—'}</td>
-      <td class="mono">${fm(val)}</td>
+      <td class="mono">${isUS
+        ? `<div style="line-height:1.6">$${fn(valTHB/usdThbRate,2)}<div style="font-size:10px;color:var(--tx3)">฿${fn(valTHB,2)}</div></div>`
+        : fm(valTHB)}</td>
       <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}${fm(pnl2)}</td>
       <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
       <td><canvas id="${spId}" width="56" height="24"></canvas></td></tr>`;
@@ -1309,7 +1332,7 @@ function renderSnapshot(portId) {
         return `<tr>
           <td><span class="tkr">${s.ticker}</span></td>
           <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
-          <td class="mono">${fn(s.qty,4)}</td>
+          <td class="mono">${fq(s.qty)}</td>
           <td class="mono" style="color:var(--tx3)">฿${fn(s.buyPrice,4)}</td>
           <td>
             <div style="display:flex;align-items:center;gap:6px">
@@ -1940,7 +1963,7 @@ function renderTransactions(){
   body.innerHTML=list.map(t=>{
     const tag=t.type==='buy'?`<span style="background:var(--green-bg);color:var(--green-tx);padding:2px 8px;border-radius:20px;font-size:11px">ซื้อ</span>`:`<span style="background:var(--red-bg);color:var(--red-tx);padding:2px 8px;border-radius:20px;font-size:11px">ขาย</span>`;
     const rp=t.realizedPnl!=null?`<span class="${t.realizedPnl>=0?'pos':'neg'}">${t.realizedPnl>=0?'+':''}฿${fn(t.realizedPnl)}</span>`:'—';
-    return `<tr><td class="muted">${t.date}</td><td><span class="tkr">${t.ticker}</span></td><td>${tag}</td><td class="mono">฿${fn(t.price)}</td><td class="mono">${fn(t.qty,0)}</td><td class="mono">฿${fn(t.fee)}</td><td class="mono">฿${fn(t.price*t.qty)}</td><td>${rp}</td><td style="font-size:11px;color:var(--tx2)">${t.note||'—'}</td><td><button onclick="deleteTx(${t.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button></td></tr>`;
+    return `<tr><td class="muted">${t.date}</td><td><span class="tkr">${t.ticker}</span></td><td>${tag}</td><td class="mono">฿${fn(t.price)}</td><td class="mono">${fq(t.qty)}</td><td class="mono">฿${fn(t.fee)}</td><td class="mono">฿${fn(t.price*t.qty)}</td><td>${rp}</td><td style="font-size:11px;color:var(--tx2)">${t.note||'—'}</td><td><button onclick="deleteTx(${t.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button></td></tr>`;
   }).join('');
   const realized=transactions.filter(t=>t.type==='sell'&&t.realizedPnl!=null).reduce((s,t)=>s+t.realizedPnl,0);
   const rl=document.getElementById('realized-pnl');
@@ -2020,7 +2043,7 @@ function checkWatchlistAlerts(){
     if(!w._notified){
       if(Notification.permission==='granted'){
         new Notification('TradeDesk: ถึงเวลาซื้อ '+w.ticker+'!',{
-          body:'ราคา ฿'+fn(curPrice)+' ≤ เป้า ฿'+fn(w.targetPrice)+' · '+fn(w.qty,0)+' หุ้น'
+          body:'ราคา ฿'+fn(curPrice)+' ≤ เป้า ฿'+fn(w.targetPrice)+' · '+fq(w.qty)+' หุ้น'
         });
       }
       // Toast in-app
@@ -2111,7 +2134,7 @@ function renderDividends(){
   body.innerHTML=list.map(d=>`<tr>
     <td class="muted">${d.date}</td>
     <td><span class="tkr" style="cursor:pointer" onclick="showDivYearPopup('${d.ticker}')" title="คลิกดูปันผลรายปี">${d.ticker}</span></td>
-    <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fn(d.qty,0)}</td>
+    <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fq(d.qty)}</td>
     <td class="mono pos">+฿${fn(d.total)}</td>
     <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
     <td><button onclick="deleteDividend(${d.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button></td>
@@ -2203,6 +2226,28 @@ function updateFundNav(portId, stockId){
   stock.navDate = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
   savePorts();
   renderDime(portId);
+  renderOverview();
+}
+
+function edtUSBuyPrice(portId, stockId){
+  const port=getPort(portId);
+  const stock=port?.stocks.find(s=>s.id===stockId);
+  if(!stock) return;
+  const curUSD = stock.buyPriceUSD || (stock.buyPrice/usdThbRate);
+  const newUSDStr = prompt(
+    stock.ticker + ' — แก้ต้นทุน\n\n' +
+    'ต้นทุนปัจจุบัน: $' + fn(curUSD,2) + ' (฿' + fn(stock.buyPrice,2) + ')\n' +
+    'USD/THB ปัจจุบัน: ' + fn(usdThbRate,2) + '\n\n' +
+    'กรอกต้นทุนใหม่เป็น USD:',
+    fn(curUSD,2)
+  );
+  if(newUSDStr===null) return;
+  const newUSD = parseFloat(newUSDStr.replace(/,/g,''));
+  if(isNaN(newUSD)||newUSD<=0){ alert('ค่าไม่ถูกต้อง'); return; }
+  stock.buyPriceUSD = newUSD;
+  stock.buyPrice = newUSD * usdThbRate; // store THB equivalent
+  savePorts();
+  renderPortfolio(portId);
   renderOverview();
 }
 
@@ -2603,7 +2648,7 @@ function markWatchlistDone(id){
   const dStock=dPort?.stocks?.find(s=>_nm(s.ticker)===_nm(item.ticker));
   const p = dStock ? prices[dStock.ticker+'_'+dPort.id] : null;
   const actualPrice = wlPrices[item.ticker] || wlPrices[item.ticker+'.BK'] || p?.price || item.targetPrice;
-  if(!confirm(`ยืนยันซื้อ ${item.ticker} จำนวน ${fn(item.qty,0)} หุ้น ที่ราคา ฿${fn(actualPrice)} ?`)) return;
+  if(!confirm(`ยืนยันซื้อ ${item.ticker} จำนวน ${fq(item.qty)} หุ้น ที่ราคา ฿${fn(actualPrice)} ?`)) return;
   item.status = 'done';
   item.doneDate = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
   item.actualPrice = actualPrice;
@@ -2673,7 +2718,7 @@ function renderWatchlist(){
           </div>
           <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px">
             <span>เป้าหมาย: <strong class="mono">฿${fn(w.targetPrice)}</strong></span>
-            <span>จำนวน: <strong class="mono">${fn(w.qty,0)} หุ้น</strong></span>
+            <span>จำนวน: <strong class="mono">${fq(w.qty)} หุ้น</strong></span>
             <span>งบ: <strong class="mono">฿${fn(budget)}</strong></span>
             ${curPrice?`<span>ราคาตอนนี้: <strong class="mono ${isHit?'pos':diff<0?'pos':'neg'}">฿${fn(curPrice)} (${diff>=0?'+':''}${diff?.toFixed(1)}%)</strong></span>`:''}
           </div>
@@ -2697,7 +2742,7 @@ function renderWatchlist(){
     else db.innerHTML = done.map(w=>`
       <div style="padding:12px 18px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;opacity:0.75">
         <span class="tkr">${w.ticker}</span>
-        <span style="font-size:12px;color:var(--tx2)">${fn(w.qty,0)} หุ้น ที่ ฿${fn(w.actualPrice||w.targetPrice)}</span>
+        <span style="font-size:12px;color:var(--tx2)">${fq(w.qty)} หุ้น ที่ ฿${fn(w.actualPrice||w.targetPrice)}</span>
         <span class="mono pos" style="font-size:12px">฿${fn((w.actualPrice||w.targetPrice)*w.qty)}</span>
         <span style="font-size:11px;color:var(--tx3);margin-left:auto">${w.doneDate}</span>
         <button onclick="deleteWatchlistItem(${w.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button>

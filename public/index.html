@@ -1643,6 +1643,7 @@ function showFeature(id){
   } else {
     document.getElementById('feat-'+id)?.classList.add('on');
     if(id==='transactions'){renderTransactions();updateTxFilter();}
+    if(id==='watchlist'){renderWatchlist();}
     if(id==='alerts') renderAlerts();
     if(id==='notes') renderNotes();
     if(id==='dividends') renderDividends();
@@ -1690,6 +1691,7 @@ function updateSbBadges(){
   document.getElementById('sb-tx-count') && (document.getElementById('sb-tx-count').textContent=transactions.length);
   document.getElementById('sb-al-count') && (document.getElementById('sb-al-count').textContent=alerts.length);
   document.getElementById('sb-note-count') && (document.getElementById('sb-note-count').textContent=notes.length);
+  updateWlBadge();
 }
 function buildBackupData(){
   return {
@@ -1999,6 +2001,23 @@ function renderAlerts(){
       <button onclick="deleteAlert(${a.id})" style="margin-left:auto;border:none;background:none;color:var(--red-tx);cursor:pointer">ลบ</button>
     </div>`;
   }).join('');
+}
+function checkWatchlistAlerts(){
+  const triggered = watchlist.filter(w=>{
+    if(w.status!=='pending') return false;
+    const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
+    const p=prices[w.ticker+'_'+port?.id];
+    return p && w.cond==='below' && p.price<=w.targetPrice;
+  });
+  triggered.forEach(w=>{
+    if(!w._notified && Notification.permission==='granted'){
+      new Notification('TradeDesk: ถึงเวลาซื้อ '+w.ticker+'!',{
+        body:'ราคา ฿'+fn(prices[w.ticker+'_'+portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker))?.id]?.price||0)+' ≤ เป้า ฿'+fn(w.targetPrice)
+      });
+      w._notified=true;
+    }
+  });
+  if(triggered.length) updateWlBadge();
 }
 function checkAlerts(){
   alerts.forEach(a=>{
@@ -2477,6 +2496,150 @@ document.addEventListener('click',e=>{
   }
 });
 
+
+// ══════════════════════════════════════════════════
+// BUY WATCHLIST
+// ══════════════════════════════════════════════════
+let watchlist = JSON.parse(localStorage.getItem('td_wl') || '[]');
+function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); }
+
+function openWatchlistModal(item){
+  if(item){
+    document.getElementById('wl-ticker').value = item.ticker;
+    document.getElementById('wl-price').value  = item.targetPrice;
+    document.getElementById('wl-qty').value    = item.qty;
+    document.getElementById('wl-note').value   = item.note||'';
+    document.getElementById('wl-cond').value   = item.cond||'below';
+    document.getElementById('wl-modal').dataset.editId = item.id;
+  } else {
+    ['wl-ticker','wl-price','wl-qty','wl-note'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('wl-cond').value = 'below';
+    delete document.getElementById('wl-modal').dataset.editId;
+  }
+  document.getElementById('wl-modal').style.display='flex';
+}
+
+function addWatchlistItem(){
+  const ticker      = document.getElementById('wl-ticker').value.trim().toUpperCase();
+  const targetPrice = parseFloat(document.getElementById('wl-price').value);
+  const qty         = parseFloat(document.getElementById('wl-qty').value);
+  const note        = document.getElementById('wl-note').value.trim();
+  const cond        = document.getElementById('wl-cond').value;
+  if(!ticker||!targetPrice||!qty){ alert('กรอกข้อมูลให้ครบ'); return; }
+
+  const editId = document.getElementById('wl-modal').dataset.editId;
+  if(editId){
+    const item = watchlist.find(w=>w.id==editId);
+    if(item){ item.ticker=ticker; item.targetPrice=targetPrice; item.qty=qty; item.note=note; item.cond=cond; }
+  } else {
+    watchlist.push({
+      id: Date.now(), ticker, targetPrice, qty, note, cond,
+      status: 'pending',
+      addedDate: new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'}),
+    });
+  }
+  saveWatchlist(); closeModal('wl-modal'); renderWatchlist(); updateWlBadge();
+}
+
+function markWatchlistDone(id){
+  const item = watchlist.find(w=>w.id===id);
+  if(!item) return;
+  const p = prices[item.ticker+'_'+portfolios.find(pt=>pt.stocks?.some(s=>s.ticker===item.ticker))?.id];
+  const actualPrice = p ? p.price : item.targetPrice;
+  if(!confirm(`ยืนยันซื้อ ${item.ticker} จำนวน ${fn(item.qty,0)} หุ้น ที่ราคา ฿${fn(actualPrice)} ?`)) return;
+  item.status = 'done';
+  item.doneDate = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+  item.actualPrice = actualPrice;
+  saveWatchlist(); renderWatchlist(); updateWlBadge();
+  showToast('✓ บันทึกการซื้อ '+item.ticker+' แล้ว');
+}
+
+function deleteWatchlistItem(id){
+  watchlist = watchlist.filter(w=>w.id!==id);
+  saveWatchlist(); renderWatchlist(); updateWlBadge();
+}
+
+function updateWlBadge(){
+  const el=document.getElementById('sb-wl-count');
+  if(el) el.textContent=watchlist.filter(w=>w.status==='pending').length;
+}
+
+function renderWatchlist(){
+  const pending = watchlist.filter(w=>w.status==='pending');
+  const done    = watchlist.filter(w=>w.status==='done');
+
+  // Summary cards
+  const sumEl = document.getElementById('wl-summary');
+  if(sumEl){
+    const totalBudget = pending.reduce((s,w)=>s+w.targetPrice*w.qty,0);
+    const triggered   = pending.filter(w=>{
+      const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
+      const p=prices[w.ticker+'_'+port?.id];
+      return p && w.cond==='below' && p.price<=w.targetPrice;
+    });
+    sumEl.innerHTML = [
+      {l:'รอซื้อ', v: pending.length+' รายการ', sub:''},
+      {l:'งบประมาณรวม', v:'฿'+fn(totalBudget), sub: pending.length+' orders'},
+      {l:'ถึงเป้าแล้ว!', v: triggered.length+' ตัว', sub:'ราคาต่ำกว่าเป้า', color: triggered.length>0?'var(--green-tx)':''},
+    ].map(s=>`<div class="met"><div class="met-lbl">${s.l}</div>
+      <div class="met-val" style="${s.color?'color:'+s.color:''}">${s.v}</div>
+      <div class="met-sub">${s.sub}</div></div>`).join('');
+  }
+
+  // Pending list
+  const pb = document.getElementById('wl-pending-body');
+  const pc = document.getElementById('wl-pending-count');
+  if(pc) pc.textContent = pending.length+' รายการ';
+  if(pb){
+    if(!pending.length){ pb.innerHTML=`<div class="empty"><div class="empty-ico">📋</div>กด + เพิ่มรายการ</div>`; }
+    else pb.innerHTML = pending.map(w=>{
+      const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
+      const p=prices[w.ticker+'_'+port?.id];
+      const curPrice=p?p.price:null;
+      const diff=curPrice?((curPrice-w.targetPrice)/w.targetPrice*100):null;
+      const isHit=curPrice&&w.cond==='below'&&curPrice<=w.targetPrice;
+      const budget=w.targetPrice*w.qty;
+      return `<div style="padding:14px 18px;border-bottom:1px solid var(--bd2);display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            ${isHit?'<span style="background:var(--green-bg);color:var(--green-tx);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">🟢 ถึงเป้าแล้ว!</span>':'<span style="background:var(--amber-bg);color:var(--amber-tx);padding:2px 8px;border-radius:20px;font-size:11px">🟡 รอ</span>'}
+            <span class="tkr">${w.ticker}</span>
+            <span style="font-size:11px;color:var(--tx3)">${w.addedDate}</span>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px">
+            <span>เป้าหมาย: <strong class="mono">฿${fn(w.targetPrice)}</strong></span>
+            <span>จำนวน: <strong class="mono">${fn(w.qty,0)} หุ้น</strong></span>
+            <span>งบ: <strong class="mono">฿${fn(budget)}</strong></span>
+            ${curPrice?`<span>ราคาตอนนี้: <strong class="mono ${isHit?'pos':diff<0?'pos':'neg'}">฿${fn(curPrice)} (${diff>=0?'+':''}${diff?.toFixed(1)}%)</strong></span>`:''}
+          </div>
+          ${w.note?`<div style="font-size:11px;color:var(--tx3);margin-top:4px">📌 ${w.note}</div>`:''}
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="btn btn-sm btn-p" onclick="markWatchlistDone(${w.id})" title="บันทึกว่าซื้อแล้ว">✓ ซื้อแล้ว</button>
+          <button class="btn btn-sm btn-s" onclick="openWatchlistModal(watchlist.find(x=>x.id===${w.id}))" title="แก้ไข">✎</button>
+          <button class="btn btn-sm" onclick="deleteWatchlistItem(${w.id})" style="color:var(--red-tx);border-color:transparent;background:transparent">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Done list
+  const db = document.getElementById('wl-done-body');
+  const dc = document.getElementById('wl-done-count');
+  if(dc) dc.textContent = done.length+' รายการ';
+  if(db){
+    if(!done.length){ db.innerHTML=`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี</div>`; }
+    else db.innerHTML = done.map(w=>`
+      <div style="padding:12px 18px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;opacity:0.75">
+        <span class="tkr">${w.ticker}</span>
+        <span style="font-size:12px;color:var(--tx2)">${fn(w.qty,0)} หุ้น ที่ ฿${fn(w.actualPrice||w.targetPrice)}</span>
+        <span class="mono pos" style="font-size:12px">฿${fn((w.actualPrice||w.targetPrice)*w.qty)}</span>
+        <span style="font-size:11px;color:var(--tx3);margin-left:auto">${w.doneDate}</span>
+        <button onclick="deleteWatchlistItem(${w.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button>
+      </div>`).join('');
+  }
+}
+
 </script>
 
 <!-- OVERLAY -->
@@ -2512,6 +2675,11 @@ document.addEventListener('click',e=>{
       <div class="sb-item-icon" style="background:#fff0ef">🔔</div>
       Price Alerts
       <span class="sb-badge" id="sb-al-count">0</span>
+    </div>
+    <div class="sb-item" id="sb-watchlist" onclick="showFeature('watchlist')">
+      <div class="sb-item-icon" style="background:#fff4e5">📋</div>
+      Buy Watchlist (DCA)
+      <span class="sb-badge" id="sb-wl-count">0</span>
     </div>
 
     <div class="sb-item" id="sb-notes" onclick="showFeature('notes')">
@@ -2629,6 +2797,59 @@ document.addEventListener('click',e=>{
     </div>
   </div>
   <div class="card"><div class="card-hd"><div class="card-ti">Alerts ที่ตั้งไว้</div></div><div class="card-bd" id="alerts-body"><div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div></div></div>
+</div>
+
+<div class="feat-panel" id="feat-watchlist">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📋 Buy Watchlist</h2>
+    <button class="btn btn-p btn-sm" onclick="openWatchlistModal()" style="margin-left:auto">+ เพิ่มรายการ</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="wl-summary"></div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-hd">
+      <div class="card-ti">รอซื้อ 🟡</div>
+      <div style="font-size:11px;color:var(--tx3)" id="wl-pending-count">0 รายการ</div>
+    </div>
+    <div id="wl-pending-body"><div class="empty"><div class="empty-ico">📋</div>กด + เพิ่มรายการ</div></div>
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-ti">ซื้อแล้ว ✅</div>
+      <div style="font-size:11px;color:var(--tx3)" id="wl-done-count">0 รายการ</div>
+    </div>
+    <div id="wl-done-body"><div class="empty"><div class="empty-ico">✅</div>ยังไม่มีรายการ</div></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="wl-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-ti">+ เพิ่มรายการซื้อ</div>
+    <div class="modal-row"><div class="modal-lbl">หุ้น (Ticker)</div>
+      <input type="text" id="wl-ticker" placeholder="CPALL.BK" style="text-transform:uppercase">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div><div class="modal-lbl">ราคาเป้าหมาย (฿)</div>
+        <input type="number" id="wl-price" placeholder="0.00" step="0.01" style="width:100%">
+      </div>
+      <div><div class="modal-lbl">จำนวนหุ้น</div>
+        <input type="number" id="wl-qty" placeholder="100" style="width:100%">
+      </div>
+    </div>
+    <div class="modal-row"><div class="modal-lbl">หมายเหตุ (แหล่งที่มา)</div>
+      <input type="text" id="wl-note" placeholder="Marketing แนะนำ เม.ย. 69">
+    </div>
+    <div class="modal-row"><div class="modal-lbl">เงื่อนไข</div>
+      <select id="wl-cond" style="width:100%">
+        <option value="below">ซื้อเมื่อราคา ≤ เป้าหมาย (รอราคาลง)</option>
+        <option value="now">ซื้อได้เลยตอนนี้ (any price)</option>
+      </select>
+    </div>
+    <div class="modal-acts">
+      <button class="btn btn-g" onclick="closeModal('wl-modal')">ยกเลิก</button>
+      <button class="btn btn-p" onclick="addWatchlistItem()">เพิ่ม</button>
+    </div>
+  </div>
 </div>
 
 <div class="feat-panel" id="feat-notes">

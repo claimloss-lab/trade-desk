@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T12:42:18.386Z",
+  "exportDate": "2026-04-17T12:42:26.444Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 19:42",
   "portfolios": [
     {
@@ -330,9 +330,10 @@
           "id": 2,
           "ticker": "VCIT",
           "qty": 3.616,
-          "buyPrice": 229.23320365044242,
+          "buyPrice": 2640.2688000000003,
           "sector": "ETF",
-          "underlying": "Vanguard Corp Bond ETF"
+          "underlying": "Vanguard Corp Bond ETF",
+          "buyPriceUSD": 82.56
         },
         {
           "id": 3,

@@ -1643,7 +1643,7 @@ function showFeature(id){
   } else {
     document.getElementById('feat-'+id)?.classList.add('on');
     if(id==='transactions'){renderTransactions();updateTxFilter();}
-    if(id==='watchlist'){renderWatchlist();}
+    if(id==='watchlist'){renderWatchlist(); fetchWatchlistPrices();}
     if(id==='alerts') renderAlerts();
     if(id==='notes') renderNotes();
     if(id==='dividends') renderDividends();
@@ -2003,21 +2003,31 @@ function renderAlerts(){
   }).join('');
 }
 function checkWatchlistAlerts(){
+  const _n = t=>t.replace(/\.BK$/i,'').toUpperCase();
   const triggered = watchlist.filter(w=>{
     if(w.status!=='pending') return false;
-    const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
-    const p=prices[w.ticker+'_'+port?.id];
-    return p && w.cond==='below' && p.price<=w.targetPrice;
+    const wTick=_n(w.ticker);
+    const port=portfolios.find(p=>p.stocks?.some(s=>_n(s.ticker)===wTick));
+    const portStock=port?.stocks?.find(s=>_n(s.ticker)===wTick);
+    const portP=portStock?prices[portStock.ticker+'_'+port.id]:null;
+    const curPrice = wlPrices[w.ticker]||wlPrices[w.ticker+'.BK']||portP?.price;
+    return curPrice && w.cond==='below' && curPrice<=w.targetPrice;
   });
   triggered.forEach(w=>{
-    if(!w._notified && Notification.permission==='granted'){
-      new Notification('TradeDesk: ถึงเวลาซื้อ '+w.ticker+'!',{
-        body:'ราคา ฿'+fn(prices[w.ticker+'_'+portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker))?.id]?.price||0)+' ≤ เป้า ฿'+fn(w.targetPrice)
-      });
-      w._notified=true;
+    const curPrice = wlPrices[w.ticker] || 0;
+    // Browser notification
+    if(!w._notified){
+      if(Notification.permission==='granted'){
+        new Notification('TradeDesk: ถึงเวลาซื้อ '+w.ticker+'!',{
+          body:'ราคา ฿'+fn(curPrice)+' ≤ เป้า ฿'+fn(w.targetPrice)+' · '+fn(w.qty,0)+' หุ้น'
+        });
+      }
+      // Toast in-app
+      showToast('🟢 '+w.ticker+' ถึงเป้า! ราคา ฿'+fn(curPrice)+' (เป้า ฿'+fn(w.targetPrice)+')');
+      w._notified = true;
     }
   });
-  if(triggered.length) updateWlBadge();
+  if(triggered.length){ updateWlBadge(); renderWatchlist(); }
 }
 function checkAlerts(){
   alerts.forEach(a=>{
@@ -2503,6 +2513,34 @@ document.addEventListener('click',e=>{
 let watchlist = JSON.parse(localStorage.getItem('td_wl') || '[]');
 function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); }
 
+// Prices cache for watchlist tickers (fetched independently)
+const wlPrices = {};
+
+async function fetchWatchlistPrices(){
+  const pending = watchlist.filter(w=>w.status==='pending');
+  if(!pending.length) return;
+  const tickers = [...new Set(pending.map(w=>w.ticker))];
+  await Promise.allSettled(tickers.map(async t => {
+    try {
+      // First try as-is, then try with .BK if short ticker
+      const norm = t.replace(/\.BK$/i,'').toUpperCase();
+      const port = portfolios.find(p=>p.stocks?.some(s=>s.ticker.replace(/\.BK$/i,'').toUpperCase()===norm));
+      const portStock = port?.stocks?.find(s=>s.ticker.replace(/\.BK$/i,'').toUpperCase()===norm);
+      // If found in portfolio, use portfolio price (already fresh)
+      if(portStock && prices[portStock.ticker+'_'+port.id]?.price){
+        wlPrices[t] = prices[portStock.ticker+'_'+port.id].price;
+        return;
+      }
+      // Otherwise fetch from Worker
+      const ticker = t.includes('.') ? t : t+'.BK';
+      const r = await fetch('/api/price?ticker='+encodeURIComponent(ticker), {signal:AbortSignal.timeout(8000)});
+      if(r.ok){ const d=await r.json(); if(d.price){ wlPrices[t]=d.price; wlPrices[ticker]=d.price; } }
+    } catch {}
+  }));
+  renderWatchlist();
+  checkWatchlistAlerts();
+}
+
 function openWatchlistModal(item){
   if(item){
     document.getElementById('wl-ticker').value = item.ticker;
@@ -2544,8 +2582,11 @@ function addWatchlistItem(){
 function markWatchlistDone(id){
   const item = watchlist.find(w=>w.id===id);
   if(!item) return;
-  const p = prices[item.ticker+'_'+portfolios.find(pt=>pt.stocks?.some(s=>s.ticker===item.ticker))?.id];
-  const actualPrice = p ? p.price : item.targetPrice;
+  const _nm = t=>t.replace(/\.BK$/i,'').toUpperCase();
+  const dPort=portfolios.find(pt=>pt.stocks?.some(s=>_nm(s.ticker)===_nm(item.ticker)));
+  const dStock=dPort?.stocks?.find(s=>_nm(s.ticker)===_nm(item.ticker));
+  const p = dStock ? prices[dStock.ticker+'_'+dPort.id] : null;
+  const actualPrice = wlPrices[item.ticker] || wlPrices[item.ticker+'.BK'] || p?.price || item.targetPrice;
   if(!confirm(`ยืนยันซื้อ ${item.ticker} จำนวน ${fn(item.qty,0)} หุ้น ที่ราคา ฿${fn(actualPrice)} ?`)) return;
   item.status = 'done';
   item.doneDate = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
@@ -2572,10 +2613,14 @@ function renderWatchlist(){
   const sumEl = document.getElementById('wl-summary');
   if(sumEl){
     const totalBudget = pending.reduce((s,w)=>s+w.targetPrice*w.qty,0);
+    const _norm = t => t.replace(/\.BK$/i,'').toUpperCase();
     const triggered   = pending.filter(w=>{
-      const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
-      const p=prices[w.ticker+'_'+port?.id];
-      return p && w.cond==='below' && p.price<=w.targetPrice;
+      const wTick=_norm(w.ticker);
+      const port=portfolios.find(p=>p.stocks?.some(s=>_norm(s.ticker)===wTick));
+      const portStock=port?.stocks?.find(s=>_norm(s.ticker)===wTick);
+      const portP=portStock?prices[portStock.ticker+'_'+port.id]:null;
+      const curPrice = wlPrices[w.ticker]||wlPrices[w.ticker+'.BK']||portP?.price;
+      return curPrice && w.cond==='below' && curPrice<=w.targetPrice;
     });
     sumEl.innerHTML = [
       {l:'รอซื้อ', v: pending.length+' รายการ', sub:''},
@@ -2593,9 +2638,13 @@ function renderWatchlist(){
   if(pb){
     if(!pending.length){ pb.innerHTML=`<div class="empty"><div class="empty-ico">📋</div>กด + เพิ่มรายการ</div>`; }
     else pb.innerHTML = pending.map(w=>{
-      const port=portfolios.find(p=>p.stocks?.some(s=>s.ticker===w.ticker));
-      const p=prices[w.ticker+'_'+port?.id];
-      const curPrice=p?p.price:null;
+      // Normalize ticker for matching (CPALL == CPALL.BK)
+      const normTicker = t => t.replace(/\.BK$/i,'').toUpperCase();
+      const wTick = normTicker(w.ticker);
+      const port = portfolios.find(p=>p.stocks?.some(s=>normTicker(s.ticker)===wTick));
+      const portStock = port?.stocks?.find(s=>normTicker(s.ticker)===wTick);
+      const portP = portStock ? prices[portStock.ticker+'_'+port.id] : null;
+      const curPrice = wlPrices[w.ticker] || wlPrices[w.ticker+'.BK'] || portP?.price || null;
       const diff=curPrice?((curPrice-w.targetPrice)/w.targetPrice*100):null;
       const isHit=curPrice&&w.cond==='below'&&curPrice<=w.targetPrice;
       const budget=w.targetPrice*w.qty;
@@ -2803,7 +2852,10 @@ function renderWatchlist(){
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">📋 Buy Watchlist</h2>
-    <button class="btn btn-p btn-sm" onclick="openWatchlistModal()" style="margin-left:auto">+ เพิ่มรายการ</button>
+    <div style="display:flex;gap:8px;margin-left:auto">
+      <button class="btn btn-s btn-sm" onclick="fetchWatchlistPrices()" title="รีเฟรชราคา">↺ รีเฟรช</button>
+      <button class="btn btn-p btn-sm" onclick="openWatchlistModal()">+ เพิ่มรายการ</button>
+    </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="wl-summary"></div>
   <div class="card" style="margin-bottom:14px">

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:52:46.791Z",
+  "exportDate": "2026-04-17T15:52:52.522Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:52",
   "portfolios": [
     {
@@ -76,7 +76,7 @@
         {
           "ticker": "MSFT80",
           "qty": 25400,
-          "buyPrice": 7.423700787401575,
+          "buyPrice": 7.21,
           "id": 9,
           "sector": "Tech",
           "underlying": "Microsoft"

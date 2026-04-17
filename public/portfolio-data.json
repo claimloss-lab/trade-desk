@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T12:42:26.444Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 19:42",
+  "exportDate": "2026-04-17T12:43:01.504Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 19:43",
   "portfolios": [
     {
       "id": "dr1",
@@ -338,10 +338,11 @@
         {
           "id": 3,
           "ticker": "VEA",
-          "qty": 3.431,
-          "buyPrice": 54.52,
+          "qty": 3.686,
+          "buyPrice": 1768.1742,
           "sector": "ETF",
-          "underlying": "Vanguard Dev. Markets ETF"
+          "underlying": "Vanguard Dev. Markets ETF",
+          "buyPriceUSD": 55.29
         },
         {
           "id": 4,
@@ -501,6 +502,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1776429773464,
+      "ticker": "VEA",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 2194.7873999999997,
+      "qty": 0.2549999999999999,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1776429735385,
       "ticker": "VCIT",
@@ -1754,7 +1768,7 @@
   "summary": {
     "totalPorts": 9,
     "totalStocks": 48,
-    "totalTransactions": 3,
-    "totalNetWorth": "฿1,451,344.37"
+    "totalTransactions": 4,
+    "totalNetWorth": "฿1,451,904.05"
   }
 }

@@ -581,11 +581,13 @@ async function fetchPrice(ticker, portType) {
     if (!r.ok) return null;
     const d = await r.json();
     if (d.error || !d.price) return null;
+    // Store in sparkH with portId-based key for rendering
+    // portType used as fallback key too
     const key = ticker+'_'+portType;
     if (!sparkH[key]) sparkH[key]=[];
     sparkH[key].push(d.price);
     if (sparkH[key].length>10) sparkH[key].shift();
-    return { price:d.price, prevClose:d.prevClose||null };
+    return { price:d.price, prevClose:d.prevClose||null, _sparkKey:key };
   } catch { return null; }
 }
 
@@ -1671,6 +1673,12 @@ async function boot(){
   renderOverview();
   renderAll();
   refreshAll(false);
+  // Fetch historical sparklines after initial boot
+  setTimeout(()=>{
+    portfolios.forEach(p=>{
+      if(p.type!=='snapshot') fetchSparklines(p.id);
+    });
+  }, 3000);
   setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
 }
 boot();

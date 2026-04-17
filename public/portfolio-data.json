@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:53:58.839Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:53",
+  "exportDate": "2026-04-17T15:54:13.857Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:54",
   "portfolios": [
     {
       "id": "dr1",
@@ -106,7 +106,7 @@
           "underlying": "Snowflake"
         }
       ],
-      "cash": 26227.52,
+      "cash": 22.1,
       "snapshots": []
     },
     {
@@ -637,6 +637,6 @@
     "totalPorts": 8,
     "totalStocks": 44,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,477,738.20"
+    "totalNetWorth": "฿1,451,532.78"
   }
 }

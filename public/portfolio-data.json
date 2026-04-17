@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T12:07:41.367Z",
+  "exportDate": "2026-04-17T12:07:49.667Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 19:07",
   "portfolios": [
     {
@@ -485,7 +485,7 @@
         {
           "id": 1776427474982,
           "ticker": "TLNDQINCOME-UH-X",
-          "qty": 96.995,
+          "qty": 196.287,
           "buyPrice": 10.1892,
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
@@ -1725,6 +1725,6 @@
     "totalPorts": 9,
     "totalStocks": 48,
     "totalTransactions": 1,
-    "totalNetWorth": "฿1,447,373.21"
+    "totalNetWorth": "฿1,448,384.91"
   }
 }

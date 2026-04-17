@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:47:09.172Z",
+  "exportDate": "2026-04-17T15:47:46.432Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:47",
   "portfolios": [
     {
@@ -407,7 +407,7 @@
           "id": 5,
           "ticker": "O",
           "qty": 10.311237,
-          "buyPrice": 57.86,
+          "buyPrice": 57.864,
           "sector": "Property",
           "underlying": "Realty Income",
           "currency": "USD"

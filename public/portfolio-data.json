@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:56:37.664Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:56",
+  "exportDate": "2026-04-17T15:57:00.946Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:57",
   "portfolios": [
     {
       "id": "dr1",
@@ -471,7 +471,9 @@
           "buyPrice": 10.1892,
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 10.2287,
+          "navDate": "17 เม.ย. 69"
         }
       ],
       "cash": 0,
@@ -656,6 +658,6 @@
     "totalPorts": 9,
     "totalStocks": 45,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,453,663.39"
+    "totalNetWorth": "฿1,453,671.14"
   }
 }

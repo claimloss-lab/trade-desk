@@ -1178,7 +1178,12 @@ function renderPortfolio(portId) {
 
   const eq=portEquity(port),cost=portCost(port),net=eq+(port.cash||0);
   const pnl=eq-cost,pct=cost>0?pnl/cost*100:0;
-  const dayPnl=port.stocks.reduce((s,x)=>{const p=prices[x.ticker+'_'+portId];if(!p||!p.prevClose)return s;return s+(p.price-p.prevClose)*x.qty;},0);
+  const dayPnl=port.stocks.reduce((s,x)=>{
+    const p=prices[x.ticker+'_'+portId];
+    if(!p||!p.prevClose) return s;
+    const diff=(p.price-p.prevClose)*x.qty;
+    return s+(port.type==='realtime_us' ? diff*usdThbRate : diff);
+  },0);
   const dayPct=eq>0?dayPnl/eq*100:0;
 
   const el=id=>document.getElementById(portId+'-'+id);
@@ -1231,13 +1236,17 @@ function renderPortfolio(portId) {
     const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
     const pnl2=valTHB-cost2;
     const pct2=cost2>0?pnl2/cost2*100:0;
+    // day % change in price (USD for US, THB for TH) — % is same either way
     const day2=p.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
+    // day P&L in THB
+    const dayPnlTHB=isUS&&p.prevClose?(p.price-p.prevClose)*s.qty*usdThbRate:
+                    p.prevClose?(p.price-p.prevClose)*s.qty:null;
     return `<tr>
-      <td><span class="tkr">${s.ticker}</span></td>
+      <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="${port.type}">${s.ticker}</span></td>
       <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
       <td><span class="sec-tag" style="background:${sc}22;color:${sc}">${s.sector||'—'}</span></td>
       <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
-      <td><span class="edt" onclick="edt('${portId}',${s.id},'buyPrice',this)">${fm(s.buyPrice)}</span></td>
+      <td>${costCell}</td>
       <td class="mono" style="font-weight:600">${isUS
         ? `<div style="line-height:1.6">$${fn(p.price,2)}<div style="font-size:10px;color:var(--tx3)">฿${fn(p.price*usdThbRate,2)}</div></div>`
         : fm(p.price)}</td>

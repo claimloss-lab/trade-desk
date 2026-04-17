@@ -1091,7 +1091,8 @@ function buildRealtimeHTML(port) {
       <select id="${port.id}-sec" class="inp-sm">
         ${['Tech','Healthcare','Finance','Consumer','Energy','ETF','Transport','Property','Industrial','Other'].map(s=>`<option value="${s}">${s}</option>`).join('')}
       </select>
-      <input type="number" class="inp-md" id="${port.id}-bp" placeholder="ราคาซื้อ (฿)" step="0.01">
+      <input type="number" class="inp-md" id="${port.id}-bp" 
+        placeholder="${port.type==='realtime_us'?'ราคาซื้อ ($USD)':'ราคาซื้อ (฿)'}" step="0.01">
       <input type="number" class="inp-xs" id="${port.id}-qty" placeholder="จำนวน">
       <button class="btn btn-p" onclick="addStock('${port.id}')">+ เพิ่ม</button>
       <button class="btn btn-g" onclick="refreshPort('${port.id}')">↻</button>
@@ -1398,16 +1399,27 @@ function autoFill(portId) {
 function addStock(portId) {
   const port=getPort(portId);
   const ticker=document.getElementById(portId+'-ti').value.trim().toUpperCase();
-  const buyPrice=parseFloat(document.getElementById(portId+'-bp').value);
+  const buyPriceRaw=parseFloat(document.getElementById(portId+'-bp').value);
   const qty=parseFloat(document.getElementById(portId+'-qty').value);
   const sector=document.getElementById(portId+'-sec').value||'Other';
   const nameEl=document.getElementById(portId+'-name');
   const underlying=nameEl?.value.trim()||autoInfo(ticker).underlying;
-  if(!ticker||!buyPrice||!qty){alert('กรอกข้อมูลให้ครบ');return;}
+  if(!ticker||!buyPriceRaw||!qty){alert('กรอกข้อมูลให้ครบ');return;}
+  // For US ports: input is USD, store as USD (portCost will × usdThbRate)
+  const isUSPort = port.type==='realtime_us';
+  const buyPrice = buyPriceRaw; // store as-is (USD for US, THB for TH)
   const ex=port.stocks.find(s=>s.ticker===ticker);
   const isNew=!ex;
-  if(ex){ const tc=ex.buyPrice*ex.qty+buyPrice*qty;ex.qty+=qty;ex.buyPrice=tc/ex.qty; }
-  else port.stocks.push({ticker,buyPrice,qty,sector,underlying,id:Date.now()});
+  if(ex){
+    // Weighted avg in same currency
+    const tc=ex.buyPrice*ex.qty+buyPrice*qty;
+    ex.qty+=qty; ex.buyPrice=tc/ex.qty;
+    if(isUSPort) ex.buyPriceUSD=ex.buyPrice;
+  } else {
+    const newStock={ticker,buyPrice,qty,sector,underlying,id:Date.now()};
+    if(isUSPort) newStock.buyPriceUSD=buyPrice;
+    port.stocks.push(newStock);
+  }
   // Auto-log transaction
   const txDate=new Date().toISOString().split('T')[0];
   transactions.unshift({

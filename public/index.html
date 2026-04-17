@@ -298,6 +298,7 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
         <option value="realtime_dr">SET DR (ราคา realtime)</option>
         <option value="realtime_us">US Stocks/ETF (ราคา USD realtime)</option>
         <option value="snapshot">Manual Snapshot (Jitta / อื่นๆ)</option>
+        <option value="dime_mixed">กองทุนรวม (THB) — อัปเดต NAV เอง</option>
       </select>
     </div>
     <div class="modal-row"><div class="modal-lbl">สีพอร์ต</div>
@@ -2350,6 +2351,21 @@ function showDivYearPopup(ticker){
   }).join('');
 
   document.getElementById('div-year-modal').style.display = 'flex';
+}
+
+function onPortTypeChange(type){
+  const hint = document.getElementById('port-type-hint');
+  if(!hint) return;
+  const msgs = {
+    'dime_mixed': '🏦 พอร์ตกองทุนรวม — เพิ่มกองทุนและอัปเดต NAV ด้วยปุ่ม ✎ ในพอร์ต',
+    'realtime_th': '📈 หุ้นไทย SET — ราคาอัปเดตอัตโนมัติทุก 5 นาที',
+    'realtime_dr': '🇺🇸 SET DR — ราคาอิงหุ้น US อัปเดตอัตโนมัติ',
+    'realtime_us': '🌍 US Stocks/ETF — ราคา USD แปลงเป็น THB อัตโนมัติ',
+    'snapshot': '📷 Manual Snapshot — บันทึกมูลค่าพอร์ตเองเป็นครั้งๆ',
+  };
+  const msg = msgs[type] || '';
+  hint.textContent = msg;
+  hint.style.display = msg ? 'block' : 'none';
 }
 
 // MODAL CLOSE

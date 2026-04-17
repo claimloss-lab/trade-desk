@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T12:07:59.631Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 19:07",
+  "exportDate": "2026-04-17T12:09:23.179Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 19:09",
   "portfolios": [
     {
       "id": "dr1",
@@ -320,8 +320,8 @@
         {
           "id": 1,
           "ticker": "VTI",
-          "qty": 2.342,
-          "buyPrice": 294.29,
+          "qty": 2.577,
+          "buyPrice": 1278.1576606519202,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF"
         },
@@ -499,6 +499,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1776427760167,
+      "ticker": "VTI",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 11083.3409,
+      "qty": 0.23499999999999988,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1776426469254,
       "ticker": "TLNDQINCOME-UH-X",
@@ -1726,7 +1739,7 @@
   "summary": {
     "totalPorts": 9,
     "totalStocks": 48,
-    "totalTransactions": 1,
-    "totalNetWorth": "฿1,448,392.67"
+    "totalTransactions": 2,
+    "totalNetWorth": "$45,301.19"
   }
 }

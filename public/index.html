@@ -390,7 +390,7 @@ const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#f
 // ══════════════════════════════════════════════════
 // VERSION & BOOT
 // ══════════════════════════════════════════════════
-const DATA_VER = 'v20250402_1';
+const DATA_VER = 'v20250402_2';
 (function(){
   const isReset = new URLSearchParams(location.search).get('reset')==='1';
   const isOld   = localStorage.getItem('td_ver') !== DATA_VER;
@@ -1211,18 +1211,20 @@ function renderPortfolio(portId) {
   tbody.innerHTML=port.stocks.map(s=>{
     const p=prices[s.ticker+'_'+portId];
     // For US ports: buyPrice stored in THB, also compute USD
-    const buyTHB = s.buyPrice;
-    const buyUSD = s.buyPriceUSD || (isUS ? buyTHB/usdThbRate : null);
-    const cost2 = isUS ? buyTHB*s.qty : s.buyPrice*s.qty;
+    // For US: buyPrice IS in USD (portCost multiplies by usdThbRate)
+    const buyUSD = isUS ? (s.buyPriceUSD || (s.buyPrice < 500 ? s.buyPrice : null)) : null;
+    const buyTHB = isUS && buyUSD ? buyUSD * usdThbRate : s.buyPrice;
+    const cost2 = isUS ? (buyUSD||0) * s.qty * usdThbRate : s.buyPrice * s.qty;
     const sc=SECTOR_COLORS[s.sector]||'#888';
     const spId=portId+'_sp_'+s.id;
     // Cost display: for US show "$USD (฿THB)"
     const costCell = isUS
       ? `<div style="line-height:1.6">
-           <span class="edt mono" onclick="edtUSBuyPrice('${portId}',${s.id})" title="คลิกแก้ต้นทุน USD">
-             $${fn(buyUSD,2)}
+           <span class="edt mono" onclick="edtUSBuyPrice('${portId}',${s.id})" title="คลิกแก้ต้นทุน USD"
+             style="${s._needsPriceCheck?'color:var(--amber-tx);border-bottom:1px dashed var(--amber-tx)':''}">
+             ${buyUSD ? '$'+fn(buyUSD,2) : '⚠️ กรอก USD'}
            </span>
-           <div style="font-size:10px;color:var(--tx3)">฿${fn(buyTHB,2)}</div>
+           ${buyUSD ? '<div style="font-size:10px;color:var(--tx3)">฿'+fn(buyTHB,2)+'</div>' : ''}
          </div>`
       : `<span class="edt" onclick="edt('${portId}',${s.id},'buyPrice',this)">${fm(s.buyPrice)}</span>`;
     if(!p) return `<tr>
@@ -1589,6 +1591,37 @@ document.addEventListener('click',e=>{ if(e.target.classList.contains('modal-bg'
 // ══════════════════════════════════════════════════
 // BOOT
 // ══════════════════════════════════════════════════
+// Migrate US port buyPrices: ensure stored as USD
+// If buyPrice > 200 for US stock → likely stored as THB, needs manual correction
+function migrateUSPortPrices(){
+  let needsFix = false;
+  portfolios.forEach(p=>{
+    if(p.type!=='realtime_us') return;
+    p.stocks.forEach(s=>{
+      if(!s.buyPriceUSD){
+        // Mark for display — buyPrice might be THB or USD
+        // If <500 assume USD, if >=500 flag as needs update
+        if(s.buyPrice < 500){
+          s.buyPriceUSD = s.buyPrice; // already USD
+        } else {
+          // Large value = was stored as THB, mark as needing fix
+          s._needsPriceCheck = true;
+          needsFix = true;
+        }
+      }
+    });
+  });
+  if(needsFix){
+    savePorts();
+    setTimeout(()=>{
+      const affected = portfolios.filter(p=>p.type==='realtime_us')
+        .flatMap(p=>p.stocks.filter(s=>s._needsPriceCheck))
+        .map(s=>s.ticker).join(', ');
+      if(affected) showToast('⚠️ กรุณาอัปเดตต้นทุน USD ของ: '+affected);
+    }, 2000);
+  }
+}
+
 // Boot — load from portfolio-data.json if localStorage is empty
 async function boot(){
   initPin();
@@ -1620,6 +1653,7 @@ async function boot(){
   }
 
   updateGHBadge();
+  migrateUSPortPrices();
   buildNav();
   buildPanels();
   renderOverview();
@@ -2254,7 +2288,7 @@ function edtUSBuyPrice(portId, stockId){
   const newUSD = parseFloat(newUSDStr.replace(/,/g,''));
   if(isNaN(newUSD)||newUSD<=0){ alert('ค่าไม่ถูกต้อง'); return; }
   stock.buyPriceUSD = newUSD;
-  stock.buyPrice = newUSD * usdThbRate; // store THB equivalent
+  stock.buyPrice = newUSD; // store USD directly (portCost multiplies by rate)
   savePorts();
   renderPortfolio(portId);
   renderOverview();

@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:45:43.423Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:45",
+  "exportDate": "2026-04-17T15:46:03.795Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:46",
   "portfolios": [
     {
       "id": "dr1",
@@ -287,11 +287,11 @@
         {
           "id": 2,
           "ticker": "IXJ",
-          "qty": 2.863,
-          "buyPrice": 97.89,
+          "qty": 3.085,
+          "buyPrice": 97.72,
           "sector": "ETF",
           "underlying": "iShares Global Healthcare ETF",
-          "buyPriceUSD": 97.89
+          "buyPriceUSD": 97.72
         },
         {
           "id": 3,
@@ -490,6 +490,19 @@
   ],
   "transactions": [
     {
+      "id": 1776440755532,
+      "ticker": "IXJ",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 3039.4359,
+      "qty": 0.22199999999999998,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
       "id": 1776440735633,
       "ticker": "IXN",
       "type": "buy",
@@ -587,7 +600,7 @@
   "summary": {
     "totalPorts": 8,
     "totalStocks": 48,
-    "totalTransactions": 7,
-    "totalNetWorth": "฿1,449,937.48"
+    "totalTransactions": 8,
+    "totalNetWorth": "฿1,450,612.24"
   }
 }

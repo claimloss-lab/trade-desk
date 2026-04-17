@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:47:46.432Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:47",
+  "exportDate": "2026-04-17T15:48:57.371Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:48",
   "portfolios": [
     {
       "id": "dr1",
@@ -398,7 +398,7 @@
           "id": 4,
           "ticker": "JEPQ",
           "qty": 2.6299477,
-          "buyPrice": 54.09,
+          "buyPrice": 54.1117,
           "sector": "ETF",
           "underlying": "JPMorgan Nasdaq ETF",
           "currency": "USD"

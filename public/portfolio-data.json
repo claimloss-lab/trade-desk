@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:48:57.371Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:48",
+  "exportDate": "2026-04-17T15:49:15.462Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:49",
   "portfolios": [
     {
       "id": "dr1",
@@ -397,7 +397,7 @@
         {
           "id": 4,
           "ticker": "JEPQ",
-          "qty": 2.6299477,
+          "qty": 2.7611403,
           "buyPrice": 54.1117,
           "sector": "ETF",
           "underlying": "JPMorgan Nasdaq ETF",
@@ -605,6 +605,6 @@
     "totalPorts": 8,
     "totalStocks": 47,
     "totalTransactions": 9,
-    "totalNetWorth": "฿1,440,902.81"
+    "totalNetWorth": "฿1,441,147.15"
   }
 }

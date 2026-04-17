@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:51:09.329Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:51",
+  "exportDate": "2026-04-17T15:52:46.791Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:52",
   "portfolios": [
     {
       "id": "dr1",
@@ -75,8 +75,8 @@
         },
         {
           "ticker": "MSFT80",
-          "qty": 18600,
-          "buyPrice": 7.67,
+          "qty": 25400,
+          "buyPrice": 7.423700787401575,
           "id": 9,
           "sector": "Tech",
           "underlying": "Microsoft"
@@ -485,6 +485,19 @@
   ],
   "transactions": [
     {
+      "id": 1776441163788,
+      "ticker": "MSFT80",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 6.75,
+      "qty": 6800,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
       "id": 1776440766893,
       "ticker": "ICLN",
       "type": "sell",
@@ -608,7 +621,7 @@
   "summary": {
     "totalPorts": 8,
     "totalStocks": 47,
-    "totalTransactions": 9,
-    "totalNetWorth": "฿1,447,362.05"
+    "totalTransactions": 10,
+    "totalNetWorth": "฿1,493,348.40"
   }
 }

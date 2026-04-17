@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:46:03.795Z",
+  "exportDate": "2026-04-17T15:46:09.895Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:46",
   "portfolios": [
     {
@@ -276,15 +276,6 @@
       "snapshots": [],
       "stocks": [
         {
-          "id": 1,
-          "ticker": "ICLN",
-          "qty": 15.627,
-          "buyPrice": 16.68,
-          "sector": "ETF",
-          "underlying": "iShares Clean Energy ETF",
-          "buyPriceUSD": 16.68
-        },
-        {
           "id": 2,
           "ticker": "IXJ",
           "qty": 3.085,
@@ -490,6 +481,19 @@
   ],
   "transactions": [
     {
+      "id": 1776440766893,
+      "ticker": "ICLN",
+      "type": "sell",
+      "date": "2026-04-17",
+      "price": 616.9734000000001,
+      "qty": 15.627,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 9380.784961800002,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
       "id": 1776440755532,
       "ticker": "IXJ",
       "type": "buy",
@@ -599,8 +603,8 @@
   "dividends": [],
   "summary": {
     "totalPorts": 8,
-    "totalStocks": 48,
-    "totalTransactions": 8,
-    "totalNetWorth": "฿1,450,612.24"
+    "totalStocks": 47,
+    "totalTransactions": 9,
+    "totalNetWorth": "฿1,440,970.80"
   }
 }

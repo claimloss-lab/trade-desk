@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:53:40.350Z",
+  "exportDate": "2026-04-17T15:53:46.606Z",
   "exportDateTH": "17 เมษายน 2569 เวลา 22:53",
   "portfolios": [
     {
@@ -56,14 +56,6 @@
           "id": 6,
           "sector": "Healthcare",
           "underlying": "Eli Lilly"
-        },
-        {
-          "ticker": "META80",
-          "qty": 800,
-          "buyPrice": 2.46,
-          "id": 8,
-          "sector": "Tech",
-          "underlying": "Meta"
         },
         {
           "ticker": "MSFT80",
@@ -477,6 +469,19 @@
   ],
   "transactions": [
     {
+      "id": 1776441223592,
+      "ticker": "META80",
+      "type": "sell",
+      "date": "2026-04-17",
+      "price": 2.72,
+      "qty": 800,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 208.00000000000017,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
       "id": 1776441217346,
       "ticker": "MELI06",
       "type": "sell",
@@ -625,8 +630,8 @@
   "dividends": [],
   "summary": {
     "totalPorts": 8,
-    "totalStocks": 46,
-    "totalTransactions": 11,
-    "totalNetWorth": "฿1,485,277.20"
+    "totalStocks": 45,
+    "totalTransactions": 12,
+    "totalNetWorth": "฿1,483,101.20"
   }
 }

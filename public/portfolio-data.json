@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:44:39.467Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:44",
+  "exportDate": "2026-04-17T15:45:22.610Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:45",
   "portfolios": [
     {
       "id": "dr1",
@@ -310,6 +310,15 @@
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
           "buyPriceUSD": 96.51
+        },
+        {
+          "ticker": "LIT",
+          "buyPrice": 71.04,
+          "qty": 4.117,
+          "sector": "ETF",
+          "underlying": "LIT",
+          "id": 1776440719607,
+          "buyPriceUSD": 71.04
         }
       ]
     },
@@ -481,6 +490,19 @@
   ],
   "transactions": [
     {
+      "id": 1776440719607,
+      "ticker": "LIT",
+      "type": "buy",
+      "date": "2026-04-17",
+      "price": 71.04,
+      "qty": 4.117,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
       "id": 1776440669862,
       "ticker": "SMH",
       "type": "buy",
@@ -551,8 +573,8 @@
   "dividends": [],
   "summary": {
     "totalPorts": 8,
-    "totalStocks": 47,
-    "totalTransactions": 5,
-    "totalNetWorth": "฿1,438,270.34"
+    "totalStocks": 48,
+    "totalTransactions": 6,
+    "totalNetWorth": "฿1,449,153.31"
   }
 }

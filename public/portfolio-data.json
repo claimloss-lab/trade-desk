@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-17T15:54:13.857Z",
-  "exportDateTH": "17 เมษายน 2569 เวลา 22:54",
+  "exportDate": "2026-04-17T15:55:11.869Z",
+  "exportDateTH": "17 เมษายน 2569 เวลา 22:55",
   "portfolios": [
     {
       "id": "dr1",
@@ -457,6 +457,15 @@
           "currency": "THB"
         }
       ]
+    },
+    {
+      "id": "p_1776441308858",
+      "name": "WealthX",
+      "type": "dime_mixed",
+      "color": "#00c7be",
+      "stocks": [],
+      "cash": 0,
+      "snapshots": []
     }
   ],
   "transactions": [
@@ -634,7 +643,7 @@
   "notes": [],
   "dividends": [],
   "summary": {
-    "totalPorts": 8,
+    "totalPorts": 9,
     "totalStocks": 44,
     "totalTransactions": 13,
     "totalNetWorth": "฿1,451,532.78"

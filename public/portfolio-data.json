@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-20T16:55:52.632Z",
-  "exportDateTH": "20 เมษายน 2569 เวลา 23:55",
+  "exportDate": "2026-04-20T16:56:14.222Z",
+  "exportDateTH": "20 เมษายน 2569 เวลา 23:56",
   "portfolios": [
     {
       "id": "dr1",
@@ -362,8 +362,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 11.4352,
-          "navDate": "17 เม.ย. 69"
+          "currentNav": 11.9201,
+          "navDate": "20 เม.ย. 69"
         },
         {
           "id": 3,
@@ -658,6 +658,6 @@
     "totalPorts": 9,
     "totalStocks": 45,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,456,149.84"
+    "totalNetWorth": "฿1,456,826.03"
   }
 }

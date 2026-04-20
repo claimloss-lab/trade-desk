@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "exportDate": "2026-04-20T10:50:55.145Z",
-  "exportDateTH": "20 เมษายน 2569 เวลา 17:50",
+  "exportDate": "2026-04-20T10:51:53.301Z",
+  "exportDateTH": "20 เมษายน 2569 เวลา 17:51",
   "portfolios": [
     {
       "id": "dr1",
@@ -193,7 +193,7 @@
     },
     {
       "id": "set2",
-      "name": "Librarator",
+      "name": "Liberator",
       "type": "realtime_th",
       "color": "#ff9500",
       "cash": 214.09,

@@ -2813,6 +2813,315 @@ function renderWatchlist(){
   }
 }
 
+// ══════════════════════════════════════════════════
+// DCA CALCULATOR
+// ══════════════════════════════════════════════════
+let dcaHistory = JSON.parse(localStorage.getItem('td_dca_hist') || '[]');
+let dcaChart = null;
+let dcaCurrentData = null;
+
+function dcaAutoFill() {
+  const t = document.getElementById('dca-ticker').value.trim().toUpperCase();
+  const norm = x => x.replace(/\.BK$/i, '').toUpperCase();
+  for (const port of portfolios) {
+    const s = port.stocks?.find(x => norm(x.ticker) === norm(t));
+    if (s && prices[s.ticker + '_' + port.id]?.price) {
+      document.getElementById('dca-price').value = prices[s.ticker + '_' + port.id].price.toFixed(2);
+      setDcaPriceStatus('✓ ราคาจากพอร์ต: $' + fn(prices[s.ticker + '_' + port.id].price, 2), 'var(--green-tx)');
+      calcDca(); return;
+    }
+  }
+}
+
+async function fetchDcaPrice() {
+  const raw = document.getElementById('dca-ticker').value.trim().toUpperCase();
+  if (!raw) { alert('กรอก Ticker ก่อน'); return; }
+  setDcaPriceStatus('⏳ กำลังดึงราคา...', 'var(--tx3)');
+  const norm = x => x.replace(/\.BK$/i, '').toUpperCase();
+  for (const port of portfolios) {
+    const s = port.stocks?.find(x => norm(x.ticker) === norm(raw));
+    if (s && prices[s.ticker + '_' + port.id]?.price) {
+      const p = prices[s.ticker + '_' + port.id].price;
+      document.getElementById('dca-price').value = p.toFixed(2);
+      setDcaPriceStatus('✓ ราคาจากพอร์ต: $' + fn(p, 2), 'var(--green-tx)');
+      calcDca(); return;
+    }
+  }
+  try {
+    for (const t of [raw, raw + '.BK']) {
+      const r = await fetch('/api/price?ticker=' + encodeURIComponent(t), { signal: AbortSignal.timeout(10000) });
+      if (!r.ok) continue;
+      const d = await r.json();
+      if (d.price && !d.error) {
+        document.getElementById('dca-price').value = d.price.toFixed(2);
+        const chg = d.prevClose ? ((d.price - d.prevClose) / d.prevClose * 100) : null;
+        const chgStr = chg !== null ? ' (' + (chg >= 0 ? '▲' : '▼') + Math.abs(chg).toFixed(2) + '%)' : '';
+        setDcaPriceStatus('✓ $' + fn(d.price, 2) + chgStr, chg >= 0 ? 'var(--green-tx)' : 'var(--red-tx)');
+        calcDca(); return;
+      }
+    }
+    setDcaPriceStatus('⚠ ไม่พบราคา — กรอกเองในช่องราคาได้เลย', 'var(--amber-tx)');
+  } catch { setDcaPriceStatus('⚠ โหลดราคาไม่ได้ — กรอกเองได้', 'var(--amber-tx)'); }
+}
+
+function setDcaPriceStatus(msg, color) {
+  const el = document.getElementById('dca-price-status');
+  if (el) { el.textContent = msg; el.style.color = color; }
+}
+
+function calcDca() {
+  const price   = parseFloat(document.getElementById('dca-price').value);
+  const budget  = parseFloat(document.getElementById('dca-budget').value) || 1000;
+  const stepDn  = parseFloat(document.getElementById('dca-step').value) || 5;
+  const stepUp  = parseFloat(document.getElementById('dca-rstep')?.value) || 5;
+  const sCount  = parseInt(document.getElementById('dca-scount')?.value) || 4;
+  const rCount  = parseInt(document.getElementById('dca-rcount')?.value) || 4;
+  const scale   = parseFloat(document.getElementById('dca-scale')?.value) || 20;
+  const ticker  = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
+  if (!price || price <= 0) return;
+
+  const supports = Array.from({ length: sCount }, (_, i) => {
+    const lvlPrice  = price * Math.pow(1 - stepDn / 100, i);
+    const lvlBudget = budget * Math.pow(1 + scale / 100, i);
+    return { label: 'S' + i, price: lvlPrice, budget: lvlBudget, qty: lvlBudget / lvlPrice, pctFromCur: (lvlPrice - price) / price * 100 };
+  });
+
+  const resistances = Array.from({ length: rCount }, (_, j) => {
+    const lvlPrice = price * Math.pow(1 + stepUp / 100, j + 1);
+    return { label: 'R' + (j + 1), price: lvlPrice, pctFromCur: (lvlPrice - price) / price * 100 };
+  });
+
+  const rows = supports.map((s, si) => {
+    const partialQty  = supports.slice(0, si + 1).reduce((a, x) => a + x.qty, 0);
+    const partialCost = supports.slice(0, si + 1).reduce((a, x) => a + x.budget, 0);
+    const partialAvg  = partialCost / partialQty;
+    const rPnls = resistances.map(r => ({
+      pnl: (r.price - partialAvg) * partialQty,
+      pct: (r.price - partialAvg) / partialAvg * 100
+    }));
+    return { ...s, partialQty, partialCost, partialAvg, rPnls };
+  });
+
+  const cumQty  = supports.reduce((s, x) => s + x.qty, 0);
+  const cumCost = supports.reduce((s, x) => s + x.budget, 0);
+  const avgCost = cumCost / cumQty;
+
+  dcaCurrentData = { ticker, price, budget, stepDn, stepUp, sCount, rCount, scale, supports, resistances, rows, cumQty, cumCost, avgCost };
+  renderDcaTable(dcaCurrentData);
+  renderDcaChart(dcaCurrentData);
+  renderDcaSummary(dcaCurrentData);
+  document.getElementById('dca-result-wrap').style.display = 'block';
+}
+
+function renderDcaTable(d) {
+  const table = document.getElementById('dca-main-table');
+  const sub   = document.getElementById('dca-table-sub');
+  if (sub) sub.textContent = d.ticker + ' · ราคา $' + fn(d.price, 2) + ' · ' + d.supports.length + ' แนวรับ × ' + d.resistances.length + ' แนวต้าน';
+
+  const rHeader = d.resistances.map(r =>
+    '' +
+    r.label + '
+$' + fn(r.price, 2) + ''
+  ).join('');
+
+  const rowsHtml = d.rows.map((s, i) => {
+    const isS0 = i === 0;
+    const pctStr = s.pctFromCur === 0 ? '(ราคาปัจจุบัน)' : '(' + s.pctFromCur.toFixed(1) + '%)';
+    const rCells = s.rPnls.map(r =>
+      '
+' +
+      (r.pnl >= 0 ? '+' : '') + '$' + fn(r.pnl, 0) + '
+' +
+      '
+(' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '%)
+'
+    ).join('');
+    return '' +
+      '' + s.label + '' +
+      '
+$' + fn(s.price, 2) + '
+' +
+      '
+' + pctStr + '
+' +
+      '
+$' + fn(s.budget, 0) + '
+' +
+      '
+' + fn(s.qty, 2) + ' หุ้น
+' +
+      '
+$' + fn(s.partialAvg, 2) + '
+' +
+      '
+ต้นทุนเฉลี่ย
+' + rCells + '';
+  }).join('');
+
+  const lastRow = d.rows[d.rows.length - 1];
+  const totalRCells = d.resistances.map((r, ri) => {
+    const pnl = lastRow.rPnls[ri].pnl;
+    const pct = lastRow.rPnls[ri].pct;
+    return '
+' + (pnl >= 0 ? '+' : '') + '$' + fn(pnl, 0) + '
+' +
+      '
+' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%
+';
+  }).join('');
+
+  table.innerHTML =
+    '' +
+    'ระดับ' +
+    'ราคา' +
+    'งบ ($)' +
+    'จำนวนหุ้น' +
+    'ต้นทุนเฉลี่ย ($)' + rHeader + '' +
+    '' + rowsHtml + '' +
+    '' +
+    'รวมทุกระดับ' +
+    '$' + fn(d.cumCost, 0) + '' +
+    '' + fn(d.cumQty, 2) + '' +
+    '$' + fn(d.avgCost, 2) + '' +
+    totalRCells + '';
+}
+
+function renderDcaSummary(d) {
+  const el = document.getElementById('dca-summary-cards');
+  if (!el) return;
+  const firstRPnl = d.rows[d.rows.length - 1].rPnls[0];
+  const firstR    = d.resistances[0];
+  [
+    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
+    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
+    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
+    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
+  ].forEach(s => {
+    el.innerHTML = '';
+  });
+  el.innerHTML = [
+    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
+    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
+    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
+    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
+  ].map(s => `<div class="met"><div class="met-lbl">${s.l}</div><div class="met-val mono" style="${s.color ? 'color:' + s.color : ''}">${s.v}</div><div class="met-sub">${s.sub || ''}</div></div>`).join('');
+  el.innerHTML = [
+    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
+    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
+    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
+    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
+  ].map(s => '
+' + s.l + '
+' + s.v + '
+' + (s.sub || '') + '
+').join('');
+}
+
+function renderDcaChart(d) {
+  if (dcaChart) { dcaChart.destroy(); dcaChart = null; }
+  const canvas = document.getElementById('dca-chart');
+  if (!canvas) return;
+  const sN = d.supports.length;
+  const labels  = [...d.supports.map(s => s.label).reverse(), ...d.resistances.map(r => r.label)];
+  const prices2 = [...d.supports.map(s => s.price).reverse(), ...d.resistances.map(r => r.price)];
+  dcaChart = new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'ราคา ($)',
+        data: prices2,
+        backgroundColor: labels.map((l, i) => i < sN ? 'rgba(0,113,227,0.18)' : 'rgba(255,59,48,0.18)'),
+        borderColor: labels.map((l, i) => i < sN ? '#0071e3' : '#ff3b30'),
+        borderWidth: 2, borderRadius: 6, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => {
+          const i = ctx.dataIndex;
+          if (i < sN) {
+            const si = sN - 1 - i;
+            return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · งบ $' + fn(d.supports[si].budget, 0);
+          }
+          return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · +' + ((prices2[i] - d.price) / d.price * 100).toFixed(1) + '%';
+        }}}
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: v => '$' + fn(v, 2) } }
+      }
+    }
+  });
+}
+
+function copyDcaTable() {
+  if (!dcaCurrentData) return;
+  const d = dcaCurrentData;
+  const header = ['ระดับ', 'ราคา ($)', 'งบ ($)', 'หุ้น', 'ต้นทุนเฉลี่ย', ...d.resistances.map(r => r.label + ' $' + fn(r.price, 2))].join('\t');
+  const rows = d.rows.map(s => [s.label, fn(s.price, 2), fn(s.budget, 0), fn(s.qty, 2), fn(s.partialAvg, 2), ...s.rPnls.map(r => (r.pnl >= 0 ? '+' : '') + fn(r.pnl, 0))].join('\t'));
+  navigator.clipboard.writeText([header, ...rows].join('\n')).then(() => showToast('✓ คัดลอกตารางแล้ว'));
+}
+
+function saveDcaToHistory() {
+  if (!dcaCurrentData) return;
+  const d = dcaCurrentData;
+  dcaHistory.unshift({ id: Date.now(), ticker: d.ticker, price: d.price, budget: d.budget, stepDn: d.stepDn, avgCost: d.avgCost, cumCost: d.cumCost,
+    date: new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit' }) });
+  if (dcaHistory.length > 20) dcaHistory = dcaHistory.slice(0, 20);
+  localStorage.setItem('td_dca_hist', JSON.stringify(dcaHistory));
+  renderDcaHistory();
+  showToast('✓ บันทึกแล้ว: ' + d.ticker);
+}
+
+function clearDcaHistory() {
+  if (!confirm('ล้างประวัติ?')) return;
+  dcaHistory = [];
+  localStorage.removeItem('td_dca_hist');
+  renderDcaHistory();
+}
+
+function loadDcaFromHistory(h) {
+  document.getElementById('dca-ticker').value = h.ticker;
+  document.getElementById('dca-price').value  = h.price.toFixed(2);
+  document.getElementById('dca-budget').value = h.budget;
+  document.getElementById('dca-step').value   = h.stepDn;
+  calcDca();
+  showToast('โหลด ' + h.ticker + ' แล้ว');
+}
+
+function renderDcaHistory() {
+  const card = document.getElementById('dca-history-card');
+  const body = document.getElementById('dca-history-body');
+  if (!card || !body) return;
+  card.style.display = dcaHistory.length ? 'block' : 'none';
+  body.innerHTML = dcaHistory.map(h =>
+    '
+' +
+    '
+' + h.ticker + '
+' +
+    '
+$' + fn(h.price, 2) + '
+' +
+    '
+งบ $' + fn(h.cumCost, 0) + ' · เฉลี่ย $' + fn(h.avgCost, 2) + '
+' +
+    '
+' + h.date + '
+'
+  ).join('');
+}
+
+// Extend showFeature to load DCA history
+const _origShowFeatureDCA = showFeature;
+showFeature = function(id) {
+  _origShowFeatureDCA(id);
+  if (id === 'dca') renderDcaHistory();
+};
+  
 </script>
 
 <!-- OVERLAY -->
@@ -2866,10 +3175,16 @@ function renderWatchlist(){
       Dividend Tracker
     </div>
 
+        <div class="sb-item" id="sb-dca" onclick="showFeature('dca')">
+  <div class="sb-item-icon" style="background:#fff4e5">📐</div>
+  DCA Calculator
+</div>
+    
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
       Sector Analysis
     </div>
+
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
     <div class="sb-item" onclick="exportBackup()">
@@ -3080,6 +3395,85 @@ function renderWatchlist(){
   </table></div></div>
 </div>
 
+<div class="feat-panel" id="feat-dca">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📐 DCA Calculator</h2>
+    <div style="font-size:12px;color:var(--tx3);margin-left:auto">คำนวณแนวรับ-แนวต้านสำหรับ DCA</div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">ข้อมูลหุ้น</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
+        <div>
+          <label class="form-lbl">Ticker</label>
+          <div style="display:flex;gap:6px">
+            <input type="text" id="dca-ticker" placeholder="เช่น SOFI" style="width:100%;text-transform:uppercase"
+              oninput="dcaAutoFill()" onkeydown="if(event.key==='Enter') fetchDcaPrice()">
+            <button class="btn btn-s btn-sm" onclick="fetchDcaPrice()" title="ดึงราคา">↻</button>
+          </div>
+        </div>
+        <div>
+          <label class="form-lbl">ราคาปัจจุบัน ($)</label>
+          <input type="number" id="dca-price" placeholder="0.00" step="0.01" style="width:100%"
+            oninput="calcDca()" onchange="calcDca()">
+        </div>
+        <div>
+          <label class="form-lbl">งบต่อระดับ S0 ($)</label>
+          <input type="number" id="dca-budget" placeholder="1000" value="1000" step="100" style="width:100%"
+            oninput="calcDca()">
+        </div>
+        <div>
+          <label class="form-lbl">Step Down (%)</label>
+          <input type="number" id="dca-step" placeholder="5" value="5" step="0.5" min="1" max="30" style="width:100%"
+            oninput="calcDca()">
+        </div>
+        <div>
+          <label class="form-lbl">&nbsp;</label>
+          <button class="btn btn-p" onclick="fetchDcaPrice()">คำนวณ</button>
+        </div>
+      </div>
+      <div id="dca-price-status" style="margin-top:10px;font-size:12px;color:var(--tx3)"></div>
+      <details style="margin-top:12px">
+        <summary style="font-size:12px;color:var(--blue);cursor:pointer;user-select:none">⚙ ตั้งค่าขั้นสูง</summary>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:12px">
+          <div><label class="form-lbl">จำนวน S (แนวรับ)</label><input type="number" id="dca-scount" value="4" min="1" max="8" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">จำนวน R (แนวต้าน)</label><input type="number" id="dca-rcount" value="4" min="1" max="8" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">Step Up แนวต้าน (%)</label><input type="number" id="dca-rstep" value="5" step="0.5" min="1" max="30" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">Scale งบต่อ S (%)</label><input type="number" id="dca-scale" value="20" step="5" min="0" max="100" style="width:100%" oninput="calcDca()"></div>
+        </div>
+      </details>
+    </div>
+  </div>
+  <div id="dca-result-wrap" style="display:none">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px" id="dca-summary-cards"></div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,113,227,.04),transparent)">
+        <div>
+          <div class="card-ti">ตารางแนวรับ-แนวต้าน</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:2px" id="dca-table-sub"></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-g btn-sm" onclick="copyDcaTable()">📋 คัดลอก</button>
+          <button class="btn btn-g btn-sm" onclick="saveDcaToHistory()">💾 บันทึก</button>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table id="dca-main-table"></table></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">กราฟ DCA Zones</div></div>
+      <div class="card-bd"><div style="height:220px;position:relative"><canvas id="dca-chart"></canvas></div></div>
+    </div>
+    <div class="card" id="dca-history-card" style="display:none">
+      <div class="card-hd">
+        <div class="card-ti">ประวัติที่บันทึก</div>
+        <button class="btn btn-g btn-sm" onclick="clearDcaHistory()">ล้าง</button>
+      </div>
+      <div id="dca-history-body"></div>
+    </div>
+  </div>
+</div>
+  
 <div class="feat-panel" id="feat-analysis">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>

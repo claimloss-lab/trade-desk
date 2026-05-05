@@ -2927,280 +2927,87 @@ async function fetchDcaPrice() {
   }
 }
 
+function computeEMA(data, period) {
+  const clean = data.filter(v => v != null);
+  if (clean.length < period) return null;
+  const k = 2 / (period + 1);
+  let ema = clean.slice(0, period).reduce((s,v) => s+v, 0) / period;
+  for (let i = period; i < clean.length; i++) {
+    ema = clean[i] * k + ema * (1 - k);
+  }
+  return ema;
+}
+
 function computeTechnicalLevels(chartData, curPrice) {
-  const highs  = chartData.high.filter(v => v != null);
-  const lows   = chartData.low.filter(v => v != null);
-  const closes = chartData.close.filter(v => v != null);
+  const closes = chartData.close;
+  const highs  = chartData.high;
+  const lows   = chartData.low;
   const n = closes.length;
 
-  // ── 1. Overall High/Low for Fibonacci ──
-  const period = Math.min(n, 126); // 6 months
-  const recentHighs  = chartData.high.slice(-period).filter(v => v != null);
-  const recentLows   = chartData.low.slice(-period).filter(v => v != null);
-  const swingHigh = Math.max(...recentHighs);
-  const swingLow  = Math.min(...recentLows);
-  const fibRange  = swingHigh - swingLow;
+  // ── EMA 20 / 50 / 200 ──
+  const ema20  = computeEMA(closes, 20);
+  const ema50  = computeEMA(closes, 50);
+  const ema200 = computeEMA(closes, 200);
 
-  // Fibonacci Retracement levels (from high down)
-  const fibLevels = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1].map(ratio => ({
-    price: swingHigh - fibRange * ratio,
-    label: `Fib ${(ratio * 100).toFixed(1)}%`,
-    type: 'fib',
-    ratio,
-  }));
+  const emas = [
+    ema20  ? { price: ema20,  label: 'EMA 20',  type: 'ema', period: 20  } : null,
+    ema50  ? { price: ema50,  label: 'EMA 50',  type: 'ema', period: 50  } : null,
+    ema200 ? { price: ema200, label: 'EMA 200', type: 'ema', period: 200 } : null,
+  ].filter(Boolean);
 
-  // Fibonacci Extension levels (below swing low)
-  const fibExt = [1.272, 1.618].map(ratio => ({
-    price: swingHigh - fibRange * ratio,
-    label: `Fib Ext ${(ratio * 100).toFixed(0)}%`,
-    type: 'fib-ext',
-    ratio,
-  }));
-
-  // ── 2. Support/Resistance from Price History ──
-  // Find local peaks and troughs (window = 5 candles each side)
+  // ── Strong S/R from Price History ──
+  // Find local peaks and troughs with window=5
   const win = 5;
-  const peaks   = [];
-  const troughs = [];
-  const allHighs  = chartData.high;
-  const allLows   = chartData.low;
-
+  const peaks = [], troughs = [];
   for (let i = win; i < n - win; i++) {
-    const h = allHighs[i];
-    const l = allLows[i];
+    const h = highs[i], l = lows[i];
     if (h == null || l == null) continue;
-
-    // Peak: highest in window
-    let isPeak = true;
+    let isPeak = true, isTrough = true;
     for (let j = i - win; j <= i + win; j++) {
-      if (j !== i && allHighs[j] != null && allHighs[j] >= h) { isPeak = false; break; }
+      if (j === i) continue;
+      if (highs[j] != null && highs[j] >= h) isPeak = false;
+      if (lows[j]  != null && lows[j]  <= l) isTrough = false;
     }
-    if (isPeak) peaks.push(h);
-
-    // Trough: lowest in window
-    let isTrough = true;
-    for (let j = i - win; j <= i + win; j++) {
-      if (j !== i && allLows[j] != null && allLows[j] <= l) { isTrough = false; break; }
-    }
+    if (isPeak)   peaks.push(h);
     if (isTrough) troughs.push(l);
   }
 
-  // Cluster nearby S/R levels (within 1.5% of each other = same zone)
-  function clusterLevels(levels, threshold = 0.015) {
+  // Cluster nearby levels (within 1.5%) and count touches = strength
+  function clusterWithStrength(levels, threshold = 0.015) {
     if (!levels.length) return [];
     const sorted = [...levels].sort((a, b) => a - b);
     const clusters = [];
     let group = [sorted[0]];
     for (let i = 1; i < sorted.length; i++) {
-      if ((sorted[i] - sorted[i-1]) / sorted[i-1] < threshold) {
+      if ((sorted[i] - group[group.length-1]) / group[group.length-1] < threshold) {
         group.push(sorted[i]);
       } else {
-        clusters.push(group.reduce((s, v) => s + v, 0) / group.length);
+        clusters.push({ price: group.reduce((s,v)=>s+v,0)/group.length, touches: group.length });
         group = [sorted[i]];
       }
     }
-    clusters.push(group.reduce((s, v) => s + v, 0) / group.length);
-    return clusters;
+    clusters.push({ price: group.reduce((s,v)=>s+v,0)/group.length, touches: group.length });
+    // Only keep levels touched 2+ times (strong zones)
+    return clusters.filter(c => c.touches >= 2).sort((a,b) => b.touches - a.touches);
   }
 
-  const srResistance = clusterLevels(peaks).map(p => ({
-    price: p, label: 'Resistance', type: 'sr-res',
+  const strongRes = clusterWithStrength(peaks).map(c => ({
+    price: c.price, label: 'Resistance', type: 'sr-res', touches: c.touches,
+    strength: c.touches >= 4 ? 'strong' : c.touches >= 3 ? 'medium' : 'weak'
   }));
-  const srSupport = clusterLevels(troughs).map(p => ({
-    price: p, label: 'Support', type: 'sr-sup',
+  const strongSup = clusterWithStrength(troughs).map(c => ({
+    price: c.price, label: 'Support', type: 'sr-sup', touches: c.touches,
+    strength: c.touches >= 4 ? 'strong' : c.touches >= 3 ? 'medium' : 'weak'
   }));
 
-  // ── 3. Moving Averages ──
-  function sma(data, period) {
-    const clean = data.filter(v => v != null);
-    if (clean.length < period) return null;
-    return clean.slice(-period).reduce((s, v) => s + v, 0) / period;
-  }
-  const ma20  = sma(closes, 20);
-  const ma50  = sma(closes, 50);
-  const ma200 = sma(closes, 200);
-  const mas = [
-    ma20  ? { price: ma20,  label: 'MA 20',  type: 'ma' } : null,
-    ma50  ? { price: ma50,  label: 'MA 50',  type: 'ma' } : null,
-    ma200 ? { price: ma200, label: 'MA 200', type: 'ma' } : null,
-  ].filter(Boolean);
-
-  return {
-    fib: [...fibLevels, ...fibExt],
-    sr: [...srSupport, ...srResistance],
-    ma: mas,
-    swingHigh, swingLow,
-    curPrice,
-  };
-}
-
-let dcaPriceChart = null;
-let currentTechLevels = null;
-
-function updateDcaPriceChart() {
-  if (!dcaChartData || !currentTechLevels) return;
-  const rangeEl = document.getElementById('dca-chart-range');
-  const range = rangeEl ? rangeEl.value : '3mo';
-  drawDcaPriceChart(dcaChartData, currentTechLevels, range);
-}
-
-function drawDcaPriceChart(chartData, levels, range) {
-  const card = document.getElementById('dca-price-chart-card');
-  const canvas = document.getElementById('dca-price-canvas');
-  if (!card || !canvas) return;
-  card.style.display = 'block';
-
-  // Filter data by range
-  const n = chartData.timestamps.length;
-  const days = range === '1mo' ? 22 : range === '3mo' ? 66 : 126;
-  const start = Math.max(0, n - days);
-
-  const labels = chartData.timestamps.slice(start).map(t =>
-    new Date(t * 1000).toLocaleDateString('th-TH', {day:'numeric', month:'short'})
-  );
-  const closes = chartData.close.slice(start);
-  const highs  = chartData.high.slice(start);
-  const lows   = chartData.low.slice(start);
-
-  // Determine price range for annotations
-  const validCloses = closes.filter(v => v != null);
-  const priceMin = Math.min(...lows.filter(v=>v!=null)) * 0.995;
-  const priceMax = Math.max(...highs.filter(v=>v!=null)) * 1.005;
-
-  // Build annotation lines from technical levels
-  const annotations = {};
-
-  // Current price
-  const curPrice = levels.curPrice;
-  annotations['cur'] = {
-    type: 'line', yMin: curPrice, yMax: curPrice,
-    borderColor: '#1d1d1f', borderWidth: 2, borderDash: [4,4],
-    label: { content: 'ราคา ' + fn(curPrice,2), enabled: true, position: 'end',
-      backgroundColor: '#1d1d1f', color: '#fff', font: {size:10} }
-  };
-
-  // Fibonacci levels
-  levels.fib.filter(l => l.price >= priceMin && l.price <= priceMax).forEach((l, i) => {
-    annotations['fib'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(124,58,237,0.6)', borderWidth: 1.5,
-      borderDash: [6, 3],
-      label: { content: l.label + ' ' + fn(l.price,2), enabled: true, position: i%2===0?'start':'end',
-        backgroundColor: 'rgba(124,58,237,0.8)', color:'#fff', font:{size:9}, padding:3 }
-    };
+  // Also check if EMA levels coincide with S/R zones (confluence = stronger)
+  const allSR = [...strongSup, ...strongRes];
+  emas.forEach(ema => {
+    const coinc = allSR.find(sr => Math.abs(sr.price - ema.price) / ema.price < 0.02);
+    if (coinc) ema.confluence = true;
   });
 
-  // S/R Support
-  levels.sr.filter(l => l.type==='sr-sup' && l.price >= priceMin && l.price <= priceMax).forEach((l,i) => {
-    annotations['sup'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(48,209,88,0.7)', borderWidth: 1.5,
-      label: { content: 'S ' + fn(l.price,2), enabled: true, position:'start',
-        backgroundColor:'rgba(48,209,88,0.8)', color:'#fff', font:{size:9}, padding:3 }
-    };
-  });
-
-  // S/R Resistance
-  levels.sr.filter(l => l.type==='sr-res' && l.price >= priceMin && l.price <= priceMax).forEach((l,i) => {
-    annotations['res'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(255,59,48,0.7)', borderWidth: 1.5,
-      label: { content: 'R ' + fn(l.price,2), enabled: true, position:'end',
-        backgroundColor:'rgba(255,59,48,0.8)', color:'#fff', font:{size:9}, padding:3 }
-    };
-  });
-
-  // MAs
-  levels.ma.forEach((l, i) => {
-    if (l.price < priceMin || l.price > priceMax) return;
-    annotations['ma'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(0,113,227,0.7)', borderWidth: 1.5, borderDash:[3,3],
-      label: { content: l.label + ' ' + fn(l.price,2), enabled: true,
-        position: i%2===0?'start':'end',
-        backgroundColor:'rgba(0,113,227,0.8)', color:'#fff', font:{size:9}, padding:3 }
-    };
-  });
-
-  // Selected levels overlay
-  selectedSupports.forEach((l,i) => {
-    annotations['sel_s'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: '#30d158', borderWidth: 2.5,
-      label: { content: '✓ S ' + fn(l.price,2), enabled: true, position:'start',
-        backgroundColor:'#30d158', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
-    };
-  });
-  selectedResistances.forEach((l,i) => {
-    annotations['sel_r'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: '#ff3b30', borderWidth: 2.5,
-      label: { content: '✓ R ' + fn(l.price,2), enabled: true, position:'end',
-        backgroundColor:'#ff3b30', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
-    };
-  });
-
-  if (dcaPriceChart) { dcaPriceChart.destroy(); dcaPriceChart = null; }
-
-  dcaPriceChart = new Chart(canvas.getContext('2d'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'ราคา',
-        data: closes,
-        borderColor: '#0071e3',
-        borderWidth: 2,
-        pointRadius: 0,
-        pointHoverRadius: 4,
-        fill: true,
-        backgroundColor: (ctx) => {
-          const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
-          g.addColorStop(0, 'rgba(0,113,227,0.12)');
-          g.addColorStop(1, 'rgba(0,113,227,0)');
-          return g;
-        },
-        tension: 0.3,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode:'index', intersect:false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(29,29,31,.92)',
-          callbacks: { label: ctx => ' ' + fn(ctx.parsed.y, 2) }
-        },
-        annotation: { annotations }
-      },
-      scales: {
-        x: { grid:{display:false}, ticks:{maxTicksLimit:8, font:{size:10}, color:'#aeaeb2'} },
-        y: { position:'right', grid:{color:'rgba(0,0,0,.04)'},
-          ticks:{font:{size:10}, color:'#aeaeb2', callback:v=>fn(v,2)},
-          min: priceMin, max: priceMax }
-      }
-    }
-  });
-
-  // Legend
-  const legend = document.getElementById('dca-chart-legend');
-  if (legend) {
-    legend.innerHTML = [
-      {c:'#0071e3', l:'ราคา'},
-      {c:'rgba(124,58,237,0.8)', l:'Fibonacci'},
-      {c:'rgba(48,209,88,0.8)', l:'Support (S/R)'},
-      {c:'rgba(255,59,48,0.8)', l:'Resistance (S/R)'},
-      {c:'rgba(0,113,227,0.8)', l:'Moving Average'},
-      {c:'#30d158', l:'Level ที่เลือก (S)'},
-      {c:'#ff3b30', l:'Level ที่เลือก (R)'},
-    ].map(item =>
-      '<div style="display:flex;align-items:center;gap:4px">' +
-      '<div style="width:14px;height:3px;background:'+item.c+';border-radius:2px"></div>' +
-      '<span style="color:var(--tx2)">'+item.l+'</span></div>'
-    ).join('');
-  }
+  return { emas, strongRes, strongSup, curPrice };
 }
 
 function displayTechnicalLevels(levels, curPrice) {
@@ -3209,59 +3016,70 @@ function displayTechnicalLevels(levels, curPrice) {
   if (!panel || !el) return;
   panel.style.display = 'block';
   currentTechLevels = levels;
+
   // Draw price chart
   drawDcaPriceChart(dcaChartData, levels, '3mo');
 
-  // Separate supports (below cur) and resistances (above cur)
   const allLevels = [
-    ...levels.fib,
-    ...levels.sr,
-    ...levels.ma,
-  ].filter(l => l.price > 0 && l.price > curPrice * 0.5 && l.price < curPrice * 1.8);
+    ...levels.emas.map(e => ({ ...e })),
+    ...levels.strongSup,
+    ...levels.strongRes,
+  ].filter(l => l.price > curPrice * 0.6 && l.price < curPrice * 1.6);
 
-  const supports    = allLevels.filter(l => l.price < curPrice).sort((a,b) => b.price - a.price);
+  const supports    = allLevels.filter(l => l.price <= curPrice).sort((a,b) => b.price - a.price);
   const resistances = allLevels.filter(l => l.price > curPrice).sort((a,b) => a.price - b.price);
 
-  const typeColor = {
-    'fib':    { bg: 'rgba(124,58,237,.1)',  tc: '#7c3aed', label: 'Fib' },
-    'fib-ext':{ bg: 'rgba(124,58,237,.06)', tc: '#a78bfa', label: 'Fib Ext' },
-    'sr-sup': { bg: 'rgba(48,209,88,.1)',   tc: 'var(--green-tx)', label: 'S/R' },
-    'sr-res': { bg: 'rgba(255,59,48,.1)',   tc: 'var(--red-tx)',   label: 'S/R' },
-    'ma':     { bg: 'rgba(0,113,227,.1)',   tc: 'var(--blue)',     label: 'MA' },
-  };
+  function strengthBadge(l) {
+    if (l.type === 'ema') {
+      const color = l.period <= 21 ? '#ff9500' : l.period <= 50 ? '#0071e3' : '#7c3aed';
+      const conf = l.confluence ? ' ⚡' : '';
+      return `<span style="background:${color}22;color:${color};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600">EMA${l.period}${conf}</span>`;
+    }
+    const colors = { strong:'var(--green-tx)', medium:'var(--amber-tx)', weak:'var(--tx3)' };
+    const bg     = { strong:'var(--green-bg)', medium:'var(--amber-bg)', weak:'var(--s2)' };
+    const s = l.strength || 'weak';
+    const stars = l.touches >= 4 ? '★★★' : l.touches >= 3 ? '★★' : '★';
+    return `<span style="background:${bg[s]};color:${colors[s]};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600">${stars} ${l.touches}x</span>`;
+  }
 
   function levelRow(l, side) {
-    const pct = ((l.price - curPrice) / curPrice * 100);
-    const c = typeColor[l.type] || { bg: 'var(--s2)', tc: 'var(--tx2)', label: l.type };
-    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background .15s"
+    const pct = (l.price - curPrice) / curPrice * 100;
+    const isEma = l.type === 'ema';
+    const borderColor = side === 'sup'
+      ? (l.strength === 'strong' ? 'var(--green)' : l.strength === 'medium' ? 'var(--amber)' : 'var(--bd2)')
+      : (l.strength === 'strong' ? 'var(--red)' : l.strength === 'medium' ? 'var(--amber)' : 'var(--bd2)');
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;border-left:3px solid ${isEma?'var(--blue)':borderColor}"
       onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background=''"
-      onclick="useTechLevel(${l.price.toFixed(2)}, '${l.label}', '${side}')">
-      <span style="background:${c.bg};color:${c.tc};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;min-width:50px;text-align:center">${c.label}</span>
+      onclick="useTechLevel(${l.price.toFixed(2)},'${l.label} (${l.type==='ema'?l.label:l.touches+'x'})','${side}')">
+      ${strengthBadge(l)}
       <span style="font-family:var(--mono);font-size:13px;font-weight:600;min-width:80px">${fn(l.price,2)}</span>
-      <span style="font-size:11px;color:var(--tx2);flex:1">${l.label}</span>
+      <span style="font-size:11px;color:var(--tx2);flex:1">${l.label}${l.confluence?' · ⚡ confluence กับ S/R':''}</span>
       <span style="font-family:var(--mono);font-size:12px;color:${pct>=0?'var(--green-tx)':'var(--red-tx)'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>
-      <span style="font-size:10px;color:var(--blue);text-decoration:underline">${side==='sup'?'ใช้เป็น S':'ใช้เป็น R'}</span>
+      <span style="font-size:10px;color:var(--blue)">+ เลือก</span>
     </div>`;
   }
 
   el.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--green-tx);padding:8px 14px;border-bottom:1px solid var(--bd2)">
-          🟢 แนวรับ (Support) — ราคาต่ำกว่าปัจจุบัน ${fn(curPrice,2)}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--bd2)">
+      <div style="border-right:1px solid var(--bd2)">
+        <div style="font-size:11px;font-weight:600;color:var(--green-tx);padding:8px 14px;background:var(--green-bg);display:flex;justify-content:space-between">
+          <span>🟢 แนวรับ (Support)</span>
+          <span style="font-weight:400;color:var(--tx3)">★★★ = ชนบ่อย = แข็งแกร่ง</span>
         </div>
-        ${supports.slice(0,8).map(l=>levelRow(l,'sup')).join('') || '<div class="empty" style="padding:16px">ไม่พบแนวรับ</div>'}
+        ${supports.slice(0,7).map(l=>levelRow(l,'sup')).join('') || '<div class="empty" style="padding:20px">ไม่พบแนวรับที่ชัดเจน</div>'}
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--red-tx);padding:8px 14px;border-bottom:1px solid var(--bd2)">
-          🔴 แนวต้าน (Resistance) — ราคาสูงกว่าปัจจุบัน
+        <div style="font-size:11px;font-weight:600;color:var(--red-tx);padding:8px 14px;background:var(--red-bg);display:flex;justify-content:space-between">
+          <span>🔴 แนวต้าน (Resistance)</span>
+          <span style="font-weight:400;color:var(--tx3)">⚡ = ตรงกับ EMA</span>
         </div>
-        ${resistances.slice(0,8).map(l=>levelRow(l,'res')).join('') || '<div class="empty" style="padding:16px">ไม่พบแนวต้าน</div>'}
+        ${resistances.slice(0,7).map(l=>levelRow(l,'res')).join('') || '<div class="empty" style="padding:20px">ไม่พบแนวต้านที่ชัดเจน</div>'}
       </div>
     </div>
-    <div style="padding:10px 14px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd2)">
-      Swing High: ${fn(levels.swingHigh,2)} · Swing Low: ${fn(levels.swingLow,2)} · Range: ${fn(levels.swingHigh-levels.swingLow,2)}
-      (6 เดือนล่าสุด) · คลิกที่ level เพื่อเพิ่มในตาราง DCA
+    <div style="padding:10px 14px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd2);display:flex;gap:16px;flex-wrap:wrap">
+      <span>EMA: <span style="color:#ff9500">●</span>21 <span style="color:#0071e3">●</span>50 <span style="color:#7c3aed">●</span>200</span>
+      <span>S/R: ★★★ ชนมากกว่า 4 ครั้ง | ★★ 3 ครั้ง | ★ 2 ครั้ง</span>
+      <span>⚡ = EMA ตรงกับ S/R zone (confluence)</span>
     </div>`;
 }
 
@@ -4091,4 +3909,188 @@ showFeature = function(id) {
 </div>
 
 </body>
-</html>
+</html>function drawDcaPriceChart(chartData, levels, range) {
+  const card = document.getElementById('dca-price-chart-card');
+  const canvas = document.getElementById('dca-price-canvas');
+  if (!card || !canvas) return;
+  card.style.display = 'block';
+
+  const n = chartData.timestamps.length;
+  const days = range === '1mo' ? 22 : range === '3mo' ? 66 : 126;
+  const start = Math.max(0, n - days);
+
+  const labels  = chartData.timestamps.slice(start).map(t =>
+    new Date(t * 1000).toLocaleDateString('th-TH', {day:'numeric', month:'short'})
+  );
+  const closes  = chartData.close.slice(start);
+  const validC  = closes.filter(v => v != null);
+  const priceMin = Math.min(...chartData.low.slice(start).filter(v=>v!=null)) * 0.993;
+  const priceMax = Math.max(...chartData.high.slice(start).filter(v=>v!=null)) * 1.007;
+  const curPrice = levels.curPrice;
+
+  // Build EMA series for chart
+  function buildEMASeries(allCloses, period, sliceStart) {
+    const k = 2 / (period + 1);
+    const result = [];
+    let ema = null;
+    let count = 0;
+    for (let i = 0; i < allCloses.length; i++) {
+      const v = allCloses[i];
+      if (v == null) { result.push(null); continue; }
+      if (ema === null) { ema = v; count = 1; }
+      else { ema = v * k + ema * (1 - k); count++; }
+      result.push(count >= period ? ema : null);
+    }
+    return result.slice(sliceStart);
+  }
+
+  const ema20Series  = buildEMASeries(chartData.close, 20, start);
+  const ema50Series  = buildEMASeries(chartData.close, 50, start);
+  const ema200Series = buildEMASeries(chartData.close, 200, start);
+
+  // Annotations for S/R zones and selected levels
+  const annotations = {};
+
+  // Current price line
+  annotations['cur'] = {
+    type: 'line', yMin: curPrice, yMax: curPrice,
+    borderColor: '#1d1d1f', borderWidth: 2, borderDash: [6,3],
+    label: { content: fn(curPrice,2), enabled: true, position:'end',
+      backgroundColor:'#1d1d1f', color:'#fff', font:{size:10}, padding:4 }
+  };
+
+  // Strong S/R zones as horizontal bands
+  levels.strongSup.filter(l => l.price >= priceMin && l.price <= priceMax).slice(0,5).forEach((l,i) => {
+    const alpha = l.strength === 'strong' ? 0.15 : l.strength === 'medium' ? 0.1 : 0.06;
+    annotations['sup_box'+i] = {
+      type: 'box',
+      yMin: l.price * 0.998, yMax: l.price * 1.002,
+      backgroundColor: `rgba(48,209,88,${alpha})`,
+      borderColor: `rgba(48,209,88,${alpha*3})`,
+      borderWidth: 1,
+    };
+    annotations['sup'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(48,209,88,0.7)', borderWidth: 1.5,
+      label: { content: (l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ') + 'S ' + fn(l.price,2),
+        enabled: true, position:'start',
+        backgroundColor:'rgba(48,209,88,0.85)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  levels.strongRes.filter(l => l.price >= priceMin && l.price <= priceMax).slice(0,5).forEach((l,i) => {
+    const alpha = l.strength === 'strong' ? 0.15 : l.strength === 'medium' ? 0.1 : 0.06;
+    annotations['res_box'+i] = {
+      type: 'box',
+      yMin: l.price * 0.998, yMax: l.price * 1.002,
+      backgroundColor: `rgba(255,59,48,${alpha})`,
+      borderColor: `rgba(255,59,48,${alpha*3})`,
+      borderWidth: 1,
+    };
+    annotations['res'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(255,59,48,0.7)', borderWidth: 1.5,
+      label: { content: (l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ') + 'R ' + fn(l.price,2),
+        enabled: true, position:'end',
+        backgroundColor:'rgba(255,59,48,0.85)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  // Selected levels (bold)
+  selectedSupports.forEach((l,i) => {
+    annotations['sel_s'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: '#30d158', borderWidth: 3,
+      label: { content: '✓ ' + fn(l.price,2), enabled: true, position:'start',
+        backgroundColor:'#30d158', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
+    };
+  });
+  selectedResistances.forEach((l,i) => {
+    annotations['sel_r'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: '#ff3b30', borderWidth: 3,
+      label: { content: '✓ ' + fn(l.price,2), enabled: true, position:'end',
+        backgroundColor:'#ff3b30', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
+    };
+  });
+
+  if (dcaPriceChart) { dcaPriceChart.destroy(); dcaPriceChart = null; }
+
+  dcaPriceChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'ราคา', data: closes,
+          borderColor: '#0071e3', borderWidth: 2,
+          pointRadius: 0, pointHoverRadius: 4,
+          fill: true, tension: 0.3, order: 1,
+          backgroundColor: (ctx) => {
+            const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
+            g.addColorStop(0, 'rgba(0,113,227,0.1)');
+            g.addColorStop(1, 'rgba(0,113,227,0)');
+            return g;
+          },
+        },
+        {
+          label: 'EMA 20', data: ema20Series,
+          borderColor: '#ff9500', borderWidth: 1.5,
+          pointRadius: 0, fill: false, tension: 0.3, order: 2,
+          borderDash: [],
+        },
+        {
+          label: 'EMA 50', data: ema50Series,
+          borderColor: '#0071e3', borderWidth: 1.5,
+          pointRadius: 0, fill: false, tension: 0.3, order: 3,
+          borderDash: [4,2],
+        },
+        {
+          label: 'EMA 200', data: ema200Series,
+          borderColor: '#7c3aed', borderWidth: 2,
+          pointRadius: 0, fill: false, tension: 0.3, order: 4,
+          borderDash: [8,4],
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
+      plugins: {
+        legend: {
+          display: true, position: 'top',
+          labels: { font:{size:11}, boxWidth:20, padding:12,
+            filter: item => item.datasetIndex === 0 || ema20Series.some(v=>v!=null) }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(29,29,31,.92)',
+          callbacks: {
+            label: ctx => ' ' + ctx.dataset.label + ': ' + (ctx.parsed.y ? fn(ctx.parsed.y,2) : '—')
+          }
+        },
+        annotation: { annotations }
+      },
+      scales: {
+        x: { grid:{display:false}, ticks:{maxTicksLimit:8, font:{size:10}, color:'#aeaeb2'} },
+        y: { position:'right', grid:{color:'rgba(0,0,0,.04)'},
+          ticks:{font:{size:10}, color:'#aeaeb2', callback:v=>fn(v,2)},
+          min: priceMin, max: priceMax }
+      }
+    }
+  });
+
+  // Legend
+  const legend = document.getElementById('dca-chart-legend');
+  if (legend) legend.innerHTML = [
+    {c:'#0071e3', l:'ราคา', dash:false},
+    {c:'#ff9500', l:'EMA 20', dash:false},
+    {c:'#0071e3', l:'EMA 50 - - -', dash:true},
+    {c:'#7c3aed', l:'EMA 200 ━━━', dash:true},
+    {c:'rgba(48,209,88,0.5)', l:'แนวรับ zone'},
+    {c:'rgba(255,59,48,0.5)', l:'แนวต้าน zone'},
+  ].map(item =>
+    '<div style="display:flex;align-items:center;gap:4px">' +
+    '<div style="width:16px;height:3px;background:'+item.c+';border-radius:2px"></div>' +
+    '<span style="color:var(--tx2)">'+item.l+'</span></div>'
+  ).join('');
+}

@@ -3051,12 +3051,11 @@ function displayTechnicalLevels(levels, curPrice) {
       : (l.strength === 'strong' ? 'var(--red)' : l.strength === 'medium' ? 'var(--amber)' : 'var(--bd2)');
     return `<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;border-left:3px solid ${isEma?'var(--blue)':borderColor}"
       onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background=''"
-      onclick="useTechLevel(${l.price.toFixed(2)},'${l.label} (${l.type==='ema'?l.label:l.touches+'x'})','${side}')">
+      onclick="useTechLevel(${l.price.toFixed(2)},'${l.label} (${l.type==='ema'?l.label:l.touches+'x'})','${side}')" style="cursor:pointer">
       ${strengthBadge(l)}
       <span style="font-family:var(--mono);font-size:13px;font-weight:600;min-width:80px">${fn(l.price,2)}</span>
       <span style="font-size:11px;color:var(--tx2);flex:1">${l.label}${l.confluence?' · ⚡ confluence กับ S/R':''}</span>
       <span style="font-family:var(--mono);font-size:12px;color:${pct>=0?'var(--green-tx)':'var(--red-tx)'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>
-      <span style="font-size:10px;color:var(--blue)">+ เลือก</span>
     </div>`;
   }
 
@@ -3107,6 +3106,28 @@ function removeLevel(price, side) {
   if (side === 'sup') selectedSupports = selectedSupports.filter(s => Math.abs(s.price-price)>0.01);
   else selectedResistances = selectedResistances.filter(s => Math.abs(s.price-price)>0.01);
   updateSelectedLevels();
+}
+
+function toggleDcaLayer(btn) {
+  btn.classList.toggle('on');
+  const isOn = btn.classList.contains('on');
+  // Update button style
+  const colors = { ema20:'#ff9500', ema50:'#0071e3', ema200:'#7c3aed', sr:'#30d158' };
+  const c = colors[btn.dataset.key] || '#888';
+  if (isOn) {
+    btn.style.background = c + '22';
+    btn.style.color = btn.dataset.key === 'sr' ? 'var(--green-tx)' : c;
+    btn.style.opacity = '1';
+  } else {
+    btn.style.background = 'var(--s2)';
+    btn.style.color = 'var(--tx3)';
+    btn.style.opacity = '0.6';
+  }
+  // Redraw chart
+  if (dcaChartData && currentTechLevels) {
+    const range = document.getElementById('dca-chart-range')?.value || '3mo';
+    drawDcaPriceChart(dcaChartData, currentTechLevels, range);
+  }
 }
 
 function updateSelectedLevels() {
@@ -3413,25 +3434,31 @@ function drawDcaPriceChart(chartData, levels, range) {
   if (!card || !canvas) return;
   card.style.display = 'block';
 
+  // Read toggle states
+  const tog = {};
+  document.querySelectorAll('.dca-tog').forEach(b => { tog[b.dataset.key] = b.classList.contains('on'); });
+  const showEMA20  = tog['ema20']  !== false;
+  const showEMA50  = tog['ema50']  !== false;
+  const showEMA200 = tog['ema200'] !== false;
+  const showSR     = tog['sr']     !== false;
+
   const n = chartData.timestamps.length;
-  const days = range === '1mo' ? 22 : range === '3mo' ? 66 : 126;
+  const days = range==='1mo'?22:range==='3mo'?66:range==='6mo'?126:range==='1y'?252:504;
   const start = Math.max(0, n - days);
 
-  const labels  = chartData.timestamps.slice(start).map(t =>
-    new Date(t * 1000).toLocaleDateString('th-TH', {day:'numeric', month:'short'})
+  const labels = chartData.timestamps.slice(start).map(t =>
+    new Date(t*1000).toLocaleDateString('th-TH',{day:'numeric',month:'short'})
   );
-  const closes  = chartData.close.slice(start);
-  const validC  = closes.filter(v => v != null);
+  const closes = chartData.close.slice(start);
   const priceMin = Math.min(...chartData.low.slice(start).filter(v=>v!=null)) * 0.993;
   const priceMax = Math.max(...chartData.high.slice(start).filter(v=>v!=null)) * 1.007;
   const curPrice = levels.curPrice;
 
-  // Build EMA series for chart
+  // Build EMA series using full history for accurate warmup
   function buildEMASeries(allCloses, period, sliceStart) {
     const k = 2 / (period + 1);
     const result = [];
-    let ema = null;
-    let count = 0;
+    let ema = null, count = 0;
     for (let i = 0; i < allCloses.length; i++) {
       const v = allCloses[i];
       if (v == null) { result.push(null); continue; }
@@ -3442,74 +3469,57 @@ function drawDcaPriceChart(chartData, levels, range) {
     return result.slice(sliceStart);
   }
 
-  const ema20Series  = buildEMASeries(chartData.close, 20, start);
-  const ema50Series  = buildEMASeries(chartData.close, 50, start);
+  const ema20Series  = buildEMASeries(chartData.close, 20,  start);
+  const ema50Series  = buildEMASeries(chartData.close, 50,  start);
   const ema200Series = buildEMASeries(chartData.close, 200, start);
 
-  // Annotations for S/R zones and selected levels
+  // Annotations — S/R zones only when toggled on
   const annotations = {};
+  if (showSR) {
+    levels.strongSup.filter(l=>l.price>=priceMin&&l.price<=priceMax).slice(0,5).forEach((l,i)=>{
+      const alpha = l.strength==='strong'?0.18:l.strength==='medium'?0.1:0.06;
+      annotations['sup_box'+i] = {
+        type:'box', yMin:l.price*0.998, yMax:l.price*1.002,
+        backgroundColor:`rgba(48,209,88,${alpha})`,
+        borderColor:`rgba(48,209,88,${alpha*3})`, borderWidth:1,
+      };
+      annotations['sup'+i] = {
+        type:'line', yMin:l.price, yMax:l.price,
+        borderColor:'rgba(48,209,88,0.8)', borderWidth:1.5, borderDash:[],
+        label:{content:(l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ')+'S '+fn(l.price,2),
+          enabled:true, position:'start', backgroundColor:'rgba(48,209,88,0.85)',
+          color:'#fff', font:{size:9}, padding:3}
+      };
+    });
+    levels.strongRes.filter(l=>l.price>=priceMin&&l.price<=priceMax).slice(0,5).forEach((l,i)=>{
+      const alpha = l.strength==='strong'?0.18:l.strength==='medium'?0.1:0.06;
+      annotations['res_box'+i] = {
+        type:'box', yMin:l.price*0.998, yMax:l.price*1.002,
+        backgroundColor:`rgba(255,59,48,${alpha})`,
+        borderColor:`rgba(255,59,48,${alpha*3})`, borderWidth:1,
+      };
+      annotations['res'+i] = {
+        type:'line', yMin:l.price, yMax:l.price,
+        borderColor:'rgba(255,59,48,0.8)', borderWidth:1.5, borderDash:[],
+        label:{content:(l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ')+'R '+fn(l.price,2),
+          enabled:true, position:'end', backgroundColor:'rgba(255,59,48,0.85)',
+          color:'#fff', font:{size:9}, padding:3}
+      };
+    });
+  }
 
-  // Current price line
-  annotations['cur'] = {
-    type: 'line', yMin: curPrice, yMax: curPrice,
-    borderColor: '#1d1d1f', borderWidth: 2, borderDash: [6,3],
-    label: { content: fn(curPrice,2), enabled: true, position:'end',
-      backgroundColor:'#1d1d1f', color:'#fff', font:{size:10}, padding:4 }
-  };
-
-  // Strong S/R zones as horizontal bands
-  levels.strongSup.filter(l => l.price >= priceMin && l.price <= priceMax).slice(0,5).forEach((l,i) => {
-    const alpha = l.strength === 'strong' ? 0.15 : l.strength === 'medium' ? 0.1 : 0.06;
-    annotations['sup_box'+i] = {
-      type: 'box',
-      yMin: l.price * 0.998, yMax: l.price * 1.002,
-      backgroundColor: `rgba(48,209,88,${alpha})`,
-      borderColor: `rgba(48,209,88,${alpha*3})`,
-      borderWidth: 1,
-    };
-    annotations['sup'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(48,209,88,0.7)', borderWidth: 1.5,
-      label: { content: (l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ') + 'S ' + fn(l.price,2),
-        enabled: true, position:'start',
-        backgroundColor:'rgba(48,209,88,0.85)', color:'#fff', font:{size:9}, padding:3 }
-    };
+  // Selected levels
+  selectedSupports.forEach((l,i)=>{
+    annotations['sel_s'+i]={type:'line',yMin:l.price,yMax:l.price,
+      borderColor:'#30d158',borderWidth:3,
+      label:{content:'✓ '+fn(l.price,2),enabled:true,position:'start',
+        backgroundColor:'#30d158',color:'#fff',font:{size:10,weight:'bold'},padding:4}};
   });
-
-  levels.strongRes.filter(l => l.price >= priceMin && l.price <= priceMax).slice(0,5).forEach((l,i) => {
-    const alpha = l.strength === 'strong' ? 0.15 : l.strength === 'medium' ? 0.1 : 0.06;
-    annotations['res_box'+i] = {
-      type: 'box',
-      yMin: l.price * 0.998, yMax: l.price * 1.002,
-      backgroundColor: `rgba(255,59,48,${alpha})`,
-      borderColor: `rgba(255,59,48,${alpha*3})`,
-      borderWidth: 1,
-    };
-    annotations['res'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: 'rgba(255,59,48,0.7)', borderWidth: 1.5,
-      label: { content: (l.touches>=4?'★★★ ':l.touches>=3?'★★ ':'★ ') + 'R ' + fn(l.price,2),
-        enabled: true, position:'end',
-        backgroundColor:'rgba(255,59,48,0.85)', color:'#fff', font:{size:9}, padding:3 }
-    };
-  });
-
-  // Selected levels (bold)
-  selectedSupports.forEach((l,i) => {
-    annotations['sel_s'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: '#30d158', borderWidth: 3,
-      label: { content: '✓ ' + fn(l.price,2), enabled: true, position:'start',
-        backgroundColor:'#30d158', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
-    };
-  });
-  selectedResistances.forEach((l,i) => {
-    annotations['sel_r'+i] = {
-      type: 'line', yMin: l.price, yMax: l.price,
-      borderColor: '#ff3b30', borderWidth: 3,
-      label: { content: '✓ ' + fn(l.price,2), enabled: true, position:'end',
-        backgroundColor:'#ff3b30', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
-    };
+  selectedResistances.forEach((l,i)=>{
+    annotations['sel_r'+i]={type:'line',yMin:l.price,yMax:l.price,
+      borderColor:'#ff3b30',borderWidth:3,
+      label:{content:'✓ '+fn(l.price,2),enabled:true,position:'end',
+        backgroundColor:'#ff3b30',color:'#fff',font:{size:10,weight:'bold'},padding:4}};
   });
 
   if (dcaPriceChart) { dcaPriceChart.destroy(); dcaPriceChart = null; }
@@ -3520,78 +3530,76 @@ function drawDcaPriceChart(chartData, levels, range) {
       labels,
       datasets: [
         {
-          label: 'ราคา', data: closes,
-          borderColor: '#0071e3', borderWidth: 2,
-          pointRadius: 0, pointHoverRadius: 4,
-          fill: true, tension: 0.3, order: 1,
-          backgroundColor: (ctx) => {
-            const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
-            g.addColorStop(0, 'rgba(0,113,227,0.1)');
-            g.addColorStop(1, 'rgba(0,113,227,0)');
+          label:'ราคา', data:closes,
+          borderColor:'#0071e3', borderWidth:2.5,
+          pointRadius:0, pointHoverRadius:4,
+          fill:true, tension:0.3, order:1,
+          backgroundColor:(ctx)=>{
+            const g=ctx.chart.ctx.createLinearGradient(0,0,0,300);
+            g.addColorStop(0,'rgba(0,113,227,0.1)');
+            g.addColorStop(1,'rgba(0,113,227,0)');
             return g;
           },
         },
         {
-          label: 'EMA 20', data: ema20Series,
-          borderColor: '#ff9500', borderWidth: 1.5,
-          pointRadius: 0, fill: false, tension: 0.3, order: 2,
-          borderDash: [],
+          label:'EMA 20', data:showEMA20?ema20Series:[], hidden:!showEMA20,
+          borderColor:'#ff9500', borderWidth:1.5,
+          borderDash:[5,3],
+          pointRadius:0, fill:false, tension:0.3, order:2,
         },
         {
-          label: 'EMA 50', data: ema50Series,
-          borderColor: '#0071e3', borderWidth: 1.5,
-          pointRadius: 0, fill: false, tension: 0.3, order: 3,
-          borderDash: [4,2],
+          label:'EMA 50', data:showEMA50?ema50Series:[], hidden:!showEMA50,
+          borderColor:'#0071e3', borderWidth:1.5,
+          borderDash:[8,4],
+          pointRadius:0, fill:false, tension:0.3, order:3,
         },
         {
-          label: 'EMA 200', data: ema200Series,
-          borderColor: '#7c3aed', borderWidth: 2,
-          pointRadius: 0, fill: false, tension: 0.3, order: 4,
-          borderDash: [8,4],
+          label:'EMA 200', data:showEMA200?ema200Series:[], hidden:!showEMA200,
+          borderColor:'#7c3aed', borderWidth:2,
+          borderDash:[12,5],
+          pointRadius:0, fill:false, tension:0.3, order:4,
         },
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: { mode:'index', intersect:false },
-      plugins: {
-        legend: {
-          display: true, position: 'top',
-          labels: { font:{size:11}, boxWidth:20, padding:12,
-            filter: item => item.datasetIndex === 0 || ema20Series.some(v=>v!=null) }
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{
+          display:true, position:'top',
+          labels:{font:{size:11},boxWidth:24,padding:12,
+            usePointStyle:true, pointStyle:'line'}
         },
-        tooltip: {
-          backgroundColor: 'rgba(29,29,31,.92)',
-          callbacks: {
-            label: ctx => ' ' + ctx.dataset.label + ': ' + (ctx.parsed.y ? fn(ctx.parsed.y,2) : '—')
-          }
+        tooltip:{
+          backgroundColor:'rgba(29,29,31,.92)',
+          callbacks:{label:ctx=>' '+ctx.dataset.label+': '+(ctx.parsed.y?fn(ctx.parsed.y,2):'—')}
         },
-        annotation: { annotations }
+        annotation:{annotations}
       },
-      scales: {
-        x: { grid:{display:false}, ticks:{maxTicksLimit:8, font:{size:10}, color:'#aeaeb2'} },
-        y: { position:'right', grid:{color:'rgba(0,0,0,.04)'},
-          ticks:{font:{size:10}, color:'#aeaeb2', callback:v=>fn(v,2)},
-          min: priceMin, max: priceMax }
+      scales:{
+        x:{grid:{display:false},ticks:{maxTicksLimit:8,font:{size:10},color:'#aeaeb2'}},
+        y:{position:'right',grid:{color:'rgba(0,0,0,.04)'},
+          ticks:{font:{size:10},color:'#aeaeb2',callback:v=>fn(v,2)},
+          min:priceMin, max:priceMax}
       }
     }
   });
 
-  // Legend
+  // Legend bar
   const legend = document.getElementById('dca-chart-legend');
   if (legend) legend.innerHTML = [
-    {c:'#0071e3', l:'ราคา', dash:false},
-    {c:'#ff9500', l:'EMA 20', dash:false},
-    {c:'#0071e3', l:'EMA 50 - - -', dash:true},
-    {c:'#7c3aed', l:'EMA 200 ━━━', dash:true},
-    {c:'rgba(48,209,88,0.5)', l:'แนวรับ zone'},
-    {c:'rgba(255,59,48,0.5)', l:'แนวต้าน zone'},
-  ].map(item =>
-    '<div style="display:flex;align-items:center;gap:4px">' +
-    '<div style="width:16px;height:3px;background:'+item.c+';border-radius:2px"></div>' +
-    '<span style="color:var(--tx2)">'+item.l+'</span></div>'
-  ).join('');
+    {c:'#0071e3', l:'ราคา', dash:''},
+    {c:'#ff9500', l:'EMA 20 - - -'},
+    {c:'#0071e3', l:'EMA 50 - - - -'},
+    {c:'#7c3aed', l:'EMA 200 ─ ─ ─'},
+    {c:'rgba(48,209,88,0.6)', l:'แนวรับ zone'},
+    {c:'rgba(255,59,48,0.6)', l:'แนวต้าน zone'},
+  ].map(item=>'<div style="display:flex;align-items:center;gap:4px">'+
+    '<div style="width:18px;height:2px;background:'+item.c+';border-radius:2px"></div>'+
+    '<span style="color:var(--tx2)">'+item.l+'</span></div>').join('');
 }
+
+
 </script>
 
 <!-- OVERLAY -->
@@ -3818,7 +3826,7 @@ function drawDcaPriceChart(chartData, levels, range) {
   <div class="card" style="margin-bottom:16px">
     <div class="card-hd"><div class="card-ti">ข้อมูลหุ้น</div></div>
     <div class="card-bd">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;max-width:500px">
         <div>
           <label class="form-lbl">Ticker</label>
           <div style="display:flex;gap:6px">
@@ -3827,9 +3835,7 @@ function drawDcaPriceChart(chartData, levels, range) {
           </div>
         </div>
         <div><label class="form-lbl">ราคาปัจจุบัน ($)</label><input type="number" id="dca-price" placeholder="0.00" step="0.01" style="width:100%" oninput="calcDca()"></div>
-        <div><label class="form-lbl">งบต่อระดับ S0 ($)</label><input type="number" id="dca-budget" placeholder="1000" value="1000" step="100" style="width:100%" oninput="calcDca()"></div>
-        <div><label class="form-lbl">Step Down (%)</label><input type="number" id="dca-step" placeholder="5" value="5" step="0.5" min="1" max="30" style="width:100%" oninput="calcDca()"></div>
-        <div><label class="form-lbl">&nbsp;</label><button class="btn btn-p" onclick="fetchDcaPrice()">คำนวณ</button></div>
+        <div><label class="form-lbl">&nbsp;</label><button class="btn btn-p" onclick="fetchDcaPrice()">↻ ดึงราคา + วิเคราะห์</button></div>
       </div>
       <div id="dca-price-status" style="margin-top:10px;font-size:12px;color:var(--tx3)"></div>
       <details style="margin-top:12px">
@@ -3864,11 +3870,21 @@ function drawDcaPriceChart(chartData, levels, range) {
         <div class="card-ti">📈 Price Chart + Technical Levels</div>
         <div style="font-size:11px;color:var(--tx3);margin-top:2px">🟢 แนวรับ · 🔴 แนวต้าน · 🟠 EMA20 · 🔵 EMA50 · 🟣 EMA200</div>
       </div>
-      <select id="dca-chart-range" onchange="updateDcaPriceChart()" style="font-size:12px;padding:4px 8px">
-        <option value="1mo">1 เดือน</option>
-        <option value="3mo" selected>3 เดือน</option>
-        <option value="6mo">6 เดือน</option>
-      </select>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <select id="dca-chart-range" onchange="updateDcaPriceChart()" style="font-size:12px;padding:4px 8px">
+          <option value="1mo">1 เดือน</option>
+          <option value="3mo" selected>3 เดือน</option>
+          <option value="6mo">6 เดือน</option>
+          <option value="1y">1 ปี</option>
+          <option value="2y">2 ปี</option>
+        </select>
+        <div style="display:flex;gap:4px;flex-wrap:wrap" id="dca-toggle-btns">
+          <button class="dca-tog on" data-key="ema20"  onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #ff9500;background:#ff950022;color:#ff9500;cursor:pointer">EMA 20</button>
+          <button class="dca-tog on" data-key="ema50"  onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #0071e3;background:#0071e322;color:#0071e3;cursor:pointer">EMA 50</button>
+          <button class="dca-tog on" data-key="ema200" onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #7c3aed;background:#7c3aed22;color:#7c3aed;cursor:pointer">EMA 200</button>
+          <button class="dca-tog on" data-key="sr"     onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #30d158;background:#30d15822;color:var(--green-tx);cursor:pointer">S/R Zones</button>
+        </div>
+      </div>
     </div>
     <div style="position:relative;height:320px;padding:12px"><canvas id="dca-price-canvas"></canvas></div>
     <div id="dca-chart-legend" style="padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--bd2);font-size:10px"></div>

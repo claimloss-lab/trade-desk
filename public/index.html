@@ -3586,5 +3586,323 @@ function drawDcaPriceChart(chartData, levels, range) {
 }
 </script>
 
+<!-- OVERLAY -->
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">Trade<em>Desk</em></div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sb-body">
+    <div class="sb-section">พอร์ตการลงทุน</div>
+    <div class="sb-item" id="sb-overview" onclick="showFeature('overview')">
+      <div class="sb-item-icon" style="background:#f0f0f5">🏠</div>Overview
+    </div>
+    <div id="sb-port-list"></div>
+    <div class="sb-item" onclick="openAddPort();closeSidebar()">
+      <div class="sb-item-icon" style="background:#e8f1fd">＋</div>
+      <span style="color:var(--blue)">เพิ่มพอร์ตใหม่</span>
+    </div>
+
+    <div class="sb-section" style="margin-top:8px">เครื่องมือ</div>
+    <div class="sb-item" id="sb-transactions" onclick="showFeature('transactions')">
+      <div class="sb-item-icon" style="background:#fff4e5">📋</div>
+      ประวัติซื้อ-ขาย
+      <span class="sb-badge" id="sb-tx-count">0</span>
+    </div>
+    <div class="sb-item" id="sb-alerts" onclick="showFeature('alerts')">
+      <div class="sb-item-icon" style="background:#fff0ef">🔔</div>
+      Price Alerts
+      <span class="sb-badge" id="sb-al-count">0</span>
+    </div>
+    <div class="sb-item" id="sb-watchlist" onclick="showFeature('watchlist')">
+      <div class="sb-item-icon" style="background:#fff4e5">📋</div>
+      Buy Watchlist (DCA)
+      <span class="sb-badge" id="sb-wl-count">0</span>
+    </div>
+    <div class="sb-item" id="sb-notes" onclick="showFeature('notes')">
+      <div class="sb-item-icon" style="background:#f3eeff">📝</div>
+      โน้ต
+      <span class="sb-badge" id="sb-note-count">0</span>
+    </div>
+    <div class="sb-item" id="sb-dividends" onclick="showFeature('dividends')">
+      <div class="sb-item-icon" style="background:#e5f9eb">🏦</div>
+      Dividend Tracker
+    </div>
+    <div class="sb-item" id="sb-dca" onclick="showFeature('dca')">
+      <div class="sb-item-icon" style="background:#fff4e5">📐</div>
+      DCA Calculator
+    </div>
+    <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
+      <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
+      Sector Analysis
+    </div>
+
+    <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
+    <div class="sb-item" onclick="exportBackup()">
+      <div class="sb-item-icon" style="background:#e5f9eb">↓</div>
+      <span>Export Backup (JSON)</span>
+    </div>
+    <div class="sb-item" onclick="exportAsPreset()">
+      <div class="sb-item-icon" style="background:#e5f9eb">★</div>
+      <span>Save as Preset (portfolio-data.json)</span>
+    </div>
+    <div class="sb-item" onclick="document.getElementById('import-file').click()">
+      <div class="sb-item-icon" style="background:#e8f1fd">↑</div>
+      <span>Import Backup (JSON)</span>
+    </div>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBackup(event)">
+    <div class="sb-item" onclick="openGitHubSettings()">
+      <div class="sb-item-icon" style="background:#f3eeff">⚙</div>
+      <span>GitHub Auto-Save Settings</span>
+      <span class="sb-badge" id="gh-status-badge">ปิด</span>
+    </div>
+    <div class="sb-item" onclick="resetAndReload()">
+      <div class="sb-item-icon" style="background:#fff0ef">↺</div>
+      <span>Reset ข้อมูล</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- FEATURE PANELS -->
+<div class="feat-panel" id="feat-transactions">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📋 ประวัติซื้อ-ขาย</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">บันทึกรายการ</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div><label class="form-lbl">Ticker</label><input type="text" id="tx-ticker" style="width:100%;text-transform:uppercase" placeholder="เช่น PTT.BK"></div>
+        <div><label class="form-lbl">ประเภท</label><select id="tx-type" style="width:100%"><option value="buy">ซื้อ</option><option value="sell">ขาย</option></select></div>
+        <div><label class="form-lbl">วันที่</label><input type="date" id="tx-date" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div><label class="form-lbl">ราคา (฿)</label><input type="number" id="tx-price" placeholder="0.00" step="0.01" style="width:100%"></div>
+        <div><label class="form-lbl">จำนวน</label><input type="number" id="tx-qty" placeholder="0" style="width:100%"></div>
+        <div><label class="form-lbl">ค่าธรรมเนียม (฿)</label><input type="number" id="tx-fee" placeholder="0" step="0.01" style="width:100%"></div>
+      </div>
+      <div style="margin-bottom:10px"><label class="form-lbl">หมายเหตุ</label><input type="text" id="tx-note" placeholder="เหตุผล..." style="width:100%"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" onclick="addTransaction()">+ บันทึก</button>
+        <button class="btn btn-g" onclick="exportCSV()">↓ Export CSV</button>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="met"><div class="met-lbl">Realized P&L</div><div class="met-val" id="realized-pnl">฿0</div><div class="met-sub" id="realized-sub">0 รายการ</div></div>
+    <div class="met">
+      <div class="met-lbl">Cost Avg Calculator</div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        <input type="text" id="ca-ticker" placeholder="Ticker" style="width:80px;font-size:13px;text-transform:uppercase">
+        <input type="number" id="ca-target" placeholder="เป้าหมาย ฿" style="width:110px;font-size:13px">
+        <button class="btn btn-sm btn-s" onclick="calcCostAvg()">คำนวณ</button>
+      </div>
+      <div id="ca-result" style="font-size:12px;color:var(--tx2);margin-top:8px;line-height:1.6"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-ti">ประวัติ</div>
+      <select id="tx-filter" onchange="renderTransactions()" style="font-size:12px;padding:4px 8px"><option value="">ทุกตัว</option></select>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>วันที่</th><th>Ticker</th><th>ประเภท</th><th>ราคา</th><th>จำนวน</th><th>ค่าธ.</th><th>มูลค่า</th><th>P&L</th><th>หมายเหตุ</th><th></th></tr></thead>
+      <tbody id="tx-body"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-alerts">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🔔 Price Alerts</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">ตั้งการแจ้งเตือน</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
+        <div><label class="form-lbl">Ticker</label><input type="text" id="al-ticker" placeholder="PTT.BK" style="width:100%;text-transform:uppercase"></div>
+        <div><label class="form-lbl">เงื่อนไข</label><select id="al-cond" style="width:100%"><option value="above">ราคา ≥</option><option value="below">ราคา ≤</option></select></div>
+        <div><label class="form-lbl">ราคาเป้า (฿)</label><input type="number" id="al-price" placeholder="0.00" step="0.01" style="width:100%"></div>
+        <button class="btn btn-p" onclick="addAlert()">+ เพิ่ม</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-hd"><div class="card-ti">Alerts ที่ตั้งไว้</div></div><div class="card-bd" id="alerts-body"><div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div></div></div>
+</div>
+
+<div class="feat-panel" id="feat-watchlist">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📋 Buy Watchlist</h2>
+    <div style="display:flex;gap:8px;margin-left:auto">
+      <button class="btn btn-s btn-sm" onclick="fetchWatchlistPrices()">↺ รีเฟรช</button>
+      <button class="btn btn-p btn-sm" onclick="openWatchlistModal()">+ เพิ่มรายการ</button>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" id="wl-summary"></div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-hd"><div class="card-ti">รอซื้อ 🟡</div><div style="font-size:11px;color:var(--tx3)" id="wl-pending-count">0 รายการ</div></div>
+    <div id="wl-pending-body"><div class="empty"><div class="empty-ico">📋</div>กด + เพิ่มรายการ</div></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><div class="card-ti">ซื้อแล้ว ✅</div><div style="font-size:11px;color:var(--tx3)" id="wl-done-count">0 รายการ</div></div>
+    <div id="wl-done-body"><div class="empty"><div class="empty-ico">✅</div>ยังไม่มีรายการ</div></div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-notes">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📝 โน้ต</h2>
+    <button class="btn btn-p btn-sm" onclick="openNoteModal()" style="margin-left:auto">+ เพิ่มโน้ต</button>
+  </div>
+  <div class="card"><div class="card-bd" id="notes-body"><div class="empty"><div class="empty-ico">📝</div>ยังไม่มีโน้ต</div></div></div>
+</div>
+
+<div class="feat-panel" id="feat-dividends">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🏦 Dividend Tracker</h2>
+    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select id="div-filter-ticker" onchange="renderDividends()" style="width:130px;font-size:12px;padding:5px 8px"><option value="">ทุกตัว</option></select>
+      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึงปันผล</button>
+      <button class="btn btn-p btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
+    </div>
+  </div>
+  <div id="auto-div-panel" style="display:none;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px">ดึงประวัติปันผลอัตโนมัติจาก Yahoo Finance</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+      <select id="auto-div-range" style="width:100px"><option value="1y">1 ปี</option><option value="2y" selected>2 ปี</option><option value="5y">5 ปี</option></select>
+      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึงทุกตัวพร้อมกัน</button>
+      <button class="btn btn-g btn-sm" onclick="document.getElementById('auto-div-panel').style.display='none'">ปิด</button>
+    </div>
+    <div id="auto-div-progress" style="display:none;margin-bottom:8px">
+      <div style="background:var(--bd2);border-radius:4px;height:4px;overflow:hidden">
+        <div id="auto-div-bar" style="height:4px;background:var(--blue);border-radius:4px;width:0%;transition:width .3s"></div>
+      </div>
+      <div id="auto-div-status" style="font-size:11px;color:var(--tx3);margin-top:4px"></div>
+    </div>
+    <div id="auto-div-result" style="font-size:12px;color:var(--tx2)"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+    <div class="met"><div class="met-lbl">ปันผลสะสม</div><div class="met-val" id="div-total">฿0</div></div>
+    <div class="met"><div class="met-lbl">ปีนี้</div><div class="met-val" id="div-year">฿0</div></div>
+    <div class="met"><div class="met-lbl">Yield on Cost</div><div class="met-val" id="div-yield">0.00%</div></div>
+  </div>
+  <div class="card"><div class="tbl-wrap"><table>
+    <thead><tr><th>วันที่</th><th>Ticker</th><th>฿/หุ้น</th><th>จำนวน</th><th>รวม</th><th>หมายเหตุ</th><th></th></tr></thead>
+    <tbody id="div-body"></tbody>
+  </table></div></div>
+</div>
+
+<div class="feat-panel" id="feat-dca">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📐 DCA Calculator</h2>
+    <div style="font-size:12px;color:var(--tx3);margin-left:auto">คำนวณแนวรับ-แนวต้านสำหรับ DCA</div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">ข้อมูลหุ้น</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
+        <div>
+          <label class="form-lbl">Ticker</label>
+          <div style="display:flex;gap:6px">
+            <input type="text" id="dca-ticker" placeholder="เช่น SOFI" style="width:100%;text-transform:uppercase" oninput="dcaAutoFill()" onkeydown="if(event.key==='Enter') fetchDcaPrice()">
+            <button class="btn btn-s btn-sm" onclick="fetchDcaPrice()">↻</button>
+          </div>
+        </div>
+        <div><label class="form-lbl">ราคาปัจจุบัน ($)</label><input type="number" id="dca-price" placeholder="0.00" step="0.01" style="width:100%" oninput="calcDca()"></div>
+        <div><label class="form-lbl">งบต่อระดับ S0 ($)</label><input type="number" id="dca-budget" placeholder="1000" value="1000" step="100" style="width:100%" oninput="calcDca()"></div>
+        <div><label class="form-lbl">Step Down (%)</label><input type="number" id="dca-step" placeholder="5" value="5" step="0.5" min="1" max="30" style="width:100%" oninput="calcDca()"></div>
+        <div><label class="form-lbl">&nbsp;</label><button class="btn btn-p" onclick="fetchDcaPrice()">คำนวณ</button></div>
+      </div>
+      <div id="dca-price-status" style="margin-top:10px;font-size:12px;color:var(--tx3)"></div>
+      <details style="margin-top:12px">
+        <summary style="font-size:12px;color:var(--blue);cursor:pointer;user-select:none">⚙ ตั้งค่าขั้นสูง</summary>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:12px">
+          <div><label class="form-lbl">จำนวน S (แนวรับ)</label><input type="number" id="dca-scount" value="4" min="1" max="8" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">จำนวน R (แนวต้าน)</label><input type="number" id="dca-rcount" value="4" min="1" max="8" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">Step Up แนวต้าน (%)</label><input type="number" id="dca-rstep" value="5" step="0.5" min="1" max="30" style="width:100%" oninput="calcDca()"></div>
+          <div><label class="form-lbl">Scale งบต่อ S (%)</label><input type="number" id="dca-scale" value="20" step="5" min="0" max="100" style="width:100%" oninput="calcDca()"></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" id="dca-tech-panel" style="display:none;margin-bottom:16px">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(124,58,237,.06),transparent)">
+      <div>
+        <div class="card-ti">📊 Technical Levels — Strong S/R + EMA 20/50/200</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">★★★ = ชนบ่อย = แข็ง · ⚡ = ตรงกับ EMA · คลิก "+ เลือก" เพื่อเพิ่มใน DCA</div>
+      </div>
+    </div>
+    <div id="dca-tech-body"></div>
+    <div style="padding:10px 14px;border-top:1px solid var(--bd2)">
+      <div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">Level ที่เลือก:</div>
+      <div id="dca-selected-levels"><span style="font-size:12px;color:var(--tx3)">คลิก level ด้านบนเพื่อเพิ่มในตาราง DCA</span></div>
+    </div>
+  </div>
+
+  <div class="card" id="dca-price-chart-card" style="display:none;margin-bottom:16px">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,113,227,.04),transparent)">
+      <div>
+        <div class="card-ti">📈 Price Chart + Technical Levels</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">🟢 แนวรับ · 🔴 แนวต้าน · 🟠 EMA20 · 🔵 EMA50 · 🟣 EMA200</div>
+      </div>
+      <select id="dca-chart-range" onchange="updateDcaPriceChart()" style="font-size:12px;padding:4px 8px">
+        <option value="1mo">1 เดือน</option>
+        <option value="3mo" selected>3 เดือน</option>
+        <option value="6mo">6 เดือน</option>
+      </select>
+    </div>
+    <div style="position:relative;height:320px;padding:12px"><canvas id="dca-price-canvas"></canvas></div>
+    <div id="dca-chart-legend" style="padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--bd2);font-size:10px"></div>
+  </div>
+
+  <div id="dca-result-wrap" style="display:none">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px" id="dca-summary-cards"></div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd">
+        <div><div class="card-ti">ตารางแนวรับ-แนวต้าน</div><div style="font-size:11px;color:var(--tx3);margin-top:2px" id="dca-table-sub"></div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-g btn-sm" onclick="copyDcaTable()">📋 คัดลอก</button>
+          <button class="btn btn-g btn-sm" onclick="saveDcaToHistory()">💾 บันทึก</button>
+        </div>
+      </div>
+      <div class="tbl-wrap"><table id="dca-main-table"></table></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">กราฟ DCA Zones</div></div>
+      <div class="card-bd"><div style="height:220px;position:relative"><canvas id="dca-chart"></canvas></div></div>
+    </div>
+    <div class="card" id="dca-history-card" style="display:none">
+      <div class="card-hd"><div class="card-ti">ประวัติที่บันทึก</div><button class="btn btn-g btn-sm" onclick="clearDcaHistory()">ล้าง</button></div>
+      <div id="dca-history-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-analysis">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🗂️ Sector Analysis</h2>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-hd"><div class="card-ti">Sector Breakdown — ทุกพอร์ต</div></div>
+    <div class="card-bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div style="height:220px;position:relative"><canvas id="sector-pie"></canvas></div>
+        <div id="sector-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start"></div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -2861,33 +2861,50 @@ function buildDcaTickerDropdown() {
   const sel = document.getElementById('dca-ticker-select');
   if (!sel) return;
 
-  // Collect all tickers grouped by portfolio
-  const groups = {};
   const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
                     t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
 
-  portfolios.forEach(p => {
-    const tickers = (p.stocks || [])
-      .filter(s => !isMF(s.ticker))
-      .map(s => ({ ticker: s.ticker, name: s.underlying || s.ticker, port: p.name, color: p.color }));
-    if (tickers.length) groups[p.name] = { tickers, color: p.color };
-  });
+  // Derive US parent from SET DR ticker (e.g. AMZN80 → AMZN, ASML01 → ASML)
+  const getDRParent = t => {
+    const m = t.match(/^([A-Z]+)\d+$/);
+    return m ? m[1] : null;
+  };
 
   sel.innerHTML = '<option value="">— เลือกหุ้น —</option>';
-  Object.entries(groups).forEach(([portName, g]) => {
-    const optgroup = document.createElement('optgroup');
-    optgroup.label = '● ' + portName;
-    g.tickers.forEach(s => {
+
+  portfolios.forEach(p => {
+    const stocks = (p.stocks || []).filter(s => !isMF(s.ticker));
+    if (!stocks.length) return;
+
+    // Group: portfolio stocks
+    const grp = document.createElement('optgroup');
+    grp.label = '● ' + p.name;
+    stocks.forEach(s => {
+      const pData = prices[s.ticker + '_' + p.id];
+      const priceStr = pData ? '  ' + fn(pData.price, 2) : '';
       const opt = document.createElement('option');
       opt.value = s.ticker;
-      // Show current price if available
-      const port = portfolios.find(p => p.stocks?.some(x => x.ticker === s.ticker));
-      const p = port ? prices[s.ticker + '_' + port.id] : null;
-      const priceStr = p ? '  ฿' + fn(p.price, 2) : '';
-      opt.textContent = s.ticker + '  ' + s.name + priceStr;
-      optgroup.appendChild(opt);
+      opt.textContent = s.ticker + '  ' + (s.underlying || s.ticker) + priceStr;
+      grp.appendChild(opt);
     });
-    sel.appendChild(optgroup);
+    sel.appendChild(grp);
+
+    // If SET DR port → add parent US stocks as separate group
+    if (p.type === 'realtime_dr') {
+      const parents = [...new Set(stocks.map(s => getDRParent(s.ticker)).filter(Boolean))];
+      if (parents.length) {
+        const grpParent = document.createElement('optgroup');
+        grpParent.label = '  └ หุ้นแม่ (US) ของ ' + p.name;
+        parents.forEach(parent => {
+          const drStock = stocks.find(s => getDRParent(s.ticker) === parent);
+          const opt = document.createElement('option');
+          opt.value = parent;
+          opt.textContent = parent + '  (หุ้นแม่ของ ' + (drStock?.ticker || parent) + ')';
+          grpParent.appendChild(opt);
+        });
+        sel.appendChild(grpParent);
+      }
+    }
   });
 }
 

@@ -2816,11 +2816,12 @@ function renderWatchlist(){
 
 
 // ══════════════════════════════════════════════════
-// DCA CALCULATOR
+// DCA CALCULATOR — Fibonacci + S/R + Simple Mode
 // ══════════════════════════════════════════════════
 let dcaHistory = JSON.parse(localStorage.getItem('td_dca_hist') || '[]');
 let dcaChart = null;
 let dcaCurrentData = null;
+let dcaChartData = null; // raw OHLCV from Yahoo
 
 function dcaAutoFill() {
   const t = document.getElementById('dca-ticker').value.trim().toUpperCase();
@@ -2829,8 +2830,8 @@ function dcaAutoFill() {
     const s = port.stocks?.find(x => norm(x.ticker) === norm(t));
     if (s && prices[s.ticker + '_' + port.id]?.price) {
       document.getElementById('dca-price').value = prices[s.ticker + '_' + port.id].price.toFixed(2);
-      setDcaPriceStatus('✓ ราคาจากพอร์ต: $' + fn(prices[s.ticker + '_' + port.id].price, 2), 'var(--green-tx)');
-      calcDca(); return;
+      setDcaPriceStatus('✓ ราคาจากพอร์ต: ' + fn(prices[s.ticker + '_' + port.id].price, 2), 'var(--green-tx)');
+      return;
     }
   }
 }
@@ -2838,39 +2839,381 @@ function dcaAutoFill() {
 async function fetchDcaPrice() {
   const raw = document.getElementById('dca-ticker').value.trim().toUpperCase();
   if (!raw) { alert('กรอก Ticker ก่อน'); return; }
-  setDcaPriceStatus('⏳ กำลังดึงราคา...', 'var(--tx3)');
+  setDcaPriceStatus('⏳ กำลังดึงราคาและข้อมูล Technical...', 'var(--tx3)');
+
+  // Check portfolio first
   const norm = x => x.replace(/\.BK$/i, '').toUpperCase();
   for (const port of portfolios) {
     const s = port.stocks?.find(x => norm(x.ticker) === norm(raw));
     if (s && prices[s.ticker + '_' + port.id]?.price) {
-      const p = prices[s.ticker + '_' + port.id].price;
-      document.getElementById('dca-price').value = p.toFixed(2);
-      setDcaPriceStatus('✓ ราคาจากพอร์ต: $' + fn(p, 2), 'var(--green-tx)');
-      calcDca(); return;
+      document.getElementById('dca-price').value = prices[s.ticker + '_' + port.id].price.toFixed(2);
     }
   }
+
+  // Fetch chart data for technical analysis (6 months of daily data)
   try {
     for (const t of [raw, raw + '.BK']) {
-      const r = await fetch('/api/price?ticker=' + encodeURIComponent(t), { signal: AbortSignal.timeout(10000) });
+      const r = await fetch('/api/chart?ticker=' + encodeURIComponent(t) + '&interval=1d&range=6mo',
+        { signal: AbortSignal.timeout(12000) });
       if (!r.ok) continue;
-      const d = await r.json();
-      if (d.price && !d.error) {
-        document.getElementById('dca-price').value = d.price.toFixed(2);
-        const chg = d.prevClose ? ((d.price - d.prevClose) / d.prevClose * 100) : null;
-        const chgStr = chg !== null ? ' (' + (chg >= 0 ? '▲' : '▼') + Math.abs(chg).toFixed(2) + '%)' : '';
-        setDcaPriceStatus('✓ $' + fn(d.price, 2) + chgStr, chg >= 0 ? 'var(--green-tx)' : 'var(--red-tx)');
-        calcDca(); return;
+      const data = await r.json();
+      const result = data?.chart?.result?.[0];
+      if (!result) continue;
+      const q = result.indicators?.quote?.[0];
+      const timestamps = result.timestamp || [];
+      if (!q?.close?.length) continue;
+
+      // Store raw data for analysis
+      dcaChartData = {
+        ticker: t,
+        timestamps,
+        open:   q.open   || [],
+        high:   q.high   || [],
+        low:    q.low    || [],
+        close:  q.close  || [],
+        volume: q.volume || [],
+      };
+
+      // Set current price from last close
+      const validCloses = q.close.filter(c => c != null);
+      const lastClose = validCloses[validCloses.length - 1];
+      if (lastClose) document.getElementById('dca-price').value = lastClose.toFixed(2);
+
+      // Run technical analysis
+      const levels = computeTechnicalLevels(dcaChartData, lastClose);
+      displayTechnicalLevels(levels, lastClose);
+
+      setDcaPriceStatus('✓ ดึงข้อมูล 6 เดือน (' + timestamps.length + ' candles) · คลิก "ใช้ Level นี้" เพื่อใช้ระดับ', 'var(--green-tx)');
+      return;
+    }
+    setDcaPriceStatus('⚠ ไม่พบข้อมูล chart — ใช้โหมด Simple % แทน', 'var(--amber-tx)');
+    calcDca();
+  } catch(e) {
+    setDcaPriceStatus('⚠ ' + e.message, 'var(--amber-tx)');
+    calcDca();
+  }
+}
+
+function computeTechnicalLevels(chartData, curPrice) {
+  const highs  = chartData.high.filter(v => v != null);
+  const lows   = chartData.low.filter(v => v != null);
+  const closes = chartData.close.filter(v => v != null);
+  const n = closes.length;
+
+  // ── 1. Overall High/Low for Fibonacci ──
+  const period = Math.min(n, 126); // 6 months
+  const recentHighs  = chartData.high.slice(-period).filter(v => v != null);
+  const recentLows   = chartData.low.slice(-period).filter(v => v != null);
+  const swingHigh = Math.max(...recentHighs);
+  const swingLow  = Math.min(...recentLows);
+  const fibRange  = swingHigh - swingLow;
+
+  // Fibonacci Retracement levels (from high down)
+  const fibLevels = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1].map(ratio => ({
+    price: swingHigh - fibRange * ratio,
+    label: `Fib ${(ratio * 100).toFixed(1)}%`,
+    type: 'fib',
+    ratio,
+  }));
+
+  // Fibonacci Extension levels (below swing low)
+  const fibExt = [1.272, 1.618].map(ratio => ({
+    price: swingHigh - fibRange * ratio,
+    label: `Fib Ext ${(ratio * 100).toFixed(0)}%`,
+    type: 'fib-ext',
+    ratio,
+  }));
+
+  // ── 2. Support/Resistance from Price History ──
+  // Find local peaks and troughs (window = 5 candles each side)
+  const win = 5;
+  const peaks   = [];
+  const troughs = [];
+  const allHighs  = chartData.high;
+  const allLows   = chartData.low;
+
+  for (let i = win; i < n - win; i++) {
+    const h = allHighs[i];
+    const l = allLows[i];
+    if (h == null || l == null) continue;
+
+    // Peak: highest in window
+    let isPeak = true;
+    for (let j = i - win; j <= i + win; j++) {
+      if (j !== i && allHighs[j] != null && allHighs[j] >= h) { isPeak = false; break; }
+    }
+    if (isPeak) peaks.push(h);
+
+    // Trough: lowest in window
+    let isTrough = true;
+    for (let j = i - win; j <= i + win; j++) {
+      if (j !== i && allLows[j] != null && allLows[j] <= l) { isTrough = false; break; }
+    }
+    if (isTrough) troughs.push(l);
+  }
+
+  // Cluster nearby S/R levels (within 1.5% of each other = same zone)
+  function clusterLevels(levels, threshold = 0.015) {
+    if (!levels.length) return [];
+    const sorted = [...levels].sort((a, b) => a - b);
+    const clusters = [];
+    let group = [sorted[0]];
+    for (let i = 1; i < sorted.length; i++) {
+      if ((sorted[i] - sorted[i-1]) / sorted[i-1] < threshold) {
+        group.push(sorted[i]);
+      } else {
+        clusters.push(group.reduce((s, v) => s + v, 0) / group.length);
+        group = [sorted[i]];
       }
     }
-    setDcaPriceStatus('⚠ ไม่พบราคา — กรอกเองในช่องราคาได้เลย', 'var(--amber-tx)');
-  } catch { setDcaPriceStatus('⚠ โหลดราคาไม่ได้ — กรอกเองได้', 'var(--amber-tx)'); }
+    clusters.push(group.reduce((s, v) => s + v, 0) / group.length);
+    return clusters;
+  }
+
+  const srResistance = clusterLevels(peaks).map(p => ({
+    price: p, label: 'Resistance', type: 'sr-res',
+  }));
+  const srSupport = clusterLevels(troughs).map(p => ({
+    price: p, label: 'Support', type: 'sr-sup',
+  }));
+
+  // ── 3. Moving Averages ──
+  function sma(data, period) {
+    const clean = data.filter(v => v != null);
+    if (clean.length < period) return null;
+    return clean.slice(-period).reduce((s, v) => s + v, 0) / period;
+  }
+  const ma20  = sma(closes, 20);
+  const ma50  = sma(closes, 50);
+  const ma200 = sma(closes, 200);
+  const mas = [
+    ma20  ? { price: ma20,  label: 'MA 20',  type: 'ma' } : null,
+    ma50  ? { price: ma50,  label: 'MA 50',  type: 'ma' } : null,
+    ma200 ? { price: ma200, label: 'MA 200', type: 'ma' } : null,
+  ].filter(Boolean);
+
+  return {
+    fib: [...fibLevels, ...fibExt],
+    sr: [...srSupport, ...srResistance],
+    ma: mas,
+    swingHigh, swingLow,
+    curPrice,
+  };
 }
 
-function setDcaPriceStatus(msg, color) {
-  const el = document.getElementById('dca-price-status');
-  if (el) { el.textContent = msg; el.style.color = color; }
+function displayTechnicalLevels(levels, curPrice) {
+  const panel = document.getElementById('dca-tech-panel');
+  const el = document.getElementById('dca-tech-body');
+  if (!panel || !el) return;
+  panel.style.display = 'block';
+
+  // Separate supports (below cur) and resistances (above cur)
+  const allLevels = [
+    ...levels.fib,
+    ...levels.sr,
+    ...levels.ma,
+  ].filter(l => l.price > 0 && l.price > curPrice * 0.5 && l.price < curPrice * 1.8);
+
+  const supports    = allLevels.filter(l => l.price < curPrice).sort((a,b) => b.price - a.price);
+  const resistances = allLevels.filter(l => l.price > curPrice).sort((a,b) => a.price - b.price);
+
+  const typeColor = {
+    'fib':    { bg: 'rgba(124,58,237,.1)',  tc: '#7c3aed', label: 'Fib' },
+    'fib-ext':{ bg: 'rgba(124,58,237,.06)', tc: '#a78bfa', label: 'Fib Ext' },
+    'sr-sup': { bg: 'rgba(48,209,88,.1)',   tc: 'var(--green-tx)', label: 'S/R' },
+    'sr-res': { bg: 'rgba(255,59,48,.1)',   tc: 'var(--red-tx)',   label: 'S/R' },
+    'ma':     { bg: 'rgba(0,113,227,.1)',   tc: 'var(--blue)',     label: 'MA' },
+  };
+
+  function levelRow(l, side) {
+    const pct = ((l.price - curPrice) / curPrice * 100);
+    const c = typeColor[l.type] || { bg: 'var(--s2)', tc: 'var(--tx2)', label: l.type };
+    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background .15s"
+      onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background=''"
+      onclick="useTechLevel(${l.price.toFixed(2)}, '${l.label}', '${side}')">
+      <span style="background:${c.bg};color:${c.tc};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;min-width:50px;text-align:center">${c.label}</span>
+      <span style="font-family:var(--mono);font-size:13px;font-weight:600;min-width:80px">${fn(l.price,2)}</span>
+      <span style="font-size:11px;color:var(--tx2);flex:1">${l.label}</span>
+      <span style="font-family:var(--mono);font-size:12px;color:${pct>=0?'var(--green-tx)':'var(--red-tx)'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>
+      <span style="font-size:10px;color:var(--blue);text-decoration:underline">${side==='sup'?'ใช้เป็น S':'ใช้เป็น R'}</span>
+    </div>`;
+  }
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--green-tx);padding:8px 14px;border-bottom:1px solid var(--bd2)">
+          🟢 แนวรับ (Support) — ราคาต่ำกว่าปัจจุบัน ${fn(curPrice,2)}
+        </div>
+        ${supports.slice(0,8).map(l=>levelRow(l,'sup')).join('') || '<div class="empty" style="padding:16px">ไม่พบแนวรับ</div>'}
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--red-tx);padding:8px 14px;border-bottom:1px solid var(--bd2)">
+          🔴 แนวต้าน (Resistance) — ราคาสูงกว่าปัจจุบัน
+        </div>
+        ${resistances.slice(0,8).map(l=>levelRow(l,'res')).join('') || '<div class="empty" style="padding:16px">ไม่พบแนวต้าน</div>'}
+      </div>
+    </div>
+    <div style="padding:10px 14px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd2)">
+      Swing High: ${fn(levels.swingHigh,2)} · Swing Low: ${fn(levels.swingLow,2)} · Range: ${fn(levels.swingHigh-levels.swingLow,2)}
+      (6 เดือนล่าสุด) · คลิกที่ level เพื่อเพิ่มในตาราง DCA
+    </div>`;
 }
 
+// Selected levels for DCA table
+let selectedSupports    = [];
+let selectedResistances = [];
+
+function useTechLevel(price, label, side) {
+  if (side === 'sup') {
+    if (!selectedSupports.find(s => Math.abs(s.price - price) < 0.01)) {
+      selectedSupports.push({ price, label });
+      selectedSupports.sort((a, b) => b.price - a.price);
+    }
+  } else {
+    if (!selectedResistances.find(s => Math.abs(s.price - price) < 0.01)) {
+      selectedResistances.push({ price, label });
+      selectedResistances.sort((a, b) => a.price - b.price);
+    }
+  }
+  updateSelectedLevels();
+}
+
+function removeLevel(price, side) {
+  if (side === 'sup') selectedSupports = selectedSupports.filter(s => Math.abs(s.price-price)>0.01);
+  else selectedResistances = selectedResistances.filter(s => Math.abs(s.price-price)>0.01);
+  updateSelectedLevels();
+}
+
+function updateSelectedLevels() {
+  const el = document.getElementById('dca-selected-levels');
+  if (!el) return;
+  const allSel = [
+    ...selectedSupports.map(s=>`<span style="background:var(--green-bg);color:var(--green-tx);padding:3px 8px;border-radius:20px;font-size:11px;font-family:var(--mono);cursor:pointer" onclick="removeLevel(${s.price},'sup')" title="คลิกลบ">S:${fn(s.price,2)} ✕</span>`),
+    ...selectedResistances.map(r=>`<span style="background:var(--red-bg);color:var(--red-tx);padding:3px 8px;border-radius:20px;font-size:11px;font-family:var(--mono);cursor:pointer" onclick="removeLevel(${r.price},'res')" title="คลิกลบ">R:${fn(r.price,2)} ✕</span>`),
+  ];
+  el.innerHTML = allSel.length
+    ? `<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        ${allSel.join('')}
+        <button class="btn btn-p btn-sm" onclick="calcDcaTech()">▶ คำนวณ DCA ด้วย Level นี้</button>
+        <button class="btn btn-g btn-sm" onclick="selectedSupports=[];selectedResistances=[];updateSelectedLevels()">ล้าง</button>
+       </div>`
+    : '<span style="font-size:12px;color:var(--tx3)">คลิก level ด้านบนเพื่อเพิ่มในตาราง DCA</span>';
+}
+
+function calcDcaTech() {
+  if (!selectedSupports.length && !selectedResistances.length) {
+    alert('เลือก level ก่อน'); return;
+  }
+  const price   = parseFloat(document.getElementById('dca-price').value);
+  const budget  = parseFloat(document.getElementById('dca-budget').value) || 1000;
+  const ticker  = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
+  const scale   = parseFloat(document.getElementById('dca-scale')?.value) || 20;
+
+  // Use selected supports as buy levels, resistances as targets
+  const supports    = [{price, label:'ราคาปัจจุบัน', budget},...selectedSupports.map((s,i)=>({...s, budget: budget * Math.pow(1+scale/100,i+1)}))];
+  const resistances = selectedResistances.length ? selectedResistances : [{price:price*1.05,label:'R1 (+5%)'},{price:price*1.1,label:'R2 (+10%)'},{price:price*1.2,label:'R3 (+20%)'}];
+
+  const rows = supports.map((s, si) => {
+    const partialQty  = supports.slice(0, si+1).reduce((a,x)=>a+(x.budget/x.price),0);
+    const partialCost = supports.slice(0, si+1).reduce((a,x)=>a+x.budget,0);
+    const partialAvg  = partialCost / partialQty;
+    const rPnls = resistances.map(r => ({
+      pnl: (r.price - partialAvg) * partialQty,
+      pct: (r.price - partialAvg) / partialAvg * 100,
+    }));
+    return { ...s, qty: s.budget/s.price, partialQty, partialCost, partialAvg, rPnls };
+  });
+
+  const cumQty  = rows[rows.length-1].partialQty;
+  const cumCost = rows[rows.length-1].partialCost;
+  const avgCost = cumCost / cumQty;
+
+  dcaCurrentData = { ticker, price, budget, mode:'tech', supports, resistances, rows, cumQty, cumCost, avgCost };
+  renderDcaTableTech(dcaCurrentData);
+  renderDcaSummary(dcaCurrentData);
+  renderDcaChartTech(dcaCurrentData);
+  document.getElementById('dca-result-wrap').style.display = 'block';
+}
+
+function renderDcaTableTech(d) {
+  const table = document.getElementById('dca-main-table');
+  const sub   = document.getElementById('dca-table-sub');
+  if(sub) sub.textContent = d.ticker + ' · ราคา ' + fn(d.price,2) + ' · ' + (d.supports.length-1) + ' แนวรับ × ' + d.resistances.length + ' แนวต้าน (Technical Levels)';
+
+  const rHeader = d.resistances.map(r =>
+    '<th style="color:var(--red-tx)">' + r.label + '<br><span style="font-weight:400;font-size:10px">' + fn(r.price,2) + '</span></th>'
+  ).join('');
+
+  const rowsHtml = d.rows.map((s, i) => {
+    const pct = ((s.price - d.price) / d.price * 100);
+    const pctStr = i===0 ? '(ราคาปัจจุบัน)' : '(' + pct.toFixed(1) + '%)';
+    const rCells = s.rPnls.map(r =>
+      '<td class="' + (r.pnl>=0?'pos':'neg') + '">' + (r.pnl>=0?'+':'') + fn(r.pnl,0) +
+      '<br><span style="font-size:10px">(' + (r.pct>=0?'+':'') + r.pct.toFixed(1) + '%)</span></td>'
+    ).join('');
+    return '<tr>' +
+      '<td><span style="background:var(--green-bg);color:var(--green-tx);padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:11px">' +
+      (i===0?'S0':s.label) + '</span></td>' +
+      '<td class="mono" style="font-weight:600">' + fn(s.price,2) +
+      '<br><span style="font-size:10px;color:var(--tx3)">' + pctStr + '</span></td>' +
+      '<td class="mono">' + fn(s.budget,0) + '</td>' +
+      '<td class="mono">' + fn(s.qty,3) + '</td>' +
+      '<td class="mono" style="color:var(--purple)">' + fn(s.partialAvg,2) + '</td>' +
+      rCells + '</tr>';
+  }).join('');
+
+  const lastRow = d.rows[d.rows.length-1];
+  const totalRCells = d.resistances.map((_,ri) => {
+    const pnl = lastRow.rPnls[ri].pnl;
+    const pct = lastRow.rPnls[ri].pct;
+    return '<td class="' + (pnl>=0?'pos':'neg') + '" style="font-weight:600">' +
+      (pnl>=0?'+':'') + fn(pnl,0) + '<br><span style="font-size:10px">(' + (pct>=0?'+':'') + pct.toFixed(1) + '%)</span></td>';
+  }).join('');
+
+  table.innerHTML =
+    '<thead><tr><th>ระดับ</th><th>ราคา</th><th>งบ</th><th>หุ้น</th><th style="color:var(--purple)">ต้นทุนเฉลี่ย</th>' + rHeader + '</tr></thead>' +
+    '<tbody>' + rowsHtml +
+    '<tr style="background:var(--s2);font-weight:600"><td colspan="2">รวม</td>' +
+    '<td class="mono">' + fn(d.cumCost,0) + '</td>' +
+    '<td class="mono">' + fn(d.cumQty,3) + '</td>' +
+    '<td class="mono" style="color:var(--purple)">' + fn(d.avgCost,2) + '</td>' +
+    totalRCells + '</tr></tbody>';
+}
+
+function renderDcaChartTech(d) {
+  if (dcaChart) { dcaChart.destroy(); dcaChart = null; }
+  const canvas = document.getElementById('dca-chart');
+  if (!canvas) return;
+
+  const allLevels = [
+    ...d.supports.map((s,i)=>({ price:s.price, label:i===0?'S0':s.label, color:'rgba(48,209,88,0.7)', type:'s' })),
+    ...d.resistances.map(r=>({ price:r.price, label:r.label, color:'rgba(255,59,48,0.7)', type:'r' })),
+  ].sort((a,b)=>a.price-b.price);
+
+  dcaChart = new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: allLevels.map(l=>l.label),
+      datasets: [{
+        label: 'ราคา', data: allLevels.map(l=>l.price),
+        backgroundColor: allLevels.map(l=>l.type==='s'?'rgba(48,209,88,0.18)':'rgba(255,59,48,0.18)'),
+        borderColor: allLevels.map(l=>l.type==='s'?'#30d158':'#ff3b30'),
+        borderWidth: 2, borderRadius: 6, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+fn(ctx.parsed.y,2)}} },
+      scales: {
+        x:{grid:{display:false},ticks:{font:{size:10}}},
+        y:{ticks:{callback:v=>fn(v,2),font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}}
+      }
+    }
+  });
+}
+
+// ── Simple % mode (fallback) ──
 function calcDca() {
   const price  = parseFloat(document.getElementById('dca-price').value);
   const budget = parseFloat(document.getElementById('dca-budget').value) || 1000;
@@ -2882,33 +3225,32 @@ function calcDca() {
   const ticker = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
   if (!price || price <= 0) return;
 
-  const supports = Array.from({ length: sCount }, (_, i) => {
-    const lvlPrice  = price * Math.pow(1 - stepDn / 100, i);
-    const lvlBudget = budget * Math.pow(1 + scale / 100, i);
-    return { label: 'S' + i, price: lvlPrice, budget: lvlBudget, qty: lvlBudget / lvlPrice, pctFromCur: (lvlPrice - price) / price * 100 };
-  });
-
-  const resistances = Array.from({ length: rCount }, (_, j) => {
-    const lvlPrice = price * Math.pow(1 + stepUp / 100, j + 1);
-    return { label: 'R' + (j + 1), price: lvlPrice, pctFromCur: (lvlPrice - price) / price * 100 };
-  });
+  // Simple % — linear not compound
+  const supports = Array.from({length: sCount}, (_, i) => ({
+    label: 'S' + i,
+    price: price * (1 - stepDn/100 * i),
+    budget: budget * Math.pow(1 + scale/100, i),
+    pctFromCur: -stepDn * i,
+  }));
+  const resistances = Array.from({length: rCount}, (_, j) => ({
+    label: 'R' + (j+1),
+    price: price * (1 + stepUp/100 * (j+1)),
+    pctFromCur: stepUp * (j+1),
+  }));
 
   const rows = supports.map((s, si) => {
-    const partialQty  = supports.slice(0, si + 1).reduce((a, x) => a + x.qty, 0);
-    const partialCost = supports.slice(0, si + 1).reduce((a, x) => a + x.budget, 0);
+    const partialQty  = supports.slice(0,si+1).reduce((a,x)=>a+x.budget/x.price,0);
+    const partialCost = supports.slice(0,si+1).reduce((a,x)=>a+x.budget,0);
     const partialAvg  = partialCost / partialQty;
-    const rPnls = resistances.map(r => ({
-      pnl: (r.price - partialAvg) * partialQty,
-      pct: (r.price - partialAvg) / partialAvg * 100
-    }));
-    return { ...s, partialQty, partialCost, partialAvg, rPnls };
+    const rPnls = resistances.map(r=>({ pnl:(r.price-partialAvg)*partialQty, pct:(r.price-partialAvg)/partialAvg*100 }));
+    return { ...s, qty:s.budget/s.price, partialQty, partialCost, partialAvg, rPnls };
   });
 
-  const cumQty  = supports.reduce((s, x) => s + x.qty, 0);
-  const cumCost = supports.reduce((s, x) => s + x.budget, 0);
+  const cumQty  = rows[rows.length-1].partialQty;
+  const cumCost = rows[rows.length-1].partialCost;
   const avgCost = cumCost / cumQty;
 
-  dcaCurrentData = { ticker, price, budget, stepDn, stepUp, sCount, rCount, scale, supports, resistances, rows, cumQty, cumCost, avgCost };
+  dcaCurrentData = { ticker, price, budget, stepDn, stepUp, sCount, rCount, scale, supports, resistances, rows, cumQty, cumCost, avgCost, mode:'simple' };
   renderDcaTable(dcaCurrentData);
   renderDcaChart(dcaCurrentData);
   renderDcaSummary(dcaCurrentData);
@@ -2918,52 +3260,20 @@ function calcDca() {
 function renderDcaTable(d) {
   const table = document.getElementById('dca-main-table');
   const sub   = document.getElementById('dca-table-sub');
-  if (sub) sub.textContent = d.ticker + ' · ราคา $' + fn(d.price, 2) + ' · ' + d.supports.length + ' แนวรับ × ' + d.resistances.length + ' แนวต้าน';
-  const rHeader = d.resistances.map(r =>
-    '<th style="color:var(--red-tx)">' + r.label + '<br><span style="font-weight:400">$' + fn(r.price, 2) + '</span></th>'
-  ).join('');
-  const rowsHtml = d.rows.map((s, i) => {
-    const pctStr = s.pctFromCur === 0 ? '(ราคาปัจจุบัน)' : '(' + s.pctFromCur.toFixed(1) + '%)';
-    const rCells = s.rPnls.map(r =>
-      '<td class="' + (r.pnl >= 0 ? 'pos' : 'neg') + '">' +
-      (r.pnl >= 0 ? '+' : '') + '$' + fn(r.pnl, 0) + '<br>' +
-      '<span style="font-size:10px">(' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '%)</span></td>'
-    ).join('');
-    return '<tr>' +
-      '<td><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:11px">' + s.label + '</span></td>' +
-      '<td class="mono" style="font-weight:600">$' + fn(s.price, 2) + '<br><span style="font-size:10px;color:var(--tx3)">' + pctStr + '</span></td>' +
-      '<td class="mono">$' + fn(s.budget, 0) + '</td>' +
-      '<td class="mono">' + fn(s.qty, 2) + ' หุ้น</td>' +
-      '<td class="mono" style="color:var(--purple)">$' + fn(s.partialAvg, 2) + '<br><span style="font-size:10px;color:var(--tx3)">ต้นทุนเฉลี่ย</span></td>' +
-      rCells + '</tr>';
+  if(sub) sub.textContent = d.ticker + ' · ราคา ' + fn(d.price,2) + ' · Simple ' + d.stepDn + '% step';
+  const rHeader = d.resistances.map(r=>'<th style="color:var(--red-tx)">' + r.label + '<br><span style="font-weight:400;font-size:10px">+' + r.pctFromCur.toFixed(0) + '%  ' + fn(r.price,2) + '</span></th>').join('');
+  const rowsHtml = d.rows.map((s,i)=>{
+    const rCells = s.rPnls.map(r=>'<td class="'+(r.pnl>=0?'pos':'neg')+'">' + (r.pnl>=0?'+':'') + fn(r.pnl,0) + '<br><span style="font-size:10px">(' + (r.pct>=0?'+':'') + r.pct.toFixed(1) + '%)</span></td>').join('');
+    return '<tr><td><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:11px">' + s.label + '</span></td>' +
+      '<td class="mono" style="font-weight:600">' + fn(s.price,2) + '<br><span style="font-size:10px;color:var(--tx3)">(' + (s.pctFromCur===0?'ราคาปัจจุบัน':s.pctFromCur.toFixed(0)+'%') + ')</span></td>' +
+      '<td class="mono">' + fn(s.budget,0) + '</td>' +
+      '<td class="mono">' + fn(s.qty,3) + '</td>' +
+      '<td class="mono" style="color:var(--purple)">' + fn(s.partialAvg,2) + '</td>' + rCells + '</tr>';
   }).join('');
-  const lastRow = d.rows[d.rows.length - 1];
-  const totalRCells = d.resistances.map((r, ri) => {
-    const pnl = lastRow.rPnls[ri].pnl;
-    const pct = lastRow.rPnls[ri].pct;
-    return '<td class="' + (pnl >= 0 ? 'pos' : 'neg') + '" style="font-weight:600">' + (pnl >= 0 ? '+' : '') + '$' + fn(pnl, 0) + '<br><span style="font-size:10px">' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%</span></td>';
-  }).join('');
-  table.innerHTML =
-    '<thead><tr><th>ระดับ</th><th>ราคา</th><th>งบ ($)</th><th>จำนวนหุ้น</th><th>ต้นทุนเฉลี่ย ($)</th>' + rHeader + '</tr></thead>' +
-    '<tbody>' + rowsHtml +
-    '<tr style="background:var(--s2);font-weight:600"><td colspan="2">รวมทุกระดับ</td>' +
-    '<td class="mono">$' + fn(d.cumCost, 0) + '</td>' +
-    '<td class="mono">' + fn(d.cumQty, 2) + '</td>' +
-    '<td class="mono" style="color:var(--purple)">$' + fn(d.avgCost, 2) + '</td>' +
-    totalRCells + '</tr></tbody>';
-}
-
-function renderDcaSummary(d) {
-  const el = document.getElementById('dca-summary-cards');
-  if (!el) return;
-  const firstRPnl = d.rows[d.rows.length - 1].rPnls[0];
-  const firstR    = d.resistances[0];
-  el.innerHTML = [
-    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
-    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
-    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
-    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
-  ].map(s => '<div class="met"><div class="met-lbl">' + s.l + '</div><div class="met-val mono" style="' + (s.color ? 'color:' + s.color : '') + '">' + s.v + '</div><div class="met-sub">' + (s.sub || '') + '</div></div>').join('');
+  const lastRow = d.rows[d.rows.length-1];
+  const totalRCells = d.resistances.map((_,ri)=>{ const pnl=lastRow.rPnls[ri].pnl,pct=lastRow.rPnls[ri].pct; return '<td class="'+(pnl>=0?'pos':'neg')+'" style="font-weight:600">'+(pnl>=0?'+':'')+fn(pnl,0)+'<br><span style="font-size:10px">'+(pct>=0?'+':'')+pct.toFixed(1)+'%</span></td>'; }).join('');
+  table.innerHTML = '<thead><tr><th>ระดับ</th><th>ราคา</th><th>งบ</th><th>หุ้น</th><th style="color:var(--purple)">ต้นทุนเฉลี่ย</th>' + rHeader + '</tr></thead>' +
+    '<tbody>' + rowsHtml + '<tr style="background:var(--s2);font-weight:600"><td colspan="2">รวม</td><td class="mono">' + fn(d.cumCost,0) + '</td><td class="mono">' + fn(d.cumQty,3) + '</td><td class="mono" style="color:var(--purple)">' + fn(d.avgCost,2) + '</td>' + totalRCells + '</tr></tbody>';
 }
 
 function renderDcaChart(d) {
@@ -2971,91 +3281,95 @@ function renderDcaChart(d) {
   const canvas = document.getElementById('dca-chart');
   if (!canvas) return;
   const sN = d.supports.length;
-  const labels  = [...d.supports.map(s => s.label).reverse(), ...d.resistances.map(r => r.label)];
-  const prices2 = [...d.supports.map(s => s.price).reverse(), ...d.resistances.map(r => r.price)];
+  const labels  = [...d.supports.map(s=>s.label).reverse(), ...d.resistances.map(r=>r.label)];
+  const prices2 = [...d.supports.map(s=>s.price).reverse(), ...d.resistances.map(r=>r.price)];
   dcaChart = new Chart(canvas.getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'ราคา ($)', data: prices2,
-        backgroundColor: labels.map((l, i) => i < sN ? 'rgba(0,113,227,0.18)' : 'rgba(255,59,48,0.18)'),
-        borderColor: labels.map((l, i) => i < sN ? '#0071e3' : '#ff3b30'),
-        borderWidth: 2, borderRadius: 6, borderSkipped: false,
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => {
-          const i = ctx.dataIndex;
-          if (i < sN) return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · งบ $' + fn(d.supports[sN - 1 - i].budget, 0);
-          return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · +' + ((prices2[i] - d.price) / d.price * 100).toFixed(1) + '%';
-        }}}
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: v => '$' + fn(v, 2) } }
-      }
-    }
+    type:'bar', data:{labels, datasets:[{label:'ราคา', data:prices2,
+      backgroundColor:labels.map((_,i)=>i<sN?'rgba(0,113,227,0.18)':'rgba(255,59,48,0.18)'),
+      borderColor:labels.map((_,i)=>i<sN?'#0071e3':'#ff3b30'),
+      borderWidth:2, borderRadius:6, borderSkipped:false}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fn(ctx.parsed.y,2)}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{ticks:{callback:v=>fn(v,2),font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}}}}
   });
+}
+
+function renderDcaSummary(d) {
+  const el = document.getElementById('dca-summary-cards');
+  if (!el) return;
+  const firstR    = d.resistances[0];
+  const lastRow   = d.rows[d.rows.length-1];
+  const firstRPnl = lastRow.rPnls[0];
+  el.innerHTML = [
+    { l:'ราคาปัจจุบัน', v:fn(d.price,2), sub:d.ticker, color:'var(--blue)' },
+    { l:'งบรวม', v:fn(d.cumCost,0), sub:d.supports.length+' ระดับ' },
+    { l:'ต้นทุนเฉลี่ย (full DCA)', v:fn(d.avgCost,2), sub:fn(d.cumQty,3)+' หุ้น', color:'var(--purple)' },
+    { l:'กำไรที่ '+firstR.label+' ('+fn(firstR.price,2)+')', v:'+'+ fn(firstRPnl.pnl,0), sub:'+'+firstRPnl.pct.toFixed(1)+'%', color:'var(--green-tx)' },
+  ].map(s=>'<div class="met"><div class="met-lbl">'+s.l+'</div><div class="met-val mono" style="'+(s.color?'color:'+s.color:'')+'">'+s.v+'</div><div class="met-sub">'+(s.sub||'')+'</div></div>').join('');
+}
+
+function setDcaPriceStatus(msg, color) {
+  const el = document.getElementById('dca-price-status');
+  if (el) { el.textContent = msg; el.style.color = color; }
 }
 
 function copyDcaTable() {
   if (!dcaCurrentData) return;
   const d = dcaCurrentData;
-  const header = ['ระดับ', 'ราคา ($)', 'งบ ($)', 'หุ้น', 'ต้นทุนเฉลี่ย', ...d.resistances.map(r => r.label + ' $' + fn(r.price, 2))].join('\t');
-  const rows = d.rows.map(s => [s.label, fn(s.price, 2), fn(s.budget, 0), fn(s.qty, 2), fn(s.partialAvg, 2), ...s.rPnls.map(r => (r.pnl >= 0 ? '+' : '') + fn(r.pnl, 0))].join('\t'));
-  navigator.clipboard.writeText([header, ...rows].join('\n')).then(() => showToast('✓ คัดลอกตารางแล้ว'));
+  const header = ['ระดับ','ราคา','งบ','หุ้น','ต้นทุนเฉลี่ย',...d.resistances.map(r=>r.label+' '+fn(r.price,2))].join('\t');
+  const rows = d.rows.map((s,i)=>[i===0?'S0':s.label,fn(s.price,2),fn(s.budget,0),fn(s.qty,3),fn(s.partialAvg,2),...s.rPnls.map(r=>(r.pnl>=0?'+':'')+fn(r.pnl,0))].join('\t'));
+  navigator.clipboard.writeText([header,...rows].join('\n')).then(()=>showToast('✓ คัดลอกแล้ว'));
 }
 
 function saveDcaToHistory() {
   if (!dcaCurrentData) return;
   const d = dcaCurrentData;
-  dcaHistory.unshift({ id: Date.now(), ticker: d.ticker, price: d.price, budget: d.budget, stepDn: d.stepDn, avgCost: d.avgCost, cumCost: d.cumCost,
-    date: new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit' }) });
-  if (dcaHistory.length > 20) dcaHistory = dcaHistory.slice(0, 20);
+  dcaHistory.unshift({ id:Date.now(), ticker:d.ticker, price:d.price, budget:d.budget, stepDn:d.stepDn||0, avgCost:d.avgCost, cumCost:d.cumCost, mode:d.mode||'simple',
+    date:new Date().toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'}) });
+  if (dcaHistory.length>20) dcaHistory=dcaHistory.slice(0,20);
   localStorage.setItem('td_dca_hist', JSON.stringify(dcaHistory));
-  renderDcaHistory();
-  showToast('✓ บันทึกแล้ว: ' + d.ticker);
+  renderDcaHistory(); showToast('✓ บันทึกแล้ว: '+d.ticker);
 }
 
 function clearDcaHistory() {
-  if (!confirm('ล้างประวัติ?')) return;
-  dcaHistory = [];
-  localStorage.removeItem('td_dca_hist');
-  renderDcaHistory();
-}
-
-function renderDcaHistory() {
-  const card = document.getElementById('dca-history-card');
-  const body = document.getElementById('dca-history-body');
-  if (!card || !body) return;
-  card.style.display = dcaHistory.length ? 'block' : 'none';
-  body.innerHTML = dcaHistory.map(h =>
-    '<div style="padding:10px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:12px;cursor:pointer" onclick="loadDcaFromHistory(' + JSON.stringify(h).replace(/"/g, "'") + ')">' +
-    '<span class="tkr">' + h.ticker + '</span>' +
-    '<span class="mono" style="font-size:12px">$' + fn(h.price, 2) + '</span>' +
-    '<span style="font-size:11px;color:var(--tx2)">งบ $' + fn(h.cumCost, 0) + ' · เฉลี่ย $' + fn(h.avgCost, 2) + '</span>' +
-    '<span style="font-size:10px;color:var(--tx3);margin-left:auto">' + h.date + '</span></div>'
-  ).join('');
+  if(!confirm('ล้างประวัติ?')) return;
+  dcaHistory=[]; localStorage.removeItem('td_dca_hist'); renderDcaHistory();
 }
 
 function loadDcaFromHistory(h) {
   document.getElementById('dca-ticker').value = h.ticker;
   document.getElementById('dca-price').value  = h.price.toFixed(2);
   document.getElementById('dca-budget').value = h.budget;
-  document.getElementById('dca-step').value   = h.stepDn;
-  calcDca();
-  showToast('โหลด ' + h.ticker + ' แล้ว');
+  if(h.stepDn) document.getElementById('dca-step').value = h.stepDn;
+  calcDca(); showToast('โหลด '+h.ticker+' แล้ว');
+}
+
+function renderDcaHistory() {
+  const card=document.getElementById('dca-history-card');
+  const body=document.getElementById('dca-history-body');
+  if(!card||!body) return;
+  card.style.display=dcaHistory.length?'block':'none';
+  body.innerHTML='';
+  dcaHistory.forEach(h=>{
+    const div=document.createElement('div');
+    div.style.cssText='padding:10px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:12px;cursor:pointer';
+    const modeTag=h.mode==='tech'?'<span style="font-size:10px;background:var(--purple-bg);color:var(--purple);padding:1px 6px;border-radius:10px">Fib+S/R</span>':'<span style="font-size:10px;color:var(--tx3)">Simple</span>';
+    div.innerHTML='<span class="tkr">'+h.ticker+'</span>'+
+      '<span class="mono" style="font-size:12px">'+fn(h.price,2)+'</span>'+
+      '<span style="font-size:11px;color:var(--tx2)">งบ '+fn(h.cumCost,0)+' · เฉลี่ย '+fn(h.avgCost,2)+'</span>'+
+      modeTag+
+      '<span style="font-size:10px;color:var(--tx3);margin-left:auto">'+h.date+'</span>';
+    div.onclick=()=>loadDcaFromHistory(h);
+    div.onmouseover=()=>{ div.style.background='var(--s2)'; };
+    div.onmouseout=()=>{ div.style.background=''; };
+    body.appendChild(div);
+  });
 }
 
 // Hook showFeature for DCA
 const _sfOrig = showFeature;
 showFeature = function(id) {
   _sfOrig(id);
-  if (id === 'dca') renderDcaHistory();
+  if (id === 'dca') { renderDcaHistory(); selectedSupports=[]; selectedResistances=[]; updateSelectedLevels(); }
 };
 
 </script>
@@ -3364,6 +3678,24 @@ showFeature = function(id) {
         </div>
       </div>
       <div id="dca-price-status" style="margin-top:10px;font-size:12px;color:var(--tx3)"></div>
+    </div>
+  </div>
+  <!-- Technical Levels Panel -->
+  <div class="card" id="dca-tech-panel" style="display:none;margin-bottom:16px">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(124,58,237,.06),transparent)">
+      <div>
+        <div class="card-ti">📊 Technical Levels — Fibonacci + Support/Resistance</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">คลิกที่ level เพื่อเพิ่มใน DCA table · S/R จาก local peaks/troughs · Fib จาก Swing High/Low 6 เดือน</div>
+      </div>
+    </div>
+    <div id="dca-tech-body"></div>
+    <div style="padding:10px 14px;border-top:1px solid var(--bd2)">
+      <div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">Level ที่เลือก:</div>
+      <div id="dca-selected-levels"><span style="font-size:12px;color:var(--tx3)">คลิก level ด้านบนเพื่อเพิ่มในตาราง DCA</span></div>
+    </div>
+  </div>
+  <!-- Simple % Mode Settings
+
       <details style="margin-top:12px">
         <summary style="font-size:12px;color:var(--blue);cursor:pointer;user-select:none">⚙ ตั้งค่าขั้นสูง</summary>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:12px">

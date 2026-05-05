@@ -3493,6 +3493,7 @@ const _sfOrig = showFeature;
 showFeature = function(id) {
   _sfOrig(id);
   if (id === 'dca') { renderDcaHistory(); buildDcaTickerDropdown(); selectedSupports=[]; selectedResistances=[]; updateSelectedLevels(); }
+  if (id === 'smart-alert') { document.getElementById('feat-smart-alert')?.classList.add('on'); }
 };
 
 
@@ -3675,6 +3676,229 @@ function drawDcaPriceChart(chartData, levels, range) {
 }
 
 
+
+// ══════════════════════════════════════════════════
+// SMART S/R ALERT ENGINE
+// ══════════════════════════════════════════════════
+let saResults = [];
+let saFilter = 'all';
+
+async function runSmartAlert() {
+  const btn = document.getElementById('smart-alert-run-btn');
+  const progress = document.getElementById('sa-progress');
+  const progBar = document.getElementById('sa-progress-bar');
+  const progText = document.getElementById('sa-progress-text');
+  const resultsEl = document.getElementById('sa-results');
+
+  // Collect tickers (exclude mutual funds)
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const getDRParent = t => { const m = t.match(/^([A-Z]+)\d+$/); return m ? m[1] : null; };
+
+  const tickerMap = []; // {ticker, displayName, portName, portColor, portType, currentPrice}
+  portfolios.forEach(p => {
+    (p.stocks || []).filter(s => !isMF(s.ticker)).forEach(s => {
+      const pr = prices[s.ticker + '_' + p.id];
+      tickerMap.push({
+        ticker: s.ticker, underlying: s.underlying || s.ticker,
+        portName: p.name, portColor: p.color, portType: p.type,
+        currentPrice: pr?.price || null, buyPrice: s.buyPrice, qty: s.qty,
+      });
+      // Add US parent for SET DR
+      if (p.type === 'realtime_dr') {
+        const parent = getDRParent(s.ticker);
+        if (parent && !tickerMap.find(x => x.ticker === parent)) {
+          tickerMap.push({
+            ticker: parent, underlying: s.underlying || parent,
+            portName: p.name + ' (หุ้นแม่)', portColor: p.color, portType: 'realtime_us',
+            currentPrice: null, buyPrice: null, qty: null,
+          });
+        }
+      }
+    });
+  });
+
+  if (!tickerMap.length) { alert('ไม่มีหุ้นในพอร์ต'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังวิเคราะห์...';
+  progress.style.display = 'block';
+  resultsEl.innerHTML = '';
+  saResults = [];
+
+  const NEAR_PCT = 2.0; // within 2% = "near"
+  const AT_PCT   = 0.8; // within 0.8% = "at"
+
+  for (let i = 0; i < tickerMap.length; i++) {
+    const item = tickerMap[i];
+    progText.textContent = `วิเคราะห์ ${item.ticker} (${i+1}/${tickerMap.length})`;
+    progBar.style.width = ((i+1)/tickerMap.length*100) + '%';
+
+    try {
+      // Fetch 2y chart data
+      const r = await fetch('/api/chart?ticker=' + encodeURIComponent(item.ticker) + '&interval=1d&range=2y',
+        { signal: safeSignal(12000) });
+      if (!r.ok) continue;
+      const data = await r.json();
+      const result = data?.chart?.result?.[0];
+      if (!result) continue;
+
+      const q = result.indicators?.quote?.[0];
+      if (!q?.close?.length) continue;
+
+      const closes = q.close, highs = q.high, lows = q.low;
+      const n = closes.length;
+      const lastClose = closes.filter(v=>v!=null).slice(-1)[0];
+      if (!lastClose) continue;
+
+      // Use live price from portfolio if available
+      const curPrice = item.currentPrice || lastClose;
+
+      // Compute S/R levels
+      const chartData = { close: closes, high: highs, low: lows, timestamps: result.timestamp || [] };
+      const levels = computeTechnicalLevels(chartData, curPrice);
+
+      // Check EMA proximity
+      const allLevels = [
+        ...levels.emas.map(e => ({ price: e.price, label: e.label, type: 'ema', strength: 'ema' })),
+        ...levels.strongSup.filter(l => l.touches >= 3).map(l => ({ ...l, type: 'sup' })),
+        ...levels.strongRes.filter(l => l.touches >= 3).map(l => ({ ...l, type: 'res' })),
+      ];
+
+      const alerts = [];
+      allLevels.forEach(lvl => {
+        if (!lvl.price || lvl.price <= 0) return;
+        const pct = Math.abs(curPrice - lvl.price) / lvl.price * 100;
+        const isAbove = curPrice > lvl.price;
+        const isSupport = lvl.type === 'sup' || (lvl.type === 'ema' && !isAbove);
+        const isResist  = lvl.type === 'res' || (lvl.type === 'ema' && isAbove);
+
+        let status = null;
+        if (pct <= AT_PCT) {
+          status = isSupport ? 'at-sup' : 'at-res';
+        } else if (pct <= NEAR_PCT) {
+          status = isSupport ? 'near-sup' : 'near-res';
+        }
+
+        if (status) {
+          alerts.push({ level: lvl, pct, status, curPrice });
+        }
+      });
+
+      if (alerts.length) {
+        saResults.push({ ...item, curPrice, alerts, levels });
+      }
+    } catch (e) { console.warn(item.ticker, e.message); }
+
+    await new Promise(res => setTimeout(res, 200));
+  }
+
+  progress.style.display = 'none';
+  btn.disabled = false;
+  btn.textContent = '🔍 วิเคราะห์ทั้งหมด';
+
+  const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('sa-last-run').textContent = 'อัปเดต ' + now + ' · พบ ' + saResults.length + ' ตัวที่น่าสนใจ';
+
+  // Update badge
+  const badge = document.getElementById('sb-smart-count');
+  if (badge) {
+    const hotCount = saResults.filter(r => r.alerts.some(a => a.status.startsWith('at-'))).length;
+    badge.textContent = hotCount;
+    badge.style.display = hotCount > 0 ? '' : 'none';
+  }
+
+  renderSmartAlerts();
+}
+
+function filterSmartAlert(btn) {
+  document.querySelectorAll('.sa-filter').forEach(b => {
+    b.style.background = 'transparent';
+    b.style.color = b.dataset.f === 'all' ? 'var(--tx2)' :
+      b.dataset.f.includes('sup') ? 'var(--green-tx)' : 'var(--amber-tx)';
+  });
+  btn.style.background = 'var(--blue)';
+  btn.style.color = '#fff';
+  saFilter = btn.dataset.f;
+  renderSmartAlerts();
+}
+
+function renderSmartAlerts() {
+  const el = document.getElementById('sa-results');
+  if (!el) return;
+
+  const filtered = saFilter === 'all'
+    ? saResults
+    : saResults.filter(r => r.alerts.some(a => a.status === saFilter));
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty" style="padding:40px"><div class="empty-ico">✅</div>ไม่พบหุ้นที่ตรงเงื่อนไข</div>';
+    return;
+  }
+
+  // Sort: at-sup > at-res > near-sup > near-res
+  const order = { 'at-sup':0, 'at-res':1, 'near-sup':2, 'near-res':3 };
+  filtered.sort((a, b) => {
+    const aMin = Math.min(...a.alerts.map(x => order[x.status]??9));
+    const bMin = Math.min(...b.alerts.map(x => order[x.status]??9));
+    return aMin - bMin;
+  });
+
+  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px">' +
+    filtered.map(r => {
+      const topAlert = r.alerts.sort((a,b) => (order[a.status]??9)-(order[b.status]??9))[0];
+      const statusMap = {
+        'at-sup':  { emoji:'🟢', label:'ชนแนวรับ!',    bg:'var(--green-bg)', tc:'var(--green-tx)', border:'var(--green)' },
+        'at-res':  { emoji:'🔴', label:'ชนแนวต้าน!',   bg:'var(--red-bg)',   tc:'var(--red-tx)',   border:'var(--red)'   },
+        'near-sup':{ emoji:'🟡', label:'ใกล้แนวรับ',   bg:'var(--amber-bg)', tc:'var(--amber-tx)', border:'var(--amber)' },
+        'near-res':{ emoji:'🟡', label:'ใกล้แนวต้าน',  bg:'var(--amber-bg)', tc:'var(--amber-tx)', border:'var(--amber)' },
+      };
+      const sm = statusMap[topAlert.status];
+      const pnlPct = r.buyPrice ? (r.curPrice - r.buyPrice) / r.buyPrice * 100 : null;
+
+      return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;cursor:pointer"
+        onclick="openStockModal('${r.ticker}','${r.underlying}','${r.portType}')">
+        <div style="padding:12px 14px;border-left:4px solid ${sm.border};display:flex;align-items:flex-start;gap:10px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <span class="tkr">${r.ticker}</span>
+              <span style="background:${sm.bg};color:${sm.tc};padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">${sm.emoji} ${sm.label}</span>
+              <span style="font-size:10px;color:var(--tx3)">${r.portName}</span>
+            </div>
+            <div style="font-size:12px;color:var(--tx2);margin-bottom:8px">${r.underlying}</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px">
+              <span>ราคา: <strong class="mono">${fn(r.curPrice,2)}</strong></span>
+              ${pnlPct !== null ? `<span class="${pnlPct>=0?'pos':'neg'}">P&L: ${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div style="padding:8px 14px;background:var(--s2);border-top:1px solid var(--bd2)">
+          ${r.alerts.slice(0,3).map(a => {
+            const sm2 = statusMap[a.status];
+            const dir = a.curPrice > a.level.price ? '↓' : '↑';
+            return `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px">
+              <span style="color:${sm2.tc}">${sm2.emoji}</span>
+              <span style="font-weight:600;font-family:var(--mono);min-width:60px">${fn(a.level.price,2)}</span>
+              <span style="color:var(--tx2);flex:1">${a.level.label}${a.level.touches?' ('+a.level.touches+'x)':''}</span>
+              <span style="font-family:var(--mono);color:${a.pct<=0.8?'var(--red-tx)':'var(--amber-tx)'}">
+                ${dir}${a.pct.toFixed(1)}%
+              </span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('') + '</div>';
+}
+
+// Hook showFeature for smart-alert
+const _sfOrigSA = showFeature;
+showFeature = function(id) {
+  _sfOrigSA(id);
+  if (id === 'smart-alert') {
+    document.getElementById('feat-smart-alert')?.classList.add('on');
+  }
+};
+
 </script>
 
 <!-- OVERLAY -->
@@ -3725,6 +3949,11 @@ function drawDcaPriceChart(chartData, levels, range) {
     <div class="sb-item" id="sb-dca" onclick="showFeature('dca')">
       <div class="sb-item-icon" style="background:#fff4e5">📐</div>
       DCA Calculator
+    </div>
+    <div class="sb-item" id="sb-smart-alert" onclick="showFeature('smart-alert')">
+      <div class="sb-item-icon" style="background:#fff0ef">🎯</div>
+      Smart S/R Alert
+      <span class="sb-badge" id="sb-smart-count" style="background:var(--red-bg);color:var(--red-tx)">0</span>
     </div>
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
@@ -4005,5 +4234,45 @@ function drawDcaPriceChart(chartData, levels, range) {
     </div>
   </div>
 </div>
+<div class="feat-panel" id="feat-smart-alert">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🎯 Smart S/R Alert</h2>
+    <div style="font-size:12px;color:var(--tx3)">วิเคราะห์ทุกหุ้นในพอร์ต — แจ้งเมื่อราคาเข้าใกล้แนวรับ/แนวต้านสำคัญ</div>
+    <button class="btn btn-p btn-sm" onclick="runSmartAlert()" style="margin-left:auto" id="smart-alert-run-btn">
+      🔍 วิเคราะห์ทั้งหมด
+    </button>
+  </div>
+
+  <!-- Filter bar -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+    <div style="font-size:12px;font-weight:500;color:var(--tx2)">กรอง:</div>
+    <button class="sa-filter on" data-f="all"     onclick="filterSmartAlert(this)" style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--blue);color:#fff;cursor:pointer">ทั้งหมด</button>
+    <button class="sa-filter"    data-f="at-sup"  onclick="filterSmartAlert(this)" style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--green);color:var(--green-tx);cursor:pointer;background:transparent">🟢 ชนแนวรับ</button>
+    <button class="sa-filter"    data-f="at-res"  onclick="filterSmartAlert(this)" style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--red);color:var(--red-tx);cursor:pointer;background:transparent">🔴 ชนแนวต้าน</button>
+    <button class="sa-filter"    data-f="near-sup" onclick="filterSmartAlert(this)" style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--amber);color:var(--amber-tx);cursor:pointer;background:transparent">🟡 ใกล้แนวรับ</button>
+    <button class="sa-filter"    data-f="near-res" onclick="filterSmartAlert(this)" style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--amber);color:var(--amber-tx);cursor:pointer;background:transparent">🟡 ใกล้แนวต้าน</button>
+    <div style="margin-left:auto;font-size:11px;color:var(--tx3)" id="sa-last-run">ยังไม่ได้วิเคราะห์</div>
+  </div>
+
+  <!-- Results -->
+  <div id="sa-results">
+    <div class="empty" style="padding:60px 20px">
+      <div class="empty-ico">🎯</div>
+      <div>กด "วิเคราะห์ทั้งหมด" เพื่อเริ่มต้น</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px">ระบบจะดึงข้อมูล 2 ปีของทุกหุ้น แล้ววิเคราะห์ S/R อัตโนมัติ</div>
+      <div style="font-size:11px;color:var(--tx3)">ใช้เวลา ~1-2 นาที ขึ้นอยู่กับจำนวนหุ้น</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div id="sa-progress" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:12px 20px;border-radius:12px;z-index:9999;font-size:13px;min-width:260px;text-align:center">
+    <div id="sa-progress-text">กำลังวิเคราะห์...</div>
+    <div style="background:rgba(255,255,255,.2);border-radius:4px;height:4px;margin-top:8px;overflow:hidden">
+      <div id="sa-progress-bar" style="height:4px;background:#30d158;border-radius:4px;width:0%;transition:width .3s"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

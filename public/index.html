@@ -2887,7 +2887,7 @@ async function fetchDcaPrice() {
   // Fetch chart data for technical analysis (6 months of daily data)
   try {
     for (const t of [raw, raw + '.BK']) {
-      const r = await fetch('/api/chart?ticker=' + encodeURIComponent(t) + '&interval=1d&range=6mo',
+      const r = await fetch('/api/chart?ticker=' + encodeURIComponent(t) + '&interval=1d&range=2y',
         { signal: safeSignal(12000) });
       if (!r.ok) continue;
       const data = await r.json();
@@ -3399,6 +3399,13 @@ showFeature = function(id) {
   if (id === 'dca') { renderDcaHistory(); selectedSupports=[]; selectedResistances=[]; updateSelectedLevels(); }
 };
 
+
+function updateDcaPriceChart() {
+  if (!dcaChartData || !currentTechLevels) return;
+  const rangeEl = document.getElementById('dca-chart-range');
+  const range = rangeEl ? rangeEl.value : '3mo';
+  drawDcaPriceChart(dcaChartData, currentTechLevels, range);
+}
 
 function drawDcaPriceChart(chartData, levels, range) {
   const card = document.getElementById('dca-price-chart-card');

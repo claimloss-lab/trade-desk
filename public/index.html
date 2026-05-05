@@ -2854,8 +2854,9 @@ function renderWatchlist(){
 let dcaHistory = JSON.parse(localStorage.getItem('td_dca_hist') || '[]');
 let dcaChart = null;
 let dcaCurrentData = null;
-let dcaChartData = null; // raw OHLCV from Yahoo
-
+let dcaChartData = null;
+let dcaPriceChart = null;
+let currentTechLevels = null;
 function dcaAutoFill() {
   const t = document.getElementById('dca-ticker').value.trim().toUpperCase();
   const norm = x => x.replace(/\.BK$/i, '').toUpperCase();

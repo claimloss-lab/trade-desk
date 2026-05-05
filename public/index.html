@@ -2857,6 +2857,64 @@ let dcaCurrentData = null;
 let dcaChartData = null;
 let dcaPriceChart = null;
 let currentTechLevels = null;
+function buildDcaTickerDropdown() {
+  const sel = document.getElementById('dca-ticker-select');
+  if (!sel) return;
+
+  // Collect all tickers grouped by portfolio
+  const groups = {};
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+
+  portfolios.forEach(p => {
+    const tickers = (p.stocks || [])
+      .filter(s => !isMF(s.ticker))
+      .map(s => ({ ticker: s.ticker, name: s.underlying || s.ticker, port: p.name, color: p.color }));
+    if (tickers.length) groups[p.name] = { tickers, color: p.color };
+  });
+
+  sel.innerHTML = '<option value="">— เลือกหุ้น —</option>';
+  Object.entries(groups).forEach(([portName, g]) => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = '● ' + portName;
+    g.tickers.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.ticker;
+      // Show current price if available
+      const port = portfolios.find(p => p.stocks?.some(x => x.ticker === s.ticker));
+      const p = port ? prices[s.ticker + '_' + port.id] : null;
+      const priceStr = p ? '  ฿' + fn(p.price, 2) : '';
+      opt.textContent = s.ticker + '  ' + s.name + priceStr;
+      optgroup.appendChild(opt);
+    });
+    sel.appendChild(optgroup);
+  });
+}
+
+function onDcaTickerSelect() {
+  const sel = document.getElementById('dca-ticker-select');
+  const ticker = sel.value;
+  if (!ticker) return;
+
+  // Sync text input
+  const textInput = document.getElementById('dca-ticker');
+  if (textInput) textInput.value = ticker;
+
+  // Set current price from portfolio
+  const norm = x => x.replace(/\.BK$/i, '').toUpperCase();
+  for (const port of portfolios) {
+    const s = port.stocks?.find(x => norm(x.ticker) === norm(ticker));
+    if (s && prices[s.ticker + '_' + port.id]?.price) {
+      document.getElementById('dca-price').value = prices[s.ticker + '_' + port.id].price.toFixed(2);
+      setDcaPriceStatus('✓ ' + ticker + ' · ราคา ' + fn(prices[s.ticker + '_' + port.id].price, 2) + ' · กด วิเคราะห์ เพื่อดู S/R + EMA', 'var(--green-tx)');
+      break;
+    }
+  }
+
+  // Auto trigger fetch
+  fetchDcaPrice();
+}
+
 function dcaAutoFill() {
   const t = document.getElementById('dca-ticker').value.trim().toUpperCase();
   const norm = x => x.replace(/\.BK$/i, '').toUpperCase();
@@ -3417,7 +3475,7 @@ function renderDcaHistory() {
 const _sfOrig = showFeature;
 showFeature = function(id) {
   _sfOrig(id);
-  if (id === 'dca') { renderDcaHistory(); selectedSupports=[]; selectedResistances=[]; updateSelectedLevels(); }
+  if (id === 'dca') { renderDcaHistory(); buildDcaTickerDropdown(); selectedSupports=[]; selectedResistances=[]; updateSelectedLevels(); }
 };
 
 
@@ -3826,7 +3884,7 @@ function drawDcaPriceChart(chartData, levels, range) {
   <div class="card" style="margin-bottom:16px">
     <div class="card-hd"><div class="card-ti">ข้อมูลหุ้น</div></div>
     <div class="card-bd">
-      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;max-width:500px">
+      <div style="display:grid;grid-template-columns:1fr;gap:12px;align-items:end">
         <div>
           <label class="form-lbl">Ticker</label>
           <div style="display:flex;gap:6px">

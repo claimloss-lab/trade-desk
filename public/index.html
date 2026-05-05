@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
 :root{
   --bg:#f5f5f7;--surface:#fff;--s2:#f9f9fb;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.05);
@@ -513,6 +514,17 @@ function getPort(id) { return portfolios.find(p=>p.id===id); }
 // PIN
 // ══════════════════════════════════════════════════
 let pinBuf='';
+// Safe timeout signal — compatible with all browsers
+function safeSignal(ms) {
+  try {
+    return AbortSignal.timeout(ms);
+  } catch(e) {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), ms);
+    return ctrl.signal;
+  }
+}
+
 function initPin(){ if(pinOk){document.getElementById('pin-ov').style.display='none';document.body.classList.add('unlocked');}else{document.body.classList.add('locked');} }
 function pp(n){ if(pinBuf.length>=6)return;pinBuf+=n;updPd();if(pinBuf.length===6)setTimeout(chkPin,100); }
 function pd(){ pinBuf=pinBuf.slice(0,-1);updPd();document.getElementById('pin-err').textContent=''; }
@@ -577,7 +589,7 @@ async function fetchPrice(ticker, portType) {
   // Determine API ticker: US stocks use raw ticker, others get .BK
   const apiTicker = portType === 'realtime_us' ? ticker : ticker;
   try {
-    const r = await fetch(`/api/price?ticker=${encodeURIComponent(apiTicker)}`,{signal:AbortSignal.timeout(10000)});
+    const r = await fetch(`/api/price?ticker=${encodeURIComponent(apiTicker)}`,{signal:safeSignal(10000)});
     if (!r.ok) return null;
     const d = await r.json();
     if (d.error || !d.price) return null;
@@ -615,7 +627,7 @@ function setStatus(t){document.getElementById('last-up').textContent=t;}
 
 async function fetchUsdThb(){
   try{
-    const r=await fetch('/api/price?ticker=USDTHB%3DX',{signal:AbortSignal.timeout(8000)});
+    const r=await fetch('/api/price?ticker=USDTHB%3DX',{signal:safeSignal(8000)});
     if(!r.ok) return;
     const d=await r.json();
     if(d.price&&d.price>20&&d.price<60){
@@ -1636,6 +1648,27 @@ function migrateUSPortPrices(){
   }
 }
 
+async function fetchSparklines(portId){
+  const port = getPort(portId);
+  if(!port || port.type==='snapshot') return;
+  const isMF = (t) => t.startsWith('K-')||t.startsWith('MEGA')||t.includes('RMF')||t.includes('ESG')||t.includes('BGOLD');
+  for(const s of port.stocks){
+    if(isMF(s.ticker)) continue;
+    try {
+      const r = await fetch('/api/chart?ticker='+encodeURIComponent(s.ticker)+'&interval=1d&range=1mo',
+        {signal:safeSignal(8000)});
+      if(!r.ok) continue;
+      const d = await r.json();
+      const closes = d?.chart?.result?.[0]?.indicators?.quote?.[0]?.close;
+      if(!closes?.length) continue;
+      const valid = closes.filter(v=>v!=null).slice(-20);
+      if(valid.length>1) sparkH[s.ticker+'_'+portId] = valid;
+    } catch {}
+    await new Promise(res=>setTimeout(res,200));
+  }
+  renderPortfolio(portId);
+}
+
 // Boot — load from portfolio-data.json if localStorage is empty
 async function boot(){
   initPin();
@@ -2335,7 +2368,7 @@ function openAutoFetchDiv(){
 
 async function fetchSingleDividend(ticker, range, quiet=false){
   const res = await fetch(`/api/dividend?ticker=${encodeURIComponent(ticker)}&range=${range}`,
-    { signal: AbortSignal.timeout(12000) });
+    { signal: safeSignal(12000) });
   const data = await res.json();
   if(data.error || !data.dividends?.length) return { ticker, added: 0, total: 0 };
 
@@ -2541,7 +2574,7 @@ async function loadStockChart(ticker,portType,range){
 
   try{
     // Fetch chart data through our own Cloudflare Worker (avoids CORS)
-    const res=await fetch(`/api/chart?ticker=${encodeURIComponent(sym)}&interval=${interval}&range=${range}`,{signal:AbortSignal.timeout(12000)});
+    const res=await fetch(`/api/chart?ticker=${encodeURIComponent(sym)}&interval=${interval}&range=${range}`,{signal:safeSignal(12000)});
     if(!res.ok) throw new Error('Worker error '+res.status);
     const data=await res.json();
     const result=data?.chart?.result?.[0];
@@ -2658,7 +2691,7 @@ async function fetchWatchlistPrices(){
       }
       // Otherwise fetch from Worker
       const ticker = t.includes('.') ? t : t+'.BK';
-      const r = await fetch('/api/price?ticker='+encodeURIComponent(ticker), {signal:AbortSignal.timeout(8000)});
+      const r = await fetch('/api/price?ticker='+encodeURIComponent(ticker), {signal:safeSignal(8000)});
       if(r.ok){ const d=await r.json(); if(d.price){ wlPrices[t]=d.price; wlPrices[ticker]=d.price; } }
     } catch {}
   }));
@@ -2854,7 +2887,7 @@ async function fetchDcaPrice() {
   try {
     for (const t of [raw, raw + '.BK']) {
       const r = await fetch('/api/chart?ticker=' + encodeURIComponent(t) + '&interval=1d&range=6mo',
-        { signal: AbortSignal.timeout(12000) });
+        { signal: safeSignal(12000) });
       if (!r.ok) continue;
       const data = await r.json();
       const result = data?.chart?.result?.[0];
@@ -3001,11 +3034,183 @@ function computeTechnicalLevels(chartData, curPrice) {
   };
 }
 
+let dcaPriceChart = null;
+let currentTechLevels = null;
+
+function updateDcaPriceChart() {
+  if (!dcaChartData || !currentTechLevels) return;
+  const rangeEl = document.getElementById('dca-chart-range');
+  const range = rangeEl ? rangeEl.value : '3mo';
+  drawDcaPriceChart(dcaChartData, currentTechLevels, range);
+}
+
+function drawDcaPriceChart(chartData, levels, range) {
+  const card = document.getElementById('dca-price-chart-card');
+  const canvas = document.getElementById('dca-price-canvas');
+  if (!card || !canvas) return;
+  card.style.display = 'block';
+
+  // Filter data by range
+  const n = chartData.timestamps.length;
+  const days = range === '1mo' ? 22 : range === '3mo' ? 66 : 126;
+  const start = Math.max(0, n - days);
+
+  const labels = chartData.timestamps.slice(start).map(t =>
+    new Date(t * 1000).toLocaleDateString('th-TH', {day:'numeric', month:'short'})
+  );
+  const closes = chartData.close.slice(start);
+  const highs  = chartData.high.slice(start);
+  const lows   = chartData.low.slice(start);
+
+  // Determine price range for annotations
+  const validCloses = closes.filter(v => v != null);
+  const priceMin = Math.min(...lows.filter(v=>v!=null)) * 0.995;
+  const priceMax = Math.max(...highs.filter(v=>v!=null)) * 1.005;
+
+  // Build annotation lines from technical levels
+  const annotations = {};
+
+  // Current price
+  const curPrice = levels.curPrice;
+  annotations['cur'] = {
+    type: 'line', yMin: curPrice, yMax: curPrice,
+    borderColor: '#1d1d1f', borderWidth: 2, borderDash: [4,4],
+    label: { content: 'ราคา ' + fn(curPrice,2), enabled: true, position: 'end',
+      backgroundColor: '#1d1d1f', color: '#fff', font: {size:10} }
+  };
+
+  // Fibonacci levels
+  levels.fib.filter(l => l.price >= priceMin && l.price <= priceMax).forEach((l, i) => {
+    annotations['fib'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(124,58,237,0.6)', borderWidth: 1.5,
+      borderDash: [6, 3],
+      label: { content: l.label + ' ' + fn(l.price,2), enabled: true, position: i%2===0?'start':'end',
+        backgroundColor: 'rgba(124,58,237,0.8)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  // S/R Support
+  levels.sr.filter(l => l.type==='sr-sup' && l.price >= priceMin && l.price <= priceMax).forEach((l,i) => {
+    annotations['sup'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(48,209,88,0.7)', borderWidth: 1.5,
+      label: { content: 'S ' + fn(l.price,2), enabled: true, position:'start',
+        backgroundColor:'rgba(48,209,88,0.8)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  // S/R Resistance
+  levels.sr.filter(l => l.type==='sr-res' && l.price >= priceMin && l.price <= priceMax).forEach((l,i) => {
+    annotations['res'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(255,59,48,0.7)', borderWidth: 1.5,
+      label: { content: 'R ' + fn(l.price,2), enabled: true, position:'end',
+        backgroundColor:'rgba(255,59,48,0.8)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  // MAs
+  levels.ma.forEach((l, i) => {
+    if (l.price < priceMin || l.price > priceMax) return;
+    annotations['ma'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: 'rgba(0,113,227,0.7)', borderWidth: 1.5, borderDash:[3,3],
+      label: { content: l.label + ' ' + fn(l.price,2), enabled: true,
+        position: i%2===0?'start':'end',
+        backgroundColor:'rgba(0,113,227,0.8)', color:'#fff', font:{size:9}, padding:3 }
+    };
+  });
+
+  // Selected levels overlay
+  selectedSupports.forEach((l,i) => {
+    annotations['sel_s'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: '#30d158', borderWidth: 2.5,
+      label: { content: '✓ S ' + fn(l.price,2), enabled: true, position:'start',
+        backgroundColor:'#30d158', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
+    };
+  });
+  selectedResistances.forEach((l,i) => {
+    annotations['sel_r'+i] = {
+      type: 'line', yMin: l.price, yMax: l.price,
+      borderColor: '#ff3b30', borderWidth: 2.5,
+      label: { content: '✓ R ' + fn(l.price,2), enabled: true, position:'end',
+        backgroundColor:'#ff3b30', color:'#fff', font:{size:10,weight:'bold'}, padding:4 }
+    };
+  });
+
+  if (dcaPriceChart) { dcaPriceChart.destroy(); dcaPriceChart = null; }
+
+  dcaPriceChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'ราคา',
+        data: closes,
+        borderColor: '#0071e3',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        fill: true,
+        backgroundColor: (ctx) => {
+          const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
+          g.addColorStop(0, 'rgba(0,113,227,0.12)');
+          g.addColorStop(1, 'rgba(0,113,227,0)');
+          return g;
+        },
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(29,29,31,.92)',
+          callbacks: { label: ctx => ' ' + fn(ctx.parsed.y, 2) }
+        },
+        annotation: { annotations }
+      },
+      scales: {
+        x: { grid:{display:false}, ticks:{maxTicksLimit:8, font:{size:10}, color:'#aeaeb2'} },
+        y: { position:'right', grid:{color:'rgba(0,0,0,.04)'},
+          ticks:{font:{size:10}, color:'#aeaeb2', callback:v=>fn(v,2)},
+          min: priceMin, max: priceMax }
+      }
+    }
+  });
+
+  // Legend
+  const legend = document.getElementById('dca-chart-legend');
+  if (legend) {
+    legend.innerHTML = [
+      {c:'#0071e3', l:'ราคา'},
+      {c:'rgba(124,58,237,0.8)', l:'Fibonacci'},
+      {c:'rgba(48,209,88,0.8)', l:'Support (S/R)'},
+      {c:'rgba(255,59,48,0.8)', l:'Resistance (S/R)'},
+      {c:'rgba(0,113,227,0.8)', l:'Moving Average'},
+      {c:'#30d158', l:'Level ที่เลือก (S)'},
+      {c:'#ff3b30', l:'Level ที่เลือก (R)'},
+    ].map(item =>
+      '<div style="display:flex;align-items:center;gap:4px">' +
+      '<div style="width:14px;height:3px;background:'+item.c+';border-radius:2px"></div>' +
+      '<span style="color:var(--tx2)">'+item.l+'</span></div>'
+    ).join('');
+  }
+}
+
 function displayTechnicalLevels(levels, curPrice) {
   const panel = document.getElementById('dca-tech-panel');
   const el = document.getElementById('dca-tech-body');
   if (!panel || !el) return;
   panel.style.display = 'block';
+  currentTechLevels = levels;
+  // Draw price chart
+  drawDcaPriceChart(dcaChartData, levels, '3mo');
 
   // Separate supports (below cur) and resistances (above cur)
   const allLevels = [
@@ -3088,6 +3293,9 @@ function removeLevel(price, side) {
 function updateSelectedLevels() {
   const el = document.getElementById('dca-selected-levels');
   if (!el) return;
+  // Redraw chart with updated selections
+  if (dcaChartData && currentTechLevels) drawDcaPriceChart(dcaChartData, currentTechLevels,
+    document.getElementById('dca-chart-range')?.value || '3mo');
   const allSel = [
     ...selectedSupports.map(s=>`<span style="background:var(--green-bg);color:var(--green-tx);padding:3px 8px;border-radius:20px;font-size:11px;font-family:var(--mono);cursor:pointer" onclick="removeLevel(${s.price},'sup')" title="คลิกลบ">S:${fn(s.price,2)} ✕</span>`),
     ...selectedResistances.map(r=>`<span style="background:var(--red-bg);color:var(--red-tx);padding:3px 8px;border-radius:20px;font-size:11px;font-family:var(--mono);cursor:pointer" onclick="removeLevel(${r.price},'res')" title="คลิกลบ">R:${fn(r.price,2)} ✕</span>`),
@@ -3694,6 +3902,27 @@ showFeature = function(id) {
       <div id="dca-selected-levels"><span style="font-size:12px;color:var(--tx3)">คลิก level ด้านบนเพื่อเพิ่มในตาราง DCA</span></div>
     </div>
   </div>
+  <!-- Price Chart with Technical Levels -->
+  <div class="card" id="dca-price-chart-card" style="display:none;margin-bottom:16px">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,113,227,.04),transparent)">
+      <div>
+        <div class="card-ti">📈 Price Chart + Technical Levels</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">เขียว = แนวรับ · แดง = แนวต้าน · ม่วง = Fibonacci · น้ำเงิน = Moving Average</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <select id="dca-chart-range" onchange="updateDcaPriceChart()" style="font-size:12px;padding:4px 8px">
+          <option value="1mo">1 เดือน</option>
+          <option value="3mo" selected>3 เดือน</option>
+          <option value="6mo">6 เดือน</option>
+        </select>
+      </div>
+    </div>
+    <div style="position:relative;height:320px;padding:12px">
+      <canvas id="dca-price-canvas"></canvas>
+    </div>
+    <div id="dca-chart-legend" style="padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--bd2);font-size:10px"></div>
+  </div>
+
   <!-- Simple % Mode Settings
 
       <details style="margin-top:12px">

@@ -3899,6 +3899,305 @@ showFeature = function(id) {
   }
 };
 
+
+// ══════════════════════════════════════════════════
+// PORTFOLIO REBALANCING + COST AVERAGE TRACKER
+// ══════════════════════════════════════════════════
+let rbTargets = {}; // {ticker: targetPct}
+let rbPortId = null;
+
+function initRebalancePortSelect() {
+  const sel = document.getElementById('rb-port-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— เลือกพอร์ต —</option>';
+  portfolios.filter(p => p.type !== 'snapshot' && p.stocks?.length).forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.name + ' (' + p.stocks.length + ' ตัว)';
+    sel.appendChild(opt);
+  });
+}
+
+function loadRebalancePort() {
+  const sel = document.getElementById('rb-port-sel');
+  const portId = sel.value;
+  if (!portId) return;
+  rbPortId = portId;
+  const port = getPort(portId);
+  if (!port) return;
+
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const stocks = port.stocks.filter(s => !isMF(s.ticker));
+
+  // Calculate current values
+  const totalVal = stocks.reduce((s, x) => {
+    const p = prices[x.ticker + '_' + portId];
+    const price = p?.price || x.buyPrice;
+    const val = port.type === 'realtime_us' ? price * x.qty * usdThbRate : price * x.qty;
+    return s + val;
+  }, 0);
+
+  // AI recommended weights based on:
+  // - Equal weight as baseline
+  // - Adjust for P&L (trim winners, add losers slightly)
+  // - Sector diversification
+  const eqWeight = 100 / stocks.length;
+  const aiWeights = computeAIWeights(stocks, portId, port.type, totalVal);
+
+  // Load saved targets or use AI weights
+  const tbody = document.getElementById('rb-weight-body');
+  if (!tbody) return;
+  document.getElementById('rb-table-card').style.display = 'block';
+  document.getElementById('rb-result').style.display = 'none';
+
+  tbody.innerHTML = stocks.map(s => {
+    const p = prices[s.ticker + '_' + portId];
+    const price = p?.price || s.buyPrice;
+    const val = port.type === 'realtime_us' ? price * s.qty * usdThbRate : price * s.qty;
+    const curW = totalVal > 0 ? val / totalVal * 100 : 0;
+    const target = rbTargets[portId + '_' + s.ticker] ?? aiWeights[s.ticker] ?? eqWeight;
+    const diff = curW - target;
+    const pnlPct = (price - s.buyPrice) / s.buyPrice * 100;
+    const ai = aiWeights[s.ticker] || eqWeight;
+
+    return `<tr>
+      <td><span class="tkr">${s.ticker}</span></td>
+      <td style="font-size:11px;color:var(--tx2)">${s.underlying || ''}</td>
+      <td class="mono">฿${fn(val, 0)}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="background:var(--bd2);border-radius:4px;height:6px;width:80px;overflow:hidden">
+            <div style="height:6px;border-radius:4px;background:var(--blue);width:${Math.min(curW,100)}%"></div>
+          </div>
+          <span class="mono" style="font-size:11px">${curW.toFixed(1)}%</span>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:4px">
+          <input type="number" value="${target.toFixed(1)}" min="0" max="100" step="0.5"
+            style="width:65px;font-size:12px;font-family:var(--mono);text-align:right;padding:4px 6px"
+            onchange="setRbTarget('${portId}','${s.ticker}',this.value)"
+            oninput="updateRbTotal()">
+          <span style="font-size:11px;color:var(--tx3)">%</span>
+        </div>
+      </td>
+      <td>
+        <span class="mono" style="font-size:12px;color:${Math.abs(diff)<1?'var(--tx3)':diff>0?'var(--red-tx)':'var(--green-tx)'}">
+          ${diff >= 0 ? '+' : ''}${diff.toFixed(1)}%
+          ${Math.abs(diff) < 1 ? '✓' : diff > 0 ? '▼ เกิน' : '▲ ขาด'}
+        </span>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:4px">
+          <span style="background:var(--blue-bg);color:var(--blue);padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600">
+            ${ai.toFixed(1)}%
+          </span>
+          <span style="font-size:10px;color:var(--tx3)">${pnlPct > 20 ? '(ลด)' : pnlPct < -10 ? '(เพิ่ม)' : ''}</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Set initial targets
+  stocks.forEach(s => {
+    if (rbTargets[portId + '_' + s.ticker] === undefined) {
+      rbTargets[portId + '_' + s.ticker] = aiWeights[s.ticker] ?? eqWeight;
+    }
+  });
+
+  updateRbTotal();
+
+  const info = document.getElementById('rb-port-info');
+  if (info) info.textContent = 'มูลค่ารวม ฿' + fn(totalVal, 0) + ' · ' + stocks.length + ' ตัว';
+}
+
+function computeAIWeights(stocks, portId, portType, totalVal) {
+  // AI weight recommendation:
+  // Base = equal weight
+  // Adjust: trim winners >30% P&L, add losers <-15% but strong S/R
+  // Max weight per stock = 30%, Min = 5%
+  const n = stocks.length;
+  if (!n) return {};
+  const base = 100 / n;
+  const weights = {};
+
+  stocks.forEach(s => {
+    const p = prices[s.ticker + '_' + portId];
+    const price = p?.price || s.buyPrice;
+    const pnlPct = (price - s.buyPrice) / s.buyPrice * 100;
+
+    let w = base;
+    // Trim big winners (take profit signal)
+    if (pnlPct > 30) w = base * 0.7;
+    else if (pnlPct > 20) w = base * 0.85;
+    // Add quality losers (DCA signal)
+    else if (pnlPct < -20) w = base * 1.2;
+    else if (pnlPct < -10) w = base * 1.1;
+
+    // Clamp
+    weights[s.ticker] = Math.min(Math.max(w, 100/n * 0.5), 30);
+  });
+
+  // Normalize to 100%
+  const total = Object.values(weights).reduce((s, v) => s + v, 0);
+  Object.keys(weights).forEach(k => weights[k] = weights[k] / total * 100);
+  return weights;
+}
+
+function setRbTarget(portId, ticker, val) {
+  rbTargets[portId + '_' + ticker] = parseFloat(val) || 0;
+  updateRbTotal();
+}
+
+function updateRbTotal() {
+  if (!rbPortId) return;
+  const port = getPort(rbPortId);
+  if (!port) return;
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const stocks = port.stocks.filter(s => !isMF(s.ticker));
+  const total = stocks.reduce((s, x) => s + (rbTargets[rbPortId + '_' + x.ticker] || 0), 0);
+  const badge = document.getElementById('rb-total-badge');
+  if (badge) {
+    badge.textContent = 'รวม ' + total.toFixed(1) + '%';
+    badge.style.background = Math.abs(total - 100) < 0.5 ? 'var(--green-bg)' : 'var(--red-bg)';
+    badge.style.color = Math.abs(total - 100) < 0.5 ? 'var(--green-tx)' : 'var(--red-tx)';
+  }
+}
+
+function autoEqualWeight() {
+  if (!rbPortId) return;
+  const port = getPort(rbPortId);
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const stocks = port.stocks.filter(s => !isMF(s.ticker));
+  const eqW = 100 / stocks.length;
+  stocks.forEach(s => { rbTargets[rbPortId + '_' + s.ticker] = eqW; });
+  loadRebalancePort();
+}
+
+function calcRebalance() {
+  if (!rbPortId) return;
+  const port = getPort(rbPortId);
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const stocks = port.stocks.filter(s => !isMF(s.ticker));
+
+  // Check total = 100%
+  const totalTarget = stocks.reduce((s, x) => s + (rbTargets[rbPortId + '_' + x.ticker] || 0), 0);
+  if (Math.abs(totalTarget - 100) > 1) {
+    alert('ผลรวม Target % ต้องเท่ากับ 100% (ตอนนี้ = ' + totalTarget.toFixed(1) + '%)');
+    return;
+  }
+
+  const isUS = port.type === 'realtime_us';
+  const totalVal = stocks.reduce((s, x) => {
+    const p = prices[x.ticker + '_' + rbPortId];
+    const price = p?.price || x.buyPrice;
+    const val = isUS ? price * x.qty * usdThbRate : price * x.qty;
+    return s + val;
+  }, 0);
+
+  // Ask for additional budget
+  const addBudgetStr = prompt('งบเพิ่มเติม (฿) — ถ้าไม่มีใส่ 0:', '0');
+  const addBudget = parseFloat(addBudgetStr) || 0;
+  const newTotal = totalVal + addBudget;
+
+  const actions = stocks.map(s => {
+    const p = prices[s.ticker + '_' + rbPortId];
+    const price = p?.price || s.buyPrice;
+    const curVal = isUS ? price * s.qty * usdThbRate : price * s.qty;
+    const targetVal = newTotal * (rbTargets[rbPortId + '_' + s.ticker] || 0) / 100;
+    const diff = targetVal - curVal;
+    const priceInCur = isUS ? price * usdThbRate : price;
+    const qtyChange = diff / priceInCur;
+
+    // New cost average
+    let newAvg = s.buyPrice;
+    if (qtyChange > 0) {
+      // Buying more
+      const newQty = s.qty + qtyChange;
+      newAvg = (s.buyPrice * s.qty + price * qtyChange) / newQty;
+    }
+
+    const newWeight = targetVal / newTotal * 100;
+    return { s, price, curVal, targetVal, diff, qtyChange, newAvg, newWeight, priceInCur };
+  });
+
+  // Render summary
+  const buyAmt  = actions.filter(a => a.diff > 0).reduce((s, a) => s + a.diff, 0);
+  const sellAmt = actions.filter(a => a.diff < 0).reduce((s, a) => s + Math.abs(a.diff), 0);
+
+  const summaryEl = document.getElementById('rb-summary-cards');
+  if (summaryEl) {
+    summaryEl.innerHTML = [
+      { l: 'มูลค่าพอร์ตปัจจุบัน', v: '฿' + fn(totalVal, 0), sub: stocks.length + ' ตัว' },
+      { l: 'งบเพิ่ม', v: '฿' + fn(addBudget, 0), sub: 'ที่กรอก' },
+      { l: 'ต้องซื้อรวม', v: '฿' + fn(buyAmt, 0), sub: actions.filter(a=>a.diff>0).length + ' ตัว', color:'var(--green-tx)' },
+      { l: 'ต้องขายรวม', v: '฿' + fn(sellAmt, 0), sub: actions.filter(a=>a.diff<0).length + ' ตัว', color:'var(--red-tx)' },
+    ].map(s => `<div class="met"><div class="met-lbl">${s.l}</div>
+      <div class="met-val mono" style="${s.color?'color:'+s.color:''}">${s.v}</div>
+      <div class="met-sub">${s.sub||''}</div></div>`).join('');
+  }
+
+  // Budget info
+  const bi = document.getElementById('rb-budget-info');
+  if (bi) bi.textContent = 'มูลค่าพอร์ตใหม่ ฿' + fn(newTotal, 0) + ' · งบเพิ่ม ฿' + fn(addBudget, 0);
+
+  // Action table
+  const tbody = document.getElementById('rb-action-body');
+  if (tbody) {
+    tbody.innerHTML = actions
+      .sort((a, b) => b.diff - a.diff)
+      .map(a => {
+        const isBuy  = a.diff > 0.01;
+        const isSell = a.diff < -0.01;
+        const isHold = !isBuy && !isSell;
+        const actionTag = isBuy
+          ? `<span style="background:var(--green-bg);color:var(--green-tx);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600">ซื้อเพิ่ม</span>`
+          : isSell
+          ? `<span style="background:var(--red-bg);color:var(--red-tx);padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600">ขายออก</span>`
+          : `<span style="background:var(--s2);color:var(--tx3);padding:2px 10px;border-radius:20px;font-size:11px">คงไว้</span>`;
+        const avgChange = isBuy
+          ? `<span style="font-size:10px;color:${a.newAvg<a.s.buyPrice?'var(--green-tx)':'var(--tx3)'}">
+              ต้นทุนเฉลี่ยใหม่: ฿${fn(isUS?a.newAvg*usdThbRate:a.newAvg, 2)}
+              ${a.newAvg < a.s.buyPrice ? ' ▼ ลดลง' : ''}
+            </span>` : '—';
+
+        return `<tr>
+          <td><span class="tkr">${a.s.ticker}</span></td>
+          <td>${actionTag}</td>
+          <td class="mono ${isBuy?'pos':isSell?'neg':''}">${isHold?'—':(isBuy?'+':'')+fq(Math.abs(a.qtyChange))}</td>
+          <td class="mono">฿${fn(isUS?a.price*usdThbRate:a.price, 2)}</td>
+          <td class="mono ${isBuy?'pos':isSell?'neg':''}">
+            ${isHold?'—':(isBuy?'+':'-')+'฿'+fn(Math.abs(a.diff),0)}
+          </td>
+          <td style="font-size:11px">${avgChange}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="background:var(--bd2);border-radius:4px;height:5px;width:70px;overflow:hidden">
+                <div style="height:5px;border-radius:4px;background:var(--blue);width:${Math.min(a.newWeight,100)}%"></div>
+              </div>
+              <span class="mono" style="font-size:11px">${a.newWeight.toFixed(1)}%</span>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+  }
+
+  document.getElementById('rb-result').style.display = 'block';
+}
+
+// Hook showFeature
+const _sfOrigRB = showFeature;
+showFeature = function(id) {
+  _sfOrigRB(id);
+  if (id === 'rebalance') {
+    document.getElementById('feat-rebalance')?.classList.add('on');
+    initRebalancePortSelect();
+  }
+};
 </script>
 
 <!-- OVERLAY -->
@@ -3954,6 +4253,10 @@ showFeature = function(id) {
       <div class="sb-item-icon" style="background:#fff0ef">🎯</div>
       Smart S/R Alert
       <span class="sb-badge" id="sb-smart-count" style="background:var(--red-bg);color:var(--red-tx)">0</span>
+    </div>
+    <div class="sb-item" id="sb-rebalance" onclick="showFeature('rebalance')">
+      <div class="sb-item-icon" style="background:#e5f9eb">⚖️</div>
+      Rebalancing
     </div>
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
@@ -4270,6 +4573,69 @@ showFeature = function(id) {
     <div id="sa-progress-text">กำลังวิเคราะห์...</div>
     <div style="background:rgba(255,255,255,.2);border-radius:4px;height:4px;margin-top:8px;overflow:hidden">
       <div id="sa-progress-bar" style="height:4px;background:#30d158;border-radius:4px;width:0%;transition:width .3s"></div>
+    </div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-rebalance">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">⚖️ Portfolio Rebalancing</h2>
+    <div style="font-size:12px;color:var(--tx3)">ตั้งเป้าสัดส่วนแต่ละตัว แล้วคำนวณว่าต้องซื้อ/ขายเท่าไหร่</div>
+  </div>
+
+  <!-- Port selector -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-hd"><div class="card-ti">เลือกพอร์ต</div></div>
+    <div class="card-bd" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <select id="rb-port-sel" onchange="loadRebalancePort()" style="font-size:13px;min-width:200px">
+        <option value="">— เลือกพอร์ต —</option>
+      </select>
+      <div style="font-size:12px;color:var(--tx3)" id="rb-port-info"></div>
+    </div>
+  </div>
+
+  <!-- Target weight table -->
+  <div class="card" style="margin-bottom:14px" id="rb-table-card" style="display:none">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(48,209,88,.05),transparent)">
+      <div>
+        <div class="card-ti">⚙️ ตั้งเป้าสัดส่วน (Target Weight)</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">คลิกช่อง Target % เพื่อแก้ไข · ผลรวมต้องเท่ากับ 100%</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="rb-total-badge" style="font-size:12px;font-family:var(--mono);padding:4px 12px;border-radius:20px;background:var(--s2)">รวม 0%</div>
+        <button class="btn btn-s btn-sm" onclick="autoEqualWeight()">⚡ Equal Weight</button>
+        <button class="btn btn-p btn-sm" onclick="calcRebalance()">คำนวณ</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="rb-weight-table">
+        <thead><tr>
+          <th>Ticker</th><th>ชื่อ</th><th>มูลค่าปัจจุบัน</th><th>Weight ปัจจุบัน</th>
+          <th>Target %</th><th>ต่างจากเป้า</th><th>แนะนำ AI</th>
+        </tr></thead>
+        <tbody id="rb-weight-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="rb-result" style="display:none">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:14px" id="rb-summary-cards"></div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ti">📋 แผนการซื้อ-ขาย</div>
+        <div style="font-size:11px;color:var(--tx3)" id="rb-budget-info"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table id="rb-action-table">
+          <thead><tr>
+            <th>Ticker</th><th>Action</th><th>จำนวนหุ้น</th><th>ราคาปัจจุบัน</th>
+            <th>มูลค่า</th><th>ต้นทุนเฉลี่ยใหม่</th><th>Weight หลังทำ</th>
+          </tr></thead>
+          <tbody id="rb-action-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

@@ -1731,6 +1731,7 @@ function showFeature(id){
     document.getElementById('feat-'+id)?.classList.add('on');
     if(id==='transactions'){renderTransactions();updateTxFilter();}
     if(id==='watchlist'){renderWatchlist(); fetchWatchlistPrices();}
+    if(id==='dca'){renderDcaHistory();}
     if(id==='alerts') renderAlerts();
     if(id==='notes') renderNotes();
     if(id==='dividends') renderDividends();
@@ -2813,6 +2814,7 @@ function renderWatchlist(){
   }
 }
 
+
 // ══════════════════════════════════════════════════
 // DCA CALCULATOR
 // ══════════════════════════════════════════════════
@@ -2870,14 +2872,14 @@ function setDcaPriceStatus(msg, color) {
 }
 
 function calcDca() {
-  const price   = parseFloat(document.getElementById('dca-price').value);
-  const budget  = parseFloat(document.getElementById('dca-budget').value) || 1000;
-  const stepDn  = parseFloat(document.getElementById('dca-step').value) || 5;
-  const stepUp  = parseFloat(document.getElementById('dca-rstep')?.value) || 5;
-  const sCount  = parseInt(document.getElementById('dca-scount')?.value) || 4;
-  const rCount  = parseInt(document.getElementById('dca-rcount')?.value) || 4;
-  const scale   = parseFloat(document.getElementById('dca-scale')?.value) || 20;
-  const ticker  = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
+  const price  = parseFloat(document.getElementById('dca-price').value);
+  const budget = parseFloat(document.getElementById('dca-budget').value) || 1000;
+  const stepDn = parseFloat(document.getElementById('dca-step').value) || 5;
+  const stepUp = parseFloat(document.getElementById('dca-rstep')?.value) || 5;
+  const sCount = parseInt(document.getElementById('dca-scount')?.value) || 4;
+  const rCount = parseInt(document.getElementById('dca-rcount')?.value) || 4;
+  const scale  = parseFloat(document.getElementById('dca-scale')?.value) || 20;
+  const ticker = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
   if (!price || price <= 0) return;
 
   const supports = Array.from({ length: sCount }, (_, i) => {
@@ -2917,73 +2919,38 @@ function renderDcaTable(d) {
   const table = document.getElementById('dca-main-table');
   const sub   = document.getElementById('dca-table-sub');
   if (sub) sub.textContent = d.ticker + ' · ราคา $' + fn(d.price, 2) + ' · ' + d.supports.length + ' แนวรับ × ' + d.resistances.length + ' แนวต้าน';
-
   const rHeader = d.resistances.map(r =>
-    '' +
-    r.label + '
-$' + fn(r.price, 2) + ''
+    '<th style="color:var(--red-tx)">' + r.label + '<br><span style="font-weight:400">$' + fn(r.price, 2) + '</span></th>'
   ).join('');
-
   const rowsHtml = d.rows.map((s, i) => {
-    const isS0 = i === 0;
     const pctStr = s.pctFromCur === 0 ? '(ราคาปัจจุบัน)' : '(' + s.pctFromCur.toFixed(1) + '%)';
     const rCells = s.rPnls.map(r =>
-      '
-' +
-      (r.pnl >= 0 ? '+' : '') + '$' + fn(r.pnl, 0) + '
-' +
-      '
-(' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '%)
-'
+      '<td class="' + (r.pnl >= 0 ? 'pos' : 'neg') + '">' +
+      (r.pnl >= 0 ? '+' : '') + '$' + fn(r.pnl, 0) + '<br>' +
+      '<span style="font-size:10px">(' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '%)</span></td>'
     ).join('');
-    return '' +
-      '' + s.label + '' +
-      '
-$' + fn(s.price, 2) + '
-' +
-      '
-' + pctStr + '
-' +
-      '
-$' + fn(s.budget, 0) + '
-' +
-      '
-' + fn(s.qty, 2) + ' หุ้น
-' +
-      '
-$' + fn(s.partialAvg, 2) + '
-' +
-      '
-ต้นทุนเฉลี่ย
-' + rCells + '';
+    return '<tr>' +
+      '<td><span style="background:var(--blue-bg);color:var(--blue);padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:11px">' + s.label + '</span></td>' +
+      '<td class="mono" style="font-weight:600">$' + fn(s.price, 2) + '<br><span style="font-size:10px;color:var(--tx3)">' + pctStr + '</span></td>' +
+      '<td class="mono">$' + fn(s.budget, 0) + '</td>' +
+      '<td class="mono">' + fn(s.qty, 2) + ' หุ้น</td>' +
+      '<td class="mono" style="color:var(--purple)">$' + fn(s.partialAvg, 2) + '<br><span style="font-size:10px;color:var(--tx3)">ต้นทุนเฉลี่ย</span></td>' +
+      rCells + '</tr>';
   }).join('');
-
   const lastRow = d.rows[d.rows.length - 1];
   const totalRCells = d.resistances.map((r, ri) => {
     const pnl = lastRow.rPnls[ri].pnl;
     const pct = lastRow.rPnls[ri].pct;
-    return '
-' + (pnl >= 0 ? '+' : '') + '$' + fn(pnl, 0) + '
-' +
-      '
-' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%
-';
+    return '<td class="' + (pnl >= 0 ? 'pos' : 'neg') + '" style="font-weight:600">' + (pnl >= 0 ? '+' : '') + '$' + fn(pnl, 0) + '<br><span style="font-size:10px">' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%</span></td>';
   }).join('');
-
   table.innerHTML =
-    '' +
-    'ระดับ' +
-    'ราคา' +
-    'งบ ($)' +
-    'จำนวนหุ้น' +
-    'ต้นทุนเฉลี่ย ($)' + rHeader + '' +
-    '' + rowsHtml + '' +
-    '' +
-    'รวมทุกระดับ' +
-    '$' + fn(d.cumCost, 0) + '' +
-    '' + fn(d.cumQty, 2) + '' +
-    '$' + fn(d.avgCost, 2) + '' +
-    totalRCells + '';
+    '<thead><tr><th>ระดับ</th><th>ราคา</th><th>งบ ($)</th><th>จำนวนหุ้น</th><th>ต้นทุนเฉลี่ย ($)</th>' + rHeader + '</tr></thead>' +
+    '<tbody>' + rowsHtml +
+    '<tr style="background:var(--s2);font-weight:600"><td colspan="2">รวมทุกระดับ</td>' +
+    '<td class="mono">$' + fn(d.cumCost, 0) + '</td>' +
+    '<td class="mono">' + fn(d.cumQty, 2) + '</td>' +
+    '<td class="mono" style="color:var(--purple)">$' + fn(d.avgCost, 2) + '</td>' +
+    totalRCells + '</tr></tbody>';
 }
 
 function renderDcaSummary(d) {
@@ -2991,30 +2958,12 @@ function renderDcaSummary(d) {
   if (!el) return;
   const firstRPnl = d.rows[d.rows.length - 1].rPnls[0];
   const firstR    = d.resistances[0];
-  [
-    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
-    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
-    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
-    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
-  ].forEach(s => {
-    el.innerHTML = '';
-  });
   el.innerHTML = [
     { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
     { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
     { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
     { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
-  ].map(s => `<div class="met"><div class="met-lbl">${s.l}</div><div class="met-val mono" style="${s.color ? 'color:' + s.color : ''}">${s.v}</div><div class="met-sub">${s.sub || ''}</div></div>`).join('');
-  el.innerHTML = [
-    { l: 'ราคาปัจจุบัน', v: '$' + fn(d.price, 2), sub: d.ticker, color: 'var(--blue)' },
-    { l: 'งบรวมทุกระดับ', v: '$' + fn(d.cumCost, 0), sub: d.sCount + ' ระดับ' },
-    { l: 'ต้นทุนเฉลี่ย (full DCA)', v: '$' + fn(d.avgCost, 2), sub: fn(d.cumQty, 2) + ' หุ้น', color: 'var(--purple)' },
-    { l: 'กำไรที่ ' + firstR.label + ' ($' + fn(firstR.price, 2) + ')', v: '+$' + fn(firstRPnl.pnl, 0), sub: '+' + firstRPnl.pct.toFixed(1) + '%', color: 'var(--green-tx)' },
-  ].map(s => '
-' + s.l + '
-' + s.v + '
-' + (s.sub || '') + '
-').join('');
+  ].map(s => '<div class="met"><div class="met-lbl">' + s.l + '</div><div class="met-val mono" style="' + (s.color ? 'color:' + s.color : '') + '">' + s.v + '</div><div class="met-sub">' + (s.sub || '') + '</div></div>').join('');
 }
 
 function renderDcaChart(d) {
@@ -3029,8 +2978,7 @@ function renderDcaChart(d) {
     data: {
       labels,
       datasets: [{
-        label: 'ราคา ($)',
-        data: prices2,
+        label: 'ราคา ($)', data: prices2,
         backgroundColor: labels.map((l, i) => i < sN ? 'rgba(0,113,227,0.18)' : 'rgba(255,59,48,0.18)'),
         borderColor: labels.map((l, i) => i < sN ? '#0071e3' : '#ff3b30'),
         borderWidth: 2, borderRadius: 6, borderSkipped: false,
@@ -3042,10 +2990,7 @@ function renderDcaChart(d) {
         legend: { display: false },
         tooltip: { callbacks: { label: ctx => {
           const i = ctx.dataIndex;
-          if (i < sN) {
-            const si = sN - 1 - i;
-            return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · งบ $' + fn(d.supports[si].budget, 0);
-          }
+          if (i < sN) return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · งบ $' + fn(d.supports[sN - 1 - i].budget, 0);
           return ' ' + labels[i] + ': $' + fn(prices2[i], 2) + ' · +' + ((prices2[i] - d.price) / d.price * 100).toFixed(1) + '%';
         }}}
       },
@@ -3083,6 +3028,20 @@ function clearDcaHistory() {
   renderDcaHistory();
 }
 
+function renderDcaHistory() {
+  const card = document.getElementById('dca-history-card');
+  const body = document.getElementById('dca-history-body');
+  if (!card || !body) return;
+  card.style.display = dcaHistory.length ? 'block' : 'none';
+  body.innerHTML = dcaHistory.map(h =>
+    '<div style="padding:10px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:12px;cursor:pointer" onclick="loadDcaFromHistory(' + JSON.stringify(h).replace(/"/g, "'") + ')">' +
+    '<span class="tkr">' + h.ticker + '</span>' +
+    '<span class="mono" style="font-size:12px">$' + fn(h.price, 2) + '</span>' +
+    '<span style="font-size:11px;color:var(--tx2)">งบ $' + fn(h.cumCost, 0) + ' · เฉลี่ย $' + fn(h.avgCost, 2) + '</span>' +
+    '<span style="font-size:10px;color:var(--tx3);margin-left:auto">' + h.date + '</span></div>'
+  ).join('');
+}
+
 function loadDcaFromHistory(h) {
   document.getElementById('dca-ticker').value = h.ticker;
   document.getElementById('dca-price').value  = h.price.toFixed(2);
@@ -3092,36 +3051,13 @@ function loadDcaFromHistory(h) {
   showToast('โหลด ' + h.ticker + ' แล้ว');
 }
 
-function renderDcaHistory() {
-  const card = document.getElementById('dca-history-card');
-  const body = document.getElementById('dca-history-body');
-  if (!card || !body) return;
-  card.style.display = dcaHistory.length ? 'block' : 'none';
-  body.innerHTML = dcaHistory.map(h =>
-    '
-' +
-    '
-' + h.ticker + '
-' +
-    '
-$' + fn(h.price, 2) + '
-' +
-    '
-งบ $' + fn(h.cumCost, 0) + ' · เฉลี่ย $' + fn(h.avgCost, 2) + '
-' +
-    '
-' + h.date + '
-'
-  ).join('');
-}
-
-// Extend showFeature to load DCA history
-const _origShowFeatureDCA = showFeature;
+// Hook showFeature for DCA
+const _sfOrig = showFeature;
 showFeature = function(id) {
-  _origShowFeatureDCA(id);
+  _sfOrig(id);
   if (id === 'dca') renderDcaHistory();
 };
-  
+
 </script>
 
 <!-- OVERLAY -->
@@ -3175,16 +3111,14 @@ showFeature = function(id) {
       Dividend Tracker
     </div>
 
-        <div class="sb-item" id="sb-dca" onclick="showFeature('dca')">
-  <div class="sb-item-icon" style="background:#fff4e5">📐</div>
-  DCA Calculator
-</div>
-    
+    <div class="sb-item" id="sb-dca" onclick="showFeature('dca')">
+      <div class="sb-item-icon" style="background:#fff4e5">📐</div>
+      DCA Calculator
+    </div>
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
       Sector Analysis
     </div>
-
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
     <div class="sb-item" onclick="exportBackup()">
@@ -3415,21 +3349,17 @@ showFeature = function(id) {
         </div>
         <div>
           <label class="form-lbl">ราคาปัจจุบัน ($)</label>
-          <input type="number" id="dca-price" placeholder="0.00" step="0.01" style="width:100%"
-            oninput="calcDca()" onchange="calcDca()">
+          <input type="number" id="dca-price" placeholder="0.00" step="0.01" style="width:100%" oninput="calcDca()">
         </div>
         <div>
           <label class="form-lbl">งบต่อระดับ S0 ($)</label>
-          <input type="number" id="dca-budget" placeholder="1000" value="1000" step="100" style="width:100%"
-            oninput="calcDca()">
+          <input type="number" id="dca-budget" placeholder="1000" value="1000" step="100" style="width:100%" oninput="calcDca()">
         </div>
         <div>
           <label class="form-lbl">Step Down (%)</label>
-          <input type="number" id="dca-step" placeholder="5" value="5" step="0.5" min="1" max="30" style="width:100%"
-            oninput="calcDca()">
+          <input type="number" id="dca-step" placeholder="5" value="5" step="0.5" min="1" max="30" style="width:100%" oninput="calcDca()">
         </div>
-        <div>
-          <label class="form-lbl">&nbsp;</label>
+        <div><label class="form-lbl">&nbsp;</label>
           <button class="btn btn-p" onclick="fetchDcaPrice()">คำนวณ</button>
         </div>
       </div>
@@ -3473,7 +3403,7 @@ showFeature = function(id) {
     </div>
   </div>
 </div>
-  
+
 <div class="feat-panel" id="feat-analysis">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>

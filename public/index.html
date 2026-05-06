@@ -3231,7 +3231,7 @@ function calcDcaTech() {
     alert('เลือก level ก่อน'); return;
   }
   const price   = parseFloat(document.getElementById('dca-price').value);
-  const budget  = parseFloat(document.getElementById('dca-budget').value) || 1000;
+  const budget  = parseFloat(document.getElementById('dca-budget')?.value) || 10000;
   const ticker  = document.getElementById('dca-ticker').value.trim().toUpperCase() || 'STOCK';
   const scale   = parseFloat(document.getElementById('dca-scale')?.value) || 20;
 
@@ -3341,7 +3341,7 @@ function renderDcaChartTech(d) {
 // ── Simple % mode (fallback) ──
 function calcDca() {
   const price  = parseFloat(document.getElementById('dca-price').value);
-  const budget = parseFloat(document.getElementById('dca-budget').value) || 1000;
+  const budget = parseFloat(document.getElementById('dca-budget')?.value) || 10000;
   const stepDn = parseFloat(document.getElementById('dca-step').value) || 5;
   const stepUp = parseFloat(document.getElementById('dca-rstep')?.value) || 5;
   const sCount = parseInt(document.getElementById('dca-scount')?.value) || 4;
@@ -3463,7 +3463,7 @@ function clearDcaHistory() {
 function loadDcaFromHistory(h) {
   document.getElementById('dca-ticker').value = h.ticker;
   document.getElementById('dca-price').value  = h.price.toFixed(2);
-  document.getElementById('dca-budget').value = h.budget;
+  if(document.getElementById('dca-budget')) document.getElementById('dca-budget').value = h.budget;
   if(h.stepDn) document.getElementById('dca-step').value = h.stepDn;
   calcDca(); showToast('โหลด '+h.ticker+' แล้ว');
 }
@@ -4649,53 +4649,6 @@ async function manualSummarizeAll() {
   }
   if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
 }
-
-// ── DCA Advisor from Calculator ──
-async function aiDcaAdvisorFromCalc() {
-  const btn = document.getElementById('dca-ai-advisor-btn');
-  if (!dcaCurrentData) { showToast('คำนวณ DCA ก่อนนะครับ'); return; }
-
-  const d = dcaCurrentData;
-  const pnlPct = d.avgCost > 0 ? ((d.price - d.avgCost) / d.avgCost * 100).toFixed(1) : null;
-  
-  // Build context
-  const supLines = (d.supports || []).slice(0,4).map((s,i) => 
-    i===0 ? `S0 (ราคาปัจจุบัน): ${fn(s.price,2)}` : `${s.label}: ${fn(s.price,2)} (${((s.price-d.price)/d.price*100).toFixed(1)}%)`
-  ).join(', ');
-  const resLines = (d.resistances || []).slice(0,3).map(r =>
-    `${r.label}: ${fn(r.price,2)}`
-  ).join(', ');
-
-  const context = [
-    `หุ้น: ${d.ticker}`,
-    `ราคาปัจจุบัน: ${fn(d.price,2)}`,
-    pnlPct !== null ? `ต้นทุนเฉลี่ย: ${fn(d.avgCost,2)} (P&L: ${pnlPct}%)` : '',
-    `งบลงทุนทั้งหมด: ${fn(d.budget,0)}`,
-    `แนวรับ: ${supLines}`,
-    `แนวต้าน: ${resLines}`,
-    `จำนวนสะสม: ${fn(d.cumQty,3)} หุ้น ต้นทุนรวม: ${fn(d.cumCost,0)}`,
-  ].filter(Boolean).join('\n');
-
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังวิเคราะห์...'; }
-
-  try {
-    const res = await fetch('/api/summarize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        items: [{ ticker: d.ticker, title: 'DCA Analysis', description: context }],
-        prompt: `คุณเป็นที่ปรึกษาการลงทุน วิเคราะห์ข้อมูล DCA ต่อไปนี้แล้วแนะนำเป็นภาษาไทย 3-4 ประโยค:\n${context}\n\nกรุณาระบุ: 1) ควร DCA เพิ่มที่แนวรับไหน 2) ควรระวังอะไร 3) target ราคาที่เหมาะสม`
-      }),
-      signal: safeSignal(30000)
-    });
-    const data = await res.json();
-    const summary = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
-    showAIPanel('💡 DCA Advisor: ' + d.ticker, summary);
-  } catch(e) {
-    showToast('Error: ' + e.message);
-  }
-  if (btn) { btn.disabled = false; btn.textContent = '💡 DCA Advisor'; }
-}
 </script>
 
 <!-- OVERLAY -->
@@ -5010,7 +4963,6 @@ async function aiDcaAdvisorFromCalc() {
         <div style="display:flex;gap:8px">
           <button class="btn btn-g btn-sm" onclick="copyDcaTable()">📋 คัดลอก</button>
           <button class="btn btn-g btn-sm" onclick="saveDcaToHistory()">💾 บันทึก</button>
-          <button class="btn btn-sm" id="dca-ai-advisor-btn" onclick="aiDcaAdvisorFromCalc()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">💡 DCA Advisor</button>
         </div>
       </div>
       <div class="tbl-wrap"><table id="dca-main-table"></table></div>

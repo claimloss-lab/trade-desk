@@ -4506,6 +4506,9 @@ function renderNewsFeed() {
       </div>
     </div>`;
   }).join('');
+
+  // Trigger AI summarization after DOM is ready
+  setTimeout(() => summarizeNewsItems(flat), 150);
 }
 
 // Hook showFeature for news

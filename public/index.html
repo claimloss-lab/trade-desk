@@ -1110,6 +1110,7 @@ function buildRealtimeHTML(port) {
       <input type="number" class="inp-xs" id="${port.id}-qty" placeholder="จำนวน">
       <button class="btn btn-p" onclick="addStock('${port.id}')">+ เพิ่ม</button>
       <button class="btn btn-g" onclick="refreshPort('${port.id}')">↻</button>
+      <button class="btn btn-sm" onclick="aiPortfolioCommentary()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:12px" title="AI สรุปพอร์ต">🤖</button>
       <button class="btn btn-g btn-sm" onclick="renamePort('${port.id}')">✏️ เปลี่ยนชื่อ</button>
       <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:4px">ลบพอร์ต</button>
     </div>
@@ -4649,6 +4650,139 @@ async function manualSummarizeAll() {
   }
   if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
 }
+
+// ══════════════════════════════════════════════════
+// AI FEATURES — Claude API Integration
+// ══════════════════════════════════════════════════
+
+// ── FEATURE 1: AI วิเคราะห์ Smart S/R Alert ──
+async function aiAnalyzeAlerts() {
+  const btn = document.getElementById('sa-ai-btn');
+  if (!saResults.length) { showToast('วิเคราะห์ S/R ก่อนนะครับ'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังวิเคราะห์...'; }
+
+  // Build context from saResults
+  const alertSummary = saResults.slice(0, 15).map(r => {
+    const hotAlerts = r.alerts.filter(a => a.status.startsWith('at-') || a.status.startsWith('near-'));
+    if (!hotAlerts.length) return null;
+    const bestAlert = hotAlerts[0];
+    return `${r.ticker} (${r.underlying}) ราคา $${r.curPrice?.toFixed(2)} — ${bestAlert.level?.label} ${bestAlert.status} ห่าง ${bestAlert.pct?.toFixed(1)}%`;
+  }).filter(Boolean).join('\n');
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker: 'PORTFOLIO', title: 'Smart S/R Alert Analysis', description: alertSummary }],
+        prompt: `คุณเป็นนักวิเคราะห์หุ้น วิเคราะห์สัญญาณ S/R ต่อไปนี้แล้วสรุปเป็นภาษาไทย กระชับ 3-5 ประโยค ระบุหุ้นที่น่าสนใจที่สุดและเหตุผล:\n${alertSummary}`
+      }),
+      signal: safeSignal(30000)
+    });
+    const data = await res.json();
+    const summary = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
+
+    // Show result in a toast-style panel
+    showAIPanel('🎯 AI วิเคราะห์ Smart S/R', summary);
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖 AI วิเคราะห์'; }
+}
+
+// ── FEATURE 2: Portfolio Commentary ──
+async function aiPortfolioCommentary() {
+  const btn = document.getElementById('port-ai-btn');
+  if (!portfolios.length) { showToast('ไม่มีข้อมูลพอร์ต'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
+
+  // Build portfolio summary
+  let totalValue = 0, totalCost = 0;
+  const portLines = [];
+  portfolios.forEach(p => {
+    if (!p.stocks?.length) return;
+    p.stocks.forEach(s => {
+      const pr = prices[s.ticker + '_' + p.id];
+      if (!pr) return;
+      const val = pr.price * s.qty;
+      const cost = s.buyPrice * s.qty;
+      totalValue += val;
+      totalCost += cost;
+      const pnlPct = ((pr.price - s.buyPrice) / s.buyPrice * 100).toFixed(1);
+      portLines.push(`${s.ticker}: ราคา ${pr.price.toFixed(2)} ต้นทุน ${s.buyPrice.toFixed(2)} P&L ${pnlPct}%`);
+    });
+  });
+
+  const totalPnlPct = totalCost > 0 ? ((totalValue - totalCost) / totalCost * 100).toFixed(1) : 0;
+  const context = `พอร์ตรวม: มูลค่า ${fn(totalValue,0)} บาท กำไร/ขาดทุน ${totalPnlPct}%\nรายละเอียด:\n${portLines.slice(0,20).join('\n')}`;
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker: 'PORTFOLIO', title: 'Portfolio Summary', description: context }],
+        prompt: `คุณเป็นที่ปรึกษาการลงทุน วิเคราะห์พอร์ตนี้เป็นภาษาไทย กระชับ 3-5 ประโยค ระบุจุดเด่น จุดเสี่ยง และข้อแนะนำ:\n${context}`
+      }),
+      signal: safeSignal(30000)
+    });
+    const data = await res.json();
+    const summary = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
+    showAIPanel('📊 AI สรุปพอร์ต', summary);
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปพอร์ต'; }
+}
+
+// ── FEATURE 3: DCA Advisor ──
+async function aiDcaAdvisor(ticker, curPrice, avgCost, portType) {
+  const pnlPct = ((curPrice - avgCost) / avgCost * 100).toFixed(1);
+  const context = `หุ้น ${ticker} ราคาปัจจุบัน ${curPrice.toFixed(2)} ต้นทุนเฉลี่ย ${avgCost.toFixed(2)} P&L ${pnlPct}%`;
+
+  const btn = document.getElementById('dca-ai-btn-' + ticker);
+  if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker, title: 'DCA Advisory', description: context }],
+        prompt: `คุณเป็นที่ปรึกษาการลงทุน วิเคราะห์ ${context} แล้วแนะนำเป็นภาษาไทย 2-3 ประโยคว่าควร DCA เพิ่มไหม และที่ราคาเท่าไหร่`
+      }),
+      signal: safeSignal(30000)
+    });
+    const data = await res.json();
+    const summary = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
+    showAIPanel('💡 DCA Advisor: ' + ticker, summary);
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖'; }
+}
+
+// ── AI Panel (shared modal) ──
+function showAIPanel(title, content) {
+  // Remove existing panel
+  document.getElementById('ai-panel')?.remove();
+
+  const panel = document.createElement('div');
+  panel.id = 'ai-panel';
+  panel.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:min(560px,90vw);background:var(--surface);border:1px solid var(--bd);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:9999;padding:20px;';
+  panel.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:var(--tx);flex:1">${title}</div>
+      <button onclick="document.getElementById('ai-panel').remove()" style="background:none;border:none;color:var(--tx3);font-size:20px;cursor:pointer;padding:0">✕</button>
+    </div>
+    <div style="font-size:13px;color:var(--tx2);line-height:1.7;white-space:pre-wrap">${content}</div>
+    <div style="margin-top:12px;font-size:11px;color:var(--tx3);text-align:right">วิเคราะห์โดย Claude AI · ${new Date().toLocaleTimeString('th-TH')}</div>
+  `;
+  document.body.appendChild(panel);
+
+  // Auto close after 30s
+  setTimeout(() => document.getElementById('ai-panel')?.remove(), 30000);
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5001,6 +5135,7 @@ async function manualSummarizeAll() {
     <div style="display:flex;gap:8px;margin-left:auto;align-items:center">
       <button class="btn btn-s btn-sm" onclick="runSmartAlert(false)" id="smart-alert-run-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="runSmartAlert(true)">🔄 รีเฟรชใหม่</button>
+      <button class="btn btn-sm" id="sa-ai-btn" onclick="aiAnalyzeAlerts()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 AI วิเคราะห์</button>
     </div>
   </div>
 

@@ -4203,6 +4203,201 @@ showFeature = function(id) {
     initRebalancePortSelect();
   }
 };
+
+// ══════════════════════════════════════════════════
+// NEWS FEED — Yahoo Finance RSS + Claude AI Summary
+// ══════════════════════════════════════════════════
+let allNewsItems = [];   // [{ticker, underlying, portName, portColor, items:[]}]
+let newsFilter = 'all';
+
+async function loadAllNews() {
+  const btn = document.getElementById('news-load-btn');
+  const progress = document.getElementById('news-progress');
+  const progBar = document.getElementById('news-progress-bar');
+  const progText = document.getElementById('news-progress-text');
+  const feed = document.getElementById('news-feed');
+
+  // Collect unique tickers (exclude mutual funds, prefer US parent for DR)
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const getDRParent = t => { const m = t.match(/^([A-Z]+)\d+$/); return m ? m[1] : null; };
+
+  const tickerList = [];
+  portfolios.forEach(p => {
+    (p.stocks || []).filter(s => !isMF(s.ticker)).forEach(s => {
+      // Use US parent for SET DR (news for AMZN not AMZN80)
+      const ticker = p.type === 'realtime_dr' ? (getDRParent(s.ticker) || s.ticker) : s.ticker;
+      if (!tickerList.find(x => x.ticker === ticker)) {
+        tickerList.push({
+          ticker, underlying: s.underlying || ticker,
+          portName: p.name, portColor: p.color, portType: p.type,
+          drTicker: p.type === 'realtime_dr' ? s.ticker : null,
+        });
+      }
+    });
+  });
+
+  if (!tickerList.length) { alert('ไม่มีหุ้นในพอร์ต'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังโหลด...';
+  progress.style.display = 'block';
+  feed.innerHTML = '';
+  allNewsItems = [];
+
+  for (let i = 0; i < tickerList.length; i++) {
+    const item = tickerList[i];
+    progText.textContent = `ดึงข่าว ${item.ticker} (${i+1}/${tickerList.length})`;
+    progBar.style.width = ((i+1)/tickerList.length*100) + '%';
+
+    try {
+      const r = await fetch('/api/news?ticker=' + encodeURIComponent(item.ticker),
+        { signal: safeSignal(12000) });
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (data.items?.length) {
+        allNewsItems.push({ ...item, items: data.items });
+      }
+    } catch(e) { console.warn(item.ticker, e.message); }
+
+    await new Promise(res => setTimeout(res, 150));
+  }
+
+  progress.style.display = 'none';
+  btn.disabled = false;
+  btn.textContent = '↻ โหลดข่าวทั้งหมด';
+
+  const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('news-last-update').textContent =
+    'อัปเดต ' + now + ' · ' + allNewsItems.length + ' ตัวมีข่าว';
+
+  // Badge
+  const badge = document.getElementById('sb-news-badge');
+  if (badge) { badge.style.display = ''; badge.textContent = 'ใหม่'; }
+
+  buildNewsFilterBar();
+  renderNewsFeed();
+}
+
+function buildNewsFilterBar() {
+  const bar = document.getElementById('news-filter-bar');
+  if (!bar) return;
+  bar.innerHTML = `<button class="news-filter on" data-t="all" onclick="filterNews(this)"
+    style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer">
+    ทั้งหมด (${allNewsItems.reduce((s,x)=>s+x.items.length,0)})
+  </button>`;
+
+  allNewsItems.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'news-filter';
+    btn.dataset.t = item.ticker;
+    btn.onclick = function() { filterNews(this); };
+    btn.style.cssText = 'font-size:11px;padding:4px 12px;border-radius:20px;cursor:pointer;' +
+      'border:2px solid ' + item.portColor + ';color:' + item.portColor + ';background:transparent';
+    btn.textContent = item.ticker + ' (' + item.items.length + ')';
+    bar.appendChild(btn);
+  });
+}
+
+function filterNews(btn) {
+  document.querySelectorAll('.news-filter').forEach(b => {
+    b.style.background = 'transparent';
+    if (b.dataset.t === 'all') b.style.color = 'var(--tx2)';
+  });
+  btn.style.background = btn.dataset.t === 'all' ? 'var(--blue)' : 'var(--blue)';
+  btn.style.color = '#fff';
+  newsFilter = btn.dataset.t;
+  renderNewsFeed();
+}
+
+function renderNewsFeed() {
+  const feed = document.getElementById('news-feed');
+  if (!feed) return;
+
+  const filtered = newsFilter === 'all'
+    ? allNewsItems
+    : allNewsItems.filter(x => x.ticker === newsFilter);
+
+  if (!filtered.length) {
+    feed.innerHTML = '<div class="empty" style="padding:40px"><div class="empty-ico">📰</div>ไม่พบข่าว</div>';
+    return;
+  }
+
+  // Flatten and sort by date (newest first)
+  const flat = [];
+  filtered.forEach(item => {
+    item.items.forEach(news => {
+      flat.push({ ...news, ticker: item.ticker, underlying: item.underlying,
+        portName: item.portName, portColor: item.portColor,
+        drTicker: item.drTicker, portType: item.portType });
+    });
+  });
+
+  // Sort by pubDate
+  flat.sort((a, b) => {
+    try { return new Date(b.pubDate) - new Date(a.pubDate); } catch { return 0; }
+  });
+
+  // Get current price + P&L for context
+  function getStockContext(ticker, drTicker) {
+    const t = drTicker || ticker;
+    const port = portfolios.find(p => p.stocks?.some(s => s.ticker === t));
+    const stock = port?.stocks?.find(s => s.ticker === t);
+    const p = stock && port ? prices[t + '_' + port.id] : null;
+    if (!p || !stock) return null;
+    const pnl = (p.price - stock.buyPrice) / stock.buyPrice * 100;
+    return { price: p.price, pnl, portType: port?.type };
+  }
+
+  feed.innerHTML = flat.map(n => {
+    const ctx = getStockContext(n.ticker, n.drTicker);
+    const pnlColor = ctx ? (ctx.pnl >= 0 ? 'var(--green-tx)' : 'var(--red-tx)') : '';
+    const pnlStr = ctx ? (ctx.pnl >= 0 ? '+' : '') + ctx.pnl.toFixed(1) + '%' : '';
+
+    // Format date
+    let dateStr = '';
+    try {
+      const d = new Date(n.pubDate);
+      dateStr = d.toLocaleDateString('th-TH', {day:'numeric', month:'short', year:'2-digit'}) +
+        ' ' + d.toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+    } catch { dateStr = n.pubDate; }
+
+    return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);
+      box-shadow:var(--sh);margin-bottom:10px;overflow:hidden;
+      border-left:4px solid ${n.portColor}">
+      <div style="padding:12px 16px">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="tkr" style="cursor:pointer"
+            onclick="openStockModal('${n.drTicker||n.ticker}','${n.underlying}','${n.portType||'realtime_us'}')"
+          >${n.drTicker || n.ticker}</span>
+          <span style="font-size:11px;color:var(--tx3)">${n.underlying}</span>
+          ${ctx ? `<span class="mono" style="font-size:11px;color:${pnlColor};font-weight:600">${pnlStr}</span>` : ''}
+          <span style="font-size:10px;color:var(--tx3);margin-left:auto">${dateStr}</span>
+        </div>
+        <!-- Title -->
+        <a href="${n.link}" target="_blank" rel="noopener"
+          style="font-size:13px;font-weight:600;color:var(--tx);text-decoration:none;line-height:1.5;display:block;margin-bottom:6px"
+          onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--tx)'">
+          ${n.title}
+        </a>
+        <!-- Description -->
+        ${n.description ? `<div style="font-size:12px;color:var(--tx2);line-height:1.6">${n.description}...</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Hook showFeature for news
+const _sfOrigNews = showFeature;
+showFeature = function(id) {
+  _sfOrigNews(id);
+  if (id === 'news') {
+    document.getElementById('feat-news')?.classList.add('on');
+    // Auto-load if no news yet
+    if (!allNewsItems.length) loadAllNews();
+  }
+};
 </script>
 
 <!-- OVERLAY -->
@@ -4262,6 +4457,11 @@ showFeature = function(id) {
     <div class="sb-item" id="sb-rebalance" onclick="showFeature('rebalance')">
       <div class="sb-item-icon" style="background:#e5f9eb">⚖️</div>
       Rebalancing
+    </div>
+    <div class="sb-item" id="sb-news" onclick="showFeature('news')">
+      <div class="sb-item-icon" style="background:#e8f1fd">📰</div>
+      ข่าวหุ้นในพอร์ต
+      <span class="sb-badge" id="sb-news-badge" style="display:none;background:var(--blue-bg);color:var(--blue)">ใหม่</span>
     </div>
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
@@ -4641,6 +4841,48 @@ showFeature = function(id) {
           <tbody id="rb-action-body"></tbody>
         </table>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="feat-panel" id="feat-news">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📰 ข่าวหุ้นในพอร์ต</h2>
+    <div style="font-size:12px;color:var(--tx3)">ดึงข่าวจาก Yahoo Finance · สรุปโดย AI</div>
+    <button class="btn btn-p btn-sm" onclick="loadAllNews()" style="margin-left:auto" id="news-load-btn">
+      ↻ โหลดข่าวทั้งหมด
+    </button>
+  </div>
+
+  <!-- Filter by ticker -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+    <div style="font-size:12px;font-weight:500;color:var(--tx2)">กรอง:</div>
+    <div id="news-filter-bar" style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="news-filter on" data-t="all" onclick="filterNews(this)"
+        style="font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--blue);color:#fff;cursor:pointer">
+        ทั้งหมด
+      </button>
+    </div>
+    <div style="margin-left:auto;font-size:11px;color:var(--tx3)" id="news-last-update"></div>
+  </div>
+
+  <!-- Progress -->
+  <div id="news-progress" style="display:none;margin-bottom:16px">
+    <div style="background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:8px" id="news-progress-text">กำลังโหลด...</div>
+      <div style="background:var(--bd2);border-radius:4px;height:4px;overflow:hidden">
+        <div id="news-progress-bar" style="height:4px;background:var(--blue);border-radius:4px;width:0%;transition:width .3s"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News feed -->
+  <div id="news-feed">
+    <div class="empty" style="padding:60px 20px">
+      <div class="empty-ico">📰</div>
+      <div>กด "โหลดข่าวทั้งหมด" เพื่อดูข่าวล่าสุดของทุกหุ้นในพอร์ต</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px">ใช้เวลา ~1-2 นาที · ข้อมูลจาก Yahoo Finance</div>
     </div>
   </div>
 </div>

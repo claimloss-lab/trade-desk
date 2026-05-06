@@ -4309,24 +4309,49 @@ async function loadAllNews(forceRefresh=false) {
     }
   }
 
-  // Collect unique tickers (exclude mutual funds, prefer US parent for DR)
-  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
-                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  // Collect US parent stocks only (SET DR parents + realtime_us + dime_mixed USD)
   const getDRParent = t => { const m = t.match(/^([A-Z]+)\d+$/); return m ? m[1] : null; };
+  const isUSD = s => s.currency === 'USD' || !s.currency && true;
 
   const tickerList = [];
+
   portfolios.forEach(p => {
-    (p.stocks || []).filter(s => !isMF(s.ticker)).forEach(s => {
-      // Use US parent for SET DR (news for AMZN not AMZN80)
-      const ticker = p.type === 'realtime_dr' ? (getDRParent(s.ticker) || s.ticker) : s.ticker;
-      if (!tickerList.find(x => x.ticker === ticker)) {
-        tickerList.push({
-          ticker, underlying: s.underlying || ticker,
-          portName: p.name, portColor: p.color, portType: p.type,
-          drTicker: p.type === 'realtime_dr' ? s.ticker : null,
-        });
-      }
-    });
+    if (p.type === 'realtime_dr') {
+      // Use US parent tickers only
+      (p.stocks || []).forEach(s => {
+        const parent = getDRParent(s.ticker);
+        if (parent && !tickerList.find(x => x.ticker === parent)) {
+          tickerList.push({
+            ticker: parent, underlying: s.underlying || parent,
+            portName: p.name, portColor: p.color, portType: 'realtime_us',
+            drTicker: s.ticker,
+          });
+        }
+      });
+    } else if (p.type === 'realtime_us') {
+      // US stocks directly
+      (p.stocks || []).forEach(s => {
+        if (!tickerList.find(x => x.ticker === s.ticker)) {
+          tickerList.push({
+            ticker: s.ticker, underlying: s.underlying || s.ticker,
+            portName: p.name, portColor: p.color, portType: 'realtime_us',
+            drTicker: null,
+          });
+        }
+      });
+    } else if (p.type === 'dime_mixed') {
+      // Only USD stocks in DIME
+      (p.stocks || []).filter(s => s.currency === 'USD').forEach(s => {
+        if (!tickerList.find(x => x.ticker === s.ticker)) {
+          tickerList.push({
+            ticker: s.ticker, underlying: s.underlying || s.ticker,
+            portName: p.name, portColor: p.color, portType: 'realtime_us',
+            drTicker: null,
+          });
+        }
+      });
+    }
+    // Skip realtime_th, snapshot, mutual funds — no news
   });
 
   if (!tickerList.length) { alert('ไม่มีหุ้นในพอร์ต'); return; }
@@ -4348,7 +4373,8 @@ async function loadAllNews(forceRefresh=false) {
       if (!r.ok) continue;
       const data = await r.json();
       if (data.items?.length) {
-        allNewsItems.push({ ...item, items: data.items });
+        // Limit to 5 news per ticker to keep total manageable
+        allNewsItems.push({ ...item, items: data.items.slice(0, 5) });
       }
     } catch(e) { console.warn(item.ticker, e.message); }
 
@@ -5091,7 +5117,7 @@ ${newsList}`;
     <div class="empty" style="padding:60px 20px">
       <div class="empty-ico">📰</div>
       <div>กด "โหลดข่าวทั้งหมด" เพื่อดูข่าวล่าสุดของทุกหุ้นในพอร์ต</div>
-      <div style="font-size:11px;color:var(--tx3);margin-top:8px">ใช้เวลา ~1-2 นาที · ข้อมูลจาก Yahoo Finance</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px">ดึงข่าวหุ้น US ในพอร์ต · สรุปโดย AI ใช้เวลา ~20-30 วินาที</div>
     </div>
   </div>
 </div>

@@ -4616,6 +4616,9 @@ async function manualSummarizeAll() {
         drTicker: item.drTicker, portType: item.portType });
     });
   });
+  // Sort same as renderNewsFeed (newest first)
+  flat.sort((a, b) => { try { return new Date(b.pubDate) - new Date(a.pubDate); } catch { return 0; } });
+
   if (!flat.length) { showToast('โหลดข่าวก่อนนะครับ'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
 

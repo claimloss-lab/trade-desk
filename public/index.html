@@ -3960,8 +3960,7 @@ function renderSmartAlerts() {
     }).filter(Boolean).join('') + '</div>';
 
   // Summarize with Claude AI (Thai)
-  _lastNewsFlatItems = flat;
-  setTimeout(() => summarizeNewsItems(_lastNewsFlatItems), 200);
+  _lastNewsFlatItems = flat; // stored for manual summarize
 }
 
 // Hook showFeature for smart-alert
@@ -4287,7 +4286,6 @@ showFeature = function(id) {
 // NEWS FEED — Yahoo Finance RSS + Claude AI Summary
 // ══════════════════════════════════════════════════
 let allNewsItems = [];   // [{ticker, underlying, portName, portColor, items:[]}]
-let _lastNewsFlatItems = []; // flat news items for summarizer
 let newsFilter = 'all';
 
 async function loadAllNews(forceRefresh=false) {
@@ -4508,10 +4506,6 @@ function renderNewsFeed() {
       </div>
     </div>`;
   }).join('');
-
-  // Store flat globally and trigger AI summarization
-  _lastNewsFlatItems = flat;
-  setTimeout(() => summarizeNewsItems(_lastNewsFlatItems), 150);
 }
 
 // Hook showFeature for news
@@ -4605,6 +4599,23 @@ async function summarizeBatch(items) {
   } catch(e) {
     console.warn('Batch summarize error:', e.message);
   }
+}
+
+// Manual summarize all news
+async function manualSummarizeAll() {
+  const btn = document.getElementById('news-summarize-btn');
+  if (!_lastNewsFlatItems.length) {
+    showToast('โหลดข่าวก่อนนะครับ');
+    return;
+  }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
+  try {
+    await summarizeNewsItems(_lastNewsFlatItems);
+    showToast('สรุปข่าวเสร็จแล้ว ✅');
+  } catch(e) {
+    showToast('เกิดข้อผิดพลาด: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
 }
 </script>
 
@@ -5063,6 +5074,7 @@ async function summarizeBatch(items) {
       <div id="news-run-info" style="font-size:11px;color:var(--tx3)"></div>
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
+      <button class="btn btn-p btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:var(--purple,#7c3aed);border-color:var(--purple,#7c3aed)">🤖 สรุปภาษาไทย</button>
     </div>
   </div>
 

@@ -3958,6 +3958,9 @@ function renderSmartAlerts() {
         </div>
       </div>`;
     }).filter(Boolean).join('') + '</div>';
+
+  // Summarize with Claude AI (Thai)
+  setTimeout(() => summarizeNewsItems(flat), 200);
 }
 
 // Hook showFeature for smart-alert
@@ -4504,9 +4507,6 @@ function renderNewsFeed() {
     </div>`;
   }).join('');
 }
-  // Batch summarize news items with Claude
-  setTimeout(() => summarizeNewsItems(flat), 100);
-
 
 // Hook showFeature for news
 const _sfOrigNews = showFeature;

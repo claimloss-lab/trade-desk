@@ -9,13 +9,26 @@ export async function onRequest(context) {
   if (context.request.method !== 'POST') return new Response(JSON.stringify({ error: 'POST only' }), { status: 405, headers: cors });
 
   try {
-    const { items } = await context.request.json();
+    const { items, prompt } = await context.request.json();
     if (!items?.length) return new Response(JSON.stringify({ summaries: [] }), { headers: cors });
 
-    // Build numbered list for Claude
-    const newsList = items.map((n, i) =>
-      `${i+1}. [${n.ticker}] ${n.title}${n.description ? ' — ' + n.description.slice(0, 120) : ''}`
-    ).join('\n');
+    let userContent;
+
+    if (prompt) {
+      // Custom prompt mode (Portfolio Commentary, DCA Advisor, SA Analysis)
+      userContent = prompt;
+    } else {
+      // Default news summarize mode
+      const newsList = items.map((n, i) =>
+        `${i+1}. [${n.ticker}] ${n.title}${n.description ? ' — ' + n.description.slice(0, 120) : ''}`
+      ).join('\n');
+
+      userContent = `สรุปข่าวหุ้นต่อไปนี้เป็นภาษาไทย แต่ละข้อ 1 ประโยคสั้น กระชับ ตรงประเด็น
+ตอบเป็น JSON array เท่านั้น ไม่มีข้อความอื่น: ["สรุปข้อ1","สรุปข้อ2",...]
+
+ข่าว:
+${newsList}`;
+    }
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -27,14 +40,7 @@ export async function onRequest(context) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1024,
-        messages: [{
-          role: 'user',
-          content: `สรุปข่าวหุ้นต่อไปนี้เป็นภาษาไทย แต่ละข้อ 1 ประโยคสั้น กระชับ ตรงประเด็น
-ตอบเป็น JSON array เท่านั้น ไม่มีข้อความอื่น: ["สรุปข้อ1","สรุปข้อ2",...]
-
-ข่าว:
-${newsList}`
-        }]
+        messages: [{ role: 'user', content: userContent }]
       })
     });
 
@@ -46,7 +52,12 @@ ${newsList}`
     const data = await res.json();
     const text = data.content?.[0]?.text?.trim() || '[]';
 
-    // Parse JSON safely
+    if (prompt) {
+      // Return as single summary for custom prompt
+      return new Response(JSON.stringify({ summaries: [text] }), { headers: cors });
+    }
+
+    // Parse JSON array for news mode
     let summaries = [];
     try {
       const match = text.match(/\[[\s\S]*\]/);

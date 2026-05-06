@@ -3846,7 +3846,12 @@ function renderSmartAlerts() {
 
   el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px">' +
     filtered.map(r => {
-      const topAlert = r.alerts.sort((a,b) => (order[a.status]??9)-(order[b.status]??9))[0];
+      // When filtering, only show alerts matching the filter
+      const visibleAlerts = saFilter === 'all'
+        ? [...r.alerts]
+        : r.alerts.filter(a => a.status === saFilter);
+      if (!visibleAlerts.length) return '';
+      const topAlert = [...visibleAlerts].sort((a,b) => (order[a.status]??9)-(order[b.status]??9))[0];
       const statusMap = {
         'at-sup':  { emoji:'🟢', label:'ชนแนวรับ!',    bg:'var(--green-bg)', tc:'var(--green-tx)', border:'var(--green)' },
         'at-res':  { emoji:'🔴', label:'ชนแนวต้าน!',   bg:'var(--red-bg)',   tc:'var(--red-tx)',   border:'var(--red)'   },
@@ -3873,7 +3878,7 @@ function renderSmartAlerts() {
           </div>
         </div>
         <div style="padding:8px 14px;background:var(--s2);border-top:1px solid var(--bd2)">
-          ${r.alerts.slice(0,3).map(a => {
+          ${visibleAlerts.slice(0,3).map(a => {
             const sm2 = statusMap[a.status];
             const dir = a.curPrice > a.level.price ? '↓' : '↑';
             return `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px">
@@ -3887,7 +3892,7 @@ function renderSmartAlerts() {
           }).join('')}
         </div>
       </div>`;
-    }).join('') + '</div>';
+    }).filter(Boolean).join('') + '</div>';
 }
 
 // Hook showFeature for smart-alert

@@ -3960,7 +3960,7 @@ function renderSmartAlerts() {
     }).filter(Boolean).join('') + '</div>';
 
   // Summarize with Claude AI (Thai)
-  _lastNewsFlatItems = flat; // stored for manual summarize
+  setTimeout(() => summarizeNewsItems(flat), 200);
 }
 
 // Hook showFeature for smart-alert
@@ -4495,7 +4495,7 @@ function renderNewsFeed() {
         </div>
         <!-- Thai Summary (AI) -->
         <div id="${newsId}_sum" style="font-size:13px;font-weight:500;color:var(--tx);line-height:1.6;margin-bottom:8px">
-          <span style="color:var(--tx3);font-size:12px">⏳ กำลังสรุป...</span>
+          <span style="color:var(--tx2);font-size:13px">${n.title}</span>
         </div>
         <!-- Read more link -->
         <a href="${n.link}" target="_blank" rel="noopener"
@@ -4599,23 +4599,6 @@ async function summarizeBatch(items) {
   } catch(e) {
     console.warn('Batch summarize error:', e.message);
   }
-}
-
-// Manual summarize all news
-async function manualSummarizeAll() {
-  const btn = document.getElementById('news-summarize-btn');
-  if (!_lastNewsFlatItems.length) {
-    showToast('โหลดข่าวก่อนนะครับ');
-    return;
-  }
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
-  try {
-    await summarizeNewsItems(_lastNewsFlatItems);
-    showToast('สรุปข่าวเสร็จแล้ว ✅');
-  } catch(e) {
-    showToast('เกิดข้อผิดพลาด: ' + e.message);
-  }
-  if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
 }
 </script>
 
@@ -5074,7 +5057,6 @@ async function manualSummarizeAll() {
       <div id="news-run-info" style="font-size:11px;color:var(--tx3)"></div>
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
-      <button class="btn btn-p btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:var(--purple,#7c3aed);border-color:var(--purple,#7c3aed)">🤖 สรุปภาษาไทย</button>
     </div>
   </div>
 

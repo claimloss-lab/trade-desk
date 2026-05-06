@@ -4600,6 +4600,23 @@ async function summarizeBatch(items) {
     console.warn('Batch summarize error:', e.message);
   }
 }
+
+// ══════════════════════════════════════════════════
+// MANUAL SUMMARIZE ALL NEWS
+// ══════════════════════════════════════════════════
+async function manualSummarizeAll() {
+  const btn = document.getElementById('news-summarize-btn');
+  const flat = allNewsItems.flatMap(x => x.items.map(n => ({...n, ticker: x.ticker, drTicker: x.drTicker})));
+  if (!flat.length) { showToast('โหลดข่าวก่อนนะครับ'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
+  try {
+    await summarizeNewsItems(flat);
+    showToast('สรุปข่าวเสร็จแล้ว ✅');
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5057,6 +5074,7 @@ async function summarizeBatch(items) {
       <div id="news-run-info" style="font-size:11px;color:var(--tx3)"></div>
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
+      <button class="btn btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:#7c3aed;color:#fff;border-color:#7c3aed">🤖 สรุปภาษาไทย</button>
     </div>
   </div>
 

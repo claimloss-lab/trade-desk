@@ -4479,7 +4479,7 @@ function renderNewsFeed() {
         ' ' + d.toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
     } catch { dateStr = n.pubDate; }
 
-    const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+    const newsId = 'news_' + (n.drTicker||n.ticker) + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
     return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);
       box-shadow:var(--sh);margin-bottom:10px;overflow:hidden;
       border-left:4px solid ${n.portColor}" id="${newsId}">
@@ -4506,9 +4506,6 @@ function renderNewsFeed() {
       </div>
     </div>`;
   }).join('');
-
-  // Trigger AI summarization after DOM is ready
-  setTimeout(() => summarizeNewsItems(flat), 150);
 }
 
 // Hook showFeature for news
@@ -4540,7 +4537,7 @@ async function summarizeNewsItems(items) {
 
   // Show English title immediately as fallback
   items.forEach(n => {
-    const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+    const newsId = 'news_' + (n.drTicker||n.ticker) + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
     const el = document.getElementById(newsId + '_sum');
     const cacheKey = (n.link||n.title).slice(0,80);
     if (el) {
@@ -4595,7 +4592,7 @@ async function summarizeBatch(items) {
       if (!summary) return;
       const key = (n.link||n.title).slice(0,80);
       newsSummaryCache[key] = `<span>${summary}</span>`;
-      const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+      const newsId = 'news_' + (n.drTicker||n.ticker) + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
       const el = document.getElementById(newsId + '_sum');
       if (el) el.innerHTML = newsSummaryCache[key];
     });

@@ -4519,67 +4519,89 @@ showFeature = function(id) {
 };
 
 // ══════════════════════════════════════════════════
-// CLAUDE AI NEWS SUMMARIZER (Thai)
+// CLAUDE AI NEWS SUMMARIZER (Thai) — Batch Mode
 // ══════════════════════════════════════════════════
-const newsSummaryCache = {}; // url → Thai summary
+const newsSummaryCache = {};
 
 async function summarizeNewsItems(items) {
-  // Process in batches of 3 to avoid rate limits
-  const BATCH = 3;
-  for (let i = 0; i < items.length; i += BATCH) {
-    const batch = items.slice(i, i + BATCH);
-    await Promise.all(batch.map(n => summarizeSingle(n)));
-    if (i + BATCH < items.length) await new Promise(r => setTimeout(r, 500));
+  if (!items.length) return;
+
+  // Show English title immediately as fallback
+  items.forEach(n => {
+    const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+    const el = document.getElementById(newsId + '_sum');
+    const cacheKey = (n.link||n.title).slice(0,80);
+    if (el) {
+      if (newsSummaryCache[cacheKey]) {
+        el.innerHTML = newsSummaryCache[cacheKey];
+      } else {
+        el.innerHTML = `<span style="color:var(--tx2);font-size:12px">${n.title}</span>`;
+      }
+    }
+  });
+
+  // Filter items that need summarization (not cached)
+  const needSummary = items.filter(n => {
+    const key = (n.link||n.title).slice(0,80);
+    return !newsSummaryCache[key];
+  });
+
+  if (!needSummary.length) return;
+
+  // Process in batches of 20 items per API call
+  const BATCH = 20;
+  for (let i = 0; i < needSummary.length; i += BATCH) {
+    const batch = needSummary.slice(i, i + BATCH);
+    await summarizeBatch(batch);
+    if (i + BATCH < needSummary.length) await new Promise(r => setTimeout(r, 800));
   }
 }
 
-async function summarizeSingle(n) {
-  const cacheKey = (n.link || n.title).slice(0, 80);
-  const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
-  const el = document.getElementById(newsId + '_sum');
-  if (!el) return;
+async function summarizeBatch(items) {
+  // Build numbered list for Claude
+  const newsList = items.map((n, i) =>
+    `${i+1}. [${n.ticker}] ${n.title}${n.description ? ' — ' + n.description.slice(0,100) : ''}`
+  ).join('\n');
 
-  // Use cache if available
-  if (newsSummaryCache[cacheKey]) {
-    el.innerHTML = newsSummaryCache[cacheKey];
-    return;
-  }
+  const prompt = `สรุปข่าวหุ้นต่อไปนี้เป็นภาษาไทย แต่ละข้อสรุปใน 1 ประโยคสั้นๆ กระชับ ตรงประเด็น
+ตอบในรูปแบบ JSON array เท่านั้น ไม่มีข้อความอื่น:
+["สรุปข้อ 1", "สรุปข้อ 2", ...]
+
+ข่าว:
+${newsList}`;
 
   try {
-    const prompt = `สรุปข่าวหุ้นนี้เป็นภาษาไทยในประโยคเดียว (ไม่เกิน 2 บรรทัด) กระชับ ตรงประเด็น:
-
-หัวข้อ: ${n.title}
-รายละเอียด: ${n.description || ''}
-หุ้น: ${n.ticker} (${n.underlying})
-
-ตอบเป็นภาษาไทยเท่านั้น ไม่ต้องมีคำนำ ไม่ต้องอ้างอิงชื่อข่าว`;
-
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 150,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
 
-    if (!res.ok) throw new Error('API error ' + res.status);
+    if (!res.ok) return;
     const data = await res.json();
-    const summary = data.content?.[0]?.text?.trim() || '';
+    const text = data.content?.[0]?.text?.trim() || '';
 
-    if (summary) {
-      const html = `<span>${summary}</span>`;
-      newsSummaryCache[cacheKey] = html;
-      el.innerHTML = html;
-    } else {
-      // Fallback to title
-      el.innerHTML = `<span style="color:var(--tx2)">${n.title}</span>`;
-    }
+    // Parse JSON array
+    const match = text.match(/\[([\s\S]*?)\]/);
+    if (!match) return;
+    const summaries = JSON.parse('[' + match[1] + ']');
+
+    // Apply summaries to DOM
+    items.forEach((n, i) => {
+      const summary = summaries[i];
+      if (!summary) return;
+      const key = (n.link||n.title).slice(0,80);
+      newsSummaryCache[key] = `<span>${summary}</span>`;
+      const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+      const el = document.getElementById(newsId + '_sum');
+      if (el) el.innerHTML = newsSummaryCache[key];
+    });
   } catch(e) {
-    // Fallback to original title
-    el.innerHTML = `<span style="color:var(--tx2)">${n.title}</span>`;
-    console.warn('Summarize failed:', n.ticker, e.message);
+    console.warn('Batch summarize error:', e.message);
   }
 }
 </script>

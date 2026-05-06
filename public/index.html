@@ -1713,6 +1713,8 @@ async function boot(){
     });
   }, 3000);
   setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
+  // Daily auto-refresh check
+  checkDailyRefresh();
 }
 boot();
 
@@ -3681,14 +3683,72 @@ function drawDcaPriceChart(chartData, levels, range) {
 // SMART S/R ALERT ENGINE
 // ══════════════════════════════════════════════════
 let saResults = [];
+
+// ══════════════════════════════════════════════════
+// DAILY AUTO-REFRESH SYSTEM
+// ══════════════════════════════════════════════════
+function getTodayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function getLastRunDate(key) {
+  return localStorage.getItem('td_daily_' + key) || null;
+}
+
+function setLastRunDate(key) {
+  localStorage.setItem('td_daily_' + key, getTodayKey());
+}
+
+function isNewDay(key) {
+  return getLastRunDate(key) !== getTodayKey();
+}
+
+function formatLastRun(key) {
+  const d = getLastRunDate(key);
+  if (!d) return 'ยังไม่เคยวิเคราะห์';
+  if (d === getTodayKey()) return 'วันนี้';
+  return d;
+}
+
+async function checkDailyRefresh() {
+  const today = getTodayKey();
+  // If new day — clear caches so panels auto-refresh when opened
+  if (isNewDay('news')) {
+    localStorage.removeItem('td_news_cache');
+    console.log('[Daily] News cache cleared — will refresh when opened');
+  }
+  if (isNewDay('smart_alert')) {
+    localStorage.removeItem('td_sa_cache');
+    console.log('[Daily] Smart Alert cache cleared — will refresh when opened');
+  }
+}
+
+
 let saFilter = 'all';
 
-async function runSmartAlert() {
+async function runSmartAlert(forceRefresh=false) {
   const btn = document.getElementById('smart-alert-run-btn');
   const progress = document.getElementById('sa-progress');
   const progBar = document.getElementById('sa-progress-bar');
   const progText = document.getElementById('sa-progress-text');
   const resultsEl = document.getElementById('sa-results');
+
+  // Use cache if same day and not forced
+  if (!forceRefresh) {
+    const cached = localStorage.getItem('td_sa_cache');
+    if (cached && !isNewDay('smart_alert')) {
+      try {
+        saResults = JSON.parse(cached);
+        renderSmartAlerts();
+        updateSABadge();
+        const lastEl = document.getElementById('sa-last-run');
+        if (lastEl) lastEl.textContent = 'วิเคราะห์ล่าสุด: ' + formatLastRun('smart_alert') +
+          ' (cache) · พบ ' + saResults.length + ' ตัวที่น่าสนใจ';
+        return;
+      } catch {}
+    }
+  }
 
   // Collect tickers (exclude mutual funds)
   const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
@@ -3798,17 +3858,22 @@ async function runSmartAlert() {
   btn.textContent = '🔍 วิเคราะห์ทั้งหมด';
 
   const now = new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
-  document.getElementById('sa-last-run').textContent = 'อัปเดต ' + now + ' · พบ ' + saResults.length + ' ตัวที่น่าสนใจ';
+  document.getElementById('sa-last-run').textContent = 'วิเคราะห์ล่าสุด: ' + now + ' · พบ ' + saResults.length + ' ตัวที่น่าสนใจ';
 
-  // Update badge
+  // Save cache + date
+  setLastRunDate('smart_alert');
+  try { localStorage.setItem('td_sa_cache', JSON.stringify(saResults)); } catch {}
+  updateSABadge();
+  renderSmartAlerts();
+}
+
+function updateSABadge() {
   const badge = document.getElementById('sb-smart-count');
   if (badge) {
     const hotCount = saResults.filter(r => r.alerts.some(a => a.status.startsWith('at-'))).length;
     badge.textContent = hotCount;
     badge.style.display = hotCount > 0 ? '' : 'none';
   }
-
-  renderSmartAlerts();
 }
 
 function filterSmartAlert(btn) {
@@ -3901,6 +3966,16 @@ showFeature = function(id) {
   _sfOrigSA(id);
   if (id === 'smart-alert') {
     document.getElementById('feat-smart-alert')?.classList.add('on');
+    // Auto-run if new day or no results
+    if (!saResults.length || isNewDay('smart_alert')) {
+      runSmartAlert(false); // use cache if same day
+    }
+    // Update last run label
+    const lastEl = document.getElementById('sa-last-run');
+    if (lastEl && saResults.length) {
+      lastEl.textContent = 'วิเคราะห์ล่าสุด: ' + formatLastRun('smart_alert') +
+        ' · พบ ' + saResults.length + ' ตัวที่น่าสนใจ';
+    }
   }
 };
 
@@ -4210,12 +4285,29 @@ showFeature = function(id) {
 let allNewsItems = [];   // [{ticker, underlying, portName, portColor, items:[]}]
 let newsFilter = 'all';
 
-async function loadAllNews() {
+async function loadAllNews(forceRefresh=false) {
   const btn = document.getElementById('news-load-btn');
   const progress = document.getElementById('news-progress');
   const progBar = document.getElementById('news-progress-bar');
   const progText = document.getElementById('news-progress-text');
   const feed = document.getElementById('news-feed');
+
+  // Check cache first — use if same day and not forced
+  if (!forceRefresh) {
+    const cached = localStorage.getItem('td_news_cache');
+    if (cached && !isNewDay('news')) {
+      try {
+        allNewsItems = JSON.parse(cached);
+        buildNewsFilterBar();
+        renderNewsFeed();
+        updateNewsBadge();
+        const lastDate = getLastRunDate('news');
+        const el = document.getElementById('news-last-update');
+        if (el) el.textContent = 'ข้อมูลวันที่ ' + lastDate + ' (จาก cache) · ' + allNewsItems.length + ' ตัวมีข่าว';
+        return;
+      } catch {}
+    }
+  }
 
   // Collect unique tickers (exclude mutual funds, prefer US parent for DR)
   const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
@@ -4275,8 +4367,21 @@ async function loadAllNews() {
   const badge = document.getElementById('sb-news-badge');
   if (badge) { badge.style.display = ''; badge.textContent = 'ใหม่'; }
 
+  // Save to cache
+  setLastRunDate('news');
+  localStorage.setItem('td_news_cache', JSON.stringify(allNewsItems));
+  updateNewsBadge();
   buildNewsFilterBar();
   renderNewsFeed();
+}
+
+function updateNewsBadge() {
+  const badge = document.getElementById('sb-news-badge');
+  const totalNews = allNewsItems.reduce((s,x) => s + x.items.length, 0);
+  if (badge) {
+    badge.style.display = totalNews > 0 ? '' : 'none';
+    badge.textContent = totalNews > 0 ? 'ใหม่' : '';
+  }
 }
 
 function buildNewsFilterBar() {
@@ -4362,9 +4467,10 @@ function renderNewsFeed() {
         ' ' + d.toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
     } catch { dateStr = n.pubDate; }
 
+    const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
     return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);
       box-shadow:var(--sh);margin-bottom:10px;overflow:hidden;
-      border-left:4px solid ${n.portColor}">
+      border-left:4px solid ${n.portColor}" id="${newsId}">
       <div style="padding:12px 16px">
         <!-- Header -->
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
@@ -4375,18 +4481,23 @@ function renderNewsFeed() {
           ${ctx ? `<span class="mono" style="font-size:11px;color:${pnlColor};font-weight:600">${pnlStr}</span>` : ''}
           <span style="font-size:10px;color:var(--tx3);margin-left:auto">${dateStr}</span>
         </div>
-        <!-- Title -->
+        <!-- Thai Summary (AI) -->
+        <div id="${newsId}_sum" style="font-size:13px;font-weight:500;color:var(--tx);line-height:1.6;margin-bottom:8px">
+          <span style="color:var(--tx3);font-size:12px">⏳ กำลังสรุป...</span>
+        </div>
+        <!-- Read more link -->
         <a href="${n.link}" target="_blank" rel="noopener"
-          style="font-size:13px;font-weight:600;color:var(--tx);text-decoration:none;line-height:1.5;display:block;margin-bottom:6px"
-          onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--tx)'">
-          ${n.title}
+          style="font-size:11px;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:4px"
+          onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+          อ่านข่าวต้นฉบับ ↗
         </a>
-        <!-- Description -->
-        ${n.description ? `<div style="font-size:12px;color:var(--tx2);line-height:1.6">${n.description}...</div>` : ''}
       </div>
     </div>`;
   }).join('');
 }
+  // Batch summarize news items with Claude
+  setTimeout(() => summarizeNewsItems(flat), 100);
+
 
 // Hook showFeature for news
 const _sfOrigNews = showFeature;
@@ -4394,10 +4505,83 @@ showFeature = function(id) {
   _sfOrigNews(id);
   if (id === 'news') {
     document.getElementById('feat-news')?.classList.add('on');
-    // Auto-load if no news yet
-    if (!allNewsItems.length) loadAllNews();
+    // Auto-load if new day or no news yet
+    if (!allNewsItems.length || isNewDay('news')) {
+      loadAllNews(false); // will use cache if same day
+    }
+    // Update last run label
+    const infoEl = document.getElementById('news-last-update');
+    if (infoEl && allNewsItems.length) {
+      infoEl.textContent = 'วิเคราะห์ล่าสุด: ' + formatLastRun('news') +
+        ' · ' + allNewsItems.length + ' ตัวมีข่าว';
+    }
   }
 };
+
+// ══════════════════════════════════════════════════
+// CLAUDE AI NEWS SUMMARIZER (Thai)
+// ══════════════════════════════════════════════════
+const newsSummaryCache = {}; // url → Thai summary
+
+async function summarizeNewsItems(items) {
+  // Process in batches of 3 to avoid rate limits
+  const BATCH = 3;
+  for (let i = 0; i < items.length; i += BATCH) {
+    const batch = items.slice(i, i + BATCH);
+    await Promise.all(batch.map(n => summarizeSingle(n)));
+    if (i + BATCH < items.length) await new Promise(r => setTimeout(r, 500));
+  }
+}
+
+async function summarizeSingle(n) {
+  const cacheKey = (n.link || n.title).slice(0, 80);
+  const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+  const el = document.getElementById(newsId + '_sum');
+  if (!el) return;
+
+  // Use cache if available
+  if (newsSummaryCache[cacheKey]) {
+    el.innerHTML = newsSummaryCache[cacheKey];
+    return;
+  }
+
+  try {
+    const prompt = `สรุปข่าวหุ้นนี้เป็นภาษาไทยในประโยคเดียว (ไม่เกิน 2 บรรทัด) กระชับ ตรงประเด็น:
+
+หัวข้อ: ${n.title}
+รายละเอียด: ${n.description || ''}
+หุ้น: ${n.ticker} (${n.underlying})
+
+ตอบเป็นภาษาไทยเท่านั้น ไม่ต้องมีคำนำ ไม่ต้องอ้างอิงชื่อข่าว`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 150,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    const summary = data.content?.[0]?.text?.trim() || '';
+
+    if (summary) {
+      const html = `<span>${summary}</span>`;
+      newsSummaryCache[cacheKey] = html;
+      el.innerHTML = html;
+    } else {
+      // Fallback to title
+      el.innerHTML = `<span style="color:var(--tx2)">${n.title}</span>`;
+    }
+  } catch(e) {
+    // Fallback to original title
+    el.innerHTML = `<span style="color:var(--tx2)">${n.title}</span>`;
+    console.warn('Summarize failed:', n.ticker, e.message);
+  }
+}
 </script>
 
 <!-- OVERLAY -->
@@ -4747,9 +4931,10 @@ showFeature = function(id) {
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">🎯 Smart S/R Alert</h2>
     <div style="font-size:12px;color:var(--tx3)">วิเคราะห์ทุกหุ้นในพอร์ต — แจ้งเมื่อราคาเข้าใกล้แนวรับ/แนวต้านสำคัญ</div>
-    <button class="btn btn-p btn-sm" onclick="runSmartAlert()" style="margin-left:auto" id="smart-alert-run-btn">
-      🔍 วิเคราะห์ทั้งหมด
-    </button>
+    <div style="display:flex;gap:8px;margin-left:auto;align-items:center">
+      <button class="btn btn-s btn-sm" onclick="runSmartAlert(false)" id="smart-alert-run-btn">↻ โหลด</button>
+      <button class="btn btn-p btn-sm" onclick="runSmartAlert(true)">🔄 รีเฟรชใหม่</button>
+    </div>
   </div>
 
   <!-- Filter bar -->
@@ -4850,9 +5035,11 @@ showFeature = function(id) {
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">📰 ข่าวหุ้นในพอร์ต</h2>
     <div style="font-size:12px;color:var(--tx3)">ดึงข่าวจาก Yahoo Finance · สรุปโดย AI</div>
-    <button class="btn btn-p btn-sm" onclick="loadAllNews()" style="margin-left:auto" id="news-load-btn">
-      ↻ โหลดข่าวทั้งหมด
-    </button>
+    <div style="display:flex;gap:8px;margin-left:auto;align-items:center">
+      <div id="news-run-info" style="font-size:11px;color:var(--tx3)"></div>
+      <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
+      <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
+    </div>
   </div>
 
   <!-- Filter by ticker -->

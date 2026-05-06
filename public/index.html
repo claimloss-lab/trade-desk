@@ -4606,7 +4606,20 @@ async function summarizeBatch(items) {
 // ══════════════════════════════════════════════════
 async function manualSummarizeAll() {
   const btn = document.getElementById('news-summarize-btn');
-  const flat = allNewsItems.flatMap(x => x.items.map(n => ({...n, ticker: x.ticker, drTicker: x.drTicker})));
+  // Build flat EXACTLY like renderNewsFeed so ticker matches DOM ids
+  const flat = [];
+  allNewsItems.forEach(item => {
+    item.items.forEach(news => {
+      flat.push({ ...news,
+        ticker: item.ticker,
+        underlying: item.underlying,
+        portName: item.portName,
+        portColor: item.portColor,
+        drTicker: item.drTicker,
+        portType: item.portType
+      });
+    });
+  });
   if (!flat.length) { showToast('โหลดข่าวก่อนนะครับ'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
   try {
@@ -5074,7 +5087,7 @@ async function manualSummarizeAll() {
       <div id="news-run-info" style="font-size:11px;color:var(--tx3)"></div>
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
-      <button class="btn btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:#7c3aed;color:#fff;border-color:#7c3aed">🤖 สรุปภาษาไทย</button>
+      <button class="btn btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 สรุปภาษาไทย</button>
     </div>
   </div>
 

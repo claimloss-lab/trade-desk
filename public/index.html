@@ -4606,7 +4606,6 @@ async function summarizeBatch(items) {
 // ══════════════════════════════════════════════════
 async function manualSummarizeAll() {
   const btn = document.getElementById('news-summarize-btn');
-  // Build flat EXACTLY like renderNewsFeed so ticker matches DOM ids
   const flat = [];
   allNewsItems.forEach(item => {
     item.items.forEach(news => {

@@ -4616,14 +4616,11 @@ async function manualSummarizeAll() {
         drTicker: item.drTicker, portType: item.portType });
     });
   });
-  // Sort same as renderNewsFeed (newest first)
-  flat.sort((a, b) => { try { return new Date(b.pubDate) - new Date(a.pubDate); } catch { return 0; } });
-
   if (!flat.length) { showToast('โหลดข่าวก่อนนะครับ'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
 
-  // Process in batches of 20, update by index
-  const BATCH = 20;
+  // Process in batches of 10, update by index
+  const BATCH = 10;
   try {
     for (let i = 0; i < flat.length; i += BATCH) {
       const batch = flat.slice(i, i + BATCH);

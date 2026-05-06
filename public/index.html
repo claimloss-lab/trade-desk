@@ -4309,50 +4309,33 @@ async function loadAllNews(forceRefresh=false) {
     }
   }
 
-  // Collect US parent stocks only (SET DR parents + realtime_us + dime_mixed USD)
-  const getDRParent = t => { const m = t.match(/^([A-Z]+)\d+$/); return m ? m[1] : null; };
-  const isUSD = s => s.currency === 'USD' || !s.currency && true;
+  // Fixed list of SET DR parent stocks to track news
+  const DR_WATCHLIST = [
+    { ticker:'AMZN',  underlying:'Amazon' },
+    { ticker:'ASML',  underlying:'ASML' },
+    { ticker:'AVGO',  underlying:'Broadcom' },
+    { ticker:'CRWD',  underlying:'CrowdStrike' },
+    { ticker:'GOOG',  underlying:'Alphabet' },
+    { ticker:'LLY',   underlying:'Eli Lilly' },
+    { ticker:'MSFT',  underlying:'Microsoft' },
+    { ticker:'NVDA',  underlying:'NVIDIA' },
+    { ticker:'PANW',  underlying:'Palo Alto' },
+    { ticker:'PLTR',  underlying:'Palantir' },
+    { ticker:'QQQM',  underlying:'Invesco QQQM' },
+    { ticker:'SNOW',  underlying:'Snowflake' },
+  ];
 
-  const tickerList = [];
+  const drPort = portfolios.find(p => p.type === 'realtime_dr');
+  const drColor = drPort?.color || '#0071e3';
 
-  portfolios.forEach(p => {
-    if (p.type === 'realtime_dr') {
-      // Use US parent tickers only
-      (p.stocks || []).forEach(s => {
-        const parent = getDRParent(s.ticker);
-        if (parent && !tickerList.find(x => x.ticker === parent)) {
-          tickerList.push({
-            ticker: parent, underlying: s.underlying || parent,
-            portName: p.name, portColor: p.color, portType: 'realtime_us',
-            drTicker: s.ticker,
-          });
-        }
-      });
-    } else if (p.type === 'realtime_us') {
-      // US stocks directly
-      (p.stocks || []).forEach(s => {
-        if (!tickerList.find(x => x.ticker === s.ticker)) {
-          tickerList.push({
-            ticker: s.ticker, underlying: s.underlying || s.ticker,
-            portName: p.name, portColor: p.color, portType: 'realtime_us',
-            drTicker: null,
-          });
-        }
-      });
-    } else if (p.type === 'dime_mixed') {
-      // Only USD stocks in DIME
-      (p.stocks || []).filter(s => s.currency === 'USD').forEach(s => {
-        if (!tickerList.find(x => x.ticker === s.ticker)) {
-          tickerList.push({
-            ticker: s.ticker, underlying: s.underlying || s.ticker,
-            portName: p.name, portColor: p.color, portType: 'realtime_us',
-            drTicker: null,
-          });
-        }
-      });
-    }
-    // Skip realtime_th, snapshot, mutual funds — no news
-  });
+  const tickerList = DR_WATCHLIST.map(d => ({
+    ticker: d.ticker,
+    underlying: d.underlying,
+    portName: 'SET DR',
+    portColor: drColor,
+    portType: 'realtime_us',
+    drTicker: drPort?.stocks?.find(s => s.ticker.startsWith(d.ticker.slice(0,4)))?.ticker || null,
+  }));
 
   if (!tickerList.length) { alert('ไม่มีหุ้นในพอร์ต'); return; }
 

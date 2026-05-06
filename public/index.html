@@ -4466,7 +4466,7 @@ function renderNewsFeed() {
     return { price: p.price, pnl, portType: port?.type };
   }
 
-  feed.innerHTML = flat.map(n => {
+  feed.innerHTML = flat.map((n, _nIdx) => {
     const ctx = getStockContext(n.ticker, n.drTicker);
     const pnlColor = ctx ? (ctx.pnl >= 0 ? 'var(--green-tx)' : 'var(--red-tx)') : '';
     const pnlStr = ctx ? (ctx.pnl >= 0 ? '+' : '') + ctx.pnl.toFixed(1) + '%' : '';
@@ -4479,7 +4479,7 @@ function renderNewsFeed() {
         ' ' + d.toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
     } catch { dateStr = n.pubDate; }
 
-    const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
+    const newsId = 'newsitem_' + _nIdx;
     return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);
       box-shadow:var(--sh);margin-bottom:10px;overflow:hidden;
       border-left:4px solid ${n.portColor}" id="${newsId}">
@@ -4606,23 +4606,43 @@ async function summarizeBatch(items) {
 // ══════════════════════════════════════════════════
 async function manualSummarizeAll() {
   const btn = document.getElementById('news-summarize-btn');
+  // Build flat same as renderNewsFeed
+  const filtered = newsFilter === 'all' ? allNewsItems : allNewsItems.filter(x => x.ticker === newsFilter);
   const flat = [];
-  allNewsItems.forEach(item => {
+  filtered.forEach(item => {
     item.items.forEach(news => {
-      flat.push({ ...news,
-        ticker: item.ticker,
-        underlying: item.underlying,
-        portName: item.portName,
-        portColor: item.portColor,
-        drTicker: item.drTicker,
-        portType: item.portType
-      });
+      flat.push({ ...news, ticker: item.ticker, underlying: item.underlying,
+        portName: item.portName, portColor: item.portColor,
+        drTicker: item.drTicker, portType: item.portType });
     });
   });
   if (!flat.length) { showToast('โหลดข่าวก่อนนะครับ'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
+
+  // Process in batches of 20, update by index
+  const BATCH = 20;
   try {
-    await summarizeNewsItems(flat);
+    for (let i = 0; i < flat.length; i += BATCH) {
+      const batch = flat.slice(i, i + BATCH);
+      const res = await fetch('/api/summarize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: batch.map(n => ({ ticker: n.ticker, title: n.title, description: (n.description||'').slice(0,120) })) }),
+        signal: safeSignal(30000)
+      });
+      if (!res.ok) continue;
+      const data = await res.json();
+      const summaries = data.summaries || [];
+      // Update DOM by index
+      batch.forEach((n, j) => {
+        const summary = summaries[j];
+        if (!summary) return;
+        const globalIdx = i + j;
+        const el = document.getElementById('newsitem_' + globalIdx + '_sum');
+        if (el) el.innerHTML = '<span>' + summary + '</span>';
+      });
+      if (i + BATCH < flat.length) await new Promise(r => setTimeout(r, 800));
+    }
     showToast('สรุปข่าวเสร็จแล้ว ✅');
   } catch(e) {
     showToast('Error: ' + e.message);

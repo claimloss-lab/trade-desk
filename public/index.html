@@ -4753,6 +4753,168 @@ async function aiDcaAdvisorFromCalc() {
   } catch(e) { showToast('Error: '+e.message); }
   if (btn) { btn.disabled=false; btn.textContent='💡 DCA Advisor'; }
 }
+
+// ══════════════════════════════════════════════════
+// FINANCIALS PANEL
+// ══════════════════════════════════════════════════
+let finData = null;
+
+function initFinancialsTicker() {
+  const sel = document.getElementById('fin-ticker-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— เลือกหุ้นจากพอร์ต —</option>';
+  const tickers = [...new Set(portfolios.flatMap(p => p.stocks?.map(s => s.underlying || s.ticker) || []))].filter(t => !t.includes('.BK'));
+  tickers.sort().forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o); });
+}
+
+function onFinTickerSelect() {
+  const v = document.getElementById('fin-ticker-select').value;
+  if (v) document.getElementById('fin-ticker').value = v;
+}
+
+async function loadFinancials() {
+  const ticker = document.getElementById('fin-ticker').value.trim().toUpperCase();
+  if (!ticker) { showToast('ใส่ ticker ก่อนครับ'); return; }
+  const status = document.getElementById('fin-status');
+  const result = document.getElementById('fin-result');
+  status.textContent = '⏳ กำลังโหลดข้อมูล...';
+  result.style.display = 'none';
+  document.getElementById('fin-ai-btn').style.display = 'none';
+  document.getElementById('fin-ai-result').style.display = 'none';
+
+  try {
+    const res = await fetch('/api/financials?ticker=' + ticker);
+    const data = await res.json();
+    if (data.error) { status.textContent = '❌ ' + data.error; return; }
+    finData = data;
+    renderFinancials(data);
+    status.textContent = '✅ โหลดข้อมูล ' + ticker + ' สำเร็จ';
+    result.style.display = 'block';
+    document.getElementById('fin-ai-btn').style.display = '';
+  } catch(e) {
+    status.textContent = '❌ Error: ' + e.message;
+  }
+}
+
+function renderFinancials(d) {
+  // ── Key Ratios ──
+  const r = d.ratios;
+  const ratioHtml = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+      ${[
+        ['Market Cap', r.marketCap != null ? r.marketCap + 'B' : '-'],
+        ['P/E (TTM)', r.pe ?? '-'],
+        ['Forward P/E', r.forwardPE ?? '-'],
+        ['P/B', r.pb ?? '-'],
+        ['EPS (TTM)', r.eps != null ? '$' + r.eps : '-'],
+        ['EPS Forward', r.epsForward != null ? '$' + r.epsForward : '-'],
+        ['ROE', r.roe != null ? r.roe + '%' : '-'],
+        ['ROA', r.roa != null ? r.roa + '%' : '-'],
+        ['Gross Margin', r.grossMargin != null ? r.grossMargin + '%' : '-'],
+        ['Net Margin', r.netMargin != null ? r.netMargin + '%' : '-'],
+        ['Debt/Equity', r.debtToEquity ?? '-'],
+        ['Current Ratio', r.currentRatio ?? '-'],
+        ['Revenue Growth', r.revenueGrowth != null ? r.revenueGrowth + '%' : '-'],
+        ['Earnings Growth', r.earningsGrowth != null ? r.earningsGrowth + '%' : '-'],
+        ['Dividend Yield', r.dividendYield != null ? r.dividendYield + '%' : '-'],
+        ['Beta', r.beta ?? '-'],
+      ].map(([k,v]) => `<div style="background:var(--bg2);border-radius:8px;padding:10px 12px">
+        <div style="font-size:11px;color:var(--tx3);margin-bottom:4px">${k}</div>
+        <div style="font-size:15px;font-weight:600;color:var(--tx)">${v}</div>
+      </div>`).join('')}
+    </div>`;
+  document.getElementById('fin-ratios').innerHTML = ratioHtml;
+
+  // ── Income Statement Table ──
+  const cols = d.incomeQ;
+  const incomeRows = [
+    ['Revenue', cols.map(q => q.revenue)],
+    ['Gross Profit', cols.map(q => q.grossProfit)],
+    ['Operating Income', cols.map(q => q.operatingIncome)],
+    ['Net Income', cols.map(q => q.netIncome)],
+    ['EPS (Diluted)', cols.map(q => q.eps)],
+  ];
+  renderFinTable('fin-income-table', cols.map(q=>q.date), incomeRows);
+
+  // ── Cash Flow Table ──
+  const cfCols = d.cashQ;
+  const cfRows = [
+    ['Operating CF', cfCols.map(q => q.operatingCF)],
+    ['CapEx', cfCols.map(q => q.capex)],
+    ['Free Cash Flow', cfCols.map(q => q.freeCF)],
+  ];
+  renderFinTable('fin-cashflow-table', cfCols.map(q=>q.date), cfRows);
+
+  // ── Balance Sheet Table ──
+  const bsCols = d.balanceQ;
+  const bsRows = [
+    ['Total Assets', bsCols.map(q => q.totalAssets)],
+    ['Total Liabilities', bsCols.map(q => q.totalLiab)],
+    ['Shareholders Equity', bsCols.map(q => q.totalEquity)],
+    ['Cash & Equivalents', bsCols.map(q => q.cash)],
+    ['Total Debt', bsCols.map(q => q.totalDebt)],
+  ];
+  renderFinTable('fin-balance-table', bsCols.map(q=>q.date), bsRows);
+}
+
+function renderFinTable(id, dates, rows) {
+  const tbl = document.getElementById(id);
+  if (!tbl) return;
+  const hdr = '<thead><tr><th style="text-align:left;padding:8px 12px;font-size:12px;color:var(--tx3)">รายการ</th>' +
+    dates.map(d => `<th style="text-align:right;padding:8px 12px;font-size:12px;color:var(--tx3)">${d||'-'}</th>`).join('') + '</tr></thead>';
+  const body = '<tbody>' + rows.map(([label, vals]) => {
+    return '<tr>' +
+      `<td style="padding:8px 12px;font-size:13px;color:var(--tx2);white-space:nowrap">${label}</td>` +
+      vals.map(v => {
+        if (v == null) return '<td style="text-align:right;padding:8px 12px;font-size:13px;color:var(--tx3)">-</td>';
+        const color = v < 0 ? 'var(--red-tx)' : 'inherit';
+        return `<td style="text-align:right;padding:8px 12px;font-size:13px;font-weight:500;color:${color}">${typeof v === 'number' && Math.abs(v) > 1 ? fn(v,2) : v}</td>`;
+      }).join('') + '</tr>';
+  }).join('') + '</tbody>';
+  tbl.innerHTML = hdr + body;
+}
+
+async function aiSummarizeFinancials() {
+  const btn = document.getElementById('fin-ai-btn');
+  if (!finData) { showToast('โหลดงบการเงินก่อนครับ'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังสรุป...'; }
+
+  const r = finData.ratios;
+  const inc = finData.incomeQ[0] || {};
+  const cf = finData.cashQ[0] || {};
+  const bs = finData.balanceQ[0] || {};
+
+  const ctx = [
+    `หุ้น: ${finData.ticker}`,
+    `Market Cap: ${r.marketCap}B | P/E: ${r.pe} | Forward P/E: ${r.forwardPE}`,
+    `ROE: ${r.roe}% | Net Margin: ${r.netMargin}% | Gross Margin: ${r.grossMargin}%`,
+    `Revenue Growth: ${r.revenueGrowth}% | Earnings Growth: ${r.earningsGrowth}%`,
+    `Revenue: ${inc.revenue}B | Net Income: ${inc.netIncome}B | EPS: ${inc.eps}`,
+    `Free Cash Flow: ${cf.freeCF}B | Operating CF: ${cf.operatingCF}B`,
+    `Total Assets: ${bs.totalAssets}B | Debt: ${bs.totalDebt}B | Equity: ${bs.totalEquity}B`,
+    `Debt/Equity: ${r.debtToEquity} | Current Ratio: ${r.currentRatio}`,
+  ].join('\n');
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker: finData.ticker, title: 'Financial Summary', description: ctx }],
+        prompt: `คุณเป็นนักวิเคราะห์หุ้น วิเคราะห์งบการเงินของ ${finData.ticker} ต่อไปนี้แล้วสรุปเป็นภาษาไทย 4-6 ประโยค:\n${ctx}\n\nครอบคลุม: 1) ภาพรวมธุรกิจและการเติบโต 2) ความสามารถในการทำกำไร 3) สุขภาพทางการเงิน 4) ความน่าสนใจในการลงทุน`
+      }),
+      signal: safeSignal(30000)
+    });
+    const data = await res.json();
+    const summary = data.summaries?.[0] || 'ไม่สามารถสรุปได้';
+    document.getElementById('fin-ai-text').textContent = summary;
+    document.getElementById('fin-ai-result').style.display = 'block';
+    document.getElementById('fin-ai-result').scrollIntoView({ behavior: 'smooth' });
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🤖 AI สรุปงบ'; }
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5244,6 +5406,65 @@ async function aiDcaAdvisorFromCalc() {
       <div class="empty-ico">📰</div>
       <div>กด "โหลดข่าวทั้งหมด" เพื่อดูข่าวล่าสุดของทุกหุ้นในพอร์ต</div>
       <div style="font-size:11px;color:var(--tx3);margin-top:8px">ดึงข่าวหุ้น US ในพอร์ต · สรุปโดย AI ใช้เวลา ~20-30 วินาที</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ FINANCIALS PANEL ══════════════════ -->
+<div class="feat-panel" id="feat-financials" style="display:none">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📋 งบการเงินหุ้นอเมริกา</h2>
+  </div>
+
+  <!-- Search -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-bd">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <select id="fin-ticker-select" onchange="onFinTickerSelect()" style="flex:2;min-width:180px;font-size:13px">
+          <option value="">— เลือกหุ้นจากพอร์ต —</option>
+        </select>
+        <input type="text" id="fin-ticker" placeholder="หรือพิมพ์ ticker เอง เช่น AAPL" style="flex:1;min-width:120px;font-size:13px;text-transform:uppercase">
+        <button class="btn btn-p" onclick="loadFinancials()">↻ โหลดงบการเงิน</button>
+        <button class="btn btn-sm" id="fin-ai-btn" onclick="aiSummarizeFinancials()" style="display:none;background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 AI สรุปงบ</button>
+      </div>
+      <div id="fin-status" style="margin-top:8px;font-size:12px;color:var(--tx3)"></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="fin-result" style="display:none">
+    <!-- Key Ratios -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">📊 Key Ratios</div></div>
+      <div id="fin-ratios" class="card-bd"></div>
+    </div>
+
+    <!-- Income Statement -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">💰 Income Statement (พันล้าน USD)</div></div>
+      <div class="tbl-wrap"><table id="fin-income-table"></table></div>
+    </div>
+
+    <!-- Cash Flow -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">💵 Cash Flow (พันล้าน USD)</div></div>
+      <div class="tbl-wrap"><table id="fin-cashflow-table"></table></div>
+    </div>
+
+    <!-- Balance Sheet -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hd"><div class="card-ti">🏦 Balance Sheet (พันล้าน USD)</div></div>
+      <div class="tbl-wrap"><table id="fin-balance-table"></table></div>
+    </div>
+
+    <!-- AI Summary -->
+    <div class="card" id="fin-ai-result" style="display:none">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(124,58,237,.06),transparent)">
+        <div class="card-ti">🤖 AI สรุปงบการเงิน</div>
+      </div>
+      <div class="card-bd" id="fin-ai-text" style="font-size:13px;line-height:1.8;color:var(--tx2)"></div>
     </div>
   </div>
 </div>

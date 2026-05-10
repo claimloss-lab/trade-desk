@@ -12,12 +12,35 @@ export async function onRequest(context) {
   if (!ticker) return new Response(JSON.stringify({ error: 'missing ticker' }), { status: 400, headers: cors });
 
   try {
-    // Yahoo Finance v10 quoteSummary — fetch multiple modules at once
+    // Step 1: Get crumb from Yahoo Finance
+    const cookieRes = await fetch('https://fc.yahoo.com', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml',
+      }
+    });
+    const cookieHeader = cookieRes.headers.get('set-cookie') || '';
+    const cookie = cookieHeader.split(';')[0];
+
+    // Step 2: Get crumb
+    const crumbRes = await fetch('https://query1.finance.yahoo.com/v1/test/getcrumb', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Cookie': cookie,
+      }
+    });
+    const crumb = await crumbRes.text();
+
+    // Step 3: Fetch financial data with crumb
     const modules = 'incomeStatementHistory,balanceSheetHistory,cashflowStatementHistory,defaultKeyStatistics,financialData,summaryDetail';
-    const yahooUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=${modules}`;
+    const yahooUrl = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=${modules}&crumb=${encodeURIComponent(crumb)}`;
 
     const res = await fetch(yahooUrl, {
-      headers: { 'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'application/json',
+        'Cookie': cookie,
+      },
       cf: { cacheTtl: 3600 }
     });
 
@@ -27,13 +50,11 @@ export async function onRequest(context) {
     const result = raw?.quoteSummary?.result?.[0];
     if (!result) return new Response(JSON.stringify({ error: 'No data', ticker }), { status: 404, headers: cors });
 
-    // ── Helper ──
+    // Helper
     const fmt = (v) => v?.raw ?? v ?? null;
-    const fmtB = (v) => { const n = fmt(v); return n == null ? null : +(n/1e9).toFixed(2); }; // billions
-    const fmtM = (v) => { const n = fmt(v); return n == null ? null : +(n/1e6).toFixed(1); }; // millions
+    const fmtB = (v) => { const n = fmt(v); return n == null ? null : +(n/1e9).toFixed(2); };
     const fmtPct = (v) => { const n = fmt(v); return n == null ? null : +(n*100).toFixed(2); };
 
-    // ── Income Statement (last 4 quarters) ──
     const incomeQ = (result.incomeStatementHistory?.incomeStatementHistory || []).slice(0,4).map(q => ({
       date: q.endDate?.fmt,
       revenue: fmtB(q.totalRevenue),
@@ -43,7 +64,6 @@ export async function onRequest(context) {
       eps: fmt(q.dilutedEPS),
     }));
 
-    // ── Balance Sheet ──
     const balanceQ = (result.balanceSheetHistory?.balanceSheetStatements || []).slice(0,2).map(q => ({
       date: q.endDate?.fmt,
       totalAssets: fmtB(q.totalAssets),
@@ -53,7 +73,6 @@ export async function onRequest(context) {
       totalDebt: fmtB(q.shortLongTermDebt ?? q.longTermDebt),
     }));
 
-    // ── Cash Flow ──
     const cashQ = (result.cashflowStatementHistory?.cashflowStatements || []).slice(0,4).map(q => ({
       date: q.endDate?.fmt,
       operatingCF: fmtB(q.totalCashFromOperatingActivities),
@@ -62,7 +81,6 @@ export async function onRequest(context) {
         ? +((q.totalCashFromOperatingActivities.raw + q.capitalExpenditures.raw)/1e9).toFixed(2) : null,
     }));
 
-    // ── Key Ratios ──
     const ks = result.defaultKeyStatistics || {};
     const fd = result.financialData || {};
     const sd = result.summaryDetail || {};
@@ -70,7 +88,6 @@ export async function onRequest(context) {
       pe: fmt(sd.trailingPE) ?? fmt(sd.forwardPE),
       forwardPE: fmt(sd.forwardPE),
       pb: fmt(ks.priceToBook),
-      ps: fmt(ks.priceToSalesTrailing12Months) ?? fmt(sd.priceToSalesTrailing12Months),
       roe: fmtPct(ks.returnOnEquity) ?? fmtPct(fd.returnOnEquity),
       roa: fmtPct(fd.returnOnAssets),
       grossMargin: fmtPct(fd.grossMargins),

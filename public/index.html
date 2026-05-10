@@ -5073,32 +5073,95 @@ async function loadModalFinancials(ticker) {
 
 function buildModalFinHTML(d) {
   const r = d.ratios;
-  const ratioGrid = [
-    ['P/E', r.pe ?? '-'], ['Forward P/E', r.forwardPE ?? '-'],
-    ['EPS', r.eps != null ? '$'+r.eps : '-'], ['Market Cap', r.marketCap != null ? r.marketCap+'B' : '-'],
-    ['ROE', r.roe != null ? r.roe+'%' : '-'], ['Net Margin', r.netMargin != null ? r.netMargin+'%' : '-'],
-    ['Rev Growth', r.revenueGrowth != null ? r.revenueGrowth+'%' : '-'], ['Earn Growth', r.earningsGrowth != null ? r.earningsGrowth+'%' : '-'],
-    ['Gross Margin', r.grossMargin != null ? r.grossMargin+'%' : '-'], ['Div Yield', r.dividendYield != null ? r.dividendYield+'%' : '-'],
-    ['Debt/Equity', r.debtToEquity ?? '-'], ['Beta', r.beta ?? '-'],
-  ].map(([k,v]) => `<div style="background:var(--bg2,var(--s2));border-radius:8px;padding:8px 10px">
-    <div style="font-size:10px;color:var(--tx3)">${k}</div>
-    <div style="font-size:13px;font-weight:600">${v}</div>
-  </div>`).join('');
 
-  // Latest quarter income
-  const q = d.incomeQ[0] || {};
-  const cf = d.cashQ[0] || {};
+  // ── Key Ratios Grid ──
+  const ratioGrid = [
+    ['P/E (TTM)', r.pe ?? '-'], ['Forward P/E', r.forwardPE ?? '-'],
+    ['EPS (TTM)', r.eps != null ? '$'+r.eps : '-'], ['EPS Forward', r.epsForward != null ? '$'+r.epsForward : '-'],
+    ['Market Cap', r.marketCap != null ? r.marketCap+'B' : '-'], ['Beta', r.beta ?? '-'],
+    ['ROE', r.roe != null ? r.roe+'%' : '-'], ['ROA', r.roa != null ? r.roa+'%' : '-'],
+    ['Gross Margin', r.grossMargin != null ? r.grossMargin+'%' : '-'], ['Net Margin', r.netMargin != null ? r.netMargin+'%' : '-'],
+    ['Rev Growth', r.revenueGrowth != null ? r.revenueGrowth+'%' : '-'], ['Earn Growth', r.earningsGrowth != null ? r.earningsGrowth+'%' : '-'],
+    ['Debt/Equity', r.debtToEquity ?? '-'], ['Current Ratio', r.currentRatio ?? '-'],
+    ['Div Yield', r.dividendYield != null ? r.dividendYield+'%' : '-'], ['P/B', r.pb ?? '-'],
+  ].map(([k,v]) => {
+    const isGood = typeof v === 'string' && v.includes('%') && parseFloat(v) > 0;
+    const isBad = typeof v === 'string' && v.includes('%') && parseFloat(v) < 0;
+    return `<div style="background:var(--s2);border-radius:8px;padding:8px 10px">
+      <div style="font-size:10px;color:var(--tx3);margin-bottom:2px">${k}</div>
+      <div style="font-size:13px;font-weight:600;color:${isBad?'var(--red-tx)':isGood?'var(--green-tx)':'var(--tx)'}">${v}</div>
+    </div>`;
+  }).join('');
+
+  // ── YoY Table helper ──
+  function yoyPct(curr, prev) {
+    if (curr == null || prev == null || prev === 0) return '';
+    const pct = ((curr - prev) / Math.abs(prev) * 100).toFixed(1);
+    const color = pct >= 0 ? 'var(--green-tx)' : 'var(--red-tx)';
+    return `<span style="font-size:10px;color:${color};margin-left:4px">${pct>=0?'▲':'▼'}${Math.abs(pct)}%</span>`;
+  }
+
+  function finTable(title, quarters, rows) {
+    if (!quarters.length) return '';
+    const headers = quarters.map(q => `<th style="text-align:right;padding:6px 10px;font-size:11px;color:var(--tx3);white-space:nowrap">${q.date||'-'}</th>`).join('');
+    const bodyRows = rows.map(([label, key]) => {
+      const cells = quarters.map((q, i) => {
+        const val = q[key];
+        const prev = quarters[i+1]?.[key];
+        const display = val != null ? (Math.abs(val) >= 1 ? fn(val,2) : val) : '-';
+        const yoy = i < quarters.length-1 ? yoyPct(val, prev) : '';
+        const color = val != null && val < 0 ? 'color:var(--red-tx)' : '';
+        return `<td style="text-align:right;padding:6px 10px;font-size:12px;font-weight:500;${color}">${display}${yoy}</td>`;
+      }).join('');
+      return `<tr style="border-top:1px solid var(--bd2)">
+        <td style="padding:6px 10px;font-size:12px;color:var(--tx2);white-space:nowrap">${label}</td>
+        ${cells}
+      </tr>`;
+    }).join('');
+    return `
+      <div style="font-size:12px;font-weight:600;color:var(--tx3);margin:14px 0 6px">${title} <span style="font-weight:400;font-size:10px">(พันล้าน USD)</span></div>
+      <div style="overflow-x:auto;border-radius:8px;border:1px solid var(--bd2)">
+        <table style="width:100%;border-collapse:collapse">
+          <thead style="background:var(--s2)">
+            <tr>
+              <th style="text-align:left;padding:6px 10px;font-size:11px;color:var(--tx3)">รายการ</th>
+              ${headers}
+            </tr>
+          </thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  const incomeTable = finTable('💰 Income Statement', d.incomeQ, [
+    ['Revenue', 'revenue'],
+    ['Gross Profit', 'grossProfit'],
+    ['Operating Income', 'operatingIncome'],
+    ['Net Income', 'netIncome'],
+    ['EPS (Diluted)', 'eps'],
+  ]);
+
+  const cashTable = finTable('💵 Cash Flow', d.cashQ, [
+    ['Operating CF', 'operatingCF'],
+    ['CapEx', 'capex'],
+    ['Free Cash Flow', 'freeCF'],
+  ]);
+
+  const balTable = finTable('🏦 Balance Sheet', d.balanceQ, [
+    ['Total Assets', 'totalAssets'],
+    ['Total Liabilities', 'totalLiab'],
+    ['Shareholders Equity', 'totalEquity'],
+    ['Cash & Equiv', 'cash'],
+    ['Total Debt', 'totalDebt'],
+  ]);
 
   return `
-    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:8px">KEY RATIOS</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">${ratioGrid}</div>
-    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:8px">งบล่าสุด (${q.date||'-'}) — พันล้าน USD</div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px">
-      ${[['Revenue',q.revenue],['Net Income',q.netIncome],['Free CF',cf.freeCF],['EPS',(q.eps||null)]].map(([k,v])=>`
-      <div style="background:var(--s2);border-radius:8px;padding:8px 10px">
-        <div style="font-size:10px;color:var(--tx3)">${k}</div>
-        <div style="font-size:13px;font-weight:600;color:${v!=null&&v<0?'var(--red-tx)':'var(--tx)'}">${v!=null?(typeof v==='number'&&Math.abs(v)>0.1?fn(v,2):v):'-'}</div>
-      </div>`).join('')}
+    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:8px">📊 KEY RATIOS</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:4px">${ratioGrid}</div>
+    ${incomeTable}${cashTable}${balTable}
+    <div style="margin-top:12px">
+      <button onclick="aiSummarizeModalFin(document.getElementById('sm-ticker').textContent)" id="sm-fin-ai-btn" style="background:#7c3aed;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;width:100%">🤖 AI สรุปงบการเงิน</button>
+      <div id="sm-fin-ai-result" style="margin-top:10px;font-size:13px;color:var(--tx2);line-height:1.7;display:none"></div>
     </div>`;
 }
 

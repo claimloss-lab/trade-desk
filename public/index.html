@@ -4945,6 +4945,7 @@ function buildStockModalHTML() {
     <div style="display:flex;gap:0;border-bottom:1px solid var(--bd2);background:var(--s2)">
       <button class="sm-modal-tab on" id="sm-tab-chart" onclick="switchModalTab('chart')" style="padding:10px 18px;font-size:13px;font-weight:500;border:none;cursor:pointer;background:none;color:var(--blue);border-bottom:2px solid var(--blue)">📈 กราฟ</button>
       <button class="sm-modal-tab" id="sm-tab-fin" onclick="switchModalTab('fin')" style="padding:10px 18px;font-size:13px;font-weight:500;border:none;cursor:pointer;background:none;color:var(--tx2);border-bottom:2px solid transparent">📋 งบการเงิน</button>
+      <button class="sm-modal-tab" id="sm-tab-analysis" onclick="switchModalTab('analysis')" style="padding:10px 18px;font-size:13px;font-weight:500;border:none;cursor:pointer;background:none;color:var(--tx2);border-bottom:2px solid transparent">🔍 วิเคราะห์เชิงลึก</button>
     </div>
     <!-- Chart tab -->
     <div id="sm-pane-chart">
@@ -4968,20 +4969,74 @@ function buildStockModalHTML() {
       <div id="sm-fin-status" style="font-size:12px;color:var(--tx3);margin-bottom:12px"></div>
       <div id="sm-fin-content"></div>
     </div>
+    <!-- Analysis tab -->
+    <div id="sm-pane-analysis" style="display:none;overflow-y:auto;max-height:60vh;padding:16px 20px">
+      <div id="sm-analysis-status"></div>
+      <div id="sm-analysis-extra" style="margin-bottom:12px;display:none">
+        <textarea id="sm-analysis-input" placeholder="วางข่าวหรือข้อมูลเพิ่มเติม (ไม่จำเป็น)..." style="width:100%;height:80px;font-size:12px;padding:8px;border:1px solid var(--bd);border-radius:8px;resize:vertical;background:var(--s2);color:var(--tx)"></textarea>
+        <button onclick="runDeepAnalysis()" style="margin-top:8px;background:#7c3aed;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;width:100%">🔍 วิเคราะห์เชิงลึก</button>
+      </div>
+      <div id="sm-analysis-content" style="font-size:13px;line-height:1.8;color:var(--tx2);white-space:pre-wrap"></div>
+    </div>
   </div>`;
 }
 
 function switchModalTab(tab) {
-  document.getElementById('sm-pane-chart').style.display = tab==='chart' ? '' : 'none';
-  document.getElementById('sm-pane-fin').style.display = tab==='fin' ? '' : 'none';
-  document.getElementById('sm-tab-chart').style.color = tab==='chart' ? 'var(--blue)' : 'var(--tx2)';
-  document.getElementById('sm-tab-chart').style.borderBottom = tab==='chart' ? '2px solid var(--blue)' : '2px solid transparent';
-  document.getElementById('sm-tab-fin').style.color = tab==='fin' ? 'var(--blue)' : 'var(--tx2)';
-  document.getElementById('sm-tab-fin').style.borderBottom = tab==='fin' ? '2px solid var(--blue)' : '2px solid transparent';
+  ['chart','fin','analysis'].forEach(t => {
+    const pane = document.getElementById('sm-pane-'+t);
+    const btn = document.getElementById('sm-tab-'+t);
+    if (pane) pane.style.display = tab===t ? '' : 'none';
+    if (btn) {
+      btn.style.color = tab===t ? 'var(--blue)' : 'var(--tx2)';
+      btn.style.borderBottom = tab===t ? '2px solid var(--blue)' : '2px solid transparent';
+    }
+  });
 
-  if (tab === 'fin') {
-    const ticker = document.getElementById('sm-ticker').textContent;
-    loadModalFinancials(ticker);
+  const rawTicker = document.getElementById('sm-ticker').textContent;
+  if (tab === 'fin') loadModalFinancials(rawTicker);
+  if (tab === 'analysis') initAnalysisPane(rawTicker);
+}
+
+function initAnalysisPane(rawTicker) {
+  const extra = document.getElementById('sm-analysis-extra');
+  const content = document.getElementById('sm-analysis-content');
+  const status = document.getElementById('sm-analysis-status');
+  if (extra) extra.style.display = 'block';
+  // If already has content, don't auto-run again
+  if (content && content.textContent.trim()) return;
+  // Auto-run analysis
+  runDeepAnalysis();
+}
+
+async function runDeepAnalysis() {
+  const rawTicker = document.getElementById('sm-ticker').textContent;
+  const extraInput = document.getElementById('sm-analysis-input')?.value || '';
+  const status = document.getElementById('sm-analysis-status');
+  const contentEl = document.getElementById('sm-analysis-content');
+
+  // Resolve underlying ticker
+  const db = STOCK_DB[rawTicker];
+  const underlying = db?.underlying || (rawTicker.match(/^([A-Z]+)\d+$/) ? rawTicker.match(/^([A-Z]+)\d+$/)[1] : rawTicker);
+
+  if (status) status.innerHTML = '<div style="text-align:center;padding:20px;color:var(--tx3)">🔍 กำลังวิเคราะห์ ' + underlying + ' เชิงลึก...<br><span style="font-size:11px">อาจใช้เวลา 15-30 วินาที</span></div>';
+  if (contentEl) contentEl.textContent = '';
+
+  try {
+    const res = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ticker: underlying,
+        finData: finData?.ticker === underlying ? finData : null,
+        extraContext: extraInput || null
+      }),
+      signal: safeSignal(60000)
+    });
+    const data = await res.json();
+    if (status) status.innerHTML = '';
+    if (contentEl) contentEl.textContent = data.analysis || data.error || 'ไม่สามารถวิเคราะห์ได้';
+  } catch(e) {
+    if (status) status.innerHTML = '<span style="color:var(--red-tx)">❌ ' + e.message + '</span>';
   }
 }
 

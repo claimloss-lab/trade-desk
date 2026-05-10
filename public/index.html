@@ -4988,10 +4988,19 @@ function switchModalTab(tab) {
 async function loadModalFinancials(ticker) {
   const status = document.getElementById('sm-fin-status');
   const content = document.getElementById('sm-fin-content');
-  status.textContent = '⏳ กำลังโหลดงบการเงิน...';
+  // Use underlying US ticker (e.g. AMZN80 → AMZN)
+  const underlying = (()=>{
+    const db = STOCK_DB[ticker];
+    if (db?.underlying) return db.underlying;
+    // Strip trailing numbers (e.g. AMZN80 → AMZN, ASML01 → ASML)
+    const m = ticker.match(/^([A-Z]+)\d+$/);
+    return m ? m[1] : ticker;
+  })();
+  const fetchTicker = underlying !== ticker ? underlying : ticker;
+  status.textContent = '⏳ กำลังโหลดงบการเงิน' + (fetchTicker !== ticker ? ` (${fetchTicker})` : '') + '...';
   content.innerHTML = '';
   try {
-    const res = await fetch('/api/financials?ticker=' + ticker);
+    const res = await fetch('/api/financials?ticker=' + fetchTicker);
     const data = await res.json();
     if (data.error) { status.textContent = '❌ ' + data.error; return; }
     status.textContent = '';
@@ -5039,6 +5048,10 @@ function buildModalFinHTML(d) {
 }
 
 async function aiSummarizeModalFin(ticker) {
+  // Resolve to underlying
+  const db = STOCK_DB[ticker];
+  if (db?.underlying) ticker = db.underlying;
+  else { const m = ticker.match(/^([A-Z]+)\d+$/); if(m) ticker = m[1]; }
   const btn = document.getElementById('sm-fin-ai-btn');
   const resultEl = document.getElementById('sm-fin-ai-result');
   if (!finData) return;

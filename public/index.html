@@ -737,6 +737,16 @@ function buildPanels() {
     panel.innerHTML = port.type==='snapshot' ? buildSnapshotHTML(port) : port.type==='dime_mixed' ? buildDimeHTML(port) : buildRealtimeHTML(port);
     container.appendChild(panel);
   });
+
+  // Stock modal (appended once)
+  if (!document.getElementById('stock-modal-bg')) {
+    const modal = document.createElement('div');
+    modal.className = 'stock-modal-bg';
+    modal.id = 'stock-modal-bg';
+    modal.onclick = closeStockModal;
+    modal.innerHTML = buildStockModalHTML();
+    document.body.appendChild(modal);
+  }
 }
 
 // ══════════════════════════════════════════════════
@@ -2547,6 +2557,8 @@ function openStockModal(ticker,name,portType){
     }
   } else { priceEl.textContent='—'; changeEl.textContent=''; }
   document.querySelectorAll('.sm-range-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+  // Reset to chart tab
+  switchModalTab('chart');
   loadStockChart(ticker,portType,'5d');
 }
 
@@ -4914,6 +4926,139 @@ async function aiSummarizeFinancials() {
     showToast('Error: ' + e.message);
   }
   if (btn) { btn.disabled = false; btn.textContent = '🤖 AI สรุปงบ'; }
+}
+
+// ══════════════════════════════════════════════════
+// STOCK MODAL HTML BUILDER
+// ══════════════════════════════════════════════════
+function buildStockModalHTML() {
+  return `
+  <div class="stock-modal">
+    <div class="sm-head">
+      <span class="sm-ticker" id="sm-ticker">—</span>
+      <span class="sm-name" id="sm-name"></span>
+      <span class="sm-price" id="sm-price"></span>
+      <span class="sm-change" id="sm-change"></span>
+      <button class="sm-close" onclick="document.getElementById('stock-modal-bg').classList.remove('on');document.body.style.overflow='';if(smChart){smChart.destroy();smChart=null;}">✕</button>
+    </div>
+    <!-- Modal tabs -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--bd2);background:var(--s2)">
+      <button class="sm-modal-tab on" id="sm-tab-chart" onclick="switchModalTab('chart')" style="padding:10px 18px;font-size:13px;font-weight:500;border:none;cursor:pointer;background:none;color:var(--blue);border-bottom:2px solid var(--blue)">📈 กราฟ</button>
+      <button class="sm-modal-tab" id="sm-tab-fin" onclick="switchModalTab('fin')" style="padding:10px 18px;font-size:13px;font-weight:500;border:none;cursor:pointer;background:none;color:var(--tx2);border-bottom:2px solid transparent">📋 งบการเงิน</button>
+    </div>
+    <!-- Chart tab -->
+    <div id="sm-pane-chart">
+      <div class="sm-range-bar">
+        <button class="sm-range-btn on" onclick="setRange('5d',this)">5D</button>
+        <button class="sm-range-btn" onclick="setRange('1mo',this)">1M</button>
+        <button class="sm-range-btn" onclick="setRange('3mo',this)">3M</button>
+        <button class="sm-range-btn" onclick="setRange('6mo',this)">6M</button>
+        <button class="sm-range-btn" onclick="setRange('1y',this)">1Y</button>
+      </div>
+      <div class="sm-body">
+        <div class="sm-chart-wrap">
+          <canvas id="sm-chart"></canvas>
+          <div class="sm-loading" id="sm-loading">กำลังโหลด...</div>
+        </div>
+        <div class="sm-stats" id="sm-stats"></div>
+      </div>
+    </div>
+    <!-- Financials tab -->
+    <div id="sm-pane-fin" style="display:none;overflow-y:auto;max-height:60vh;padding:16px">
+      <div id="sm-fin-status" style="font-size:12px;color:var(--tx3);margin-bottom:12px"></div>
+      <div id="sm-fin-content"></div>
+    </div>
+  </div>`;
+}
+
+function switchModalTab(tab) {
+  document.getElementById('sm-pane-chart').style.display = tab==='chart' ? '' : 'none';
+  document.getElementById('sm-pane-fin').style.display = tab==='fin' ? '' : 'none';
+  document.getElementById('sm-tab-chart').style.color = tab==='chart' ? 'var(--blue)' : 'var(--tx2)';
+  document.getElementById('sm-tab-chart').style.borderBottom = tab==='chart' ? '2px solid var(--blue)' : '2px solid transparent';
+  document.getElementById('sm-tab-fin').style.color = tab==='fin' ? 'var(--blue)' : 'var(--tx2)';
+  document.getElementById('sm-tab-fin').style.borderBottom = tab==='fin' ? '2px solid var(--blue)' : '2px solid transparent';
+
+  if (tab === 'fin') {
+    const ticker = document.getElementById('sm-ticker').textContent;
+    loadModalFinancials(ticker);
+  }
+}
+
+async function loadModalFinancials(ticker) {
+  const status = document.getElementById('sm-fin-status');
+  const content = document.getElementById('sm-fin-content');
+  status.textContent = '⏳ กำลังโหลดงบการเงิน...';
+  content.innerHTML = '';
+  try {
+    const res = await fetch('/api/financials?ticker=' + ticker);
+    const data = await res.json();
+    if (data.error) { status.textContent = '❌ ' + data.error; return; }
+    status.textContent = '';
+    content.innerHTML = buildModalFinHTML(data);
+    // Add AI summary button
+    content.innerHTML += `<div style="margin-top:12px">
+      <button onclick="aiSummarizeModalFin('${ticker}')" id="sm-fin-ai-btn" style="background:#7c3aed;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;width:100%">🤖 AI สรุปงบการเงิน</button>
+      <div id="sm-fin-ai-result" style="margin-top:10px;font-size:13px;color:var(--tx2);line-height:1.7;display:none"></div>
+    </div>`;
+    finData = data; // store for reuse
+  } catch(e) {
+    status.textContent = '❌ Error: ' + e.message;
+  }
+}
+
+function buildModalFinHTML(d) {
+  const r = d.ratios;
+  const ratioGrid = [
+    ['P/E', r.pe ?? '-'], ['Forward P/E', r.forwardPE ?? '-'],
+    ['EPS', r.eps != null ? '$'+r.eps : '-'], ['Market Cap', r.marketCap != null ? r.marketCap+'B' : '-'],
+    ['ROE', r.roe != null ? r.roe+'%' : '-'], ['Net Margin', r.netMargin != null ? r.netMargin+'%' : '-'],
+    ['Rev Growth', r.revenueGrowth != null ? r.revenueGrowth+'%' : '-'], ['Earn Growth', r.earningsGrowth != null ? r.earningsGrowth+'%' : '-'],
+    ['Gross Margin', r.grossMargin != null ? r.grossMargin+'%' : '-'], ['Div Yield', r.dividendYield != null ? r.dividendYield+'%' : '-'],
+    ['Debt/Equity', r.debtToEquity ?? '-'], ['Beta', r.beta ?? '-'],
+  ].map(([k,v]) => `<div style="background:var(--bg2,var(--s2));border-radius:8px;padding:8px 10px">
+    <div style="font-size:10px;color:var(--tx3)">${k}</div>
+    <div style="font-size:13px;font-weight:600">${v}</div>
+  </div>`).join('');
+
+  // Latest quarter income
+  const q = d.incomeQ[0] || {};
+  const cf = d.cashQ[0] || {};
+
+  return `
+    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:8px">KEY RATIOS</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">${ratioGrid}</div>
+    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:8px">งบล่าสุด (${q.date||'-'}) — พันล้าน USD</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px">
+      ${[['Revenue',q.revenue],['Net Income',q.netIncome],['Free CF',cf.freeCF],['EPS',(q.eps||null)]].map(([k,v])=>`
+      <div style="background:var(--s2);border-radius:8px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--tx3)">${k}</div>
+        <div style="font-size:13px;font-weight:600;color:${v!=null&&v<0?'var(--red-tx)':'var(--tx)'}">${v!=null?(typeof v==='number'&&Math.abs(v)>0.1?fn(v,2):v):'-'}</div>
+      </div>`).join('')}
+    </div>`;
+}
+
+async function aiSummarizeModalFin(ticker) {
+  const btn = document.getElementById('sm-fin-ai-btn');
+  const resultEl = document.getElementById('sm-fin-ai-result');
+  if (!finData) return;
+  if (btn) { btn.disabled=true; btn.textContent='⏳ กำลังวิเคราะห์...'; }
+  const r = finData.ratios;
+  const q = finData.incomeQ[0]||{};
+  const cf = finData.cashQ[0]||{};
+  const ctx = `${ticker}: P/E=${r.pe} ROE=${r.roe}% NetMargin=${r.netMargin}% RevGrowth=${r.revenueGrowth}% EarnGrowth=${r.earningsGrowth}% Revenue=${q.revenue}B NetIncome=${q.netIncome}B FreeCF=${cf.freeCF}B`;
+  try {
+    const res = await fetch('/api/summarize', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ items:[{ticker,title:'Financial',description:ctx}],
+        prompt:`วิเคราะห์งบการเงินของ ${ticker} เป็นภาษาไทย 3-4 ประโยค สรุปจุดเด่น จุดเสี่ยง และความน่าลงทุน:\n${ctx}` }),
+      signal: safeSignal(25000)
+    });
+    const data = await res.json();
+    resultEl.textContent = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
+    resultEl.style.display = 'block';
+  } catch(e) { resultEl.textContent = 'Error: '+e.message; resultEl.style.display='block'; }
+  if (btn) { btn.disabled=false; btn.textContent='🤖 AI สรุปงบการเงิน'; }
 }
 </script>
 

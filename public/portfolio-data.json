@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T07:23:56.774Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 14:23",
+  "exportDate": "2026-05-11T07:24:10.327Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 14:24",
   "portfolios": [
     {
       "id": "dr1",
@@ -659,7 +659,318 @@
   ],
   "alerts": [],
   "notes": [],
-  "dividends": [],
+  "dividends": [
+    {
+      "id": 1778484238776.7163,
+      "ticker": "ASML01",
+      "date": "2026-04-24",
+      "payDate": "2026-05-22 (est.)",
+      "perShare": 0.0619,
+      "qty": 2700,
+      "total": 167.13,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484239583.1233,
+      "ticker": "AVGO80",
+      "date": "2026-03-23",
+      "payDate": "2026-04-20 (est.)",
+      "perShare": 0.00409,
+      "qty": 26000,
+      "total": 106.34,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484246129.3203,
+      "ticker": "QQQM19",
+      "date": "2026-03-23",
+      "payDate": "2026-04-20 (est.)",
+      "perShare": 0.0164,
+      "qty": 1500,
+      "total": 24.6,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484243766.6667,
+      "ticker": "NVDA80",
+      "date": "2026-03-11",
+      "payDate": "2026-04-08 (est.)",
+      "perShare": 0.00154,
+      "qty": 2457,
+      "total": 3.78,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484241315.997,
+      "ticker": "GOOG80",
+      "date": "2026-03-09",
+      "payDate": "2026-04-06 (est.)",
+      "perShare": 0.0033,
+      "qty": 4600,
+      "total": 15.18,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242979.946,
+      "ticker": "MSFT80",
+      "date": "2026-02-19",
+      "payDate": "2026-03-19 (est.)",
+      "perShare": 0.01449,
+      "qty": 25400,
+      "total": 368.05,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242180.6716,
+      "ticker": "LLY80",
+      "date": "2026-02-13",
+      "payDate": "2026-03-13 (est.)",
+      "perShare": 0.00274,
+      "qty": 4000,
+      "total": 10.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.4675,
+      "ticker": "ASML01",
+      "date": "2026-02-09",
+      "payDate": "2026-03-09 (est.)",
+      "perShare": 0.0353,
+      "qty": 2700,
+      "total": 95.31,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484239583.3064,
+      "ticker": "AVGO80",
+      "date": "2025-12-22",
+      "payDate": "2026-01-19 (est.)",
+      "perShare": 0.0041,
+      "qty": 26000,
+      "total": 106.6,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484246129.734,
+      "ticker": "QQQM19",
+      "date": "2025-12-22",
+      "payDate": "2026-01-19 (est.)",
+      "perShare": 0.0168,
+      "qty": 1500,
+      "total": 25.2,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484241315.0374,
+      "ticker": "GOOG80",
+      "date": "2025-12-08",
+      "payDate": "2026-01-05 (est.)",
+      "perShare": 0.00267,
+      "qty": 4600,
+      "total": 12.28,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484243766.106,
+      "ticker": "NVDA80",
+      "date": "2025-12-04",
+      "payDate": "2026-01-01 (est.)",
+      "perShare": 0.00161,
+      "qty": 2457,
+      "total": 3.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242979.2705,
+      "ticker": "MSFT80",
+      "date": "2025-11-20",
+      "payDate": "2025-12-18 (est.)",
+      "perShare": 0.0144,
+      "qty": 25400,
+      "total": 365.76,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242180.6729,
+      "ticker": "LLY80",
+      "date": "2025-11-14",
+      "payDate": "2025-12-12 (est.)",
+      "perShare": 0.00244,
+      "qty": 4000,
+      "total": 9.76,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.6494,
+      "ticker": "ASML01",
+      "date": "2025-10-28",
+      "payDate": "2025-11-25 (est.)",
+      "perShare": 0.037,
+      "qty": 2700,
+      "total": 99.9,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484239583.8054,
+      "ticker": "AVGO80",
+      "date": "2025-09-22",
+      "payDate": "2025-10-20 (est.)",
+      "perShare": 0.00379,
+      "qty": 26000,
+      "total": 98.54,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484246129.5127,
+      "ticker": "QQQM19",
+      "date": "2025-09-22",
+      "payDate": "2025-10-20 (est.)",
+      "perShare": 0.0173,
+      "qty": 1500,
+      "total": 25.95,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484243766.2822,
+      "ticker": "NVDA80",
+      "date": "2025-09-11",
+      "payDate": "2025-10-09 (est.)",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484241315.7393,
+      "ticker": "GOOG80",
+      "date": "2025-09-08",
+      "payDate": "2025-10-06 (est.)",
+      "perShare": 0.0027,
+      "qty": 4600,
+      "total": 12.42,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242979.6724,
+      "ticker": "MSFT80",
+      "date": "2025-08-21",
+      "payDate": "2025-09-18 (est.)",
+      "perShare": 0.01061,
+      "qty": 25400,
+      "total": 269.49,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242180.9744,
+      "ticker": "LLY80",
+      "date": "2025-08-15",
+      "payDate": "2025-09-12 (est.)",
+      "perShare": 0.00246,
+      "qty": 4000,
+      "total": 9.84,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.455,
+      "ticker": "ASML01",
+      "date": "2025-07-29",
+      "payDate": "2025-08-26 (est.)",
+      "perShare": 0.0371,
+      "qty": 2700,
+      "total": 100.17,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484246129.3386,
+      "ticker": "QQQM19",
+      "date": "2025-06-23",
+      "payDate": "2025-07-21 (est.)",
+      "perShare": 0.0172,
+      "qty": 1500,
+      "total": 25.8,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484239583.9353,
+      "ticker": "AVGO80",
+      "date": "2025-06-20",
+      "payDate": "2025-07-18 (est.)",
+      "perShare": 0.00382,
+      "qty": 26000,
+      "total": 99.32,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484243766.7778,
+      "ticker": "NVDA80",
+      "date": "2025-06-11",
+      "payDate": "2025-07-09 (est.)",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484241315.4985,
+      "ticker": "GOOG80",
+      "date": "2025-06-09",
+      "payDate": "2025-07-07 (est.)",
+      "perShare": 0.00275,
+      "qty": 4600,
+      "total": 12.65,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484242979.9194,
+      "ticker": "MSFT80",
+      "date": "2025-05-15",
+      "payDate": "2025-06-12 (est.)",
+      "perShare": 0.01086,
+      "qty": 25400,
+      "total": 275.84,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.734,
+      "ticker": "ASML01",
+      "date": "2025-04-25",
+      "payDate": "2025-05-23 (est.)",
+      "perShare": 0.0446,
+      "qty": 2700,
+      "total": 120.42,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.9417,
+      "ticker": "ASML01",
+      "date": "2025-02-10",
+      "payDate": "2025-03-10 (est.)",
+      "perShare": 0.034,
+      "qty": 2700,
+      "total": 91.8,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.7363,
+      "ticker": "ASML01",
+      "date": "2024-10-29",
+      "payDate": "2024-11-26 (est.)",
+      "perShare": 0.0348,
+      "qty": 2700,
+      "total": 93.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778484238776.97,
+      "ticker": "ASML01",
+      "date": "2024-07-30",
+      "payDate": "2024-08-27 (est.)",
+      "perShare": 0.0357,
+      "qty": 2700,
+      "total": 96.39,
+      "note": "auto (THB)"
+    }
+  ],
   "watchlist": [
     {
       "id": 1778479684358,

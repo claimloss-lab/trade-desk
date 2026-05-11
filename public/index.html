@@ -1221,13 +1221,13 @@ function renderPortfolio(portId) {
   setEl('eq',fm(eq));
   setEl('cost','ต้นทุน '+fm(cost));
   setEl('pnl',(pnl>=0?'+':'')+fm(pnl));
-  el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
+  if(el('pnl')) el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
   setEl('pnlb',(pct>=0?'+':'')+pct.toFixed(2)+'%');
-  el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
+  if(el('pnlb')) el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
   setEl('day',(dayPnl>=0?'+':'')+fm(dayPnl));
-  el('day').style.color=dayPnl>=0?'var(--green-tx)':'var(--red-tx)';
+  if(el('day')) el('day').style.color=dayPnl>=0?'var(--green-tx)':'var(--red-tx)';
   setEl('dayb',(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%');
-  el('dayb').className='bdg '+(dayPnl>=0?'pos':'neg');
+  if(el('dayb')) el('dayb').className='bdg '+(dayPnl>=0?'pos':'neg');
   if(el('cash') && port.cash>0) el('cash').value=port.cash;
 
   // Table
@@ -1353,9 +1353,9 @@ function renderSnapshot(portId) {
   el('net').textContent=fm(latestVal);
   el('sub').textContent=snaps.length?'ณ วันที่ '+snaps.at(-1).date:'ยังไม่มี snapshot';
   el('pnl').textContent=(pnl>=0?'+':'')+fm(pnl);
-  el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
+  if(el('pnl')) el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
   el('pnlb').textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
-  el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
+  if(el('pnlb')) el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
   el('cnt2').textContent = hasStocks ? port.stocks.length+' กองทุน' : snaps.length+' snapshots';
 
   // Render stock NAV table if port has stocks

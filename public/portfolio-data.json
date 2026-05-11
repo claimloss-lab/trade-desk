@@ -1,7 +1,7 @@
 {
-  "version": "2.0",
-  "exportDate": "2026-05-11T05:59:33.391Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 12:59",
+  "version": "3",
+  "exportDate": "2026-05-11T06:14:57.130Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:14",
   "portfolios": [
     {
       "id": "dr1",
@@ -510,6 +510,58 @@
       "snapshots": []
     }
   ],
+  "watchlist": [
+    {
+      "id": 1778479684358,
+      "ticker": "TISCO.BK",
+      "targetPrice": 109,
+      "qty": 100,
+      "note": "DCA_04/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 พ.ค. 69"
+    },
+    {
+      "id": 1778479777045,
+      "ticker": "CPALL.BK",
+      "targetPrice": 44.5,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 พ.ค. 69"
+    },
+    {
+      "id": 1778479794226,
+      "ticker": "BDMS.BK",
+      "targetPrice": 18.4,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 พ.ค. 69"
+    },
+    {
+      "id": 1778479813072,
+      "ticker": "TU.BK",
+      "targetPrice": 11.2,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 พ.ค. 69"
+    },
+    {
+      "id": 1778479826604,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6.1,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 พ.ค. 69"
+    }
+  ],
   "transactions": [
     {
       "id": 1778467777280,
@@ -632,13 +684,6 @@
   "alerts": [],
   "notes": [],
   "dividends": [],
-  "watchlist": [],
   "dcaHistory": [],
-  "currency": "THB",
-  "summary": {
-    "totalPorts": 9,
-    "totalStocks": 48,
-    "totalTransactions": 9,
-    "totalNetWorth": "฿1,523,942.31"
-  }
+  "currency": "THB"
 }

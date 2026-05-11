@@ -5567,6 +5567,146 @@ async function fetchAllDRDividends() {
   resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ ดึงปันผล DR ${added} รายการ (THB จาก Yahoo)</span>`;
   showToast('✅ ดึงปันผล DR สำเร็จ ' + added + ' รายการ');
 }
+
+// ══════════════════════════════════════════════════════════
+// QTY AT DATE — จำนวนหุ้น ณ วันที่ระบุ (จาก transaction log)
+// ══════════════════════════════════════════════════════════
+function getQtyAtDate(ticker, xdDateStr) {
+  // Start from current qty in portfolio
+  let currentQty = 0;
+  portfolios.forEach(p => {
+    const s = p.stocks?.find(s => s.ticker === ticker);
+    if (s) currentQty = s.qty;
+  });
+
+  // Get all transactions for this ticker, sorted newest first
+  const txList = transactions
+    .filter(t => t.ticker === ticker)
+    .sort((a, b) => b.date.localeCompare(a.date));
+
+  // Walk back from current qty to reconstruct qty at xdDate
+  let qty = currentQty;
+  const xdDate = xdDateStr.replace(' (est.)','').trim();
+
+  for (const tx of txList) {
+    if (tx.date > xdDate) {
+      // This transaction happened AFTER xdDate — undo it
+      if (tx.type === 'buy') qty -= tx.qty;
+      else if (tx.type === 'sell') qty += tx.qty;
+    }
+  }
+
+  return Math.max(0, qty);
+}
+
+// ══════════════════════════════════════════════════════════
+// UNIFIED DIVIDEND FETCHER
+// ══════════════════════════════════════════════════════════
+async function fetchAllDividendsUnified() {
+  const btn = document.getElementById('fetch-all-div-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังดึง...'; }
+
+  const panel = document.getElementById('auto-div-panel');
+  const barEl = document.getElementById('auto-div-bar');
+  const statusEl = document.getElementById('auto-div-status');
+  const progressEl = document.getElementById('auto-div-progress');
+  const resultEl = document.getElementById('auto-div-result');
+
+  panel.style.display = 'block';
+  progressEl.style.display = 'block';
+  resultEl.textContent = '';
+
+  const range = document.getElementById('auto-div-range').value || '2y';
+  let added = 0, skipped = 0;
+
+  // ── Build ticker list ──
+  const tasks = []; // { ticker, fetchSym, type }
+
+  portfolios.forEach(p => {
+    if (['jitta1','jitta2'].includes(p.id)) return;
+    (p.stocks || []).forEach(s => {
+      const t = s.ticker;
+      if (!t) return;
+
+      // Skip mutual funds
+      if (t.startsWith('K-') || t.includes('(A)') || t.includes('RMF') ||
+          t.includes('BGOLD') || t.includes('ESG') || t.includes('MEGA') ||
+          t.startsWith('TLND')) return;
+
+      // DR tickers (e.g. AMZN80) → fetch as AMZN80.BK
+      if (t.match(/^[A-Z]+\d+$/)) {
+        tasks.push({ ticker: t, fetchSym: t + '.BK', type: 'dr' });
+      }
+      // Thai tickers (.BK)
+      else if (t.endsWith('.BK')) {
+        tasks.push({ ticker: t, fetchSym: t, type: 'th' });
+      }
+      // US tickers (plain letters, not in DR ports)
+      else if (/^[A-Z.-]+$/.test(t) && p.type === 'realtime_us') {
+        // Skip if this is underlying of a DR
+        const isDRUnderlying = portfolios.some(p2 =>
+          p2.stocks?.some(s2 => {
+            const db = STOCK_DB[s2.ticker];
+            return db?.underlying === t || (s2.ticker.match(/^([A-Z]+)\d+$/) || [])[1] === t;
+          })
+        );
+        if (!isDRUnderlying) tasks.push({ ticker: t, fetchSym: t, type: 'us' });
+      }
+    });
+  });
+
+  // Deduplicate by ticker
+  const seen = new Set();
+  const uniqueTasks = tasks.filter(t => { if (seen.has(t.ticker)) return false; seen.add(t.ticker); return true; });
+
+  for (let i = 0; i < uniqueTasks.length; i++) {
+    const { ticker, fetchSym, type } = uniqueTasks[i];
+    barEl.style.width = ((i+1)/uniqueTasks.length*100) + '%';
+    statusEl.textContent = `ดึง ${ticker} (${i+1}/${uniqueTasks.length})...`;
+
+    try {
+      const res = await fetch(`/api/dividend?ticker=${encodeURIComponent(fetchSym)}&range=${range}`);
+      const data = await res.json();
+
+      for (const d of (data.dividends || [])) {
+        if (!d.date || d.amount == null) continue;
+
+        // Skip duplicates
+        if (dividends.some(x => x.ticker === ticker && x.date === d.date)) {
+          skipped++;
+          continue;
+        }
+
+        // Get qty at XD date (using transaction history)
+        const qty = getQtyAtDate(ticker, d.date);
+        if (qty <= 0) { skipped++; continue; }
+
+        dividends.push({
+          id: Date.now() + Math.random(),
+          ticker,
+          date: d.date,
+          payDate: d.payDate || null,
+          perShare: d.amount,
+          qty,
+          total: +(d.amount * qty).toFixed(2),
+          note: type === 'dr' ? 'auto (THB)' : type === 'th' ? 'auto (THB)' : 'auto (USD)',
+        });
+        added++;
+      }
+    } catch(e) { console.warn('Div fetch error:', ticker, e); }
+
+    await new Promise(r => setTimeout(r, 350));
+  }
+
+  dividends.sort((a,b) => b.date.localeCompare(a.date));
+  saveFeatures();
+  renderDividends();
+  progressEl.style.display = 'none';
+  resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ เพิ่ม ${added} รายการ</span> <span style="color:var(--tx3)">(ข้าม ${skipped} ซ้ำ)</span>`;
+
+  if (btn) { btn.disabled = false; btn.textContent = '↓ ดึงปันผลทั้งหมด'; }
+  showToast(`✅ ดึงปันผลสำเร็จ ${added} รายการ`);
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5772,18 +5912,17 @@ async function fetchAllDRDividends() {
     <h2 style="font-size:18px;font-weight:600">🏦 Dividend Tracker</h2>
     <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <select id="div-filter-ticker" onchange="renderDividends()" style="width:130px;font-size:12px;padding:5px 8px"><option value="">ทุกตัว</option></select>
-      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึง US</button>
-      <button class="btn btn-s btn-sm" onclick="fetchSETDividends()">🇹🇭 ดึง SET</button>
+      <button class="btn btn-p btn-sm" id="fetch-all-div-btn" onclick="fetchAllDividendsUnified()">↓ ดึงปันผลทั้งหมด</button>
       <button class="btn btn-s btn-sm" onclick="fetchUpcomingDividends()">📅 Upcoming</button>
-      <button class="btn btn-p btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
+      <button class="btn btn-g btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
     </div>
   </div>
   <div id="auto-div-panel" style="display:none;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px;margin-bottom:16px">
     <div style="font-size:13px;font-weight:600;margin-bottom:10px">ดึงประวัติปันผลอัตโนมัติจาก Yahoo Finance</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
       <select id="auto-div-range" style="width:100px"><option value="1y">1 ปี</option><option value="2y" selected>2 ปี</option><option value="5y">5 ปี</option></select>
-      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึง US ทุกตัว</button>
-      <button class="btn btn-s btn-sm" onclick="fetchAllDRDividends()">🔄 ดึง DR (คำนวณบาท)</button>
+      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึง US</button>
+      <button class="btn btn-s btn-sm" onclick="fetchAllDRDividends()">↓ ดึง DR</button>
       <button class="btn btn-g btn-sm" onclick="document.getElementById('auto-div-panel').style.display='none'">ปิด</button>
     </div>
     <div id="auto-div-progress" style="display:none;margin-bottom:8px">

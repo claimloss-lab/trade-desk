@@ -2276,37 +2276,62 @@ function checkAlerts(){
 }
 
 // NOTES
-function openNoteModal(ticker,text){
-  ticker=ticker||''; text=text||'';
-  document.getElementById('note-ticker').value=ticker;
-  document.getElementById('note-text').value=text;
+function openNoteModal(idOrTicker, legacyText){
+  const existing = typeof idOrTicker === 'number' ? notes.find(n=>n.id===idOrTicker) : null;
+  const ticker = existing?.ticker || (typeof idOrTicker==='string'?idOrTicker:'');
+  document.getElementById('note-ticker').value = ticker;
+  document.getElementById('note-text').value   = existing?.text || legacyText || '';
+  if(document.getElementById('note-tag'))  document.getElementById('note-tag').value  = existing?.tag  || 'Watching';
+  if(document.getElementById('note-link')) document.getElementById('note-link').value = existing?.link || '';
+  document.getElementById('note-modal').dataset.editId = existing?.id || '';
   document.getElementById('note-modal').style.display='flex';
 }
 function saveNote(){
   const ticker=document.getElementById('note-ticker').value.trim().toUpperCase();
   const text=document.getElementById('note-text').value.trim();
-  if(!ticker||!text){alert('กรอกข้อมูลให้ครบ');return;}
-  const ex=notes.find(n=>n.ticker===ticker);
-  if(ex) ex.text=text; else notes.push({id:Date.now(),ticker,text,date:new Date().toLocaleDateString('th-TH')});
+  const tag  = document.getElementById('note-tag')?.value  || 'Watching';
+  const link = document.getElementById('note-link')?.value.trim() || '';
+  if(!text){ showToast('เขียน thesis ด้วยนะครับ'); return; }
+  const editId = parseInt(document.getElementById('note-modal').dataset.editId)||null;
+  const today = new Date().toLocaleDateString('th-TH');
+  if(editId){
+    const n = notes.find(n=>n.id===editId);
+    if(n){ n.ticker=ticker; n.text=text; n.tag=tag; n.link=link; n.date=today; }
+  } else {
+    notes.push({id:Date.now(), ticker, text, tag, link, date:today});
+  }
   saveFeatures();closeModal('note-modal');renderNotes();updateSbBadges();
 }
 function deleteNote(id){notes=notes.filter(n=>n.id!==id);saveFeatures();renderNotes();updateSbBadges();}
 function renderNotes(){
   const body=document.getElementById('notes-body');
   if(!body) return;
-  if(!notes.length){body.innerHTML=`<div class="empty"><div class="empty-ico">📝</div>ยังไม่มี</div>`;return;}
-  body.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">`+
-    notes.map(n=>`<div style="background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r2);padding:14px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <span class="tkr">${n.ticker}</span>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-sm" onclick="openNoteModal('${n.ticker}',this.dataset.text)" data-text="${n.text}">แก้</button>
-          <button class="btn btn-sm" onclick="deleteNote(${n.id})" style="color:var(--red-tx)">ลบ</button>
+  if(!notes.length){
+    body.innerHTML=`<div class="empty"><div class="empty-ico">📚</div><div>ยังไม่มี Research Note<br><span style="font-size:12px;color:var(--tx3)">บันทึก thesis การลงทุนของคุณ</span></div></div>`;
+    return;
+  }
+  const tagBg   = {Bullish:'var(--green-bg)',Bearish:'var(--red-bg)',Watching:'#fff8e1',General:'var(--s2)'};
+  const tagTx   = {Bullish:'var(--green-tx)',Bearish:'var(--red-tx)',Watching:'#b45309',General:'var(--tx3)'};
+  const tagIcon = {Bullish:'📈',Bearish:'📉',Watching:'👁️',General:'📝'};
+  body.innerHTML = notes.map(n=>{
+    const tag = n.tag||'General';
+    const linkHtml = n.link ? `<a href="${n.link}" target="_blank" style="font-size:11px;color:var(--blue)">🔗 ${n.link.replace(/https?:\/\//,'').split('/')[0]}</a>` : '';
+    return `<div class="card" style="margin-bottom:10px">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        ${n.ticker?`<span class="tkr">${n.ticker}</span>`:''}
+        <span style="background:${tagBg[tag]||tagBg.General};color:${tagTx[tag]||tagTx.General};font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">${tagIcon[tag]||'📝'} ${tag}</span>
+        <span style="font-size:11px;color:var(--tx3)">${n.date||''}</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm btn-g" onclick="openNoteModal(${n.id})">แก้ไข</button>
+          <button onclick="deleteNote(${n.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:16px">✕</button>
         </div>
       </div>
-      <div style="font-size:12px;color:var(--tx2);line-height:1.6;white-space:pre-wrap">${n.text}</div>
-      <div style="font-size:10px;color:var(--tx3);margin-top:8px">${n.date}</div>
-    </div>`).join('')+'</div>';
+      <div style="padding:12px 14px">
+        <div style="font-size:13px;color:var(--tx2);line-height:1.7;white-space:pre-wrap;margin-bottom:${linkHtml?'8':'0'}px">${n.text}</div>
+        ${linkHtml}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // DIVIDENDS
@@ -5903,6 +5928,15 @@ async function fetchAllNAV(onlyPortId) {
   showToast(`✅ อัปเดต NAV ${updated} กองทุน`);
   if (btn) { btn.disabled = false; btn.textContent = '↻ NAV'; }
 }
+
+// Update alert price label based on condition
+function updateAlertLabel(){
+  const cond = document.getElementById('al-cond')?.value;
+  const lbl = document.getElementById('al-price-lbl');
+  if(!lbl) return;
+  if(cond === 'change_up' || cond === 'change_down') lbl.textContent = '% change เป้า';
+  else lbl.textContent = 'ราคาเป้า (฿)';
+}
 </script>
 
 <!-- OVERLAY -->
@@ -6057,21 +6091,38 @@ async function fetchAllNAV(onlyPortId) {
 <div class="feat-panel" id="feat-alerts">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
-    <h2 style="font-size:18px;font-weight:600">🔔 Price Alerts</h2>
+    <h2 style="font-size:18px;font-weight:600">👁️ Market Watchlist</h2>
   </div>
   <div class="card" style="margin-bottom:16px">
-    <div class="card-hd"><div class="card-ti">ตั้งการแจ้งเตือน</div></div>
+    <div class="card-hd"><div class="card-ti">เพิ่มหุ้นที่จับตาดู</div></div>
     <div class="card-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
-        <div><label class="form-lbl">Ticker</label><input type="text" id="al-ticker" placeholder="NVDA80, PTT.BK" style="width:100%;text-transform:uppercase"></div>
-        <div><label class="form-lbl">เงื่อนไข</label><select id="al-cond" style="width:100%"><option value="above">ราคา ≥ (Breakout)</option><option value="below">ราคา ≤ (รอซื้อ)</option></select></div>
-        <div><label class="form-lbl">ราคาเป้า (฿)</label><input type="number" id="al-price" placeholder="0.00" step="0.01" style="width:100%"></div>
-        <div><label class="form-lbl">โน้ต (ไม่จำเป็น)</label><input type="text" id="al-note" placeholder="เหตุผล..." style="width:100%"></div>
+        <div>
+          <label class="form-lbl">Ticker</label>
+          <input type="text" id="al-ticker" placeholder="NVDA, PTT.BK, AMZN80" style="width:100%;text-transform:uppercase">
+        </div>
+        <div>
+          <label class="form-lbl">เงื่อนไข</label>
+          <select id="al-cond" style="width:100%" onchange="updateAlertLabel()">
+            <option value="above">ราคา ≥ (Breakout ขึ้น)</option>
+            <option value="below">ราคา ≤ (รอซื้อ)</option>
+            <option value="change_up">เปลี่ยน ≥ +% วันนี้</option>
+            <option value="change_down">เปลี่ยน ≤ -% วันนี้</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-lbl" id="al-price-lbl">ราคาเป้า (฿)</label>
+          <input type="number" id="al-price" placeholder="0.00" step="0.01" style="width:100%" oninput="" onfocus="updateAlertLabel()">
+        </div>
+        <div>
+          <label class="form-lbl">Thesis / เหตุผล</label>
+          <input type="text" id="al-note" placeholder="เช่น รอ EMA50 แนวรับ, รอ breakout..." style="width:100%">
+        </div>
         <button class="btn btn-p" onclick="addAlert()">+ เพิ่ม</button>
       </div>
     </div>
   </div>
-  <div class="card"><div class="card-hd"><div class="card-ti">Alerts ที่ตั้งไว้</div></div><div class="card-bd" id="alerts-body"><div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div></div></div>
+  <div class="card"><div class="card-hd"><div class="card-ti">หุ้นที่กำลังจับตา</div></div><div class="card-bd" id="alerts-body"><div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div></div></div>
 </div>
 
 <div class="feat-panel" id="feat-watchlist">
@@ -6097,8 +6148,8 @@ async function fetchAllNAV(onlyPortId) {
 <div class="feat-panel" id="feat-notes">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
-    <h2 style="font-size:18px;font-weight:600">📝 โน้ต</h2>
-    <button class="btn btn-p btn-sm" onclick="openNoteModal()" style="margin-left:auto">+ เพิ่มโน้ต</button>
+    <h2 style="font-size:18px;font-weight:600">📚 Research Notes</h2>
+    <button class="btn btn-p btn-sm" onclick="openNoteModal()" style="margin-left:auto">+ เพิ่ม Research Note</button>
   </div>
   <div class="card"><div class="card-bd" id="notes-body"><div class="empty"><div class="empty-ico">📝</div>ยังไม่มีโน้ต</div></div></div>
 </div>
@@ -6541,6 +6592,46 @@ async function fetchAllNAV(onlyPortId) {
     <div style="display:flex;gap:8px">
       <button onclick="closeModal('wl-modal')" style="flex:1;padding:9px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;background:var(--s2);color:var(--tx)">ยกเลิก</button>
       <button onclick="addWatchlistItem()" style="flex:2;padding:9px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500">✅ บันทึก</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ RESEARCH NOTE MODAL ══════════════════ -->
+<div id="note-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
+  <div style="width:min(500px,92vw);background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:24px;max-height:90vh;overflow-y:auto">
+    <div style="font-size:15px;font-weight:600;margin-bottom:4px">📚 Research Note</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:18px">บันทึก investment thesis ของคุณ</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Ticker (ไม่จำเป็น)</label>
+        <input type="text" id="note-ticker" placeholder="NVDA, PTT.BK..." style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);text-transform:uppercase">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Tag</label>
+        <select id="note-tag" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+          <option value="Watching">👁️ Watching — จับตาดูอยู่</option>
+          <option value="Bullish">📈 Bullish — มองบวก</option>
+          <option value="Bearish">📉 Bearish — มองลบ</option>
+          <option value="General">📝 General — ทั่วไป</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Investment Thesis *</label>
+      <textarea id="note-text" placeholder="เขียน thesis เหตุผลที่สนใจหุ้นตัวนี้ แนวรับแนวต้าน catalyst ที่รอ..." style="width:100%;height:120px;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);resize:vertical;line-height:1.6"></textarea>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Link บทความ/ข่าว</label>
+      <input type="url" id="note-link" placeholder="https://..." style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button onclick="closeModal('note-modal')" style="flex:1;padding:9px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;background:var(--s2);color:var(--tx)">ยกเลิก</button>
+      <button onclick="saveNote()" style="flex:2;padding:9px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500">💾 บันทึก</button>
     </div>
   </div>
 </div>

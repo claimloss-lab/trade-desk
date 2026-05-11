@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T06:30:03.012Z",
+  "exportDate": "2026-05-11T06:30:37.030Z",
   "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:30",
   "portfolios": [
     {
@@ -20,7 +20,7 @@
         {
           "ticker": "ASML01",
           "qty": 2700,
-          "buyPrice": 28.43,
+          "buyPrice": 28.41,
           "id": 2,
           "sector": "Tech",
           "underlying": "ASML"
@@ -59,8 +59,8 @@
         },
         {
           "ticker": "MSFT80",
-          "qty": 18600,
-          "buyPrice": 7.67,
+          "qty": 25400,
+          "buyPrice": 7.423700787401575,
           "id": 9,
           "sector": "Tech",
           "underlying": "Microsoft"
@@ -496,6 +496,19 @@
   ],
   "transactions": [
     {
+      "id": 1778481006701,
+      "ticker": "MSFT80",
+      "type": "buy",
+      "date": "2026-05-11",
+      "price": 6.75,
+      "qty": 6800,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
       "id": 1778481000003,
       "ticker": "META80",
       "type": "sell",
@@ -702,7 +715,7 @@
   "summary": {
     "totalPorts": 9,
     "totalStocks": 46,
-    "totalTransactions": 11,
-    "totalNetWorth": "฿1,488,249.58"
+    "totalTransactions": 12,
+    "totalNetWorth": "฿1,534,149.58"
   }
 }

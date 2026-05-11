@@ -5307,6 +5307,81 @@ function updateBackupStatus() {
     el.textContent = 'ยังไม่ได้ Backup';
   }
 }
+
+// ══════════════════════════════════════════════════
+// UPCOMING DIVIDEND FETCHER
+// ══════════════════════════════════════════════════
+async function fetchUpcomingDividends() {
+  const panel = document.getElementById('upcoming-div-panel');
+  const contentEl = document.getElementById('upcoming-div-content');
+  panel.style.display = 'block';
+  contentEl.innerHTML = '<div style="color:var(--tx3);font-size:13px">⏳ กำลังโหลด upcoming dividend...</div>';
+
+  // Get US tickers (underlying)
+  const tickers = [...new Set(
+    portfolios.flatMap(p => p.stocks?.map(s => {
+      const db = STOCK_DB[s.ticker];
+      return db?.underlying || (s.ticker.match(/^([A-Z]+)\d+$/) ? s.ticker.match(/^([A-Z]+)\d+$/)[1] : s.ticker);
+    }) || [])
+  )].filter(t => !t.includes('.BK') && !t.includes('-') && t.length <= 5);
+
+  const results = await Promise.allSettled(
+    tickers.map(t => fetch('/api/upcoming-dividend?ticker=' + t).then(r => r.json()))
+  );
+
+  const divData = results
+    .map(r => r.status === 'fulfilled' ? r.value : null)
+    .filter(d => d && !d.error && (d.exDividendDate || d.dividendRate));
+
+  if (!divData.length) {
+    contentEl.innerHTML = '<div style="color:var(--tx3);font-size:13px;padding:8px">ไม่พบข้อมูล upcoming dividend</div>';
+    return;
+  }
+
+  // Sort by ex-dividend date
+  divData.sort((a, b) => {
+    if (!a.exDividendDate) return 1;
+    if (!b.exDividendDate) return -1;
+    return new Date(a.exDividendDate) - new Date(b.exDividendDate);
+  });
+
+  const today = new Date();
+  contentEl.innerHTML = `
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--s2)">
+            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--tx3)">Ticker</th>
+            <th style="text-align:right;padding:8px 10px;font-size:11px;color:var(--tx3)">Ex-Date</th>
+            <th style="text-align:right;padding:8px 10px;font-size:11px;color:var(--tx3)">Pay Date</th>
+            <th style="text-align:right;padding:8px 10px;font-size:11px;color:var(--tx3)">$/Share</th>
+            <th style="text-align:right;padding:8px 10px;font-size:11px;color:var(--tx3)">Yield</th>
+            <th style="text-align:right;padding:8px 10px;font-size:11px;color:var(--tx3)">Payout</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${divData.map(d => {
+            const exDate = d.exDividendDate ? new Date(d.exDividendDate) : null;
+            const daysUntil = exDate ? Math.ceil((exDate - today) / 86400000) : null;
+            const isSoon = daysUntil != null && daysUntil >= 0 && daysUntil <= 30;
+            const isPast = daysUntil != null && daysUntil < 0;
+            const badge = isSoon ? `<span style="background:var(--amber-bg,#fff8e1);color:#b45309;font-size:10px;padding:1px 5px;border-radius:4px;margin-left:4px">${daysUntil}d</span>` :
+                         isPast ? `<span style="color:var(--tx3);font-size:10px;margin-left:4px">ผ่านแล้ว</span>` : '';
+            return `<tr style="border-top:1px solid var(--bd2)">
+              <td style="padding:8px 10px;font-weight:600;font-family:var(--mono)">${d.ticker}</td>
+              <td style="text-align:right;padding:8px 10px">${d.exDividendDate || '-'}${badge}</td>
+              <td style="text-align:right;padding:8px 10px;color:var(--tx2)">${d.dividendDate || '-'}</td>
+              <td style="text-align:right;padding:8px 10px;font-family:var(--mono)">${d.dividendRate != null ? '$'+d.dividendRate.toFixed(2) : '-'}</td>
+              <td style="text-align:right;padding:8px 10px;color:var(--green-tx);font-weight:500">${d.dividendYield != null ? d.dividendYield+'%' : '-'}</td>
+              <td style="text-align:right;padding:8px 10px;color:var(--tx2)">${d.payoutRatio != null ? d.payoutRatio+'%' : '-'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:8px;padding:0 4px">* Ex-Date = วันที่ต้องถือหุ้นก่อนเพื่อรับปันผล | Pay Date = วันที่รับเงิน</div>
+  `;
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5513,6 +5588,7 @@ function updateBackupStatus() {
     <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <select id="div-filter-ticker" onchange="renderDividends()" style="width:130px;font-size:12px;padding:5px 8px"><option value="">ทุกตัว</option></select>
       <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึงปันผล</button>
+      <button class="btn btn-s btn-sm" onclick="fetchUpcomingDividends()">📅 Upcoming</button>
       <button class="btn btn-p btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
     </div>
   </div>

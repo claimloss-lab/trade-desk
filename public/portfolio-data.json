@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T07:38:24.508Z",
+  "exportDate": "2026-05-11T07:38:48.740Z",
   "exportDateTH": "11 พฤษภาคม 2569 เวลา 14:38",
   "portfolios": [
     {
@@ -659,7 +659,858 @@
   ],
   "alerts": [],
   "notes": [],
-  "dividends": [],
+  "dividends": [
+    {
+      "id": 1778485123228.2083,
+      "ticker": "WHA.BK",
+      "date": "2026-05-11",
+      "payDate": "2026-06-08 (est.)",
+      "perShare": 0.1438,
+      "qty": 9100,
+      "total": 1308.58,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113972.3586,
+      "ticker": "CENTEL.BK",
+      "date": "2026-05-06",
+      "payDate": "2026-06-03 (est.)",
+      "perShare": 0.67,
+      "qty": 1200,
+      "total": 804,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117074.9321,
+      "ticker": "MINT.BK",
+      "date": "2026-05-05",
+      "payDate": "2026-06-02 (est.)",
+      "perShare": 0.4,
+      "qty": 1600,
+      "total": 640,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485114684.2688,
+      "ticker": "CPALL.BK",
+      "date": "2026-04-30",
+      "payDate": "2026-05-28 (est.)",
+      "perShare": 1.65,
+      "qty": 900,
+      "total": 1485,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117798.4038,
+      "ticker": "TISCO.BK",
+      "date": "2026-04-29",
+      "payDate": "2026-05-27 (est.)",
+      "perShare": 5.75,
+      "qty": 400,
+      "total": 2300,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.1687,
+      "ticker": "ASML01",
+      "date": "2026-04-24",
+      "payDate": "2026-05-22 (est.)",
+      "perShare": 0.0619,
+      "qty": 2700,
+      "total": 167.13,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485116132.729,
+      "ticker": "HMPRO.BK",
+      "date": "2026-04-22",
+      "payDate": "2026-05-20 (est.)",
+      "perShare": 0.22,
+      "qty": 3600,
+      "total": 792,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.022,
+      "ticker": "LHSC.BK",
+      "date": "2026-04-10",
+      "payDate": "2026-05-08 (est.)",
+      "perShare": 0.2,
+      "qty": 8000,
+      "total": 1600,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485106112.4673,
+      "ticker": "AVGO80",
+      "date": "2026-03-23",
+      "payDate": "2026-04-20 (est.)",
+      "perShare": 0.00409,
+      "qty": 26000,
+      "total": 106.34,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485111735.014,
+      "ticker": "QQQM19",
+      "date": "2026-03-23",
+      "payDate": "2026-04-20 (est.)",
+      "perShare": 0.0164,
+      "qty": 1500,
+      "total": 24.6,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485109597.0684,
+      "ticker": "NVDA80",
+      "date": "2026-03-11",
+      "payDate": "2026-04-08 (est.)",
+      "perShare": 0.00154,
+      "qty": 2457,
+      "total": 3.78,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123951.167,
+      "ticker": "LHHOTEL.BK",
+      "date": "2026-03-11",
+      "payDate": "2026-04-08 (est.)",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.872,
+      "ticker": "LHSC.BK",
+      "date": "2026-03-11",
+      "payDate": "2026-04-08 (est.)",
+      "perShare": 0.241,
+      "qty": 8000,
+      "total": 1928,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113233.3904,
+      "ticker": "BDMS.BK",
+      "date": "2026-03-10",
+      "payDate": "2026-04-07 (est.)",
+      "perShare": 0.65,
+      "qty": 2000,
+      "total": 1300,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485107530.3188,
+      "ticker": "GOOG80",
+      "date": "2026-03-09",
+      "payDate": "2026-04-06 (est.)",
+      "perShare": 0.0033,
+      "qty": 4600,
+      "total": 15.18,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485115430.9631,
+      "ticker": "CPN.BK",
+      "date": "2026-03-09",
+      "payDate": "2026-04-06 (est.)",
+      "perShare": 2.4,
+      "qty": 600,
+      "total": 1440,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485122403.0168,
+      "ticker": "TU.BK",
+      "date": "2026-03-02",
+      "payDate": "2026-03-30 (est.)",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485125374.8433,
+      "ticker": "MC.BK",
+      "date": "2026-02-26",
+      "payDate": "2026-03-26 (est.)",
+      "perShare": 0.52,
+      "qty": 2000,
+      "total": 1040,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108905.543,
+      "ticker": "MSFT80",
+      "date": "2026-02-19",
+      "payDate": "2026-03-19 (est.)",
+      "perShare": 0.01449,
+      "qty": 18600,
+      "total": 269.51,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108217.4363,
+      "ticker": "LLY80",
+      "date": "2026-02-13",
+      "payDate": "2026-03-13 (est.)",
+      "perShare": 0.00274,
+      "qty": 4000,
+      "total": 10.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.1262,
+      "ticker": "ASML01",
+      "date": "2026-02-09",
+      "payDate": "2026-03-09 (est.)",
+      "perShare": 0.0353,
+      "qty": 2700,
+      "total": 95.31,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485106112.9207,
+      "ticker": "AVGO80",
+      "date": "2025-12-22",
+      "payDate": "2026-01-19 (est.)",
+      "perShare": 0.0041,
+      "qty": 26000,
+      "total": 106.6,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485111735.4028,
+      "ticker": "QQQM19",
+      "date": "2025-12-22",
+      "payDate": "2026-01-19 (est.)",
+      "perShare": 0.0168,
+      "qty": 1500,
+      "total": 25.2,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.528,
+      "ticker": "LHSC.BK",
+      "date": "2025-12-15",
+      "payDate": "2026-01-12 (est.)",
+      "perShare": 0.22,
+      "qty": 8000,
+      "total": 1760,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485107530.4314,
+      "ticker": "GOOG80",
+      "date": "2025-12-08",
+      "payDate": "2026-01-05 (est.)",
+      "perShare": 0.00267,
+      "qty": 4600,
+      "total": 12.28,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485109597.6387,
+      "ticker": "NVDA80",
+      "date": "2025-12-04",
+      "payDate": "2026-01-01 (est.)",
+      "perShare": 0.00161,
+      "qty": 2457,
+      "total": 3.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123951.0173,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-12-02",
+      "payDate": "2025-12-30 (est.)",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123228.815,
+      "ticker": "WHA.BK",
+      "date": "2025-11-27",
+      "payDate": "2025-12-25 (est.)",
+      "perShare": 0.0669,
+      "qty": 9100,
+      "total": 608.79,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108905.4573,
+      "ticker": "MSFT80",
+      "date": "2025-11-20",
+      "payDate": "2025-12-18 (est.)",
+      "perShare": 0.0144,
+      "qty": 18600,
+      "total": 267.84,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108217.8174,
+      "ticker": "LLY80",
+      "date": "2025-11-14",
+      "payDate": "2025-12-12 (est.)",
+      "perShare": 0.00244,
+      "qty": 4000,
+      "total": 9.76,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485125374.2085,
+      "ticker": "MC.BK",
+      "date": "2025-11-04",
+      "payDate": "2025-12-02 (est.)",
+      "perShare": 0.41,
+      "qty": 2000,
+      "total": 820,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.7947,
+      "ticker": "LHSC.BK",
+      "date": "2025-10-31",
+      "payDate": "2025-11-28 (est.)",
+      "perShare": 0.18,
+      "qty": 8000,
+      "total": 1440,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.873,
+      "ticker": "ASML01",
+      "date": "2025-10-28",
+      "payDate": "2025-11-25 (est.)",
+      "perShare": 0.037,
+      "qty": 2700,
+      "total": 99.9,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485106112.6257,
+      "ticker": "AVGO80",
+      "date": "2025-09-22",
+      "payDate": "2025-10-20 (est.)",
+      "perShare": 0.00379,
+      "qty": 26000,
+      "total": 98.54,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485111735.6775,
+      "ticker": "QQQM19",
+      "date": "2025-09-22",
+      "payDate": "2025-10-20 (est.)",
+      "perShare": 0.0173,
+      "qty": 1500,
+      "total": 25.95,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485109597.3716,
+      "ticker": "NVDA80",
+      "date": "2025-09-11",
+      "payDate": "2025-10-09 (est.)",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485116132.3772,
+      "ticker": "HMPRO.BK",
+      "date": "2025-09-10",
+      "payDate": "2025-10-08 (est.)",
+      "perShare": 0.16,
+      "qty": 3600,
+      "total": 576,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117798.978,
+      "ticker": "TISCO.BK",
+      "date": "2025-09-10",
+      "payDate": "2025-10-08 (est.)",
+      "perShare": 2,
+      "qty": 400,
+      "total": 800,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113233.281,
+      "ticker": "BDMS.BK",
+      "date": "2025-09-09",
+      "payDate": "2025-10-07 (est.)",
+      "perShare": 0.35,
+      "qty": 2000,
+      "total": 700,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485107530.6353,
+      "ticker": "GOOG80",
+      "date": "2025-09-08",
+      "payDate": "2025-10-06 (est.)",
+      "perShare": 0.0027,
+      "qty": 4600,
+      "total": 12.42,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117074.702,
+      "ticker": "MINT.BK",
+      "date": "2025-09-01",
+      "payDate": "2025-09-29 (est.)",
+      "perShare": 0.3,
+      "qty": 1600,
+      "total": 480,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123951.1274,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-08-27",
+      "payDate": "2025-09-24 (est.)",
+      "perShare": 0.27,
+      "qty": 1800,
+      "total": 486,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.7422,
+      "ticker": "LHSC.BK",
+      "date": "2025-08-27",
+      "payDate": "2025-09-24 (est.)",
+      "perShare": 0.18,
+      "qty": 8000,
+      "total": 1440,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108905.6477,
+      "ticker": "MSFT80",
+      "date": "2025-08-21",
+      "payDate": "2025-09-18 (est.)",
+      "perShare": 0.01061,
+      "qty": 18600,
+      "total": 197.35,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108217.1443,
+      "ticker": "LLY80",
+      "date": "2025-08-15",
+      "payDate": "2025-09-12 (est.)",
+      "perShare": 0.00246,
+      "qty": 4000,
+      "total": 9.84,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485122403.089,
+      "ticker": "TU.BK",
+      "date": "2025-08-15",
+      "payDate": "2025-09-12 (est.)",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.6265,
+      "ticker": "ASML01",
+      "date": "2025-07-29",
+      "payDate": "2025-08-26 (est.)",
+      "perShare": 0.0371,
+      "qty": 2700,
+      "total": 100.17,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.0232,
+      "ticker": "LHSC.BK",
+      "date": "2025-07-07",
+      "payDate": "2025-08-04 (est.)",
+      "perShare": 0.18,
+      "qty": 8000,
+      "total": 1440,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485111735.0583,
+      "ticker": "QQQM19",
+      "date": "2025-06-23",
+      "payDate": "2025-07-21 (est.)",
+      "perShare": 0.0172,
+      "qty": 1500,
+      "total": 25.8,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485106112.553,
+      "ticker": "AVGO80",
+      "date": "2025-06-20",
+      "payDate": "2025-07-18 (est.)",
+      "perShare": 0.00382,
+      "qty": 26000,
+      "total": 99.32,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485109597.2808,
+      "ticker": "NVDA80",
+      "date": "2025-06-11",
+      "payDate": "2025-07-09 (est.)",
+      "perShare": 0.0013,
+      "qty": 2457,
+      "total": 3.19,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485107530.1313,
+      "ticker": "GOOG80",
+      "date": "2025-06-09",
+      "payDate": "2025-07-07 (est.)",
+      "perShare": 0.00275,
+      "qty": 4600,
+      "total": 12.65,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123951.7673,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-05-28",
+      "payDate": "2025-06-25 (est.)",
+      "perShare": 0.3,
+      "qty": 1800,
+      "total": 540,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485108905.249,
+      "ticker": "MSFT80",
+      "date": "2025-05-15",
+      "payDate": "2025-06-12 (est.)",
+      "perShare": 0.01086,
+      "qty": 18600,
+      "total": 202,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117074.213,
+      "ticker": "MINT.BK",
+      "date": "2025-05-07",
+      "payDate": "2025-06-04 (est.)",
+      "perShare": 0.35,
+      "qty": 1600,
+      "total": 560,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123228.0532,
+      "ticker": "WHA.BK",
+      "date": "2025-05-07",
+      "payDate": "2025-06-04 (est.)",
+      "perShare": 0.1237,
+      "qty": 9100,
+      "total": 1125.67,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485114684.1267,
+      "ticker": "CPALL.BK",
+      "date": "2025-05-06",
+      "payDate": "2025-06-03 (est.)",
+      "perShare": 1.35,
+      "qty": 900,
+      "total": 1215,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113972.4033,
+      "ticker": "CENTEL.BK",
+      "date": "2025-05-02",
+      "payDate": "2025-05-30 (est.)",
+      "perShare": 0.59,
+      "qty": 1200,
+      "total": 708,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.6238,
+      "ticker": "ASML01",
+      "date": "2025-04-25",
+      "payDate": "2025-05-23 (est.)",
+      "perShare": 0.0446,
+      "qty": 2700,
+      "total": 120.42,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117798.6348,
+      "ticker": "TISCO.BK",
+      "date": "2025-04-25",
+      "payDate": "2025-05-23 (est.)",
+      "perShare": 5.75,
+      "qty": 400,
+      "total": 2300,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485116132.7751,
+      "ticker": "HMPRO.BK",
+      "date": "2025-04-22",
+      "payDate": "2025-05-20 (est.)",
+      "perShare": 0.25,
+      "qty": 3600,
+      "total": 900,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.3708,
+      "ticker": "LHSC.BK",
+      "date": "2025-04-10",
+      "payDate": "2025-05-08 (est.)",
+      "perShare": 0.18,
+      "qty": 8000,
+      "total": 1440,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485115430.1746,
+      "ticker": "CPN.BK",
+      "date": "2025-03-17",
+      "payDate": "2025-04-14 (est.)",
+      "perShare": 2.1,
+      "qty": 600,
+      "total": 1260,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113233.6624,
+      "ticker": "BDMS.BK",
+      "date": "2025-03-12",
+      "payDate": "2025-04-09 (est.)",
+      "perShare": 0.4,
+      "qty": 2000,
+      "total": 800,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123951.0874,
+      "ticker": "LHHOTEL.BK",
+      "date": "2025-03-12",
+      "payDate": "2025-04-09 (est.)",
+      "perShare": 0.3875,
+      "qty": 1800,
+      "total": 697.5,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.4827,
+      "ticker": "LHSC.BK",
+      "date": "2025-03-12",
+      "payDate": "2025-04-09 (est.)",
+      "perShare": 0.205,
+      "qty": 8000,
+      "total": 1640,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485122403.4119,
+      "ticker": "TU.BK",
+      "date": "2025-02-28",
+      "payDate": "2025-03-28 (est.)",
+      "perShare": 0.35,
+      "qty": 3000,
+      "total": 1050,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485125374.847,
+      "ticker": "MC.BK",
+      "date": "2025-02-27",
+      "payDate": "2025-03-27 (est.)",
+      "perShare": 0.55,
+      "qty": 2000,
+      "total": 1100,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.5354,
+      "ticker": "ASML01",
+      "date": "2025-02-10",
+      "payDate": "2025-03-10 (est.)",
+      "perShare": 0.034,
+      "qty": 2700,
+      "total": 91.8,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.3032,
+      "ticker": "LHSC.BK",
+      "date": "2024-12-09",
+      "payDate": "2025-01-06 (est.)",
+      "perShare": 0.15,
+      "qty": 8000,
+      "total": 1200,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123952.2605,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-11-27",
+      "payDate": "2024-12-25 (est.)",
+      "perShare": 0.335,
+      "qty": 1800,
+      "total": 603,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123228.852,
+      "ticker": "WHA.BK",
+      "date": "2024-11-21",
+      "payDate": "2024-12-19 (est.)",
+      "perShare": 0.0669,
+      "qty": 9100,
+      "total": 608.79,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.873,
+      "ticker": "LHSC.BK",
+      "date": "2024-11-11",
+      "payDate": "2024-12-09 (est.)",
+      "perShare": 0.17,
+      "qty": 8000,
+      "total": 1360,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485125374.1912,
+      "ticker": "MC.BK",
+      "date": "2024-10-31",
+      "payDate": "2024-11-28 (est.)",
+      "perShare": 0.4,
+      "qty": 2000,
+      "total": 800,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.727,
+      "ticker": "ASML01",
+      "date": "2024-10-29",
+      "payDate": "2024-11-26 (est.)",
+      "perShare": 0.0348,
+      "qty": 2700,
+      "total": 93.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485113233.7588,
+      "ticker": "BDMS.BK",
+      "date": "2024-09-10",
+      "payDate": "2024-10-08 (est.)",
+      "perShare": 0.35,
+      "qty": 2000,
+      "total": 700,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485116132.4507,
+      "ticker": "HMPRO.BK",
+      "date": "2024-09-10",
+      "payDate": "2024-10-08 (est.)",
+      "perShare": 0.18,
+      "qty": 3600,
+      "total": 648,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117798.6956,
+      "ticker": "TISCO.BK",
+      "date": "2024-09-10",
+      "payDate": "2024-10-08 (est.)",
+      "perShare": 2,
+      "qty": 400,
+      "total": 800,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485117074.2856,
+      "ticker": "MINT.BK",
+      "date": "2024-09-03",
+      "payDate": "2024-10-01 (est.)",
+      "perShare": 0.25,
+      "qty": 1600,
+      "total": 400,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123952.8364,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-08-27",
+      "payDate": "2024-09-24 (est.)",
+      "perShare": 0.31,
+      "qty": 1800,
+      "total": 558,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.912,
+      "ticker": "LHSC.BK",
+      "date": "2024-08-27",
+      "payDate": "2024-09-24 (est.)",
+      "perShare": 0.180381,
+      "qty": 8000,
+      "total": 1443.05,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485122403.553,
+      "ticker": "TU.BK",
+      "date": "2024-08-21",
+      "payDate": "2024-09-18 (est.)",
+      "perShare": 0.31,
+      "qty": 3000,
+      "total": 930,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485105284.2705,
+      "ticker": "ASML01",
+      "date": "2024-07-30",
+      "payDate": "2024-08-27 (est.)",
+      "perShare": 0.0357,
+      "qty": 2700,
+      "total": 96.39,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485124655.2222,
+      "ticker": "LHSC.BK",
+      "date": "2024-07-08",
+      "payDate": "2024-08-05 (est.)",
+      "perShare": 0.179385,
+      "qty": 8000,
+      "total": 1435.08,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1778485123952.9229,
+      "ticker": "LHHOTEL.BK",
+      "date": "2024-05-27",
+      "payDate": "2024-06-24 (est.)",
+      "perShare": 0.3,
+      "qty": 1800,
+      "total": 540,
+      "note": "auto (THB)"
+    }
+  ],
   "watchlist": [
     {
       "id": 1778479684358,

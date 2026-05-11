@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T06:49:28.520Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:49",
+  "exportDate": "2026-05-11T06:53:08.839Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:53",
   "portfolios": [
     {
       "id": "dr1",
@@ -731,15 +731,6 @@
       "qty": 400,
       "total": 2300,
       "note": "auto (THB)"
-    },
-    {
-      "id": 1778482068938.1697,
-      "ticker": "ASML01",
-      "date": "2026-04-27",
-      "perShare": 10.277595,
-      "qty": 2700,
-      "total": 27749.5065,
-      "note": "DR: 0.1 × $3.177 × 32.35"
     },
     {
       "id": 1778482024077.883,
@@ -2852,6 +2843,6 @@
     "totalPorts": 9,
     "totalStocks": 45,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,539,611.46"
+    "totalNetWorth": "฿1,539,077.83"
   }
 }

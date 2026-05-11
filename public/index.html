@@ -1730,6 +1730,10 @@ async function boot(){
     localStorage.setItem('gh_repo', 'trade-desk');
   }
   updateGHBadge();
+  // Request browser notification permission for Price Alerts
+  if(typeof Notification !== 'undefined' && Notification.permission === 'default'){
+    Notification.requestPermission();
+  }
   // Fetch historical sparklines after initial boot
   setTimeout(()=>{
     portfolios.forEach(p=>{
@@ -2132,9 +2136,12 @@ function addAlert(){
   const ticker=document.getElementById('al-ticker').value.trim().toUpperCase();
   const cond=document.getElementById('al-cond').value;
   const price=parseFloat(document.getElementById('al-price').value);
-  if(!ticker||!price){alert('กรอกข้อมูลให้ครบ');return;}
-  alerts.push({id:Date.now(),ticker,cond,price,triggered:false});
+  const note=document.getElementById('al-note')?.value.trim()||'';
+  if(!ticker||!price){ showToast('ใส่ Ticker และราคาเป้าด้วยนะครับ'); return; }
+  alerts.push({id:Date.now(),ticker,cond,price,note,triggered:false,createdAt:new Date().toISOString()});
   saveFeatures();renderAlerts();updateSbBadges();
+  showToast('✅ เพิ่ม Alert '+ticker+' '+(cond==='above'?'≥':'≤')+' ฿'+fn(price));
+  setTimeout(checkAlerts,500);
   document.getElementById('al-ticker').value='';document.getElementById('al-price').value='';
   if(Notification.permission==='default') Notification.requestPermission();
 }
@@ -2142,18 +2149,66 @@ function deleteAlert(id){alerts=alerts.filter(a=>a.id!==id);saveFeatures();rende
 function renderAlerts(){
   const body=document.getElementById('alerts-body');
   if(!body) return;
-  if(!alerts.length){body.innerHTML=`<div class="empty"><div class="empty-ico">🔔</div>ยังไม่มี</div>`;return;}
+  if(!alerts.length){body.innerHTML=`<div class="empty"><div class="empty-ico">🔔</div><div>ยังไม่มี Alert<br><span style="font-size:12px;color:var(--tx3)">เพิ่ม Ticker และราคาเป้าด้านบน</span></div></div>`;return;}
+
   body.innerHTML=alerts.map(a=>{
-    const port=portfolios.find(p=>p.stocks.some(s=>s.ticker===a.ticker));
-    const p=prices[a.ticker+'_'+port?.id];
-    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd2)">
-      <span class="tkr">${a.ticker}</span>
-      <span style="font-size:12px;color:var(--tx2)">${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)}</span>
-      <span style="font-size:11px;color:var(--tx3)">${p?'฿'+fn(p.price):'—'}</span>
-      ${a.triggered?'<span style="background:var(--red-bg);color:var(--red-tx);padding:2px 8px;border-radius:20px;font-size:11px">🔔 ถึงเป้าแล้ว</span>':''}
-      <button onclick="deleteAlert(${a.id})" style="margin-left:auto;border:none;background:none;color:var(--red-tx);cursor:pointer">ลบ</button>
+    // Find current price
+    let curPrice = null;
+    portfolios.forEach(p=>{
+      const s=p.stocks?.find(s=>s.ticker===a.ticker);
+      if(s&&prices[s.ticker+'_'+p.id]) curPrice=prices[s.ticker+'_'+p.id].price;
+    });
+    if(!curPrice) curPrice=wlPrices?.[a.ticker]||wlPrices?.[a.ticker+'.BK'];
+
+    const pct = curPrice && a.price ? (curPrice/a.price*100) : null;
+    const isClose = pct && (a.cond==='above' ? pct>=90 : pct<=110);
+    const statusColor = a.triggered ? 'var(--red-tx)' : isClose ? 'var(--amber,#b45309)' : 'var(--tx3)';
+
+    return `<div style="padding:12px 0;border-bottom:1px solid var(--bd2)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span class="tkr" style="cursor:pointer" onclick="fetchAlertPrice('${a.ticker}','${a.id}')">${a.ticker}</span>
+        <span style="font-size:13px;color:var(--tx2);font-weight:500">${a.cond==='above'?'เมื่อราคา ≥':'เมื่อราคา ≤'} <strong>฿${fn(a.price)}</strong></span>
+        ${a.note ? `<span style="font-size:11px;color:var(--tx3)">${a.note}</span>` : ''}
+        <span style="margin-left:auto;font-size:12px;font-weight:600;color:${statusColor}">
+          ${a.triggered ? '🔔 ถึงเป้าแล้ว ฿'+fn(a.triggeredPrice) : curPrice ? '฿'+fn(curPrice) : '—'}
+        </span>
+        <button onclick="resetAlert(${a.id})" style="border:none;background:none;color:var(--tx3);cursor:pointer;font-size:12px" title="รีเซ็ต">↺</button>
+        <button onclick="deleteAlert(${a.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button>
+      </div>
+      ${curPrice && !a.triggered ? `
+      <div style="background:var(--bd2);border-radius:4px;height:4px;overflow:hidden">
+        <div style="background:${a.cond==='above'?'var(--blue)':'var(--green)'};height:4px;width:${Math.min(100,pct||0)}%;transition:width .3s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-top:2px">
+        <span>฿0</span><span>ปัจจุบัน ฿${fn(curPrice)}</span><span>เป้า ฿${fn(a.price)}</span>
+      </div>` : ''}
     </div>`;
   }).join('');
+}
+
+function resetAlert(id){
+  const a=alerts.find(a=>a.id===id);
+  if(a){ a.triggered=false; a.triggeredAt=null; a.triggeredPrice=null; }
+  saveFeatures(); renderAlerts(); updateSbBadges();
+}
+
+async function fetchAlertPrice(ticker, alertId){
+  try {
+    const res = await fetch('/api/price?ticker='+encodeURIComponent(ticker));
+    const data = await res.json();
+    const price = data?.price || data?.regularMarketPrice;
+    if(price){
+      // Update prices cache
+      portfolios.forEach(p=>{
+        const s=p.stocks?.find(s=>s.ticker===ticker);
+        if(s) prices[ticker+'_'+p.id]={price,change:data.change||0,pct:data.pct||0};
+      });
+      if(!wlPrices) wlPrices={};
+      wlPrices[ticker]=price;
+      checkAlerts();
+      renderAlerts();
+    }
+  } catch(e){}
 }
 function checkWatchlistAlerts(){
   const _n = t=>t.replace(/\.BK$/i,'').toUpperCase();
@@ -2183,17 +2238,41 @@ function checkWatchlistAlerts(){
   if(triggered.length){ updateWlBadge(); renderWatchlist(); }
 }
 function checkAlerts(){
+  let anyTriggered = false;
   alerts.forEach(a=>{
     if(a.triggered) return;
-    const port=portfolios.find(p=>p.stocks.some(s=>s.ticker===a.ticker));
-    const p=prices[a.ticker+'_'+port?.id];
-    if(!p) return;
-    if((a.cond==='above'&&p.price>=a.price)||(a.cond==='below'&&p.price<=a.price)){
-      a.triggered=true;
-      if(Notification.permission==='granted') new Notification(`TradeDesk: ${a.ticker}`,{body:`฿${fn(p.price)} ${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)}`});
+    // Find price — search all portfolios
+    let curPrice = null;
+    portfolios.forEach(p=>{
+      const s = p.stocks?.find(s=>s.ticker===a.ticker);
+      if(s && prices[s.ticker+'_'+p.id]) curPrice = prices[s.ticker+'_'+p.id].price;
+    });
+    // Also check wlPrices for non-portfolio tickers
+    if(!curPrice) curPrice = wlPrices?.[a.ticker] || wlPrices?.[a.ticker+'.BK'];
+    if(!curPrice) return;
+
+    const hit = (a.cond==='above' && curPrice>=a.price) || (a.cond==='below' && curPrice<=a.price);
+    if(!hit) return;
+
+    a.triggered = true;
+    a.triggeredAt = new Date().toISOString();
+    a.triggeredPrice = curPrice;
+    anyTriggered = true;
+
+    const msg = `${a.ticker} ${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)} · ราคาปัจจุบัน ฿${fn(curPrice)}`;
+
+    // Browser notification
+    if(Notification.permission==='granted'){
+      new Notification('🔔 TradeDesk Price Alert', { body: msg, icon: '/favicon.ico' });
+    } else if(Notification.permission==='default'){
+      Notification.requestPermission();
     }
+
+    // In-app toast
+    showToast('🔔 ' + msg, 6000);
   });
-  saveFeatures();
+
+  if(anyTriggered){ saveFeatures(); renderAlerts(); updateSbBadges(); }
 }
 
 // NOTES
@@ -2795,6 +2874,7 @@ async function fetchWatchlistPrices(){
   }));
   renderWatchlist();
   checkWatchlistAlerts();
+  checkAlerts();
 }
 
 function openWatchlistModal(item){
@@ -5983,9 +6063,10 @@ async function fetchAllNAV(onlyPortId) {
     <div class="card-hd"><div class="card-ti">ตั้งการแจ้งเตือน</div></div>
     <div class="card-bd">
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end">
-        <div><label class="form-lbl">Ticker</label><input type="text" id="al-ticker" placeholder="PTT.BK" style="width:100%;text-transform:uppercase"></div>
-        <div><label class="form-lbl">เงื่อนไข</label><select id="al-cond" style="width:100%"><option value="above">ราคา ≥</option><option value="below">ราคา ≤</option></select></div>
+        <div><label class="form-lbl">Ticker</label><input type="text" id="al-ticker" placeholder="NVDA80, PTT.BK" style="width:100%;text-transform:uppercase"></div>
+        <div><label class="form-lbl">เงื่อนไข</label><select id="al-cond" style="width:100%"><option value="above">ราคา ≥ (Breakout)</option><option value="below">ราคา ≤ (รอซื้อ)</option></select></div>
         <div><label class="form-lbl">ราคาเป้า (฿)</label><input type="number" id="al-price" placeholder="0.00" step="0.01" style="width:100%"></div>
+        <div><label class="form-lbl">โน้ต (ไม่จำเป็น)</label><input type="text" id="al-note" placeholder="เหตุผล..." style="width:100%"></div>
         <button class="btn btn-p" onclick="addAlert()">+ เพิ่ม</button>
       </div>
     </div>

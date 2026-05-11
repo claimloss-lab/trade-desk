@@ -4093,9 +4093,21 @@ function renderSmartAlerts() {
   const el = document.getElementById('sa-results');
   if (!el) return;
 
-  const filtered = saFilter === 'all'
+  const preFilter = saFilter === 'all'
     ? saResults
     : saResults.filter(r => r.alerts.some(a => a.status === saFilter));
+
+  // Deduplicate by underlying ticker — keep best alert status per ticker
+  const order = { 'at-sup':0, 'at-res':1, 'near-sup':2, 'near-res':3 };
+  const seen = new Map();
+  preFilter.forEach(r => {
+    const key = r.underlying || r.ticker;
+    const rScore = Math.min(...r.alerts.map(x => order[x.status]??9));
+    if (!seen.has(key) || rScore < seen.get(key).score) {
+      seen.set(key, { ...r, score: rScore });
+    }
+  });
+  const filtered = [...seen.values()];
 
   if (!filtered.length) {
     el.innerHTML = '<div class="empty" style="padding:40px"><div class="empty-ico">✅</div>ไม่พบหุ้นที่ตรงเงื่อนไข</div>';
@@ -4103,7 +4115,6 @@ function renderSmartAlerts() {
   }
 
   // Sort: at-sup > at-res > near-sup > near-res
-  const order = { 'at-sup':0, 'at-res':1, 'near-sup':2, 'near-res':3 };
   filtered.sort((a, b) => {
     const aMin = Math.min(...a.alerts.map(x => order[x.status]??9));
     const bMin = Math.min(...b.alerts.map(x => order[x.status]??9));

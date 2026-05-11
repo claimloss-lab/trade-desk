@@ -862,7 +862,10 @@ function buildDimeHTML(port){
     <div class="card sens" style="margin-bottom:14px">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(255,107,53,.08),transparent)">
         <div class="card-ti" style="color:#ff6b35">🏦 กองทุนรวม (THB)</div>
-        <div style="font-size:11px;color:var(--tx3)">ราคาจาก NAV รายวัน · อัปเดตเองได้</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--tx3)">ราคาจาก NAV รายวัน</span>
+          <button id="fetch-nav-btn" onclick="fetchAllNAV('${port.id}')" style="background:var(--blue);color:#fff;border:none;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">↻ ดึง NAV</button>
+        </div>
       </div>
       <div class="tbl-wrap"><table>
         <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>NAV ต้นทุน (฿)</th><th>NAV ปัจจุบัน (฿)</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th></tr></thead>
@@ -5770,15 +5773,16 @@ async function fetchAllDividendsUnified() {
 // ══════════════════════════════════════════════════
 const MF_TICKERS = ['K-GA-A(A)','MEGAWORLD30-A','BGOLDRMF','RMFBINNOTECH','ESGSI','TLNDQINCOME-UH-X'];
 
-async function fetchAllNAV() {
+async function fetchAllNAV(onlyPortId) {
   const btn = document.getElementById('fetch-nav-btn');
   if (btn) { btn.disabled = true; btn.textContent = '⏳ ดึง NAV...'; }
 
   let updated = 0;
   const toUpdate = [];
 
-  // Find all mutual fund stocks across portfolios
+  // Find all mutual fund stocks (optionally filter by port)
   portfolios.forEach(p => {
+    if (onlyPortId && p.id !== onlyPortId) return;
     (p.stocks || []).forEach(s => {
       if (MF_TICKERS.includes(s.ticker) || s.ticker.startsWith('K-') ||
           s.ticker.includes('RMF') || s.ticker.includes('ESG') ||

@@ -5488,6 +5488,77 @@ async function fetchSETDividends() {
     resultEl.innerHTML += '<br><span style="font-size:11px;color:var(--tx3)">SET อาจบล็อก — ลองกรอก Manual แทนครับ</span>';
   }
 }
+
+// ══════════════════════════════════════════════════
+// DR DIVIDEND — คำนวณปันผล DR เป็นเงินบาท
+// ══════════════════════════════════════════════════
+async function fetchAllDRDividends() {
+  const range = document.getElementById('auto-div-range').value;
+  const barEl = document.getElementById('auto-div-bar');
+  const statusEl = document.getElementById('auto-div-status');
+  const progressEl = document.getElementById('auto-div-progress');
+  const resultEl = document.getElementById('auto-div-result');
+
+  // Get DR stocks (tickers with numbers like AMZN80, NVDA80)
+  const drStocks = [];
+  portfolios.forEach(p => {
+    if (p.type !== 'realtime_dr' && p.type !== 'realtime_set') return;
+    (p.stocks || []).forEach(s => {
+      const db = STOCK_DB[s.ticker];
+      const underlying = db?.underlying || (s.ticker.match(/^([A-Z]+)\d+$/) ? s.ticker.match(/^([A-Z]+)\d+$/)[1] : null);
+      if (!underlying || underlying === s.ticker) return;
+      drStocks.push({ drTicker: s.ticker, usTicker: underlying, qty: s.qty });
+    });
+  });
+
+  if (!drStocks.length) {
+    resultEl.textContent = 'ไม่พบหุ้น DR ในพอร์ต';
+    return;
+  }
+
+  progressEl.style.display = 'block';
+  resultEl.textContent = '';
+  let added = 0;
+
+  for (let i = 0; i < drStocks.length; i++) {
+    const { drTicker, usTicker, qty } = drStocks[i];
+    barEl.style.width = ((i+1)/drStocks.length*100) + '%';
+    statusEl.textContent = `กำลังคำนวณ ${drTicker} (${i+1}/${drStocks.length})...`;
+
+    try {
+      const res = await fetch(`/api/dr-dividend?dr=${drTicker}&us=${usTicker}&range=${range}`);
+      const data = await res.json();
+
+      if (data.dividends?.length) {
+        for (const d of data.dividends) {
+          if (!d.thbPerDr || !d.exDate) continue;
+          const exists = dividends.some(x => x.ticker === drTicker && x.date === d.exDate);
+          if (exists) continue;
+
+          const total = d.thbPerDr * qty;
+          dividends.push({
+            id: Date.now() + Math.random(),
+            ticker: drTicker,
+            date: d.exDate,
+            perShare: d.thbPerDr,
+            qty,
+            total,
+            note: `DR: ${d.drRatio} × $${d.usdPerShare} × ${d.usdThbRate?.toFixed(2) || '?'}`,
+          });
+          added++;
+        }
+      }
+    } catch(e) { console.warn('DR div error:', e); }
+    await new Promise(r => setTimeout(r, 500));
+  }
+
+  dividends.sort((a,b) => b.date.localeCompare(a.date));
+  saveFeatures();
+  renderDividends();
+  progressEl.style.display = 'none';
+  resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ คำนวณปันผล DR ${added} รายการ (เป็นเงินบาท)</span>`;
+  showToast('✅ ดึงปันผล DR สำเร็จ ' + added + ' รายการ');
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5703,7 +5774,8 @@ async function fetchSETDividends() {
     <div style="font-size:13px;font-weight:600;margin-bottom:10px">ดึงประวัติปันผลอัตโนมัติจาก Yahoo Finance</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
       <select id="auto-div-range" style="width:100px"><option value="1y">1 ปี</option><option value="2y" selected>2 ปี</option><option value="5y">5 ปี</option></select>
-      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึงทุกตัวพร้อมกัน</button>
+      <button class="btn btn-p btn-sm" onclick="fetchAllDividends()">↓ ดึง US ทุกตัว</button>
+      <button class="btn btn-s btn-sm" onclick="fetchAllDRDividends()">🔄 ดึง DR (คำนวณบาท)</button>
       <button class="btn btn-g btn-sm" onclick="document.getElementById('auto-div-panel').style.display='none'">ปิด</button>
     </div>
     <div id="auto-div-progress" style="display:none;margin-bottom:8px">

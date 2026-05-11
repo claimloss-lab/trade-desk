@@ -1717,6 +1717,12 @@ async function boot(){
   renderOverview();
   renderAll();
   refreshAll(false);
+  // Auto-configure GitHub repo if not set (no token hardcoded for security)
+  if(!localStorage.getItem('gh_user')) {
+    localStorage.setItem('gh_user', 'claimloss-lab');
+    localStorage.setItem('gh_repo', 'trade-desk');
+  }
+  updateGHBadge();
   // Fetch historical sparklines after initial boot
   setTimeout(()=>{
     portfolios.forEach(p=>{
@@ -1829,10 +1835,13 @@ function updateSbBadges(){
 }
 function buildBackupData(){
   return {
-    version: '1.0',
+    version: '2.0',
     exportDate: new Date().toISOString(),
     exportDateTH: new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}),
     portfolios, transactions, alerts, notes, dividends,
+    watchlist: watchlist || [],
+    dcaHistory: JSON.parse(localStorage.getItem('td_dca_history') || '[]'),
+    currency: localStorage.getItem('td_cur') || 'THB',
     summary:{
       totalPorts:portfolios.length,
       totalStocks:portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0),
@@ -1893,6 +1902,9 @@ function importBackup(event){
       localStorage.setItem('td_notes',  JSON.stringify(data.notes||[]));
       localStorage.setItem('td_divs',   JSON.stringify(data.dividends||[]));
       localStorage.setItem('td_ver',    'v20250401_8');
+      if(data.watchlist) localStorage.setItem('td_wl', JSON.stringify(data.watchlist));
+      if(data.dcaHistory) localStorage.setItem('td_dca_history', JSON.stringify(data.dcaHistory));
+      if(data.currency) localStorage.setItem('td_cur', data.currency);
       showToast('✓ Import สำเร็จ! กำลัง reload...');
       setTimeout(()=>location.reload(), 1200);
     } catch(err){
@@ -2684,7 +2696,7 @@ document.addEventListener('click',e=>{
 // BUY WATCHLIST
 // ══════════════════════════════════════════════════
 let watchlist = JSON.parse(localStorage.getItem('td_wl') || '[]');
-function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); }
+function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); scheduleAutoBackup(); }
 
 // Prices cache for watchlist tickers (fetched independently)
 const wlPrices = {};
@@ -5190,6 +5202,110 @@ async function aiSummarizeModalFin(ticker) {
     resultEl.style.display = 'block';
   } catch(e) { resultEl.textContent = 'Error: '+e.message; resultEl.style.display='block'; }
   if (btn) { btn.disabled=false; btn.textContent='🤖 AI สรุปงบการเงิน'; }
+}
+
+// ══════════════════════════════════════════════════════════
+// GITHUB BACKUP & RESTORE
+// ══════════════════════════════════════════════════════════
+
+// Collect ALL data including watchlist
+function collectAllData() {
+  return {
+    version: '3',
+    exportDate: new Date().toISOString(),
+    exportDateTH: new Date().toLocaleDateString('th-TH', {
+      year:'numeric', month:'long', day:'numeric',
+      hour:'2-digit', minute:'2-digit'
+    }),
+    portfolios: portfolios,
+    watchlist: watchlist || [],
+    transactions: JSON.parse(localStorage.getItem('td_tx') || '[]'),
+    alerts: JSON.parse(localStorage.getItem('td_alerts') || '[]'),
+    notes: JSON.parse(localStorage.getItem('td_notes') || '[]'),
+    dividends: JSON.parse(localStorage.getItem('td_divs') || '[]'),
+    dcaHistory: JSON.parse(localStorage.getItem('td_dca_history') || '[]'),
+    currency: localStorage.getItem('td_cur') || 'THB',
+  };
+}
+
+// Save all data to GitHub
+async function backupToGitHub() {
+  const btn = document.getElementById('backup-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลัง Backup...'; }
+  try {
+    const data = collectAllData();
+    const res = await fetch('/api/backup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      signal: safeSignal(30000)
+    });
+    const result = await res.json();
+    if (result.ok) {
+      showToast('✅ Backup สำเร็จ — บันทึกขึ้น GitHub แล้ว');
+      localStorage.setItem('td_last_backup', result.savedAt);
+      updateBackupStatus();
+    } else {
+      showToast('❌ Backup ล้มเหลว: ' + (result.error || 'unknown'));
+    }
+  } catch(e) {
+    showToast('❌ Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '☁️ Backup'; }
+}
+
+// Restore from GitHub
+async function restoreFromGitHub() {
+  if (!confirm('โหลดข้อมูลจาก GitHub? ข้อมูลปัจจุบันจะถูกแทนที่')) return;
+  const btn = document.getElementById('restore-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังโหลด...'; }
+  try {
+    const res = await fetch('/api/backup');
+    if (!res.ok) throw new Error('Load failed: ' + res.status);
+    const data = await res.json();
+
+    // Restore all data to localStorage
+    if (data.portfolios) {
+      portfolios = data.portfolios;
+      localStorage.setItem('td_ports', JSON.stringify(portfolios));
+    }
+    if (data.watchlist) {
+      watchlist = data.watchlist;
+      localStorage.setItem('td_wl', JSON.stringify(watchlist));
+    }
+    if (data.transactions) localStorage.setItem('td_tx', JSON.stringify(data.transactions));
+    if (data.alerts) localStorage.setItem('td_alerts', JSON.stringify(data.alerts));
+    if (data.notes) localStorage.setItem('td_notes', JSON.stringify(data.notes));
+    if (data.dividends) localStorage.setItem('td_divs', JSON.stringify(data.dividends));
+    if (data.dcaHistory) localStorage.setItem('td_dca_history', JSON.stringify(data.dcaHistory));
+    if (data.currency) localStorage.setItem('td_cur', data.currency);
+
+    showToast('✅ Restore สำเร็จ — โหลดข้อมูลจาก GitHub แล้ว');
+    setTimeout(() => location.reload(), 1500);
+  } catch(e) {
+    showToast('❌ Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🔄 Restore'; }
+}
+
+// Auto-backup every time data changes
+let backupTimer = null;
+function scheduleAutoBackup() {
+  clearTimeout(backupTimer);
+  backupTimer = setTimeout(() => backupToGitHub(), 10000); // 10s after last change
+}
+
+// Update backup status display
+function updateBackupStatus() {
+  const el = document.getElementById('backup-status');
+  if (!el) return;
+  const last = localStorage.getItem('td_last_backup');
+  if (last) {
+    const d = new Date(last);
+    el.textContent = 'Backup ล่าสุด: ' + d.toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'}) + ' ' + d.toLocaleDateString('th-TH');
+  } else {
+    el.textContent = 'ยังไม่ได้ Backup';
+  }
 }
 </script>
 

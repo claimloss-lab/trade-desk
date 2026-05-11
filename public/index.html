@@ -5510,66 +5510,61 @@ async function fetchAllDRDividends() {
   const progressEl = document.getElementById('auto-div-progress');
   const resultEl = document.getElementById('auto-div-result');
 
-  // Get DR stocks (tickers with numbers like AMZN80, NVDA80) — skip Jitta ports
+  // Get DR stocks — skip Jitta, use .BK suffix for Yahoo Finance
   const drStocks = [];
   portfolios.forEach(p => {
-    if (['jitta1','jitta2'].includes(p.id)) return; // skip Jitta
+    if (['jitta1','jitta2'].includes(p.id)) return;
     if (p.type !== 'realtime_dr' && p.type !== 'realtime_set') return;
     (p.stocks || []).forEach(s => {
-      const db = STOCK_DB[s.ticker];
-      const underlying = db?.underlying || (s.ticker.match(/^([A-Z]+)\d+$/) ? s.ticker.match(/^([A-Z]+)\d+$/)[1] : null);
-      if (!underlying || underlying === s.ticker) return;
-      drStocks.push({ drTicker: s.ticker, usTicker: underlying, qty: s.qty });
+      if (!s.ticker.match(/^[A-Z]+\d+$/)) return; // only DR tickers
+      drStocks.push({ drTicker: s.ticker, bkTicker: s.ticker + '.BK', qty: s.qty });
     });
   });
 
-  if (!drStocks.length) {
-    resultEl.textContent = 'ไม่พบหุ้น DR ในพอร์ต';
-    return;
-  }
+  if (!drStocks.length) { resultEl.textContent = 'ไม่พบหุ้น DR ในพอร์ต'; return; }
 
   progressEl.style.display = 'block';
   resultEl.textContent = '';
   let added = 0;
 
   for (let i = 0; i < drStocks.length; i++) {
-    const { drTicker, usTicker, qty } = drStocks[i];
+    const { drTicker, bkTicker, qty } = drStocks[i];
     barEl.style.width = ((i+1)/drStocks.length*100) + '%';
-    statusEl.textContent = `กำลังคำนวณ ${drTicker} (${i+1}/${drStocks.length})...`;
+    statusEl.textContent = `กำลังดึง ${drTicker} จาก Yahoo (${i+1}/${drStocks.length})...`;
 
     try {
-      const res = await fetch(`/api/dr-dividend?dr=${drTicker}&us=${usTicker}&range=${range}`);
+      // Use dividend.js worker with .BK ticker — gets THB directly from Yahoo
+      const res = await fetch(`/api/dividend?ticker=${bkTicker}&range=${range}`);
       const data = await res.json();
 
       if (data.dividends?.length) {
         for (const d of data.dividends) {
-          if (!d.thbPerDr || !d.exDate) continue;
-          const exists = dividends.some(x => x.ticker === drTicker && x.date === d.exDate);
+          if (!d.date || !d.amount) continue;
+          const exists = dividends.some(x => x.ticker === drTicker && x.date === d.date);
           if (exists) continue;
 
-          const total = d.thbPerDr * qty;
           dividends.push({
             id: Date.now() + Math.random(),
             ticker: drTicker,
-            date: d.exDate,
+            date: d.date,
             payDate: d.payDate || null,
-            perShare: d.thbPerDr,
+            perShare: d.amount,
             qty,
-            total,
-            note: `$${d.usdPerShare} × ${d.drRatio} × ${d.usdThbRate?.toFixed(2) || '?'} THB${d.payDate ? '' : ''}`,
+            total: +(d.amount * qty).toFixed(2),
+            note: 'auto (THB)',
           });
           added++;
         }
       }
-    } catch(e) { console.warn('DR div error:', e); }
-    await new Promise(r => setTimeout(r, 500));
+    } catch(e) { console.warn('DR div error:', drTicker, e); }
+    await new Promise(r => setTimeout(r, 400));
   }
 
   dividends.sort((a,b) => b.date.localeCompare(a.date));
   saveFeatures();
   renderDividends();
   progressEl.style.display = 'none';
-  resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ คำนวณปันผล DR ${added} รายการ (เป็นเงินบาท)</span>`;
+  resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ ดึงปันผล DR ${added} รายการ (THB จาก Yahoo)</span>`;
   showToast('✅ ดึงปันผล DR สำเร็จ ' + added + ' รายการ');
 }
 </script>

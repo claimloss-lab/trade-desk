@@ -5689,7 +5689,7 @@ async function fetchAllDividendsUnified() {
           perShare: d.amount,
           qty,
           total: +(d.amount * qty).toFixed(2),
-          note: type === 'dr' ? 'auto (THB)' : type === 'th' ? 'auto (THB)' : 'auto (USD)',
+          note: type === 'dr' ? 'auto (THB)' : type === 'th' ? 'auto (THB)' : (d.fxRate ? `auto (THB @ ${d.fxRate})` : 'auto (USD)'),
         });
         added++;
       }

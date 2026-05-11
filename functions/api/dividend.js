@@ -27,7 +27,7 @@ export async function onRequest(context) {
   };
 
   try {
-    // Get crumb for authenticated requests
+    // Get crumb
     const cookieRes = await fetch('https://fc.yahoo.com', { headers: { 'User-Agent': headers['User-Agent'] } });
     const cookie = (cookieRes.headers.get('set-cookie') || '').split(';')[0];
     const crumbRes = await fetch('https://query1.finance.yahoo.com/v1/test/getcrumb', {
@@ -35,6 +35,10 @@ export async function onRequest(context) {
     });
     const crumb = await crumbRes.text();
     const authHeaders = { ...headers, 'Cookie': cookie };
+
+    const now = Math.floor(Date.now() / 1000);
+    const periods = { '1y': 365, '2y': 730, '5y': 1825 };
+    const from = now - (periods[range] || 730) * 86400;
 
     // Fetch dividend history
     const chartRes = await fetch(
@@ -47,48 +51,89 @@ export async function onRequest(context) {
     if (!result) throw new Error('No data');
 
     const events = result.events?.dividends || {};
-    const meta = result.meta || {};
+    const meta   = result.meta || {};
+    const isUSD  = (meta.currency || '').toUpperCase() === 'USD';
 
-    // Fetch upcoming payDate from quoteSummary
+    // If USD stock — fetch USDTHB history for conversion
+    let fxByDate = {};
     let upcomingPayDate = null;
-    let upcomingExDate = null;
-    try {
-      const summaryRes = await fetch(
-        `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(sym)}?modules=calendarEvents&crumb=${encodeURIComponent(crumb)}`,
-        { headers: authHeaders, cf: { cacheTtl: 3600 } }
-      );
-      if (summaryRes.ok) {
-        const sd = await summaryRes.json();
-        const cal = sd?.quoteSummary?.result?.[0]?.calendarEvents;
-        if (cal?.dividendDate?.raw) {
-          upcomingPayDate = new Date(cal.dividendDate.raw * 1000).toISOString().split('T')[0];
-        }
-        if (cal?.exDividendDate?.raw) {
-          upcomingExDate = new Date(cal.exDividendDate.raw * 1000).toISOString().split('T')[0];
-        }
-      }
-    } catch {}
+    let upcomingExDate  = null;
 
-    // Build dividend list with payDate
+    if (isUSD) {
+      const [fxRes, summaryRes] = await Promise.all([
+        fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/USDTHB=X?period1=${from}&period2=${now}&interval=1d&crumb=${encodeURIComponent(crumb)}`,
+          { headers: authHeaders, cf: { cacheTtl: 3600 } }
+        ),
+        fetch(
+          `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(sym)}?modules=calendarEvents&crumb=${encodeURIComponent(crumb)}`,
+          { headers: authHeaders, cf: { cacheTtl: 3600 } }
+        )
+      ]);
+
+      // Build FX lookup
+      if (fxRes.ok) {
+        const fxData = await fxRes.json();
+        const fxTs    = fxData?.chart?.result?.[0]?.timestamp || [];
+        const fxClose = fxData?.chart?.result?.[0]?.indicators?.quote?.[0]?.close || [];
+        fxTs.forEach((ts, i) => {
+          if (fxClose[i]) fxByDate[new Date(ts * 1000).toISOString().split('T')[0]] = fxClose[i];
+        });
+      }
+
+      // Upcoming pay date
+      if (summaryRes.ok) {
+        const sd  = await summaryRes.json();
+        const cal = sd?.quoteSummary?.result?.[0]?.calendarEvents;
+        if (cal?.dividendDate?.raw)   upcomingPayDate = new Date(cal.dividendDate.raw   * 1000).toISOString().split('T')[0];
+        if (cal?.exDividendDate?.raw) upcomingExDate  = new Date(cal.exDividendDate.raw * 1000).toISOString().split('T')[0];
+      }
+    }
+
+    // Helper: get FX rate on or before a date
+    function getFx(dateStr) {
+      if (fxByDate[dateStr]) return fxByDate[dateStr];
+      for (let i = 1; i <= 5; i++) {
+        const d = new Date(dateStr);
+        d.setDate(d.getDate() - i);
+        const s = d.toISOString().split('T')[0];
+        if (fxByDate[s]) return fxByDate[s];
+      }
+      return null;
+    }
+
+    // Build dividend list
     const dividends = Object.values(events).map(d => {
-      const exDate = new Date(d.date * 1000).toISOString().split('T')[0];
-      // Use real payDate if this is the upcoming one, else estimate +28 days
+      const exDate     = new Date(d.date * 1000).toISOString().split('T')[0];
+      const usdAmount  = d.amount;
+      const fxRate     = isUSD ? getFx(exDate) : null;
+      const thbAmount  = fxRate ? +(usdAmount * fxRate).toFixed(6) : null;
+
+      // Pay date
       let payDate = null;
       if (upcomingExDate && exDate === upcomingExDate && upcomingPayDate) {
         payDate = upcomingPayDate;
       } else {
-        // Estimate: pay date is typically ~28 days after ex-date
         const pd = new Date(d.date * 1000);
         pd.setDate(pd.getDate() + 28);
         payDate = pd.toISOString().split('T')[0] + ' (est.)';
       }
-      return { date: exDate, payDate, amount: d.amount, currency: meta.currency || 'THB' };
+
+      return {
+        date:       exDate,
+        payDate,
+        amount:     isUSD && thbAmount ? thbAmount : usdAmount, // THB if converted
+        amountUSD:  isUSD ? usdAmount : null,
+        fxRate:     fxRate ? +fxRate.toFixed(4) : null,
+        currency:   isUSD && thbAmount ? 'THB' : (meta.currency || 'THB'),
+      };
     }).sort((a, b) => b.date.localeCompare(a.date));
 
     return new Response(JSON.stringify({
       ticker: t, symbol: sym,
-      currency: meta.currency || 'THB',
-      dividends, count: dividends.length,
+      currency: isUSD && Object.keys(fxByDate).length ? 'THB' : (meta.currency || 'THB'),
+      dividends,
+      count: dividends.length,
     }), { headers: cors });
 
   } catch (e) {

@@ -1,7 +1,7 @@
 {
-  "version": "1.0",
-  "exportDate": "2026-04-22T06:12:14.410Z",
-  "exportDateTH": "22 เมษายน 2569 เวลา 13:12",
+  "version": "2.0",
+  "exportDate": "2026-05-11T05:59:33.391Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 12:59",
   "portfolios": [
     {
       "id": "dr1",
@@ -58,9 +58,25 @@
           "underlying": "Eli Lilly"
         },
         {
+          "ticker": "MELI06",
+          "qty": 3420,
+          "buyPrice": 2.77,
+          "id": 7,
+          "sector": "Consumer",
+          "underlying": "MercadoLibre"
+        },
+        {
+          "ticker": "META80",
+          "qty": 800,
+          "buyPrice": 2.46,
+          "id": 8,
+          "sector": "Tech",
+          "underlying": "Meta"
+        },
+        {
           "ticker": "MSFT80",
-          "qty": 25400,
-          "buyPrice": 7.21,
+          "qty": 18600,
+          "buyPrice": 7.67,
           "id": 9,
           "sector": "Tech",
           "underlying": "Microsoft"
@@ -104,9 +120,17 @@
           "id": 14,
           "sector": "Tech",
           "underlying": "Snowflake"
+        },
+        {
+          "ticker": "SONY80",
+          "qty": 1550,
+          "buyPrice": 4.2,
+          "id": 15,
+          "sector": "Consumer",
+          "underlying": "Sony"
         }
       ],
-      "cash": 22.1,
+      "cash": 26227.52,
       "snapshots": []
     },
     {
@@ -114,7 +138,7 @@
       "name": "PI DCA",
       "type": "realtime_th",
       "color": "#30d158",
-      "cash": 16954.08,
+      "cash": 6954.08,
       "snapshots": [],
       "stocks": [
         {
@@ -193,7 +217,7 @@
     },
     {
       "id": "set2",
-      "name": "Liberator",
+      "name": "Librarator",
       "type": "realtime_th",
       "color": "#ff9500",
       "cash": 214.09,
@@ -254,11 +278,11 @@
         {
           "id": 2,
           "ticker": "IXJ",
-          "qty": 3.085,
-          "buyPrice": 97.72,
+          "qty": 3.378,
+          "buyPrice": 97.28,
           "sector": "ETF",
           "underlying": "iShares Global Healthcare ETF",
-          "buyPriceUSD": 97.72
+          "buyPriceUSD": 97.28
         },
         {
           "id": 3,
@@ -283,8 +307,8 @@
           "buyPrice": 71.04,
           "qty": 4.117,
           "sector": "ETF",
-          "underlying": "LIT",
-          "id": 1776440719607,
+          "underlying": "Global X Lithium & Battery Tech ETF",
+          "id": 1778467474758,
           "buyPriceUSD": 71.04
         }
       ]
@@ -300,38 +324,38 @@
         {
           "id": 1,
           "ticker": "VTI",
-          "qty": 2.577,
-          "buyPrice": 297.59,
+          "qty": 2.603,
+          "buyPrice": 198.18,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF",
-          "buyPriceUSD": 297.59
+          "buyPriceUSD": 198.18
         },
         {
           "id": 2,
           "ticker": "VCIT",
-          "qty": 3.616,
-          "buyPrice": 82.56,
+          "qty": 4.064,
+          "buyPrice": 82.59,
           "sector": "ETF",
           "underlying": "Vanguard Corp Bond ETF",
-          "buyPriceUSD": 82.56
+          "buyPriceUSD": 82.59
         },
         {
           "id": 3,
           "ticker": "VEA",
-          "qty": 3.686,
-          "buyPrice": 55.29,
+          "qty": 3.872,
+          "buyPrice": 55.92,
           "sector": "ETF",
           "underlying": "Vanguard Dev. Markets ETF",
-          "buyPriceUSD": 55.29
+          "buyPriceUSD": 55.92
         },
         {
           "id": 4,
           "ticker": "VWO",
-          "qty": 2.209,
-          "buyPrice": 48.77,
+          "qty": 2.241,
+          "buyPrice": 48.92,
           "sector": "ETF",
           "underlying": "Vanguard Emerging Markets ETF",
-          "buyPriceUSD": 48.77
+          "buyPriceUSD": 48.92
         }
       ]
     },
@@ -346,24 +370,24 @@
         {
           "id": 1,
           "ticker": "K-GA-A(A)",
-          "qty": 1572.2768,
-          "buyPrice": 12.4024,
+          "qty": 1500.2791,
+          "buyPrice": 12.331,
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.1508,
-          "navDate": "22 เม.ย. 69"
+          "currentNav": 14.4272,
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 2,
           "ticker": "MEGAWORLD30-A",
-          "qty": 1394.4863,
-          "buyPrice": 10.7566,
+          "qty": 1219.1953,
+          "buyPrice": 10.6628,
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 11.8502,
-          "navDate": "22 เม.ย. 69"
+          "currentNav": 12.2842,
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 3,
@@ -377,8 +401,8 @@
         {
           "id": 4,
           "ticker": "JEPQ",
-          "qty": 2.7611403,
-          "buyPrice": 54.1117,
+          "qty": 2.6299477,
+          "buyPrice": 54.09,
           "sector": "ETF",
           "underlying": "JPMorgan Nasdaq ETF",
           "currency": "USD"
@@ -387,7 +411,7 @@
           "id": 5,
           "ticker": "O",
           "qty": 10.311237,
-          "buyPrice": 57.864,
+          "buyPrice": 57.86,
           "sector": "Property",
           "underlying": "Realty Income",
           "currency": "USD"
@@ -432,48 +456,54 @@
         {
           "id": 1,
           "ticker": "BGOLDRMF",
-          "qty": 288,
-          "buyPrice": 30.47,
+          "qty": 352.0798,
+          "buyPrice": 28.4,
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 30.9362,
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 2,
           "ticker": "RMFBINNOTECH",
-          "qty": 651,
-          "buyPrice": 29.1,
+          "qty": 714.4557,
+          "buyPrice": 27.99,
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 34.0662,
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 3,
           "ticker": "ESGSI",
-          "qty": 1665,
-          "buyPrice": 10.39,
+          "qty": 1854.5498,
+          "buyPrice": 11.3235,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 10.6336,
+          "navDate": "11 พ.ค. 69"
         }
       ]
     },
     {
-      "id": "p_1776441308858",
+      "id": "p_1778477894830",
       "name": "WealthX",
       "type": "dime_mixed",
-      "color": "#00c7be",
+      "color": "#ff9500",
       "stocks": [
         {
-          "id": 1776441394658,
+          "id": 1778477932083,
           "ticker": "TLNDQINCOME-UH-X",
           "qty": 196.287,
           "buyPrice": 10.1892,
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 10.2417,
-          "navDate": "22 เม.ย. 69"
+          "currentNav": 10.5032,
+          "navDate": "11 พ.ค. 69"
         }
       ],
       "cash": 0,
@@ -482,101 +512,62 @@
   ],
   "transactions": [
     {
-      "id": 1776441235834,
-      "ticker": "SONY80",
-      "type": "sell",
-      "date": "2026-04-17",
-      "price": 3.46,
-      "qty": 1550,
-      "fee": 0,
-      "note": "ขายออก (auto-log จากการแก้จำนวน)",
-      "realizedPnl": -1147.0000000000002,
-      "portId": "dr1",
-      "auto": true
-    },
-    {
-      "id": 1776441223592,
-      "ticker": "META80",
-      "type": "sell",
-      "date": "2026-04-17",
-      "price": 2.72,
-      "qty": 800,
-      "fee": 0,
-      "note": "ขายออก (auto-log จากการแก้จำนวน)",
-      "realizedPnl": 208.00000000000017,
-      "portId": "dr1",
-      "auto": true
-    },
-    {
-      "id": 1776441217346,
-      "ticker": "MELI06",
-      "type": "sell",
-      "date": "2026-04-17",
-      "price": 2.36,
-      "qty": 3420,
-      "fee": 0,
-      "note": "ขายออก (auto-log จากการแก้จำนวน)",
-      "realizedPnl": -1402.2000000000005,
-      "portId": "dr1",
-      "auto": true
-    },
-    {
-      "id": 1776441163788,
-      "ticker": "MSFT80",
+      "id": 1778467777280,
+      "ticker": "VWO",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 6.75,
-      "qty": 6800,
+      "date": "2026-05-11",
+      "price": 1959.6798,
+      "qty": 0.23100000000000032,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
-      "portId": "dr1",
+      "portId": "jitta2",
       "auto": true
     },
     {
-      "id": 1776440766893,
-      "ticker": "ICLN",
-      "type": "sell",
-      "date": "2026-04-17",
-      "price": 616.9734000000001,
-      "qty": 15.627,
-      "fee": 0,
-      "note": "ขายออก (auto-log จากการแก้จำนวน)",
-      "realizedPnl": 9380.784961800002,
-      "portId": "jitta1",
-      "auto": true
-    },
-    {
-      "id": 1776440755532,
-      "ticker": "IXJ",
+      "id": 1778467725141,
+      "ticker": "VEA",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 3039.4359,
-      "qty": 0.22199999999999998,
+      "date": "2026-05-11",
+      "price": 2292.7670999999996,
+      "qty": 0.44099999999999984,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
-      "portId": "jitta1",
+      "portId": "jitta2",
       "auto": true
     },
     {
-      "id": 1776440735633,
-      "ticker": "IXN",
+      "id": 1778467708475,
+      "ticker": "VCIT",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 3716.4546,
-      "qty": 0.2110000000000003,
+      "date": "2026-05-11",
+      "price": 2683.1492999999996,
+      "qty": 0.6539999999999999,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
-      "portId": "jitta1",
+      "portId": "jitta2",
       "auto": true
     },
     {
-      "id": 1776440719607,
+      "id": 1778467686594,
+      "ticker": "VTI",
+      "type": "buy",
+      "date": "2026-05-11",
+      "price": 11746.1019,
+      "qty": 0.2610000000000001,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
+    {
+      "id": 1778467474758,
       "ticker": "LIT",
       "type": "buy",
-      "date": "2026-04-17",
+      "date": "2026-05-11",
       "price": 71.04,
       "qty": 4.117,
       "fee": 0,
@@ -586,12 +577,25 @@
       "auto": true
     },
     {
-      "id": 1776440669862,
-      "ticker": "SMH",
+      "id": 1778467412797,
+      "ticker": "ICLN",
+      "type": "sell",
+      "date": "2026-05-11",
+      "price": 684.7376,
+      "qty": 15.627,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 10439.736115200001,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
+      "id": 1778467403391,
+      "ticker": "IXJ",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 14723.26641,
-      "qty": 0.016000000000000014,
+      "date": "2026-05-11",
+      "price": 2964.176,
+      "qty": 0.5150000000000001,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
@@ -599,65 +603,42 @@
       "auto": true
     },
     {
-      "id": 1776440606825,
-      "ticker": "VWO",
+      "id": 1778467363228,
+      "ticker": "IXN",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 1885.8036599999998,
-      "qty": 0.1990000000000003,
+      "date": "2026-05-11",
+      "price": 4304.2036,
+      "qty": 0.2110000000000003,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
-      "portId": "jitta2",
+      "portId": "jitta1",
       "auto": true
     },
     {
-      "id": 1776440593533,
-      "ticker": "VEA",
+      "id": 1778467326537,
+      "ticker": "SMH",
       "type": "buy",
-      "date": "2026-04-17",
-      "price": 2221.0407,
-      "qty": 0.2549999999999999,
+      "date": "2026-05-11",
+      "price": 18333.234399999998,
+      "qty": 0.016000000000000014,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
       "realizedPnl": null,
-      "portId": "jitta2",
-      "auto": true
-    },
-    {
-      "id": 1776440576594,
-      "ticker": "VCIT",
-      "type": "buy",
-      "date": "2026-04-17",
-      "price": 2655.9719999999998,
-      "qty": 0.20599999999999996,
-      "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
-      "realizedPnl": null,
-      "portId": "jitta2",
-      "auto": true
-    },
-    {
-      "id": 1776440561668,
-      "ticker": "VTI",
-      "type": "buy",
-      "date": "2026-04-17",
-      "price": 11149.840349999999,
-      "qty": 0.23499999999999988,
-      "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
-      "realizedPnl": null,
-      "portId": "jitta2",
+      "portId": "jitta1",
       "auto": true
     }
   ],
   "alerts": [],
   "notes": [],
   "dividends": [],
+  "watchlist": [],
+  "dcaHistory": [],
+  "currency": "THB",
   "summary": {
     "totalPorts": 9,
-    "totalStocks": 45,
-    "totalTransactions": 13,
-    "totalNetWorth": "฿1,478,220.76"
+    "totalStocks": 48,
+    "totalTransactions": 9,
+    "totalNetWorth": "฿1,523,942.31"
   }
 }

@@ -2258,6 +2258,7 @@ function renderDividends(){
     <td><span class="tkr" style="cursor:pointer" onclick="showDivYearPopup('${d.ticker}')" title="คลิกดูปันผลรายปี">${d.ticker}</span></td>
     <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fq(d.qty)}</td>
     <td class="mono pos">+฿${fn(d.total)}</td>
+    <td class="muted" style="font-size:12px">${d.payDate||'—'}</td>
     <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
     <td><button onclick="deleteDividend(${d.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button></td>
   </tr>`).join('');
@@ -2434,10 +2435,12 @@ async function fetchAllDividends(){
     }) || []).filter(Boolean)
   );
   const tickers = [...new Set(
-    portfolios.flatMap(p => p.stocks?.map(s => s.ticker) || [])
+    portfolios
+      .filter(p => !['jitta1','jitta2'].includes(p.id)) // skip Jitta
+      .flatMap(p => p.stocks?.map(s => s.ticker) || [])
       .filter(t => !t.includes('(A)') && !t.startsWith('K-') && !t.startsWith('MEGA') &&
                    !t.includes('RMF') && !t.includes('BGOLD') && !t.includes('ESG') &&
-                   !drTickers.has(t) && !t.match(/^[A-Z]+\d+$/)) // exclude DR underlying and DR tickers
+                   !drTickers.has(t) && !t.match(/^[A-Z]+\d+$/))
   )];
 
   if(!tickers.length){ result.textContent = 'ไม่มีหุ้นที่ดึงปันผลได้'; return; }
@@ -5507,9 +5510,10 @@ async function fetchAllDRDividends() {
   const progressEl = document.getElementById('auto-div-progress');
   const resultEl = document.getElementById('auto-div-result');
 
-  // Get DR stocks (tickers with numbers like AMZN80, NVDA80)
+  // Get DR stocks (tickers with numbers like AMZN80, NVDA80) — skip Jitta ports
   const drStocks = [];
   portfolios.forEach(p => {
+    if (['jitta1','jitta2'].includes(p.id)) return; // skip Jitta
     if (p.type !== 'realtime_dr' && p.type !== 'realtime_set') return;
     (p.stocks || []).forEach(s => {
       const db = STOCK_DB[s.ticker];
@@ -5548,10 +5552,11 @@ async function fetchAllDRDividends() {
             id: Date.now() + Math.random(),
             ticker: drTicker,
             date: d.exDate,
+            payDate: d.payDate || null,
             perShare: d.thbPerDr,
             qty,
             total,
-            note: `DR: ${d.drRatio} × $${d.usdPerShare} × ${d.usdThbRate?.toFixed(2) || '?'}`,
+            note: `$${d.usdPerShare} × ${d.drRatio} × ${d.usdThbRate?.toFixed(2) || '?'} THB${d.payDate ? '' : ''}`,
           });
           added++;
         }
@@ -5800,7 +5805,7 @@ async function fetchAllDRDividends() {
     <div class="met"><div class="met-lbl">Yield on Cost</div><div class="met-val" id="div-yield">0.00%</div></div>
   </div>
   <div class="card"><div class="tbl-wrap"><table>
-    <thead><tr><th>วันที่</th><th>Ticker</th><th>฿/หุ้น</th><th>จำนวน</th><th>รวม</th><th>หมายเหตุ</th><th></th></tr></thead>
+    <thead><tr><th>XD Date</th><th>Ticker</th><th>฿/หุ้น</th><th>จำนวน</th><th>รวม</th><th>Pay Date</th><th>หมายเหตุ</th><th></th></tr></thead>
     <tbody id="div-body"></tbody>
   </table></div></div>
 </div>

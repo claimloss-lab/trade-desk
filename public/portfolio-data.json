@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T08:56:12.623Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 15:56",
+  "exportDate": "2026-05-11T11:11:55.715Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 18:11",
   "portfolios": [
     {
       "id": "dr1",
@@ -248,7 +248,7 @@
       "name": "Jitta 1 - Thematic",
       "type": "realtime_us",
       "color": "#ff3b30",
-      "cash": 952,
+      "cash": 0,
       "snapshots": [],
       "stocks": [
         {
@@ -352,7 +352,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.4272,
-          "navDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 2,
@@ -363,7 +363,7 @@
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
           "currentNav": 12.2842,
-          "navDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+          "navDate": "11 พ.ค. 69"
         },
         {
           "id": 3,
@@ -1569,6 +1569,6 @@
     "totalPorts": 9,
     "totalStocks": 45,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,536,288.01"
+    "totalNetWorth": "฿1,530,117.51"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T06:30:51.148Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:30",
+  "exportDate": "2026-05-11T06:31:26.875Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:31",
   "portfolios": [
     {
       "id": "dr1",
@@ -104,14 +104,6 @@
           "id": 14,
           "sector": "Tech",
           "underlying": "Snowflake"
-        },
-        {
-          "ticker": "SONY80",
-          "qty": 1550,
-          "buyPrice": 4.2,
-          "id": 15,
-          "sector": "Consumer",
-          "underlying": "Sony"
         }
       ],
       "cash": 64.71,
@@ -496,6 +488,19 @@
   ],
   "transactions": [
     {
+      "id": 1778481083870,
+      "ticker": "SONY80",
+      "type": "sell",
+      "date": "2026-05-11",
+      "price": 3.54,
+      "qty": 1550,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": -1023.0000000000002,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
       "id": 1778481006701,
       "ticker": "MSFT80",
       "type": "buy",
@@ -714,8 +719,8 @@
   "currency": "THB",
   "summary": {
     "totalPorts": 9,
-    "totalStocks": 46,
-    "totalTransactions": 12,
-    "totalNetWorth": "฿1,534,149.58"
+    "totalStocks": 45,
+    "totalTransactions": 13,
+    "totalNetWorth": "฿1,528,662.58"
   }
 }

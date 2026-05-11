@@ -11,56 +11,64 @@ export async function onRequest(context) {
   if (!fund) return new Response(JSON.stringify({ error: 'missing fund' }), { status: 400, headers: cors });
 
   const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36';
+  const baseHeaders = {
+    'User-Agent': ua,
+    'Accept': 'application/json',
+    'Referer': 'https://www.finnomena.com/',
+    'Origin': 'https://www.finnomena.com',
+  };
 
   try {
-    const res = await fetch(
-      `https://www.finnomena.com/fn3/api/cms/public/charlie/fund/${encodeURIComponent(fund)}`,
-      {
-        headers: {
-          'User-Agent': ua,
-          'Accept': 'application/json',
-          'Referer': `https://www.finnomena.com/fund/${fund}`,
-          'Origin': 'https://www.finnomena.com',
-        },
-        cf: { cacheTtl: 1800 }
-      }
+    // Step 1: Get fund list to find fund_id from short_code
+    const fundsRes = await fetch(
+      'https://www.finnomena.com/fn3/api/fund/v2/public/funds',
+      { headers: baseHeaders, cf: { cacheTtl: 86400 } } // cache 24h
     );
 
-    if (!res.ok) {
-      return new Response(JSON.stringify({ error: `Finnomena ${res.status}`, fund }), { status: 502, headers: cors });
+    if (!fundsRes.ok) {
+      return new Response(JSON.stringify({ error: 'Cannot fetch fund list', status: fundsRes.status }), { status: 502, headers: cors });
     }
 
-    const data = await res.json();
+    const fundsData = await fundsRes.json();
+    const funds = fundsData?.data || fundsData?.funds || fundsData || [];
+    const matched = funds.find(f =>
+      f.short_code?.toUpperCase() === fund ||
+      f.fund_code?.toUpperCase() === fund ||
+      f.symbol?.toUpperCase() === fund
+    );
 
-    // Extract NAV fields from Finnomena charlie API
-    // Response format: { status: true, service_code: "69", data: { ... } }
-    const d = data?.data || data;
-    const nav    = d?.last_val   || d?.nav        || d?.NAV ||
-                   d?.last_nav   || d?.price       || d?.nav_price;
-    const date   = d?.nav_date   || d?.last_date  || d?.date || d?.as_of_date;
-    const name   = d?.name_th    || d?.name       || d?.fund_name ||
-                   d?.fund_name_th || fund;
-    const change    = d?.diff_val     || d?.change;
-    const changePct = d?.diff_percent || d?.change_percent;
-
-    if (!nav) {
-      const d2 = data?.data || data;
+    if (!matched) {
       return new Response(JSON.stringify({
-        error: 'NAV field not found', fund,
-        topKeys: Object.keys(data).slice(0, 10),
-        dataKeys: typeof d2 === 'object' ? Object.keys(d2).slice(0, 20) : [],
-        sample: JSON.stringify(d2).slice(0, 400),
+        error: 'Fund not found in Finnomena',
+        fund,
+        totalFunds: funds.length,
+        sample: funds.slice(0, 3).map(f => ({ short_code: f.short_code, fund_id: f.fund_id })),
       }), { status: 404, headers: cors });
     }
 
+    const fundId = matched.fund_id || matched.id;
+
+    // Step 2: Get latest NAV
+    const navRes = await fetch(
+      `https://www.finnomena.com/fn3/api/fund/v2/public/funds/${fundId}/latest`,
+      { headers: baseHeaders, cf: { cacheTtl: 3600 } }
+    );
+
+    if (!navRes.ok) {
+      return new Response(JSON.stringify({ error: 'NAV fetch failed', status: navRes.status, fundId }), { status: 502, headers: cors });
+    }
+
+    const navData = await navRes.json();
+    const d = navData?.data || navData;
+
     return new Response(JSON.stringify({
       fund,
+      fundId,
       source: 'finnomena',
-      nav: parseFloat(nav),
-      date,
-      name,
-      change:    change    ? parseFloat(change)    : null,
-      changePct: changePct ? parseFloat(changePct) : null,
+      nav: d?.value != null ? parseFloat(d.value) : null,
+      date: d?.date ? d.date.split('T')[0] : null,
+      change: d?.d_change != null ? parseFloat(d.d_change) : null,
+      name: matched?.name_th || matched?.fund_name || fund,
     }), { headers: cors });
 
   } catch(e) {

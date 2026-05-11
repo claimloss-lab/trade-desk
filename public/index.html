@@ -1214,6 +1214,7 @@ function renderPortfolio(portId) {
   const dayPct=eq>0?dayPnl/eq*100:0;
 
   const el=id=>document.getElementById(portId+'-'+id);
+  const setEl=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
   if(!el('net')) return;
   setEl('net',fm(net));
   setEl('sub','หุ้น '+fm(eq)+' + เงินสด');
@@ -1347,6 +1348,7 @@ function renderSnapshot(portId) {
   const pct=firstVal>0?pnl/firstVal*100:0;
 
   const el=id=>document.getElementById(portId+'-'+id);
+  const setEl=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
   if(!el('net')) return;
   el('net').textContent=fm(latestVal);
   el('sub').textContent=snaps.length?'ณ วันที่ '+snaps.at(-1).date:'ยังไม่มี snapshot';

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T06:19:45.523Z",
-  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:19",
+  "exportDate": "2026-05-11T06:28:42.350Z",
+  "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:28",
   "portfolios": [
     {
       "id": "dr1",
@@ -130,7 +130,7 @@
           "underlying": "Sony"
         }
       ],
-      "cash": 26227.52,
+      "cash": 64.71,
       "snapshots": []
     },
     {
@@ -376,7 +376,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.4272,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         },
         {
           "id": 2,
@@ -387,7 +387,7 @@
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
           "currentNav": 12.2842,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         },
         {
           "id": 3,
@@ -462,7 +462,7 @@
           "underlying": "BBL Gold RMF",
           "currency": "THB",
           "currentNav": 30.9362,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         },
         {
           "id": 2,
@@ -473,7 +473,7 @@
           "underlying": "RMF Binnotech",
           "currency": "THB",
           "currentNav": 34.0662,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         },
         {
           "id": 3,
@@ -484,7 +484,7 @@
           "underlying": "ESG SI Fund",
           "currency": "THB",
           "currentNav": 10.6336,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         }
       ]
     },
@@ -503,7 +503,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 10.5032,
-          "navDate": "11 พ.ค. 69"
+          "navDate": "11 à¸.à¸. 69"
         }
       ],
       "cash": 0,
@@ -519,7 +519,7 @@
       "price": 1959.6798,
       "qty": 0.23100000000000032,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta2",
       "auto": true
@@ -532,7 +532,7 @@
       "price": 2292.7670999999996,
       "qty": 0.44099999999999984,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta2",
       "auto": true
@@ -545,7 +545,7 @@
       "price": 2683.1492999999996,
       "qty": 0.6539999999999999,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta2",
       "auto": true
@@ -558,7 +558,7 @@
       "price": 11746.1019,
       "qty": 0.2610000000000001,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta2",
       "auto": true
@@ -571,7 +571,7 @@
       "price": 71.04,
       "qty": 4.117,
       "fee": 0,
-      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "note": "à¹à¸à¸´à¹à¸¡à¸«à¸¸à¹à¸à¹à¸«à¸¡à¹ (auto)",
       "realizedPnl": null,
       "portId": "jitta1",
       "auto": true
@@ -584,7 +584,7 @@
       "price": 684.7376,
       "qty": 15.627,
       "fee": 0,
-      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸²à¸¢à¸­à¸­à¸ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": 10439.736115200001,
       "portId": "jitta1",
       "auto": true
@@ -597,7 +597,7 @@
       "price": 2964.176,
       "qty": 0.5150000000000001,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta1",
       "auto": true
@@ -610,7 +610,7 @@
       "price": 4304.2036,
       "qty": 0.2110000000000003,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta1",
       "auto": true
@@ -623,7 +623,7 @@
       "price": 18333.234399999998,
       "qty": 0.016000000000000014,
       "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "note": "à¸à¸·à¹à¸­à¹à¸à¸´à¹à¸¡ (auto-log à¸à¸²à¸à¸à¸²à¸£à¹à¸à¹à¸à¸³à¸à¸§à¸)",
       "realizedPnl": null,
       "portId": "jitta1",
       "auto": true
@@ -641,7 +641,7 @@
       "note": "DCA_04/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "11 พ.ค. 69"
+      "addedDate": "11 à¸.à¸. 69"
     },
     {
       "id": 1778479777045,
@@ -651,7 +651,8 @@
       "note": "DCA_03/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "11 พ.ค. 69"
+      "addedDate": "11 à¸.à¸. 69",
+      "_notified": true
     },
     {
       "id": 1778479794226,
@@ -661,7 +662,8 @@
       "note": "DCA_03/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "11 พ.ค. 69"
+      "addedDate": "11 à¸.à¸. 69",
+      "_notified": true
     },
     {
       "id": 1778479813072,
@@ -671,7 +673,7 @@
       "note": "DCA_03/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "11 พ.ค. 69"
+      "addedDate": "11 à¸.à¸. 69"
     },
     {
       "id": 1778479826604,
@@ -681,7 +683,8 @@
       "note": "DCA_03/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "11 พ.ค. 69"
+      "addedDate": "11 à¸.à¸. 69",
+      "_notified": true
     }
   ],
   "dcaHistory": [],
@@ -690,6 +693,6 @@
     "totalPorts": 9,
     "totalStocks": 48,
     "totalTransactions": 9,
-    "totalNetWorth": "฿1,523,853.83"
+    "totalNetWorth": "฿1,497,596.70"
   }
 }

@@ -5861,5 +5861,42 @@ function updateBackupStatus() {
   </div>
 </div>
 
+
+<!-- ══════════════════ GITHUB AUTO-SAVE MODAL ══════════════════ -->
+<div id="gh-modal" class="modal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
+  <div class="modal" style="width:min(460px,92vw);background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:24px">
+    <div style="font-size:16px;font-weight:600;margin-bottom:4px">☁️ GitHub Auto-Save Settings</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:20px">ข้อมูลจะ backup อัตโนมัติขึ้น GitHub ทุกครั้งที่มีการเปลี่ยนแปลง</div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Personal Access Token</label>
+      <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">สร้างได้ที่ github.com/settings/tokens → repo scope</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Username</label>
+        <input type="text" id="gh-user" placeholder="claimloss-lab" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Repository</label>
+        <input type="text" id="gh-repo" placeholder="trade-desk" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      </div>
+    </div>
+
+    <div id="gh-test-result" style="font-size:12px;margin-bottom:12px;min-height:18px"></div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="testGitHubConnection()" style="flex:1;padding:8px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;background:var(--s2);color:var(--tx)">🔌 ทดสอบ</button>
+      <button onclick="saveGitHubSettings()" style="flex:2;padding:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500">💾 บันทึก</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px">
+      <button onclick="clearGitHubSettings()" style="padding:6px 12px;background:none;border:1px solid var(--red);color:var(--red-tx);border-radius:8px;cursor:pointer;font-size:12px">🗑️ ลบ Token</button>
+      <button onclick="closeModal('gh-modal')" style="padding:6px 12px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:12px;color:var(--tx2)">ปิด</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

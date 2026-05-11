@@ -33,17 +33,23 @@ export async function onRequest(context) {
     const data = await res.json();
 
     // Extract NAV fields from Finnomena charlie API
-    const nav    = data?.last_val   || data?.nav       || data?.NAV;
-    const date   = data?.nav_date   || data?.last_date || data?.date;
-    const name   = data?.name_th    || data?.name      || data?.fund_name || fund;
-    const change = data?.diff_val   || data?.change;
-    const changePct = data?.diff_percent || data?.change_percent;
+    // Response format: { status: true, service_code: "69", data: { ... } }
+    const d = data?.data || data;
+    const nav    = d?.last_val   || d?.nav        || d?.NAV ||
+                   d?.last_nav   || d?.price       || d?.nav_price;
+    const date   = d?.nav_date   || d?.last_date  || d?.date || d?.as_of_date;
+    const name   = d?.name_th    || d?.name       || d?.fund_name ||
+                   d?.fund_name_th || fund;
+    const change    = d?.diff_val     || d?.change;
+    const changePct = d?.diff_percent || d?.change_percent;
 
     if (!nav) {
+      const d2 = data?.data || data;
       return new Response(JSON.stringify({
         error: 'NAV field not found', fund,
-        keys: Object.keys(data).slice(0, 20),
-        sample: JSON.stringify(data).slice(0, 300),
+        topKeys: Object.keys(data).slice(0, 10),
+        dataKeys: typeof d2 === 'object' ? Object.keys(d2).slice(0, 20) : [],
+        sample: JSON.stringify(d2).slice(0, 400),
       }), { status: 404, headers: cors });
     }
 

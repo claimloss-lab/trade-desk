@@ -914,7 +914,7 @@ function renderDime(portId){
   const port=getPort(portId);
   if(!port) return;
   const el=id=>document.getElementById(portId+'-'+id);
-  const set=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
+  const setEl=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
   if(!el('net')) return;
 
   // Separate stocks
@@ -1215,22 +1215,22 @@ function renderPortfolio(portId) {
 
   const el=id=>document.getElementById(portId+'-'+id);
   if(!el('net')) return;
-  set('net',fm(net));
-  set('sub','หุ้น '+fm(eq)+' + เงินสด');
-  set('eq',fm(eq));
-  set('cost','ต้นทุน '+fm(cost));
-  set('pnl',(pnl>=0?'+':'')+fm(pnl));
+  setEl('net',fm(net));
+  setEl('sub','หุ้น '+fm(eq)+' + เงินสด');
+  setEl('eq',fm(eq));
+  setEl('cost','ต้นทุน '+fm(cost));
+  setEl('pnl',(pnl>=0?'+':'')+fm(pnl));
   el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
-  set('pnlb',(pct>=0?'+':'')+pct.toFixed(2)+'%');
+  setEl('pnlb',(pct>=0?'+':'')+pct.toFixed(2)+'%');
   el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
-  set('day',(dayPnl>=0?'+':'')+fm(dayPnl));
+  setEl('day',(dayPnl>=0?'+':'')+fm(dayPnl));
   el('day').style.color=dayPnl>=0?'var(--green-tx)':'var(--red-tx)';
-  set('dayb',(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%');
+  setEl('dayb',(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%');
   el('dayb').className='bdg '+(dayPnl>=0?'pos':'neg');
   if(el('cash') && port.cash>0) el('cash').value=port.cash;
 
   // Table
-  set('cnt',port.stocks.length+' รายการ');
+  setEl('cnt',port.stocks.length+' รายการ');
   const tbody=el('body');
   if(!tbody) return;
   if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="11" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}

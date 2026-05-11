@@ -5898,5 +5898,47 @@ function updateBackupStatus() {
   </div>
 </div>
 
+
+<!-- ══════════════════ WATCHLIST MODAL ══════════════════ -->
+<div id="wl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
+  <div style="width:min(400px,92vw);background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:24px">
+    <div style="font-size:15px;font-weight:600;margin-bottom:16px">➕ เพิ่มรายการ Watchlist</div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Ticker *</label>
+      <input type="text" id="wl-ticker" placeholder="เช่น NVDA, AAPL" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);text-transform:uppercase">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">ราคาเป้าหมาย</label>
+        <input type="number" id="wl-price" placeholder="0.00" step="0.01" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">จำนวนที่ต้องการซื้อ</label>
+        <input type="number" id="wl-qty" placeholder="0" step="1" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">เงื่อนไข</label>
+      <select id="wl-cond" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+        <option value="below">ราคาต่ำกว่าเป้า (รอซื้อขาลง)</option>
+        <option value="above">ราคาสูงกว่าเป้า (รอ breakout)</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">หมายเหตุ</label>
+      <input type="text" id="wl-note" placeholder="เหตุผลที่อยากซื้อ..." style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button onclick="closeModal('wl-modal')" style="flex:1;padding:9px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;background:var(--s2);color:var(--tx)">ยกเลิก</button>
+      <button onclick="addWatchlistItem()" style="flex:2;padding:9px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500">✅ บันทึก</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

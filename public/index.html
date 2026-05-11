@@ -1122,6 +1122,7 @@ function buildRealtimeHTML(port) {
       <button class="btn btn-p" onclick="addStock('${port.id}')">+ เพิ่ม</button>
       <button class="btn btn-g" onclick="refreshPort('${port.id}')">↻</button>
       <button onclick="aiPortfolioCommentary()" style="background:#7c3aed;color:#fff;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:12px" title="AI สรุปพอร์ต">🤖</button>
+      ${port.type==='dime_mixed'?`<button id="fetch-nav-btn" onclick="fetchAllNAV()" style="background:var(--blue);color:#fff;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:12px" title="ดึง NAV กองทุน">↻ NAV</button>`:''}
       <button class="btn btn-g btn-sm" onclick="renamePort('${port.id}')">✏️ เปลี่ยนชื่อ</button>
       <button class="btn btn-g btn-sm" onclick="deletePort('${port.id}')" style="color:var(--red-tx);margin-left:4px">ลบพอร์ต</button>
     </div>
@@ -5762,6 +5763,61 @@ async function fetchAllDividendsUnified() {
 
   if (btn) { btn.disabled = false; btn.textContent = '↓ ดึงปันผลทั้งหมด'; }
   showToast(`✅ ดึงปันผลสำเร็จ ${added} รายการ`);
+}
+
+// ══════════════════════════════════════════════════
+// AUTO FETCH NAV FROM FINNOMENA
+// ══════════════════════════════════════════════════
+const MF_TICKERS = ['K-GA-A(A)','MEGAWORLD30-A','BGOLDRMF','RMFBINNOTECH','ESGSI','TLNDQINCOME-UH-X'];
+
+async function fetchAllNAV() {
+  const btn = document.getElementById('fetch-nav-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ ดึง NAV...'; }
+
+  let updated = 0;
+  const toUpdate = [];
+
+  // Find all mutual fund stocks across portfolios
+  portfolios.forEach(p => {
+    (p.stocks || []).forEach(s => {
+      if (MF_TICKERS.includes(s.ticker) || s.ticker.startsWith('K-') ||
+          s.ticker.includes('RMF') || s.ticker.includes('ESG') ||
+          s.ticker.includes('BGOLD') || s.ticker.includes('MEGA') ||
+          s.ticker.includes('TLND')) {
+        toUpdate.push({ portId: p.id, ticker: s.ticker });
+      }
+    });
+  });
+
+  for (const { portId, ticker } of toUpdate) {
+    try {
+      const res = await fetch('/api/nav?fund=' + encodeURIComponent(ticker));
+      const data = await res.json();
+      if (data.nav) {
+        // Update NAV in portfolio
+        const port = getPort(portId);
+        const stock = port?.stocks?.find(s => s.ticker === ticker);
+        if (stock) {
+          stock.currentNav = data.nav;
+          stock.navDate = data.date;
+          updated++;
+        }
+        // Update prices cache for display
+        prices[ticker + '_' + portId] = {
+          price: data.nav,
+          change: data.change || 0,
+          pct: data.change && data.nav ? (data.change / (data.nav - data.change) * 100) : 0,
+          prevClose: data.nav - (data.change || 0),
+        };
+      }
+    } catch(e) { console.warn('NAV error:', ticker, e); }
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  savePorts();
+  renderAll();
+  showToast(`✅ อัปเดต NAV ${updated} กองทุน`);
+  if (btn) { btn.disabled = false; btn.textContent = '↻ NAV'; }
 }
 </script>
 

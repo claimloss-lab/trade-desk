@@ -914,6 +914,7 @@ function renderDime(portId){
   const port=getPort(portId);
   if(!port) return;
   const el=id=>document.getElementById(portId+'-'+id);
+  const set=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
   if(!el('net')) return;
 
   // Separate stocks
@@ -1214,22 +1215,22 @@ function renderPortfolio(portId) {
 
   const el=id=>document.getElementById(portId+'-'+id);
   if(!el('net')) return;
-  el('net').textContent=fm(net);
-  el('sub').textContent='หุ้น '+fm(eq)+' + เงินสด';
-  el('eq').textContent=fm(eq);
-  el('cost').textContent='ต้นทุน '+fm(cost);
-  el('pnl').textContent=(pnl>=0?'+':'')+fm(pnl);
+  set('net',fm(net));
+  set('sub','หุ้น '+fm(eq)+' + เงินสด');
+  set('eq',fm(eq));
+  set('cost','ต้นทุน '+fm(cost));
+  set('pnl',(pnl>=0?'+':'')+fm(pnl));
   el('pnl').style.color=pnl>=0?'var(--green-tx)':'var(--red-tx)';
-  el('pnlb').textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
+  set('pnlb',(pct>=0?'+':'')+pct.toFixed(2)+'%');
   el('pnlb').className='bdg '+(pnl>=0?'pos':'neg');
-  el('day').textContent=(dayPnl>=0?'+':'')+fm(dayPnl);
+  set('day',(dayPnl>=0?'+':'')+fm(dayPnl));
   el('day').style.color=dayPnl>=0?'var(--green-tx)':'var(--red-tx)';
-  el('dayb').textContent=(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%';
+  set('dayb',(dayPct>=0?'+':'')+dayPct.toFixed(2)+'%');
   el('dayb').className='bdg '+(dayPnl>=0?'pos':'neg');
   if(el('cash') && port.cash>0) el('cash').value=port.cash;
 
   // Table
-  el('cnt').textContent=port.stocks.length+' รายการ';
+  set('cnt',port.stocks.length+' รายการ');
   const tbody=el('body');
   if(!tbody) return;
   if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="11" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
@@ -2262,6 +2263,59 @@ function renderDividends(){
     <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
     <td><button onclick="deleteDividend(${d.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button></td>
   </tr>`).join('');
+
+  // Render per-ticker summary
+  renderDivTickerSummary();
+}
+
+function renderDivTickerSummary() {
+  const el = document.getElementById('div-ticker-summary');
+  if (!el || !dividends.length) return;
+
+  // Group by ticker
+  const byTicker = {};
+  dividends.forEach(d => {
+    if (!byTicker[d.ticker]) byTicker[d.ticker] = { total: 0, count: 0, latest: d.date };
+    byTicker[d.ticker].total += d.total || 0;
+    byTicker[d.ticker].count++;
+    if (d.date > byTicker[d.ticker].latest) byTicker[d.ticker].latest = d.date;
+  });
+
+  // Sort by total desc
+  const sorted = Object.entries(byTicker).sort((a,b) => b[1].total - a[1].total);
+  const grandTotal = sorted.reduce((s,[,v]) => s + v.total, 0);
+
+  el.innerHTML = `
+    <div style="font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:10px">ปันผลสะสมต่อหุ้น</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">
+      ${sorted.map(([ticker, v]) => {
+        const pct = grandTotal > 0 ? (v.total/grandTotal*100).toFixed(1) : 0;
+        // Get current portfolio value for yield calc
+        let portVal = 0;
+        portfolios.forEach(p => {
+          const s = p.stocks?.find(s => s.ticker === ticker);
+          if (s) {
+            const pr = prices[s.ticker + '_' + p.id];
+            portVal = pr ? pr.price * s.qty : s.buyPrice * s.qty;
+          }
+        });
+        const yoc = portVal > 0 ? (v.total/portVal*100).toFixed(2) : null;
+        return `<div style="background:var(--s2);border-radius:10px;padding:10px 12px;cursor:pointer" onclick="showDivYearPopup('${ticker}')">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span class="tkr" style="font-size:12px">${ticker}</span>
+            <span style="font-size:10px;color:var(--tx3)">${v.count} งวด</span>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:2px">฿${fn(v.total)}</div>
+          <div style="display:flex;gap:8px;font-size:10px;color:var(--tx3)">
+            <span>${pct}% ของทั้งหมด</span>
+            ${yoc ? `<span style="color:var(--green-tx)">${yoc}% YOC</span>` : ''}
+          </div>
+          <div style="background:var(--bd2);border-radius:4px;height:3px;margin-top:6px">
+            <div style="background:var(--blue);border-radius:4px;height:3px;width:${pct}%"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
 }
 
 // SECTOR ANALYSIS
@@ -5938,6 +5992,8 @@ async function fetchAllDividendsUnified() {
     <div class="met"><div class="met-lbl">ปีนี้</div><div class="met-val" id="div-year">฿0</div></div>
     <div class="met"><div class="met-lbl">Yield on Cost</div><div class="met-val" id="div-yield">0.00%</div></div>
   </div>
+  <!-- Per-ticker summary -->
+  <div id="div-ticker-summary" style="margin-bottom:16px"></div>
   <div class="card"><div class="tbl-wrap"><table>
     <thead><tr><th>XD Date</th><th>Ticker</th><th>฿/หุ้น</th><th>จำนวน</th><th>รวม</th><th>Pay Date</th><th>หมายเหตุ</th><th></th></tr></thead>
     <tbody id="div-body"></tbody>

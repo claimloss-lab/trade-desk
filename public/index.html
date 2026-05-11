@@ -5391,6 +5391,10 @@ function updateBackupStatus() {
       <span>Import Backup (JSON)</span>
     </div>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="importBackup(event)">
+    <div class="sb-item" onclick="closeSidebar();restoreFromGitHub()">
+      <div class="sb-item-icon" style="background:#e8f1fd">☁️</div>
+      <span>Restore จาก GitHub</span>
+    </div>
     <div class="sb-item" onclick="openGitHubSettings()">
       <div class="sb-item-icon" style="background:#f3eeff">⚙</div>
       <span>GitHub Auto-Save Settings</span>

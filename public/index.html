@@ -5382,6 +5382,112 @@ async function fetchUpcomingDividends() {
     <div style="font-size:11px;color:var(--tx3);margin-top:8px;padding:0 4px">* Ex-Date = วันที่ต้องถือหุ้นก่อนเพื่อรับปันผล | Pay Date = วันที่รับเงิน</div>
   `;
 }
+
+// ══════════════════════════════════════════════════
+// SET DIVIDEND FETCHER (Thai Stocks)
+// ══════════════════════════════════════════════════
+async function fetchSETDividends() {
+  // Get Thai tickers from portfolio
+  const thaiTickers = [...new Set(
+    portfolios.flatMap(p => p.stocks
+      ?.filter(s => s.ticker.includes('.BK') || p.type === 'realtime_set' ||
+                   (!s.ticker.match(/^[A-Z]{1,5}\d*$/) && !STOCK_DB[s.ticker]))
+      ?.map(s => s.ticker.replace('.BK', '')) || []
+    )
+  )];
+
+  // Also check dime_mixed portfolios for SET stocks
+  portfolios.forEach(p => {
+    if (p.type === 'dime_mixed' || p.type === 'snapshot') {
+      p.stocks?.forEach(s => {
+        const t = s.ticker.replace('.BK', '');
+        if (!STOCK_DB[t] && /^[A-Z]{2,10}$/.test(t) && !thaiTickers.includes(t)) {
+          thaiTickers.push(t);
+        }
+      });
+    }
+  });
+
+  if (!thaiTickers.length) {
+    showToast('ไม่พบหุ้นไทยในพอร์ต');
+    return;
+  }
+
+  const statusEl = document.getElementById('auto-div-status');
+  const barEl = document.getElementById('auto-div-bar');
+  const progressEl = document.getElementById('auto-div-progress');
+  const resultEl = document.getElementById('auto-div-result');
+  const panel = document.getElementById('auto-div-panel');
+
+  panel.style.display = 'block';
+  progressEl.style.display = 'block';
+  resultEl.textContent = '';
+
+  let added = 0;
+  let errors = 0;
+
+  for (let i = 0; i < thaiTickers.length; i++) {
+    const t = thaiTickers[i];
+    barEl.style.width = ((i+1)/thaiTickers.length*100) + '%';
+    statusEl.textContent = `กำลังดึง ${t} จาก SET (${i+1}/${thaiTickers.length})...`;
+
+    try {
+      const res = await fetch('/api/set-dividend?ticker=' + t);
+      const data = await res.json();
+
+      if (data.dividends?.length) {
+        // Find matching stocks in portfolio
+        const matchingStocks = portfolios.flatMap(p =>
+          p.stocks?.filter(s => s.ticker.replace('.BK','') === t || s.ticker === t) || []
+        );
+
+        for (const div of data.dividends) {
+          if (!div.xdDate || !div.dividend) continue;
+
+          // Parse date (DD/MM/YYYY → YYYY-MM-DD)
+          let dateStr = div.xdDate;
+          const dateParts = dateStr.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+          if (dateParts) {
+            const year = parseInt(dateParts[3]) > 2500 ? parseInt(dateParts[3]) - 543 : parseInt(dateParts[3]);
+            dateStr = `${year}-${dateParts[2]}-${dateParts[1]}`;
+          }
+
+          // Check if already exists
+          const exists = dividends.some(d => d.ticker === t && d.date === dateStr);
+          if (exists) continue;
+
+          const qty = matchingStocks.reduce((s, s2) => s + (s2.qty || 0), 0);
+          const total = div.dividend * qty;
+
+          dividends.push({
+            id: Date.now() + Math.random(),
+            ticker: t,
+            date: dateStr,
+            perShare: div.dividend,
+            qty: qty || 1,
+            total: total || div.dividend,
+            note: 'SET Auto',
+          });
+          added++;
+        }
+      }
+    } catch(e) {
+      errors++;
+    }
+    await new Promise(r => setTimeout(r, 400));
+  }
+
+  dividends.sort((a,b) => b.date.localeCompare(a.date));
+  saveFeatures();
+  renderDividends();
+
+  progressEl.style.display = 'none';
+  resultEl.innerHTML = `<span style="color:var(--green-tx)">✅ เพิ่มปันผล SET ${added} รายการ</span>${errors ? ` <span style="color:var(--tx3)">(${errors} ตัวไม่พบข้อมูล)</span>` : ''}`;
+
+  if (added === 0) {
+    resultEl.innerHTML += '<br><span style="font-size:11px;color:var(--tx3)">SET อาจบล็อก — ลองกรอก Manual แทนครับ</span>';
+  }
+}
 </script>
 
 <!-- OVERLAY -->
@@ -5587,7 +5693,8 @@ async function fetchUpcomingDividends() {
     <h2 style="font-size:18px;font-weight:600">🏦 Dividend Tracker</h2>
     <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <select id="div-filter-ticker" onchange="renderDividends()" style="width:130px;font-size:12px;padding:5px 8px"><option value="">ทุกตัว</option></select>
-      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึงปันผล</button>
+      <button class="btn btn-s btn-sm" onclick="openAutoFetchDiv()">↓ ดึง US</button>
+      <button class="btn btn-s btn-sm" onclick="fetchSETDividends()">🇹🇭 ดึง SET</button>
       <button class="btn btn-s btn-sm" onclick="fetchUpcomingDividends()">📅 Upcoming</button>
       <button class="btn btn-p btn-sm" onclick="openDivModal()">+ บันทึกเอง</button>
     </div>

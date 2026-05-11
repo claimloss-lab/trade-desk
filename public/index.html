@@ -2425,11 +2425,19 @@ async function fetchAllDividends(){
   const bar     = document.getElementById('auto-div-bar');
   const status  = document.getElementById('auto-div-status');
 
-  // Get all eligible tickers (exclude mutual funds)
+  // Get all eligible tickers (exclude mutual funds AND DR stocks — DR uses separate calculator)
+  const drTickers = new Set(
+    portfolios.flatMap(p => p.stocks?.map(s => {
+      const db = STOCK_DB[s.ticker];
+      const underlying = db?.underlying || (s.ticker.match(/^([A-Z]+)\d+$/) ? s.ticker.match(/^([A-Z]+)\d+$/)[1] : null);
+      return underlying && underlying !== s.ticker ? underlying : null;
+    }) || []).filter(Boolean)
+  );
   const tickers = [...new Set(
     portfolios.flatMap(p => p.stocks?.map(s => s.ticker) || [])
       .filter(t => !t.includes('(A)') && !t.startsWith('K-') && !t.startsWith('MEGA') &&
-                   !t.includes('RMF') && !t.includes('BGOLD') && !t.includes('ESG'))
+                   !t.includes('RMF') && !t.includes('BGOLD') && !t.includes('ESG') &&
+                   !drTickers.has(t) && !t.match(/^[A-Z]+\d+$/)) // exclude DR underlying and DR tickers
   )];
 
   if(!tickers.length){ result.textContent = 'ไม่มีหุ้นที่ดึงปันผลได้'; return; }

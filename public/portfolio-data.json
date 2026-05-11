@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-11T06:49:18.241Z",
+  "exportDate": "2026-05-11T06:49:28.520Z",
   "exportDateTH": "11 พฤษภาคม 2569 เวลา 13:49",
   "portfolios": [
     {
@@ -686,15 +686,6 @@
       "qty": 1600,
       "total": 640,
       "note": "auto (THB)"
-    },
-    {
-      "id": 1778482036756.4722,
-      "ticker": "VCIT",
-      "date": "2026-05-01",
-      "perShare": 10.5689,
-      "qty": 4.064,
-      "total": 42.95,
-      "note": "auto (USD)"
     },
     {
       "id": 1778482038868.5225,

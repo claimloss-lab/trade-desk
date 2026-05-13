@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-13T08:25:15.520Z",
+  "exportDate": "2026-05-13T08:25:28.571Z",
   "exportDateTH": "13 พฤษภาคม 2569 เวลา 15:25",
   "portfolios": [
     {
@@ -136,8 +136,8 @@
         {
           "id": 3,
           "ticker": "CPALL.BK",
-          "qty": 900,
-          "buyPrice": 54.08,
+          "qty": 1000,
+          "buyPrice": 53.047,
           "sector": "Consumer",
           "underlying": "CP All"
         },
@@ -509,6 +509,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1778660725566,
+      "ticker": "CPALL.BK",
+      "type": "buy",
+      "date": "2026-05-13",
+      "price": 43.75,
+      "qty": 100,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "set1",
+      "auto": true
+    },
     {
       "id": 1778660712513,
       "ticker": "BDMS.BK",
@@ -1622,7 +1635,7 @@
   "summary": {
     "totalPorts": 9,
     "totalStocks": 47,
-    "totalTransactions": 14,
-    "totalNetWorth": "฿1,542,016.14"
+    "totalTransactions": 15,
+    "totalNetWorth": "฿1,546,391.14"
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-13T00:02:04.841Z",
+  "exportDate": "2026-05-13T00:02:21.736Z",
   "exportDateTH": "13 พฤษภาคม 2569 เวลา 07:02",
   "portfolios": [
     {
@@ -351,8 +351,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.4272,
-          "navDate": "11 พ.ค. 69"
+          "currentNav": 14.4483,
+          "navDate": "13 พ.ค. 69"
         },
         {
           "id": 2,
@@ -362,8 +362,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 12.2842,
-          "navDate": "11 พ.ค. 69"
+          "currentNav": 12.3761,
+          "navDate": "13 พ.ค. 69"
         },
         {
           "id": 3,
@@ -1579,6 +1579,6 @@
     "totalPorts": 9,
     "totalStocks": 45,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,530,630.06"
+    "totalNetWorth": "฿1,530,773.76"
   }
 }

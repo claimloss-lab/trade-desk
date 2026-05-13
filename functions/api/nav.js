@@ -18,37 +18,48 @@ export async function onRequest(context) {
     'Origin': 'https://www.finnomena.com',
   };
 
-  try {
-    // Step 1: Get fund list to find fund_id from short_code
-    const fundsRes = await fetch(
-      'https://www.finnomena.com/fn3/api/fund/v2/public/funds',
-      { headers: baseHeaders, cf: { cacheTtl: 86400 } } // cache 24h
-    );
+  // Manual fund_id mapping — Finnomena uses spaces/different format
+  const FUND_ID_MAP = {
+    'KKP-US500-UH-E':   'F00001KZM9',
+    'KKP-NDQ100-UH-E':  'F00001J49T',
+    'KKP-US500-H-E':    null,  // add if needed
+    'TLNDQINCOME-UH-X': null,  // try search fallback
+  };
 
-    if (!fundsRes.ok) {
-      return new Response(JSON.stringify({ error: 'Cannot fetch fund list', status: fundsRes.status }), { status: 502, headers: cors });
+  // Also try replacing - with space for KKP funds
+  const normalizedFund = fund.replace(/-/g, ' ');
+
+  try {
+    let fundId = FUND_ID_MAP[fund] ?? null;
+
+    // If no manual mapping, search by short_code
+    if (!fundId) {
+      const fundsRes = await fetch(
+        'https://www.finnomena.com/fn3/api/fund/v2/public/funds',
+        { headers: baseHeaders, cf: { cacheTtl: 86400 } }
+      );
+      if (fundsRes.ok) {
+        const fundsData = await fundsRes.json();
+        const funds = fundsData?.data || fundsData?.funds || fundsData || [];
+        const matched = funds.find(f =>
+          f.short_code?.toUpperCase() === fund ||
+          f.short_code?.toUpperCase() === normalizedFund ||
+          f.fund_code?.toUpperCase() === fund ||
+          f.symbol?.toUpperCase() === fund
+        );
+        if (matched) fundId = matched.fund_id || matched.id;
+      }
     }
 
-    const fundsData = await fundsRes.json();
-    const funds = fundsData?.data || fundsData?.funds || fundsData || [];
-    const matched = funds.find(f =>
-      f.short_code?.toUpperCase() === fund ||
-      f.fund_code?.toUpperCase() === fund ||
-      f.symbol?.toUpperCase() === fund
-    );
-
-    if (!matched) {
+    if (!fundId) {
       return new Response(JSON.stringify({
-        error: 'Fund not found in Finnomena',
+        error: 'Fund not found — add to FUND_ID_MAP',
         fund,
-        totalFunds: funds.length,
-        sample: funds.slice(0, 3).map(f => ({ short_code: f.short_code, fund_id: f.fund_id })),
+        hint: `Open Finnomena, search ${fund}, check Network tab for fund_id`
       }), { status: 404, headers: cors });
     }
 
-    const fundId = matched.fund_id || matched.id;
-
-    // Step 2: Get latest NAV
+    // Fetch latest NAV
     const navRes = await fetch(
       `https://www.finnomena.com/fn3/api/fund/v2/public/funds/${fundId}/latest`,
       { headers: baseHeaders, cf: { cacheTtl: 3600 } }
@@ -62,13 +73,10 @@ export async function onRequest(context) {
     const d = navData?.data || navData;
 
     return new Response(JSON.stringify({
-      fund,
-      fundId,
-      source: 'finnomena',
+      fund, fundId, source: 'finnomena',
       nav: d?.value != null ? parseFloat(d.value) : null,
       date: d?.date ? d.date.split('T')[0] : null,
       change: d?.d_change != null ? parseFloat(d.d_change) : null,
-      name: matched?.name_th || matched?.fund_name || fund,
     }), { headers: cors });
 
   } catch(e) {

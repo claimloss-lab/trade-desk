@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-13T01:17:57.766Z",
-  "exportDateTH": "13 พฤษภาคม 2569 เวลา 08:17",
+  "exportDate": "2026-05-13T01:54:33.433Z",
+  "exportDateTH": "13 พฤษภาคม 2569 เวลา 08:54",
   "portfolios": [
     {
       "id": "dr1",
@@ -426,7 +426,9 @@
           "buyPrice": 12.8055,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 12.782,
+          "navDate": "13 พ.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -435,7 +437,9 @@
           "buyPrice": 17.1658,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
-          "currency": "THB"
+          "currency": "THB",
+          "currentNav": 17.3068,
+          "navDate": "13 พ.ค. 69"
         }
       ]
     },
@@ -1597,6 +1601,6 @@
     "totalPorts": 9,
     "totalStocks": 47,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,533,880.89"
+    "totalNetWorth": "฿1,533,664.09"
   }
 }

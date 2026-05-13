@@ -1,6 +1,6 @@
 {
-  "version": "3",
-  "exportDate": "2026-05-13T08:25:07.683Z",
+  "version": "2.0",
+  "exportDate": "2026-05-13T08:25:15.520Z",
   "exportDateTH": "13 พฤษภาคม 2569 เวลา 15:25",
   "portfolios": [
     {
@@ -120,8 +120,8 @@
         {
           "id": 1,
           "ticker": "BDMS.BK",
-          "qty": 2000,
-          "buyPrice": 24.34,
+          "qty": 2200,
+          "buyPrice": 23.78181818181818,
           "sector": "Healthcare",
           "underlying": "BDMS"
         },
@@ -508,68 +508,20 @@
       "snapshots": []
     }
   ],
-  "watchlist": [
-    {
-      "id": 1778479684358,
-      "ticker": "TISCO.BK",
-      "targetPrice": 109,
-      "qty": 100,
-      "note": "DCA_04/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479777045,
-      "ticker": "CPALL.BK",
-      "targetPrice": 44.5,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 43.75
-    },
-    {
-      "id": 1778479794226,
-      "ticker": "BDMS.BK",
-      "targetPrice": 18.4,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 18.2
-    },
-    {
-      "id": 1778479813072,
-      "ticker": "TU.BK",
-      "targetPrice": 11.2,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479826604,
-      "ticker": "HMPRO.BK",
-      "targetPrice": 6.1,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 5.95
-    }
-  ],
   "transactions": [
+    {
+      "id": 1778660712513,
+      "ticker": "BDMS.BK",
+      "type": "buy",
+      "date": "2026-05-13",
+      "price": 18.2,
+      "qty": 200,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "set1",
+      "auto": true
+    },
     {
       "id": 1778481083870,
       "ticker": "SONY80",
@@ -1604,6 +1556,73 @@
       "note": "auto (THB)"
     }
   ],
+  "watchlist": [
+    {
+      "id": 1778479684358,
+      "ticker": "TISCO.BK",
+      "targetPrice": 109,
+      "qty": 100,
+      "note": "DCA_04/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+    },
+    {
+      "id": 1778479777045,
+      "ticker": "CPALL.BK",
+      "targetPrice": 44.5,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 43.75
+    },
+    {
+      "id": 1778479794226,
+      "ticker": "BDMS.BK",
+      "targetPrice": 18.4,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 18.2
+    },
+    {
+      "id": 1778479813072,
+      "ticker": "TU.BK",
+      "targetPrice": 11.2,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+    },
+    {
+      "id": 1778479826604,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6.1,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 5.95
+    }
+  ],
   "dcaHistory": [],
-  "currency": "THB"
+  "currency": "THB",
+  "summary": {
+    "totalPorts": 9,
+    "totalStocks": 47,
+    "totalTransactions": 14,
+    "totalNetWorth": "฿1,542,016.14"
+  }
 }

@@ -5900,12 +5900,14 @@ async function fetchAllNAV(onlyPortId) {
   portfolios.forEach(p => {
     if (onlyPortId && p.id !== onlyPortId) return;
     (p.stocks || []).forEach(s => {
-      if (MF_TICKERS.includes(s.ticker) || s.ticker.startsWith('K-') ||
-          s.ticker.includes('RMF') || s.ticker.includes('ESG') ||
-          s.ticker.includes('BGOLD') || s.ticker.includes('MEGA') ||
-          s.ticker.includes('TLND')) {
-        toUpdate.push({ portId: p.id, ticker: s.ticker });
-      }
+      // Include ALL funds in dime_mixed ports + known MF patterns
+      const isMF = p.type === 'dime_mixed' ||
+        MF_TICKERS.includes(s.ticker) ||
+        s.ticker.startsWith('K-') || s.ticker.startsWith('KKP-') ||
+        s.ticker.includes('RMF') || s.ticker.includes('ESG') ||
+        s.ticker.includes('BGOLD') || s.ticker.includes('MEGA') ||
+        s.ticker.includes('TLND');
+      if (isMF) toUpdate.push({ portId: p.id, ticker: s.ticker });
     });
   });
 

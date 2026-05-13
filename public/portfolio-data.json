@@ -1,7 +1,7 @@
 {
-  "version": "2.0",
-  "exportDate": "2026-05-13T01:54:33.433Z",
-  "exportDateTH": "13 พฤษภาคม 2569 เวลา 08:54",
+  "version": "3",
+  "exportDate": "2026-05-13T08:23:02.742Z",
+  "exportDateTH": "13 พฤษภาคม 2569 เวลา 15:23",
   "portfolios": [
     {
       "id": "dr1",
@@ -352,7 +352,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.4483,
-          "navDate": "13 พ.ค. 69"
+          "navDate": "2026-05-11"
         },
         {
           "id": 2,
@@ -363,7 +363,7 @@
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
           "currentNav": 12.3761,
-          "navDate": "13 พ.ค. 69"
+          "navDate": "2026-05-11"
         },
         {
           "id": 3,
@@ -428,7 +428,7 @@
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 12.782,
-          "navDate": "13 พ.ค. 69"
+          "navDate": "2026-05-11"
         },
         {
           "id": 1778630781570,
@@ -439,7 +439,7 @@
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 17.3068,
-          "navDate": "13 พ.ค. 69"
+          "navDate": "2026-05-11"
         }
       ]
     },
@@ -506,6 +506,63 @@
       ],
       "cash": 0,
       "snapshots": []
+    }
+  ],
+  "watchlist": [
+    {
+      "id": 1778479684358,
+      "ticker": "TISCO.BK",
+      "targetPrice": 109,
+      "qty": 100,
+      "note": "DCA_04/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+    },
+    {
+      "id": 1778479777045,
+      "ticker": "CPALL.BK",
+      "targetPrice": 44.5,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true
+    },
+    {
+      "id": 1778479794226,
+      "ticker": "BDMS.BK",
+      "targetPrice": 18.4,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true
+    },
+    {
+      "id": 1778479813072,
+      "ticker": "TU.BK",
+      "targetPrice": 11.2,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+    },
+    {
+      "id": 1778479826604,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6.1,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 5.95
     }
   ],
   "transactions": [
@@ -1543,64 +1600,6 @@
       "note": "auto (THB)"
     }
   ],
-  "watchlist": [
-    {
-      "id": 1778479684358,
-      "ticker": "TISCO.BK",
-      "targetPrice": 109,
-      "qty": 100,
-      "note": "DCA_04/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479777045,
-      "ticker": "CPALL.BK",
-      "targetPrice": 44.5,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479794226,
-      "ticker": "BDMS.BK",
-      "targetPrice": 18.4,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479813072,
-      "ticker": "TU.BK",
-      "targetPrice": 11.2,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479826604,
-      "ticker": "HMPRO.BK",
-      "targetPrice": 6.1,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    }
-  ],
   "dcaHistory": [],
-  "currency": "THB",
-  "summary": {
-    "totalPorts": 9,
-    "totalStocks": 47,
-    "totalTransactions": 13,
-    "totalNetWorth": "฿1,533,664.09"
-  }
+  "currency": "THB"
 }

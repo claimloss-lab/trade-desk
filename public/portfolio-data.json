@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-13T00:02:28.235Z",
-  "exportDateTH": "13 พฤษภาคม 2569 เวลา 07:02",
+  "exportDate": "2026-05-13T00:05:19.732Z",
+  "exportDateTH": "13 พฤษภาคม 2569 เวลา 07:05",
   "portfolios": [
     {
       "id": "dr1",
@@ -418,6 +418,15 @@
           "sector": "ETF",
           "underlying": "Vanguard S&P500",
           "currency": "USD"
+        },
+        {
+          "id": 1778630716727,
+          "ticker": "KKP-US500-UH-E",
+          "qty": 156.1828,
+          "buyPrice": 12.8055,
+          "sector": "Mutual Fund",
+          "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
+          "currency": "THB"
         }
       ]
     },
@@ -1577,8 +1586,8 @@
   "currency": "THB",
   "summary": {
     "totalPorts": 9,
-    "totalStocks": 45,
+    "totalStocks": 46,
     "totalTransactions": 13,
-    "totalNetWorth": "฿1,530,792.35"
+    "totalNetWorth": "฿1,532,792.35"
   }
 }

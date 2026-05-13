@@ -864,7 +864,7 @@ function buildDimeHTML(port){
         <div class="card-ti" style="color:#ff6b35">🏦 กองทุนรวม (THB)</div>
         <div style="display:flex;align-items:center;gap:8px">
           <span style="font-size:11px;color:var(--tx3)">ราคาจาก NAV รายวัน</span>
-          <button id="fetch-nav-btn" onclick="fetchAllNAV('${port.id}')" style="background:var(--blue);color:#fff;border:none;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">↻ ดึง NAV</button>
+          <button id="fetch-nav-btn-${port.id}" onclick="fetchAllNAV('${port.id}')" style="background:var(--blue);color:#fff;border:none;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">↻ ดึง NAV</button>
         </div>
       </div>
       <div class="tbl-wrap"><table>
@@ -5890,7 +5890,7 @@ async function fetchAllDividendsUnified() {
 const MF_TICKERS = ['K-GA-A(A)','MEGAWORLD30-A','BGOLDRMF','RMFBINNOTECH','ESGSI','TLNDQINCOME-UH-X'];
 
 async function fetchAllNAV(onlyPortId) {
-  const btn = document.getElementById('fetch-nav-btn');
+  const btn = document.getElementById('fetch-nav-btn-'+(onlyPortId||'')) || document.getElementById('fetch-nav-btn');
   if (btn) { btn.disabled = true; btn.textContent = '⏳ ดึง NAV...'; }
 
   let updated = 0;
@@ -5900,13 +5900,11 @@ async function fetchAllNAV(onlyPortId) {
   portfolios.forEach(p => {
     if (onlyPortId && p.id !== onlyPortId) return;
     (p.stocks || []).forEach(s => {
-      // Include ALL funds in dime_mixed ports + known MF patterns
-      const isMF = p.type === 'dime_mixed' ||
-        MF_TICKERS.includes(s.ticker) ||
-        s.ticker.startsWith('K-') || s.ticker.startsWith('KKP-') ||
-        s.ticker.includes('RMF') || s.ticker.includes('ESG') ||
-        s.ticker.includes('BGOLD') || s.ticker.includes('MEGA') ||
-        s.ticker.includes('TLND');
+      // Include ALL mutual funds — any port, detect by ticker pattern
+      // Mutual fund = NOT a stock ticker (no price from Yahoo realtime)
+      const isRealtime = /^[A-Z]{1,5}(\.BK)?$/.test(s.ticker) && !s.ticker.includes('-');
+      const isDR = /^[A-Z]+\d+$/.test(s.ticker);
+      const isMF = !isRealtime && !isDR; // anything else = mutual fund
       if (isMF) toUpdate.push({ portId: p.id, ticker: s.ticker });
     });
   });
@@ -5939,7 +5937,7 @@ async function fetchAllNAV(onlyPortId) {
   savePorts();
   renderAll();
   showToast(`✅ อัปเดต NAV ${updated} กองทุน`);
-  if (btn) { btn.disabled = false; btn.textContent = '↻ NAV'; }
+  if (btn) { btn.disabled = false; btn.textContent = '↻ ดึง NAV'; }
 }
 
 // Update alert price label based on condition

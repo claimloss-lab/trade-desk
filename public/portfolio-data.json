@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-14T01:48:09.805Z",
-  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:48",
+  "exportDate": "2026-05-14T01:49:40.381Z",
+  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:49",
   "portfolios": [
     {
       "id": "dr1",
@@ -458,12 +458,34 @@
       "name": "DIME-USA",
       "type": "realtime_th",
       "color": "#ff6b35",
-      "stocks": [],
+      "stocks": [
+        {
+          "ticker": "ORCL",
+          "buyPrice": 189.2,
+          "qty": 6.7688689,
+          "sector": "Tech",
+          "underlying": "Realty Income",
+          "id": 1778723377378
+        }
+      ],
       "cash": 0,
       "snapshots": []
     }
   ],
   "transactions": [
+    {
+      "id": 1778723377378,
+      "ticker": "ORCL",
+      "type": "buy",
+      "date": "2026-05-14",
+      "price": 189.2,
+      "qty": 6.7688689,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "p_1778723286786",
+      "auto": true
+    },
     {
       "id": 1778660736396,
       "ticker": "HMPRO.BK",
@@ -1602,8 +1624,8 @@
   "currency": "THB",
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 41,
-    "totalTransactions": 16,
-    "totalNetWorth": "฿1,498,463.49"
+    "totalStocks": 42,
+    "totalTransactions": 17,
+    "totalNetWorth": "฿1,499,747.95"
   }
 }

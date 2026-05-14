@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-14T01:50:10.212Z",
+  "exportDate": "2026-05-14T01:50:54.177Z",
   "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:50",
   "portfolios": [
     {
@@ -476,12 +476,35 @@
       "name": "DIME-USA",
       "type": "realtime_us",
       "color": "#ff6b35",
-      "stocks": [],
+      "stocks": [
+        {
+          "ticker": "ORCL",
+          "buyPrice": 189.2,
+          "qty": 6.7688689,
+          "sector": "Tech",
+          "underlying": "Oracle",
+          "id": 1778723451171,
+          "buyPriceUSD": 189.2
+        }
+      ],
       "cash": 0,
       "snapshots": []
     }
   ],
   "transactions": [
+    {
+      "id": 1778723451171,
+      "ticker": "ORCL",
+      "type": "buy",
+      "date": "2026-05-14",
+      "price": 189.2,
+      "qty": 6.7688689,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "p_1778723407199",
+      "auto": true
+    },
     {
       "id": 1778723377378,
       "ticker": "ORCL",
@@ -1633,8 +1656,8 @@
   "currency": "THB",
   "summary": {
     "totalPorts": 11,
-    "totalStocks": 42,
-    "totalTransactions": 17,
-    "totalNetWorth": "฿1,499,747.95"
+    "totalStocks": 43,
+    "totalTransactions": 18,
+    "totalNetWorth": "฿1,541,236.02"
   }
 }

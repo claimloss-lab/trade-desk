@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-14T01:50:54.177Z",
-  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:50",
+  "exportDate": "2026-05-14T01:51:02.373Z",
+  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:51",
   "portfolios": [
     {
       "id": "dr1",
@@ -448,24 +448,6 @@
           "currency": "THB",
           "currentNav": 10.5979,
           "navDate": "13 พ.ค. 69"
-        }
-      ],
-      "cash": 0,
-      "snapshots": []
-    },
-    {
-      "id": "p_1778723286786",
-      "name": "DIME-USA",
-      "type": "realtime_th",
-      "color": "#ff6b35",
-      "stocks": [
-        {
-          "ticker": "ORCL",
-          "buyPrice": 189.2,
-          "qty": 6.7688689,
-          "sector": "Tech",
-          "underlying": "Realty Income",
-          "id": 1778723377378
         }
       ],
       "cash": 0,
@@ -1655,9 +1637,9 @@
   "dcaHistory": [],
   "currency": "THB",
   "summary": {
-    "totalPorts": 11,
-    "totalStocks": 43,
+    "totalPorts": 10,
+    "totalStocks": 42,
     "totalTransactions": 18,
-    "totalNetWorth": "฿1,541,236.02"
+    "totalNetWorth": "฿1,539,951.56"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-13T08:25:49.490Z",
-  "exportDateTH": "13 พฤษภาคม 2569 เวลา 15:25",
+  "exportDate": "2026-05-14T01:47:06.042Z",
+  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:47",
   "portfolios": [
     {
       "id": "dr1",
@@ -364,60 +364,6 @@
           "currency": "THB",
           "currentNav": 12.3761,
           "navDate": "2026-05-11"
-        },
-        {
-          "id": 3,
-          "ticker": "BRK.B",
-          "qty": 0.463358,
-          "buyPrice": 414.06,
-          "sector": "Finance",
-          "underlying": "Berkshire Hathaway",
-          "currency": "USD"
-        },
-        {
-          "id": 4,
-          "ticker": "JEPQ",
-          "qty": 2.6299477,
-          "buyPrice": 54.09,
-          "sector": "ETF",
-          "underlying": "JPMorgan Nasdaq ETF",
-          "currency": "USD"
-        },
-        {
-          "id": 5,
-          "ticker": "O",
-          "qty": 10.311237,
-          "buyPrice": 57.86,
-          "sector": "Property",
-          "underlying": "Realty Income",
-          "currency": "USD"
-        },
-        {
-          "id": 6,
-          "ticker": "SCHD",
-          "qty": 2.3704646,
-          "buyPrice": 26.31,
-          "sector": "ETF",
-          "underlying": "Schwab Dividend ETF",
-          "currency": "USD"
-        },
-        {
-          "id": 7,
-          "ticker": "TLT",
-          "qty": 0.4154889,
-          "buyPrice": 92.08,
-          "sector": "ETF",
-          "underlying": "iShares 20Y Treasury",
-          "currency": "USD"
-        },
-        {
-          "id": 8,
-          "ticker": "VOO",
-          "qty": 0.2091998,
-          "buyPrice": 487.14,
-          "sector": "ETF",
-          "underlying": "Vanguard S&P500",
-          "currency": "USD"
         },
         {
           "id": 1778630716727,
@@ -1647,8 +1593,8 @@
   "currency": "THB",
   "summary": {
     "totalPorts": 9,
-    "totalStocks": 47,
+    "totalStocks": 41,
     "totalTransactions": 16,
-    "totalNetWorth": "฿1,538,348.57"
+    "totalNetWorth": "฿1,498,463.49"
   }
 }

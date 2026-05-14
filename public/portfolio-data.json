@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-14T01:49:40.381Z",
-  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:49",
+  "exportDate": "2026-05-14T01:50:10.212Z",
+  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:50",
   "portfolios": [
     {
       "id": "dr1",
@@ -468,6 +468,15 @@
           "id": 1778723377378
         }
       ],
+      "cash": 0,
+      "snapshots": []
+    },
+    {
+      "id": "p_1778723407199",
+      "name": "DIME-USA",
+      "type": "realtime_us",
+      "color": "#ff6b35",
+      "stocks": [],
       "cash": 0,
       "snapshots": []
     }
@@ -1623,7 +1632,7 @@
   "dcaHistory": [],
   "currency": "THB",
   "summary": {
-    "totalPorts": 10,
+    "totalPorts": 11,
     "totalStocks": 42,
     "totalTransactions": 17,
     "totalNetWorth": "฿1,499,747.95"

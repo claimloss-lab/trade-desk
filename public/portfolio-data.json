@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-14T01:51:02.373Z",
-  "exportDateTH": "14 พฤษภาคม 2569 เวลา 08:51",
+  "exportDate": "2026-05-14T04:18:51.706Z",
+  "exportDateTH": "14 พฤษภาคม 2569 เวลา 11:18",
   "portfolios": [
     {
       "id": "dr1",
@@ -337,7 +337,7 @@
     },
     {
       "id": "dime",
-      "name": "DIME",
+      "name": "DIME-กองทุน",
       "type": "dime_mixed",
       "color": "#ff6b35",
       "cash": 0,
@@ -1640,6 +1640,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 18,
-    "totalNetWorth": "฿1,539,951.56"
+    "totalNetWorth": "฿1,551,683.77"
   }
 }

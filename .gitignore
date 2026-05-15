@@ -1,0 +1,29 @@
+# Cloudflare Workers config — DO NOT COMMIT
+# These files cause conflicts with Pages auto-routing and break deployment
+wrangler.toml
+wrangler.json
+wrangler.jsonc
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local env
+.env
+.env.local
+.env.*.local

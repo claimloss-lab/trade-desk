@@ -4568,13 +4568,13 @@ async function loadAllNews(forceRefresh=false) {
     progBar.style.width = ((i+1)/tickerList.length*100) + '%';
 
     try {
-      const r = await fetch('/api/news?ticker=' + encodeURIComponent(item.ticker),
-        { signal: safeSignal(12000) });
+      const r = await fetch('/api/news?ticker=' + encodeURIComponent(item.ticker) + '&company=' + encodeURIComponent(item.underlying || ''),
+        { signal: safeSignal(15000) });
       if (!r.ok) continue;
       const data = await r.json();
       if (data.items?.length) {
-        // Limit to 5 news per ticker to keep total manageable
-        allNewsItems.push({ ...item, items: data.items.slice(0, 5) });
+        // Take up to 8 news per ticker now that we have multi-source aggregation
+        allNewsItems.push({ ...item, items: data.items.slice(0, 8) });
       }
     } catch(e) { console.warn(item.ticker, e.message); }
 
@@ -4705,6 +4705,7 @@ function renderNewsFeed() {
           >${n.drTicker || n.ticker}</span>
           <span style="font-size:11px;color:var(--tx3)">${n.underlying}</span>
           ${ctx ? `<span class="mono" style="font-size:11px;color:${pnlColor};font-weight:600">${pnlStr}</span>` : ''}
+          ${n.source ? `<span style="font-size:9px;padding:2px 6px;background:var(--s2);color:var(--tx2);border-radius:4px;font-weight:500">${n.source}</span>` : ''}
           <span style="font-size:10px;color:var(--tx3);margin-left:auto">${dateStr}</span>
         </div>
         <!-- Thai Summary (AI) -->

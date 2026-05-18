@@ -4879,7 +4879,7 @@ async function smartNewsSummary() {
   const filtered = newsFilter === 'all' ? allNewsItems : allNewsItems.filter(x => x.ticker === newsFilter);
   if (!filtered.length) { showToast('ไม่มีข่าวให้วิเคราะห์'); return; }
 
-  if (btn) { btn.disabled = true; btn.textContent = '🧠 กำลังวิเคราะห์...'; }
+  if (btn) { btn.disabled = true; btn.textContent = '📖 Diary กำลังอ่านข่าว...'; }
 
   // 1) Build portfolio context — only positions that have news
   const newsTickers = new Set(filtered.map(x => x.ticker));
@@ -4930,29 +4930,39 @@ async function smartNewsSummary() {
 
   const newsText = newsHeadlines.slice(0, 40).join('\n');
 
-  // 4) Build the Smart Summary prompt
-  const prompt = `คุณเป็นนักวิเคราะห์การลงทุนที่ปรึกษาส่วนตัวให้คุณต้อง
+  // 4) Build the Smart Summary prompt — เหมือนเพื่อนผู้สื่อข่าวมาเล่าให้ฟัง
+  const prompt = `คุณคือ "Diary" — เพื่อนผู้สื่อข่าวการเงินส่วนตัวของคุณต้อง คุณ scan ข่าวมาทั้งวัน แล้วกลับมาเล่าให้ฟังแบบเพื่อนคุย ไม่ใช่นักวิเคราะห์เครียดๆ
 
-== พอร์ตของคุณต้อง (เฉพาะหุ้นที่มีข่าววันนี้) ==
+== พอร์ตของคุณต้องวันนี้ ==
 ${portfolioContext}
 
-== ข่าวล่าสุดของหุ้นเหล่านี้ ==
+== ข่าวล่าสุดที่ Diary scan มาให้ ==
 ${newsText}
 
-ภารกิจ: วิเคราะห์ข่าวข้างต้นในบริบทพอร์ตของคุณต้อง ตอบเป็นภาษาไทย โครงสร้างดังนี้:
+ตอบเป็นภาษาไทย โครงสร้างแบบนี้:
 
-🎯 **ภาพรวม** (1-2 ประโยค)
-สรุปธีมข่าวรวมและทิศทางที่น่าจะกระทบพอร์ต
+**สรุปวันนี้**
+1-2 ประโยค เปิดแบบเพื่อนคุย เช่น "วันนี้มีอะไรน่าสนใจมาเล่าให้ฟัง..." หรือ "Diary scan ข่าวมาทั้งวันแล้วเจอ..."
 
-🔥 **ข่าวสำคัญที่ต้องจับตา** (3-5 ข้อ เรียงตามความสำคัญต่อพอร์ตจริง)
-- [ticker] หัวข้อข่าว → ผลกระทบต่อพอร์ตของคุณต้อง (ขึ้น/ลง/neutral) + เหตุผลสั้นๆ
+**ข่าวที่กระทบพอร์ตเรา**
+เลือก 3-4 ข่าวที่สำคัญที่สุด แต่ละข่าวเขียนแบบนี้:
 
-💡 **คำแนะนำเชิง Actionable** (2-3 ข้อ)
-ระบุชัด: หุ้นไหนควรจับตา, ควรรอ, อาจ rebalance หรือไม่ต้องทำอะไร
+📍 **TICKER** — หัวข้อข่าวสั้นๆ
+เล่าเป็นภาษาคนปกติ 2-3 ประโยค ว่าข่าวเรื่องอะไร แล้วทำไมเราต้องสนใจ
+*แล้วของเรา:* บอกตรงๆว่ากระทบพอร์ต ${'฿'} เท่าไหร่/% เท่าไหร่ ขึ้นหรือลง (ใช้ข้อมูลพอร์ตจริงด้านบน)
 
-⚠️ **ความเสี่ยงที่ควรระวัง** (1-2 ข้อ)
+**แล้วยังไงต่อ**
+คุยเป็นคน 2-3 ประโยค ว่าควรจับตาอะไร หรือถ้าไม่ต้องทำอะไรก็บอกตรงๆ
+ห้ามใช้คำว่า "นักลงทุน" "ควรพิจารณา" "อาจส่งผลกระทบ" — ใช้ภาษาเพื่อนคุยกัน
 
-ใช้ tone จริงใจ ตรงไปตรงมา ไม่ flowery ไม่ disclaimer เยอะ ถ้าข่าวไม่มีนัยสำคัญก็บอกตรงๆ`;
+== กฎสำคัญ ==
+✓ พูดเหมือนเพื่อนเล่าให้ฟัง ไม่ใช่รายงาน
+✓ คำว่า "เรา"/"ของเรา" แทนพอร์ต
+✓ ตัวเลขจริงจากพอร์ตด้านบน (เช่น "ของเรา ORCL ถือ 245k นี่กระทบ +12k นะ")
+✓ ภาษาอังกฤษ tech term ปนได้ ไม่ต้องแปล (earnings, guidance, beat, miss)
+✓ ถ้าข่าวไม่กระทบเรา ก็พูดตรงๆ "อันนี้ไม่เกี่ยวเราเท่าไหร่"
+✗ ห้าม disclaimer "การลงทุนมีความเสี่ยง" หรือ "ควรปรึกษาผู้เชี่ยวชาญ"
+✗ ห้าม bullet points แห้งๆ — เขียนเป็นย่อหน้าธรรมชาติ`;
 
   try {
     const res = await fetch('/api/summarize', {
@@ -4971,7 +4981,7 @@ ${newsText}
   } catch (e) {
     showToast('Error: ' + e.message);
   }
-  if (btn) { btn.disabled = false; btn.textContent = '🧠 Smart Summary'; }
+  if (btn) { btn.disabled = false; btn.textContent = '📖 Diary บอกข่าว'; }
 }
 
 function showSmartSummaryPanel(markdown, tickerCount, newsCount) {
@@ -4996,10 +5006,10 @@ function showSmartSummaryPanel(markdown, tickerCount, newsCount) {
   panel.innerHTML = `
     <div style="background:var(--surface);border:1px solid var(--bd);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.3);max-width:680px;width:100%;max-height:88vh;display:flex;flex-direction:column">
       <div style="padding:18px 22px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
-        <div style="font-size:22px">🧠</div>
+        <div style="font-size:24px">📖</div>
         <div style="flex:1">
-          <div style="font-size:15px;font-weight:600;color:var(--tx)">Smart Summary</div>
-          <div style="font-size:11px;color:var(--tx3);margin-top:2px">AI วิเคราะห์ข่าว ${newsCount} ข่าวจาก ${tickerCount} หุ้นในบริบทพอร์ตจริงของคุณ</div>
+          <div style="font-size:15px;font-weight:600;color:var(--tx)">Diary บอกข่าว</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:2px">เพื่อนผู้สื่อข่าว AI สรุปข่าว ${newsCount} ข่าวจาก ${tickerCount} หุ้นในพอร์ตให้ฟัง</div>
         </div>
         <button onclick="document.getElementById('smart-panel').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--tx3);padding:4px 10px;border-radius:6px;line-height:1">×</button>
       </div>
@@ -5007,7 +5017,7 @@ function showSmartSummaryPanel(markdown, tickerCount, newsCount) {
         ${html}
       </div>
       <div style="padding:12px 22px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--tx3)">
-        <span>วิเคราะห์โดย Claude AI · อิงข้อมูลพอร์ตของคุณ</span>
+        <span>📖 Diary AI · ข่าวอาจมีคลาดเคลื่อน ตรวจสอบที่ต้นทางก่อนตัดสินใจ</span>
         <button onclick="document.getElementById('smart-panel').remove()" class="btn btn-g btn-sm">ปิด</button>
       </div>
     </div>`;
@@ -6591,7 +6601,7 @@ function updateAlertLabel(){
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
       <button class="btn btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 สรุปภาษาไทย</button>
-      <button class="btn btn-sm" id="news-smart-btn" onclick="smartNewsSummary()" style="background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">🧠 Smart Summary</button>
+      <button class="btn btn-sm" id="news-smart-btn" onclick="smartNewsSummary()" style="background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">📖 Diary บอกข่าว</button>
     </div>
   </div>
 

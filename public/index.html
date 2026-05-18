@@ -4865,6 +4865,160 @@ async function manualSummarizeAll() {
   if (btn) { btn.disabled = false; btn.textContent = '🤖 สรุปภาษาไทย'; }
 }
 
+// ──────────────────────────────────────────────────────────
+// 🤖 SMART SUMMARY — AI วิเคราะห์ข่าวในบริบทพอร์ตจริง
+// ──────────────────────────────────────────────────────────
+async function smartNewsSummary() {
+  const btn = document.getElementById('news-smart-btn');
+  if (!allNewsItems?.length) {
+    showToast('โหลดข่าวก่อนนะครับ');
+    return;
+  }
+
+  // Filter by current selection
+  const filtered = newsFilter === 'all' ? allNewsItems : allNewsItems.filter(x => x.ticker === newsFilter);
+  if (!filtered.length) { showToast('ไม่มีข่าวให้วิเคราะห์'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = '🧠 กำลังวิเคราะห์...'; }
+
+  // 1) Build portfolio context — only positions that have news
+  const newsTickers = new Set(filtered.map(x => x.ticker));
+  const positionMap = {}; // ticker → { qty, value, cost, pnl, pnlPct, portName }
+
+  portfolios.forEach(p => {
+    (p.stocks || []).forEach(s => {
+      // Match by ticker or underlying name
+      const stockTicker = s.ticker.replace(/\.BK$/i, '').toUpperCase();
+      const underlying = (s.underlying || '').toUpperCase();
+      const matchTicker = [...newsTickers].find(nt =>
+        nt === stockTicker ||
+        nt === underlying ||
+        underlying.includes(nt) ||
+        stockTicker.includes(nt)
+      );
+      if (!matchTicker) return;
+      const pr = prices[s.ticker + '_' + p.id];
+      if (!pr) return;
+      const val = pr.price * s.qty;
+      const cost = s.buyPrice * s.qty;
+      const pnl = val - cost;
+      const pnlPct = cost > 0 ? (pnl / cost * 100) : 0;
+      if (!positionMap[matchTicker]) positionMap[matchTicker] = [];
+      positionMap[matchTicker].push({ qty: s.qty, value: val, cost, pnl, pnlPct, portName: p.name });
+    });
+  });
+
+  // 2) Aggregate positions per ticker + build context
+  const totalNet = totalNetWorth();
+  const portfolioContext = Object.entries(positionMap).map(([t, posList]) => {
+    const totalVal = posList.reduce((s, p) => s + p.value, 0);
+    const totalCost = posList.reduce((s, p) => s + p.cost, 0);
+    const totalPnl = totalVal - totalCost;
+    const pnlPct = totalCost > 0 ? (totalPnl / totalCost * 100) : 0;
+    const weight = totalNet > 0 ? (totalVal / totalNet * 100) : 0;
+    return `${t}: ถือมูลค่า ${fn(totalVal, 0)} บาท (${weight.toFixed(1)}% ของพอร์ต) · กำไร/ขาดทุน ${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(1)}% (${totalPnl >= 0 ? '+' : ''}${fn(totalPnl, 0)} บาท) · ${posList.map(p => p.portName).join(', ')}`;
+  }).join('\n');
+
+  // 3) Top 30 news headlines + key descriptions
+  const newsHeadlines = [];
+  filtered.forEach(item => {
+    item.items.slice(0, 5).forEach(n => {
+      const src = n.source ? `[${n.source}]` : '';
+      newsHeadlines.push(`${item.ticker} ${src} ${n.title}${n.description ? ' — ' + n.description.slice(0, 100) : ''}`);
+    });
+  });
+
+  const newsText = newsHeadlines.slice(0, 40).join('\n');
+
+  // 4) Build the Smart Summary prompt
+  const prompt = `คุณเป็นนักวิเคราะห์การลงทุนที่ปรึกษาส่วนตัวให้คุณต้อง
+
+== พอร์ตของคุณต้อง (เฉพาะหุ้นที่มีข่าววันนี้) ==
+${portfolioContext}
+
+== ข่าวล่าสุดของหุ้นเหล่านี้ ==
+${newsText}
+
+ภารกิจ: วิเคราะห์ข่าวข้างต้นในบริบทพอร์ตของคุณต้อง ตอบเป็นภาษาไทย โครงสร้างดังนี้:
+
+🎯 **ภาพรวม** (1-2 ประโยค)
+สรุปธีมข่าวรวมและทิศทางที่น่าจะกระทบพอร์ต
+
+🔥 **ข่าวสำคัญที่ต้องจับตา** (3-5 ข้อ เรียงตามความสำคัญต่อพอร์ตจริง)
+- [ticker] หัวข้อข่าว → ผลกระทบต่อพอร์ตของคุณต้อง (ขึ้น/ลง/neutral) + เหตุผลสั้นๆ
+
+💡 **คำแนะนำเชิง Actionable** (2-3 ข้อ)
+ระบุชัด: หุ้นไหนควรจับตา, ควรรอ, อาจ rebalance หรือไม่ต้องทำอะไร
+
+⚠️ **ความเสี่ยงที่ควรระวัง** (1-2 ข้อ)
+
+ใช้ tone จริงใจ ตรงไปตรงมา ไม่ flowery ไม่ disclaimer เยอะ ถ้าข่าวไม่มีนัยสำคัญก็บอกตรงๆ`;
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker: 'SMART', title: 'Smart News Analysis', description: 'context' }],
+        prompt
+      }),
+      signal: safeSignal(45000)
+    });
+    if (!res.ok) throw new Error('AI request failed');
+    const data = await res.json();
+    const summary = data.summaries?.[0] || 'ไม่สามารถวิเคราะห์ได้';
+    showSmartSummaryPanel(summary, filtered.length, newsHeadlines.length);
+  } catch (e) {
+    showToast('Error: ' + e.message);
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🧠 Smart Summary'; }
+}
+
+function showSmartSummaryPanel(markdown, tickerCount, newsCount) {
+  document.getElementById('smart-panel')?.remove();
+
+  // Convert markdown-ish to HTML
+  let html = markdown
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^### (.+)$/gm, '<h3 style="font-size:14px;font-weight:600;margin:16px 0 8px;color:var(--tx)">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 style="font-size:15px;font-weight:600;margin:18px 0 10px;color:var(--tx)">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1 style="font-size:16px;font-weight:700;margin:20px 0 12px;color:var(--tx)">$1</h1>')
+    .replace(/^- (.+)$/gm, '<li style="margin-bottom:6px;line-height:1.6">$1</li>')
+    .replace(/(<li[\s\S]*?<\/li>(\s*<li[\s\S]*?<\/li>)*)/g, '<ul style="margin:8px 0;padding-left:20px">$1</ul>')
+    .replace(/\n\n/g, '</p><p style="margin:10px 0;line-height:1.65">')
+    .replace(/\n/g, '<br>');
+  html = '<p style="margin:10px 0;line-height:1.65">' + html + '</p>';
+
+  const panel = document.createElement('div');
+  panel.id = 'smart-panel';
+  panel.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)';
+  panel.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--bd);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.3);max-width:680px;width:100%;max-height:88vh;display:flex;flex-direction:column">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
+        <div style="font-size:22px">🧠</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:var(--tx)">Smart Summary</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:2px">AI วิเคราะห์ข่าว ${newsCount} ข่าวจาก ${tickerCount} หุ้นในบริบทพอร์ตจริงของคุณ</div>
+        </div>
+        <button onclick="document.getElementById('smart-panel').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--tx3);padding:4px 10px;border-radius:6px;line-height:1">×</button>
+      </div>
+      <div style="padding:20px 24px;overflow-y:auto;font-size:13px;color:var(--tx);line-height:1.65">
+        ${html}
+      </div>
+      <div style="padding:12px 22px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--tx3)">
+        <span>วิเคราะห์โดย Claude AI · อิงข้อมูลพอร์ตของคุณ</span>
+        <button onclick="document.getElementById('smart-panel').remove()" class="btn btn-g btn-sm">ปิด</button>
+      </div>
+    </div>`;
+  document.body.appendChild(panel);
+
+  // Click backdrop to close
+  panel.addEventListener('click', (e) => {
+    if (e.target === panel) panel.remove();
+  });
+}
+
 // ══════════════════════════════════════════════════════════
 // AI FEATURES — Claude API Integration
 // ══════════════════════════════════════════════════════════
@@ -6437,6 +6591,7 @@ function updateAlertLabel(){
       <button class="btn btn-s btn-sm" onclick="loadAllNews(false)" id="news-load-btn">↻ โหลด</button>
       <button class="btn btn-p btn-sm" onclick="loadAllNews(true)">🔄 รีเฟรชใหม่</button>
       <button class="btn btn-sm" id="news-summarize-btn" onclick="manualSummarizeAll()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 สรุปภาษาไทย</button>
+      <button class="btn btn-sm" id="news-smart-btn" onclick="smartNewsSummary()" style="background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600">🧠 Smart Summary</button>
     </div>
   </div>
 

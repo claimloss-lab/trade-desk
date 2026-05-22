@@ -1607,7 +1607,9 @@ function showTab(id){
     const tabs=['overview',...portfolios.map(p=>p.id)];
     t.className='nav-tab'+(tabs[i]===id?' on':'');
   });
+  // ซ่อนทั้ง tab-panel และ feat-panel (หน้าที่เปิดจาก sidebar) ไม่ให้ค้างซ้อนกัน
   document.querySelectorAll('.tab-panel').forEach(p=>p.className='tab-panel');
+  document.querySelectorAll('.feat-panel').forEach(p=>p.classList.remove('on'));
   const panel=document.getElementById('panel-'+id);
   if(panel) panel.className='tab-panel on';
   if(id==='overview') renderOverview();
@@ -6639,7 +6641,7 @@ function updateAlertLabel(){
 
 
 <!-- ══════════════════ FINANCIALS PANEL ══════════════════ -->
-<div class="feat-panel" id="feat-financials" style="display:none">
+<div class="feat-panel" id="feat-financials">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">📋 งบการเงินหุ้นอเมริกา</h2>

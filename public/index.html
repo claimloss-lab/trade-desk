@@ -1788,7 +1788,7 @@ function buildSidebarPortList(){
 function showFeature(id){
   closeSidebar();
   document.querySelectorAll('.tab-panel,.feat-panel').forEach(p=>p.classList.remove('on'));
-  ['overview','transactions','alerts','notes','dividends','analysis'].forEach(f=>{
+  ['overview','transactions','alerts','notes','dividends','analysis','research'].forEach(f=>{
     document.getElementById('sb-'+f)?.classList.toggle('on',f===id);
   });
   if(id==='overview'||portfolios.find(p=>p.id===id)){
@@ -1802,6 +1802,7 @@ function showFeature(id){
     if(id==='notes') renderNotes();
     if(id==='dividends') renderDividends();
     if(id==='analysis') renderSectorFull();
+    if(id==='research') renderResearch();
   }
   updateSbBadges();
 }
@@ -6186,6 +6187,11 @@ function updateAlertLabel(){
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
       Sector Analysis
     </div>
+    <div class="sb-item" id="sb-research" onclick="showFeature('research')">
+      <div class="sb-item-icon" style="background:#eaf1ff">📊</div>
+      Research (Nasdaq‑100)
+      <span class="sb-badge" id="sb-research-count">0</span>
+    </div>
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
     <div class="sb-item" onclick="exportBackup()">
@@ -6697,6 +6703,309 @@ function updateAlertLabel(){
     </div>
   </div>
 </div>
+
+
+
+<!-- ══════════════════ RESEARCH PANEL (Nasdaq-100 Equity Research) ══════════════════ -->
+<div class="feat-panel" id="feat-research">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">📊 Equity Research — Nasdaq‑100</h2>
+    <div style="margin-left:auto;min-width:200px">
+      <div style="background:var(--bd2);border-radius:5px;height:8px;overflow:hidden">
+        <div id="rs-prog-bar" style="height:8px;background:var(--blue);border-radius:5px;width:0%;transition:width .4s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-top:4px">
+        <span id="rs-prog-done">พร้อมอ่าน 0/101</span><span id="rs-prog-req"></span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+    <input id="rs-q" placeholder="🔍 ค้นหา ticker / ชื่อบริษัท…" oninput="renderResearch()"
+      style="flex:1;min-width:180px;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:9px;background:var(--s2);color:var(--tx)">
+    <select id="rs-sec" onchange="renderResearch()" style="width:170px;font-size:12px;padding:8px 10px">
+      <option value="ALL">ทุก Sector</option>
+    </select>
+    <select id="rs-st" onchange="renderResearch()" style="width:130px;font-size:12px;padding:8px 10px">
+      <option value="ALL">ทุกสถานะ</option>
+      <option value="rdy">พร้อมอ่าน</option>
+      <option value="req">ขอแล้ว</option>
+      <option value="new">ยังไม่ขอ</option>
+    </select>
+  </div>
+
+  <div class="tbl-wrap card" style="padding:0">
+    <table id="rs-table" style="width:100%"></table>
+  </div>
+  <div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.7">
+    💡 กด <b>“+ ขอ Research”</b> → ก็อป prompt ไปวางในแชต Claude → ได้ไฟล์ <b>.docx</b> กลับมา → ผมจะอัปขึ้น GitHub ให้ (หรือกดอัปเอง) → ปุ่มจะเปลี่ยนเป็น <b>“เปิด .docx”</b><br>
+    ไฟล์ .docx เก็บใน GitHub repo เดียวกับ TradeDesk ที่โฟลเดอร์ <code>research/reports/</code> · สถานะและวันที่ขอถูกเก็บใน backup เดียวกับพอร์ต (sync ขึ้น GitHub อัตโนมัติ)
+  </div>
+</div>
+
+<!-- Research request modal -->
+<div id="rs-modal" class="modal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
+  <div class="modal" style="width:min(640px,94vw);max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:0">
+    <div id="rs-modal-body"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════ RESEARCH MODULE (native TradeDesk integration) ══════════════ */
+(function(){
+  const RS_SECTORS=["Semiconductors","Technology","Communication Svcs","Consumer Disc.","Consumer Staples","Healthcare","Industrials","Utilities","Energy","Materials","Real Estate"];
+  const RS_U=[
+["NVDA","NVIDIA Corporation","Semiconductors","5.47T","225.83","215.94B"],
+["GOOGL","Alphabet Inc. (A)","Communication Svcs","4.88T","402.62","422.50B"],
+["GOOG","Alphabet Inc. (C)","Communication Svcs","4.86T","399.04","422.50B"],
+["AAPL","Apple Inc.","Technology","4.39T","298.87","451.44B"],
+["MSFT","Microsoft Corporation","Technology","3.01T","405.21","318.27B"],
+["AMZN","Amazon.com, Inc.","Consumer Disc.","2.91T","270.13","742.78B"],
+["AVGO","Broadcom Inc.","Semiconductors","1.97T","416.79","68.28B"],
+["TSLA","Tesla, Inc.","Consumer Disc.","1.67T","445.27","97.88B"],
+["META","Meta Platforms, Inc.","Communication Svcs","1.57T","616.63","214.96B"],
+["WMT","Walmart Inc.","Consumer Staples","1.05T","131.47","713.16B"],
+["MU","Micron Technology, Inc.","Semiconductors","906.28B","803.63","58.12B"],
+["AMD","Advanced Micro Devices","Semiconductors","726.43B","445.50","37.45B"],
+["INTC","Intel Corporation","Semiconductors","604.58B","120.29","53.76B"],
+["ASML","ASML Holding N.V.","Semiconductors","597.93B","1581.58","38.82B"],
+["COST","Costco Wholesale Corp.","Consumer Staples","458.33B","1033.08","286.27B"],
+["CSCO","Cisco Systems, Inc.","Technology","402.38B","101.87","60.75B"],
+["LRCX","Lam Research Corp.","Semiconductors","369.47B","295.44","21.68B"],
+["NFLX","Netflix, Inc.","Communication Svcs","368.70B","87.56","46.89B"],
+["AMAT","Applied Materials, Inc.","Semiconductors","346.50B","436.61","28.21B"],
+["PLTR","Palantir Technologies","Technology","311.77B","130.05","5.22B"],
+["TXN","Texas Instruments","Semiconductors","278.80B","306.34","18.44B"],
+["KLAC","KLA Corporation","Semiconductors","241.62B","1849.71","13.10B"],
+["LIN","Linde plc","Materials","237.30B","513.26","34.66B"],
+["ARM","Arm Holdings plc","Semiconductors","235.37B","221.21","4.67B"],
+["QCOM","QUALCOMM Incorporated","Semiconductors","224.68B","213.17","44.49B"],
+["ADI","Analog Devices, Inc.","Semiconductors","211.09B","432.39","11.76B"],
+["TMUS","T-Mobile US, Inc.","Communication Svcs","205.92B","190.28","90.53B"],
+["PEP","PepsiCo, Inc.","Consumer Staples","204.02B","149.27","95.45B"],
+["PANW","Palo Alto Networks","Technology","184.74B","227.79","9.89B"],
+["STX","Seagate Technology","Technology","183.27B","817.35","11.01B"],
+["AMGN","Amgen Inc.","Healthcare","181.58B","336.45","37.22B"],
+["WDC","Western Digital Corp.","Technology","170.30B","494.09","11.78B"],
+["GILD","Gilead Sciences, Inc.","Healthcare","165.19B","133.05","29.74B"],
+["MRVL","Marvell Technology","Semiconductors","155.61B","177.95","8.19B"],
+["ISRG","Intuitive Surgical","Healthcare","153.09B","432.27","10.58B"],
+["APP","AppLovin Corporation","Technology","152.36B","453.53","6.16B"],
+["CRWD","CrowdStrike Holdings","Technology","143.19B","562.57","4.81B"],
+["PDD","PDD Holdings Inc.","Consumer Disc.","141.77B","99.60","61.74B"],
+["HON","Honeywell International","Industrials","138.11B","217.96","37.66B"],
+["SHOP","Shopify Inc.","Technology","123.80B","95.40","12.37B"],
+["SBUX","Starbucks Corporation","Consumer Disc.","120.75B","105.95","38.47B"],
+["BKNG","Booking Holdings Inc.","Consumer Disc.","120.13B","155.03","27.69B"],
+["VRTX","Vertex Pharmaceuticals","Healthcare","114.99B","453.06","12.22B"],
+["INTU","Intuit Inc.","Technology","102.80B","371.71","20.12B"],
+["CEG","Constellation Energy","Utilities","99.29B","274.89","29.87B"],
+["CDNS","Cadence Design Systems","Technology","97.79B","354.55","5.53B"],
+["SNPS","Synopsys, Inc.","Technology","97.56B","509.28","8.01B"],
+["ADBE","Adobe Inc.","Technology","95.42B","236.07","24.45B"],
+["MAR","Marriott International","Consumer Disc.","92.34B","350.19","7.18B"],
+["CMCSA","Comcast Corporation","Communication Svcs","89.09B","24.94","125.28B"],
+["FTNT","Fortinet, Inc.","Technology","86.23B","117.69","7.11B"],
+["MNST","Monster Beverage Corp.","Consumer Staples","84.04B","85.93","8.79B"],
+["ADP","Automatic Data Processing","Industrials","83.40B","208.63","21.60B"],
+["CSX","CSX Corporation","Industrials","82.50B","44.40","14.15B"],
+["MPWR","Monolithic Power Systems","Semiconductors","81.08B","1650.35","2.96B"],
+["MELI","MercadoLibre, Inc.","Consumer Disc.","79.19B","1562.00","31.80B"],
+["MDLZ","Mondelez International","Consumer Staples","78.97B","61.52","39.30B"],
+["ABNB","Airbnb, Inc.","Consumer Disc.","78.92B","132.97","12.65B"],
+["NXPI","NXP Semiconductors","Semiconductors","75.34B","298.41","12.62B"],
+["ORLY","O'Reilly Automotive","Consumer Disc.","74.34B","89.70","18.21B"],
+["REGN","Regeneron Pharmaceuticals","Healthcare","73.24B","719.88","14.92B"],
+["DDOG","Datadog, Inc.","Technology","73.08B","205.31","3.67B"],
+["AEP","American Electric Power","Utilities","69.62B","127.95","22.43B"],
+["WBD","Warner Bros. Discovery","Communication Svcs","68.31B","27.25","37.21B"],
+["ROST","Ross Stores, Inc.","Consumer Disc.","68.22B","211.76","22.75B"],
+["CTAS","Cintas Corporation","Industrials","65.43B","163.55","11.03B"],
+["DASH","DoorDash, Inc.","Consumer Disc.","64.95B","149.07","14.72B"],
+["BKR","Baker Hughes Company","Energy","64.89B","65.41","27.89B"],
+["MSTR","Strategy Inc","Technology","62.48B","178.03","490.47M"],
+["PCAR","PACCAR Inc","Industrials","58.83B","111.78","27.78B"],
+["FANG","Diamondback Energy","Energy","56.57B","201.10","14.46B"],
+["MCHP","Microchip Technology","Semiconductors","52.33B","96.71","4.71B"],
+["FAST","Fastenal Company","Industrials","50.25B","43.77","8.44B"],
+["EA","Electronic Arts Inc.","Communication Svcs","50.20B","200.18","7.53B"],
+["XEL","Xcel Energy Inc.","Utilities","49.89B","79.91","14.78B"],
+["ADSK","Autodesk, Inc.","Technology","48.78B","231.03","7.21B"],
+["FER","Ferrovial N.V.","Industrials","48.77B","67.90","11.30B"],
+["EXC","Exelon Corporation","Utilities","45.30B","44.27","24.79B"],
+["TTWO","Take-Two Interactive","Communication Svcs","42.03B","226.99","6.56B"],
+["IDXX","IDEXX Laboratories","Healthcare","41.70B","528.68","4.45B"],
+["CCEP","Coca-Cola Europacific","Consumer Staples","40.70B","91.42","24.54B"],
+["PYPL","PayPal Holdings, Inc.","Technology","39.90B","45.23","33.73B"],
+["KDP","Keurig Dr Pepper Inc.","Consumer Staples","39.88B","29.31","16.94B"],
+["ODFL","Old Dominion Freight Line","Industrials","39.34B","189.18","5.46B"],
+["ALNY","Alnylam Pharmaceuticals","Healthcare","38.92B","291.48","4.29B"],
+["TRI","Thomson Reuters Corp.","Industrials","35.89B","82.03","7.66B"],
+["PAYX","Paychex, Inc.","Industrials","32.22B","89.92","6.33B"],
+["ROP","Roper Technologies","Technology","31.92B","316.25","8.12B"],
+["CPRT","Copart, Inc.","Industrials","31.73B","32.94","4.61B"],
+["AXON","Axon Enterprise, Inc.","Industrials","30.37B","376.82","2.98B"],
+["WDAY","Workday, Inc.","Technology","29.09B","116.50","9.55B"],
+["GEHC","GE HealthCare Technologies","Healthcare","28.15B","61.89","20.98B"],
+["KHC","The Kraft Heinz Company","Consumer Staples","27.49B","23.18","24.99B"],
+["INSM","Insmed Incorporated","Healthcare","25.57B","117.99","819.56M"],
+["ZS","Zscaler, Inc.","Technology","24.51B","152.43","3.00B"],
+["DXCM","DexCom, Inc.","Healthcare","22.60B","58.57","4.82B"],
+["CTSH","Cognizant Technology","Technology","21.78B","45.97","21.41B"],
+["VRSK","Verisk Analytics, Inc.","Industrials","21.16B","161.47","3.10B"],
+["TEAM","Atlassian Corporation","Technology","20.46B","80.62","6.19B"],
+["CHTR","Charter Communications","Communication Svcs","19.81B","143.06","54.64B"],
+["CSGP","CoStar Group, Inc.","Real Estate","13.06B","31.97","3.41B"],
+];
+  const RS_GH_PATH="research/reports";   // โฟลเดอร์เก็บ .docx ใน repo
+  let RS_curLang="th", RS_curTicker=null;
+
+  /* ---- state: เก็บใน localStorage 'rs_state' (และรวมเข้า backup ถ้ามี hook) ---- */
+  function rsLoad(){ try{return JSON.parse(localStorage.getItem('rs_state')||'{}');}catch(e){return {};} }
+  function rsSave(s){ try{localStorage.setItem('rs_state',JSON.stringify(s));}catch(e){}
+    if(typeof scheduleGHSave==='function'){ try{scheduleGHSave();}catch(e){} } }
+  let RS_STATE=rsLoad();
+  // seed NVDA (ทำไปแล้ว)
+  if(!RS_STATE.NVDA){ RS_STATE.NVDA={req:"2026-05-24",ready:true,docx:"NVDA_Initiating_Coverage_TH.docx",docx_en:"NVDA_Initiating_Coverage.docx",lang:["th","en"]}; rsSave(RS_STATE); }
+  function rsSt(t){ return RS_STATE[t]||{req:null,ready:false,docx:null,lang:[]}; }
+  function rsStatus(t){ const s=rsSt(t); return s.ready?"rdy":s.req?"req":"new"; }
+  function rsToday(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0')+"-"+String(d.getDate()).padStart(2,'0');}
+
+  function ghCfg(){ return (typeof getGHConfig==='function')?getGHConfig():{user:localStorage.getItem('gh_user')||'claimloss-lab',repo:localStorage.getItem('gh_repo')||'trade-desk',token:localStorage.getItem('gh_token')||''}; }
+  function rsRawUrl(file){ const c=ghCfg(); return `https://raw.githubusercontent.com/${c.user}/${c.repo}/main/${RS_GH_PATH}/${file}`; }
+
+  /* ---- prompt (ตาม template ที่กำหนด) ---- */
+  function rsPrompt(t,name,sector,lang){
+    const tail = lang==="th" ? "\nตอบเป็นภาษาไทย แล้ว Generate เป็นไฟล์ .docx (ฟอนต์ Tahoma)"
+      : lang==="both" ? "\nทำทั้งภาษาไทยและอังกฤษ เป็นไฟล์ .docx แยกกัน 2 ไฟล์" : "";
+    return `Act as an Equity Research Analyst covering the ${sector} sector. Synthesize the provided materials to draft an Initiating Coverage summary for ${t} (${name}). Your report must include:
+
+* Business Description: What does the company do and how do they make money?
+* Competitive Moat: Analyze top moats (e.g., brand, network effects, switching costs, IP).
+* Industry Overview: Summarize market size, growth rates, and regulatory trends.
+* Financial Overview: Outline historical margin trends and capital allocation track record.
+* Formatting: Output as a clean markdown report with bolded key takeaways and bullet points. Then Generate it in .docx format${tail}`;
+  }
+
+  /* ---- render list ---- */
+  window.renderResearch=function(){
+    // populate sector dropdown once
+    const secSel=document.getElementById('rs-sec');
+    if(secSel && secSel.options.length<=1){
+      RS_SECTORS.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s+" ("+RS_U.filter(r=>r[2]===s).length+")";secSel.appendChild(o);});
+    }
+    const q=(document.getElementById('rs-q')?.value||'').trim().toUpperCase();
+    const secF=document.getElementById('rs-sec')?.value||'ALL';
+    const stF=document.getElementById('rs-st')?.value||'ALL';
+    const done=RS_U.filter(r=>rsStatus(r[0])==="rdy").length;
+    const req=RS_U.filter(r=>rsStatus(r[0])==="req").length;
+    const total=RS_U.length;
+    document.getElementById('rs-prog-bar').style.width=(done/total*100)+"%";
+    document.getElementById('rs-prog-done').textContent="พร้อมอ่าน "+done+"/"+total;
+    document.getElementById('rs-prog-req').textContent=req?("ขอแล้ว "+req+" รอจัดทำ"):"";
+    const badge=document.getElementById('sb-research-count'); if(badge) badge.textContent=done;
+
+    let rows=RS_U.filter(([t,n,sec])=>{
+      if(secF!=="ALL"&&sec!==secF)return false;
+      if(stF!=="ALL"&&rsStatus(t)!==stF)return false;
+      if(q&&!t.includes(q)&&!n.toUpperCase().includes(q))return false;
+      return true;
+    });
+    const ord={rdy:0,req:1,new:2};
+    rows.sort((a,b)=>ord[rsStatus(a[0])]-ord[rsStatus(b[0])]);
+
+    const head=`<thead><tr style="font-size:11px;color:var(--tx3);text-transform:uppercase">
+      <th style="text-align:left;padding:10px 14px">Ticker</th>
+      <th style="text-align:left;padding:10px 14px">บริษัท</th>
+      <th style="text-align:left;padding:10px 14px">วันที่ขอ</th>
+      <th style="text-align:left;padding:10px 14px">สถานะ</th>
+      <th style="text-align:right;padding:10px 14px">Market Cap</th>
+      <th style="text-align:right;padding:10px 14px">การทำงาน</th></tr></thead>`;
+    const body=rows.map(([t,n,sec,mc])=>{
+      const s=rsSt(t), stt=rsStatus(t);
+      const stHtml=stt==="rdy"?'<span style="color:var(--green-tx);font-weight:600;font-size:12px">● พร้อมอ่าน</span>'
+        :stt==="req"?'<span style="color:var(--blue);font-weight:600;font-size:12px">● ขอแล้ว</span>'
+        :'<span style="color:var(--tx3);font-size:12px">○ ยังไม่ขอ</span>';
+      const dt=s.req?`<span style="font-size:12px;color:var(--tx2)">${s.req}</span>`:'<span style="font-size:12px;color:var(--tx3)">—</span>';
+      let act;
+      if(stt==="rdy") act=`<button class="btn btn-p btn-sm" onclick="rsOpen('${t}')">เปิด .docx</button> <button class="btn btn-g btn-sm" onclick="rsReq('${t}')">ขอใหม่</button>`;
+      else if(stt==="req") act=`<button class="btn btn-g btn-sm" onclick="rsReq('${t}')">ก็อป prompt ซ้ำ</button>`;
+      else act=`<button class="btn btn-s btn-sm" onclick="rsReq('${t}')">+ ขอ Research</button>`;
+      return `<tr style="border-top:1px solid var(--bd2)">
+        <td style="padding:11px 14px"><span style="font-weight:700;font-family:monospace">${t}</span><div style="font-size:10px;color:var(--tx3)">${sec}</div></td>
+        <td style="padding:11px 14px;font-size:13px">${n}</td>
+        <td style="padding:11px 14px">${dt}</td>
+        <td style="padding:11px 14px">${stHtml}</td>
+        <td style="padding:11px 14px;text-align:right;font-family:monospace;font-size:12px;color:var(--tx2)">${mc}</td>
+        <td style="padding:11px 14px;text-align:right;white-space:nowrap">${act}</td></tr>`;
+    }).join('');
+    document.getElementById('rs-table').innerHTML=head+'<tbody>'+(rows.length?body:'<tr><td colspan="6" style="padding:40px;text-align:center;color:var(--tx3)">ไม่พบผลลัพธ์</td></tr>')+'</tbody>';
+  };
+
+  /* ---- open docx ---- */
+  window.rsOpen=function(t){
+    const s=rsSt(t);
+    if(!s.docx){ if(typeof showToast==='function')showToast('ยังไม่มีไฟล์ .docx'); return; }
+    window.open(rsRawUrl(s.docx),'_blank');
+  };
+
+  /* ---- request modal ---- */
+  window.rsReq=function(t){
+    RS_curTicker=t;
+    const [,name,sec,mc,px,rev]=RS_U.find(r=>r[0]===t);
+    const s=rsSt(t);
+    const esc=x=>x.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    document.getElementById('rs-modal-body').innerHTML=`
+      <div style="padding:20px 24px 14px;border-bottom:1px solid var(--bd)">
+        <div style="font-size:11px;font-family:monospace;letter-spacing:1px;text-transform:uppercase;color:var(--tx3)">${sec} · Coverage Request</div>
+        <div style="font-size:24px;font-weight:800;margin:4px 0 2px">${t}</div>
+        <div style="font-size:13px;color:var(--tx2)">${name}</div>
+      </div>
+      <div style="padding:18px 24px 22px">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+          <div style="background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:10px 12px"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase">Market Cap</div><div style="font-size:17px;font-weight:700">${mc}</div></div>
+          <div style="background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:10px 12px"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase">ราคา</div><div style="font-size:17px;font-weight:700">$${px}</div></div>
+          <div style="background:var(--s2);border:1px solid var(--bd2);border-radius:10px;padding:10px 12px"><div style="font-size:10px;color:var(--tx3);text-transform:uppercase">Revenue</div><div style="font-size:17px;font-weight:700">${rev}</div></div>
+        </div>
+        ${s.req?`<div style="font-size:13px;color:var(--blue);margin-bottom:12px">⏳ เคยขอเมื่อ <b>${s.req}</b>${s.ready?' · มีรายงานแล้ว':' · รอจัดทำ'}</div>`:''}
+        <div style="display:flex;gap:8px;margin-bottom:14px" id="rs-lang">
+          ${[["th","ไทย"],["en","English"],["both","ทั้งสอง"]].map(([v,l])=>`<button class="btn ${RS_curLang===v?'btn-p':'btn-g'} btn-sm" style="flex:1" onclick="rsSetLang('${v}')">${l}</button>`).join('')}
+        </div>
+        <div style="background:#0d1424;border-radius:11px;padding:14px 15px;font-family:monospace;font-size:12px;line-height:1.7;color:#cdd6e8;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow-y:auto">${esc(rsPrompt(t,name,sec,RS_curLang))}</div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn btn-s" style="flex:1" onclick="rsCopy(true)">⧉ ก็อป prompt &amp; บันทึกวันที่ขอ</button>
+          <button class="btn btn-g" style="flex:1" onclick="rsCopy(false)">ก็อปอย่างเดียว</button>
+        </div>
+        <div style="font-size:11.5px;color:var(--tx3);margin-top:13px;line-height:1.6">วาง prompt ในแชต Claude → ได้ไฟล์ .docx → อัปขึ้น GitHub ที่ <code>${RS_GH_PATH}/</code> → ปุ่มจะกลายเป็น “เปิด .docx” · บันทึกวันที่ขอ = <b>${rsToday()}</b></div>
+        <div style="text-align:right;margin-top:8px"><button class="btn btn-g btn-sm" onclick="rsCloseModal()">ปิด</button></div>
+      </div>`;
+    document.getElementById('rs-modal').style.display='flex';
+  };
+  window.rsSetLang=function(v){ RS_curLang=v; rsReq(RS_curTicker); };
+  window.rsCloseModal=function(){ document.getElementById('rs-modal').style.display='none'; };
+  window.rsCopy=function(mark){
+    const [,name,sec]=RS_U.find(r=>r[0]===RS_curTicker);
+    const txt=rsPrompt(RS_curTicker,name,sec,RS_curLang);
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(()=>rsFb(txt)); else rsFb(txt);
+    if(mark){ const cur=rsSt(RS_curTicker); cur.req=rsToday(); RS_STATE[RS_curTicker]=cur; rsSave(RS_STATE); renderResearch(); rsCloseModal(); if(typeof showToast==='function')showToast('✓ ก็อป prompt + บันทึกวันที่ขอ '+rsToday()); }
+    else { if(typeof showToast==='function')showToast('✓ ก็อป prompt แล้ว'); }
+  };
+  function rsFb(s){const ta=document.createElement('textarea');ta.value=s;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+
+  /* ---- public helper: ทำเครื่องหมายว่ารายงานเสร็จแล้ว (เรียกจาก console หรือให้ Claude บอก) ----
+     rsMarkReady("AAPL","AAPL_Initiating_Coverage_TH.docx","AAPL_..._EN.docx",["th","en"]) */
+  window.rsMarkReady=function(t,docx,docx_en,lang){
+    const cur=rsSt(t); cur.ready=true; cur.docx=docx||cur.docx; if(docx_en)cur.docx_en=docx_en;
+    cur.lang=lang||cur.lang||["th"]; if(!cur.req)cur.req=rsToday(); RS_STATE[t]=cur; rsSave(RS_STATE);
+    renderResearch(); if(typeof showToast==='function')showToast(t+' → พร้อมอ่านแล้ว ✓');
+  };
+  window.rsExportState=function(){ return JSON.stringify(RS_STATE,null,2); };
+
+  // close modal on backdrop click
+  document.getElementById('rs-modal')?.addEventListener('click',e=>{if(e.target.id==='rs-modal')rsCloseModal();});
+})();
+</script>
 
 
 <!-- ══════════════════ GITHUB AUTO-SAVE MODAL ══════════════════ -->

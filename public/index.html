@@ -6739,8 +6739,8 @@ function updateAlertLabel(){
     <table id="rs-table" style="width:100%"></table>
   </div>
   <div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.7">
-    💡 กด <b>“+ ขอ Research”</b> → ก็อป prompt ไปวางในแชต Claude → ได้ไฟล์ <b>.docx</b> กลับมา → ผมจะอัปขึ้น GitHub ให้ (หรือกดอัปเอง) → ปุ่มจะเปลี่ยนเป็น <b>“เปิด .docx”</b><br>
-    ไฟล์ .docx เก็บใน GitHub repo เดียวกับ TradeDesk ที่โฟลเดอร์ <code>research/reports/</code> · สถานะและวันที่ขอถูกเก็บใน backup เดียวกับพอร์ต (sync ขึ้น GitHub อัตโนมัติ)
+    💡 <b>⚡ Auto</b> = กดปุ่มเดียว ระบบเรียก Claude Opus 4.7 + web search ทำรายงาน → .docx → อัป GitHub ให้อัตโนมัติ (ใช้ API key + GitHub token ที่ตั้งไว้แล้ว มีค่าใช้จ่าย API) · <b>prompt</b> = ก็อป prompt ไปทำเองในแชต<br>
+    ไฟล์ .docx เก็บใน GitHub repo เดียวกับ TradeDesk ที่โฟลเดอร์ <code>research/reports/</code> · สถานะและวันที่ขอเก็บใน browser (localStorage)
   </div>
 </div>
 
@@ -6875,6 +6875,55 @@ function updateAlertLabel(){
   function ghCfg(){ return (typeof getGHConfig==='function')?getGHConfig():{user:localStorage.getItem('gh_user')||'claimloss-lab',repo:localStorage.getItem('gh_repo')||'trade-desk',token:localStorage.getItem('gh_token')||''}; }
   function rsRawUrl(file){ const c=ghCfg(); return `https://raw.githubusercontent.com/${c.user}/${c.repo}/main/${RS_GH_PATH}/${file}`; }
 
+  /* ---- push a (base64) file to GitHub via Contents API (reuses app's token) ---- */
+  async function rsGhPut(path, content64, msg){
+    const c=ghCfg();
+    if(!c.token) throw new Error('ยังไม่ได้ตั้ง GitHub token (เมนู ☰ → GitHub Auto-Save Settings)');
+    const apiUrl=`https://api.github.com/repos/${c.user}/${c.repo}/contents/${path}`;
+    let sha=null;
+    const g=await fetch(apiUrl,{headers:{'Authorization':'Bearer '+c.token,'Accept':'application/vnd.github+json'}});
+    if(g.ok){ const d=await g.json(); sha=d.sha; }
+    const r=await fetch(apiUrl,{method:'PUT',headers:{'Authorization':'Bearer '+c.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:msg,content:content64,...(sha?{sha}:{})})});
+    if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error('GitHub: '+(e.message||r.status)); }
+    return true;
+  }
+
+  /* ---- AUTO: เรียก Opus 4.7 + web search → .docx → push GitHub → mark ready ---- */
+  window.rsAuto=async function(t,lang){
+    const [,name,sec]=RS_U.find(r=>r[0]===t);
+    lang=lang||'th';
+    const btnId='rs-auto-'+t;
+    const setBusy=(txt)=>{ const b=document.getElementById(btnId); if(b){b.disabled=true;b.textContent=txt;} const s=rsSt(t); s.req=s.req||rsToday(); RS_STATE[t]=s; };
+    try{
+      setBusy('⏳ กำลัง research…');
+      // 1) generate markdown via Opus 4.7
+      const rr=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ticker:t,name,sector:sec,lang})});
+      const rj=await rr.json();
+      if(!rr.ok||!rj.markdown) throw new Error(rj.detail||rj.error||'research failed');
+      // 2) markdown → .docx
+      setBusy('⏳ สร้าง .docx…');
+      const suffix = lang==='en' ? '' : '_TH';
+      const fname = `${t}_Initiating_Coverage${suffix}.docx`;
+      const dr=await fetch('/api/md-to-docx',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({markdown:rj.markdown,title:fname.replace(/\.docx$/,'')})});
+      const dj=await dr.json();
+      if(!dr.ok||!dj.base64) throw new Error(dj.error||'docx failed');
+      // 3) push to GitHub
+      setBusy('⏳ อัป GitHub…');
+      await rsGhPut(`${RS_GH_PATH}/${fname}`, dj.base64, `research: ${t} initiating coverage (auto, Opus 4.7)`);
+      // 4) mark ready
+      const cur=rsSt(t); cur.ready=true; cur.docx=fname; cur.lang=[lang]; cur.req=cur.req||rsToday(); cur.auto=true;
+      RS_STATE[t]=cur; rsSave(RS_STATE);
+      renderResearch();
+      if(typeof showToast==='function') showToast('✓ '+t+' research เสร็จ + อัป GitHub แล้ว');
+    }catch(e){
+      const cur=rsSt(t); cur.req=cur.req||rsToday(); RS_STATE[t]=cur; rsSave(RS_STATE); renderResearch();
+      if(typeof showToast==='function') showToast('✕ '+t+': '+e.message); else alert(e.message);
+    }
+  };
+
   /* ---- prompt (ตาม template ที่กำหนด) ---- */
   function rsPrompt(t,name,sector,lang){
     const tail = lang==="th" ? "\nตอบเป็นภาษาไทย แล้ว Generate เป็นไฟล์ .docx (ฟอนต์ Tahoma)"
@@ -6930,8 +6979,8 @@ function updateAlertLabel(){
       const dt=s.req?`<span style="font-size:12px;color:var(--tx2)">${s.req}</span>`:'<span style="font-size:12px;color:var(--tx3)">—</span>';
       let act;
       if(stt==="rdy") act=`<button class="btn btn-p btn-sm" onclick="rsOpen('${t}')">เปิด .docx</button> <button class="btn btn-g btn-sm" onclick="rsReq('${t}')">ขอใหม่</button>`;
-      else if(stt==="req") act=`<button class="btn btn-g btn-sm" onclick="rsReq('${t}')">ก็อป prompt ซ้ำ</button>`;
-      else act=`<button class="btn btn-s btn-sm" onclick="rsReq('${t}')">+ ขอ Research</button>`;
+      else if(stt==="req") act=`<button class="btn btn-s btn-sm" id="rs-auto-${t}" onclick="rsAuto('${t}','th')">⚡ Auto</button> <button class="btn btn-g btn-sm" onclick="rsReq('${t}')">prompt</button>`;
+      else act=`<button class="btn btn-s btn-sm" id="rs-auto-${t}" onclick="rsAuto('${t}','th')">⚡ Auto</button> <button class="btn btn-g btn-sm" onclick="rsReq('${t}')">prompt</button>`;
       return `<tr style="border-top:1px solid var(--bd2)">
         <td style="padding:11px 14px"><span style="font-weight:700;font-family:monospace">${t}</span><div style="font-size:10px;color:var(--tx3)">${sec}</div></td>
         <td style="padding:11px 14px;font-size:13px">${n}</td>
@@ -6974,10 +7023,12 @@ function updateAlertLabel(){
         </div>
         <div style="background:#0d1424;border-radius:11px;padding:14px 15px;font-family:monospace;font-size:12px;line-height:1.7;color:#cdd6e8;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow-y:auto">${esc(rsPrompt(t,name,sec,RS_curLang))}</div>
         <div style="display:flex;gap:10px;margin-top:14px">
-          <button class="btn btn-s" style="flex:1" onclick="rsCopy(true)">⧉ ก็อป prompt &amp; บันทึกวันที่ขอ</button>
-          <button class="btn btn-g" style="flex:1" onclick="rsCopy(false)">ก็อปอย่างเดียว</button>
+          <button class="btn btn-s" style="flex:1.4" id="rs-modal-auto" onclick="rsCloseModal();rsAuto('${t}',RS_curLang==='en'?'en':'th')">⚡ Auto-generate (Opus 4.7)</button>
+          <button class="btn btn-g" style="flex:1" onclick="rsCopy(true)">⧉ ก็อป prompt</button>
         </div>
-        <div style="font-size:11.5px;color:var(--tx3);margin-top:13px;line-height:1.6">วาง prompt ในแชต Claude → ได้ไฟล์ .docx → อัปขึ้น GitHub ที่ <code>${RS_GH_PATH}/</code> → ปุ่มจะกลายเป็น “เปิด .docx” · บันทึกวันที่ขอ = <b>${rsToday()}</b></div>
+        <div style="font-size:11.5px;color:var(--tx3);margin-top:13px;line-height:1.6">
+          <b>⚡ Auto</b> = ระบบเรียก Claude Opus 4.7 + web search ทำรายงานสด → สร้าง .docx → อัปขึ้น GitHub (<code>${RS_GH_PATH}/</code>) ให้อัตโนมัติ (ใช้ ANTHROPIC_API_KEY + GitHub token ที่ตั้งไว้แล้ว · มีค่าใช้จ่าย API)<br>
+          <b>⧉ ก็อป prompt</b> = เอา prompt ไปวางในแชต Claude เองแบบ manual · บันทึกวันที่ขอ = <b>${rsToday()}</b></div>
         <div style="text-align:right;margin-top:8px"><button class="btn btn-g btn-sm" onclick="rsCloseModal()">ปิด</button></div>
       </div>`;
     document.getElementById('rs-modal').style.display='flex';

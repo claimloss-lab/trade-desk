@@ -6901,7 +6901,7 @@ function updateAlertLabel(){
       const rr=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({ticker:t,name,sector:sec,lang})});
       const rj=await rr.json();
-      if(!rr.ok||!rj.markdown) throw new Error(rj.detail||rj.error||'research failed');
+      if(!rr.ok||!rj.markdown) throw new Error((rj.detail||rj.error||'research failed').slice(0,140));
       // 2) markdown → .docx
       setBusy('⏳ สร้าง .docx…');
       const suffix = lang==='en' ? '' : '_TH';
@@ -7023,7 +7023,7 @@ function updateAlertLabel(){
         </div>
         <div style="background:#0d1424;border-radius:11px;padding:14px 15px;font-family:monospace;font-size:12px;line-height:1.7;color:#cdd6e8;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow-y:auto">${esc(rsPrompt(t,name,sec,RS_curLang))}</div>
         <div style="display:flex;gap:10px;margin-top:14px">
-          <button class="btn btn-s" style="flex:1.4" id="rs-modal-auto" onclick="rsCloseModal();rsAuto('${t}',RS_curLang==='en'?'en':'th')">⚡ Auto-generate (Opus 4.7)</button>
+          <button class="btn btn-s" style="flex:1.4" id="rs-modal-auto" onclick="rsAutoFromModal('${t}')">⚡ Auto-generate (Opus 4.7)</button>
           <button class="btn btn-g" style="flex:1" onclick="rsCopy(true)">⧉ ก็อป prompt</button>
         </div>
         <div style="font-size:11.5px;color:var(--tx3);margin-top:13px;line-height:1.6">
@@ -7034,6 +7034,7 @@ function updateAlertLabel(){
     document.getElementById('rs-modal').style.display='flex';
   };
   window.rsSetLang=function(v){ RS_curLang=v; rsReq(RS_curTicker); };
+  window.rsAutoFromModal=function(t){ const lang=(RS_curLang==='en')?'en':'th'; rsCloseModal(); rsAuto(t,lang); };
   window.rsCloseModal=function(){ document.getElementById('rs-modal').style.display='none'; };
   window.rsCopy=function(mark){
     const [,name,sec]=RS_U.find(r=>r[0]===RS_curTicker);

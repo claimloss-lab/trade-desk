@@ -39,29 +39,46 @@ Formatting rules (IMPORTANT):
 - End with "## Risks to Watch" (bullets) and a final one-line italic disclaimer that this is informational, not investment advice.
 - ${langInstr}`;
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': context.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
+    if (!context.env.ANTHROPIC_API_KEY) {
+      return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY ไม่ได้ตั้งค่าใน Cloudflare (Settings → Environment variables)' }), { status: 500, headers: cors });
+    }
+
+    // เรียก Claude — ลองพร้อม web search ก่อน ถ้าพลาด (เช่น web search ยังไม่เปิดใน org) ค่อย retry แบบไม่มี web search
+    async function callClaude(useWebSearch) {
+      const body = {
         model: 'claude-opus-4-7',
         max_tokens: 8000,
         system,
         messages: [{ role: 'user', content: userPrompt }],
-        tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 6 }],
-      }),
-    });
+      };
+      if (useWebSearch) body.tools = [{ type: 'web_search_20260209', name: 'web_search', max_uses: 6 }];
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': context.env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify(body),
+      });
+      return r;
+    }
 
+    let res = await callClaude(true);
+    let usedWebSearch = true;
     if (!res.ok) {
-      const err = await res.text();
-      return new Response(JSON.stringify({ error: 'Claude error', detail: err }), { status: 502, headers: cors });
+      // web-search อาจยังไม่เปิดใน org → retry without tools so a report still generates
+      const firstErr = await res.text();
+      const retry = await callClaude(false);
+      if (!retry.ok) {
+        const secondErr = await retry.text();
+        return new Response(JSON.stringify({ error: 'Claude error', detail: firstErr, retryDetail: secondErr }), { status: 502, headers: cors });
+      }
+      res = retry;
+      usedWebSearch = false;
     }
 
     const data = await res.json();
-    // รวมเฉพาะ text blocks (ข้าม tool_use / web_search_tool_result)
     const markdown = (data.content || [])
       .filter(b => b.type === 'text')
       .map(b => b.text)
@@ -72,7 +89,7 @@ Formatting rules (IMPORTANT):
       return new Response(JSON.stringify({ error: 'empty result', detail: JSON.stringify(data).slice(0, 500) }), { status: 502, headers: cors });
     }
 
-    return new Response(JSON.stringify({ ticker, markdown, model: data.model || 'claude-opus-4-7' }), { headers: cors });
+    return new Response(JSON.stringify({ ticker, markdown, model: data.model || 'claude-opus-4-7', webSearch: usedWebSearch }), { headers: cors });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
   }

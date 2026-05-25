@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-15T03:29:22.407Z",
-  "exportDateTH": "15 พฤษภาคม 2569 เวลา 10:29",
+  "exportDate": "2026-05-25T10:35:31.717Z",
+  "exportDateTH": "25 พฤษภาคม 2569 เวลา 17:35",
   "portfolios": [
     {
       "id": "dr1",
@@ -35,8 +35,8 @@
         },
         {
           "ticker": "CRWD80",
-          "qty": 4345,
-          "buyPrice": 14.94,
+          "qty": 4400,
+          "buyPrice": 15.01,
           "id": 4,
           "sector": "Tech",
           "underlying": "CrowdStrike"
@@ -67,8 +67,8 @@
         },
         {
           "ticker": "NVDA80",
-          "qty": 2457,
-          "buyPrice": 28.8,
+          "qty": 2500,
+          "buyPrice": 28.92,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA"
@@ -351,8 +351,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.3764,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 14.2922,
+          "navDate": "2026-05-20"
         },
         {
           "id": 2,
@@ -362,8 +362,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 12.4278,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 12.5755,
+          "navDate": "2026-05-20"
         },
         {
           "id": 1778630716727,
@@ -373,8 +373,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 12.8165,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 12.9267,
+          "navDate": "2026-05-20"
         },
         {
           "id": 1778630781570,
@@ -384,8 +384,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 17.3118,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 17.4539,
+          "navDate": "2026-05-20"
         }
       ]
     },
@@ -405,8 +405,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 30.9286,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 30.0786,
+          "navDate": "22 พ.ค. 69"
         },
         {
           "id": 2,
@@ -446,8 +446,8 @@
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 10.5904,
-          "navDate": "15 พ.ค. 69"
+          "currentNav": 10.6965,
+          "navDate": "22 พ.ค. 69"
         }
       ],
       "cash": 0,
@@ -471,9 +471,44 @@
       ],
       "cash": 0,
       "snapshots": []
+    },
+    {
+      "id": "p_1779699069949",
+      "name": "PVDFund",
+      "type": "dime_mixed",
+      "color": "#30d158",
+      "stocks": [],
+      "cash": 0,
+      "snapshots": []
     }
   ],
   "transactions": [
+    {
+      "id": 1779419657586,
+      "ticker": "CRWD80",
+      "type": "buy",
+      "date": "2026-05-22",
+      "price": 21.2,
+      "qty": 55,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
+      "id": 1779419628899,
+      "ticker": "NVDA80",
+      "type": "buy",
+      "date": "2026-05-22",
+      "price": 36.25,
+      "qty": 43,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1778723451171,
       "ticker": "ORCL",
@@ -716,14 +751,34 @@
       "cond": "below",
       "price": 186,
       "note": "Buy at EMA200",
-      "triggered": false,
+      "triggered": true,
       "createdAt": "2026-05-11T11:37:29.672Z",
-      "triggeredAt": null,
-      "triggeredPrice": null
+      "triggeredAt": "2026-05-20T02:45:51.602Z",
+      "triggeredPrice": 181.46
     }
   ],
   "notes": [],
   "dividends": [
+    {
+      "id": 1779454858889.9775,
+      "ticker": "MSFT80",
+      "date": "2026-05-21",
+      "payDate": "2026-06-18 (est.)",
+      "perShare": 0.01437,
+      "qty": 25400,
+      "total": 365,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1779454858188.5378,
+      "ticker": "LLY80",
+      "date": "2026-05-15",
+      "payDate": "2026-06-12 (est.)",
+      "perShare": 0.00282,
+      "qty": 4000,
+      "total": 11.28,
+      "note": "auto (THB)"
+    },
     {
       "id": 1778485123228.2083,
       "ticker": "WHA.BK",
@@ -1639,9 +1694,9 @@
   "dcaHistory": [],
   "currency": "THB",
   "summary": {
-    "totalPorts": 10,
+    "totalPorts": 11,
     "totalStocks": 42,
-    "totalTransactions": 18,
-    "totalNetWorth": "฿1,560,416.79"
+    "totalTransactions": 20,
+    "totalNetWorth": "฿1,614,614.36"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-26T06:47:25.690Z",
-  "exportDateTH": "26 พฤษภาคม 2569 เวลา 13:47",
+  "exportDate": "2026-05-28T05:48:14.112Z",
+  "exportDateTH": "28 พฤษภาคม 2569 เวลา 12:48",
   "portfolios": [
     {
       "id": "dr1",
@@ -469,15 +469,6 @@
           "buyPriceUSD": 189.2
         }
       ],
-      "cash": 0,
-      "snapshots": []
-    },
-    {
-      "id": "p_1779699069949",
-      "name": "PVDFund",
-      "type": "dime_mixed",
-      "color": "#30d158",
-      "stocks": [],
       "cash": 0,
       "snapshots": []
     }
@@ -1694,9 +1685,9 @@
   "dcaHistory": [],
   "currency": "THB",
   "summary": {
-    "totalPorts": 11,
+    "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 20,
-    "totalNetWorth": "฿1,612,810.84"
+    "totalNetWorth": "฿1,614,208.28"
   }
 }

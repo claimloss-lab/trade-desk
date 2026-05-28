@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-28T05:50:37.309Z",
+  "exportDate": "2026-05-28T05:50:48.101Z",
   "exportDateTH": "28 พฤษภาคม 2569 เวลา 12:50",
   "portfolios": [
     {
@@ -461,8 +461,8 @@
       "stocks": [
         {
           "ticker": "ORCL",
-          "buyPrice": 189.1995,
-          "qty": 6.7688689,
+          "buyPrice": 200.3829484873387,
+          "qty": 6.7814134,
           "sector": "Tech",
           "underlying": "Oracle",
           "id": 1778723451171,
@@ -474,6 +474,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1779947445095,
+      "ticker": "ORCL",
+      "type": "buy",
+      "date": "2026-05-28",
+      "price": 6234.844,
+      "qty": 0.012544499999999736,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "p_1778723407199",
+      "auto": true
+    },
     {
       "id": 1779419657586,
       "ticker": "CRWD80",
@@ -1687,7 +1700,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 20,
-    "totalNetWorth": "฿1,614,829.40"
+    "totalTransactions": 21,
+    "totalNetWorth": "฿1,614,907.62"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-05-28T05:49:12.605Z",
-  "exportDateTH": "28 พฤษภาคม 2569 เวลา 12:49",
+  "exportDate": "2026-05-28T05:50:37.309Z",
+  "exportDateTH": "28 พฤษภาคม 2569 เวลา 12:50",
   "portfolios": [
     {
       "id": "dr1",
@@ -461,12 +461,12 @@
       "stocks": [
         {
           "ticker": "ORCL",
-          "buyPrice": 189.2,
+          "buyPrice": 189.1995,
           "qty": 6.7688689,
           "sector": "Tech",
           "underlying": "Oracle",
           "id": 1778723451171,
-          "buyPriceUSD": 189.2
+          "buyPriceUSD": 189.1995
         }
       ],
       "cash": 0,

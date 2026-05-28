@@ -671,8 +671,12 @@ function portCost(port){
     },0);
   }
   return port.stocks.reduce((s,x)=>{
-    const raw=x.buyPrice*x.qty;
-    return s+(port.type==='realtime_us'?raw*usdThbRate:raw);
+    if(port.type==='realtime_us'){
+      // ใช้ buyPriceUSD ถ้ามี ไม่งั้นใช้ buyPrice (เหมือน table และ chart)
+      const buyUSD = x.buyPriceUSD || x.buyPrice;
+      return s + (buyUSD * x.qty * usdThbRate);
+    }
+    return s + x.buyPrice * x.qty;
   },0);
 }
 function portNet(port) {

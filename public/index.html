@@ -1805,7 +1805,7 @@ function buildSidebarPortList(){
 function showFeature(id){
   closeSidebar();
   document.querySelectorAll('.tab-panel,.feat-panel').forEach(p=>p.classList.remove('on'));
-  ['overview','transactions','alerts','notes','dividends','analysis','research'].forEach(f=>{
+  ['overview','transactions','alerts','notes','dividends','analysis','research','brief'].forEach(f=>{
     document.getElementById('sb-'+f)?.classList.toggle('on',f===id);
   });
   if(id==='overview'||portfolios.find(p=>p.id===id)){
@@ -1820,6 +1820,7 @@ function showFeature(id){
     if(id==='dividends') renderDividends();
     if(id==='analysis') renderSectorFull();
     if(id==='research') renderResearch();
+    if(id==='brief') renderBrief();
   }
   updateSbBadges();
 }
@@ -5049,6 +5050,156 @@ function showSmartSummaryPanel(markdown, tickerCount, newsCount) {
   });
 }
 
+// ──────────────────────────────────────────────────────────
+// ⚡ ข่าวสั้นประจำวัน — Daily Brief
+// ──────────────────────────────────────────────────────────
+async function renderBrief() {
+  document.getElementById('brief-result').innerHTML = '';
+  document.getElementById('brief-status').textContent = '';
+}
+
+async function runBrief() {
+  const btn = document.getElementById('brief-run-btn');
+  const statusEl = document.getElementById('brief-status');
+  const resultEl = document.getElementById('brief-result');
+
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังดึงข่าว...'; }
+  statusEl.textContent = 'กำลังรวบรวมหุ้นในพอร์ต...';
+  resultEl.innerHTML = '';
+
+  // รวบรวม tickers จาก DR_WATCHLIST + DIME-USA (realtime_us) จริงๆ ในพอร์ต
+  const briefTickers = [];
+
+  // 1) DR_WATCHLIST (หุ้นแม่ของ SET DR)
+  const DR_BRIEF = [
+    {ticker:'AMZN', underlying:'Amazon'},
+    {ticker:'ASML', underlying:'ASML'},
+    {ticker:'AVGO', underlying:'Broadcom'},
+    {ticker:'CRWD', underlying:'CrowdStrike'},
+    {ticker:'GOOG', underlying:'Alphabet'},
+    {ticker:'LLY',  underlying:'Eli Lilly'},
+    {ticker:'MSFT', underlying:'Microsoft'},
+    {ticker:'NVDA', underlying:'NVIDIA'},
+    {ticker:'ORCL', underlying:'Oracle'},
+    {ticker:'PANW', underlying:'Palo Alto Networks'},
+    {ticker:'PLTR', underlying:'Palantir'},
+    {ticker:'QQQM', underlying:'Invesco QQQM'},
+    {ticker:'SNOW', underlying:'Snowflake'},
+  ];
+  DR_BRIEF.forEach(d => briefTickers.push({ ticker: d.ticker, underlying: d.underlying, group: 'SET DR' }));
+
+  // 2) หุ้นจากพอร์ต realtime_us (DIME-USA) จริงๆ ใน portfolios
+  portfolios.filter(p => p.type === 'realtime_us').forEach(p => {
+    (p.stocks || []).forEach(s => {
+      const t = s.ticker.replace(/\.BK$/i, '').toUpperCase();
+      // ไม่ซ้ำกับ DR_BRIEF
+      if (!briefTickers.find(x => x.ticker === t)) {
+        briefTickers.push({ ticker: t, underlying: s.underlying || s.ticker, group: p.name });
+      }
+    });
+  });
+
+  if (!briefTickers.length) {
+    statusEl.textContent = 'ไม่พบหุ้นในพอร์ต';
+    if (btn) { btn.disabled = false; btn.textContent = '⚡ สรุปข่าวสั้น'; }
+    return;
+  }
+
+  // ดึงข่าวแบบ parallel (max 5 พร้อมกัน)
+  statusEl.textContent = `กำลังดึงข่าวจาก ${briefTickers.length} หุ้น...`;
+  const newsMap = {};
+  const today = new Date().toLocaleDateString('th-TH', { day:'numeric', month:'long', year:'numeric' });
+
+  const batchSize = 5;
+  for (let i = 0; i < briefTickers.length; i += batchSize) {
+    const batch = briefTickers.slice(i, i + batchSize);
+    statusEl.textContent = `ดึงข่าว ${Math.min(i+batchSize, briefTickers.length)}/${briefTickers.length} หุ้น...`;
+    await Promise.all(batch.map(async item => {
+      try {
+        const r = await fetch(`/api/news?ticker=${encodeURIComponent(item.ticker)}&company=${encodeURIComponent(item.underlying)}`,
+          { signal: safeSignal(12000) });
+        if (!r.ok) return;
+        const data = await r.json();
+        if (data.items?.length) newsMap[item.ticker] = data.items.slice(0, 4);
+      } catch(e) { console.warn(item.ticker, e.message); }
+    }));
+  }
+
+  const tickersWithNews = briefTickers.filter(t => newsMap[t.ticker]?.length);
+  if (!tickersWithNews.length) {
+    statusEl.textContent = 'ไม่มีข่าววันนี้';
+    if (btn) { btn.disabled = false; btn.textContent = '⚡ สรุปข่าวสั้น'; }
+    return;
+  }
+
+  statusEl.textContent = `ได้ข่าวจาก ${tickersWithNews.length} หุ้น · กำลังสรุป...`;
+
+  // สร้าง prompt
+  const tickerLines = tickersWithNews.map(item => {
+    const headlines = newsMap[item.ticker].map(n => `  - ${n.title}`).join('\n');
+    return `${item.ticker} (${item.underlying}) [${item.group}]:\n${headlines}`;
+  }).join('\n\n');
+
+  const stockList = tickersWithNews.map(t => `${t.ticker} (${t.underlying})`).join(', ');
+
+  const prompt = `ช่วยสรุปข่าวธุรกิจสำคัญประจำวันนี้ของหุ้นเหล่านี้เป็นภาษาไทยแบบสั้นๆ
+ให้ออกมาในรูปแบบ:
+**[ชื่อหุ้น] – ข่าวสั้น (${today}):** [สรุปข่าวสำคัญ 2–3 บรรทัด]
+
+รายการหุ้น: ${stockList}
+
+ข่าวดิบที่ดึงมาได้:
+${tickerLines}
+
+กฎ:
+- สรุปเป็นภาษาไทยสั้นๆ เข้าใจง่าย เหมือนเพื่อนเล่าให้ฟัง
+- ถ้าไม่มีข่าวสำคัญให้บอกว่า "ไม่มีข่าวสำคัญวันนี้"
+- ไม่ต้อง disclaimer ไม่ต้อง "นักลงทุนควร..."
+- ใช้ตัวย่อหุ้น (AAPL, NVDA) ไม่ต้องแปล`;
+
+  try {
+    const res = await fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ ticker: 'BRIEF', title: 'Daily Brief', description: 'context' }],
+        prompt
+      }),
+      signal: safeSignal(60000)
+    });
+    if (!res.ok) throw new Error('AI ไม่ตอบสนอง');
+    const data = await res.json();
+    const text = data.summaries?.[0] || 'ไม่สามารถสรุปได้';
+
+    // Render
+    const html = text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\n\n/g,'</p><p style="margin:10px 0;line-height:1.8">')
+      .replace(/\n/g,'<br>');
+
+    const ts = new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+    resultEl.innerHTML = `
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:20px 24px">
+        <div style="font-size:11px;color:var(--tx3);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+          <span>⚡ Diary สรุปข่าวสั้น</span>
+          <span>·</span>
+          <span>${tickersWithNews.length} หุ้น</span>
+          <span>·</span>
+          <span>อัปเดต ${ts}</span>
+        </div>
+        <div style="font-size:13.5px;color:var(--tx);line-height:1.8">
+          <p style="margin:10px 0;line-height:1.8">${html}</p>
+        </div>
+      </div>`;
+    statusEl.textContent = '';
+  } catch(e) {
+    statusEl.textContent = 'Error: ' + e.message;
+  }
+
+  if (btn) { btn.disabled = false; btn.textContent = '⚡ สรุปข่าวสั้น'; }
+}
+
 // ══════════════════════════════════════════════════════════
 // AI FEATURES — Claude API Integration
 // ══════════════════════════════════════════════════════════
@@ -6200,6 +6351,10 @@ function updateAlertLabel(){
       ข่าวหุ้นในพอร์ต
       <span class="sb-badge" id="sb-news-badge" style="display:none;background:var(--blue-bg);color:var(--blue)">ใหม่</span>
     </div>
+    <div class="sb-item" id="sb-brief" onclick="showFeature('brief')">
+      <div class="sb-item-icon" style="background:#fff7ed">⚡</div>
+      ข่าวสั้นประจำวัน
+    </div>
     <div class="sb-item" id="sb-analysis" onclick="showFeature('analysis')">
       <div class="sb-item-icon" style="background:#f0f0f5">🗂️</div>
       Sector Analysis
@@ -6662,6 +6817,27 @@ function updateAlertLabel(){
   </div>
 </div>
 
+
+<!-- ══════════════════ BRIEF PANEL ══════════════════ -->
+<div class="feat-panel" id="feat-brief">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">⚡ ข่าวสั้นประจำวัน</h2>
+    <div style="font-size:12px;color:var(--tx3)">สรุป AI จากหุ้นใน SET DR + DIME-USA</div>
+    <button id="brief-run-btn" onclick="runBrief()"
+      style="margin-left:auto;background:linear-gradient(135deg,#f97316,#f59e0b);color:#fff;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">
+      ⚡ สรุปข่าวสั้น
+    </button>
+  </div>
+  <div id="brief-status" style="font-size:12px;color:var(--tx3);margin-bottom:12px;min-height:18px"></div>
+  <div id="brief-result">
+    <div class="empty" style="padding:60px 20px">
+      <div class="empty-ico">⚡</div>
+      <div>กด "สรุปข่าวสั้น" เพื่อดูข่าวสำคัญประจำวันของหุ้นทั้งหมด</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px">ครอบคลุม SET DR (13 ตัว) + DIME-USA · ใช้เวลา ~20-30 วินาที</div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════ FINANCIALS PANEL ══════════════════ -->
 <div class="feat-panel" id="feat-financials">

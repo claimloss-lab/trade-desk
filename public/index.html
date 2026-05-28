@@ -1315,7 +1315,16 @@ function renderPortfolio(portId) {
     });
   }
   if(barC){
-    const bd2=port.stocks.map(s=>{const p=prices[s.ticker+'_'+portId];return{t:s.ticker,v:p?(p.price-s.buyPrice)*s.qty:0};}).sort((a,b)=>b.v-a.v);
+    const isUSbar = port.type==='realtime_us';
+    const bd2=port.stocks.map(s=>{
+      const p=prices[s.ticker+'_'+portId];
+      if(!p) return {t:s.ticker, v:0};
+      // ใช้ buyPrice ให้ตรงกับตาราง: realtime_us ใช้ buyPriceUSD (หรือ <500 = USD แล้ว)
+      const buyForCalc = isUSbar ? (s.buyPriceUSD || s.buyPrice) : s.buyPrice;
+      const pnlRaw = (p.price - buyForCalc) * s.qty;
+      // แปลงเป็น THB สำหรับ realtime_us ให้สเกลตรงกับพอร์ตอื่น
+      return {t:s.ticker, v: isUSbar ? pnlRaw * usdThbRate : pnlRaw};
+    }).sort((a,b)=>b.v-a.v);
     charts[portId+'-bar']=new Chart(barC.getContext('2d'),{
       type:'bar',data:{labels:bd2.map(d=>d.t),datasets:[{data:bd2.map(d=>cv(d.v)),backgroundColor:bd2.map(d=>d.v>=0?'rgba(48,209,88,.7)':'rgba(255,59,48,.7)'),borderRadius:4,borderSkipped:false}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
@@ -1323,8 +1332,12 @@ function renderPortfolio(portId) {
     });
   }
   if(hmEl){
+    const isUShm = port.type==='realtime_us';
     hmEl.innerHTML=port.stocks.map(s=>{
-      const p=prices[s.ticker+'_'+portId],pct3=p?(p.price-s.buyPrice)/s.buyPrice*100:0;
+      const p=prices[s.ticker+'_'+portId];
+      // ใช้ buyPrice ให้ตรงกับตาราง — % เป็นค่าเดียวกันไม่ว่า USD หรือ THB
+      const buyForCalc = isUShm ? (s.buyPriceUSD || s.buyPrice) : s.buyPrice;
+      const pct3=p?(p.price-buyForCalc)/buyForCalc*100:0;
       const inten=Math.min(Math.abs(pct3)/20,1);
       const bg=pct3>0?`rgba(48,209,88,${.1+inten*.3})`:pct3<0?`rgba(255,59,48,${.1+inten*.3})`:'rgba(0,0,0,.04)';
       const tc=pct3>0?'var(--green-tx)':pct3<0?'var(--red-tx)':'var(--tx2)';

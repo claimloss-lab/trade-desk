@@ -1,7 +1,7 @@
 {
   "version": "3",
-  "exportDate": "2026-05-29T06:38:36.549Z",
-  "exportDateTH": "29 พฤษภาคม 2569 เวลา 13:38",
+  "exportDate": "2026-05-29T06:39:00.665Z",
+  "exportDateTH": "29 พฤษภาคม 2569 เวลา 13:39",
   "portfolios": [
     {
       "id": "dr1",
@@ -539,6 +539,16 @@
       "ticker": "BDMS.BK",
       "targetPrice": 18.1,
       "qty": 200,
+      "note": "DCA_05/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "29 พ.ค. 69"
+    },
+    {
+      "id": 1780036730662,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6,
+      "qty": 500,
       "note": "DCA_05/2026",
       "cond": "below",
       "status": "pending",

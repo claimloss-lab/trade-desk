@@ -1,6 +1,6 @@
 {
   "version": "3",
-  "exportDate": "2026-05-29T06:39:00.665Z",
+  "exportDate": "2026-05-29T06:39:33.931Z",
   "exportDateTH": "29 พฤษภาคม 2569 เวลา 13:39",
   "portfolios": [
     {
@@ -549,6 +549,16 @@
       "ticker": "HMPRO.BK",
       "targetPrice": 6,
       "qty": 500,
+      "note": "DCA_05/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "29 พ.ค. 69"
+    },
+    {
+      "id": 1780036763550,
+      "ticker": "TU",
+      "targetPrice": 11.1,
+      "qty": 300,
       "note": "DCA_05/2026",
       "cond": "below",
       "status": "pending",

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-06-05T02:12:22.478Z",
-  "exportDateTH": "5 มิถุนายน 2569 เวลา 09:12",
+  "exportDate": "2026-06-05T02:13:31.598Z",
+  "exportDateTH": "5 มิถุนายน 2569 เวลา 09:13",
   "portfolios": [
     {
       "id": "dr1",
@@ -319,10 +319,10 @@
           "id": 3,
           "ticker": "VEA",
           "qty": 3.966,
-          "buyPrice": 110.18819566313684,
+          "buyPrice": 56.33,
           "sector": "ETF",
           "underlying": "Vanguard Dev. Markets ETF",
-          "buyPriceUSD": 55.92
+          "buyPriceUSD": 56.33
         },
         {
           "id": 4,

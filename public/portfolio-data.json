@@ -1,7 +1,7 @@
 {
-  "version": "3",
-  "exportDate": "2026-05-29T06:39:33.931Z",
-  "exportDateTH": "29 พฤษภาคม 2569 เวลา 13:39",
+  "version": "2.0",
+  "exportDate": "2026-06-05T02:11:54.255Z",
+  "exportDateTH": "5 มิถุนายน 2569 เวลา 09:11",
   "portfolios": [
     {
       "id": "dr1",
@@ -309,8 +309,8 @@
         {
           "id": 2,
           "ticker": "VCIT",
-          "qty": 4.064,
-          "buyPrice": 82.59,
+          "qty": 4.316,
+          "buyPrice": 234.7937085264132,
           "sector": "ETF",
           "underlying": "Vanguard Corp Bond ETF",
           "buyPriceUSD": 82.59
@@ -473,99 +473,20 @@
       "snapshots": []
     }
   ],
-  "watchlist": [
-    {
-      "id": 1778479684358,
-      "ticker": "TISCO.BK",
-      "targetPrice": 109,
-      "qty": 100,
-      "note": "DCA_04/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
-    },
-    {
-      "id": 1778479777045,
-      "ticker": "CPALL.BK",
-      "targetPrice": 44.5,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 43.75
-    },
-    {
-      "id": 1778479794226,
-      "ticker": "BDMS.BK",
-      "targetPrice": 18.4,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 18.2
-    },
-    {
-      "id": 1778479813072,
-      "ticker": "TU.BK",
-      "targetPrice": 11.2,
-      "qty": 200,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true
-    },
-    {
-      "id": 1778479826604,
-      "ticker": "HMPRO.BK",
-      "targetPrice": 6.1,
-      "qty": 100,
-      "note": "DCA_03/2026",
-      "cond": "below",
-      "status": "done",
-      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
-      "_notified": true,
-      "doneDate": "13 พ.ค. 69",
-      "actualPrice": 5.95
-    },
-    {
-      "id": 1780036706545,
-      "ticker": "BDMS.BK",
-      "targetPrice": 18.1,
-      "qty": 200,
-      "note": "DCA_05/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "29 พ.ค. 69"
-    },
-    {
-      "id": 1780036730662,
-      "ticker": "HMPRO.BK",
-      "targetPrice": 6,
-      "qty": 500,
-      "note": "DCA_05/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "29 พ.ค. 69"
-    },
-    {
-      "id": 1780036763550,
-      "ticker": "TU",
-      "targetPrice": 11.1,
-      "qty": 300,
-      "note": "DCA_05/2026",
-      "cond": "below",
-      "status": "pending",
-      "addedDate": "29 พ.ค. 69"
-    }
-  ],
   "transactions": [
+    {
+      "id": 1780625511248,
+      "ticker": "VCIT",
+      "type": "buy",
+      "date": "2026-06-05",
+      "price": 2689.3805,
+      "qty": 0.2519999999999998,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1779947445095,
       "ticker": "ORCL",
@@ -1726,6 +1647,105 @@
       "note": "auto (THB)"
     }
   ],
+  "watchlist": [
+    {
+      "id": 1778479684358,
+      "ticker": "TISCO.BK",
+      "targetPrice": 109,
+      "qty": 100,
+      "note": "DCA_04/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69"
+    },
+    {
+      "id": 1778479777045,
+      "ticker": "CPALL.BK",
+      "targetPrice": 44.5,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 43.75
+    },
+    {
+      "id": 1778479794226,
+      "ticker": "BDMS.BK",
+      "targetPrice": 18.4,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 18.2
+    },
+    {
+      "id": 1778479813072,
+      "ticker": "TU.BK",
+      "targetPrice": 11.2,
+      "qty": 200,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true
+    },
+    {
+      "id": 1778479826604,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6.1,
+      "qty": 100,
+      "note": "DCA_03/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "11 Ã Â¸Â.Ã Â¸Â. 69",
+      "_notified": true,
+      "doneDate": "13 พ.ค. 69",
+      "actualPrice": 5.95
+    },
+    {
+      "id": 1780036706545,
+      "ticker": "BDMS.BK",
+      "targetPrice": 18.1,
+      "qty": 200,
+      "note": "DCA_05/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "29 พ.ค. 69"
+    },
+    {
+      "id": 1780036730662,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6,
+      "qty": 500,
+      "note": "DCA_05/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "29 พ.ค. 69",
+      "_notified": true
+    },
+    {
+      "id": 1780036763550,
+      "ticker": "TU",
+      "targetPrice": 11.1,
+      "qty": 300,
+      "note": "DCA_05/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "29 พ.ค. 69"
+    }
+  ],
   "dcaHistory": [],
-  "currency": "THB"
+  "currency": "THB",
+  "summary": {
+    "totalPorts": 10,
+    "totalStocks": 42,
+    "totalTransactions": 22,
+    "totalNetWorth": "฿1,645,458.88"
+  }
 }

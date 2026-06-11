@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-06-11T05:37:54.678Z",
-  "exportDateTH": "11 มิถุนายน 2569 เวลา 12:37",
+  "exportDate": "2026-06-11T05:38:10.305Z",
+  "exportDateTH": "11 มิถุนายน 2569 เวลา 12:38",
   "portfolios": [
     {
       "id": "dr1",
@@ -369,7 +369,7 @@
           "id": 1778630716727,
           "ticker": "KKP-US500-UH-E",
           "qty": 308.837,
-          "buyPrice": 12.8055,
+          "buyPrice": 12.9518,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",

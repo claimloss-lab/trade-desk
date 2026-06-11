@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-06-11T05:38:32.698Z",
+  "exportDate": "2026-06-11T05:38:41.630Z",
   "exportDateTH": "11 มิถุนายน 2569 เวลา 12:38",
   "portfolios": [
     {
@@ -379,7 +379,7 @@
         {
           "id": 1778630781570,
           "ticker": "KKP-NDQ100-UH-E",
-          "qty": 58.2553,
+          "qty": 114.9317,
           "buyPrice": 17.4016,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
@@ -1797,6 +1797,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 26,
-    "totalNetWorth": "฿1,612,633.65"
+    "totalNetWorth": "฿1,613,610.04"
   }
 }

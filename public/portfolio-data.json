@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-06-08T23:56:08.654Z",
-  "exportDateTH": "9 มิถุนายน 2569 เวลา 06:56",
+  "exportDate": "2026-06-11T05:37:54.678Z",
+  "exportDateTH": "11 มิถุนายน 2569 เวลา 12:37",
   "portfolios": [
     {
       "id": "dr1",
@@ -368,7 +368,7 @@
         {
           "id": 1778630716727,
           "ticker": "KKP-US500-UH-E",
-          "qty": 156.1828,
+          "qty": 308.837,
           "buyPrice": 12.8055,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
@@ -447,7 +447,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 10.7955,
-          "navDate": "9 มิ.ย. 69"
+          "navDate": "2026-06-05"
         }
       ],
       "cash": 0,
@@ -1797,6 +1797,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 26,
-    "totalNetWorth": "฿1,623,281.75"
+    "totalNetWorth": "฿1,612,633.65"
   }
 }

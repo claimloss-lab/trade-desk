@@ -77,6 +77,16 @@ export default {
   // Also allow manual trigger via GET /api/daily-summary
   async fetch(request, env) {
     const cors = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
+
+    // ป้องกันคนอื่นเรียก endpoint นี้โดยตรง
+    const secret = env.CRON_SECRET;
+    if (secret) {
+      const reqSecret = request.headers.get('X-Cron-Secret');
+      if (reqSecret !== secret) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: cors });
+      }
+    }
+
     try {
       const result = await runDailySummary(env);
       return new Response(JSON.stringify({ ok: true, ...result }), { headers: cors });

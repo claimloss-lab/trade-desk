@@ -2330,6 +2330,7 @@ async function fetchAlertPrice(ticker, alertId){
       if(!wlPrices) wlPrices={};
       wlPrices[ticker]=price;
       checkAlerts();
+      checkWatchlistAlerts();
       renderAlerts();
     }
   } catch(e){}
@@ -2343,22 +2344,21 @@ function checkWatchlistAlerts(){
     const portP=portStock?prices[portStock.ticker+'_'+port.id]:null;
     return wlPrices[w.ticker]||wlPrices[w.ticker+'.BK']||portP?.price||0;
   };
-  const triggered = watchlist.filter(w=>{
-    if(w.status!=='pending') return false;
+  watchlist.forEach(w=>{
+    if(w.status!=='pending') return;
     const curPrice = getPrice(w);
-    return curPrice && w.cond==='below' && curPrice<=w.targetPrice;
-  });
-  triggered.forEach(w=>{
-    const curPrice = getPrice(w);
-    if(!w._notified){
-      // LINE notification
-      const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ≤ เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;
+    if(!curPrice) return;
+    const hit = w.cond==='below' ? curPrice<=w.targetPrice : curPrice>=w.targetPrice;
+    // reset flag เมื่อราคาออกจากเขตเป้า (เผื่อแจ้งซ้ำได้อีกครั้ง)
+    if(!hit && w._notified) w._notified = false;
+    if(hit && !w._notified){
+      const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ${w.cond==='below'?'≤':'≥'} เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;
       sendLineMessage(lineMsg);
-      // Toast in-app
       showToast('🟢 '+w.ticker+' ถึงเป้า! ราคา ฿'+fn(curPrice)+' (เป้า ฿'+fn(w.targetPrice)+')');
       w._notified = true;
     }
   });
+  const triggered = watchlist.filter(w=>w.status==='pending' && w._notified);
   if(triggered.length){ updateWlBadge(); renderWatchlist(); }
 }
 function checkAlerts(){

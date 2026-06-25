@@ -50,14 +50,13 @@ export async function onRequest(context) {
   if (!GH_TOKEN)           return new Response(JSON.stringify({ error: 'GITHUB_TOKEN not set' }),{ status: 500, headers: cors });
 
   try {
-    // ── โหลด portfolio-data.json จาก GitHub ──
-    const ghRes = await fetch(
-      `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-      { headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'User-Agent': 'TradeDesk' } }
-    );
+    // ── โหลด portfolio-data.json จาก raw GitHub (public repo) ──
+    const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${FILE_PATH}`;
+    const ghRes = await fetch(rawUrl, {
+      headers: { 'Cache-Control': 'no-cache', 'User-Agent': 'TradeDesk' }
+    });
     if (!ghRes.ok) throw new Error('GitHub fetch failed: ' + ghRes.status);
-    const ghData       = await ghRes.json();
-    const portfolioData = JSON.parse(atob(ghData.content.replace(/\n/g, '')));
+    const portfolioData = await ghRes.json();
     const portfolios    = portfolioData.portfolios || [];
 
     // ── รวบรวม tickers ──

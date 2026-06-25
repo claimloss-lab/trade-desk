@@ -11,5 +11,8 @@ jobs:
     steps:
       - name: Trigger daily summary
         run: |
-          curl -sf -X GET "https://trade-desk.pages.dev/api/daily-summary" \
-            --max-time 30
+          echo "=== Calling daily-summary ==="
+          curl -s -X GET "https://trade-desk.pages.dev/api/daily-summary" \
+            --max-time 30 -w "\nHTTP_STATUS:%{http_code}" | tee /tmp/response.txt
+          echo ""
+          cat /tmp/response.txt

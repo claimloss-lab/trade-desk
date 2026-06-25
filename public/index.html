@@ -583,20 +583,17 @@ function buildSymbol(ticker, portType) {
   return null;
 }
 
-async function fetchPrice(ticker, portType) {
+async function fetchPrice(ticker, portType, portId) {
   const sym = buildSymbol(ticker, portType);
   if (!sym) return null;
-  // Mutual funds now fetched via Settrade in Worker
-  // Determine API ticker: US stocks use raw ticker, others get .BK
   const apiTicker = portType === 'realtime_us' ? ticker : ticker;
   try {
     const r = await fetch(`/api/price?ticker=${encodeURIComponent(apiTicker)}`,{signal:safeSignal(10000)});
     if (!r.ok) return null;
     const d = await r.json();
     if (d.error || !d.price) return null;
-    // Store in sparkH with portId-based key for rendering
-    // portType used as fallback key too
-    const key = ticker+'_'+portType;
+    // Store sparkH with portId-based key (must match renderPortfolio reader)
+    const key = ticker+'_'+portId;
     if (!sparkH[key]) sparkH[key]=[];
     sparkH[key].push(d.price);
     if (sparkH[key].length>10) sparkH[key].shift();
@@ -613,7 +610,7 @@ async function refreshAll(silent=false) {
     port.stocks.map(async s => {
       // For dime_mixed THB funds → fetch from Settrade via Worker
       const fetchType = port.type==='dime_mixed' ? 'realtime_us' : port.type;
-      const r = await fetchPrice(s.ticker, fetchType);
+      const r = await fetchPrice(s.ticker, fetchType, port.id);
       if (r) prices[s.ticker+'_'+port.id] = r;
     })
   ));
@@ -1084,7 +1081,7 @@ function addDimeStock(portId, currency){
     if(!ticker||!qty||!price){alert('กรอกข้อมูลให้ครบ');return;}
     port.stocks.push({id:Date.now(),ticker,qty,buyPrice:price,sector,underlying:name||autoInfo(ticker).underlying,currency:'USD'});
     ['ut','un','uq','up'].forEach(s=>{const el=document.getElementById(portId+'-'+s);if(el)el.value='';});
-    fetchPrice(ticker,'realtime_us').then(r=>{if(r)prices[ticker+'_'+portId]=r;renderDime(portId);renderOverview();});
+    fetchPrice(ticker,'realtime_us',portId).then(r=>{if(r)prices[ticker+'_'+portId]=r;renderDime(portId);renderOverview();});
   }
   savePorts(); renderDime(portId); renderOverview();
 }
@@ -1503,7 +1500,7 @@ function addStock(portId) {
   saveFeatures(); updateSbBadges();
   savePorts();
   [portId+'-ti',portId+'-bp',portId+'-qty',portId+'-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  fetchPrice(ticker,port.type).then(r=>{if(r)prices[ticker+'_'+portId]=r;renderPortfolio(portId);renderOverview();});
+  fetchPrice(ticker,port.type,portId).then(r=>{if(r)prices[ticker+'_'+portId]=r;renderPortfolio(portId);renderOverview();});
   renderPortfolio(portId);renderOverview();
 }
 
@@ -1631,7 +1628,7 @@ async function refreshPort(portId){
   const port=getPort(portId);
   if(!port||port.type==='snapshot')return;
   await Promise.all(port.stocks.map(async s=>{
-    const r=await fetchPrice(s.ticker,port.type);
+    const r=await fetchPrice(s.ticker,port.type,portId);
     if(r) prices[s.ticker+'_'+portId]=r;
   }));
   renderPortfolio(portId);renderOverview();

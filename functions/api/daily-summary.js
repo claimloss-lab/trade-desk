@@ -1,10 +1,20 @@
 /**
  * /api/daily-summary — Cloudflare Pages Function
  * GitHub Actions เรียกทุกวัน 08:00 ICT
+ *
+ * Snapshot เก็บแยกใน public/daily-snapshot.json (ไม่แตะ portfolio-data.json
+ * เพื่อเลี่ยง race condition กับ auto-save ของ app)
+ *
+ * Env (Cloudflare Pages → Variables and secrets):
+ *   LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID  — บังคับ
+ *   GITHUB_TOKEN                              — ต้องมี scope repo + valid
+ *                                               (ใช้เขียน snapshot กลับ; ถ้าไม่มี
+ *                                                day-over-day ของพอร์ตจะไม่ทำงาน)
  */
 
-const REPO      = 'claimloss-lab/trade-desk';
-const FILE_PATH = 'public/portfolio-data.json';
+const REPO          = 'claimloss-lab/trade-desk';
+const DATA_PATH     = 'public/portfolio-data.json';
+const SNAPSHOT_PATH = 'public/daily-snapshot.json';
 
 // ── Formatters ────────────────────────────────────────────────────────────────
 function fm(n, dec = 2) {
@@ -12,14 +22,10 @@ function fm(n, dec = 2) {
   return Number(n).toLocaleString('th-TH', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 }
 function fmSign(n, dec = 2) {
-  const s = fm(Math.abs(n), dec);
-  return (n >= 0 ? '+' : '−') + s;
+  return (n >= 0 ? '+' : '-') + fm(Math.abs(n), dec);
 }
 function arrow(n) { return n > 0 ? '▲' : n < 0 ? '▼' : '─'; }
-function bar(pct, max = 100) {
-  const filled = Math.round(Math.min(Math.abs(pct), max) / max * 8);
-  return '█'.repeat(filled) + '░'.repeat(8 - filled);
-}
+function dot(n)   { return n >= 0 ? '🟢' : '🔴'; }
 
 // ── Fetch price via /api/price ────────────────────────────────────────────────
 async function fetchPrice(ticker, baseUrl) {
@@ -28,7 +34,7 @@ async function fetchPrice(ticker, baseUrl) {
       { signal: AbortSignal.timeout(8000) });
     if (!r.ok) return null;
     const d = await r.json();
-    return d.price || null;
+    return (typeof d.price === 'number' && d.price > 0) ? d.price : null;
   } catch { return null; }
 }
 
@@ -41,24 +47,45 @@ async function sendLine(token, userId, text) {
   });
 }
 
-// ── Push snapshot back to GitHub ──────────────────────────────────────────────
-async function pushSnapshot(ghToken, snapshot, currentContent, fileSha) {
-  const updated = { ...currentContent, daily_snapshot: snapshot };
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(updated, null, 2))));
-  await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `token ${ghToken}`,
-      Accept: 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      'User-Agent': 'TradeDesk',
-    },
-    body: JSON.stringify({
-      message: 'chore: update daily_snapshot',
-      content,
-      sha: fileSha,
-    }),
-  });
+// ── Read snapshot file (raw, public) ──────────────────────────────────────────
+async function readSnapshot() {
+  try {
+    const r = await fetch(
+      `https://raw.githubusercontent.com/${REPO}/main/${SNAPSHOT_PATH}?t=${Date.now()}`,
+      { headers: { 'Cache-Control': 'no-cache' } }
+    );
+    if (!r.ok) return null;       // ยังไม่มีไฟล์ (วันแรก)
+    return await r.json();
+  } catch { return null; }
+}
+
+// ── Write snapshot file via GitHub API ────────────────────────────────────────
+// คืน true ถ้าเขียนสำเร็จ
+async function writeSnapshot(ghToken, snapshot) {
+  if (!ghToken) return false;
+  const apiUrl = `https://api.github.com/repos/${REPO}/contents/${SNAPSHOT_PATH}`;
+  const ghHeaders = {
+    Authorization: `token ${ghToken}`,
+    Accept: 'application/vnd.github.v3+json',
+    'User-Agent': 'TradeDesk',
+    'Content-Type': 'application/json',
+  };
+
+  // หา sha เดิม (ถ้ามี) เพื่อ update; ถ้าไม่มี = สร้างใหม่
+  let sha = null;
+  try {
+    const head = await fetch(apiUrl, { headers: ghHeaders });
+    if (head.ok) sha = (await head.json()).sha;
+  } catch {}
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(snapshot, null, 2))));
+  const body = { message: 'chore: update daily-snapshot', content };
+  if (sha) body.sha = sha;
+
+  try {
+    const res = await fetch(apiUrl, { method: 'PUT', headers: ghHeaders, body: JSON.stringify(body) });
+    return res.ok;
+  } catch { return false; }
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
@@ -71,45 +98,32 @@ export async function onRequest(context) {
   const LINE_USER  = env.LINE_USER_ID;
   const GH_TOKEN   = env.GITHUB_TOKEN;
 
-  if (!LINE_TOKEN || !LINE_USER) return new Response(JSON.stringify({ error: 'LINE env not set' }), { status: 500, headers: cors });
+  if (!LINE_TOKEN || !LINE_USER) {
+    return new Response(JSON.stringify({ error: 'LINE env not set' }), { status: 500, headers: cors });
+  }
 
   try {
-    // ── 1. โหลด portfolio-data.json ──
-    const rawRes = await fetch(
-      `https://raw.githubusercontent.com/${REPO}/main/${FILE_PATH}`,
-      { headers: { 'Cache-Control': 'no-cache' } }
-    );
-    if (!rawRes.ok) throw new Error('GitHub fetch failed: ' + rawRes.status);
-    const portfolioData = await rawRes.json();
+    // ── 1. โหลด portfolio + snapshot เมื่อวาน (parallel) ──
+    const [dataRes, snapshot] = await Promise.all([
+      fetch(`https://raw.githubusercontent.com/${REPO}/main/${DATA_PATH}?t=${Date.now()}`,
+            { headers: { 'Cache-Control': 'no-cache' } }),
+      readSnapshot(),
+    ]);
+    if (!dataRes.ok) throw new Error('portfolio-data fetch failed: ' + dataRes.status);
+    const portfolioData = await dataRes.json();
     const portfolios    = portfolioData.portfolios || [];
-    const snapshot      = portfolioData.daily_snapshot || null; // เมื่อวาน
 
-    // ── 2. ดึง SHA สำหรับ push snapshot (ต้องการ GH_TOKEN) ──
-    let fileSha = null;
-    let rawContent = null;
-    if (GH_TOKEN) {
-      const apiRes = await fetch(
-        `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-        { headers: { Authorization: `token ${GH_TOKEN}`, Accept: 'application/vnd.github.v3+json', 'User-Agent': 'TradeDesk' } }
-      );
-      if (apiRes.ok) {
-        const apiData = await apiRes.json();
-        fileSha      = apiData.sha;
-        rawContent   = portfolioData;
-      }
-    }
-
-    // ── 3. รวบรวม tickers + ดึงราคา parallel ──
+    // ── 2. รวบรวม tickers + ดึงราคา parallel ──
     const tickerSet = new Set();
     portfolios.forEach(p => (p.stocks || []).forEach(s => s.ticker && tickerSet.add(s.ticker)));
-    const baseUrl = new URL(req.url).origin;
+    const baseUrl  = new URL(req.url).origin;
     const priceMap = {};
     await Promise.all([...tickerSet].map(async t => {
       const p = await fetchPrice(t, baseUrl);
       if (p) priceMap[t] = p;
     }));
 
-    // ── 4. คำนวณ net worth + per-stock ──
+    // ── 3. คำนวณ net worth + per-stock P/L (เทียบราคาซื้อ) ──
     let totalNetWorth = 0;
     const stockValues = [];
     portfolios.forEach(p => {
@@ -118,83 +132,77 @@ export async function onRequest(context) {
         if (!price || !s.qty) return;
         const value  = price * s.qty;
         const cost   = (s.buyPrice || 0) * s.qty;
-        const pnl    = value - cost;
-        const pnlPct = cost > 0 ? (pnl / cost) * 100 : 0;
+        const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
         totalNetWorth += value;
-        stockValues.push({ ticker: s.ticker, value, pnl, pnlPct, price });
+        if (pnlPct != null) stockValues.push({ ticker: s.ticker, price, pnlPct });
       });
     });
 
-    // ── 5. เปรียบเทียบกับ snapshot เมื่อวาน ──
-    const prevNW      = snapshot?.netWorth || null;
+    // ── 4. net worth เทียบเมื่อวาน (day-over-day) ──
+    const prevNW      = (snapshot && typeof snapshot.netWorth === 'number') ? snapshot.netWorth : null;
     const nwChange    = prevNW != null ? totalNetWorth - prevNW : null;
-    const nwChangePct = prevNW != null && prevNW > 0 ? (nwChange / prevNW) * 100 : null;
+    const nwChangePct = (prevNW != null && prevNW > 0) ? (nwChange / prevNW) * 100 : null;
 
-    // per-stock เทียบราคาเมื่อวาน
-    const prevPrices = snapshot?.prices || {};
-    const stockDiffs = stockValues.map(s => {
-      const prev    = prevPrices[s.ticker] || null;
-      const dayChg  = prev != null ? ((s.price - prev) / prev) * 100 : null;
-      return { ...s, prev, dayChg };
-    }).filter(s => s.dayChg != null);
-    stockDiffs.sort((a, b) => b.dayChg - a.dayChg);
-    const topGainer = stockDiffs[0]    || null;
-    const topLoser  = stockDiffs[stockDiffs.length - 1] || null;
+    // ── 5. หุ้นกำไร/ขาดทุนสูงสุด (เทียบราคาซื้อ) ──
+    //     dedupe ตาม ticker (เก็บตัวที่ pnlPct สูงสุดของแต่ละ ticker)
+    const byTicker = {};
+    stockValues.forEach(s => {
+      const k = s.ticker;
+      if (!byTicker[k] || s.pnlPct > byTicker[k].pnlPct) byTicker[k] = s;
+    });
+    const uniq = Object.values(byTicker).sort((a, b) => b.pnlPct - a.pnlPct);
+    const topGainer = uniq[0] || null;
+    const topLoser  = uniq.length > 1 ? uniq[uniq.length - 1] : null;
 
     // ── 6. Format message ──
     const today = new Date().toLocaleDateString('th-TH', {
       weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Bangkok',
     });
 
-    const nwArrow  = nwChange != null ? arrow(nwChange) : '';
-    const nwLine1  = `💰 มูลค่าพอร์ตรวม`;
-    const nwLine2  = `฿${fm(totalNetWorth)}`;
-    const nwLine3  = nwChange != null
-      ? `${nwArrow} ${fmSign(nwChange)} บาท  (${fmSign(nwChangePct, 2)}%)`
+    const nwLine3 = nwChange != null
+      ? `${arrow(nwChange)} ${fmSign(nwChange)} บาท  (${fmSign(nwChangePct)}%)`
       : `─ ยังไม่มีข้อมูลเมื่อวาน`;
 
-    const gainLine = topGainer
-      ? `🟢 ${topGainer.ticker.replace('.BK','')}\n   ▲ ${fm(topGainer.dayChg)}%  ฿${fm(topGainer.price)}`
-      : '';
-    const loseLine = topLoser && topLoser.ticker !== topGainer?.ticker
-      ? `🔴 ${topLoser.ticker.replace('.BK','')}\n   ▼ ${fm(Math.abs(topLoser.dayChg))}%  ฿${fm(topLoser.price)}`
-      : '';
+    const fmtStock = (s, label) =>
+      `${dot(s.pnlPct)} ${label}: ${s.ticker.replace('.BK','')}\n   ${arrow(s.pnlPct)} ${fmSign(s.pnlPct)}%  ฿${fm(s.price)}`;
 
     const lines = [
       `📊 TradeDesk Daily Summary`,
       `📅 ${today}`,
       ``,
-      nwLine1,
-      nwLine2,
+      `💰 มูลค่าพอร์ตรวม`,
+      `฿${fm(totalNetWorth)}`,
       nwLine3,
       ``,
-      `┄┄┄ วันนี้ vs เมื่อวาน ┄┄┄`,
-      gainLine,
-      loseLine || '',
+      `┄┄┄ กำไร/ขาดทุนสูงสุด ┄┄┄`,
+      topGainer ? fmtStock(topGainer, 'สูงสุด') : '',
+      (topLoser && topLoser.ticker !== topGainer?.ticker) ? fmtStock(topLoser, 'ต่ำสุด') : '',
       ``,
       `🔗 trade-desk.pages.dev`,
-    ].filter(l => l !== undefined);
+    ].filter(l => l !== '');
 
     const message = lines.join('\n');
 
     // ── 7. ส่ง LINE ──
     const lineRes = await sendLine(LINE_TOKEN, LINE_USER, message);
     if (!lineRes.ok) {
-      const err = await lineRes.text();
-      throw new Error('LINE send failed: ' + err);
+      throw new Error('LINE send failed: ' + (await lineRes.text()));
     }
 
-    // ── 8. บันทึก snapshot วันนี้กลับ GitHub ──
-    if (GH_TOKEN && fileSha) {
-      const newSnapshot = {
-        date:     new Date().toISOString(),
-        netWorth: totalNetWorth,
-        prices:   priceMap,
-      };
-      await pushSnapshot(GH_TOKEN, newSnapshot, rawContent, fileSha);
-    }
+    // ── 8. เขียน snapshot วันนี้ (เก็บแค่ netWorth + date) ──
+    const snapshotSaved = await writeSnapshot(GH_TOKEN, {
+      date:     new Date().toISOString(),
+      netWorth: totalNetWorth,
+    });
 
-    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, message }), { headers: cors });
+    return new Response(JSON.stringify({
+      ok: true,
+      totalNetWorth,
+      nwChange,
+      snapshotSaved,
+      stockCount: stockValues.length,
+      message,
+    }), { headers: cors });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

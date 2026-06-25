@@ -39,7 +39,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--sans);min-height:100
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .pin-err{font-size:12px;color:var(--red);height:16px;margin-bottom:14px}
 .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pin-k{background:var(--s2);border:1px solid var(--bd);border-radius:11px;padding:13px;font-size:17px;font-weight:500;cursor:pointer;transition:all .1s;user-select:none;font-family:var(--mono);pointer-events:auto!important}
+.pin-k{background:var(--s2);border:1px solid var(--bd);border-radius:11px;padding:13px;font-size:17px;font-weight:500;cursor:pointer;transition:all .1s;user-select:none;font-family:var(--mono);pointer-events:auto!important;-webkit-appearance:none;appearance:none;}
 .pin-k:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
 .pin-k:active{transform:scale(.93)}
 
@@ -193,6 +193,7 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 /* SENSITIVE */
 .locked .sens{filter:blur(7px);user-select:none;pointer-events:none;transition:filter .3s}
 .unlocked .sens{filter:none}
+#pin-ov, #pin-ov *{pointer-events:auto!important;filter:none!important;user-select:auto!important}
 
 /* EMPTY */
 .empty{text-align:center;padding:40px 20px;color:var(--tx3);font-size:13px}
@@ -256,10 +257,10 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
     </div>
     <div class="pin-err" id="pin-err"></div>
     <div class="pin-pad">
-      <div class="pin-k" onclick="pp('1')">1</div><div class="pin-k" onclick="pp('2')">2</div><div class="pin-k" onclick="pp('3')">3</div>
-      <div class="pin-k" onclick="pp('4')">4</div><div class="pin-k" onclick="pp('5')">5</div><div class="pin-k" onclick="pp('6')">6</div>
-      <div class="pin-k" onclick="pp('7')">7</div><div class="pin-k" onclick="pp('8')">8</div><div class="pin-k" onclick="pp('9')">9</div>
-      <div></div><div class="pin-k" onclick="pp('0')">0</div><div class="pin-k" onclick="pd()" style="font-size:14px">⌫</div>
+      <button class="pin-k" onclick="pp('1')">1</button><button class="pin-k" onclick="pp('2')">2</button><button class="pin-k" onclick="pp('3')">3</button>
+      <button class="pin-k" onclick="pp('4')">4</button><button class="pin-k" onclick="pp('5')">5</button><button class="pin-k" onclick="pp('6')">6</button>
+      <button class="pin-k" onclick="pp('7')">7</button><button class="pin-k" onclick="pp('8')">8</button><button class="pin-k" onclick="pp('9')">9</button>
+      <div></div><button class="pin-k" onclick="pp('0')">0</button><button class="pin-k" onclick="pd()" style="font-size:14px">⌫</button>
     </div>
   </div>
 </div>

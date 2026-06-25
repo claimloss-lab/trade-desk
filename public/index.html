@@ -2336,17 +2336,20 @@ async function fetchAlertPrice(ticker, alertId){
 }
 function checkWatchlistAlerts(){
   const _n = t=>t.replace(/\.BK$/i,'').toUpperCase();
-  const triggered = watchlist.filter(w=>{
-    if(w.status!=='pending') return false;
+  const getPrice = w => {
     const wTick=_n(w.ticker);
     const port=portfolios.find(p=>p.stocks?.some(s=>_n(s.ticker)===wTick));
     const portStock=port?.stocks?.find(s=>_n(s.ticker)===wTick);
     const portP=portStock?prices[portStock.ticker+'_'+port.id]:null;
-    const curPrice = wlPrices[w.ticker]||wlPrices[w.ticker+'.BK']||portP?.price;
+    return wlPrices[w.ticker]||wlPrices[w.ticker+'.BK']||portP?.price||0;
+  };
+  const triggered = watchlist.filter(w=>{
+    if(w.status!=='pending') return false;
+    const curPrice = getPrice(w);
     return curPrice && w.cond==='below' && curPrice<=w.targetPrice;
   });
   triggered.forEach(w=>{
-    const curPrice = wlPrices[w.ticker] || 0;
+    const curPrice = getPrice(w);
     if(!w._notified){
       // LINE notification
       const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ≤ เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;

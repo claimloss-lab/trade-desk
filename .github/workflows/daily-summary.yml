@@ -1,0 +1,16 @@
+name: Daily Portfolio Summary (LINE)
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 01:00 UTC = 08:00 ICT ทุกวัน
+  workflow_dispatch:        # รันมือได้จาก GitHub Actions tab
+
+jobs:
+  send-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger daily summary
+        run: |
+          curl -sf -X GET "https://trade-desk.pages.dev/api/daily-summary" \
+            -H "X-Cron-Secret: ${{ secrets.CRON_SECRET }}" \
+            --max-time 30

@@ -2912,7 +2912,7 @@ document.addEventListener('click',e=>{
 // BUY WATCHLIST
 // ══════════════════════════════════════════════════
 let watchlist = JSON.parse(localStorage.getItem('td_wl') || '[]');
-function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); scheduleAutoBackup(); }
+function saveWatchlist(){ localStorage.setItem('td_wl', JSON.stringify(watchlist)); scheduleGHSave(); }
 
 // Prices cache for watchlist tickers (fetched independently)
 const wlPrices = {};
@@ -5842,13 +5842,6 @@ async function restoreFromGitHub() {
     showToast('❌ Error: ' + e.message);
   }
   if (btn) { btn.disabled = false; btn.textContent = '🔄 Restore'; }
-}
-
-// Auto-backup every time data changes
-let backupTimer = null;
-function scheduleAutoBackup() {
-  clearTimeout(backupTimer);
-  backupTimer = setTimeout(() => backupToGitHub(), 10000); // 10s after last change
 }
 
 // Update backup status display

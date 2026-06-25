@@ -143,14 +143,19 @@ export async function onRequest(context) {
     const nwChange    = prevNW != null ? totalNetWorth - prevNW : null;
     const nwChangePct = (prevNW != null && prevNW > 0) ? (nwChange / prevNW) * 100 : null;
 
-    // ── 5. หุ้นกำไร/ขาดทุนสูงสุด (เทียบราคาซื้อ) ──
-    //     dedupe ตาม ticker (เก็บตัวที่ pnlPct สูงสุดของแต่ละ ticker)
+    // ── 5. หุ้นขึ้น/ลงมากสุด — % เปลี่ยนแปลงราคาวันต่อวัน ──
+    const prevPrices = (snapshot && snapshot.prices) ? snapshot.prices : {};
     const byTicker = {};
     stockValues.forEach(s => {
-      const k = s.ticker;
-      if (!byTicker[k] || s.pnlPct > byTicker[k].pnlPct) byTicker[k] = s;
+      const prev = prevPrices[s.ticker];
+      if (!prev || prev <= 0) return;
+      const dayChg = ((s.price - prev) / prev) * 100;
+      // dedup: เก็บตัวที่ dayChg สูงสุดของแต่ละ ticker
+      if (!byTicker[s.ticker] || dayChg > byTicker[s.ticker].dayChg) {
+        byTicker[s.ticker] = { ...s, dayChg };
+      }
     });
-    const uniq = Object.values(byTicker).sort((a, b) => b.pnlPct - a.pnlPct);
+    const uniq = Object.values(byTicker).sort((a, b) => b.dayChg - a.dayChg);
     const topGainer = uniq[0] || null;
     const topLoser  = uniq.length > 1 ? uniq[uniq.length - 1] : null;
 
@@ -164,7 +169,7 @@ export async function onRequest(context) {
       : `─ ยังไม่มีข้อมูลเมื่อวาน`;
 
     const fmtStock = (s, label) =>
-      `${dot(s.pnlPct)} ${label}: ${s.ticker.replace('.BK','')}\n   ${arrow(s.pnlPct)} ${fmSign(s.pnlPct)}%  ฿${fm(s.price)}`;
+      `${dot(s.dayChg)} ${label}: ${s.ticker.replace('.BK','')}\n   ${arrow(s.dayChg)} ${fmSign(s.dayChg)}%  ฿${fm(s.price)}`;
 
     const lines = [
       `📊 TradeDesk Daily Summary`,
@@ -174,9 +179,9 @@ export async function onRequest(context) {
       `฿${fm(totalNetWorth)}`,
       nwLine3,
       ``,
-      `┄┄┄ กำไร/ขาดทุนสูงสุด ┄┄┄`,
-      topGainer ? fmtStock(topGainer, 'สูงสุด') : '',
-      (topLoser && topLoser.ticker !== topGainer?.ticker) ? fmtStock(topLoser, 'ต่ำสุด') : '',
+      `┄┄┄ วันนี้ vs เมื่อวาน ┄┄┄`,
+      topGainer ? fmtStock(topGainer, 'ขึ้นมากสุด') : (uniq.length === 0 ? '─ ยังไม่มีข้อมูลเมื่อวาน' : ''),
+      (topLoser && topLoser.ticker !== topGainer?.ticker) ? fmtStock(topLoser, 'ลงมากสุด') : '',
       ``,
       `🔗 trade-desk.pages.dev`,
     ].filter(l => l !== '');
@@ -189,10 +194,11 @@ export async function onRequest(context) {
       throw new Error('LINE send failed: ' + (await lineRes.text()));
     }
 
-    // ── 8. เขียน snapshot วันนี้ (เก็บแค่ netWorth + date) ──
+    // ── 8. เขียน snapshot วันนี้ (netWorth + prices ทุกตัว) ──
     const snapshotSaved = await writeSnapshot(GH_TOKEN, {
       date:     new Date().toISOString(),
       netWorth: totalNetWorth,
+      prices:   priceMap,   // ← เก็บราคาทุกตัวสำหรับ day-over-day พรุ่งนี้
     });
 
     return new Response(JSON.stringify({

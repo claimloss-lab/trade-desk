@@ -1779,6 +1779,11 @@ async function boot(){
     });
   }, 3000);
   setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);
+  // Watchlist alert check ทุก 1 นาที (แยกจาก full refresh 5 นาที)
+  setInterval(()=>{
+    const hasPending = watchlist.some(w=>w.status==='pending');
+    if(hasPending) fetchWatchlistPrices();
+  }, 60000);
   // Daily auto-refresh check
   checkDailyRefresh();
 }

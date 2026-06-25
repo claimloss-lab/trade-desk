@@ -41,12 +41,7 @@ export async function onRequest(context) {
   const env  = context.env;
   const req  = context.request;
 
-  // ── ตรวจ CRON_SECRET ──
-  const secret = env.CRON_SECRET;
-  if (secret && req.headers.get('X-Cron-Secret') !== secret) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: cors });
-  }
-
+  // ── ดึงค่า env ──
   const TOKEN    = env.LINE_CHANNEL_ACCESS_TOKEN;
   const USER_ID  = env.LINE_USER_ID;
   const GH_TOKEN = env.GITHUB_TOKEN;

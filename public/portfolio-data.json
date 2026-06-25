@@ -15,7 +15,10 @@
           "buyPrice": 1.73,
           "id": 1,
           "sector": "Consumer",
-          "underlying": "Amazon"
+          "underlying": "Amazon",
+          "parentTicker": "AMZN",
+          "conversion": 4000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "ASML01",
@@ -23,7 +26,10 @@
           "buyPrice": 28.41,
           "id": 2,
           "sector": "Tech",
-          "underlying": "ASML"
+          "underlying": "ASML",
+          "parentTicker": "ASML",
+          "conversion": 340,
+          "drCurrency": "USD"
         },
         {
           "ticker": "AVGO80",
@@ -31,7 +37,10 @@
           "buyPrice": 2.28,
           "id": 3,
           "sector": "Tech",
-          "underlying": "Broadcom"
+          "underlying": "Broadcom",
+          "parentTicker": "AVGO",
+          "conversion": 5000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "CRWD80",
@@ -39,7 +48,10 @@
           "buyPrice": 15.01,
           "id": 4,
           "sector": "Tech",
-          "underlying": "CrowdStrike"
+          "underlying": "CrowdStrike",
+          "parentTicker": "CRWD",
+          "conversion": 1000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "GOOG80",
@@ -47,7 +59,10 @@
           "buyPrice": 4.55,
           "id": 5,
           "sector": "Tech",
-          "underlying": "Alphabet"
+          "underlying": "Alphabet",
+          "parentTicker": "GOOGL",
+          "conversion": 2000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "LLY80",
@@ -55,7 +70,10 @@
           "buyPrice": 1.35,
           "id": 6,
           "sector": "Healthcare",
-          "underlying": "Eli Lilly"
+          "underlying": "Eli Lilly",
+          "parentTicker": "LLY",
+          "conversion": 20000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "MSFT80",
@@ -63,7 +81,10 @@
           "buyPrice": 7.21,
           "id": 9,
           "sector": "Tech",
-          "underlying": "Microsoft"
+          "underlying": "Microsoft",
+          "parentTicker": "MSFT",
+          "conversion": 2000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "NVDA80",
@@ -71,7 +92,10 @@
           "buyPrice": 28.92,
           "id": 10,
           "sector": "Tech",
-          "underlying": "NVIDIA"
+          "underlying": "NVIDIA",
+          "parentTicker": "NVDA",
+          "conversion": 200,
+          "drCurrency": "USD"
         },
         {
           "ticker": "PANW80",
@@ -79,7 +103,10 @@
           "buyPrice": 6.08,
           "id": 11,
           "sector": "Tech",
-          "underlying": "Palo Alto"
+          "underlying": "Palo Alto",
+          "parentTicker": "PANW",
+          "conversion": 1000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "PLTR06",
@@ -87,7 +114,10 @@
           "buyPrice": 3.03,
           "id": 12,
           "sector": "Tech",
-          "underlying": "Palantir"
+          "underlying": "Palantir",
+          "parentTicker": "PLTR",
+          "conversion": 1500,
+          "drCurrency": "USD"
         },
         {
           "ticker": "QQQM19",
@@ -95,7 +125,10 @@
           "buyPrice": 15.95,
           "id": 13,
           "sector": "ETF",
-          "underlying": "Invesco QQQM"
+          "underlying": "Invesco QQQM",
+          "parentTicker": "QQQM",
+          "conversion": 500,
+          "drCurrency": "USD"
         },
         {
           "ticker": "SNOW06",
@@ -103,7 +136,10 @@
           "buyPrice": 3.07,
           "id": 14,
           "sector": "Tech",
-          "underlying": "Snowflake"
+          "underlying": "Snowflake",
+          "parentTicker": "SNOW",
+          "conversion": 2000,
+          "drCurrency": "USD"
         }
       ],
       "cash": 64.71,
@@ -1798,44 +1834,5 @@
     "totalStocks": 42,
     "totalTransactions": 26,
     "totalNetWorth": "฿1,613,396.38"
-  },
-  "daily_snapshot": {
-    "date": "2026-06-25T20:28:34.297Z",
-    "netWorth": 1383470.0600969638,
-    "prices": {
-      "AMZN80": 1.94,
-      "LLY80": 1.87,
-      "AVGO80": 2.62,
-      "ASML01": 51,
-      "GOOG80": 5.7,
-      "CRWD80": 22.5,
-      "PANW80": 9.45,
-      "NVDA80": 33.75,
-      "MSFT80": 6.15,
-      "PLTR06": 2.5,
-      "QQQM19": 20,
-      "SNOW06": 3.76,
-      "BDMS.BK": 18.4,
-      "CPN.BK": 67,
-      "CENTEL.BK": 37.5,
-      "HMPRO.BK": 6.4,
-      "CPALL.BK": 45,
-      "MINT.BK": 24.8,
-      "WHA.BK": 5.1,
-      "LHHOTEL.BK": 13.3,
-      "TU.BK": 11.6,
-      "TISCO.BK": 117.5,
-      "LHSC.BK": 14.4,
-      "MC.BK": 11.5,
-      "IXJ": 96.86,
-      "SMH": 636.88,
-      "IXN": 140.45,
-      "VTI": 363.98,
-      "LIT": 78.45,
-      "VEA": 71.16,
-      "VCIT": 82.79,
-      "VWO": 58.8,
-      "ORCL": 152.46
-    }
   }
 }

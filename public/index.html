@@ -2097,7 +2097,7 @@ async function sendLineMessage(message, tokenOverride, userIdOverride){
   } catch { return false; }
 }
 
-
+function updateGHBadge(){
   const el = document.getElementById('gh-status-badge');
   if(!el) return;
   const cfg = getGHConfig();

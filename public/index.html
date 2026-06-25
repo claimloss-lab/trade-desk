@@ -1757,6 +1757,7 @@ async function boot(){
   }
 
   updateGHBadge();
+  updateLineBadge();
   migrateUSPortPrices();
   buildNav();
   buildPanels();
@@ -1769,10 +1770,7 @@ async function boot(){
     localStorage.setItem('gh_repo', 'trade-desk');
   }
   updateGHBadge();
-  // Request browser notification permission for Price Alerts
-  if(typeof Notification !== 'undefined' && Notification.permission === 'default'){
-    Notification.requestPermission();
-  }
+  updateLineBadge();
   // Fetch historical sparklines after initial boot
   setTimeout(()=>{
     portfolios.forEach(p=>{
@@ -2013,7 +2011,92 @@ function clearGitHubSettings(){
   showToast('ลบ Token แล้ว');
 }
 
-function updateGHBadge(){
+// ══════════════════════════════════════════════════
+// LINE NOTIFICATION
+// ══════════════════════════════════════════════════
+function getLineConfig(){
+  return {
+    token:  localStorage.getItem('line_token') || '',
+    userId: localStorage.getItem('line_userid') || '',
+  };
+}
+
+function openLineSettings(){
+  closeSidebar();
+  const cfg = getLineConfig();
+  document.getElementById('line-token').value  = cfg.token;
+  document.getElementById('line-userid').value = cfg.userId;
+  document.getElementById('line-test-result').textContent = '';
+  document.getElementById('line-modal').style.display = 'flex';
+}
+
+function saveLineSettings(){
+  const token  = document.getElementById('line-token').value.trim();
+  const userId = document.getElementById('line-userid').value.trim();
+  if(!token || !userId){ alert('กรอกข้อมูลให้ครบ'); return; }
+  localStorage.setItem('line_token',  token);
+  localStorage.setItem('line_userid', userId);
+  updateLineBadge();
+  closeModal('line-modal');
+  showToast('✓ บันทึก LINE settings แล้ว');
+}
+
+function clearLineSettings(){
+  if(!confirm('ลบ LINE Token?')) return;
+  ['line_token','line_userid'].forEach(k=>localStorage.removeItem(k));
+  updateLineBadge();
+  closeModal('line-modal');
+  showToast('ลบ LINE Token แล้ว');
+}
+
+function updateLineBadge(){
+  const el = document.getElementById('line-status-badge');
+  if(!el) return;
+  const cfg = getLineConfig();
+  el.textContent = cfg.token ? 'เปิด' : 'ปิด';
+  el.style.background = cfg.token ? 'var(--green-bg)' : 'var(--s2)';
+  el.style.color = cfg.token ? 'var(--green-tx)' : 'var(--tx3)';
+}
+
+async function testLineConnection(){
+  const token  = document.getElementById('line-token').value.trim();
+  const userId = document.getElementById('line-userid').value.trim();
+  const resultEl = document.getElementById('line-test-result');
+  if(!token || !userId){ resultEl.textContent = 'กรอกข้อมูลให้ครบ'; return; }
+  resultEl.textContent = '⏳ กำลังทดสอบ...';
+  const ok = await sendLineMessage('🔌 TradeDesk: ทดสอบการเชื่อมต่อ LINE สำเร็จ! ✅', token, userId);
+  if(ok){
+    resultEl.innerHTML = '<span style="color:var(--green-tx)">✓ ส่งข้อความทดสอบสำเร็จ! เช็ค LINE ได้เลย</span>';
+  } else {
+    resultEl.innerHTML = '<span style="color:var(--red-tx)">✗ ส่งไม่สำเร็จ — ตรวจสอบ Token และ User ID</span>';
+  }
+}
+
+// Core LINE send function — calls Cloudflare Worker which holds env vars
+async function sendLineMessage(message, tokenOverride, userIdOverride){
+  // ถ้าผ่าน token โดยตรง (test mode) ให้ embed ใน header ผ่าน Worker
+  // Worker /api/line-message ใช้ env var ฝั่ง server เป็นหลัก
+  // แต่ถ้า user ตั้ง client-side token ไว้ ส่งผ่าน header เพิ่มเติม
+  const cfg = getLineConfig();
+  const token  = tokenOverride  || cfg.token;
+  const userId = userIdOverride || cfg.userId;
+  if(!token || !userId) return false;
+  try {
+    const r = await fetch('/api/line-message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Line-Token':   token,
+        'X-Line-Userid':  userId,
+      },
+      body: JSON.stringify({ message }),
+      signal: AbortSignal.timeout(10000),
+    });
+    return r.ok;
+  } catch { return false; }
+}
+
+
   const el = document.getElementById('gh-status-badge');
   if(!el) return;
   const cfg = getGHConfig();
@@ -2184,7 +2267,6 @@ function addAlert(){
   showToast('✅ เพิ่ม Alert '+ticker+' '+(cond==='above'?'≥':'≤')+' ฿'+fn(price));
   setTimeout(checkAlerts,500);
   document.getElementById('al-ticker').value='';document.getElementById('al-price').value='';
-  if(Notification.permission==='default') Notification.requestPermission();
 }
 function deleteAlert(id){alerts=alerts.filter(a=>a.id!==id);saveFeatures();renderAlerts();updateSbBadges();}
 function renderAlerts(){
@@ -2264,13 +2346,10 @@ function checkWatchlistAlerts(){
   });
   triggered.forEach(w=>{
     const curPrice = wlPrices[w.ticker] || 0;
-    // Browser notification
     if(!w._notified){
-      if(Notification.permission==='granted'){
-        new Notification('TradeDesk: ถึงเวลาซื้อ '+w.ticker+'!',{
-          body:'ราคา ฿'+fn(curPrice)+' ≤ เป้า ฿'+fn(w.targetPrice)+' · '+fq(w.qty)+' หุ้น'
-        });
-      }
+      // LINE notification
+      const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ≤ เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;
+      sendLineMessage(lineMsg);
       // Toast in-app
       showToast('🟢 '+w.ticker+' ถึงเป้า! ราคา ฿'+fn(curPrice)+' (เป้า ฿'+fn(w.targetPrice)+')');
       w._notified = true;
@@ -2302,12 +2381,8 @@ function checkAlerts(){
 
     const msg = `${a.ticker} ${a.cond==='above'?'≥':'≤'} ฿${fn(a.price)} · ราคาปัจจุบัน ฿${fn(curPrice)}`;
 
-    // Browser notification
-    if(Notification.permission==='granted'){
-      new Notification('🔔 TradeDesk Price Alert', { body: msg, icon: '/favicon.ico' });
-    } else if(Notification.permission==='default'){
-      Notification.requestPermission();
-    }
+    // LINE notification
+    sendLineMessage(`🔔 TradeDesk Price Alert\n${msg}`);
 
     // In-app toast
     showToast('🔔 ' + msg, 6000);
@@ -6412,6 +6487,11 @@ function updateAlertLabel(){
       <span>GitHub Auto-Save Settings</span>
       <span class="sb-badge" id="gh-status-badge">ปิด</span>
     </div>
+    <div class="sb-item" onclick="openLineSettings()">
+      <div class="sb-item-icon" style="background:#e6f9ed">💬</div>
+      <span>LINE Notification Settings</span>
+      <span class="sb-badge" id="line-status-badge">ปิด</span>
+    </div>
     <div class="sb-item" onclick="resetAndReload()">
       <div class="sb-item-icon" style="background:#fff0ef">↺</div>
       <span>Reset ข้อมูล</span>
@@ -7313,6 +7393,37 @@ function updateAlertLabel(){
   </div>
 </div>
 
+
+<!-- ══════════════════ LINE SETTINGS MODAL ══════════════════ -->
+<div id="line-modal" class="modal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
+  <div class="modal" style="width:min(460px,92vw);background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:24px">
+    <div style="font-size:16px;font-weight:600;margin-bottom:4px">💬 LINE Notification Settings</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:20px">รับแจ้งเตือนราคาและ daily summary ผ่าน LINE OA</div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Channel Access Token</label>
+      <input type="password" id="line-token" placeholder="ดูได้จาก LINE Developers Console" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">developers.line.biz → Channel → Messaging API → Channel access token</div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Your LINE User ID</label>
+      <input type="text" id="line-userid" placeholder="Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">LINE OA Manager → Add Friends Guide → Basic ID (หรือดูจาก Webhook event)</div>
+    </div>
+
+    <div id="line-test-result" style="font-size:12px;margin-bottom:12px;min-height:18px"></div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="testLineConnection()" style="flex:1;padding:8px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;background:var(--s2);color:var(--tx)">🔌 ทดสอบ</button>
+      <button onclick="saveLineSettings()" style="flex:2;padding:8px;background:#06C755;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500">💾 บันทึก</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:10px">
+      <button onclick="clearLineSettings()" style="padding:6px 12px;background:none;border:1px solid var(--red);color:var(--red-tx);border-radius:8px;cursor:pointer;font-size:12px">🗑️ ลบ Token</button>
+      <button onclick="closeModal('line-modal')" style="padding:6px 12px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;font-size:12px;color:var(--tx2)">ปิด</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════ WATCHLIST MODAL ══════════════════ -->
 <div id="wl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">

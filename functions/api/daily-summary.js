@@ -161,9 +161,8 @@ export async function onRequest(context) {
       : '';
 
     const lines = [
-      `╔══════════════════════╗`,
-      `   📊 TradeDesk  ${today}`,
-      `╚══════════════════════╝`,
+      `📊 TradeDesk Daily Summary`,
+      `📅 ${today}`,
       ``,
       nwLine1,
       nwLine2,

@@ -12,5 +12,4 @@ jobs:
       - name: Trigger daily summary
         run: |
           curl -sf -X GET "https://trade-desk.pages.dev/api/daily-summary" \
-            -H "X-Cron-Secret: ${{ secrets.CRON_SECRET }}" \
             --max-time 30

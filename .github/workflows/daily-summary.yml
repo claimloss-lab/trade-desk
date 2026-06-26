@@ -2,7 +2,7 @@ name: Daily Portfolio Summary (LINE)
 
 on:
   schedule:
-    - cron: '30 0 * * *'   # 00:30 UTC = 07:30 ICT (เผื่อ delay ถึง 08:00)
+    - cron: '0 1 * * *'   # 01:00 UTC = 08:00 ICT
   workflow_dispatch:        # รันมือได้จาก GitHub Actions tab
 
 jobs:

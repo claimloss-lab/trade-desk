@@ -5338,6 +5338,156 @@ function renderBriefHTML(text, count, today) {
   </div>`;
 }
 
+// ─── DR Fair Value Scanner ───────────────────────────────────────────────────
+
+const DR_LIST = [
+  {dr:'AMZN80',parent:'AMZN',conv:4000,name:'Amazon'},
+  {dr:'AAPL80',parent:'AAPL',conv:4000,name:'Apple'},
+  {dr:'GOOG80',parent:'GOOGL',conv:2000,name:'Alphabet'},
+  {dr:'MSFT80',parent:'MSFT',conv:2000,name:'Microsoft'},
+  {dr:'NVDA80',parent:'NVDA',conv:200,name:'NVIDIA'},
+  {dr:'META80',parent:'META',conv:2000,name:'Meta'},
+  {dr:'TSLA80',parent:'TSLA',conv:2000,name:'Tesla'},
+  {dr:'AVGO80',parent:'AVGO',conv:5000,name:'Broadcom'},
+  {dr:'ASML01',parent:'ASML',conv:340,name:'ASML'},
+  {dr:'CRWD80',parent:'CRWD',conv:1000,name:'CrowdStrike'},
+  {dr:'PANW80',parent:'PANW',conv:1000,name:'Palo Alto'},
+  {dr:'PLTR06',parent:'PLTR',conv:1500,name:'Palantir'},
+  {dr:'SNOW06',parent:'SNOW',conv:2000,name:'Snowflake'},
+  {dr:'QQQM19',parent:'QQQM',conv:500,name:'Invesco QQQ'},
+  {dr:'LLY80',parent:'LLY',conv:20000,name:'Eli Lilly'},
+  {dr:'NFLX80',parent:'NFLX',conv:2000,name:'Netflix'},
+  {dr:'AMD80',parent:'AMD',conv:2000,name:'AMD'},
+  {dr:'CRM80',parent:'CRM',conv:2000,name:'Salesforce'},
+  {dr:'DDOG06',parent:'DDOG',conv:2000,name:'Datadog'},
+  {dr:'NOW80',parent:'NOW',conv:5000,name:'ServiceNow'},
+  {dr:'ISRG80',parent:'ISRG',conv:5000,name:'Intuitive Surgical'},
+  {dr:'VRTX80',parent:'VRTX',conv:5000,name:'Vertex Pharma'},
+  {dr:'COST80',parent:'COST',conv:5000,name:'Costco'},
+  {dr:'MELI06',parent:'MELI',conv:20000,name:'MercadoLibre'},
+  {dr:'BKNG80',parent:'BKNG',conv:50000,name:'Booking Holdings'},
+  {dr:'SHOP06',parent:'SHOP',conv:1000,name:'Shopify'},
+  {dr:'SPOT06',parent:'SPOT',conv:5000,name:'Spotify'},
+  {dr:'UBER06',parent:'UBER',conv:2000,name:'Uber'},
+  {dr:'ABNB06',parent:'ABNB',conv:2000,name:'Airbnb'},
+  {dr:'SQ06',parent:'SQ',conv:2000,name:'Block'},
+  {dr:'COIN06',parent:'COIN',conv:2000,name:'Coinbase'},
+  {dr:'DASH06',parent:'DASH',conv:2000,name:'DoorDash'},
+  {dr:'ZM06',parent:'ZM',conv:2000,name:'Zoom'},
+  {dr:'MRNA06',parent:'MRNA',conv:2000,name:'Moderna'},
+  {dr:'PFE80',parent:'PFE',conv:2000,name:'Pfizer'},
+  {dr:'JNJ80',parent:'JNJ',conv:5000,name:'J&J'},
+  {dr:'UNH80',parent:'UNH',conv:20000,name:'UnitedHealth'},
+  {dr:'V80',parent:'V',conv:5000,name:'Visa'},
+  {dr:'MA80',parent:'MA',conv:10000,name:'Mastercard'},
+  {dr:'JPM80',parent:'JPM',conv:5000,name:'JPMorgan'},
+];
+
+let drsData = []; // [{...DR_LIST, drPrice, parentPrice, fairValue, diff}]
+let drsSortKey = 'dr';
+let drsSortAsc = true;
+
+async function loadDRScanner() {
+  const status = document.getElementById('drs-status');
+  const body = document.getElementById('drs-body');
+  body.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">⏳ กำลังโหลด...</td></tr>`;
+  status.textContent = '';
+
+  let done = 0;
+  drsData = DR_LIST.map(d => ({...d, drPrice:null, parentPrice:null, fairValue:null, diff:null}));
+
+  // fetch ราคา DR (.BK) และหุ้นแม่ (US) พร้อมกัน
+  await Promise.allSettled(drsData.map(async (item, i) => {
+    try {
+      const [rDR, rParent] = await Promise.all([
+        fetch('/api/price?ticker=' + encodeURIComponent(item.dr + '.BK'), {signal: AbortSignal.timeout(8000)}),
+        fetch('/api/price?ticker=' + encodeURIComponent(item.parent), {signal: AbortSignal.timeout(8000)})
+      ]);
+      if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
+      if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
+      if (item.drPrice && item.parentPrice) {
+        item.fairValue = item.parentPrice * usdThbRate / item.conv;
+        item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
+      }
+    } catch {}
+    done++;
+    status.textContent = `โหลด ${done}/${drsData.length}...`;
+  }));
+
+  status.textContent = `อัปเดตล่าสุด: ${new Date().toLocaleTimeString('th-TH')} · USD/THB ${fn(usdThbRate, 2)}`;
+  renderDRScanner();
+}
+
+function sortDRScanner(key) {
+  if (drsSortKey === key) drsSortAsc = !drsSortAsc;
+  else { drsSortKey = key; drsSortAsc = true; }
+  renderDRScanner();
+}
+
+function renderDRScanner() {
+  const body = document.getElementById('drs-body');
+  if (!body) return;
+  const q = (document.getElementById('drs-search')?.value || '').toLowerCase();
+  const filter = document.getElementById('drs-filter')?.value || 'all';
+
+  let rows = drsData.filter(item => {
+    if (q && !item.dr.toLowerCase().includes(q) && !item.name.toLowerCase().includes(q) && !item.parent.toLowerCase().includes(q)) return false;
+    if (filter === 'cheap' && !(item.diff !== null && item.diff < -2)) return false;
+    if (filter === 'near' && !(item.diff !== null && Math.abs(item.diff) <= 2)) return false;
+    if (filter === 'expensive' && !(item.diff !== null && item.diff > 2)) return false;
+    return true;
+  });
+
+  rows.sort((a, b) => {
+    let va = a[drsSortKey], vb = b[drsSortKey];
+    if (va === null) va = drsSortAsc ? Infinity : -Infinity;
+    if (vb === null) vb = drsSortAsc ? Infinity : -Infinity;
+    if (typeof va === 'string') return drsSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    return drsSortAsc ? va - vb : vb - va;
+  });
+
+  if (!rows.length) {
+    body.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">ไม่พบข้อมูล</td></tr>`;
+    return;
+  }
+
+  body.innerHTML = rows.map(item => {
+    const drPriceStr = item.drPrice ? `฿${fn(item.drPrice, 4)}` : '<span style="color:var(--tx3)">—</span>';
+    const parentPriceStr = item.parentPrice ? `$${fn(item.parentPrice, 2)}` : '<span style="color:var(--tx3)">—</span>';
+    const fvStr = item.fairValue ? `฿${fn(item.fairValue, 4)}` : '<span style="color:var(--tx3)">—</span>';
+    let diffStr = '<span style="color:var(--tx3)">—</span>';
+    let statusStr = '<span style="color:var(--tx3)">—</span>';
+    if (item.diff !== null) {
+      const color = Math.abs(item.diff) <= 2 ? 'var(--green-tx)' : item.diff > 2 ? 'var(--red-tx)' : 'var(--amber-tx)';
+      const label = Math.abs(item.diff) <= 2 ? '✅ ใกล้เคียง' : item.diff > 2 ? '🔴 แพงกว่า' : '🟢 ถูกกว่า';
+      diffStr = `<span style="font-weight:600;color:${color}">${item.diff >= 0 ? '+' : ''}${item.diff.toFixed(2)}%</span>`;
+      statusStr = `<span style="font-size:12px;color:${color}">${label}</span>`;
+    }
+    // เน้นถ้าอยู่ในพอร์ต
+    const inPort = portfolios.some(p => p.type === 'realtime_dr' && p.stocks?.some(s => s.ticker === item.dr));
+    return `<tr style="border-bottom:1px solid var(--bd);${inPort ? 'background:var(--blue-bg)' : ''}">
+      <td style="padding:8px 6px"><span class="tkr" style="font-size:12px">${item.dr}</span>${inPort ? ' <span style="font-size:10px;color:var(--blue)">●พอร์ต</span>' : ''}</td>
+      <td style="padding:8px 6px;font-size:12px;color:var(--tx2)">${item.name}</td>
+      <td style="padding:8px 6px"><span style="font-size:12px;font-weight:600">${item.parent}</span><br><span style="font-size:10px;color:var(--tx3)">÷${item.conv.toLocaleString()}</span></td>
+      <td style="padding:8px 6px;text-align:right;font-family:monospace">${drPriceStr}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:monospace">${parentPriceStr}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:monospace">${fvStr}</td>
+      <td style="padding:8px 6px;text-align:right">${diffStr}</td>
+      <td style="padding:8px 6px;text-align:center">${statusStr}</td>
+    </tr>`;
+  }).join('');
+}
+
+// hook showFeature for drscanner
+const _sfOrigDRS = showFeature;
+showFeature = function(id) {
+  _sfOrigDRS(id);
+  if (id === 'drscanner') {
+    document.getElementById('sb-drscanner')?.classList.add('on');
+    if (!drsData.length) loadDRScanner();
+  }
+};
+
 // ─── Entry point จาก sidebar feat-brief ───
 async function renderBrief() {
   document.getElementById('brief-result').innerHTML = '';
@@ -6540,6 +6690,10 @@ function updateAlertLabel(){
       Research (Nasdaq‑100)
       <span class="sb-badge" id="sb-research-count">0</span>
     </div>
+    <div class="sb-item" id="sb-drscanner" onclick="showFeature('drscanner')">
+      <div class="sb-item-icon" style="background:#e5f9eb">🔍</div>
+      DR Fair Value Scanner
+    </div>
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>
     <div class="sb-item" onclick="exportBackup()">
@@ -7081,6 +7235,46 @@ function updateAlertLabel(){
 
 
 <!-- ══════════════════ RESEARCH PANEL (Nasdaq-100 Equity Research) ══════════════════ -->
+<div class="feat-panel" id="feat-drscanner">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
+    <h2 style="font-size:18px;font-weight:600">🔍 DR Fair Value Scanner</h2>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <input id="drs-search" type="text" placeholder="ค้นหา DR หรือหุ้นแม่..." 
+        style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--surface);color:var(--tx);font-size:13px;width:200px"
+        oninput="renderDRScanner()">
+      <select id="drs-filter" style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--surface);color:var(--tx);font-size:13px"
+        onchange="renderDRScanner()">
+        <option value="all">ทั้งหมด</option>
+        <option value="cheap">ถูกกว่าหุ้นแม่</option>
+        <option value="near">ใกล้เคียง (±2%)</option>
+        <option value="expensive">แพงกว่าหุ้นแม่</option>
+      </select>
+      <button class="btn btn-sm" style="background:var(--blue);color:#fff" onclick="loadDRScanner()">🔄 รีเฟรช</button>
+    </div>
+  </div>
+  <div id="drs-status" style="font-size:12px;color:var(--tx3);margin-bottom:10px"></div>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:13px" id="drs-table">
+      <thead>
+        <tr style="border-bottom:2px solid var(--bd)">
+          <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('dr')">DR ↕</th>
+          <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('name')">ชื่อ ↕</th>
+          <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('parent')">หุ้นแม่ ↕</th>
+          <th style="text-align:right;padding:8px 6px">ราคา DR (฿)</th>
+          <th style="text-align:right;padding:8px 6px">ราคาแม่ ($)</th>
+          <th style="text-align:right;padding:8px 6px">Fair Value (฿)</th>
+          <th style="text-align:right;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('diff')">ส่วนต่าง% ↕</th>
+          <th style="text-align:center;padding:8px 6px">สถานะ</th>
+        </tr>
+      </thead>
+      <tbody id="drs-body">
+        <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">กด "รีเฟรช" เพื่อโหลดข้อมูล</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <div class="feat-panel" id="feat-research">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>

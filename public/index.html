@@ -1304,8 +1304,8 @@ function renderPortfolio(portId) {
                     p.prevClose?(p.price-p.prevClose)*s.qty:null;
 
     // ── DR Fair Value ──
-    let fairValueCell = '';
-    let fairDiffCell  = '';
+    let fairValueCell = port.type==='realtime_dr' ? `<td class="muted" style="font-size:11px">—</td>` : '';
+    let fairDiffCell  = port.type==='realtime_dr' ? `<td class="muted">—</td>` : '';
     if(port.type==='realtime_dr' && s.parentTicker && s.conversion){
       const parentKey = s.parentTicker+'_'+portId+'_parent';
       let parentUSD = prices[parentKey]?.price || null;

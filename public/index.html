@@ -5340,81 +5340,77 @@ function renderBriefHTML(text, count, today) {
 
 // ─── DR Fair Value Scanner ───────────────────────────────────────────────────
 
-const DR_LIST = [
-  {dr:'AMZN80',parent:'AMZN',conv:4000,name:'Amazon'},
-  {dr:'AAPL80',parent:'AAPL',conv:4000,name:'Apple'},
-  {dr:'GOOG80',parent:'GOOGL',conv:2000,name:'Alphabet'},
-  {dr:'MSFT80',parent:'MSFT',conv:2000,name:'Microsoft'},
-  {dr:'NVDA80',parent:'NVDA',conv:200,name:'NVIDIA'},
-  {dr:'META80',parent:'META',conv:2000,name:'Meta'},
-  {dr:'TSLA80',parent:'TSLA',conv:2000,name:'Tesla'},
-  {dr:'AVGO80',parent:'AVGO',conv:5000,name:'Broadcom'},
-  {dr:'ASML01',parent:'ASML',conv:340,name:'ASML'},
-  {dr:'CRWD80',parent:'CRWD',conv:1000,name:'CrowdStrike'},
-  {dr:'PANW80',parent:'PANW',conv:1000,name:'Palo Alto'},
-  {dr:'PLTR06',parent:'PLTR',conv:1500,name:'Palantir'},
-  {dr:'SNOW06',parent:'SNOW',conv:2000,name:'Snowflake'},
-  {dr:'QQQM19',parent:'QQQM',conv:500,name:'Invesco QQQ'},
-  {dr:'LLY80',parent:'LLY',conv:20000,name:'Eli Lilly'},
-  {dr:'NFLX80',parent:'NFLX',conv:2000,name:'Netflix'},
-  {dr:'AMD80',parent:'AMD',conv:2000,name:'AMD'},
-  {dr:'CRM80',parent:'CRM',conv:2000,name:'Salesforce'},
-  {dr:'DDOG06',parent:'DDOG',conv:2000,name:'Datadog'},
-  {dr:'NOW80',parent:'NOW',conv:5000,name:'ServiceNow'},
-  {dr:'ISRG80',parent:'ISRG',conv:5000,name:'Intuitive Surgical'},
-  {dr:'VRTX80',parent:'VRTX',conv:5000,name:'Vertex Pharma'},
-  {dr:'COST80',parent:'COST',conv:5000,name:'Costco'},
-  {dr:'MELI06',parent:'MELI',conv:20000,name:'MercadoLibre'},
-  {dr:'BKNG80',parent:'BKNG',conv:50000,name:'Booking Holdings'},
-  {dr:'SHOP06',parent:'SHOP',conv:1000,name:'Shopify'},
-  {dr:'SPOT06',parent:'SPOT',conv:5000,name:'Spotify'},
-  {dr:'UBER06',parent:'UBER',conv:2000,name:'Uber'},
-  {dr:'ABNB06',parent:'ABNB',conv:2000,name:'Airbnb'},
-  {dr:'SQ06',parent:'SQ',conv:2000,name:'Block'},
-  {dr:'COIN06',parent:'COIN',conv:2000,name:'Coinbase'},
-  {dr:'DASH06',parent:'DASH',conv:2000,name:'DoorDash'},
-  {dr:'ZM06',parent:'ZM',conv:2000,name:'Zoom'},
-  {dr:'MRNA06',parent:'MRNA',conv:2000,name:'Moderna'},
-  {dr:'PFE80',parent:'PFE',conv:2000,name:'Pfizer'},
-  {dr:'JNJ80',parent:'JNJ',conv:5000,name:'J&J'},
-  {dr:'UNH80',parent:'UNH',conv:20000,name:'UnitedHealth'},
-  {dr:'V80',parent:'V',conv:5000,name:'Visa'},
-  {dr:'MA80',parent:'MA',conv:10000,name:'Mastercard'},
-  {dr:'JPM80',parent:'JPM',conv:5000,name:'JPMorgan'},
-];
-
-let drsData = []; // [{...DR_LIST, drPrice, parentPrice, fairValue, diff}]
+let drsData = [];
 let drsSortKey = 'dr';
 let drsSortAsc = true;
+let drsBaseList = []; // โหลดจาก portfolio-data.json
+
+function getDRList() {
+  // merge drConversions จาก portfolio-data + DR ที่มีใน portfolio (กัน duplicate)
+  const base = drsBaseList.length ? drsBaseList : [];
+  const seen = new Set(base.map(d => d.dr));
+  portfolios.forEach(p => {
+    if (p.type !== 'realtime_dr') return;
+    p.stocks?.forEach(s => {
+      if (s.parentTicker && s.conversion && !seen.has(s.ticker)) {
+        seen.add(s.ticker);
+        base.push({dr: s.ticker, parent: s.parentTicker, conv: s.conversion, name: s.underlying || s.ticker, currency: 'USD'});
+      }
+    });
+  });
+  return base;
+}
 
 async function loadDRScanner() {
   const status = document.getElementById('drs-status');
   const body = document.getElementById('drs-body');
-  body.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">⏳ กำลังโหลด...</td></tr>`;
+  body.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--tx3)">⏳ กำลังโหลด...</td></tr>`;
   status.textContent = '';
 
-  let done = 0;
-  drsData = DR_LIST.map(d => ({...d, drPrice:null, parentPrice:null, fairValue:null, diff:null}));
-
-  // fetch ราคา DR (.BK) และหุ้นแม่ (US) พร้อมกัน
-  await Promise.allSettled(drsData.map(async (item, i) => {
+  // โหลด drConversions จาก GitHub ถ้ายังไม่มี
+  if (!drsBaseList.length) {
     try {
-      const [rDR, rParent] = await Promise.all([
-        fetch('/api/price?ticker=' + encodeURIComponent(item.dr + '.BK'), {signal: AbortSignal.timeout(8000)}),
-        fetch('/api/price?ticker=' + encodeURIComponent(item.parent), {signal: AbortSignal.timeout(8000)})
-      ]);
-      if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
-      if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
-      if (item.drPrice && item.parentPrice) {
-        item.fairValue = item.parentPrice * usdThbRate / item.conv;
-        item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
+      const ghCfg2 = ghCfg();
+      if (ghCfg2.token && ghCfg2.user && ghCfg2.repo) {
+        const r = await fetch(`https://raw.githubusercontent.com/${ghCfg2.user}/${ghCfg2.repo}/main/public/portfolio-data.json?t=${Date.now()}`);
+        if (r.ok) {
+          const d = await r.json();
+          if (d.drConversions?.length) drsBaseList = d.drConversions;
+        }
       }
     } catch {}
-    done++;
-    status.textContent = `โหลด ${done}/${drsData.length}...`;
-  }));
+  }
 
-  status.textContent = `อัปเดตล่าสุด: ${new Date().toLocaleTimeString('th-TH')} · USD/THB ${fn(usdThbRate, 2)}`;
+  const list = getDRList();
+  let done = 0;
+  drsData = list.map(d => ({...d, drPrice:null, parentPrice:null, fairValue:null, diff:null}));
+
+  status.textContent = `โหลด 0/${drsData.length}...`;
+
+  // fetch ทีละ batch เพื่อไม่ให้ flood API
+  const BATCH = 10;
+  for (let i = 0; i < drsData.length; i += BATCH) {
+    const batch = drsData.slice(i, i + BATCH);
+    await Promise.allSettled(batch.map(async item => {
+      try {
+        const [rDR, rParent] = await Promise.all([
+          fetch('/api/price?ticker=' + encodeURIComponent(item.dr + '.BK'), {signal: AbortSignal.timeout(8000)}),
+          fetch('/api/price?ticker=' + encodeURIComponent(item.parent), {signal: AbortSignal.timeout(8000)})
+        ]);
+        if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
+        if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
+        if (item.drPrice && item.parentPrice) {
+          item.fairValue = item.parentPrice * usdThbRate / item.conv;
+          item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
+        }
+      } catch {}
+      done++;
+      status.textContent = `โหลด ${done}/${drsData.length}...`;
+      renderDRScanner();
+    }));
+  }
+
+  status.textContent = `✅ ${drsData.length} DR · อัปเดต: ${new Date().toLocaleTimeString('th-TH')} · USD/THB ${fn(usdThbRate, 2)}`;
   renderDRScanner();
 }
 
@@ -5422,6 +5418,61 @@ function sortDRScanner(key) {
   if (drsSortKey === key) drsSortAsc = !drsSortAsc;
   else { drsSortKey = key; drsSortAsc = true; }
   renderDRScanner();
+}
+
+function openAddDRModal() {
+  const html = `<div id="add-dr-modal" style="position:fixed;inset:0;background:#0008;z-index:999;display:flex;align-items:center;justify-content:center">
+    <div style="background:var(--surface);border-radius:16px;padding:24px;width:340px;box-shadow:0 8px 32px #0004">
+      <div style="font-weight:700;font-size:16px;margin-bottom:16px">➕ เพิ่ม DR ใหม่</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <input id="add-dr-ticker" placeholder="DR Ticker เช่น NVDA80" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <input id="add-dr-parent" placeholder="หุ้นแม่ เช่น NVDA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <input id="add-dr-name" placeholder="ชื่อ เช่น NVIDIA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <input id="add-dr-conv" type="number" placeholder="Conversion Ratio เช่น 200" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <div style="font-size:11px;color:var(--tx3)">Formula: Fair Value = ราคาหุ้นแม่($) × USD/THB ÷ Conversion</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-g" style="flex:1" onclick="document.getElementById('add-dr-modal').remove()">ยกเลิก</button>
+        <button class="btn" style="flex:1;background:var(--blue);color:#fff" onclick="saveNewDR()">บันทึก</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.getElementById('add-dr-ticker').focus();
+}
+
+async function saveNewDR() {
+  const dr = document.getElementById('add-dr-ticker').value.trim().toUpperCase();
+  const parent = document.getElementById('add-dr-parent').value.trim().toUpperCase();
+  const name = document.getElementById('add-dr-name').value.trim();
+  const conv = parseInt(document.getElementById('add-dr-conv').value);
+  if (!dr || !parent || !conv) { showToast('กรุณากรอกข้อมูลให้ครบ'); return; }
+
+  // เพิ่มใน local list
+  const newItem = {dr, parent, conv, name: name || dr, currency: 'USD'};
+  drsBaseList.push(newItem);
+  document.getElementById('add-dr-modal').remove();
+  showToast(`เพิ่ม ${dr} แล้ว กำลังโหลดราคา...`);
+
+  // fetch ราคาทันที
+  const item = {...newItem, drPrice:null, parentPrice:null, fairValue:null, diff:null};
+  drsData.push(item);
+  try {
+    const [rDR, rParent] = await Promise.all([
+      fetch('/api/price?ticker=' + encodeURIComponent(dr + '.BK'), {signal: AbortSignal.timeout(8000)}),
+      fetch('/api/price?ticker=' + encodeURIComponent(parent), {signal: AbortSignal.timeout(8000)})
+    ]);
+    if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
+    if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
+    if (item.drPrice && item.parentPrice) {
+      item.fairValue = item.parentPrice * usdThbRate / item.conv;
+      item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
+    }
+  } catch {}
+  renderDRScanner();
+
+  // บันทึกลง GitHub ผ่าน backup
+  scheduleGHSave();
 }
 
 function renderDRScanner() {
@@ -5435,37 +5486,39 @@ function renderDRScanner() {
     if (filter === 'cheap' && !(item.diff !== null && item.diff < -2)) return false;
     if (filter === 'near' && !(item.diff !== null && Math.abs(item.diff) <= 2)) return false;
     if (filter === 'expensive' && !(item.diff !== null && item.diff > 2)) return false;
+    if (filter === 'loaded' && item.diff === null) return false;
     return true;
   });
 
   rows.sort((a, b) => {
     let va = a[drsSortKey], vb = b[drsSortKey];
-    if (va === null) va = drsSortAsc ? Infinity : -Infinity;
-    if (vb === null) vb = drsSortAsc ? Infinity : -Infinity;
+    if (va === null || va === undefined) va = drsSortAsc ? Infinity : -Infinity;
+    if (vb === null || vb === undefined) vb = drsSortAsc ? Infinity : -Infinity;
     if (typeof va === 'string') return drsSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
     return drsSortAsc ? va - vb : vb - va;
   });
 
   if (!rows.length) {
-    body.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">ไม่พบข้อมูล</td></tr>`;
+    body.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--tx3)">ไม่พบข้อมูล</td></tr>`;
     return;
   }
 
   body.innerHTML = rows.map(item => {
-    const drPriceStr = item.drPrice ? `฿${fn(item.drPrice, 4)}` : '<span style="color:var(--tx3)">—</span>';
-    const parentPriceStr = item.parentPrice ? `$${fn(item.parentPrice, 2)}` : '<span style="color:var(--tx3)">—</span>';
-    const fvStr = item.fairValue ? `฿${fn(item.fairValue, 4)}` : '<span style="color:var(--tx3)">—</span>';
+    const drPriceStr = item.drPrice != null ? `฿${fn(item.drPrice, 4)}` : '<span style="color:var(--tx3)">—</span>';
+    const parentPriceStr = item.parentPrice != null ? `$${fn(item.parentPrice, 2)}` : '<span style="color:var(--tx3)">—</span>';
+    const fvStr = item.fairValue != null ? `฿${fn(item.fairValue, 4)}` : '<span style="color:var(--tx3)">—</span>';
     let diffStr = '<span style="color:var(--tx3)">—</span>';
     let statusStr = '<span style="color:var(--tx3)">—</span>';
     if (item.diff !== null) {
-      const color = Math.abs(item.diff) <= 2 ? 'var(--green-tx)' : item.diff > 2 ? 'var(--red-tx)' : 'var(--amber-tx)';
-      const label = Math.abs(item.diff) <= 2 ? '✅ ใกล้เคียง' : item.diff > 2 ? '🔴 แพงกว่า' : '🟢 ถูกกว่า';
+      const abs = Math.abs(item.diff);
+      const color = abs <= 2 ? 'var(--green-tx)' : item.diff > 2 ? 'var(--red-tx)' : 'var(--amber-tx)';
+      const label = abs <= 2 ? '✅ ใกล้เคียง' : item.diff > 2 ? '🔴 แพงกว่า' : '🟢 ถูกกว่า';
       diffStr = `<span style="font-weight:600;color:${color}">${item.diff >= 0 ? '+' : ''}${item.diff.toFixed(2)}%</span>`;
       statusStr = `<span style="font-size:12px;color:${color}">${label}</span>`;
     }
-    // เน้นถ้าอยู่ในพอร์ต
     const inPort = portfolios.some(p => p.type === 'realtime_dr' && p.stocks?.some(s => s.ticker === item.dr));
-    return `<tr style="border-bottom:1px solid var(--bd);${inPort ? 'background:var(--blue-bg)' : ''}">
+    const loading = item.drPrice === null && item.parentPrice === null;
+    return `<tr style="border-bottom:1px solid var(--bd);${inPort ? 'background:var(--blue-bg)' : ''}${loading ? 'opacity:0.5' : ''}">
       <td style="padding:8px 6px"><span class="tkr" style="font-size:12px">${item.dr}</span>${inPort ? ' <span style="font-size:10px;color:var(--blue)">●พอร์ต</span>' : ''}</td>
       <td style="padding:8px 6px;font-size:12px;color:var(--tx2)">${item.name}</td>
       <td style="padding:8px 6px"><span style="font-size:12px;font-weight:600">${item.parent}</span><br><span style="font-size:10px;color:var(--tx3)">÷${item.conv.toLocaleString()}</span></td>
@@ -5474,6 +5527,7 @@ function renderDRScanner() {
       <td style="padding:8px 6px;text-align:right;font-family:monospace">${fvStr}</td>
       <td style="padding:8px 6px;text-align:right">${diffStr}</td>
       <td style="padding:8px 6px;text-align:center">${statusStr}</td>
+      <td style="padding:8px 6px;text-align:center"><button onclick="drsData.splice(drsData.indexOf(drsData.find(x=>x.dr==='${item.dr}')),1);drsBaseList=drsBaseList.filter(x=>x.dr!=='${item.dr}');scheduleGHSave();renderDRScanner();" style="background:none;border:none;cursor:pointer;color:var(--tx3);font-size:14px" title="ลบ">🗑</button></td>
     </tr>`;
   }).join('');
 }
@@ -7239,25 +7293,27 @@ function updateAlertLabel(){
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap">
     <button class="btn btn-g btn-sm" onclick="showFeature('overview')">← กลับ</button>
     <h2 style="font-size:18px;font-weight:600">🔍 DR Fair Value Scanner</h2>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <input id="drs-search" type="text" placeholder="ค้นหา DR หรือหุ้นแม่..." 
-        style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--surface);color:var(--tx);font-size:13px;width:200px"
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input id="drs-search" type="text" placeholder="ค้นหา DR / หุ้นแม่..."
+        style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--surface);color:var(--tx);font-size:13px;width:180px"
         oninput="renderDRScanner()">
       <select id="drs-filter" style="padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--surface);color:var(--tx);font-size:13px"
         onchange="renderDRScanner()">
         <option value="all">ทั้งหมด</option>
-        <option value="cheap">ถูกกว่าหุ้นแม่</option>
-        <option value="near">ใกล้เคียง (±2%)</option>
-        <option value="expensive">แพงกว่าหุ้นแม่</option>
+        <option value="loaded">มีราคาแล้ว</option>
+        <option value="cheap">🟢 ถูกกว่าหุ้นแม่</option>
+        <option value="near">✅ ใกล้เคียง (±2%)</option>
+        <option value="expensive">🔴 แพงกว่าหุ้นแม่</option>
       </select>
       <button class="btn btn-sm" style="background:var(--blue);color:#fff" onclick="loadDRScanner()">🔄 รีเฟรช</button>
+      <button class="btn btn-sm" style="background:var(--green-bg);color:var(--green-tx);border:1px solid var(--green-tx)" onclick="openAddDRModal()">➕ เพิ่ม DR</button>
     </div>
   </div>
   <div id="drs-status" style="font-size:12px;color:var(--tx3);margin-bottom:10px"></div>
   <div style="overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:13px" id="drs-table">
       <thead>
-        <tr style="border-bottom:2px solid var(--bd)">
+        <tr style="border-bottom:2px solid var(--bd);background:var(--s2)">
           <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('dr')">DR ↕</th>
           <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('name')">ชื่อ ↕</th>
           <th style="text-align:left;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('parent')">หุ้นแม่ ↕</th>
@@ -7266,10 +7322,11 @@ function updateAlertLabel(){
           <th style="text-align:right;padding:8px 6px">Fair Value (฿)</th>
           <th style="text-align:right;padding:8px 6px;cursor:pointer" onclick="sortDRScanner('diff')">ส่วนต่าง% ↕</th>
           <th style="text-align:center;padding:8px 6px">สถานะ</th>
+          <th style="padding:4px"></th>
         </tr>
       </thead>
       <tbody id="drs-body">
-        <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--tx3)">กด "รีเฟรช" เพื่อโหลดข้อมูล</td></tr>
+        <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--tx3)">กด "รีเฟรช" เพื่อโหลดข้อมูล</td></tr>
       </tbody>
     </table>
   </div>

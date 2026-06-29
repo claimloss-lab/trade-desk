@@ -1835,5 +1835,686 @@
     "totalStocks": 42,
     "totalTransactions": 26,
     "totalNetWorth": "฿1,613,396.38"
-  }
+  },
+  "drConversions": [
+    {
+      "dr": "AMZN80",
+      "parent": "AMZN",
+      "conv": 4000,
+      "name": "Amazon",
+      "currency": "USD"
+    },
+    {
+      "dr": "AAPL80",
+      "parent": "AAPL",
+      "conv": 4000,
+      "name": "Apple",
+      "currency": "USD"
+    },
+    {
+      "dr": "GOOG80",
+      "parent": "GOOGL",
+      "conv": 2000,
+      "name": "Alphabet",
+      "currency": "USD"
+    },
+    {
+      "dr": "MSFT80",
+      "parent": "MSFT",
+      "conv": 2000,
+      "name": "Microsoft",
+      "currency": "USD"
+    },
+    {
+      "dr": "NVDA80",
+      "parent": "NVDA",
+      "conv": 200,
+      "name": "NVIDIA",
+      "currency": "USD"
+    },
+    {
+      "dr": "META80",
+      "parent": "META",
+      "conv": 2000,
+      "name": "Meta",
+      "currency": "USD"
+    },
+    {
+      "dr": "TSLA80",
+      "parent": "TSLA",
+      "conv": 2000,
+      "name": "Tesla",
+      "currency": "USD"
+    },
+    {
+      "dr": "AVGO80",
+      "parent": "AVGO",
+      "conv": 5000,
+      "name": "Broadcom",
+      "currency": "USD"
+    },
+    {
+      "dr": "ASML01",
+      "parent": "ASML",
+      "conv": 340,
+      "name": "ASML",
+      "currency": "USD"
+    },
+    {
+      "dr": "CRWD80",
+      "parent": "CRWD",
+      "conv": 1000,
+      "name": "CrowdStrike",
+      "currency": "USD"
+    },
+    {
+      "dr": "PANW80",
+      "parent": "PANW",
+      "conv": 1000,
+      "name": "Palo Alto",
+      "currency": "USD"
+    },
+    {
+      "dr": "PLTR06",
+      "parent": "PLTR",
+      "conv": 1500,
+      "name": "Palantir",
+      "currency": "USD"
+    },
+    {
+      "dr": "SNOW06",
+      "parent": "SNOW",
+      "conv": 2000,
+      "name": "Snowflake",
+      "currency": "USD"
+    },
+    {
+      "dr": "AMD80",
+      "parent": "AMD",
+      "conv": 2000,
+      "name": "AMD",
+      "currency": "USD"
+    },
+    {
+      "dr": "CRM80",
+      "parent": "CRM",
+      "conv": 2000,
+      "name": "Salesforce",
+      "currency": "USD"
+    },
+    {
+      "dr": "DDOG06",
+      "parent": "DDOG",
+      "conv": 2000,
+      "name": "Datadog",
+      "currency": "USD"
+    },
+    {
+      "dr": "NOW80",
+      "parent": "NOW",
+      "conv": 5000,
+      "name": "ServiceNow",
+      "currency": "USD"
+    },
+    {
+      "dr": "NFLX80",
+      "parent": "NFLX",
+      "conv": 2000,
+      "name": "Netflix",
+      "currency": "USD"
+    },
+    {
+      "dr": "COIN06",
+      "parent": "COIN",
+      "conv": 2000,
+      "name": "Coinbase",
+      "currency": "USD"
+    },
+    {
+      "dr": "SHOP06",
+      "parent": "SHOP",
+      "conv": 1000,
+      "name": "Shopify",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPOT06",
+      "parent": "SPOT",
+      "conv": 5000,
+      "name": "Spotify",
+      "currency": "USD"
+    },
+    {
+      "dr": "UBER06",
+      "parent": "UBER",
+      "conv": 2000,
+      "name": "Uber",
+      "currency": "USD"
+    },
+    {
+      "dr": "ABNB06",
+      "parent": "ABNB",
+      "conv": 2000,
+      "name": "Airbnb",
+      "currency": "USD"
+    },
+    {
+      "dr": "SQ06",
+      "parent": "SQ",
+      "conv": 2000,
+      "name": "Block",
+      "currency": "USD"
+    },
+    {
+      "dr": "DASH06",
+      "parent": "DASH",
+      "conv": 2000,
+      "name": "DoorDash",
+      "currency": "USD"
+    },
+    {
+      "dr": "ZM06",
+      "parent": "ZM",
+      "conv": 2000,
+      "name": "Zoom",
+      "currency": "USD"
+    },
+    {
+      "dr": "MELI06",
+      "parent": "MELI",
+      "conv": 20000,
+      "name": "MercadoLibre",
+      "currency": "USD"
+    },
+    {
+      "dr": "BKNG80",
+      "parent": "BKNG",
+      "conv": 50000,
+      "name": "Booking Holdings",
+      "currency": "USD"
+    },
+    {
+      "dr": "QQQM19",
+      "parent": "QQQM",
+      "conv": 500,
+      "name": "Invesco QQQ",
+      "currency": "USD"
+    },
+    {
+      "dr": "LLY80",
+      "parent": "LLY",
+      "conv": 20000,
+      "name": "Eli Lilly",
+      "currency": "USD"
+    },
+    {
+      "dr": "ISRG80",
+      "parent": "ISRG",
+      "conv": 5000,
+      "name": "Intuitive Surgical",
+      "currency": "USD"
+    },
+    {
+      "dr": "VRTX80",
+      "parent": "VRTX",
+      "conv": 5000,
+      "name": "Vertex Pharma",
+      "currency": "USD"
+    },
+    {
+      "dr": "MRNA06",
+      "parent": "MRNA",
+      "conv": 2000,
+      "name": "Moderna",
+      "currency": "USD"
+    },
+    {
+      "dr": "PFE80",
+      "parent": "PFE",
+      "conv": 2000,
+      "name": "Pfizer",
+      "currency": "USD"
+    },
+    {
+      "dr": "JNJ80",
+      "parent": "JNJ",
+      "conv": 5000,
+      "name": "J&J",
+      "currency": "USD"
+    },
+    {
+      "dr": "UNH80",
+      "parent": "UNH",
+      "conv": 20000,
+      "name": "UnitedHealth",
+      "currency": "USD"
+    },
+    {
+      "dr": "COST80",
+      "parent": "COST",
+      "conv": 5000,
+      "name": "Costco",
+      "currency": "USD"
+    },
+    {
+      "dr": "V80",
+      "parent": "V",
+      "conv": 5000,
+      "name": "Visa",
+      "currency": "USD"
+    },
+    {
+      "dr": "MA80",
+      "parent": "MA",
+      "conv": 10000,
+      "name": "Mastercard",
+      "currency": "USD"
+    },
+    {
+      "dr": "JPM80",
+      "parent": "JPM",
+      "conv": 5000,
+      "name": "JPMorgan",
+      "currency": "USD"
+    },
+    {
+      "dr": "ABBV06",
+      "parent": "ABBV",
+      "conv": 2000,
+      "name": "AbbVie",
+      "currency": "USD"
+    },
+    {
+      "dr": "ADBE06",
+      "parent": "ADBE",
+      "conv": 5000,
+      "name": "Adobe",
+      "currency": "USD"
+    },
+    {
+      "dr": "AMAT06",
+      "parent": "AMAT",
+      "conv": 2000,
+      "name": "Applied Materials",
+      "currency": "USD"
+    },
+    {
+      "dr": "AMGN06",
+      "parent": "AMGN",
+      "conv": 5000,
+      "name": "Amgen",
+      "currency": "USD"
+    },
+    {
+      "dr": "ANET06",
+      "parent": "ANET",
+      "conv": 5000,
+      "name": "Arista Networks",
+      "currency": "USD"
+    },
+    {
+      "dr": "AXP80",
+      "parent": "AXP",
+      "conv": 2000,
+      "name": "American Express",
+      "currency": "USD"
+    },
+    {
+      "dr": "BDX06",
+      "parent": "BDX",
+      "conv": 5000,
+      "name": "Becton Dickinson",
+      "currency": "USD"
+    },
+    {
+      "dr": "BKRB06",
+      "parent": "BRKB",
+      "conv": 5000,
+      "name": "Berkshire B",
+      "currency": "USD"
+    },
+    {
+      "dr": "CCJ06",
+      "parent": "CCJ",
+      "conv": 2000,
+      "name": "Cameco",
+      "currency": "USD"
+    },
+    {
+      "dr": "CEG06",
+      "parent": "CEG",
+      "conv": 5000,
+      "name": "Constellation Energy",
+      "currency": "USD"
+    },
+    {
+      "dr": "CME06",
+      "parent": "CME",
+      "conv": 5000,
+      "name": "CME Group",
+      "currency": "USD"
+    },
+    {
+      "dr": "COHR06",
+      "parent": "COHR",
+      "conv": 2000,
+      "name": "Coherent",
+      "currency": "USD"
+    },
+    {
+      "dr": "CRSP06",
+      "parent": "CRSP",
+      "conv": 2000,
+      "name": "CRISPR Therapeutics",
+      "currency": "USD"
+    },
+    {
+      "dr": "CRWV06",
+      "parent": "CRWV",
+      "conv": 2000,
+      "name": "CoreWeave",
+      "currency": "USD"
+    },
+    {
+      "dr": "CSCO80",
+      "parent": "CSCO",
+      "conv": 2000,
+      "name": "Cisco",
+      "currency": "USD"
+    },
+    {
+      "dr": "DELL06",
+      "parent": "DELL",
+      "conv": 2000,
+      "name": "Dell",
+      "currency": "USD"
+    },
+    {
+      "dr": "DUOL06",
+      "parent": "DUOL",
+      "conv": 5000,
+      "name": "Duolingo",
+      "currency": "USD"
+    },
+    {
+      "dr": "EOSE06",
+      "parent": "EOSE",
+      "conv": 2000,
+      "name": "Eos Energy",
+      "currency": "USD"
+    },
+    {
+      "dr": "FCX80",
+      "parent": "FCX",
+      "conv": 2000,
+      "name": "Freeport-McMoRan",
+      "currency": "USD"
+    },
+    {
+      "dr": "GEV06",
+      "parent": "GEV",
+      "conv": 5000,
+      "name": "GE Vernova",
+      "currency": "USD"
+    },
+    {
+      "dr": "HIMS06",
+      "parent": "HIMS",
+      "conv": 2000,
+      "name": "Hims & Hers",
+      "currency": "USD"
+    },
+    {
+      "dr": "HOOD06",
+      "parent": "HOOD",
+      "conv": 2000,
+      "name": "Robinhood",
+      "currency": "USD"
+    },
+    {
+      "dr": "IBM80",
+      "parent": "IBM",
+      "conv": 2000,
+      "name": "IBM",
+      "currency": "USD"
+    },
+    {
+      "dr": "IONQ06",
+      "parent": "IONQ",
+      "conv": 2000,
+      "name": "IonQ",
+      "currency": "USD"
+    },
+    {
+      "dr": "JD06",
+      "parent": "JD",
+      "conv": 2000,
+      "name": "JD.com",
+      "currency": "USD"
+    },
+    {
+      "dr": "KO80",
+      "parent": "KO",
+      "conv": 2000,
+      "name": "Coca-Cola",
+      "currency": "USD"
+    },
+    {
+      "dr": "KLAC06",
+      "parent": "KLAC",
+      "conv": 5000,
+      "name": "KLA Corp",
+      "currency": "USD"
+    },
+    {
+      "dr": "LITE06",
+      "parent": "LITE",
+      "conv": 2000,
+      "name": "Lumentum",
+      "currency": "USD"
+    },
+    {
+      "dr": "LRCX06",
+      "parent": "LRCX",
+      "conv": 5000,
+      "name": "Lam Research",
+      "currency": "USD"
+    },
+    {
+      "dr": "LULU06",
+      "parent": "LULU",
+      "conv": 5000,
+      "name": "Lululemon",
+      "currency": "USD"
+    },
+    {
+      "dr": "MP06",
+      "parent": "MP",
+      "conv": 2000,
+      "name": "MP Materials",
+      "currency": "USD"
+    },
+    {
+      "dr": "MRVL06",
+      "parent": "MRVL",
+      "conv": 2000,
+      "name": "Marvell Tech",
+      "currency": "USD"
+    },
+    {
+      "dr": "MS80",
+      "parent": "MS",
+      "conv": 2000,
+      "name": "Morgan Stanley",
+      "currency": "USD"
+    },
+    {
+      "dr": "MNST06",
+      "parent": "MNST",
+      "conv": 2000,
+      "name": "Monster Beverage",
+      "currency": "USD"
+    },
+    {
+      "dr": "NBIS06",
+      "parent": "NBIS",
+      "conv": 2000,
+      "name": "Nebius",
+      "currency": "USD"
+    },
+    {
+      "dr": "NDAQ06",
+      "parent": "NDAQ",
+      "conv": 2000,
+      "name": "Nasdaq Inc",
+      "currency": "USD"
+    },
+    {
+      "dr": "NEE80",
+      "parent": "NEE",
+      "conv": 2000,
+      "name": "NextEra Energy",
+      "currency": "USD"
+    },
+    {
+      "dr": "NEM80",
+      "parent": "NEM",
+      "conv": 2000,
+      "name": "Newmont",
+      "currency": "USD"
+    },
+    {
+      "dr": "NET06",
+      "parent": "NET",
+      "conv": 2000,
+      "name": "Cloudflare",
+      "currency": "USD"
+    },
+    {
+      "dr": "NIKE80",
+      "parent": "NKE",
+      "conv": 2000,
+      "name": "Nike",
+      "currency": "USD"
+    },
+    {
+      "dr": "NVTS06",
+      "parent": "NVTS",
+      "conv": 2000,
+      "name": "Navitas Semi",
+      "currency": "USD"
+    },
+    {
+      "dr": "ON06",
+      "parent": "ON",
+      "conv": 2000,
+      "name": "ON Semi",
+      "currency": "USD"
+    },
+    {
+      "dr": "ONON06",
+      "parent": "ONON",
+      "conv": 2000,
+      "name": "On Holding",
+      "currency": "USD"
+    },
+    {
+      "dr": "ORCL80",
+      "parent": "ORCL",
+      "conv": 2000,
+      "name": "Oracle",
+      "currency": "USD"
+    },
+    {
+      "dr": "PEP80",
+      "parent": "PEP",
+      "conv": 5000,
+      "name": "PepsiCo",
+      "currency": "USD"
+    },
+    {
+      "dr": "PYPL06",
+      "parent": "PYPL",
+      "conv": 2000,
+      "name": "PayPal",
+      "currency": "USD"
+    },
+    {
+      "dr": "QCOM80",
+      "parent": "QCOM",
+      "conv": 2000,
+      "name": "Qualcomm",
+      "currency": "USD"
+    },
+    {
+      "dr": "RBLX06",
+      "parent": "RBLX",
+      "conv": 2000,
+      "name": "Roblox",
+      "currency": "USD"
+    },
+    {
+      "dr": "RGTI06",
+      "parent": "RGTI",
+      "conv": 2000,
+      "name": "Rigetti Computing",
+      "currency": "USD"
+    },
+    {
+      "dr": "RKLB06",
+      "parent": "RKLB",
+      "conv": 2000,
+      "name": "Rocket Lab",
+      "currency": "USD"
+    },
+    {
+      "dr": "SBUX80",
+      "parent": "SBUX",
+      "conv": 2000,
+      "name": "Starbucks",
+      "currency": "USD"
+    },
+    {
+      "dr": "SMCI06",
+      "parent": "SMCI",
+      "conv": 2000,
+      "name": "Super Micro",
+      "currency": "USD"
+    },
+    {
+      "dr": "SNDK06",
+      "parent": "SNDK",
+      "conv": 2000,
+      "name": "SanDisk",
+      "currency": "USD"
+    },
+    {
+      "dr": "SOFI06",
+      "parent": "SOFI",
+      "conv": 2000,
+      "name": "SoFi Technologies",
+      "currency": "USD"
+    },
+    {
+      "dr": "TER06",
+      "parent": "TER",
+      "conv": 2000,
+      "name": "Teradyne",
+      "currency": "USD"
+    },
+    {
+      "dr": "VRT06",
+      "parent": "VRT",
+      "conv": 2000,
+      "name": "Vertiv",
+      "currency": "USD"
+    },
+    {
+      "dr": "WMT80",
+      "parent": "WMT",
+      "conv": 2000,
+      "name": "Walmart",
+      "currency": "USD"
+    }
+  ]
 }

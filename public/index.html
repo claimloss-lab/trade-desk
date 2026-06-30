@@ -5370,15 +5370,13 @@ async function loadDRScanner() {
   // โหลด drConversions จาก GitHub ถ้ายังไม่มี
   if (!drsBaseList.length) {
     try {
-      const ghCfg2 = ghCfg();
-      if (ghCfg2.token && ghCfg2.user && ghCfg2.repo) {
-        const r = await fetch(`https://raw.githubusercontent.com/${ghCfg2.user}/${ghCfg2.repo}/main/public/portfolio-data.json?t=${Date.now()}`);
-        if (r.ok) {
-          const d = await r.json();
-          if (d.drConversions?.length) drsBaseList = d.drConversions;
-        }
+      const cfg = (typeof getGHConfig === 'function') ? getGHConfig() : {user:'claimloss-lab', repo:'trade-desk'};
+      const r = await fetch(`https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/main/public/portfolio-data.json?t=${Date.now()}`);
+      if (r.ok) {
+        const d = await r.json();
+        if (d.drConversions?.length) drsBaseList = d.drConversions;
       }
-    } catch {}
+    } catch (e) { console.error('Failed to load drConversions:', e); }
   }
 
   const list = getDRList();

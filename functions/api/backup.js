@@ -46,7 +46,10 @@ export async function onRequest(context) {
       }
 
       // Encode content to base64
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(body, null, 2))));
+      const _jsonStr = JSON.stringify(body, null, 2);
+      const _bytes = new TextEncoder().encode(_jsonStr);
+      let _bin = ''; for (let i = 0; i < _bytes.length; i++) _bin += String.fromCharCode(_bytes[i]);
+      const content = btoa(_bin);
       const now = new Date().toISOString();
 
       const payload = {

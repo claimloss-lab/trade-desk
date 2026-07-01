@@ -587,7 +587,7 @@ function buildSymbol(ticker, portType) {
 async function fetchPrice(ticker, portType, portId) {
   const sym = buildSymbol(ticker, portType);
   if (!sym) return null;
-  const apiTicker = portType === 'realtime_us' ? ticker : ticker;
+  const apiTicker = ticker;
   try {
     const r = await fetch(`/api/price?ticker=${encodeURIComponent(apiTicker)}`,{signal:safeSignal(10000)});
     if (!r.ok) return null;
@@ -1472,7 +1472,7 @@ function renderSnapshot(portId) {
   }
 
   // Set today's date
-  const sdEl=el('sd'); if(sdEl&&!sdEl.value) sdEl.value=new Date().toISOString().split('T')[0];
+  const sdEl=el('sd'); if(sdEl&&!sdEl.value) sdEl.value=todayLocal();
 
   const tbody=el('snap-body');
   if(!tbody) return;
@@ -1528,7 +1528,7 @@ function addStock(portId) {
     port.stocks.push(newStock);
   }
   // Auto-log transaction
-  const txDate=new Date().toISOString().split('T')[0];
+  const txDate=todayLocal();
   transactions.unshift({
     id:Date.now(), ticker, type:'buy', date:txDate,
     price:buyPrice, qty, fee:0,
@@ -1934,7 +1934,7 @@ function autoLogTransaction(portId, stock, oldQty, newQty){
   if(!isBuy){
     realizedPnl=(txPrice-stock.buyPrice)*diffQty;
   }
-  const txDate=new Date().toISOString().split('T')[0];
+  const txDate=todayLocal();
   transactions.unshift({
     id:Date.now(), ticker:stock.ticker,
     type:isBuy?'buy':'sell',
@@ -1964,7 +1964,7 @@ function buildBackupData(){
     exportDateTH: new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}),
     portfolios, transactions, alerts, notes, dividends,
     watchlist: watchlist || [],
-    dcaHistory: JSON.parse(localStorage.getItem('td_dca_history') || '[]'),
+    dcaHistory: JSON.parse(localStorage.getItem('td_dca_hist') || '[]'),
     currency: localStorage.getItem('td_cur') || 'THB',
     summary:{
       totalPorts:portfolios.length,
@@ -1978,7 +1978,7 @@ function buildBackupData(){
 function exportBackup(){
   const backup = buildBackupData();
   const json = JSON.stringify(backup, null, 2);
-  const date = new Date().toISOString().split('T')[0];
+  const date = todayLocal();
   const a = document.createElement('a');
   a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
   a.download = 'tradedesk-backup-' + date + '.json';
@@ -2027,7 +2027,7 @@ function importBackup(event){
       localStorage.setItem('td_divs',   JSON.stringify(data.dividends||[]));
       localStorage.setItem('td_ver',    'v20250401_8');
       if(data.watchlist) localStorage.setItem('td_wl', JSON.stringify(data.watchlist));
-      if(data.dcaHistory) localStorage.setItem('td_dca_history', JSON.stringify(data.dcaHistory));
+      if(data.dcaHistory) localStorage.setItem('td_dca_hist', JSON.stringify(data.dcaHistory));
       if(data.currency) localStorage.setItem('td_cur', data.currency);
       showToast('✓ Import สำเร็จ! กำลัง reload...');
       setTimeout(()=>location.reload(), 1200);
@@ -2213,7 +2213,10 @@ async function doGHSave(){
   const cfg = getGHConfig();
   if(!cfg.token) return;
   const backup = buildBackupData();
-  const content64 = btoa(unescape(encodeURIComponent(JSON.stringify(backup, null, 2))));
+  const _jsonStr = JSON.stringify(backup, null, 2);
+  const _bytes = new TextEncoder().encode(_jsonStr);
+  let _bin = ''; for(let i=0;i<_bytes.length;i++) _bin += String.fromCharCode(_bytes[i]);
+  const content64 = btoa(_bin);
   const path = 'public/portfolio-data.json';
   const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
   try{
@@ -2528,7 +2531,7 @@ function renderNotes(){
 }
 
 // DIVIDENDS
-function openDivModal(){document.getElementById('div-date').value=new Date().toISOString().split('T')[0];document.getElementById('div-modal').style.display='flex';}
+function openDivModal(){document.getElementById('div-date').value=todayLocal();document.getElementById('div-modal').style.display='flex';}
 function saveDividend(){
   const ticker=document.getElementById('div-ticker').value.trim().toUpperCase();
   const date=document.getElementById('div-date').value;
@@ -2904,11 +2907,11 @@ function onPortTypeChange(type){
 }
 
 // MODAL CLOSE
-function closeModal(id){document.getElementById(id).style.display='none';}
+
 document.addEventListener('click',e=>{if(e.target.classList.contains('modal-bg'))e.target.style.display='none';});
 
 // Init
-document.getElementById('tx-date') && (document.getElementById('tx-date').value=new Date().toISOString().split('T')[0]);
+document.getElementById('tx-date') && (document.getElementById('tx-date').value=todayLocal());
 updateSbBadges();
 
 // ══════════════════════════════════════════════════
@@ -4082,6 +4085,12 @@ let saResults = [];
 // DAILY AUTO-REFRESH SYSTEM
 // ══════════════════════════════════════════════════
 function getTodayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+// Local-date YYYY-MM-DD (timezone-safe; toISOString() returns UTC which is a day behind before 07:00 ICT)
+function todayLocal() {
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
@@ -6133,7 +6142,7 @@ function collectAllData() {
     alerts: JSON.parse(localStorage.getItem('td_alerts') || '[]'),
     notes: JSON.parse(localStorage.getItem('td_notes') || '[]'),
     dividends: JSON.parse(localStorage.getItem('td_divs') || '[]'),
-    dcaHistory: JSON.parse(localStorage.getItem('td_dca_history') || '[]'),
+    dcaHistory: JSON.parse(localStorage.getItem('td_dca_hist') || '[]'),
     currency: localStorage.getItem('td_cur') || 'THB',
   };
 }
@@ -6187,7 +6196,7 @@ async function restoreFromGitHub() {
     if (data.alerts) localStorage.setItem('td_alerts', JSON.stringify(data.alerts));
     if (data.notes) localStorage.setItem('td_notes', JSON.stringify(data.notes));
     if (data.dividends) localStorage.setItem('td_divs', JSON.stringify(data.dividends));
-    if (data.dcaHistory) localStorage.setItem('td_dca_history', JSON.stringify(data.dcaHistory));
+    if (data.dcaHistory) localStorage.setItem('td_dca_hist', JSON.stringify(data.dcaHistory));
     if (data.currency) localStorage.setItem('td_cur', data.currency);
 
     showToast('✅ Restore สำเร็จ — โหลดข้อมูลจาก GitHub แล้ว');

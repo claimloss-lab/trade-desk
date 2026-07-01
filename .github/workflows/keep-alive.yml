@@ -1,0 +1,25 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: '0 2 1 * *'  # วันที่ 1 ของทุกเดือน 09:00 ICT
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update keep-alive timestamp
+        run: |
+          TS=$(TZ='Asia/Bangkok' date '+%Y-%m-%d %H:%M ICT')
+          sed -i '/<!-- keep-alive:/d' DEPLOY_GUIDE.md
+          printf "\n<!-- keep-alive: %s -->\n" "$TS" >> DEPLOY_GUIDE.md
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add DEPLOY_GUIDE.md
+          git diff --cached --quiet || git commit -m "chore: keep-alive $TS"
+          git push

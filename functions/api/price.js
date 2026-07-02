@@ -21,11 +21,12 @@ export async function onRequest(context) {
   };
 
   // Thai mutual funds — no public API, update NAV manually via ✎ button
+  // NOTE: intentionally narrow — a broader "any LETTERS-LETTER" pattern here
+  // previously misclassified real tickers like BRK-B and NOVO-B as mutual funds.
   const isMutualFund =
     t.startsWith('K-') || t.startsWith('MEGA') || t.startsWith('B-') ||
     t.includes('RMF') || t.includes('LTF') || t.includes('SSF') ||
-    t.includes('ESG') || t.includes('THAIESG') ||
-    /^[A-Z]{2,}-[A-Z]/.test(t);
+    t.includes('ESG') || t.includes('THAIESG');
 
   if (isMutualFund) {
     return new Response(
@@ -54,8 +55,8 @@ export async function onRequest(context) {
     sym = NON_US_EXCHANGE_SUFFIXES.has(suf)
       ? t                           // Non-US listing: 9618.HK, OR.PA → keep dot as-is (Yahoo format)
       : t.replace(/\./g, '-');      // US dotted share class: BRK.B → BRK-B
-  } else if (/^[A-Z]{1,5}$/.test(t)) {
-    sym = t;                        // US stocks: VOO, SCHD, JEPQ
+  } else if (/^[A-Z]{1,5}(-[A-Z]{1,2})?$/.test(t)) {
+    sym = t;                        // US stocks incl. share classes already in Yahoo format: VOO, SCHD, BRK-B
   } else {
     sym = t + '.BK';                // Default: Thai SET stock
   }

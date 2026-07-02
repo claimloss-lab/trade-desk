@@ -2589,10 +2589,10 @@
     },
     {
       "dr": "JD80",
-      "parent": "JD",
+      "parent": "9618.HK",
       "conv": 100.0,
       "name": "JD.com",
-      "currency": "USD"
+      "currency": "HKD"
     },
     {
       "dr": "JEPI19",
@@ -2687,10 +2687,10 @@
     },
     {
       "dr": "LOREAL80",
-      "parent": "OR",
+      "parent": "OR.PA",
       "conv": 10000.0,
       "name": "L'Oreal",
-      "currency": "USD"
+      "currency": "EUR"
     },
     {
       "dr": "LRCX01",
@@ -2715,10 +2715,10 @@
     },
     {
       "dr": "LVMH01",
-      "parent": "MC",
+      "parent": "MC.PA",
       "conv": 1600.0,
       "name": "LVMH",
-      "currency": "USD"
+      "currency": "EUR"
     },
     {
       "dr": "MA80",
@@ -3205,10 +3205,10 @@
     },
     {
       "dr": "SANOFI80",
-      "parent": "SAN",
+      "parent": "SAN.PA",
       "conv": 1000.0,
       "name": "Sanofi",
-      "currency": "USD"
+      "currency": "EUR"
     },
     {
       "dr": "SBUX80",

@@ -2127,7 +2127,7 @@
     },
     {
       "dr": "APPL03",
-      "parent": "APPL",
+      "parent": "APP",
       "conv": 6000.0,
       "name": "AppLovin",
       "currency": "USD"
@@ -2218,14 +2218,14 @@
     },
     {
       "dr": "BRKB23",
-      "parent": "BRKB",
+      "parent": "BRK-B",
       "conv": 3000.0,
       "name": "Berkshire Hathaway B",
       "currency": "USD"
     },
     {
       "dr": "BRKB80",
-      "parent": "BRKB",
+      "parent": "BRK-B",
       "conv": 10000.0,
       "name": "Berkshire Hathaway B",
       "currency": "USD"
@@ -2498,10 +2498,10 @@
     },
     {
       "dr": "HERMES80",
-      "parent": "RMS",
+      "parent": "RMS.PA",
       "conv": 10000.0,
       "name": "Hermes",
-      "currency": "USD"
+      "currency": "EUR"
     },
     {
       "dr": "HIMS03",
@@ -2981,10 +2981,10 @@
     },
     {
       "dr": "NOVOB80",
-      "parent": "NOVO-B",
+      "parent": "NOVO-B.CO",
       "conv": 1000.0,
       "name": "Novo Nordisk",
-      "currency": "USD"
+      "currency": "DKK"
     },
     {
       "dr": "NOW19",
@@ -3397,7 +3397,7 @@
       "parent": "7203.T",
       "conv": 100.0,
       "name": "Toyota Motor",
-      "currency": "USD"
+      "currency": "JPY"
     },
     {
       "dr": "TRVUS06",
@@ -3453,7 +3453,7 @@
       "parent": "9983.T",
       "conv": 1000.0,
       "name": "Fast Retailing (Uniqlo)",
-      "currency": "USD"
+      "currency": "JPY"
     },
     {
       "dr": "VISA06",
@@ -3499,10 +3499,10 @@
     },
     {
       "dr": "WORLDA01",
-      "parent": "SMSWLD",
+      "parent": "SMSWLD.DE",
       "conv": 1000.0,
       "name": "Invesco MSCI World ETF",
-      "currency": "USD"
+      "currency": "EUR"
     }
   ]
 }

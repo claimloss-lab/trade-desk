@@ -3499,7 +3499,7 @@
     },
     {
       "dr": "WORLDA01",
-      "parent": "SMSWLD.DE",
+      "parent": "SMSWLD.MI",
       "conv": 1000.0,
       "name": "Invesco MSCI World ETF",
       "currency": "EUR"

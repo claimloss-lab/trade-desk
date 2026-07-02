@@ -41,12 +41,19 @@ export async function onRequest(context) {
 
   // Determine Yahoo Finance symbol
   let sym;
+  const NON_US_EXCHANGE_SUFFIXES = new Set([
+    'HK','PA','L','DE','T','TO','AX','SI','KS','KQ','SS','SZ','MI','AS','SW',
+    'BR','MX','SA','NZ','ST','OL','CO','HE','VI','WA','PR','IS','JK','NS','BO','TW','TWO'
+  ]);
   if (t.endsWith('.BK')) {
     sym = t;                        // SET stock: PTT.BK
   } else if (/\d{2,}$/.test(t)) {
     sym = t + '.BK';                // SET DR: AMZN80 → AMZN80.BK
   } else if (t.includes('.')) {
-    sym = t.replace(/\./g, '-');    // US dotted: BRK.B → BRK-B
+    const suf = t.split('.').pop();
+    sym = NON_US_EXCHANGE_SUFFIXES.has(suf)
+      ? t                           // Non-US listing: 9618.HK, OR.PA → keep dot as-is (Yahoo format)
+      : t.replace(/\./g, '-');      // US dotted share class: BRK.B → BRK-B
   } else if (/^[A-Z]{1,5}$/.test(t)) {
     sym = t;                        // US stocks: VOO, SCHD, JEPQ
   } else {

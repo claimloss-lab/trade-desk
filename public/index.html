@@ -5471,6 +5471,18 @@ function getDRList() {
   return base;
 }
 
+let drFxCache = {};
+async function getFxToThb(currency){
+  if(!currency || currency==='THB') return 1;
+  if(currency==='USD') return usdThbRate;
+  if(drFxCache[currency]) return drFxCache[currency];
+  try{
+    const r = await fetch('/api/price?ticker='+encodeURIComponent(currency+'THB=X'), {signal: AbortSignal.timeout(8000)});
+    if(r.ok){ const d = await r.json(); if(d.price){ drFxCache[currency]=d.price; return d.price; } }
+  }catch{}
+  return usdThbRate; // fallback if FX pair unavailable
+}
+
 async function loadDRScanner() {
   const status = document.getElementById('drs-status');
   const body = document.getElementById('drs-body');
@@ -5507,7 +5519,8 @@ async function loadDRScanner() {
         if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
         if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
         if (item.drPrice && item.parentPrice) {
-          item.fairValue = item.parentPrice * usdThbRate / item.conv;
+          const fx = await getFxToThb(item.currency);
+          item.fairValue = item.parentPrice * fx / item.conv;
           item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
         }
       } catch {}

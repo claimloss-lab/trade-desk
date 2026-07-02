@@ -25,7 +25,10 @@ export async function onRequest(context) {
       const res = await fetch(API_BASE, { headers: ghHeaders });
       if (!res.ok) return new Response(JSON.stringify({ error: 'Load failed', status: res.status }), { status: 502, headers: cors });
       const data = await res.json();
-      const content = atob(data.content.replace(/\n/g, ''));
+      const _bin = atob(data.content.replace(/\n/g, ''));
+      const _bytes = new Uint8Array(_bin.length);
+      for (let i = 0; i < _bin.length; i++) _bytes[i] = _bin.charCodeAt(i);
+      const content = new TextDecoder('utf-8').decode(_bytes);
       return new Response(content, { headers: { ...cors, 'Content-Type': 'application/json' } });
     } catch(e) {
       return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

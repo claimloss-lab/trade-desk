@@ -1839,6 +1839,9 @@ async function boot(){
   }
   updateGHBadge();
   updateLineBadge();
+  checkGHHealthOnLoad();
+  // Re-verify server-side GitHub token health every 30 min (read-only probe, doesn't create commits)
+  setInterval(()=>{ probeGHHealth(); }, 30*60*1000);
   // Fetch historical sparklines after initial boot
   setTimeout(()=>{
     portfolios.forEach(p=>{
@@ -2060,6 +2063,28 @@ function openGitHubSettings(){
   document.getElementById('gh-repo').value  = cfg.repo;
   document.getElementById('gh-test-result').textContent = '';
   document.getElementById('gh-modal').style.display = 'flex';
+  renderGHServerStatus();
+}
+function renderGHServerStatus(){
+  const el = document.getElementById('gh-server-status');
+  if(!el) return;
+  const errRaw = localStorage.getItem('gh_save_last_error');
+  const okAt = localStorage.getItem('gh_save_last_ok');
+  if(errRaw){
+    try{
+      const err = JSON.parse(errRaw);
+      el.style.color = 'var(--red-tx)';
+      el.textContent = '✗ Save ล่าสุดล้มเหลว ('+new Date(err.time).toLocaleString('th-TH')+'): '+(err.detail||'');
+      return;
+    }catch{}
+  }
+  if(okAt){
+    el.style.color = 'var(--green-tx)';
+    el.textContent = '✓ Save ล่าสุดสำเร็จ: '+new Date(okAt).toLocaleString('th-TH');
+  } else {
+    el.style.color = 'var(--tx3)';
+    el.textContent = 'ยังไม่มีประวัติการ save ในเครื่องนี้';
+  }
 }
 
 function saveGitHubSettings(){
@@ -2203,47 +2228,107 @@ async function testGitHubConnection(){
 
 // Debounced save — wait 3s after last change before saving
 function scheduleGHSave(){
-  const cfg = getGHConfig();
-  if(!cfg.token) return;
   if(ghSaveTimer) clearTimeout(ghSaveTimer);
   ghSaveTimer = setTimeout(()=>doGHSave(), 3000);
 }
 
 async function doGHSave(){
-  const cfg = getGHConfig();
-  if(!cfg.token) return;
+  // Primary path: server-side /api/backup Worker (uses Cloudflare env GITHUB_TOKEN,
+  // so this no longer depends on a token stored in this browser's localStorage —
+  // it works even if gh_token was never set, cleared, or expired).
   const backup = buildBackupData();
-  const _jsonStr = JSON.stringify(backup, null, 2);
-  const _bytes = new TextEncoder().encode(_jsonStr);
-  let _bin = ''; for(let i=0;i<_bytes.length;i++) _bin += String.fromCharCode(_bytes[i]);
-  const content64 = btoa(_bin);
-  const path = 'public/portfolio-data.json';
-  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
   try{
-    // Get current file SHA (needed for update)
-    let sha = null;
-    const getRes = await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
-    if(getRes.ok){ const d=await getRes.json(); sha=d.sha; }
-    // Push update
-    const body = {
-      message: 'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'),
-      content: content64,
-      ...(sha ? {sha} : {})
-    };
-    const putRes = await fetch(apiUrl,{
-      method:'PUT',
-      headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
-      body: JSON.stringify(body)
+    const res = await fetch('/api/backup', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(backup),
+      signal: AbortSignal.timeout(15000),
     });
-    if(putRes.ok){
+    if(res.ok){
       showToast('✓ Auto-saved ไป GitHub แล้ว');
-    } else {
-      const err = await putRes.json();
-      console.warn('GitHub save failed:', err.message);
+      markGHSaveOk();
+      return;
     }
+    let detail = 'HTTP '+res.status;
+    try{ const err = await res.json(); detail = err.error || err.detail || detail; }catch{}
+    console.warn('GitHub auto-save failed (server):', detail);
+    markGHSaveFailed(detail);
   } catch(e){
-    console.warn('GitHub save error:', e.message);
+    console.warn('GitHub auto-save error (server):', e.message);
+    // Fallback: legacy client-side token path, only if the user configured one.
+    const cfg = getGHConfig();
+    if(!cfg.token){ markGHSaveFailed(e.message||'Network error'); return; }
+    try{
+      const _jsonStr = JSON.stringify(backup, null, 2);
+      const _bytes = new TextEncoder().encode(_jsonStr);
+      let _bin = ''; for(let i=0;i<_bytes.length;i++) _bin += String.fromCharCode(_bytes[i]);
+      const content64 = btoa(_bin);
+      const path = 'public/portfolio-data.json';
+      const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
+      let sha = null;
+      const getRes = await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
+      if(getRes.ok){ const d=await getRes.json(); sha=d.sha; }
+      const body = { message: 'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'), content: content64, ...(sha ? {sha} : {}) };
+      const putRes = await fetch(apiUrl,{
+        method:'PUT',
+        headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      if(putRes.ok){ showToast('✓ Auto-saved ไป GitHub แล้ว (fallback token)'); markGHSaveOk(); }
+      else { const err = await putRes.json(); markGHSaveFailed(err.message||'fallback save failed'); }
+    } catch(e2){ markGHSaveFailed(e2.message||'fallback network error'); }
   }
+}
+
+// ── Auto-save health tracking + persistent warning banner ──
+function markGHSaveOk(){
+  localStorage.setItem('gh_save_last_ok', new Date().toISOString());
+  localStorage.removeItem('gh_save_last_error');
+  hideGHWarningBanner();
+}
+function markGHSaveFailed(detail){
+  localStorage.setItem('gh_save_last_error', JSON.stringify({time:new Date().toISOString(), detail:String(detail||'').slice(0,200)}));
+  showGHWarningBanner('⚠️ Auto-save ไป GitHub ล้มเหลว (token เซิร์ฟเวอร์อาจหมดอายุ/ถูกลบ) — '+String(detail||'').slice(0,120));
+}
+function showGHWarningBanner(msg){
+  let b = document.getElementById('gh-warn-banner');
+  if(!b){
+    b = document.createElement('div');
+    b.id = 'gh-warn-banner';
+    b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10000;background:#d92d20;color:#fff;padding:10px 16px;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.15)';
+    document.body.appendChild(b);
+  }
+  b.innerHTML = `<span>${msg}</span><button onclick="doGHSave()" style="background:#fff;color:#d92d20;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer">ลองใหม่</button><button onclick="hideGHWarningBanner(true)" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer">ปิด</button>`;
+  b.style.display = 'flex';
+}
+function hideGHWarningBanner(dismissedByUser){
+  const b = document.getElementById('gh-warn-banner');
+  if(b) b.style.display = 'none';
+  if(dismissedByUser) localStorage.setItem('gh_warn_dismissed_at', new Date().toISOString());
+}
+function checkGHHealthOnLoad(){
+  try{
+    const raw = localStorage.getItem('gh_save_last_error');
+    if(raw){
+      const err = JSON.parse(raw);
+      // Don't re-nag if user dismissed after this error was recorded
+      const dismissedAt = localStorage.getItem('gh_warn_dismissed_at');
+      if(!dismissedAt || new Date(dismissedAt) < new Date(err.time)){
+        showGHWarningBanner('⚠️ Auto-save ไป GitHub ล้มเหลวครั้งล่าสุด ('+new Date(err.time).toLocaleString('th-TH')+') — '+(err.detail||'').slice(0,120));
+      }
+    }
+  }catch(e){}
+}
+async function probeGHHealth(){
+  try{
+    const res = await fetch('/api/backup', {method:'GET', signal: AbortSignal.timeout(10000)});
+    if(res.ok){ markGHSaveOk(); }
+    else{
+      let detail = 'HTTP '+res.status;
+      try{ const err = await res.json(); detail = err.error || detail; }catch{}
+      markGHSaveFailed(detail);
+    }
+  }catch(e){ markGHSaveFailed(e.message||'Network error'); }
 }
 
 // Toast notification
@@ -7697,10 +7782,12 @@ function updateAlertLabel(){
 <div id="gh-modal" class="modal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center;padding:16px">
   <div class="modal" style="width:min(460px,92vw);background:var(--surface);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:24px">
     <div style="font-size:16px;font-weight:600;margin-bottom:4px">☁️ GitHub Auto-Save Settings</div>
-    <div style="font-size:12px;color:var(--tx3);margin-bottom:20px">ข้อมูลจะ backup อัตโนมัติขึ้น GitHub ทุกครั้งที่มีการเปลี่ยนแปลง</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:12px">ข้อมูลจะ backup อัตโนมัติขึ้น GitHub ทุกครั้งที่มีการเปลี่ยนแปลง ผ่านเซิร์ฟเวอร์ (ไม่ต้องตั้ง token ในเครื่องนี้)</div>
+    <div id="gh-server-status" style="font-size:12px;padding:8px 10px;border-radius:8px;margin-bottom:16px;background:var(--s2)">กำลังเช็คสถานะ...</div>
 
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:8px">ตั้งค่าด้านล่าง (ไม่บังคับ) — ใช้เป็น fallback ก็ต่อเมื่อ save ผ่านเซิร์ฟเวอร์ล้มเหลวเท่านั้น:</div>
     <div style="margin-bottom:12px">
-      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Personal Access Token</label>
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Personal Access Token (fallback)</label>
       <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
       <div style="font-size:11px;color:var(--tx3);margin-top:4px">สร้างได้ที่ github.com/settings/tokens → repo scope</div>
     </div>

@@ -3134,6 +3134,7 @@ function addWatchlistItem(){
     });
   }
   saveWatchlist(); closeModal('wl-modal'); renderWatchlist(); updateWlBadge();
+  if(!editId) fetchWatchlistPrices();
 }
 
 function markWatchlistDone(id){

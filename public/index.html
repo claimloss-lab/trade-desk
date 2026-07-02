@@ -5556,10 +5556,21 @@ function openAddDRModal() {
       <div style="font-weight:700;font-size:16px;margin-bottom:16px">➕ เพิ่ม DR ใหม่</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <input id="add-dr-ticker" placeholder="DR Ticker เช่น NVDA80" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
-        <input id="add-dr-parent" placeholder="หุ้นแม่ เช่น NVDA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <input id="add-dr-parent" placeholder="หุ้นแม่ เช่น NVDA หรือ 9618.HK / OR.PA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+        <div style="font-size:10px;color:var(--tx3);margin-top:-6px">หุ้นนอกตลาด US ต้องใส่ suffix ตลาดด้วย เช่น .HK (ฮ่องกง) .PA (ปารีส) .T (โตเกียว) .DE/.MI (เยอรมัน/มิลาน) .CO (โคเปนเฮเกน)</div>
         <input id="add-dr-name" placeholder="ชื่อ เช่น NVIDIA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
         <input id="add-dr-conv" type="number" placeholder="Conversion Ratio เช่น 200" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
-        <div style="font-size:11px;color:var(--tx3)">Formula: Fair Value = ราคาหุ้นแม่($) × USD/THB ÷ Conversion</div>
+        <select id="add-dr-currency" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
+          <option value="USD">USD — หุ้น US</option>
+          <option value="EUR">EUR — ยุโรป (Euronext/Xetra/Milan)</option>
+          <option value="HKD">HKD — ฮ่องกง</option>
+          <option value="JPY">JPY — ญี่ปุ่น</option>
+          <option value="DKK">DKK — เดนมาร์ก (Copenhagen)</option>
+          <option value="GBP">GBP — ลอนดอน</option>
+          <option value="CNY">CNY — จีน A-share</option>
+          <option value="THB">THB — ไทย</option>
+        </select>
+        <div style="font-size:11px;color:var(--tx3)">Formula: Fair Value = ราคาหุ้นแม่ × เรทสกุลเงิน/THB ÷ Conversion</div>
       </div>
       <div style="display:flex;gap:8px;margin-top:16px">
         <button class="btn btn-g" style="flex:1" onclick="document.getElementById('add-dr-modal').remove()">ยกเลิก</button>
@@ -5576,10 +5587,11 @@ async function saveNewDR() {
   const parent = document.getElementById('add-dr-parent').value.trim().toUpperCase();
   const name = document.getElementById('add-dr-name').value.trim();
   const conv = parseInt(document.getElementById('add-dr-conv').value);
+  const currency = document.getElementById('add-dr-currency').value || 'USD';
   if (!dr || !parent || !conv) { showToast('กรุณากรอกข้อมูลให้ครบ'); return; }
 
   // เพิ่มใน local list
-  const newItem = {dr, parent, conv, name: name || dr, currency: 'USD'};
+  const newItem = {dr, parent, conv, name: name || dr, currency};
   drsBaseList.push(newItem);
   document.getElementById('add-dr-modal').remove();
   showToast(`เพิ่ม ${dr} แล้ว กำลังโหลดราคา...`);
@@ -5595,7 +5607,8 @@ async function saveNewDR() {
     if (rDR.ok) { const d = await rDR.json(); if (d.price) item.drPrice = d.price; }
     if (rParent.ok) { const d = await rParent.json(); if (d.price) item.parentPrice = d.price; }
     if (item.drPrice && item.parentPrice) {
-      item.fairValue = item.parentPrice * usdThbRate / item.conv;
+      const fx = await getFxToThb(item.currency);
+      item.fairValue = item.parentPrice * fx / item.conv;
       item.diff = (item.drPrice - item.fairValue) / item.fairValue * 100;
     }
   } catch {}

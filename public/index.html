@@ -5476,11 +5476,21 @@ async function getFxToThb(currency){
   if(!currency || currency==='THB') return 1;
   if(currency==='USD') return usdThbRate;
   if(drFxCache[currency]) return drFxCache[currency];
+  // Bridge via USD first — USDxxx=X pairs (USDEUR=X, USDHKD=X, USDJPY=X, USDDKK=X...)
+  // are far more reliably available on Yahoo than exotic direct xxxTHB=X pairs.
   try{
-    const r = await fetch('/api/price?ticker='+encodeURIComponent(currency+'THB=X'), {signal: AbortSignal.timeout(8000)});
-    if(r.ok){ const d = await r.json(); if(d.price){ drFxCache[currency]=d.price; return d.price; } }
+    const r = await fetch('/api/price?ticker='+encodeURIComponent('USD'+currency+'=X'), {signal: AbortSignal.timeout(8000)});
+    if(r.ok){
+      const d = await r.json();
+      if(d.price){ const fx = usdThbRate / d.price; drFxCache[currency]=fx; return fx; }
+    }
   }catch{}
-  return usdThbRate; // fallback if FX pair unavailable
+  // Fallback: try the direct pair
+  try{
+    const r2 = await fetch('/api/price?ticker='+encodeURIComponent(currency+'THB=X'), {signal: AbortSignal.timeout(8000)});
+    if(r2.ok){ const d2 = await r2.json(); if(d2.price){ drFxCache[currency]=d2.price; return d2.price; } }
+  }catch{}
+  return usdThbRate; // last-resort fallback
 }
 
 async function loadDRScanner() {

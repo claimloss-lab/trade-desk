@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-02T06:22:02.656Z",
+  "exportDate": "2026-07-02T06:22:23.182Z",
   "exportDateTH": "2 กรกฎาคม 2569 เวลา 13:22",
   "portfolios": [
     {
@@ -189,7 +189,7 @@
           "id": 5,
           "ticker": "HMPRO.BK",
           "qty": 4200,
-          "buyPrice": 8.957115384615385,
+          "buyPrice": 9.58,
           "sector": "Consumer",
           "underlying": "HomePro"
         },

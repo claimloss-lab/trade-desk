@@ -1824,6 +1824,20 @@ async function boot(){
     }
   }
 
+  // Always load drConversions (DR Fair Value list) at boot, regardless of the
+  // portfolios branch above — this must be in memory BEFORE any auto-save can
+  // fire, otherwise buildBackupData() would save an empty list and wipe it.
+  // Uses /api/backup (live from GitHub) rather than the static JSON file, so it's
+  // always fresh even if the static asset hasn't been redeployed yet.
+  try{
+    const drRes = await fetch('/api/backup', {cache:'no-cache'});
+    if(drRes.ok){
+      const drData = await drRes.json();
+      if(drData.drConversions?.length) drsBaseList = drData.drConversions;
+    }
+  } catch(e){ console.warn('Failed to preload drConversions at boot:', e.message); }
+
+
   updateGHBadge();
   updateLineBadge();
   migrateUSPortPrices();
@@ -1969,6 +1983,7 @@ function buildBackupData(){
     watchlist: watchlist || [],
     dcaHistory: JSON.parse(localStorage.getItem('td_dca_hist') || '[]'),
     currency: localStorage.getItem('td_cur') || 'THB',
+    drConversions: (typeof drsBaseList!=='undefined' && drsBaseList.length) ? drsBaseList : (window.__lastKnownDrConversions || []),
     summary:{
       totalPorts:portfolios.length,
       totalStocks:portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0),
@@ -5465,8 +5480,7 @@ async function loadDRScanner() {
   // โหลด drConversions จาก GitHub ถ้ายังไม่มี
   if (!drsBaseList.length) {
     try {
-      const cfg = (typeof getGHConfig === 'function') ? getGHConfig() : {user:'claimloss-lab', repo:'trade-desk'};
-      const r = await fetch(`https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/main/public/portfolio-data.json?t=${Date.now()}`);
+      const r = await fetch(`/api/backup?t=${Date.now()}`);
       if (r.ok) {
         const d = await r.json();
         if (d.drConversions?.length) drsBaseList = d.drConversions;

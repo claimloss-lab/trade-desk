@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-02T06:21:31.024Z",
-  "exportDateTH": "2 กรกฎาคม 2569 เวลา 13:21",
+  "exportDate": "2026-07-02T06:22:02.656Z",
+  "exportDateTH": "2 กรกฎาคม 2569 เวลา 13:22",
   "portfolios": [
     {
       "id": "dr1",
@@ -188,7 +188,7 @@
         {
           "id": 5,
           "ticker": "HMPRO.BK",
-          "qty": 5200,
+          "qty": 4200,
           "buyPrice": 8.957115384615385,
           "sector": "Consumer",
           "underlying": "HomePro"
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1782973319653,
+      "ticker": "HMPRO.BK",
+      "type": "sell",
+      "date": "2026-07-02",
+      "price": 6.4,
+      "qty": 1000,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": -2557.1153846153843,
+      "portId": "set1",
+      "auto": true
+    },
     {
       "id": 1782973288004,
       "ticker": "HMPRO.BK",
@@ -1933,7 +1946,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 30,
-    "totalNetWorth": "฿1,701,635.78"
+    "totalTransactions": 31,
+    "totalNetWorth": "฿1,695,235.78"
   }
 }

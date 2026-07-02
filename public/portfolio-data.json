@@ -2953,10 +2953,10 @@
     },
     {
       "dr": "NETEASE80",
-      "parent": "NTES",
+      "parent": "9999.HK",
       "conv": 100.0,
       "name": "NetEase",
-      "currency": "USD"
+      "currency": "HKD"
     },
     {
       "dr": "NFLX06",

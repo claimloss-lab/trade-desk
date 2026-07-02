@@ -6,6 +6,8 @@ on:
     paths:
       - 'public/**'
       - 'functions/**'
+      - '!public/portfolio-data.json'
+      - '!public/daily-snapshot.json'
   workflow_dispatch: {}
 
 jobs:

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-06T03:58:04.185Z",
+  "exportDate": "2026-07-06T03:58:12.626Z",
   "exportDateTH": "6 กรกฎาคม 2569 เวลา 10:58",
   "portfolios": [
     {
@@ -510,19 +510,6 @@
     }
   ],
   "transactions": [
-    {
-      "id": 1782973288004,
-      "ticker": "HMPRO.BK",
-      "type": "buy",
-      "date": "2026-07-02",
-      "price": 6.4,
-      "qty": 1000,
-      "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
-      "realizedPnl": null,
-      "portId": "set1",
-      "auto": true
-    },
     {
       "id": 1782969211739,
       "ticker": "WHA.BK",
@@ -3489,7 +3476,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 30,
+    "totalTransactions": 29,
     "totalNetWorth": "฿1,698,596.28"
   }
 }

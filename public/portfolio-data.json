@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-06T03:58:48.342Z",
+  "exportDate": "2026-07-06T03:58:59.105Z",
   "exportDateTH": "6 กรกฎาคม 2569 เวลา 10:58",
   "portfolios": [
     {
@@ -387,8 +387,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.4593,
-          "navDate": "11 มิ.ย. 69"
+          "currentNav": 14.6307,
+          "navDate": "6 ก.ค. 69"
         },
         {
           "id": 2,
@@ -398,8 +398,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 12.912,
-          "navDate": "2 ก.ค. 69"
+          "currentNav": 13.0311,
+          "navDate": "6 ก.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -409,8 +409,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.2187,
-          "navDate": "2 ก.ค. 69"
+          "currentNav": 13.2354,
+          "navDate": "6 ก.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -420,8 +420,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 18.3027,
-          "navDate": "2 ก.ค. 69"
+          "currentNav": 17.7637,
+          "navDate": "6 ก.ค. 69"
         }
       ]
     },
@@ -3477,6 +3477,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 29,
-    "totalNetWorth": "฿1,698,971.43"
+    "totalNetWorth": "฿1,699,316.99"
   }
 }

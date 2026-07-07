@@ -50,7 +50,7 @@
           "sector": "Tech",
           "underlying": "CrowdStrike",
           "parentTicker": "CRWD",
-          "conversion": 1000,
+          "conversion": 250,
           "drCurrency": "USD"
         },
         {
@@ -2285,14 +2285,14 @@
     {
       "dr": "CRWD06",
       "parent": "CRWD",
-      "conv": 5000,
+      "conv": 1250,
       "name": "CrowdStrike",
       "currency": "USD"
     },
     {
       "dr": "CRWD80",
       "parent": "CRWD",
-      "conv": 1000,
+      "conv": 250,
       "name": "CrowdStrike",
       "currency": "USD"
     },

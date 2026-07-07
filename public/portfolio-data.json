@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-07T13:15:40.028Z",
+  "exportDate": "2026-07-07T13:15:51.444Z",
   "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:15",
   "portfolios": [
     {
@@ -288,15 +288,6 @@
       "snapshots": [],
       "stocks": [
         {
-          "id": 2,
-          "ticker": "IXJ",
-          "qty": 3.708,
-          "buyPrice": 96.84,
-          "sector": "ETF",
-          "underlying": "iShares Global Healthcare ETF",
-          "buyPriceUSD": 96.84
-        },
-        {
           "id": 3,
           "ticker": "SMH",
           "qty": 0.621,
@@ -510,6 +501,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1783430148437,
+      "ticker": "IXJ",
+      "type": "sell",
+      "date": "2026-07-07",
+      "price": 3340.2949999999996,
+      "qty": 3.708,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 12026.731139999998,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1783430129669,
       "ticker": "IXN",
@@ -3574,8 +3578,8 @@
   ],
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 42,
-    "totalTransactions": 32,
-    "totalNetWorth": "฿1,704,822.56"
+    "totalStocks": 41,
+    "totalTransactions": 33,
+    "totalNetWorth": "฿1,692,436.74"
   }
 }

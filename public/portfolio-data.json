@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-07T13:22:50.619Z",
-  "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:22",
+  "exportDate": "2026-07-07T13:23:06.732Z",
+  "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:23",
   "portfolios": [
     {
       "id": "dr1",
@@ -458,7 +458,7 @@
         {
           "id": 3,
           "ticker": "ESGSI",
-          "qty": 1854.5498,
+          "qty": 2041.7591,
           "buyPrice": 11.3235,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
@@ -3654,6 +3654,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 38,
-    "totalNetWorth": "฿1,710,093.97"
+    "totalNetWorth": "฿1,712,084.68"
   }
 }

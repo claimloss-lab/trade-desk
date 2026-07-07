@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-07T13:24:59.263Z",
-  "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:24",
+  "exportDate": "2026-07-07T13:25:06.835Z",
+  "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:25",
   "portfolios": [
     {
       "id": "dr1",
@@ -383,7 +383,7 @@
           "id": 1,
           "ticker": "K-GA-A(A)",
           "qty": 1572.2788,
-          "buyPrice": 12.331,
+          "buyPrice": 12.4024,
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",

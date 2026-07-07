@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-07T13:15:17.818Z",
+  "exportDate": "2026-07-07T13:15:40.028Z",
   "exportDateTH": "7 กรกฎาคม 2569 เวลา 20:15",
   "portfolios": [
     {
@@ -308,11 +308,11 @@
         {
           "id": 4,
           "ticker": "IXN",
-          "qty": 2.862,
-          "buyPrice": 97.01,
+          "qty": 2.683,
+          "buyPrice": 97.47,
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
-          "buyPriceUSD": 97.01
+          "buyPriceUSD": 97.47
         },
         {
           "ticker": "LIT",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1783430129669,
+      "ticker": "IXN",
+      "type": "sell",
+      "date": "2026-07-07",
+      "price": 4637.3775,
+      "qty": 0.17900000000000027,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 812.7257825000011,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1783430107455,
       "ticker": "SMH",
@@ -3562,7 +3575,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 31,
-    "totalNetWorth": "฿1,705,652.65"
+    "totalTransactions": 32,
+    "totalNetWorth": "฿1,704,822.56"
   }
 }

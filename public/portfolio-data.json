@@ -2041,7 +2041,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "29 พ.ค. 69",
-      "_notified": false
+      "_notified": true
     },
     {
       "id": 1782968957110,

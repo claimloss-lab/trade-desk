@@ -34,9 +34,14 @@ export async function onRequest(context) {
 
   try {
     const body = await context.request.json();
-    const message = body.message;
-    if (!message) {
-      return new Response(JSON.stringify({ error: 'message is required' }), { status: 400, headers: cors });
+    const { message, altText, flex } = body;
+    let messages;
+    if (flex) {
+      messages = [{ type: 'flex', altText: String(altText || 'TradeDesk').slice(0, 400), contents: flex }];
+    } else if (message) {
+      messages = [{ type: 'text', text: message }];
+    } else {
+      return new Response(JSON.stringify({ error: 'message or flex is required' }), { status: 400, headers: cors });
     }
 
     const lineRes = await fetch('https://api.line.me/v2/bot/message/push', {
@@ -47,7 +52,7 @@ export async function onRequest(context) {
       },
       body: JSON.stringify({
         to: USER_ID,
-        messages: [{ type: 'text', text: message }],
+        messages,
       }),
     });
 

@@ -2187,6 +2187,21 @@ async function testLineConnection(){
 }
 
 // Core LINE send function — calls Cloudflare Worker which holds env vars
+async function sendLineFlex(altText, flex, tokenOverride, userIdOverride){
+  const cfg = getLineConfig();
+  const token  = tokenOverride  || cfg.token;
+  const userId = userIdOverride || cfg.userId;
+  if(!token || !userId) return false;
+  try {
+    const r = await fetch('/api/line-message', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-Line-Token':token,'X-Line-Userid':userId},
+      body: JSON.stringify({ altText, flex }),
+      signal: AbortSignal.timeout(10000),
+    });
+    return r.ok;
+  } catch { return false; }
+}
 async function sendLineMessage(message, tokenOverride, userIdOverride){
   // ถ้าผ่าน token โดยตรง (test mode) ให้ embed ใน header ผ่าน Worker
   // Worker /api/line-message ใช้ env var ฝั่ง server เป็นหลัก
@@ -2529,7 +2544,49 @@ function checkWatchlistAlerts(){
     if(!hit && w._notified) w._notified = false;
     if(hit && !w._notified){
       const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ${w.cond==='below'?'≤':'≥'} เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;
-      sendLineMessage(lineMsg);
+      const others = watchlist.filter(x=>x.status==='pending' && x!==w);
+      const rows = others.slice(0,8).map(o=>{
+        const cp = getPrice(o);
+        const away = (cp && o.targetPrice>0) ? ((cp-o.targetPrice)/o.targetPrice)*100 : null;
+        return {type:'box',layout:'horizontal',margin:'md',contents:[
+          {type:'box',layout:'vertical',flex:1,contents:[
+            {type:'text',text:String(o.ticker),size:'sm',color:'#E2E8F0',weight:'bold'},
+            {type:'text',text:'เป้า ฿'+fn(o.targetPrice)+' · '+fq(o.qty)+' หุ้น',size:'xxs',color:'#6B7280',margin:'xs'},
+          ]},
+          {type:'box',layout:'vertical',flex:0,alignItems:'flex-end',contents:[
+            {type:'text',text:cp?('฿'+fn(cp)):'n/a',size:'sm',color:'#E2E8F0',align:'end'},
+            {type:'text',text:away==null?'–':(away<=0?'ถึงเขตซื้อ!':('ห่าง +'+fn(away,1)+'%')),size:'xxs',color:(away!=null&&away<=0)?'#00C896':'#8A8A9A',align:'end',margin:'xs'},
+          ]},
+        ]};
+      });
+      const kv=(l,v,c,b)=>({type:'box',layout:'horizontal',margin:'sm',contents:[
+        {type:'text',text:l,size:'xs',color:'#6B7280',flex:0},
+        {type:'text',text:v,size:'xs',color:c||'#E2E8F0',weight:b?'bold':'regular',align:'end',flex:1}]});
+      const wlFlex = {
+        type:'bubble',size:'kilo',
+        styles:{header:{backgroundColor:'#0F0F1A'},body:{backgroundColor:'#161625'},footer:{backgroundColor:'#0F0F1A'}},
+        header:{type:'box',layout:'vertical',paddingAll:'lg',contents:[
+          {type:'text',text:'🎯 TradeDesk · ราคาถึงเป้า!',size:'sm',color:'#4A9EFF',weight:'bold'},
+          {type:'text',text:'Buy Watchlist (DCA)',size:'xxs',color:'#6B7280',margin:'xs'},
+        ]},
+        body:{type:'box',layout:'vertical',paddingAll:'lg',contents:[
+          {type:'text',text:String(w.ticker),size:'xl',color:'#E2E8F0',weight:'bold'},
+          kv('ราคาปัจจุบัน','฿'+fn(curPrice),'#00C896',true),
+          kv('เป้าซื้อ ('+(w.cond==='below'?'≤':'≥')+')','฿'+fn(w.targetPrice)),
+          kv('จำนวนที่วางแผน',fq(w.qty)+' หุ้น ≈ ฿'+fn(curPrice*w.qty,0)),
+          ...(w.note?[{type:'text',text:'📝 '+w.note,size:'xxs',color:'#8A8A9A',margin:'sm',wrap:true}]:[]),
+          ...(rows.length?[
+            {type:'separator',margin:'xl',color:'#2A2A3E'},
+            {type:'text',text:'รอซื้ออีก '+others.length+' ตัว',size:'xxs',color:'#6B7280',weight:'bold',margin:'xl'},
+            ...rows,
+          ]:[]),
+        ]},
+        footer:{type:'box',layout:'vertical',paddingAll:'md',contents:[
+          {type:'button',style:'primary',color:'#4A9EFF',height:'sm',action:{type:'uri',label:'เปิด TradeDesk',uri:'https://trade-desk.pages.dev'}},
+        ]},
+      };
+      sendLineFlex('🎯 '+w.ticker+' ถึงเป้า ฿'+fn(curPrice)+' (เป้า ฿'+fn(w.targetPrice)+')', wlFlex)
+        .then(ok=>{ if(!ok) sendLineMessage(lineMsg); });
       showToast('🟢 '+w.ticker+' ถึงเป้า! ราคา ฿'+fn(curPrice)+' (เป้า ฿'+fn(w.targetPrice)+')');
       w._notified = true;
     }

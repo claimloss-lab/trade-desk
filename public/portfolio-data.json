@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-10T05:57:26.085Z",
-  "exportDateTH": "10 กรกฎาคม 2569 เวลา 12:57",
+  "exportDate": "2026-07-10T06:05:51.659Z",
+  "exportDateTH": "10 กรกฎาคม 2569 เวลา 13:05",
   "portfolios": [
     {
       "id": "dr1",
@@ -1955,7 +1955,7 @@
     {
       "id": 1778479684358,
       "ticker": "TISCO.BK",
-      "targetPrice": 125,
+      "targetPrice": 127,
       "qty": 100,
       "note": "DCA_04/2026",
       "cond": "below",
@@ -3655,6 +3655,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 38,
-    "totalNetWorth": "฿1,714,565.50"
+    "totalNetWorth": "฿1,716,974.50"
   }
 }

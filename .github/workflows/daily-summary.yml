@@ -12,7 +12,7 @@ jobs:
       - name: Trigger daily summary
         run: |
           echo "=== Calling daily-summary ==="
-          curl -s -X GET "https://trade-desk.pages.dev/api/daily-summary" \
+          curl -s -X GET "https://trade-desk.pages.dev/api/daily-summary?key=${{ secrets.SUMMARY_SECRET }}" \
             --max-time 30 -w "\nHTTP_STATUS:%{http_code}" | tee /tmp/response.txt
           echo ""
-          cat /tmp/response.txt
+          grep -q "HTTP_STATUS:200" /tmp/response.txt || { echo "❌ daily summary failed"; exit 1; }

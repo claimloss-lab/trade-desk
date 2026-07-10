@@ -24,7 +24,7 @@ export async function onRequest(context) {
     // Fetch quote summary for dividend info
     const modules = 'calendarEvents,summaryDetail,defaultKeyStatistics';
     const res = await fetch(
-      `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=${modules}&crumb=${encodeURIComponent(crumb)}`,
+      `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}&crumb=${encodeURIComponent(crumb)}`,
       { headers: { 'User-Agent': 'Mozilla/5.0', 'Cookie': cookie, 'Accept': 'application/json' } }
     );
 
@@ -36,7 +36,6 @@ export async function onRequest(context) {
 
     const cal = result.calendarEvents || {};
     const sd = result.summaryDetail || {};
-    const ks = result.defaultKeyStatistics || {};
 
     const fmt = v => v?.raw ?? v ?? null;
     const fmtDate = v => v?.fmt ?? null;
@@ -47,7 +46,8 @@ export async function onRequest(context) {
       dividendDate: fmtDate(cal.dividendDate),
       dividendRate: fmt(sd.dividendRate),
       dividendYield: fmt(sd.dividendYield) != null ? +(fmt(sd.dividendYield) * 100).toFixed(2) : null,
-      fiveYearAvgDividendYield: fmt(ks.fiveYearAverageReturn),
+      // FIX: previously read ks.fiveYearAverageReturn (wrong field — that's fund return)
+      fiveYearAvgDividendYield: fmt(sd.fiveYearAvgDividendYield),
       payoutRatio: fmt(sd.payoutRatio) != null ? +(fmt(sd.payoutRatio) * 100).toFixed(2) : null,
       trailingAnnualDividendRate: fmt(sd.trailingAnnualDividendRate),
       trailingAnnualDividendYield: fmt(sd.trailingAnnualDividendYield) != null ? +(fmt(sd.trailingAnnualDividendYield) * 100).toFixed(2) : null,

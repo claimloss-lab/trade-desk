@@ -1833,7 +1833,7 @@ async function boot(){
     const drRes = await fetch('/api/backup', {cache:'no-cache'});
     if(drRes.ok){
       const drData = await drRes.json();
-      if(drData.drConversions?.length) drsBaseList = drData.drConversions;
+      if(drData.drConversions?.length){ drsBaseList = drData.drConversions; window.__lastKnownDrConversions = drData.drConversions; }
     }
   } catch(e){ console.warn('Failed to preload drConversions at boot:', e.message); }
 
@@ -2043,7 +2043,7 @@ function importBackup(event){
       localStorage.setItem('td_alerts', JSON.stringify(data.alerts||[]));
       localStorage.setItem('td_notes',  JSON.stringify(data.notes||[]));
       localStorage.setItem('td_divs',   JSON.stringify(data.dividends||[]));
-      localStorage.setItem('td_ver',    'v20250401_8');
+      localStorage.setItem('td_ver',    DATA_VER); // FIX: hardcoded old version made boot check wipe freshly imported data
       if(data.watchlist) localStorage.setItem('td_wl', JSON.stringify(data.watchlist));
       if(data.dcaHistory) localStorage.setItem('td_dca_hist', JSON.stringify(data.dcaHistory));
       if(data.currency) localStorage.setItem('td_cur', data.currency);
@@ -5505,7 +5505,7 @@ async function loadDRScanner() {
       const r = await fetch(`/api/backup?t=${Date.now()}`);
       if (r.ok) {
         const d = await r.json();
-        if (d.drConversions?.length) drsBaseList = d.drConversions;
+        if (d.drConversions?.length){ drsBaseList = d.drConversions; window.__lastKnownDrConversions = d.drConversions; }
       }
     } catch (e) { console.error('Failed to load drConversions:', e); }
   }
@@ -6265,22 +6265,10 @@ async function aiSummarizeModalFin(ticker) {
 
 // Collect ALL data including watchlist
 function collectAllData() {
-  return {
-    version: '3',
-    exportDate: new Date().toISOString(),
-    exportDateTH: new Date().toLocaleDateString('th-TH', {
-      year:'numeric', month:'long', day:'numeric',
-      hour:'2-digit', minute:'2-digit'
-    }),
-    portfolios: portfolios,
-    watchlist: watchlist || [],
-    transactions: JSON.parse(localStorage.getItem('td_tx') || '[]'),
-    alerts: JSON.parse(localStorage.getItem('td_alerts') || '[]'),
-    notes: JSON.parse(localStorage.getItem('td_notes') || '[]'),
-    dividends: JSON.parse(localStorage.getItem('td_divs') || '[]'),
-    dcaHistory: JSON.parse(localStorage.getItem('td_dca_hist') || '[]'),
-    currency: localStorage.getItem('td_cur') || 'THB',
-  };
+  // FIX: this second payload builder omitted drConversions — manual ☁️ Backup
+  // overwrote portfolio-data.json without the DR list. Delegate to
+  // buildBackupData() so there is exactly one payload builder.
+  return buildBackupData();
 }
 
 // Save all data to GitHub

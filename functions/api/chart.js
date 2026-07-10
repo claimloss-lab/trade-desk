@@ -15,7 +15,12 @@ export async function onRequest(context) {
 
   const t = ticker.toUpperCase().trim();
 
-  // Build Yahoo Finance symbol — same logic as price.js
+  // Build Yahoo Finance symbol — unified logic, kept in sync with price.js
+  // (FIX: previously BRK-B → "BRK-B.BK" and 9618.HK → "9618-HK", both wrong)
+  const NON_US_EXCHANGE_SUFFIXES = new Set([
+    'HK','PA','L','DE','T','TO','AX','SI','KS','KQ','SS','SZ','MI','AS','SW',
+    'BR','MX','SA','NZ','ST','OL','CO','HE','VI','WA','PR','IS','JK','NS','BO','TW','TWO'
+  ]);
   let sym;
   if (t.endsWith('.BK')) {
     sym = t;
@@ -25,9 +30,12 @@ export async function onRequest(context) {
     // SET DR like AMZN80 → try AMZN80.BK first, fallback to parent (AMZN)
     sym = t + '.BK';
   } else if (t.includes('.')) {
-    sym = t.replace(/\./g, '-');    // BRK.B → BRK-B
-  } else if (/^[A-Z]{1,5}$/.test(t)) {
-    sym = t;
+    const suf = t.split('.').pop();
+    sym = NON_US_EXCHANGE_SUFFIXES.has(suf)
+      ? t                           // Non-US listing: 9618.HK, OR.PA → keep as-is
+      : t.replace(/\./g, '-');      // US dotted share class: BRK.B → BRK-B
+  } else if (/^[A-Z]{1,5}(-[A-Z]{1,2})?$/.test(t)) {
+    sym = t;                        // US stocks incl. share classes: VOO, BRK-B
   } else {
     sym = t + '.BK';
   }
@@ -43,7 +51,7 @@ export async function onRequest(context) {
     for (const host of ['query1', 'query2']) {
       try {
         const res = await fetch(
-          `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=${interval}&range=${range}`,
+          `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=${encodeURIComponent(interval)}&range=${encodeURIComponent(range)}`,
           { headers, cf: { cacheTtl: 300 } }
         );
         if (!res.ok) continue;

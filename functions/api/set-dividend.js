@@ -20,13 +20,18 @@ export async function onRequest(context) {
 
   try {
     // Try SET API first
-    const apiUrl = `https://www.set.or.th/api/set/stock/${ticker}/rights-benefits?lang=th`;
+    const apiUrl = `https://www.set.or.th/api/set/stock/${encodeURIComponent(ticker)}/rights-benefits?lang=th`;
     const res = await fetch(apiUrl, { headers, cf: { cacheTtl: 3600 } });
 
     if (res.ok) {
       const data = await res.json();
-      // Parse dividend entries from SET API response
-      const dividends = (data?.dividends || data?.items || data || [])
+      // FIX: guard ด้วย Array.isArray — เดิมถ้า SET คืน object ที่ไม่มี
+      // dividends/items จะเรียก .filter บน object → crash 500
+      const rawList = Array.isArray(data?.dividends) ? data.dividends
+                    : Array.isArray(data?.items)     ? data.items
+                    : Array.isArray(data)            ? data
+                    : [];
+      const dividends = rawList
         .filter(d => d.type === 'CD' || d.caType === 'CD' || d.actionType === 'CD')
         .slice(0, 20)
         .map(d => ({
@@ -40,7 +45,7 @@ export async function onRequest(context) {
     }
 
     // Fallback: scrape HTML page
-    const htmlUrl = `https://www.set.or.th/th/market/product/stock/quote/${ticker}/rights-benefits`;
+    const htmlUrl = `https://www.set.or.th/th/market/product/stock/quote/${encodeURIComponent(ticker)}/rights-benefits`;
     const htmlRes = await fetch(htmlUrl, { headers, cf: { cacheTtl: 3600 } });
     if (!htmlRes.ok) {
       return new Response(JSON.stringify({ error: 'SET fetch failed', status: htmlRes.status }), { status: 502, headers: cors });
@@ -50,9 +55,7 @@ export async function onRequest(context) {
 
     // Parse dividend table from HTML
     const dividends = [];
-    // Match table rows with dividend data
     const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
-    const cellRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
     let rowMatch;
 
     while ((rowMatch = rowRegex.exec(html)) !== null) {

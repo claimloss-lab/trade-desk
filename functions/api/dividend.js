@@ -13,12 +13,26 @@ export async function onRequest(context) {
   if (!ticker) return new Response(JSON.stringify({ error: 'missing ticker' }), { status: 400, headers: cors });
 
   const t = ticker.toUpperCase().trim();
+
+  // Build Yahoo Finance symbol — unified logic, kept in sync with price.js
+  // (FIX: previously BRK-B → "BRK-B.BK" and 9618.HK → "9618-HK", both wrong)
+  const NON_US_EXCHANGE_SUFFIXES = new Set([
+    'HK','PA','L','DE','T','TO','AX','SI','KS','KQ','SS','SZ','MI','AS','SW',
+    'BR','MX','SA','NZ','ST','OL','CO','HE','VI','WA','PR','IS','JK','NS','BO','TW','TWO'
+  ]);
   let sym;
-  if (t.endsWith('.BK')) sym = t;
-  else if (/\d{2,}$/.test(t)) sym = t + '.BK';
-  else if (t.includes('.')) sym = t.replace(/\./g, '-');
-  else if (/^[A-Z]{1,5}$/.test(t)) sym = t;
-  else sym = t + '.BK';
+  if (t.endsWith('.BK')) {
+    sym = t;
+  } else if (/\d{2,}$/.test(t)) {
+    sym = t + '.BK';
+  } else if (t.includes('.')) {
+    const suf = t.split('.').pop();
+    sym = NON_US_EXCHANGE_SUFFIXES.has(suf) ? t : t.replace(/\./g, '-');
+  } else if (/^[A-Z]{1,5}(-[A-Z]{1,2})?$/.test(t)) {
+    sym = t;
+  } else {
+    sym = t + '.BK';
+  }
 
   const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
@@ -42,7 +56,7 @@ export async function onRequest(context) {
 
     // Fetch dividend history
     const chartRes = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=${range}&events=div&crumb=${encodeURIComponent(crumb)}`,
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=${encodeURIComponent(range)}&events=div&crumb=${encodeURIComponent(crumb)}`,
       { headers: authHeaders, cf: { cacheTtl: 3600 } }
     );
     if (!chartRes.ok) throw new Error(`Yahoo chart ${chartRes.status}`);

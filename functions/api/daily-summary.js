@@ -12,7 +12,8 @@ function fm(n, dec = 2) {
   return Number(n).toLocaleString('th-TH', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 }
 function fmSign(n, dec = 2) {
-  return (n >= 0 ? '+' : '') + (n < 0 ? '-' : '') + fm(Math.abs(n), dec);
+  if (n == null || isNaN(n)) return '0';
+  return (n >= 0 ? '+' : '-') + fm(Math.abs(n), dec);
 }
 
 // ── Fetch price ───────────────────────────────────────────────────────────────
@@ -36,7 +37,7 @@ async function sendLineFlex(token, userId, altText, contents) {
 }
 
 // ── Build Flex bubble ─────────────────────────────────────────────────────────
-function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser }) {
+function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount }) {
   const isUp     = nwChange == null ? null : nwChange >= 0;
   const chgColor = isUp == null ? '#8A8A9A' : isUp ? '#00C896' : '#FF5C5C';
   const chgArrow = isUp == null ? '─' : isUp ? '▲' : '▼';
@@ -73,14 +74,22 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
     };
   }
 
-  const gRow = stockRow(topGainer, 'ขึ้นมากสุด');
-  const lRow = topLoser && topLoser.ticker !== topGainer?.ticker ? stockRow(topLoser, 'ลงมากสุด') : null;
+  // FIX: แสดง "ขึ้นมากสุด" เฉพาะเมื่อขึ้นจริง และ "ลงมากสุด" เฉพาะเมื่อลงจริง
+  // (เดิม: วันที่หุ้นแดงทั้งกระดาน หุ้นที่ลงน้อยสุดถูก label ว่า "ขึ้นมากสุด")
+  const gRow = (topGainer && topGainer.dayChg > 0) ? stockRow(topGainer, 'ขึ้นมากสุด') : null;
+  const lRow = (topLoser && topLoser.dayChg < 0 && topLoser.ticker !== topGainer?.ticker)
+    ? stockRow(topLoser, 'ลงมากสุด') : null;
 
   const stockSection = (gRow || lRow) ? [
     { type: 'separator', margin: 'xl', color: '#2A2A3E' },
     { type: 'text', text: 'เคลื่อนไหวโดดเด่น', size: 'xxs', color: '#6B7280', weight: 'bold', margin: 'xl' },
     ...(gRow ? [gRow] : []),
     ...(lRow ? [lRow] : []),
+  ] : [];
+
+  const staleNote = staleCount > 0 ? [
+    { type: 'text', text: `⚠️ ${staleCount} ตัวใช้ราคาล่าสุดที่มี (ดึงราคาวันนี้ไม่สำเร็จ)`,
+      size: 'xxs', color: '#B7791F', margin: 'md', wrap: true },
   ] : [];
 
   return {
@@ -116,6 +125,7 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
             { type: 'text', text: chgText, size: 'xs', color: chgColor, weight: 'bold', align: 'end', flex: 1, adjustMode: 'shrink-to-fit' },
           ]
         },
+        ...staleNote,
         ...stockSection,
       ]
     },
@@ -183,6 +193,15 @@ export async function onRequest(context) {
   const LINE_USER  = env.LINE_USER_ID;
   const GH_TOKEN   = env.GITHUB_TOKEN;
 
+  // Optional shared-secret guard: ตั้ง env SUMMARY_SECRET แล้วให้ cron worker
+  // เรียกด้วย ?key=<secret> — ถ้าไม่ตั้ง env จะทำงานแบบเดิม (เปิด public)
+  if (env.SUMMARY_SECRET) {
+    const key = new URL(req.url).searchParams.get('key');
+    if (key !== env.SUMMARY_SECRET) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: cors });
+    }
+  }
+
   if (!LINE_TOKEN || !LINE_USER) {
     return new Response(JSON.stringify({ error: 'LINE env not set' }), { status: 500, headers: cors });
   }
@@ -197,6 +216,8 @@ export async function onRequest(context) {
     const portfolioData = await dataRes.json();
     const portfolios    = portfolioData.portfolios || [];
 
+    const prevPrices = (snapshot && snapshot.prices) ? snapshot.prices : {};
+
     const tickerSet = new Set();
     portfolios.forEach(p => (p.stocks || []).forEach(s => s.ticker && tickerSet.add(s.ticker)));
     const baseUrl  = new URL(req.url).origin;
@@ -206,17 +227,28 @@ export async function onRequest(context) {
       if (p) priceMap[t] = p;
     }));
 
+    // FIX: เดิมถ้าดึงราคาบางตัวไม่สำเร็จ หุ้นตัวนั้นหายจาก net worth ทั้งก้อน
+    // → มูลค่าพอร์ต "ร่วง" ปลอมๆ ตอนนี้ fallback ไปใช้ราคาจาก snapshot เมื่อวาน
+    // (ตัวที่ fallback จะไม่ถูกนับใน top gainer/loser เพราะ dayChg = 0)
+    let staleCount = 0;
+    const effPrice = {};
+    tickerSet.forEach(t => {
+      if (priceMap[t]) { effPrice[t] = priceMap[t]; }
+      else if (prevPrices[t] > 0) { effPrice[t] = prevPrices[t]; staleCount++; }
+    });
+
     let totalNetWorth = 0;
     const stockValues = [];
     portfolios.forEach(p => {
       (p.stocks || []).forEach(s => {
-        const price = priceMap[s.ticker];
+        const price = effPrice[s.ticker];
         if (!price || !s.qty) return;
         const value  = price * s.qty;
         const cost   = (s.buyPrice || 0) * s.qty;
         const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
         totalNetWorth += value;
-        if (pnlPct != null) stockValues.push({ ticker: s.ticker, price, pnlPct });
+        // เฉพาะตัวที่ได้ราคาสดจริงเท่านั้นถึงเข้าชิง gainer/loser
+        if (pnlPct != null && priceMap[s.ticker]) stockValues.push({ ticker: s.ticker, price, pnlPct });
       });
     });
 
@@ -224,15 +256,12 @@ export async function onRequest(context) {
     const nwChange    = prevNW != null ? totalNetWorth - prevNW : null;
     const nwChangePct = (prevNW != null && prevNW > 0) ? (nwChange / prevNW) * 100 : null;
 
-    const prevPrices = (snapshot && snapshot.prices) ? snapshot.prices : {};
-    const byTicker   = {};
+    const byTicker = {};
     stockValues.forEach(s => {
       const prev = prevPrices[s.ticker];
       if (!prev || prev <= 0) return;
       const dayChg = ((s.price - prev) / prev) * 100;
-      if (!byTicker[s.ticker] || dayChg > byTicker[s.ticker].dayChg) {
-        byTicker[s.ticker] = { ...s, dayChg };
-      }
+      if (!byTicker[s.ticker]) byTicker[s.ticker] = { ...s, dayChg };
     });
     const uniq      = Object.values(byTicker).sort((a, b) => b.dayChg - a.dayChg);
     const topGainer = uniq[0] || null;
@@ -242,7 +271,7 @@ export async function onRequest(context) {
       weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Bangkok',
     });
 
-    const flexContents = buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser });
+    const flexContents = buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount });
     const altText = `TradeDesk ${today} | ฿${fm(totalNetWorth, 0)}${nwChange != null ? ` (${fmSign(nwChangePct)}%)` : ''}`;
 
     const lineRes = await sendLineFlex(LINE_TOKEN, LINE_USER, altText, flexContents);
@@ -251,13 +280,15 @@ export async function onRequest(context) {
       throw new Error(`LINE send failed ${lineRes.status}: ${errBody}`);
     }
 
+    // Snapshot เก็บ effPrice (carry-forward ราคาเก่าเมื่อดึงไม่สำเร็จ) เพื่อไม่ให้
+    // ticker หลุดหายจากการเทียบวันถัดไป
     const snapshotSaved = await writeSnapshot(GH_TOKEN, {
       date:     new Date().toISOString(),
       netWorth: totalNetWorth,
-      prices:   priceMap,
+      prices:   effPrice,
     });
 
-    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, stockCount: stockValues.length }), { headers: cors });
+    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, staleCount, stockCount: stockValues.length }), { headers: cors });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

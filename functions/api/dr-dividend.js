@@ -10,48 +10,64 @@ export async function onRequest(context) {
   const drTicker = url.searchParams.get('dr')?.toUpperCase();
   const usTicker = url.searchParams.get('us')?.toUpperCase();
   const range    = url.searchParams.get('range') || '2y';
+  // Optional override: ratio = จำนวน DR ต่อ 1 หุ้นอ้างอิง (รูปแบบเดียวกับ drConversions
+  // เช่น CRWD06 → 1250) ถ้าส่งมาจะไม่ต้อง scrape หน้า SET เลย — แม่นยำกว่า
+  const ratioParam = parseFloat(url.searchParams.get('ratio') || '');
 
   if (!drTicker || !usTicker) {
     return new Response(JSON.stringify({ error: 'missing dr or us param' }), { status: 400, headers: cors });
   }
 
   try {
-    // ── Step 1: Get DR ratio from SET profile page ──
+    // ── Step 1: DR ratio (shares of underlying per 1 DR) ──
     let drRatio = null;
-    const setHeaders = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,*/*',
-      'Accept-Language': 'th-TH,th;q=0.9,en;q=0.8',
-      'Referer': 'https://www.set.or.th/',
-    };
+    let ratioSource = null;
 
-    try {
-      const profileUrl = `https://www.set.or.th/th/market/product/dr/quote/${drTicker}/company-profile`;
-      const profileRes = await fetch(profileUrl, { headers: setHeaders, cf: { cacheTtl: 86400 } });
-      if (profileRes.ok) {
-        const html = await profileRes.text();
-        // Try various ratio patterns
-        const patterns = [
-          /(\d+(?:\.\d+)?)\s*DR\s*:\s*([\d.]+)\s*(?:Underlying|หุ้นอ้างอิง)/i,
-          /อัตราแปลงสภาพ[^:]*:\s*([\d.]+)\s*:\s*([\d.]+)/i,
-          /"conversionRatio":\s*([\d.]+)/i,
-          /"ratio":\s*([\d.]+)/i,
-        ];
-        for (const p of patterns) {
-          const m = html.match(p);
-          if (m) {
-            drRatio = m[2] ? parseFloat(m[2]) / parseFloat(m[1]) : parseFloat(m[1]);
-            break;
+    if (isFinite(ratioParam) && ratioParam > 0) {
+      drRatio = 1 / ratioParam;
+      ratioSource = 'param';
+    }
+
+    if (!drRatio) {
+      const setHeaders = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,*/*',
+        'Accept-Language': 'th-TH,th;q=0.9,en;q=0.8',
+        'Referer': 'https://www.set.or.th/',
+      };
+
+      try {
+        const profileUrl = `https://www.set.or.th/th/market/product/dr/quote/${drTicker}/company-profile`;
+        const profileRes = await fetch(profileUrl, { headers: setHeaders, cf: { cacheTtl: 86400 } });
+        if (profileRes.ok) {
+          const html = await profileRes.text();
+          // FIX: patterns now accept comma-grouped numbers ("5,000 DR : 1") —
+          // previously "\d+" matched only "000" → drRatio = 1/0 = Infinity
+          const num = (s) => parseFloat(String(s).replace(/,/g, ''));
+          const patterns = [
+            /([\d,]+(?:\.\d+)?)\s*DR\s*:\s*([\d,]+(?:\.\d+)?)\s*(?:Underlying|หุ้นอ้างอิง)/i,
+            /อัตราแปลงสภาพ[^:]*:\s*([\d,]+(?:\.\d+)?)\s*:\s*([\d,]+(?:\.\d+)?)/i,
+            /"conversionRatio":\s*"?([\d,]+(?:\.\d+)?)/i,
+            /"ratio":\s*"?([\d,]+(?:\.\d+)?)/i,
+          ];
+          for (const p of patterns) {
+            const m = html.match(p);
+            if (!m) continue;
+            const a = num(m[1]);
+            const b = m[2] != null ? num(m[2]) : null;
+            const candidate = (b != null) ? (a > 0 ? b / a : null) : (a > 0 ? 1 / a : null);
+            if (candidate != null && isFinite(candidate) && candidate > 0) {
+              drRatio = candidate;
+              ratioSource = 'set-profile';
+              break;
+            }
           }
         }
-      }
-    } catch(e) {}
-
-    // Default ratio if SET unreachable (common DR ratios)
-    if (!drRatio) {
-      const commonRatios = { default: 0.1 };
-      drRatio = commonRatios[drTicker] || 0.1;
+      } catch (e) {}
     }
+
+    // Default ratio if SET unreachable (common DR ratio 10 DR : 1)
+    if (!drRatio) { drRatio = 0.1; ratioSource = 'default'; }
 
     // ── Step 2: Yahoo Finance crumb ──
     const cookieRes = await fetch('https://fc.yahoo.com', {
@@ -69,18 +85,17 @@ export async function onRequest(context) {
     const from = now - (periods[range] || 730) * 86400;
 
     // ── Step 3: Get US dividends with ex-date AND pay-date ──
-    // Use quoteSummary to get upcoming dividend info
     const modules = 'calendarEvents,summaryDetail';
-    const summaryRes = await fetch(
-      `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${usTicker}?modules=${modules}&crumb=${encodeURIComponent(crumb)}`,
-      { headers: yHeaders }
-    );
-
-    // Get dividend history from chart
-    const chartRes = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${usTicker}?period1=${from}&period2=${now}&interval=1d&events=div&crumb=${encodeURIComponent(crumb)}`,
-      { headers: yHeaders }
-    );
+    const [summaryRes, chartRes] = await Promise.all([
+      fetch(
+        `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(usTicker)}?modules=${modules}&crumb=${encodeURIComponent(crumb)}`,
+        { headers: yHeaders }
+      ),
+      fetch(
+        `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(usTicker)}?period1=${from}&period2=${now}&interval=1d&events=div&crumb=${encodeURIComponent(crumb)}`,
+        { headers: yHeaders }
+      ),
+    ]);
 
     if (!chartRes.ok) {
       return new Response(JSON.stringify({ error: 'Yahoo chart failed', status: chartRes.status }), { status: 502, headers: cors });
@@ -102,17 +117,21 @@ export async function onRequest(context) {
     }
 
     // ── Step 4: USDTHB history ──
-    const fxRes = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/USDTHB=X?period1=${from}&period2=${now}&interval=1d&crumb=${encodeURIComponent(crumb)}`,
-      { headers: yHeaders }
-    );
-    const fxData = await fxRes.json();
-    const fxTs = fxData?.chart?.result?.[0]?.timestamp || [];
-    const fxClose = fxData?.chart?.result?.[0]?.indicators?.quote?.[0]?.close || [];
     const fxByDate = {};
-    fxTs.forEach((ts, i) => {
-      if (fxClose[i]) fxByDate[new Date(ts * 1000).toISOString().split('T')[0]] = fxClose[i];
-    });
+    try {
+      const fxRes = await fetch(
+        `https://query1.finance.yahoo.com/v8/finance/chart/USDTHB=X?period1=${from}&period2=${now}&interval=1d&crumb=${encodeURIComponent(crumb)}`,
+        { headers: yHeaders }
+      );
+      if (fxRes.ok) {
+        const fxData = await fxRes.json();
+        const fxTs = fxData?.chart?.result?.[0]?.timestamp || [];
+        const fxClose = fxData?.chart?.result?.[0]?.indicators?.quote?.[0]?.close || [];
+        fxTs.forEach((ts, i) => {
+          if (fxClose[i]) fxByDate[new Date(ts * 1000).toISOString().split('T')[0]] = fxClose[i];
+        });
+      }
+    } catch (e) {}
 
     function getFx(dateStr) {
       if (fxByDate[dateStr]) return fxByDate[dateStr];
@@ -138,8 +157,7 @@ export async function onRequest(context) {
       if (!payDate) {
         const pd = new Date(d.date * 1000);
         pd.setDate(pd.getDate() + 28);
-        payDate = pd.toISOString().split('T')[0];
-        payDate = payDate + ' (est.)';
+        payDate = pd.toISOString().split('T')[0] + ' (est.)';
       }
 
       return {
@@ -154,9 +172,9 @@ export async function onRequest(context) {
       };
     }).sort((a, b) => b.exDate.localeCompare(a.exDate));
 
-    return new Response(JSON.stringify({ drTicker, usTicker, drRatio, dividends }), { headers: cors });
+    return new Response(JSON.stringify({ drTicker, usTicker, drRatio, ratioSource, dividends }), { headers: cors });
 
-  } catch(e) {
+  } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
   }
 }

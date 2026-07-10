@@ -2540,8 +2540,11 @@ function checkWatchlistAlerts(){
     const curPrice = getPrice(w);
     if(!curPrice) return;
     const hit = w.cond==='below' ? curPrice<=w.targetPrice : curPrice>=w.targetPrice;
-    // reset flag เมื่อราคาออกจากเขตเป้า (เผื่อแจ้งซ้ำได้อีกครั้ง)
-    if(!hit && w._notified) w._notified = false;
+    // re-arm เมื่อราคาออกนอกเขตเป้าเกิน 1% (buffer กันเตือนรัวตอนราคาแกว่งปริ่มเป้า — logic เดียวกับ worker)
+    if(!hit && w._notified){
+      const clearedZone = w.cond==='below' ? curPrice > w.targetPrice*1.01 : curPrice < w.targetPrice*0.99;
+      if(clearedZone) w._notified = false;
+    }
     if(hit && !w._notified){
       const lineMsg = `🟢 TradeDesk: ถึงเวลาซื้อ ${w.ticker}!\nราคา ฿${fn(curPrice)} ${w.cond==='below'?'≤':'≥'} เป้า ฿${fn(w.targetPrice)}\nจำนวน: ${fq(w.qty)} หุ้น`;
       const others = watchlist.filter(x=>x.status==='pending' && x!==w);

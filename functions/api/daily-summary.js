@@ -195,6 +195,10 @@ export async function onRequest(context) {
 
   // Optional shared-secret guard: ตั้ง env SUMMARY_SECRET แล้วให้ cron worker
   // เรียกด้วย ?key=<secret> — ถ้าไม่ตั้ง env จะทำงานแบบเดิม (เปิด public)
+  // TEMP DEBUG — remove after diagnosing env binding
+  if (new URL(req.url).searchParams.get('debug') === 'env') {
+    return new Response(JSON.stringify({ hasSummarySecret: !!env.SUMMARY_SECRET, envKeys: Object.keys(env || {}) }), { headers: cors });
+  }
   if (env.SUMMARY_SECRET) {
     const key = new URL(req.url).searchParams.get('key');
     if (key !== env.SUMMARY_SECRET) {

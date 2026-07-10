@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-10T05:57:01.305Z",
+  "exportDate": "2026-07-10T05:57:26.085Z",
   "exportDateTH": "10 กรกฎาคม 2569 เวลา 12:57",
   "portfolios": [
     {
@@ -1955,7 +1955,7 @@
     {
       "id": 1778479684358,
       "ticker": "TISCO.BK",
-      "targetPrice": 124,
+      "targetPrice": 125,
       "qty": 100,
       "note": "DCA_04/2026",
       "cond": "below",

@@ -195,9 +195,13 @@ export async function onRequest(context) {
 
   // Optional shared-secret guard: ตั้ง env SUMMARY_SECRET แล้วให้ cron worker
   // เรียกด้วย ?key=<secret> — ถ้าไม่ตั้ง env จะทำงานแบบเดิม (เปิด public)
-  if (env.SUMMARY_SECRET) {
+  // Robust lookup — ชื่อตัวแปรใน dashboard อาจติด whitespace มาโดยไม่เห็นใน UI
+  const SUMMARY_SECRET = (env.SUMMARY_SECRET
+    ?? Object.entries(env).find(([k]) => k.trim() === 'SUMMARY_SECRET')?.[1]
+    ?? '').trim();
+  if (SUMMARY_SECRET) {
     const key = new URL(req.url).searchParams.get('key');
-    if (key !== env.SUMMARY_SECRET) {
+    if (key !== SUMMARY_SECRET) {
       return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: cors });
     }
   }

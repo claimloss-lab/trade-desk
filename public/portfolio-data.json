@@ -2101,7 +2101,8 @@
       "parent": "AAPL",
       "conv": 340,
       "name": "Apple",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "AAPL03",
@@ -2136,7 +2137,8 @@
       "parent": "ABBV",
       "conv": 1000,
       "name": "AbbVie",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ABNB06",
@@ -2157,7 +2159,8 @@
       "parent": "ADBE",
       "conv": 4000,
       "name": "Adobe",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ADVANT19",
@@ -2220,7 +2223,8 @@
       "parent": "AMAT",
       "conv": 3600,
       "name": "Applied Materials",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "AMAT19",
@@ -2255,7 +2259,8 @@
       "parent": "AMD",
       "conv": 5000,
       "name": "AMD",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "AMGN06",
@@ -2304,14 +2309,16 @@
       "parent": "AMZN",
       "conv": 4000,
       "name": "Amazon",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ANET23",
       "parent": "ANET",
       "conv": 1800,
       "name": "Arista Networks",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ANET80",
@@ -2388,7 +2395,8 @@
       "parent": "ASTS",
       "conv": 1000,
       "name": "AST SpaceMobile",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "AVGO23",
@@ -2402,7 +2410,8 @@
       "parent": "AVGO",
       "conv": 5000,
       "name": "Broadcom",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "AXP06",
@@ -2521,7 +2530,8 @@
       "parent": "BKNG",
       "conv": 2000,
       "name": "Booking Holdings",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "BLK06",
@@ -2563,7 +2573,8 @@
       "parent": "BRK-B",
       "conv": 10000,
       "name": "Berkshire Hathaway B",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "BYDCOM01",
@@ -2745,7 +2756,8 @@
       "parent": "COHR",
       "conv": 2000,
       "name": "Coherent",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "COHR80",
@@ -2773,14 +2785,16 @@
       "parent": "COIN",
       "conv": 1000,
       "name": "Coinbase",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "COSTCO19",
       "parent": "COST",
       "conv": 1000,
       "name": "Costco",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "COSTCO80",
@@ -2808,7 +2822,8 @@
       "parent": "CRM",
       "conv": 2500,
       "name": "Salesforce",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "CRM80",
@@ -2836,7 +2851,8 @@
       "parent": "CRWD",
       "conv": 250,
       "name": "CrowdStrike",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "CRWV03",
@@ -3081,7 +3097,8 @@
       "parent": "GEV",
       "conv": 11000,
       "name": "GE Vernova",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "GEV80",
@@ -3144,7 +3161,8 @@
       "parent": "GLD",
       "conv": 300,
       "name": "SPDR Gold Shares",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "GOLDUS80",
@@ -3172,14 +3190,16 @@
       "parent": "GOOG",
       "conv": 2000,
       "name": "Alphabet C",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "GOOGL01",
       "parent": "GOOGL",
       "conv": 340,
       "name": "Alphabet A",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "GOOGL03",
@@ -3305,7 +3325,8 @@
       "parent": "HOOD",
       "conv": 1000,
       "name": "Robinhood",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "HOOD80",
@@ -3417,14 +3438,16 @@
       "parent": "INTC",
       "conv": 700,
       "name": "Intel",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "IONQ03",
       "parent": "IONQ",
       "conv": 500,
       "name": "IonQ",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "IONQ23",
@@ -3438,7 +3461,8 @@
       "parent": "ISRG",
       "conv": 4500,
       "name": "Intuitive Surgical",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ISRG06",
@@ -3550,7 +3574,8 @@
       "parent": "JPM",
       "conv": 500,
       "name": "JPMorgan Chase",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "JPROBOAI24",
@@ -3613,7 +3638,8 @@
       "parent": "KLAC",
       "conv": 1000,
       "name": "KLA Corp",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "KO80",
@@ -3669,7 +3695,8 @@
       "parent": "LITE",
       "conv": 7300,
       "name": "Lumentum",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "LITE23",
@@ -3697,7 +3724,8 @@
       "parent": "LLY",
       "conv": 20000,
       "name": "Eli Lilly",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "LOREAL80",
@@ -3718,7 +3746,8 @@
       "parent": "LRCX",
       "conv": 2400,
       "name": "Lam Research",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "LRCX19",
@@ -3795,7 +3824,8 @@
       "parent": "MELI",
       "conv": 25000,
       "name": "MercadoLibre",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MELI23",
@@ -3830,14 +3860,16 @@
       "parent": "META",
       "conv": 8000,
       "name": "Meta Platforms",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MICRON01",
       "parent": "MU",
       "conv": 1600,
       "name": "Micron Technology",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MICRON03",
@@ -3928,7 +3960,8 @@
       "parent": "MP",
       "conv": 100,
       "name": "MP Materials",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MPWR23",
@@ -3949,7 +3982,8 @@
       "parent": "MRVL",
       "conv": 1200,
       "name": "Marvell Technology",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MRVL80",
@@ -4005,7 +4039,8 @@
       "parent": "MSFT",
       "conv": 2000,
       "name": "Microsoft",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "MSN11",
@@ -4075,7 +4110,8 @@
       "parent": "NBIS",
       "conv": 1000,
       "name": "Nebius Group",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "NBIS23",
@@ -4124,7 +4160,8 @@
       "parent": "NEM",
       "conv": 1600,
       "name": "Newmont",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "NET03",
@@ -4152,7 +4189,8 @@
       "parent": "NFLX",
       "conv": 1000,
       "name": "Netflix",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "NIKE80",
@@ -4243,14 +4281,16 @@
       "parent": "NVDA",
       "conv": 200,
       "name": "NVIDIA",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "NVTS03",
       "parent": "NVTS",
       "conv": 100,
       "name": "Navitas Semiconductor",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "NVTS23",
@@ -4313,7 +4353,8 @@
       "parent": "ORCL",
       "conv": 1000,
       "name": "Oracle",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "ORCL80",
@@ -4334,7 +4375,8 @@
       "parent": "PANW",
       "conv": 1000,
       "name": "Palo Alto Networks",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "PEP80",
@@ -4376,7 +4418,8 @@
       "parent": "PLTR",
       "conv": 1100,
       "name": "Palantir",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "PLTR03",
@@ -4488,7 +4531,8 @@
       "parent": "RKLB",
       "conv": 1000,
       "name": "Rocket Lab",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SANOFI80",
@@ -4579,7 +4623,8 @@
       "parent": "SHOP",
       "conv": 2000,
       "name": "Shopify",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SIA19",
@@ -4663,7 +4708,8 @@
       "parent": "SNDK",
       "conv": 8000,
       "name": "SanDisk",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SNDK80",
@@ -4677,7 +4723,8 @@
       "parent": "SNOW",
       "conv": 2000,
       "name": "Snowflake",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SNOW23",
@@ -4768,7 +4815,8 @@
       "parent": "SPCX",
       "conv": 1000,
       "name": "SpaceX",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SPBOND80",
@@ -4866,7 +4914,8 @@
       "parent": "SNPS",
       "conv": 5000,
       "name": "Synopsys",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "SYNP23",
@@ -4964,7 +5013,8 @@
       "parent": "TER",
       "conv": 2000,
       "name": "Teradyne",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "TER80",
@@ -5048,7 +5098,8 @@
       "parent": "TSLA",
       "conv": 5000,
       "name": "Tesla",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "UBER06",
@@ -5160,7 +5211,8 @@
       "parent": "V",
       "conv": 8000,
       "name": "Visa",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "VNFIN24",
@@ -5188,7 +5240,8 @@
       "parent": "VRT",
       "conv": 3400,
       "name": "Vertiv",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "VRT80",
@@ -5209,7 +5262,8 @@
       "parent": "WMT",
       "conv": 1000,
       "name": "Walmart",
-      "currency": "USD"
+      "currency": "USD",
+      "preferred": true
     },
     {
       "dr": "WMT80",

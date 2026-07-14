@@ -5693,6 +5693,7 @@ function renderDRScanner() {
     if (filter === 'near' && !(item.diff !== null && Math.abs(item.diff) <= 2)) return false;
     if (filter === 'expensive' && !(item.diff !== null && item.diff > 2)) return false;
     if (filter === 'loaded' && item.diff === null) return false;
+    if (filter === 'preferred' && !item.preferred) return false;
     return true;
   });
 
@@ -5725,7 +5726,7 @@ function renderDRScanner() {
     const inPort = portfolios.some(p => p.type === 'realtime_dr' && p.stocks?.some(s => s.ticker === item.dr));
     const loading = item.drPrice === null && item.parentPrice === null;
     return `<tr style="border-bottom:1px solid var(--bd);${inPort ? 'background:var(--blue-bg)' : ''}${loading ? 'opacity:0.5' : ''}">
-      <td style="padding:8px 6px"><span class="tkr" style="font-size:12px">${item.dr}</span>${inPort ? ' <span style="font-size:10px;color:var(--blue)">●พอร์ต</span>' : ''}</td>
+      <td style="padding:8px 6px"><span class="tkr" style="font-size:12px">${item.dr}</span>${item.preferred ? ' <span title="มูลค่าซื้อขายสูงสุดในกลุ่มหุ้นแม่เดียวกัน" style="font-size:11px;color:var(--amber-tx,#e0a020)">⭐</span>' : ''}${inPort ? ' <span style="font-size:10px;color:var(--blue)">●พอร์ต</span>' : ''}</td>
       <td style="padding:8px 6px;font-size:12px;color:var(--tx2)">${item.name}</td>
       <td style="padding:8px 6px"><span style="font-size:12px;font-weight:600">${item.parent}</span><br><span style="font-size:10px;color:var(--tx3)">÷${item.conv.toLocaleString()}</span></td>
       <td style="padding:8px 6px;text-align:right;font-family:monospace">${drPriceStr}</td>
@@ -7498,12 +7499,14 @@ function updateAlertLabel(){
         <option value="cheap">🟢 ถูกกว่าหุ้นแม่</option>
         <option value="near">✅ ใกล้เคียง (±2%)</option>
         <option value="expensive">🔴 แพงกว่าหุ้นแม่</option>
+        <option value="preferred">⭐ ตัวหลัก (มูลค่าซื้อขายสูงสุด)</option>
       </select>
       <button class="btn btn-sm" style="background:var(--blue);color:#fff" onclick="loadDRScanner()">🔄 รีเฟรช</button>
       <button class="btn btn-sm" style="background:var(--green-bg);color:var(--green-tx);border:1px solid var(--green-tx)" onclick="openAddDRModal()">➕ เพิ่ม DR</button>
     </div>
   </div>
   <div id="drs-status" style="font-size:12px;color:var(--tx3);margin-bottom:10px"></div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:10px">⭐ = DR ที่มีมูลค่าซื้อขาย ('000 บาท) สูงสุดในกลุ่มที่อ้างอิงหุ้นแม่ตัวเดียวกัน (สภาพคล่องดีสุด)</div>
   <div style="overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:13px" id="drs-table">
       <thead>

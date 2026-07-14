@@ -5617,7 +5617,7 @@ function openAddDRModal() {
       <div style="display:flex;flex-direction:column;gap:10px">
         <input id="add-dr-ticker" placeholder="DR Ticker เช่น NVDA80" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
         <input id="add-dr-parent" placeholder="หุ้นแม่ เช่น NVDA หรือ 9618.HK / OR.PA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
-        <div style="font-size:10px;color:var(--tx3);margin-top:-6px">หุ้นนอกตลาด US ต้องใส่ suffix ตลาดด้วย เช่น .HK (ฮ่องกง) .PA (ปารีส) .T (โตเกียว) .DE/.MI (เยอรมัน/มิลาน) .CO (โคเปนเฮเกน)</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:-6px">หุ้นนอกตลาด US ต้องใส่ suffix ตลาดด้วย เช่น .HK (ฮ่องกง) .PA (ปารีส) .T (โตเกียว) .DE/.MI (เยอรมัน/มิลาน) .CO (โคเปนเฮเกน) .SI (สิงคโปร์) .VN (เวียดนาม) .TW (ไต้หวัน) .SS/.SZ (จีน A-share)</div>
         <input id="add-dr-name" placeholder="ชื่อ เช่น NVIDIA" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
         <input id="add-dr-conv" type="number" placeholder="Conversion Ratio เช่น 200" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
         <select id="add-dr-currency" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx);font-size:13px">
@@ -5629,6 +5629,9 @@ function openAddDRModal() {
           <option value="GBP">GBP — ลอนดอน</option>
           <option value="CNY">CNY — จีน A-share</option>
           <option value="THB">THB — ไทย</option>
+          <option value="SGD">SGD — สิงคโปร์</option>
+          <option value="VND">VND — เวียดนาม (Hochiminh)</option>
+          <option value="TWD">TWD — ไต้หวัน</option>
         </select>
         <div style="font-size:11px;color:var(--tx3)">Formula: Fair Value = ราคาหุ้นแม่ × เรทสกุลเงิน/THB ÷ Conversion</div>
       </div>

@@ -2160,11 +2160,53 @@
       "currency": "USD"
     },
     {
+      "dr": "ADVANT19",
+      "parent": "6857.T",
+      "conv": 1000,
+      "name": "Advantest",
+      "currency": "JPY"
+    },
+    {
+      "dr": "ADVANT23",
+      "parent": "6857.T",
+      "conv": 1477,
+      "name": "Advantest",
+      "currency": "JPY"
+    },
+    {
+      "dr": "ADVANT80",
+      "parent": "6857.T",
+      "conv": 1000,
+      "name": "Advantest",
+      "currency": "JPY"
+    },
+    {
       "dr": "AFRM03",
       "parent": "AFRM",
       "conv": 800,
       "name": "Affirm",
       "currency": "USD"
+    },
+    {
+      "dr": "AIA06",
+      "parent": "1299.HK",
+      "conv": 100,
+      "name": "AIA Group",
+      "currency": "HKD"
+    },
+    {
+      "dr": "AIA19",
+      "parent": "1299.HK",
+      "conv": 100,
+      "name": "AIA Group",
+      "currency": "HKD"
+    },
+    {
+      "dr": "AIA23",
+      "parent": "1299.HK",
+      "conv": 130,
+      "name": "AIA Group",
+      "currency": "HKD"
     },
     {
       "dr": "ALAB01",
@@ -2177,6 +2219,13 @@
       "dr": "AMAT01",
       "parent": "AMAT",
       "conv": 3600,
+      "name": "Applied Materials",
+      "currency": "USD"
+    },
+    {
+      "dr": "AMAT19",
+      "parent": "AMAT",
+      "conv": 4000,
       "name": "Applied Materials",
       "currency": "USD"
     },
@@ -2237,6 +2286,13 @@
       "currency": "USD"
     },
     {
+      "dr": "AMZN19",
+      "parent": "AMZN",
+      "conv": 4000,
+      "name": "Amazon",
+      "currency": "USD"
+    },
+    {
       "dr": "AMZN23",
       "parent": "AMZN",
       "conv": 3000,
@@ -2265,6 +2321,20 @@
       "currency": "USD"
     },
     {
+      "dr": "ANTA13",
+      "parent": "2020.HK",
+      "conv": 170,
+      "name": "Anta Sports",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ANTA23",
+      "parent": "2020.HK",
+      "conv": 160,
+      "name": "Anta Sports",
+      "currency": "HKD"
+    },
+    {
       "dr": "APLD03",
       "parent": "APLD",
       "conv": 300,
@@ -2277,6 +2347,27 @@
       "conv": 6000,
       "name": "AppLovin",
       "currency": "USD"
+    },
+    {
+      "dr": "ASEMI23",
+      "parent": "3119.HK",
+      "conv": 100,
+      "name": "Global X Asia Semiconductor ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ASEMI24",
+      "parent": "3119.HK",
+      "conv": 200,
+      "name": "Global X Asia Semiconductor ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ASICS23",
+      "parent": "7936.T",
+      "conv": 340,
+      "name": "Asics",
+      "currency": "JPY"
     },
     {
       "dr": "ASML01",
@@ -2321,6 +2412,48 @@
       "currency": "USD"
     },
     {
+      "dr": "BABA01",
+      "parent": "9988.HK",
+      "conv": 44,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BABA06",
+      "parent": "9988.HK",
+      "conv": 100,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BABA13",
+      "parent": "9988.HK",
+      "conv": 250,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BABA19",
+      "parent": "9988.HK",
+      "conv": 250,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BABA23",
+      "parent": "9988.HK",
+      "conv": 150,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BABA80",
+      "parent": "9988.HK",
+      "conv": 100,
+      "name": "Alibaba",
+      "currency": "HKD"
+    },
+    {
       "dr": "BAC03",
       "parent": "BAC",
       "conv": 500,
@@ -2333,6 +2466,48 @@
       "conv": 3000,
       "name": "Becton Dickinson",
       "currency": "USD"
+    },
+    {
+      "dr": "BIDU01",
+      "parent": "9888.HK",
+      "conv": 44,
+      "name": "Baidu",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BIDU06",
+      "parent": "9888.HK",
+      "conv": 100,
+      "name": "Baidu",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BIDU23",
+      "parent": "9888.HK",
+      "conv": 210,
+      "name": "Baidu",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BIDU80",
+      "parent": "9888.HK",
+      "conv": 100,
+      "name": "Baidu",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BILIBILI01",
+      "parent": "9626.HK",
+      "conv": 210,
+      "name": "Bilibili",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BIREN23",
+      "parent": "6082.HK",
+      "conv": 25,
+      "name": "Biren",
+      "currency": "HKD"
     },
     {
       "dr": "BKNG03",
@@ -2363,6 +2538,20 @@
       "currency": "USD"
     },
     {
+      "dr": "BONDAS19",
+      "parent": "N6M.SI",
+      "conv": 50,
+      "name": "iShares JPM USD Asia Credit Bond ETF",
+      "currency": "SGD"
+    },
+    {
+      "dr": "BONDUS01",
+      "parent": "9078.HK",
+      "conv": 2100,
+      "name": "Premia US Treasury Floating Rate ETF",
+      "currency": "HKD"
+    },
+    {
       "dr": "BRKB23",
       "parent": "BRK-B",
       "conv": 3000,
@@ -2377,10 +2566,66 @@
       "currency": "USD"
     },
     {
+      "dr": "BYDCOM01",
+      "parent": "1211.HK",
+      "conv": 440,
+      "name": "BYD Company",
+      "currency": "HKD"
+    },
+    {
+      "dr": "BYDCOM80",
+      "parent": "1211.HK",
+      "conv": 1000,
+      "name": "BYD Company",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CAMBRI80",
+      "parent": "688256.SS",
+      "conv": 1000,
+      "name": "Cambricon Technologies",
+      "currency": "CNY"
+    },
+    {
+      "dr": "CAT19",
+      "parent": "CAT",
+      "conv": 5000,
+      "name": "Caterpillar",
+      "currency": "USD"
+    },
+    {
+      "dr": "CATL01",
+      "parent": "3750.HK",
+      "conv": 440,
+      "name": "CATL",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CATL23",
+      "parent": "3750.HK",
+      "conv": 250,
+      "name": "CATL",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CATL80",
+      "parent": "3750.HK",
+      "conv": 100,
+      "name": "CATL",
+      "currency": "HKD"
+    },
+    {
       "dr": "CCJ23",
       "parent": "CCJ",
       "conv": 1600,
       "name": "Cameco",
+      "currency": "USD"
+    },
+    {
+      "dr": "CDNS23",
+      "parent": "CDNS",
+      "conv": 2000,
+      "name": "Cadence Design Systems",
       "currency": "USD"
     },
     {
@@ -2391,6 +2636,41 @@
       "currency": "USD"
     },
     {
+      "dr": "CHHONGQ19",
+      "parent": "1378.HK",
+      "conv": 10,
+      "name": "China Hongqiao",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CHMOBILE19",
+      "parent": "0941.HK",
+      "conv": 100,
+      "name": "China Mobile",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CHMOBILE23",
+      "parent": "0941.HK",
+      "conv": 130,
+      "name": "China Mobile",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CHNXT5023",
+      "parent": "159682.SZ",
+      "conv": 1,
+      "name": "Invesco Great Wall ChiNext 50 ETF",
+      "currency": "CNY"
+    },
+    {
+      "dr": "CMBANK23",
+      "parent": "3968.HK",
+      "conv": 90,
+      "name": "China Merchants Bank",
+      "currency": "HKD"
+    },
+    {
       "dr": "CME03",
       "parent": "CME",
       "conv": 3000,
@@ -2398,9 +2678,79 @@
       "currency": "USD"
     },
     {
+      "dr": "CN01",
+      "parent": "3188.HK",
+      "conv": 10,
+      "name": "ChinaAMC CSI 300 Index ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CN23",
+      "parent": "510330.SS",
+      "conv": 4,
+      "name": "ChinaAMC CSI 300 ETF (A-share)",
+      "currency": "CNY"
+    },
+    {
+      "dr": "CNBIO24",
+      "parent": "2820.HK",
+      "conv": 200,
+      "name": "Global X China Biotech ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CNEV24",
+      "parent": "2845.HK",
+      "conv": 200,
+      "name": "Global X China EV & Battery ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CNRE80",
+      "parent": "600111.SS",
+      "conv": 100,
+      "name": "China Northern Rare Earth",
+      "currency": "CNY"
+    },
+    {
+      "dr": "CNROBOAI23",
+      "parent": "2807.HK",
+      "conv": 100,
+      "name": "Global X China Robotics & AI ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CNSEMI23",
+      "parent": "3191.HK",
+      "conv": 100,
+      "name": "Global X China Semiconductor ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "CNSTAR5023",
+      "parent": "588000.SS",
+      "conv": 1,
+      "name": "ChinaAMC STAR 50 ETF",
+      "currency": "CNY"
+    },
+    {
+      "dr": "CNTECH01",
+      "parent": "3088.HK",
+      "conv": 1,
+      "name": "ChinaAMC Hang Seng TECH ETF",
+      "currency": "HKD"
+    },
+    {
       "dr": "COHR23",
       "parent": "COHR",
       "conv": 2000,
+      "name": "Coherent",
+      "currency": "USD"
+    },
+    {
+      "dr": "COHR80",
+      "parent": "COHR",
+      "conv": 1000,
       "name": "Coherent",
       "currency": "USD"
     },
@@ -2430,6 +2780,20 @@
       "parent": "COST",
       "conv": 1000,
       "name": "Costco",
+      "currency": "USD"
+    },
+    {
+      "dr": "COSTCO80",
+      "parent": "COST",
+      "conv": 10000,
+      "name": "Costco Wholesale",
+      "currency": "USD"
+    },
+    {
+      "dr": "CRDO23",
+      "parent": "CRDO",
+      "conv": 1000,
+      "name": "Credo Technology",
       "currency": "USD"
     },
     {
@@ -2489,11 +2853,32 @@
       "currency": "USD"
     },
     {
+      "dr": "CYPC80",
+      "parent": "600900.SS",
+      "conv": 10,
+      "name": "China Yangtze Power",
+      "currency": "CNY"
+    },
+    {
       "dr": "DASH03",
       "parent": "DASH",
       "conv": 2000,
       "name": "DoorDash",
       "currency": "USD"
+    },
+    {
+      "dr": "DBO80",
+      "parent": "DBO",
+      "conv": 100,
+      "name": "Invesco DB Oil Fund",
+      "currency": "USD"
+    },
+    {
+      "dr": "DBS19",
+      "parent": "D05.SI",
+      "conv": 100,
+      "name": "DBS Group",
+      "currency": "SGD"
     },
     {
       "dr": "DDOG19",
@@ -2503,11 +2888,32 @@
       "currency": "USD"
     },
     {
+      "dr": "DEAM19",
+      "parent": "DEAM.DE",
+      "conv": 500,
+      "name": "Invesco MDAX UCITS ETF",
+      "currency": "EUR"
+    },
+    {
       "dr": "DELL19",
       "parent": "DELL",
       "conv": 1000,
       "name": "Dell",
       "currency": "USD"
+    },
+    {
+      "dr": "DISCO24",
+      "parent": "6146.T",
+      "conv": 14500,
+      "name": "Disco Corporation",
+      "currency": "JPY"
+    },
+    {
+      "dr": "DISCO80",
+      "parent": "6146.T",
+      "conv": 1000,
+      "name": "Disco Corporation",
+      "currency": "JPY"
     },
     {
       "dr": "DISNEY19",
@@ -2517,11 +2923,25 @@
       "currency": "USD"
     },
     {
+      "dr": "DOLLARG80",
+      "parent": "DG",
+      "conv": 1000,
+      "name": "Dollar General",
+      "currency": "USD"
+    },
+    {
       "dr": "DUOL06",
       "parent": "DUOL",
       "conv": 1600,
       "name": "Duolingo",
       "currency": "USD"
+    },
+    {
+      "dr": "E1VFVN3001",
+      "parent": "E1VFVN30.VN",
+      "conv": 1,
+      "name": "DCVFM VN30 ETF",
+      "currency": "VND"
     },
     {
       "dr": "EOSE03",
@@ -2538,11 +2958,32 @@
       "currency": "USD"
     },
     {
+      "dr": "ETN23",
+      "parent": "ETN",
+      "conv": 2000,
+      "name": "Eaton",
+      "currency": "USD"
+    },
+    {
       "dr": "EXPE06",
       "parent": "EXPE",
       "conv": 2500,
       "name": "Expedia",
       "currency": "USD"
+    },
+    {
+      "dr": "FABRINET23",
+      "parent": "FN",
+      "conv": 4000,
+      "name": "Fabrinet",
+      "currency": "USD"
+    },
+    {
+      "dr": "FANUC23",
+      "parent": "6954.T",
+      "conv": 550,
+      "name": "Fanuc",
+      "currency": "JPY"
     },
     {
       "dr": "FCX23",
@@ -2559,6 +3000,83 @@
       "currency": "USD"
     },
     {
+      "dr": "FPTVN11",
+      "parent": "FPT.VN",
+      "conv": 50,
+      "name": "FPT Corporation",
+      "currency": "VND"
+    },
+    {
+      "dr": "FPTVN19",
+      "parent": "FPT.VN",
+      "conv": 10,
+      "name": "FPT Corporation",
+      "currency": "VND"
+    },
+    {
+      "dr": "FUEVFVND01",
+      "parent": "FUEVFVND.VN",
+      "conv": 1,
+      "name": "DCVFM VN Diamond ETF",
+      "currency": "VND"
+    },
+    {
+      "dr": "FWONK06",
+      "parent": "FWONK",
+      "conv": 800,
+      "name": "Liberty Media (Formula One)",
+      "currency": "USD"
+    },
+    {
+      "dr": "GAC03",
+      "parent": "2238.HK",
+      "conv": 5,
+      "name": "Guangzhou Automobile",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GANFENG23",
+      "parent": "1772.HK",
+      "conv": 100,
+      "name": "Ganfeng Lithium",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GANFENG80",
+      "parent": "1772.HK",
+      "conv": 100,
+      "name": "Ganfeng Lithium",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GASVN11",
+      "parent": "GAS.VN",
+      "conv": 25,
+      "name": "PetroVietnam Gas",
+      "currency": "VND"
+    },
+    {
+      "dr": "GDS23",
+      "parent": "9698.HK",
+      "conv": 70,
+      "name": "GDS Holdings",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GEELY06",
+      "parent": "0175.HK",
+      "conv": 25,
+      "name": "Geely Automobile",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GEELY80",
+      "parent": "0175.HK",
+      "conv": 10,
+      "name": "Geely Automobile",
+      "currency": "HKD"
+    },
+    {
       "dr": "GEV23",
       "parent": "GEV",
       "conv": 11000,
@@ -2570,6 +3088,41 @@
       "parent": "GEV",
       "conv": 1000,
       "name": "GE Vernova",
+      "currency": "USD"
+    },
+    {
+      "dr": "GIGA23",
+      "parent": "3986.HK",
+      "conv": 300,
+      "name": "GigaDevice Semiconductor",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GIGA80",
+      "parent": "3986.HK",
+      "conv": 100,
+      "name": "GigaDevice Semiconductor",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GLW80",
+      "parent": "GLW",
+      "conv": 1000,
+      "name": "Corning",
+      "currency": "USD"
+    },
+    {
+      "dr": "GOLD03",
+      "parent": "2840.HK",
+      "conv": 4000,
+      "name": "SPDR Gold Trust (HK)",
+      "currency": "HKD"
+    },
+    {
+      "dr": "GOLD19",
+      "parent": "GSD.SI",
+      "conv": 1000,
+      "name": "SPDR Gold Shares",
       "currency": "USD"
     },
     {
@@ -2601,6 +3154,13 @@
       "currency": "USD"
     },
     {
+      "dr": "GOOG06",
+      "parent": "GOOG",
+      "conv": 3000,
+      "name": "Alphabet (GOOG)",
+      "currency": "USD"
+    },
+    {
       "dr": "GOOG23",
       "parent": "GOOG",
       "conv": 4000,
@@ -2629,6 +3189,13 @@
       "currency": "USD"
     },
     {
+      "dr": "GOOGL19",
+      "parent": "GOOGL",
+      "conv": 2000,
+      "name": "Alphabet (GOOGL)",
+      "currency": "USD"
+    },
+    {
       "dr": "GRAB80",
       "parent": "GRAB",
       "conv": 10,
@@ -2636,11 +3203,32 @@
       "currency": "USD"
     },
     {
+      "dr": "GSEMI24",
+      "parent": "2243.T",
+      "conv": 400,
+      "name": "Global X Semiconductor ETF",
+      "currency": "JPY"
+    },
+    {
       "dr": "GSUS06",
       "parent": "GS",
       "conv": 7000,
       "name": "Goldman Sachs",
       "currency": "USD"
+    },
+    {
+      "dr": "HAIERS19",
+      "parent": "6690.HK",
+      "conv": 10,
+      "name": "Haier Smart Home",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HANSOH19",
+      "parent": "3692.HK",
+      "conv": 25,
+      "name": "Hansoh Pharmaceutical",
+      "currency": "HKD"
     },
     {
       "dr": "HERMES80",
@@ -2655,6 +3243,55 @@
       "conv": 200,
       "name": "Hims & Hers",
       "currency": "USD"
+    },
+    {
+      "dr": "HITACHI24",
+      "parent": "6501.T",
+      "conv": 800,
+      "name": "Hitachi",
+      "currency": "JPY"
+    },
+    {
+      "dr": "HK01",
+      "parent": "2800.HK",
+      "conv": 5,
+      "name": "Tracker Fund of Hong Kong",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HK13",
+      "parent": "2800.HK",
+      "conv": 20,
+      "name": "Tracker Fund of Hong Kong",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HKCE01",
+      "parent": "2828.HK",
+      "conv": 15,
+      "name": "Hang Seng China Enterprises (HSCEI) ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HKEX23",
+      "parent": "0388.HK",
+      "conv": 777,
+      "name": "HKEX",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HKTECH13",
+      "parent": "3032.HK",
+      "conv": 5,
+      "name": "Hang Seng TECH Index ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HONDA19",
+      "parent": "7267.T",
+      "conv": 100,
+      "name": "Honda Motor",
+      "currency": "JPY"
     },
     {
       "dr": "HOOD03",
@@ -2678,11 +3315,81 @@
       "currency": "USD"
     },
     {
+      "dr": "HORIZON23",
+      "parent": "9660.HK",
+      "conv": 16,
+      "name": "Horizon Robotics",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HPG19",
+      "parent": "HPG.VN",
+      "conv": 10,
+      "name": "Hoa Phat Group",
+      "currency": "VND"
+    },
+    {
+      "dr": "HSHD23",
+      "parent": "3110.HK",
+      "conv": 20,
+      "name": "Global X Hang Seng High Dividend ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HUAHONG23",
+      "parent": "1347.HK",
+      "conv": 70,
+      "name": "Hua Hong Semiconductor",
+      "currency": "HKD"
+    },
+    {
+      "dr": "HYGON80",
+      "parent": "688041.SS",
+      "conv": 100,
+      "name": "Hygon Information Technology",
+      "currency": "CNY"
+    },
+    {
       "dr": "IBM06",
       "parent": "IBM",
       "conv": 2500,
       "name": "IBM",
       "currency": "USD"
+    },
+    {
+      "dr": "ICBC06",
+      "parent": "1398.HK",
+      "conv": 10,
+      "name": "ICBC",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ICBC19",
+      "parent": "1398.HK",
+      "conv": 10,
+      "name": "ICBC",
+      "currency": "HKD"
+    },
+    {
+      "dr": "IFLYTEK80",
+      "parent": "002230.SZ",
+      "conv": 100,
+      "name": "iFlytek",
+      "currency": "CNY"
+    },
+    {
+      "dr": "INDIA01",
+      "parent": "3404.HK",
+      "conv": 2,
+      "name": "ChinaAMC MSCI India ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "INDIAESG19",
+      "parent": "QK9.SI",
+      "conv": 100,
+      "name": "iShares MSCI India Climate Transition ETF",
+      "currency": "SGD"
     },
     {
       "dr": "INTEL01",
@@ -2699,6 +3406,13 @@
       "currency": "USD"
     },
     {
+      "dr": "INTEL19",
+      "parent": "INTC",
+      "conv": 1000,
+      "name": "Intel",
+      "currency": "USD"
+    },
+    {
       "dr": "INTEL23",
       "parent": "INTC",
       "conv": 700,
@@ -2707,6 +3421,13 @@
     },
     {
       "dr": "IONQ03",
+      "parent": "IONQ",
+      "conv": 500,
+      "name": "IonQ",
+      "currency": "USD"
+    },
+    {
+      "dr": "IONQ23",
       "parent": "IONQ",
       "conv": 500,
       "name": "IonQ",
@@ -2734,10 +3455,52 @@
       "currency": "USD"
     },
     {
+      "dr": "ISRG80",
+      "parent": "ISRG",
+      "conv": 1000,
+      "name": "Intuitive Surgical",
+      "currency": "USD"
+    },
+    {
+      "dr": "ITOCHU19",
+      "parent": "8001.T",
+      "conv": 60,
+      "name": "Itochu",
+      "currency": "JPY"
+    },
+    {
+      "dr": "JAP03",
+      "parent": "3150.HK",
+      "conv": 100,
+      "name": "Global X Japan Global Leaders ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "JAPAN10001",
+      "parent": "3410.HK",
+      "conv": 1,
+      "name": "Hang Seng Japan TOPIX 100 ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "JAPAN13",
+      "parent": "3160.HK",
+      "conv": 25,
+      "name": "ChinaAMC MSCI Japan Hedged ETF",
+      "currency": "HKD"
+    },
+    {
       "dr": "JD80",
       "parent": "9618.HK",
       "conv": 100,
       "name": "JD.com",
+      "currency": "HKD"
+    },
+    {
+      "dr": "JDHEAL19",
+      "parent": "6618.HK",
+      "conv": 50,
+      "name": "JD Health",
       "currency": "HKD"
     },
     {
@@ -2755,11 +3518,25 @@
       "currency": "USD"
     },
     {
+      "dr": "JLMAG80",
+      "parent": "6680.HK",
+      "conv": 10,
+      "name": "JL Mag Rare-Earth",
+      "currency": "HKD"
+    },
+    {
       "dr": "JNJ03",
       "parent": "JNJ",
       "conv": 2000,
       "name": "Johnson & Johnson",
       "currency": "USD"
+    },
+    {
+      "dr": "JPANIME24",
+      "parent": "2640.T",
+      "conv": 600,
+      "name": "Global X Japan Games & Animation ETF",
+      "currency": "JPY"
     },
     {
       "dr": "JPMUS06",
@@ -2776,6 +3553,20 @@
       "currency": "USD"
     },
     {
+      "dr": "JPROBOAI24",
+      "parent": "2638.T",
+      "conv": 400,
+      "name": "Global X Japan Robotics & AI ETF",
+      "currency": "JPY"
+    },
+    {
+      "dr": "JPSEMI24",
+      "parent": "2644.T",
+      "conv": 600,
+      "name": "Global X Japan Semiconductor ETF",
+      "currency": "JPY"
+    },
+    {
       "dr": "JTEK19",
       "parent": "JTEK",
       "conv": 300,
@@ -2783,10 +3574,38 @@
       "currency": "USD"
     },
     {
+      "dr": "KEYENCE23",
+      "parent": "6861.T",
+      "conv": 5650,
+      "name": "Keyence",
+      "currency": "JPY"
+    },
+    {
+      "dr": "KINGSOFT23",
+      "parent": "3888.HK",
+      "conv": 60,
+      "name": "Kingsoft",
+      "currency": "HKD"
+    },
+    {
+      "dr": "KIOXIA23",
+      "parent": "285A.T",
+      "conv": 1600,
+      "name": "Kioxia Holdings",
+      "currency": "JPY"
+    },
+    {
       "dr": "KLAC01",
       "parent": "KLAC",
       "conv": 1500,
       "name": "KLA Corp",
+      "currency": "USD"
+    },
+    {
+      "dr": "KLAC19",
+      "parent": "KLAC",
+      "conv": 2000,
+      "name": "KLA Corporation",
       "currency": "USD"
     },
     {
@@ -2804,6 +3623,48 @@
       "currency": "USD"
     },
     {
+      "dr": "KONAMI24",
+      "parent": "9766.T",
+      "conv": 3800,
+      "name": "Konami",
+      "currency": "JPY"
+    },
+    {
+      "dr": "KUAISH01",
+      "parent": "1024.HK",
+      "conv": 80,
+      "name": "Kuaishou Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "KUAISH06",
+      "parent": "1024.HK",
+      "conv": 100,
+      "name": "Kuaishou Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "KUAISH23",
+      "parent": "1024.HK",
+      "conv": 140,
+      "name": "Kuaishou Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "KUAISH80",
+      "parent": "1024.HK",
+      "conv": 100,
+      "name": "Kuaishou Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "LENOVO13",
+      "parent": "0992.HK",
+      "conv": 20,
+      "name": "Lenovo Group",
+      "currency": "HKD"
+    },
+    {
       "dr": "LITE01",
       "parent": "LITE",
       "conv": 7300,
@@ -2815,6 +3676,13 @@
       "parent": "LITE",
       "conv": 5000,
       "name": "Lumentum",
+      "currency": "USD"
+    },
+    {
+      "dr": "LITE80",
+      "parent": "LITE",
+      "conv": 10000,
+      "name": "Lumentum Holdings",
       "currency": "USD"
     },
     {
@@ -2839,6 +3707,13 @@
       "currency": "EUR"
     },
     {
+      "dr": "LPGOLD13",
+      "parent": "6181.HK",
+      "conv": 1000,
+      "name": "Laopu Gold",
+      "currency": "HKD"
+    },
+    {
       "dr": "LRCX01",
       "parent": "LRCX",
       "conv": 2400,
@@ -2846,9 +3721,23 @@
       "currency": "USD"
     },
     {
+      "dr": "LRCX19",
+      "parent": "LRCX",
+      "conv": 2600,
+      "name": "Lam Research",
+      "currency": "USD"
+    },
+    {
       "dr": "LRCX23",
       "parent": "LRCX",
       "conv": 2600,
+      "name": "Lam Research",
+      "currency": "USD"
+    },
+    {
+      "dr": "LRCX80",
+      "parent": "LRCX",
+      "conv": 1000,
       "name": "Lam Research",
       "currency": "USD"
     },
@@ -2872,6 +3761,34 @@
       "conv": 10000,
       "name": "Mastercard",
       "currency": "USD"
+    },
+    {
+      "dr": "MAOGEP80",
+      "parent": "1318.HK",
+      "conv": 100,
+      "name": "Mao Geping Cosmetics",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MEITUAN19",
+      "parent": "3690.HK",
+      "conv": 300,
+      "name": "Meituan",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MEITUAN23",
+      "parent": "3690.HK",
+      "conv": 160,
+      "name": "Meituan",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MEITUAN80",
+      "parent": "3690.HK",
+      "conv": 100,
+      "name": "Meituan",
+      "currency": "HKD"
     },
     {
       "dr": "MELI06",
@@ -2951,11 +3868,53 @@
       "currency": "USD"
     },
     {
+      "dr": "MIDEA80",
+      "parent": "0300.HK",
+      "conv": 100,
+      "name": "Midea Group",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MITSU19",
+      "parent": "7011.T",
+      "conv": 100,
+      "name": "Mitsubishi Heavy Industries",
+      "currency": "JPY"
+    },
+    {
+      "dr": "MIXUE80",
+      "parent": "2097.HK",
+      "conv": 100,
+      "name": "Mixue Group",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MNSO80",
+      "parent": "9896.HK",
+      "conv": 10,
+      "name": "MINISO",
+      "currency": "HKD"
+    },
+    {
       "dr": "MNST06",
       "parent": "MNST",
       "conv": 700,
       "name": "Monster Beverage",
       "currency": "USD"
+    },
+    {
+      "dr": "MONTAGE80",
+      "parent": "6809.HK",
+      "conv": 100,
+      "name": "Montage Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "MOUTAI80",
+      "parent": "600519.SS",
+      "conv": 1000,
+      "name": "Kweichow Moutai",
+      "currency": "CNY"
     },
     {
       "dr": "MP23",
@@ -2969,6 +3928,13 @@
       "parent": "MP",
       "conv": 100,
       "name": "MP Materials",
+      "currency": "USD"
+    },
+    {
+      "dr": "MPWR23",
+      "parent": "MPWR",
+      "conv": 10000,
+      "name": "Monolithic Power Systems",
       "currency": "USD"
     },
     {
@@ -3042,6 +4008,62 @@
       "currency": "USD"
     },
     {
+      "dr": "MSN11",
+      "parent": "MSN.VN",
+      "conv": 25,
+      "name": "Masan Group",
+      "currency": "VND"
+    },
+    {
+      "dr": "MSN19",
+      "parent": "MSN.VN",
+      "conv": 30,
+      "name": "Masan Group",
+      "currency": "VND"
+    },
+    {
+      "dr": "MUFG19",
+      "parent": "8306.T",
+      "conv": 100,
+      "name": "Mitsubishi UFJ Financial",
+      "currency": "JPY"
+    },
+    {
+      "dr": "MUFG23",
+      "parent": "8306.T",
+      "conv": 250,
+      "name": "Mitsubishi UFJ Financial",
+      "currency": "JPY"
+    },
+    {
+      "dr": "MWG11",
+      "parent": "MWG.VN",
+      "conv": 25,
+      "name": "Mobile World Investment",
+      "currency": "VND"
+    },
+    {
+      "dr": "MWG19",
+      "parent": "MWG.VN",
+      "conv": 10,
+      "name": "Mobile World Investment",
+      "currency": "VND"
+    },
+    {
+      "dr": "NAURA23",
+      "parent": "002371.SZ",
+      "conv": 900,
+      "name": "Naura Technology",
+      "currency": "CNY"
+    },
+    {
+      "dr": "NAURA80",
+      "parent": "002371.SZ",
+      "conv": 100,
+      "name": "Naura Technology",
+      "currency": "CNY"
+    },
+    {
       "dr": "NBIS01",
       "parent": "NBIS",
       "conv": 1700,
@@ -3063,11 +4085,25 @@
       "currency": "USD"
     },
     {
+      "dr": "NBIS80",
+      "parent": "NBIS",
+      "conv": 1000,
+      "name": "Nebius Group",
+      "currency": "USD"
+    },
+    {
       "dr": "NDAQ06",
       "parent": "NDAQ",
       "conv": 1000,
       "name": "Nasdaq Inc",
       "currency": "USD"
+    },
+    {
+      "dr": "NDX01",
+      "parent": "3086.HK",
+      "conv": 10,
+      "name": "ChinaAMC Nasdaq 100 ETF",
+      "currency": "HKD"
     },
     {
       "dr": "NEE80",
@@ -3124,6 +4160,34 @@
       "conv": 2000,
       "name": "Nike",
       "currency": "USD"
+    },
+    {
+      "dr": "NIKKEI80",
+      "parent": "1321.T",
+      "conv": 1000,
+      "name": "NEXT FUNDS Nikkei 225 ETF",
+      "currency": "JPY"
+    },
+    {
+      "dr": "NINTENDO19",
+      "parent": "7974.T",
+      "conv": 100,
+      "name": "Nintendo",
+      "currency": "JPY"
+    },
+    {
+      "dr": "NINTENDO23",
+      "parent": "7974.T",
+      "conv": 1130,
+      "name": "Nintendo",
+      "currency": "JPY"
+    },
+    {
+      "dr": "NONGFU80",
+      "parent": "9633.HK",
+      "conv": 100,
+      "name": "Nongfu Spring",
+      "currency": "HKD"
     },
     {
       "dr": "NOVOB80",
@@ -3196,6 +4260,27 @@
       "currency": "USD"
     },
     {
+      "dr": "OIL03",
+      "parent": "3097.HK",
+      "conv": 10,
+      "name": "Global X S&P Crude Oil Futures ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "OIL24",
+      "parent": "3097.HK",
+      "conv": 2,
+      "name": "Global X S&P Crude Oil Futures ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "OKLO23",
+      "parent": "OKLO",
+      "conv": 400,
+      "name": "Oklo",
+      "currency": "USD"
+    },
+    {
       "dr": "ON23",
       "parent": "ON",
       "conv": 500,
@@ -3231,6 +4316,20 @@
       "currency": "USD"
     },
     {
+      "dr": "ORCL80",
+      "parent": "ORCL",
+      "conv": 1000,
+      "name": "Oracle",
+      "currency": "USD"
+    },
+    {
+      "dr": "PANW19",
+      "parent": "PANW",
+      "conv": 2500,
+      "name": "Palo Alto Networks",
+      "currency": "USD"
+    },
+    {
       "dr": "PANW80",
       "parent": "PANW",
       "conv": 1000,
@@ -3245,11 +4344,32 @@
       "currency": "USD"
     },
     {
+      "dr": "PETROCN80",
+      "parent": "0857.HK",
+      "conv": 10,
+      "name": "PetroChina",
+      "currency": "HKD"
+    },
+    {
       "dr": "PFIZER19",
       "parent": "PFE",
       "conv": 50,
       "name": "Pfizer",
       "currency": "USD"
+    },
+    {
+      "dr": "PINGAN01",
+      "parent": "2318.HK",
+      "conv": 44,
+      "name": "Ping An Insurance",
+      "currency": "HKD"
+    },
+    {
+      "dr": "PINGAN80",
+      "parent": "2318.HK",
+      "conv": 100,
+      "name": "Ping An Insurance",
+      "currency": "HKD"
     },
     {
       "dr": "PLTR01",
@@ -3278,6 +4398,27 @@
       "conv": 1900,
       "name": "Palantir",
       "currency": "USD"
+    },
+    {
+      "dr": "PNG80",
+      "parent": "PG",
+      "conv": 1000,
+      "name": "Procter & Gamble",
+      "currency": "USD"
+    },
+    {
+      "dr": "POPMART23",
+      "parent": "9992.HK",
+      "conv": 420,
+      "name": "Pop Mart",
+      "currency": "HKD"
+    },
+    {
+      "dr": "POPMART80",
+      "parent": "9992.HK",
+      "conv": 100,
+      "name": "Pop Mart",
+      "currency": "HKD"
     },
     {
       "dr": "PYPL06",
@@ -3357,6 +4498,20 @@
       "currency": "EUR"
     },
     {
+      "dr": "SANRIO23",
+      "parent": "8136.T",
+      "conv": 136,
+      "name": "Sanrio",
+      "currency": "JPY"
+    },
+    {
+      "dr": "SANRIO80",
+      "parent": "8136.T",
+      "conv": 20,
+      "name": "Sanrio",
+      "currency": "JPY"
+    },
+    {
       "dr": "SBUX80",
       "parent": "SBUX",
       "conv": 2000,
@@ -3364,11 +4519,53 @@
       "currency": "USD"
     },
     {
+      "dr": "SCHDER80",
+      "parent": "SU.PA",
+      "conv": 1000,
+      "name": "Schneider Electric",
+      "currency": "EUR"
+    },
+    {
       "dr": "SEAGATE23",
       "parent": "STX",
       "conv": 4800,
       "name": "Seagate Technology",
       "currency": "USD"
+    },
+    {
+      "dr": "SEMB19",
+      "parent": "U96.SI",
+      "conv": 30,
+      "name": "Sembcorp Industries",
+      "currency": "SGD"
+    },
+    {
+      "dr": "SENSE23",
+      "parent": "0020.HK",
+      "conv": 4,
+      "name": "SenseTime",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SGX19",
+      "parent": "S68.SI",
+      "conv": 100,
+      "name": "Singapore Exchange",
+      "currency": "SGD"
+    },
+    {
+      "dr": "SHINCHEM19",
+      "parent": "4063.T",
+      "conv": 500,
+      "name": "Shin-Etsu Chemical",
+      "currency": "JPY"
+    },
+    {
+      "dr": "SHINCHEM80",
+      "parent": "4063.T",
+      "conv": 100,
+      "name": "Shin-Etsu Chemical",
+      "currency": "JPY"
     },
     {
       "dr": "SHOP03",
@@ -3385,6 +4582,13 @@
       "currency": "USD"
     },
     {
+      "dr": "SIA19",
+      "parent": "C6L.SI",
+      "conv": 10,
+      "name": "Singapore Airlines",
+      "currency": "SGD"
+    },
+    {
       "dr": "SIL03",
       "parent": "SIL",
       "conv": 1000,
@@ -3392,11 +4596,60 @@
       "currency": "USD"
     },
     {
+      "dr": "SINGTEL80",
+      "parent": "Z74.SI",
+      "conv": 10,
+      "name": "Singtel",
+      "currency": "SGD"
+    },
+    {
+      "dr": "SINOBIO19",
+      "parent": "1177.HK",
+      "conv": 5,
+      "name": "Sino Biopharmaceutical",
+      "currency": "HKD"
+    },
+    {
       "dr": "SMCI03",
       "parent": "SMCI",
       "conv": 500,
       "name": "Super Micro Computer",
       "currency": "USD"
+    },
+    {
+      "dr": "SMFG19",
+      "parent": "8316.T",
+      "conv": 100,
+      "name": "Sumitomo Mitsui Financial",
+      "currency": "JPY"
+    },
+    {
+      "dr": "SMIC01",
+      "parent": "0981.HK",
+      "conv": 70,
+      "name": "SMIC",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SMIC03",
+      "parent": "0981.HK",
+      "conv": 100,
+      "name": "SMIC",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SMIC13",
+      "parent": "0981.HK",
+      "conv": 150,
+      "name": "SMIC",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SMIC23",
+      "parent": "0981.HK",
+      "conv": 85,
+      "name": "SMIC",
+      "currency": "HKD"
     },
     {
       "dr": "SNDK03",
@@ -3441,11 +4694,32 @@
       "currency": "USD"
     },
     {
+      "dr": "SOFTBANK23",
+      "parent": "9984.T",
+      "conv": 527.5,
+      "name": "SoftBank Group",
+      "currency": "JPY"
+    },
+    {
+      "dr": "SOFTBANK80",
+      "parent": "9984.T",
+      "conv": 100,
+      "name": "SoftBank Group",
+      "currency": "JPY"
+    },
+    {
       "dr": "SONY80",
       "parent": "SONY",
       "conv": 200,
       "name": "Sony Group",
       "currency": "USD"
+    },
+    {
+      "dr": "SP50001",
+      "parent": "3195.HK",
+      "conv": 2,
+      "name": "Hang Seng S&P 500 Index ETF",
+      "currency": "HKD"
     },
     {
       "dr": "SP500US19",
@@ -3459,6 +4733,41 @@
       "parent": "SPYM",
       "conv": 1000,
       "name": "SPDR Portfolio S&P 500 ETF",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPACEX01",
+      "parent": "SPCX",
+      "conv": 1500,
+      "name": "SpaceX",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPACEX03",
+      "parent": "SPCX",
+      "conv": 3000,
+      "name": "SpaceX",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPACEX06",
+      "parent": "SPCX",
+      "conv": 1500,
+      "name": "SpaceX",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPACEX23",
+      "parent": "SPCX",
+      "conv": 1200,
+      "name": "SpaceX",
+      "currency": "USD"
+    },
+    {
+      "dr": "SPACEX80",
+      "parent": "SPCX",
+      "conv": 1000,
+      "name": "SpaceX",
       "currency": "USD"
     },
     {
@@ -3511,6 +4820,48 @@
       "currency": "USD"
     },
     {
+      "dr": "STAR5001",
+      "parent": "3151.HK",
+      "conv": 1,
+      "name": "Premia China STAR50 ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "STEG19",
+      "parent": "S63.SI",
+      "conv": 10,
+      "name": "ST Engineering",
+      "currency": "SGD"
+    },
+    {
+      "dr": "SUNNY19",
+      "parent": "2382.HK",
+      "conv": 100,
+      "name": "Sunny Optical",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SUNNY80",
+      "parent": "2382.HK",
+      "conv": 100,
+      "name": "Sunny Optical",
+      "currency": "HKD"
+    },
+    {
+      "dr": "SUSHI23",
+      "parent": "3563.T",
+      "conv": 332,
+      "name": "Food & Life (Sushiro)",
+      "currency": "JPY"
+    },
+    {
+      "dr": "SYM23",
+      "parent": "SYM",
+      "conv": 200,
+      "name": "Symbotic",
+      "currency": "USD"
+    },
+    {
       "dr": "SYNP03",
       "parent": "SNPS",
       "conv": 5000,
@@ -3523,6 +4874,83 @@
       "conv": 2500,
       "name": "Synopsys",
       "currency": "USD"
+    },
+    {
+      "dr": "TAIWAN19",
+      "parent": "0050.TW",
+      "conv": 2.5,
+      "name": "Yuanta Taiwan Top 50 ETF",
+      "currency": "TWD"
+    },
+    {
+      "dr": "TAIWANAI13",
+      "parent": "00952.TW",
+      "conv": 1,
+      "name": "KGI Taiwan AI 50 ETF",
+      "currency": "TWD"
+    },
+    {
+      "dr": "TAIWANHD13",
+      "parent": "00915.TW",
+      "conv": 1,
+      "name": "KGI Taiwan High Dividend 30 ETF",
+      "currency": "TWD"
+    },
+    {
+      "dr": "TEL23",
+      "parent": "8035.T",
+      "conv": 2710,
+      "name": "Tokyo Electron",
+      "currency": "JPY"
+    },
+    {
+      "dr": "TEL80",
+      "parent": "8035.T",
+      "conv": 1000,
+      "name": "Tokyo Electron",
+      "currency": "JPY"
+    },
+    {
+      "dr": "TENCENT01",
+      "parent": "0700.HK",
+      "conv": 440,
+      "name": "Tencent",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TENCENT06",
+      "parent": "0700.HK",
+      "conv": 1000,
+      "name": "Tencent",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TENCENT13",
+      "parent": "0700.HK",
+      "conv": 500,
+      "name": "Tencent",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TENCENT19",
+      "parent": "0700.HK",
+      "conv": 200,
+      "name": "Tencent",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TENCENT23",
+      "parent": "0700.HK",
+      "conv": 900,
+      "name": "Tencent",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TENCENT80",
+      "parent": "0700.HK",
+      "conv": 100,
+      "name": "Tencent",
+      "currency": "HKD"
     },
     {
       "dr": "TER01",
@@ -3539,6 +4967,27 @@
       "currency": "USD"
     },
     {
+      "dr": "TER80",
+      "parent": "TER",
+      "conv": 1000,
+      "name": "Teradyne",
+      "currency": "USD"
+    },
+    {
+      "dr": "THAIBEV19",
+      "parent": "Y92.SI",
+      "conv": 1,
+      "name": "Thai Beverage",
+      "currency": "SGD"
+    },
+    {
+      "dr": "TME23",
+      "parent": "1698.HK",
+      "conv": 160,
+      "name": "Tencent Music",
+      "currency": "HKD"
+    },
+    {
       "dr": "TOYOTA80",
       "parent": "7203.T",
       "conv": 100,
@@ -3546,10 +4995,31 @@
       "currency": "JPY"
     },
     {
+      "dr": "TRIPCOM23",
+      "parent": "9961.HK",
+      "conv": 1000,
+      "name": "Trip.com Group",
+      "currency": "HKD"
+    },
+    {
+      "dr": "TRIPCOM80",
+      "parent": "9961.HK",
+      "conv": 1000,
+      "name": "Trip.com Group",
+      "currency": "HKD"
+    },
+    {
       "dr": "TRVUS06",
       "parent": "TRV",
       "conv": 2500,
       "name": "Travelers",
+      "currency": "USD"
+    },
+    {
+      "dr": "TSEMI23",
+      "parent": "TSEM",
+      "conv": 1000,
+      "name": "Tower Semiconductor",
       "currency": "USD"
     },
     {
@@ -3588,6 +5058,13 @@
       "currency": "USD"
     },
     {
+      "dr": "UBTECH23",
+      "parent": "9880.HK",
+      "conv": 250,
+      "name": "UBTECH Robotics",
+      "currency": "HKD"
+    },
+    {
       "dr": "UNH19",
       "parent": "UNH",
       "conv": 2000,
@@ -3600,6 +5077,76 @@
       "conv": 1000,
       "name": "Fast Retailing (Uniqlo)",
       "currency": "JPY"
+    },
+    {
+      "dr": "UOB19",
+      "parent": "U11.SI",
+      "conv": 100,
+      "name": "United Overseas Bank",
+      "currency": "SGD"
+    },
+    {
+      "dr": "USTR24",
+      "parent": "3450.HK",
+      "conv": 200,
+      "name": "Global X US Treasury 3-5Y ETF",
+      "currency": "HKD"
+    },
+    {
+      "dr": "V3011",
+      "parent": "FUEKIV30.VN",
+      "conv": 2,
+      "name": "KIM Growth VN30 ETF",
+      "currency": "VND"
+    },
+    {
+      "dr": "VCB11",
+      "parent": "VCB.VN",
+      "conv": 25,
+      "name": "Vietcombank",
+      "currency": "VND"
+    },
+    {
+      "dr": "VCB19",
+      "parent": "VCB.VN",
+      "conv": 10,
+      "name": "Vietcombank",
+      "currency": "VND"
+    },
+    {
+      "dr": "VDIAMOND11",
+      "parent": "FUEKIVND.VN",
+      "conv": 2,
+      "name": "KIM Growth VN Diamond ETF",
+      "currency": "VND"
+    },
+    {
+      "dr": "VENTURE19",
+      "parent": "V03.SI",
+      "conv": 100,
+      "name": "Venture Corporation",
+      "currency": "SGD"
+    },
+    {
+      "dr": "VGT80",
+      "parent": "2476.HK",
+      "conv": 100,
+      "name": "Victory Giant Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "VHM19",
+      "parent": "VHM.VN",
+      "conv": 10,
+      "name": "Vinhomes",
+      "currency": "VND"
+    },
+    {
+      "dr": "VICR80",
+      "parent": "VICR",
+      "conv": 1000,
+      "name": "Vicor",
+      "currency": "USD"
     },
     {
       "dr": "VISA06",
@@ -3616,6 +5163,20 @@
       "currency": "USD"
     },
     {
+      "dr": "VNFIN24",
+      "parent": "FUESSVFL.VN",
+      "conv": 20,
+      "name": "SSIAM VNFIN Lead ETF",
+      "currency": "VND"
+    },
+    {
+      "dr": "VNM19",
+      "parent": "VNM.VN",
+      "conv": 10,
+      "name": "Vietnam Dairy (Vinamilk)",
+      "currency": "VND"
+    },
+    {
       "dr": "VRT01",
       "parent": "VRT",
       "conv": 2600,
@@ -3627,6 +5188,13 @@
       "parent": "VRT",
       "conv": 3400,
       "name": "Vertiv",
+      "currency": "USD"
+    },
+    {
+      "dr": "VRT80",
+      "parent": "VRT",
+      "conv": 1000,
+      "name": "Vertiv Holdings",
       "currency": "USD"
     },
     {
@@ -3644,11 +5212,123 @@
       "currency": "USD"
     },
     {
+      "dr": "WMT80",
+      "parent": "WMT",
+      "conv": 1000,
+      "name": "Walmart",
+      "currency": "USD"
+    },
+    {
+      "dr": "WORLD03",
+      "parent": "3422.HK",
+      "conv": 100,
+      "name": "Global X Innovative Bluechip Top 10 ETF",
+      "currency": "HKD"
+    },
+    {
       "dr": "WORLDA01",
       "parent": "SMSWLD.MI",
       "conv": 1000,
       "name": "Invesco MSCI World ETF",
       "currency": "EUR"
+    },
+    {
+      "dr": "WUXI06",
+      "parent": "2269.HK",
+      "conv": 40,
+      "name": "WuXi Biologics",
+      "currency": "HKD"
+    },
+    {
+      "dr": "WUXI13",
+      "parent": "2269.HK",
+      "conv": 70,
+      "name": "WuXi Biologics",
+      "currency": "HKD"
+    },
+    {
+      "dr": "WUXIAT80",
+      "parent": "2359.HK",
+      "conv": 100,
+      "name": "WuXi AppTec",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XIAOMI01",
+      "parent": "1810.HK",
+      "conv": 44,
+      "name": "Xiaomi",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XIAOMI13",
+      "parent": "1810.HK",
+      "conv": 50,
+      "name": "Xiaomi",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XIAOMI19",
+      "parent": "1810.HK",
+      "conv": 20,
+      "name": "Xiaomi",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XIAOMI23",
+      "parent": "1810.HK",
+      "conv": 83,
+      "name": "Xiaomi",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XIAOMI80",
+      "parent": "1810.HK",
+      "conv": 10,
+      "name": "Xiaomi",
+      "currency": "HKD"
+    },
+    {
+      "dr": "XPENG03",
+      "parent": "9868.HK",
+      "conv": 100,
+      "name": "XPeng",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ZAI23",
+      "parent": "2513.HK",
+      "conv": 400,
+      "name": "Knowledge Atlas Technology",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ZIJIN13",
+      "parent": "2899.HK",
+      "conv": 60,
+      "name": "Zijin Mining",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ZIJIN23",
+      "parent": "2899.HK",
+      "conv": 65,
+      "name": "Zijin Mining",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ZIJIN80",
+      "parent": "2899.HK",
+      "conv": 10,
+      "name": "Zijin Mining",
+      "currency": "HKD"
+    },
+    {
+      "dr": "ZJINNO80",
+      "parent": "300308.SZ",
+      "conv": 1000,
+      "name": "Zhongji Innolight",
+      "currency": "CNY"
     }
   ],
   "summary": {

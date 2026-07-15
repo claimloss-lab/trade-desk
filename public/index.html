@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: ai-rebalance v1 -->
+<!-- build: ai-rebalance v2 (floor qty) -->
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -4884,9 +4884,12 @@ function calcRebalance() {
     const price = p?.price || s.buyPrice;
     const curVal = isUS ? price * s.qty * usdThbRate : price * s.qty;
     const targetVal = newTotal * (rbTargets[rbPortId + '_' + s.ticker] || 0) / 100;
-    const diff = targetVal - curVal;
+    const idealDiff = targetVal - curVal;
     const priceInCur = isUS ? price * usdThbRate : price;
-    const qtyChange = diff / priceInCur;
+    // ปัดจำนวนหุ้นลงเสมอ (ซื้อ/ขายเป็นเศษหุ้นไม่ได้)
+    const rawQty = idealDiff / priceInCur;
+    const qtyChange = (rawQty >= 0 ? 1 : -1) * Math.floor(Math.abs(rawQty));
+    const diff = qtyChange * priceInCur; // มูลค่าจริงหลังปัด
 
     // New cost average
     let newAvg = s.buyPrice;
@@ -4896,7 +4899,7 @@ function calcRebalance() {
       newAvg = (s.buyPrice * s.qty + price * qtyChange) / newQty;
     }
 
-    const newWeight = targetVal / newTotal * 100;
+    const newWeight = (curVal + diff) / newTotal * 100;
     return { s, price, curVal, targetVal, diff, qtyChange, newAvg, newWeight, priceInCur };
   });
 
@@ -4918,7 +4921,9 @@ function calcRebalance() {
 
   // Budget info
   const bi = document.getElementById('rb-budget-info');
-  if (bi) bi.textContent = 'มูลค่าพอร์ตใหม่ ฿' + fn(newTotal, 0) + ' · งบเพิ่ม ฿' + fn(addBudget, 0);
+  const leftover = addBudget + sellAmt - buyAmt;
+  if (bi) bi.textContent = 'มูลค่าพอร์ตใหม่ ฿' + fn(newTotal, 0) + ' · งบเพิ่ม ฿' + fn(addBudget, 0)
+    + ' · เงินสดคงเหลือหลังปัดจำนวนหุ้น ฿' + fn(leftover, 0);
 
   // Action table
   const tbody = document.getElementById('rb-action-body');

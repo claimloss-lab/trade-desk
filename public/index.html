@@ -4708,6 +4708,122 @@ function setRbTarget(portId, ticker, val) {
   updateRbTotal();
 }
 
+// ── AI Rebalance (Claude Sonnet) ──
+let aiRbResult = null;
+
+function rbGetStocksData() {
+  if (!rbPortId) return null;
+  const port = getPort(rbPortId);
+  if (!port) return null;
+  const isMF = t => t.includes('(A)') || t.startsWith('K-') || t.startsWith('MEGA') ||
+                    t.includes('RMF') || t.includes('BGOLD') || t.includes('ESG');
+  const stocks = port.stocks.filter(s => !isMF(s.ticker));
+  const isUS = port.type === 'realtime_us';
+  const rows = stocks.map(s => {
+    const p = prices[s.ticker + '_' + rbPortId];
+    const price = p?.price || s.buyPrice;
+    const valueTHB = isUS ? price * s.qty * usdThbRate : price * s.qty;
+    return { ticker: s.ticker, underlying: s.underlying || '', valueTHB,
+             pnlPct: (price - s.buyPrice) / s.buyPrice * 100 };
+  });
+  const totalVal = rows.reduce((s, x) => s + x.valueTHB, 0);
+  rows.forEach(x => x.curWeight = totalVal > 0 ? x.valueTHB / totalVal * 100 : 0);
+  return { rows, portName: port.name };
+}
+
+async function aiRebalanceAnalysis() {
+  const data = rbGetStocksData();
+  if (!data || !data.rows.length) { showToast('เลือกพอร์ตก่อน'); return; }
+  const btn = document.getElementById('rb-ai-btn');
+  const panel = document.getElementById('rb-ai-panel');
+  if (btn) { btn.disabled = true; btn.textContent = '🤖 กำลังวิเคราะห์...'; }
+  panel.style.display = 'block';
+  panel.innerHTML = '<div class="card"><div class="card-bd" style="text-align:center;padding:30px;color:var(--tx3);font-size:13px">🧠 Claude กำลังจัดกลุ่มอุตสาหกรรมและคำนวณสัดส่วนที่เหมาะสม... (~15-30 วินาที)</div></div>';
+  try {
+    const res = await fetch('/api/rebalance-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ holdings: data.rows, portName: data.portName }),
+      signal: safeSignal(60000)
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.error || 'AI request failed');
+    }
+    aiRbResult = await res.json();
+    renderAIRebalance(aiRbResult);
+  } catch (e) {
+    panel.innerHTML = '<div class="card"><div class="card-bd" style="color:var(--red-tx);font-size:13px">❌ ' + e.message + '</div></div>';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '🤖 AI วิเคราะห์เชิงลึก'; }
+  }
+}
+
+function renderAIRebalance(r) {
+  const panel = document.getElementById('rb-ai-panel');
+  if (!panel || !r) return;
+
+  const groupRows = (r.groups || []).map(g => `<tr>
+    <td style="font-weight:600;font-size:12px">${g.name}</td>
+    <td style="font-size:11px;color:var(--tx2)">${(g.tickers || []).join(', ')}</td>
+    <td class="mono" style="font-size:12px">${g.curPct != null ? Number(g.curPct).toFixed(1) + '%' : '—'}</td>
+    <td class="mono" style="font-size:12px;color:var(--blue);font-weight:600">${g.targetPct || '—'}</td>
+    <td style="font-size:11px;color:var(--tx2)">${g.reason || ''}</td>
+  </tr>`).join('');
+
+  const stockRows = (r.stocks || []).map(s => {
+    const cur = rbGetStocksData()?.rows.find(x => x.ticker === s.ticker);
+    const curW = cur ? cur.curWeight : null;
+    const diff = curW != null ? curW - s.targetPct : null;
+    return `<tr>
+      <td><span class="tkr">${s.ticker}</span></td>
+      <td style="font-size:11px;color:var(--tx2)">${s.group || ''}</td>
+      <td class="mono" style="font-size:12px">${curW != null ? curW.toFixed(1) + '%' : '—'}</td>
+      <td class="mono" style="font-size:12px;color:var(--blue);font-weight:600">${Number(s.targetPct).toFixed(1)}%</td>
+      <td class="mono" style="font-size:11px;color:${diff == null ? 'var(--tx3)' : Math.abs(diff) < 1 ? 'var(--tx3)' : diff > 0 ? 'var(--red-tx)' : 'var(--green-tx)'}">
+        ${diff == null ? '' : (diff >= 0 ? '▼ ลด ' : '▲ เพิ่ม ') + Math.abs(diff).toFixed(1) + '%'}
+      </td>
+      <td style="font-size:11px;color:var(--tx2)">${s.reason || ''}</td>
+    </tr>`;
+  }).join('');
+
+  panel.innerHTML = `
+  <div class="card" style="border-color:#7c3aed44">
+    <div class="card-hd" style="background:linear-gradient(90deg,rgba(124,58,237,.08),transparent)">
+      <div>
+        <div class="card-ti">🤖 AI วิเคราะห์พอร์ต (Claude Sonnet)</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px">จัดกลุ่มอุตสาหกรรม + แนะนำสัดส่วนตามความร้อนแรงของแต่ละตัว</div>
+      </div>
+      <button class="btn btn-p btn-sm" onclick="applyAIRebalance()">✓ ใช้ค่านี้เป็น Target</button>
+    </div>
+    <div class="card-bd">
+      <div style="font-size:13px;line-height:1.7;margin-bottom:14px;padding:12px;background:var(--s2);border-radius:8px">${r.summary || ''}</div>
+      ${groupRows ? `<div style="font-size:12px;font-weight:600;margin-bottom:6px">📊 ภาพรวมรายกลุ่ม</div>
+      <div class="tbl-wrap" style="margin-bottom:14px"><table>
+        <thead><tr><th>หมวด</th><th>หุ้น</th><th>ตอนนี้</th><th>เป้าหมาย</th><th>เหตุผล</th></tr></thead>
+        <tbody>${groupRows}</tbody>
+      </table></div>` : ''}
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">🎯 Target รายตัว</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Ticker</th><th>กลุ่ม</th><th>Weight ปัจจุบัน</th><th>Target AI</th><th>ต้องปรับ</th><th>เหตุผล</th></tr></thead>
+        <tbody>${stockRows}</tbody>
+      </table></div>
+      ${r.cashNote ? `<div style="font-size:12px;color:var(--tx2);margin-top:12px;padding:10px;border-left:3px solid var(--blue);background:var(--s2);border-radius:0 8px 8px 0">💵 ${r.cashNote}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function applyAIRebalance() {
+  if (!aiRbResult?.stocks?.length || !rbPortId) return;
+  aiRbResult.stocks.forEach(s => {
+    rbTargets[rbPortId + '_' + s.ticker] = parseFloat(s.targetPct) || 0;
+  });
+  loadRebalancePort();
+  renderAIRebalance(aiRbResult);
+  document.getElementById('rb-ai-panel').style.display = 'block';
+  showToast('✓ ใช้ Target จาก AI แล้ว — กด "คำนวณ" เพื่อดูแผนซื้อ-ขาย');
+}
+
 function updateRbTotal() {
   if (!rbPortId) return;
   const port = getPort(rbPortId);
@@ -7320,6 +7436,7 @@ function updateAlertLabel(){
       <div style="display:flex;gap:8px;align-items:center">
         <div id="rb-total-badge" style="font-size:12px;font-family:var(--mono);padding:4px 12px;border-radius:20px;background:var(--s2)">รวม 0%</div>
         <button class="btn btn-s btn-sm" onclick="autoEqualWeight()">⚡ Equal Weight</button>
+        <button class="btn btn-sm" id="rb-ai-btn" onclick="aiRebalanceAnalysis()" style="background:#7c3aed;color:#fff;border-color:#7c3aed;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px">🤖 AI วิเคราะห์เชิงลึก</button>
         <button class="btn btn-p btn-sm" onclick="calcRebalance()">คำนวณ</button>
       </div>
     </div>
@@ -7333,6 +7450,9 @@ function updateAlertLabel(){
       </table>
     </div>
   </div>
+
+  <!-- AI Analysis -->
+  <div id="rb-ai-panel" style="display:none;margin-bottom:14px"></div>
 
   <!-- Result -->
   <div id="rb-result" style="display:none">

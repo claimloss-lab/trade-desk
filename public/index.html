@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: ai-rebalance v2 (floor qty) -->
+<!-- build: ai-rebalance v3 (technicals + switch ideas) -->
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -4724,12 +4724,21 @@ function rbGetStocksData() {
     const p = prices[s.ticker + '_' + rbPortId];
     const price = p?.price || s.buyPrice;
     const valueTHB = isUS ? price * s.qty * usdThbRate : price * s.qty;
-    return { ticker: s.ticker, underlying: s.underlying || '', valueTHB,
+    // DR ticker เช่น AMZN80 → underlying AMZN, ส่วน .BK / US ticker ใช้ตรงๆ
+    const uSym = s.ticker.includes('.') ? s.ticker : (isUS ? s.ticker : s.ticker.replace(/\d+$/, ''));
+    return { ticker: s.ticker, underlying: s.underlying || '', underlyingSymbol: uSym, valueTHB,
              pnlPct: (price - s.buyPrice) / s.buyPrice * 100 };
   });
   const totalVal = rows.reduce((s, x) => s + x.valueTHB, 0);
   rows.forEach(x => x.curWeight = totalVal > 0 ? x.valueTHB / totalVal * 100 : 0);
-  return { rows, portName: port.name };
+  // DR universe สำหรับไอเดียสลับตัว (เฉพาะพอร์ตที่ถือ DR)
+  let universe = [];
+  const looksDR = rows.some(x => /\d{2}$/.test(x.ticker) && !x.ticker.includes('.'));
+  if (looksDR && typeof drsBaseList !== 'undefined' && drsBaseList.length) {
+    const seen = {};
+    drsBaseList.forEach(d => { if (d.parent && !seen[d.parent]) { seen[d.parent] = 1; universe.push({ sym: d.parent, name: d.name || '' }); } });
+  }
+  return { rows, portName: port.name, universe };
 }
 
 async function aiRebalanceAnalysis() {
@@ -4739,13 +4748,13 @@ async function aiRebalanceAnalysis() {
   const panel = document.getElementById('rb-ai-panel');
   if (btn) { btn.disabled = true; btn.textContent = '🤖 กำลังวิเคราะห์...'; }
   panel.style.display = 'block';
-  panel.innerHTML = '<div class="card"><div class="card-bd" style="text-align:center;padding:30px;color:var(--tx3);font-size:13px">🧠 Claude กำลังจัดกลุ่มอุตสาหกรรมและคำนวณสัดส่วนที่เหมาะสม... (~15-30 วินาที)</div></div>';
+  panel.innerHTML = '<div class="card"><div class="card-bd" style="text-align:center;padding:30px;color:var(--tx3);font-size:13px">🧠 Claude กำลังดึงข้อมูลเทคนิคัล เช็คข่าวล่าสุด และวิเคราะห์พอร์ต... (~30-90 วินาที)</div></div>';
   try {
     const res = await fetch('/api/rebalance-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ holdings: data.rows, portName: data.portName }),
-      signal: safeSignal(60000)
+      body: JSON.stringify({ holdings: data.rows, portName: data.portName, universe: data.universe }),
+      signal: safeSignal(120000)
     });
     if (!res.ok) {
       const e = await res.json().catch(() => ({}));
@@ -4809,6 +4818,19 @@ function renderAIRebalance(r) {
         <thead><tr><th>Ticker</th><th>กลุ่ม</th><th>Weight ปัจจุบัน</th><th>Target AI</th><th>ต้องปรับ</th><th>เหตุผล</th></tr></thead>
         <tbody>${stockRows}</tbody>
       </table></div>
+      ${(r.opportunities || []).length ? `<div style="font-size:12px;font-weight:600;margin:14px 0 6px">📈 จังหวะน่าสนใจในพอร์ต (จากเทคนิคัลจริง)</div>
+      ${(r.opportunities || []).map(o => `<div style="font-size:12px;padding:8px 12px;margin-bottom:6px;background:var(--green-bg);border-radius:8px">
+        <span class="tkr">${o.ticker}</span> <span style="color:var(--tx2)">${o.note || ''}</span></div>`).join('')}` : ''}
+      ${(r.switchIdeas || []).length ? `<div style="font-size:12px;font-weight:600;margin:14px 0 6px">💡 ไอเดียสลับตัว (จาก DR ที่ซื้อได้จริงบน SET)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>ขายออก</th><th>เข้าตัวใหม่</th><th>เหตุผล</th></tr></thead>
+        <tbody>${(r.switchIdeas || []).map(w => `<tr>
+          <td><span class="tkr">${w.from}</span></td>
+          <td style="font-weight:600;font-size:12px;color:var(--blue)">${w.to}${w.toName ? ' <span style="font-weight:400;color:var(--tx3);font-size:11px">' + w.toName + '</span>' : ''}</td>
+          <td style="font-size:11px;color:var(--tx2)">${w.reason || ''}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+      <div style="font-size:10px;color:var(--tx3);margin-top:4px">* ไอเดียสลับตัวไม่ได้รวมอยู่ใน Target % ด้านบน — ถ้าสนใจตัวไหน ศึกษาต่อแล้วเพิ่มเข้าพอร์ตเอง</div>` : ''}
       ${r.cashNote ? `<div style="font-size:12px;color:var(--tx2);margin-top:12px;padding:10px;border-left:3px solid var(--blue);background:var(--s2);border-radius:0 8px 8px 0">💵 ${r.cashNote}</div>` : ''}
     </div>
   </div>`;

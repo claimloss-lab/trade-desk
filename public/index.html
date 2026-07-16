@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: ai-rebalance v4 (preserve _srAlerts) -->
+<!-- build: ai-rebalance v5 (parse fix) -->
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -4761,7 +4761,7 @@ async function aiRebalanceAnalysis() {
     });
     if (!res.ok) {
       const e = await res.json().catch(() => ({}));
-      throw new Error(e.error || 'AI request failed');
+      throw new Error((e.error || 'AI request failed') + (e.stop_reason ? ' (' + e.stop_reason + ')' : ''));
     }
     aiRbResult = await res.json();
     renderAIRebalance(aiRbResult);

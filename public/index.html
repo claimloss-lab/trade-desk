@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: ai-rebalance v3 (technicals + switch ideas) -->
+<!-- build: ai-rebalance v4 (preserve _srAlerts) -->
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -1835,6 +1835,8 @@ async function boot(){
     if(drRes.ok){
       const drData = await drRes.json();
       if(drData.drConversions?.length){ drsBaseList = drData.drConversions; window.__lastKnownDrConversions = drData.drConversions; }
+      // preserve S/R alert dedupe state written by the alert Worker
+      window.__srAlerts = drData._srAlerts || {};
     }
   } catch(e){ console.warn('Failed to preload drConversions at boot:', e.message); }
 
@@ -1985,6 +1987,7 @@ function buildBackupData(){
     dcaHistory: JSON.parse(localStorage.getItem('td_dca_hist') || '[]'),
     currency: localStorage.getItem('td_cur') || 'THB',
     drConversions: (typeof drsBaseList!=='undefined' && drsBaseList.length) ? drsBaseList : (window.__lastKnownDrConversions || []),
+    _srAlerts: window.__srAlerts || {},
     summary:{
       totalPorts:portfolios.length,
       totalStocks:portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0),

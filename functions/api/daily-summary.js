@@ -67,7 +67,7 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
           type: 'box', layout: 'vertical', flex: 0, alignItems: 'flex-end',
           contents: [
             { type: 'text', text: `${arrow} ${fmSign(s.dayChg)}%`, size: 'sm', color, weight: 'bold', align: 'end' },
-            { type: 'text', text: `฿${fm(s.price)}`, size: 'xxs', color: '#8A8A9A', align: 'end', margin: 'xs' },
+            { type: 'text', text: `${s.cur || '฿'}${fm(s.price)}`, size: 'xxs', color: '#8A8A9A', align: 'end', margin: 'xs' },
           ]
         },
       ]
@@ -222,14 +222,24 @@ export async function onRequest(context) {
 
     const prevPrices = (snapshot && snapshot.prices) ? snapshot.prices : {};
 
+    // FIX: กองทุนรวม (มี currentNav manual ในไฟล์) ไม่ต้องยิง price API —
+    // เดิมยิงแล้ว 404 ทุกครั้ง ทำให้ทั้งพอร์ต DIME/BBL-Tax/WealthX หายจาก net worth
     const tickerSet = new Set();
-    portfolios.forEach(p => (p.stocks || []).forEach(s => s.ticker && tickerSet.add(s.ticker)));
+    portfolios.forEach(p => (p.stocks || []).forEach(s => {
+      if (s.ticker && !(s.currentNav > 0)) tickerSet.add(s.ticker);
+    }));
     const baseUrl  = new URL(req.url).origin;
     const priceMap = {};
     await Promise.all([...tickerSet].map(async t => {
       const p = await fetchPrice(t, baseUrl);
       if (p) priceMap[t] = p;
     }));
+
+    // FIX: หุ้น US (พอร์ต type realtime_us) ต้องแปลง USD → THB ก่อนบวกรวม
+    // เดิมบวกราคา USD ดิบๆ ทำให้ net worth ต่ำกว่าจริงเป็นแสนบาท
+    // fallback: FX จาก snapshot เมื่อวาน → ค่าคงที่สุดท้ายกันหารด้วยศูนย์
+    const fxLive = await fetchPrice('USDTHB=X', baseUrl);
+    const usdThb = fxLive || ((snapshot && snapshot.fx > 0) ? snapshot.fx : 33.6);
 
     // FIX: เดิมถ้าดึงราคาบางตัวไม่สำเร็จ หุ้นตัวนั้นหายจาก net worth ทั้งก้อน
     // → มูลค่าพอร์ต "ร่วง" ปลอมๆ ตอนนี้ fallback ไปใช้ราคาจาก snapshot เมื่อวาน
@@ -244,15 +254,21 @@ export async function onRequest(context) {
     let totalNetWorth = 0;
     const stockValues = [];
     portfolios.forEach(p => {
+      const isUS = p.type === 'realtime_us';
       (p.stocks || []).forEach(s => {
-        const price = effPrice[s.ticker];
-        if (!price || !s.qty) return;
-        const value  = price * s.qty;
-        const cost   = (s.buyPrice || 0) * s.qty;
+        if (!s.qty) return;
+        // กองทุนรวม: ใช้ NAV (THB) จาก portfolio-data.json ตรงๆ ไม่เข้าชิง gainer/loser
+        if (s.currentNav > 0) { totalNetWorth += s.currentNav * s.qty; return; }
+        const price = effPrice[s.ticker];          // ราคา native (US = USD)
+        if (!price) return;
+        const value  = price * s.qty;              // มูลค่า native
+        const cost   = (s.buyPrice || 0) * s.qty;  // ต้นทุน native สกุลเดียวกัน
         const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
-        totalNetWorth += value;
+        totalNetWorth += value * (isUS ? usdThb : 1);
         // เฉพาะตัวที่ได้ราคาสดจริงเท่านั้นถึงเข้าชิง gainer/loser
-        if (pnlPct != null && priceMap[s.ticker]) stockValues.push({ ticker: s.ticker, price, pnlPct });
+        if (pnlPct != null && priceMap[s.ticker]) {
+          stockValues.push({ ticker: s.ticker, price, pnlPct, cur: isUS ? '$' : '฿' });
+        }
       });
     });
 
@@ -289,6 +305,7 @@ export async function onRequest(context) {
     const snapshotSaved = await writeSnapshot(GH_TOKEN, {
       date:     new Date().toISOString(),
       netWorth: totalNetWorth,
+      fx:       usdThb,
       prices:   effPrice,
     });
 

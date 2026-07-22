@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-20T04:18:25.146Z",
-  "exportDateTH": "20 กรกฎาคม 2569 เวลา 11:18",
+  "exportDate": "2026-07-22T01:09:05.536Z",
+  "exportDateTH": "22 กรกฎาคม 2569 เวลา 08:09",
   "portfolios": [
     {
       "id": "dr1",
@@ -387,8 +387,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.4705,
-          "navDate": "20 ก.ค. 69"
+          "currentNav": 14.3756,
+          "navDate": "22 ก.ค. 69"
         },
         {
           "id": 2,
@@ -398,8 +398,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.2991,
-          "navDate": "20 ก.ค. 69"
+          "currentNav": 13.1216,
+          "navDate": "22 ก.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -409,8 +409,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.4399,
-          "navDate": "20 ก.ค. 69"
+          "currentNav": 13.3084,
+          "navDate": "22 ก.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -420,8 +420,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 17.7343,
-          "navDate": "20 ก.ค. 69"
+          "currentNav": 17.5251,
+          "navDate": "22 ก.ค. 69"
         }
       ]
     },
@@ -483,7 +483,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.1646,
-          "navDate": "20 ก.ค. 69"
+          "navDate": "2026-07-16"
         }
       ],
       "cash": 0,
@@ -1961,7 +1961,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "11 พ.ค. 69",
-      "_notified": false
+      "_notified": true
     },
     {
       "id": 1778479777045,
@@ -5390,6 +5390,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 38,
-    "totalNetWorth": "฿1,729,711.40"
+    "totalNetWorth": "฿1,734,485.42"
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-23T08:46:34.109Z",
+  "exportDate": "2026-07-23T08:46:52.174Z",
   "exportDateTH": "23 กรกฎาคม 2569 เวลา 15:46",
   "portfolios": [
     {
@@ -2064,9 +2064,11 @@
       "qty": 200,
       "note": "DCA_06/2026",
       "cond": "below",
-      "status": "pending",
+      "status": "done",
       "addedDate": "2 ก.ค. 69",
-      "_notified": true
+      "_notified": true,
+      "doneDate": "23 ก.ค. 69",
+      "actualPrice": 19.3
     },
     {
       "id": 1782969001512,

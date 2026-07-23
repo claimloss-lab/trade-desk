@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-22T01:09:20.700Z",
-  "exportDateTH": "22 กรกฎาคม 2569 เวลา 08:09",
+  "exportDate": "2026-07-23T08:46:34.109Z",
+  "exportDateTH": "23 กรกฎาคม 2569 เวลา 15:46",
   "portfolios": [
     {
       "id": "dr1",
@@ -156,8 +156,8 @@
         {
           "id": 1,
           "ticker": "BDMS.BK",
-          "qty": 2200,
-          "buyPrice": 23.78181818181818,
+          "qty": 2400,
+          "buyPrice": 23.408333333333335,
           "sector": "Healthcare",
           "underlying": "BDMS"
         },
@@ -483,7 +483,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.0703,
-          "navDate": "22 ก.ค. 69"
+          "navDate": "2026-07-20"
         }
       ],
       "cash": 0,
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1784796391099,
+      "ticker": "BDMS.BK",
+      "type": "buy",
+      "date": "2026-07-23",
+      "price": 19.3,
+      "qty": 200,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "set1",
+      "auto": true
+    },
     {
       "id": 1783430334937,
       "ticker": "VWO",
@@ -1961,7 +1974,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "11 พ.ค. 69",
-      "_notified": true
+      "_notified": false
     },
     {
       "id": 1778479777045,
@@ -2053,7 +2066,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": false
+      "_notified": true
     },
     {
       "id": 1782969001512,
@@ -5389,7 +5402,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 38,
-    "totalNetWorth": "฿1,734,663.77"
+    "totalTransactions": 39,
+    "totalNetWorth": "฿1,720,966.39"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-23T09:07:50.183Z",
-  "exportDateTH": "23 กรกฎาคม 2569 เวลา 16:07",
+  "exportDate": "2026-07-25T15:54:30.174Z",
+  "exportDateTH": "25 กรกฎาคม 2569 เวลา 22:54",
   "portfolios": [
     {
       "id": "dr1",
@@ -483,7 +483,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.1978,
-          "navDate": "23 ก.ค. 69"
+          "navDate": "2026-07-21"
         }
       ],
       "cash": 0,
@@ -1018,19 +1018,7 @@
       "auto": true
     }
   ],
-  "alerts": [
-    {
-      "id": 1778499449672,
-      "ticker": "ORCL",
-      "cond": "below",
-      "price": 186,
-      "note": "Buy at EMA200",
-      "triggered": true,
-      "createdAt": "2026-05-11T11:37:29.672Z",
-      "triggeredAt": "2026-05-20T02:45:51.602Z",
-      "triggeredPrice": 181.46
-    }
-  ],
+  "alerts": [],
   "notes": [],
   "dividends": [
     {
@@ -5405,6 +5393,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 39,
-    "totalNetWorth": "฿1,718,394.77"
+    "totalNetWorth": "฿1,694,381.89"
   }
 }

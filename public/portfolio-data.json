@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-30T16:08:51.156Z",
-  "exportDateTH": "30 กรกฎาคม 2569 เวลา 23:08",
+  "exportDate": "2026-07-30T16:09:03.323Z",
+  "exportDateTH": "30 กรกฎาคม 2569 เวลา 23:09",
   "portfolios": [
     {
       "id": "dr1",
@@ -483,7 +483,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 10.761,
-          "navDate": "2026-07-27"
+          "navDate": "30 ก.ค. 69"
         }
       ],
       "cash": 0,

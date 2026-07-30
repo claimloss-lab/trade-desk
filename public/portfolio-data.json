@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-25T15:54:30.174Z",
-  "exportDateTH": "25 กรกฎาคม 2569 เวลา 22:54",
+  "exportDate": "2026-07-30T16:08:51.156Z",
+  "exportDateTH": "30 กรกฎาคม 2569 เวลา 23:08",
   "portfolios": [
     {
       "id": "dr1",
@@ -387,8 +387,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.3917,
-          "navDate": "23 ก.ค. 69"
+          "currentNav": 14.3387,
+          "navDate": "30 ก.ค. 69"
         },
         {
           "id": 2,
@@ -398,8 +398,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.2689,
-          "navDate": "23 ก.ค. 69"
+          "currentNav": 13.0585,
+          "navDate": "30 ก.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -409,8 +409,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.4296,
-          "navDate": "23 ก.ค. 69"
+          "currentNav": 13.2244,
+          "navDate": "30 ก.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -420,8 +420,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 17.8546,
-          "navDate": "23 ก.ค. 69"
+          "currentNav": 17.1325,
+          "navDate": "30 ก.ค. 69"
         }
       ]
     },
@@ -441,8 +441,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 28.3477,
-          "navDate": "23 ก.ค. 69"
+          "currentNav": 27.7852,
+          "navDate": "30 ก.ค. 69"
         },
         {
           "id": 2,
@@ -482,8 +482,8 @@
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 11.1978,
-          "navDate": "2026-07-21"
+          "currentNav": 10.761,
+          "navDate": "2026-07-27"
         }
       ],
       "cash": 0,
@@ -5393,6 +5393,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 39,
-    "totalNetWorth": "฿1,694,381.89"
+    "totalNetWorth": "฿1,689,367.63"
   }
 }

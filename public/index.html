@@ -599,8 +599,24 @@ async function fetchPrice(ticker, portType, portId) {
     if (!sparkH[key]) sparkH[key]=[];
     sparkH[key].push(d.price);
     if (sparkH[key].length>10) sparkH[key].shift();
-    return { price:d.price, prevClose:d.prevClose||null, _sparkKey:key };
+    return { price:d.price, prevClose:d.prevClose||null, marketState:d.marketState||null, _sparkKey:key };
   } catch { return null; }
+}
+
+// ── DR Effective Price ──────────────────────────────────────────────────────
+// ใช้ราคาตลาดจริงเมื่อ SET กำลังเทรดอยู่ (marketState==='REGULAR')
+// นอกเวลาเทรด (กลางคืน/วันหยุด) ประมาณราคาจากหุ้นแม่ × FX ÷ conversion ratio แทน
+// กันราคา DR ค้างข้ามคืนไม่สะท้อนการเคลื่อนไหวของหุ้นแม่ที่ตลาด US เปิดอยู่
+function drFairValue(parentPrice, fxRate, conversion) {
+  if (!parentPrice || !conversion) return null;
+  return parentPrice * (fxRate || 1) / conversion;
+}
+function drEffectivePrice(drQuote, parentQuote, usdThbRate, conversion) {
+  if (drQuote && drQuote.marketState === 'REGULAR') return { price: drQuote.price, estimated: false };
+  const fv = parentQuote ? drFairValue(parentQuote.price, usdThbRate, conversion) : null;
+  if (fv != null) return { price: fv, estimated: true };
+  if (drQuote) return { price: drQuote.price, estimated: false };
+  return { price: null, estimated: false };
 }
 
 async function refreshAll(silent=false) {
@@ -656,6 +672,15 @@ function portEquity(port) {
         const nav=x.currentNav||x.buyPrice;
         return s+(nav*x.qty);
       }
+    },0);
+  }
+  if(port.type==='realtime_dr'){
+    return port.stocks.reduce((s,x)=>{
+      const p = prices[x.ticker+'_'+port.id];
+      const parentP = x.parentTicker ? prices[x.parentTicker+'_'+port.id+'_parent'] : null;
+      const eff = drEffectivePrice(p, parentP, usdThbRate, x.conversion);
+      const price = eff.price!=null ? eff.price : (p?p.price:x.buyPrice);
+      return s + price*x.qty;
     },0);
   }
   return port.stocks.reduce((s,x)=>{
@@ -1295,16 +1320,34 @@ function renderPortfolio(portId) {
       <td>${costCell}</td>
       <td class="muted" style="font-size:11px">โหลด...</td>
       <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td></td></tr>`;
-    const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
+    // DR: หาราคาหุ้นแม่ที่มีอยู่แล้ว (fetchDRParentPrices เติมไว้ล่วงหน้า)
+    // แล้วเลือก effective price — ราคาตลาดจริงถ้า SET กำลังเทรด ไม่งั้นใช้ fair value
+    let drEff = null;
+    if (port.type==='realtime_dr' && s.parentTicker && s.conversion) {
+      const parentKey = s.parentTicker+'_'+portId+'_parent';
+      let parentQuote = prices[parentKey] || null;
+      if(!parentQuote){
+        portfolios.forEach(p2=>{
+          if(parentQuote) return;
+          const s2 = p2.stocks?.find(x=>x.ticker===s.parentTicker);
+          if(s2 && prices[s2.ticker+'_'+p2.id]) parentQuote = prices[s2.ticker+'_'+p2.id];
+        });
+      }
+      drEff = drEffectivePrice(p, parentQuote, usdThbRate, s.conversion);
+    }
+    const effPrice = drEff && drEff.price!=null ? drEff.price : p.price;
+    const isEstimated = !!(drEff && drEff.estimated);
+
+    const valTHB=isUS?p.price*s.qty*usdThbRate:effPrice*s.qty;
     const pnl2=valTHB-cost2;
     const pct2=cost2>0?pnl2/cost2*100:0;
     // day % change in price (USD for US, THB for TH) — % is same either way
-    const day2=p.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
+    const day2=p.prevClose?(effPrice-p.prevClose)/p.prevClose*100:null;
     // day P&L in THB
     const dayPnlTHB=isUS&&p.prevClose?(p.price-p.prevClose)*s.qty*usdThbRate:
-                    p.prevClose?(p.price-p.prevClose)*s.qty:null;
+                    p.prevClose?(effPrice-p.prevClose)*s.qty:null;
 
-    // ── DR Fair Value ──
+    // ── DR Fair Value ── (เทียบราคาตลาดจริง p.price กับ fair value เสมอ ไม่เปลี่ยน)
     let fairValueCell = port.type==='realtime_dr' ? `<td class="muted" style="font-size:11px">—</td>` : '';
     let fairDiffCell  = port.type==='realtime_dr' ? `<td class="muted">—</td>` : '';
     if(port.type==='realtime_dr' && s.parentTicker && s.conversion){
@@ -1345,7 +1388,9 @@ function renderPortfolio(portId) {
       <td>${costCell}</td>
       <td class="mono" style="font-weight:600">${isUS
         ? `<div style="line-height:1.6">$${fn(p.price,2)}<div style="font-size:10px;color:var(--tx3)">฿${fn(p.price*usdThbRate,2)}</div></div>`
-        : fm(p.price)}</td>
+        : (isEstimated
+            ? `<span title="ประมาณจากหุ้นแม่ + FX (SET ปิด)">≈${fm(effPrice)}</span><div style="font-size:9px;color:var(--amber-tx)">estimated</div>`
+            : fm(effPrice))}</td>
       <td>${day2!==null?`<span class="${day2>=0?'pos':'neg'}">${day2>=0?'▲':'▼'}${Math.abs(day2).toFixed(2)}%</span>`:'—'}</td>
       <td class="mono">${isUS
         ? `<div style="line-height:1.6">$${fn(valTHB/usdThbRate,2)}<div style="font-size:10px;color:var(--tx3)">฿${fn(valTHB,2)}</div></div>`

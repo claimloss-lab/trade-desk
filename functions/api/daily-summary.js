@@ -16,14 +16,15 @@ function fmSign(n, dec = 2) {
   return (n >= 0 ? '+' : '-') + fm(Math.abs(n), dec);
 }
 
-// ── Fetch price ───────────────────────────────────────────────────────────────
+// ── Fetch price (คืน object พร้อม marketState แทนเลขล้วน) ──────────────────────
 async function fetchPrice(ticker, baseUrl) {
   try {
     const r = await fetch(`${baseUrl}/api/price?ticker=${encodeURIComponent(ticker)}`,
       { signal: AbortSignal.timeout(8000) });
     if (!r.ok) return null;
     const d = await r.json();
-    return (typeof d.price === 'number' && d.price > 0) ? d.price : null;
+    if (typeof d.price !== 'number' || d.price <= 0) return null;
+    return { price: d.price, marketState: d.marketState || null };
   } catch { return null; }
 }
 
@@ -37,7 +38,7 @@ async function sendLineFlex(token, userId, altText, contents) {
 }
 
 // ── Build Flex bubble ─────────────────────────────────────────────────────────
-function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount }) {
+function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount, estimatedCount }) {
   const isUp     = nwChange == null ? null : nwChange >= 0;
   const chgColor = isUp == null ? '#8A8A9A' : isUp ? '#00C896' : '#FF5C5C';
   const chgArrow = isUp == null ? '─' : isUp ? '▲' : '▼';
@@ -92,6 +93,12 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
       size: 'xxs', color: '#B7791F', margin: 'md', wrap: true },
   ] : [];
 
+  // ใหม่: แจ้งเมื่อมี DR ที่ใช้ราคาประมาณจากหุ้นแม่ (SET ปิดตอน cron รัน)
+  const estimatedNote = estimatedCount > 0 ? [
+    { type: 'text', text: `🔮 ${estimatedCount} DR ใช้ราคาประมาณจากหุ้นแม่ + FX (ตลาด SET ปิด)`,
+      size: 'xxs', color: '#4A9EFF', margin: staleCount > 0 ? 'xs' : 'md', wrap: true },
+  ] : [];
+
   return {
     type: 'bubble',
     size: 'kilo',
@@ -126,6 +133,7 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
           ]
         },
         ...staleNote,
+        ...estimatedNote,
         ...stockSection,
       ]
     },
@@ -224,9 +232,23 @@ export async function onRequest(context) {
 
     // FIX: กองทุนรวม (มี currentNav manual ในไฟล์) ไม่ต้องยิง price API —
     // เดิมยิงแล้ว 404 ทุกครั้ง ทำให้ทั้งพอร์ต DIME/BBL-Tax/WealthX หายจาก net worth
+    //
+    // ใหม่: สำหรับ DR (realtime_dr) เก็บ parentTicker เพิ่มเข้า tickerSet ด้วย
+    // เพื่อไว้คำนวณ fair value ตอนตลาด SET ปิด (เช่นรอบ 08:00 ที่ยังไม่เปิดเทรด)
     const tickerSet = new Set();
+    const drStocks  = []; // { ticker, parentTicker, conversion, drCurrency }
     portfolios.forEach(p => (p.stocks || []).forEach(s => {
-      if (s.ticker && !(s.currentNav > 0)) tickerSet.add(s.ticker);
+      if (!s.ticker || s.currentNav > 0) return;
+      tickerSet.add(s.ticker);
+      if (p.type === 'realtime_dr' && s.parentTicker && s.conversion) {
+        tickerSet.add(s.parentTicker);
+        drStocks.push({
+          ticker: s.ticker,
+          parentTicker: s.parentTicker,
+          conversion: s.conversion,
+          drCurrency: s.drCurrency || 'USD',
+        });
+      }
     }));
     const baseUrl  = new URL(req.url).origin;
     const priceMap = {};
@@ -239,15 +261,39 @@ export async function onRequest(context) {
     // เดิมบวกราคา USD ดิบๆ ทำให้ net worth ต่ำกว่าจริงเป็นแสนบาท
     // fallback: FX จาก snapshot เมื่อวาน → ค่าคงที่สุดท้ายกันหารด้วยศูนย์
     const fxLive = await fetchPrice('USDTHB=X', baseUrl);
-    const usdThb = fxLive || ((snapshot && snapshot.fx > 0) ? snapshot.fx : 33.6);
+    const usdThb = (fxLive && fxLive.price) || ((snapshot && snapshot.fx > 0) ? snapshot.fx : 33.6);
 
     // FIX: เดิมถ้าดึงราคาบางตัวไม่สำเร็จ หุ้นตัวนั้นหายจาก net worth ทั้งก้อน
     // → มูลค่าพอร์ต "ร่วง" ปลอมๆ ตอนนี้ fallback ไปใช้ราคาจาก snapshot เมื่อวาน
-    // (ตัวที่ fallback จะไม่ถูกนับใน top gainer/loser เพราะ dayChg = 0)
-    let staleCount = 0;
-    const effPrice = {};
+    // (ตัวที่ fallback จะไม่ถูกนับใน top gainer/loser เพราะไม่อยู่ใน freshTickers)
+    //
+    // ใหม่: DR — ถ้า marketState==='REGULAR' (SET กำลังเทรด) ใช้ราคาตลาดจริง
+    // ถ้า SET ปิด (เช่นรอบ 08:00 ก่อนเปิดตลาด) ประมาณราคาจาก
+    // หุ้นแม่ (ราคาจาก US) × USDTHB ÷ conversion ratio แทน กันราคาค้างข้ามคืน
+    let staleCount     = 0;
+    let estimatedCount = 0;
+    const effPrice     = {};
+    const freshTickers = new Set(); // ราคาที่ "สด" จริง ไม่ว่าจะเป็นราคาตลาดจริงหรือ fair value ที่คำนวณสด
+
+    drStocks.forEach(d => {
+      const q       = priceMap[d.ticker];
+      const parentQ = priceMap[d.parentTicker];
+      if (q && q.marketState === 'REGULAR') {
+        effPrice[d.ticker] = q.price;
+        freshTickers.add(d.ticker);
+      } else if (parentQ && d.drCurrency === 'USD') {
+        effPrice[d.ticker] = parentQ.price * usdThb / d.conversion;
+        estimatedCount++;
+        freshTickers.add(d.ticker);
+      } else if (q) {
+        effPrice[d.ticker] = q.price;
+        freshTickers.add(d.ticker);
+      }
+    });
+
     tickerSet.forEach(t => {
-      if (priceMap[t]) { effPrice[t] = priceMap[t]; }
+      if (effPrice[t] != null) return; // DR ที่จัดการไปแล้วด้านบน
+      if (priceMap[t]) { effPrice[t] = priceMap[t].price; freshTickers.add(t); }
       else if (prevPrices[t] > 0) { effPrice[t] = prevPrices[t]; staleCount++; }
     });
 
@@ -259,14 +305,14 @@ export async function onRequest(context) {
         if (!s.qty) return;
         // กองทุนรวม: ใช้ NAV (THB) จาก portfolio-data.json ตรงๆ ไม่เข้าชิง gainer/loser
         if (s.currentNav > 0) { totalNetWorth += s.currentNav * s.qty; return; }
-        const price = effPrice[s.ticker];          // ราคา native (US = USD)
+        const price = effPrice[s.ticker];          // ราคา native (US = USD, DR/TH = THB)
         if (!price) return;
         const value  = price * s.qty;              // มูลค่า native
         const cost   = (s.buyPrice || 0) * s.qty;  // ต้นทุน native สกุลเดียวกัน
         const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
         totalNetWorth += value * (isUS ? usdThb : 1);
-        // เฉพาะตัวที่ได้ราคาสดจริงเท่านั้นถึงเข้าชิง gainer/loser
-        if (pnlPct != null && priceMap[s.ticker]) {
+        // เฉพาะตัวที่ได้ราคาสดจริง (ตลาดจริง หรือ fair value ที่คำนวณสด) เท่านั้นถึงเข้าชิง gainer/loser
+        if (pnlPct != null && freshTickers.has(s.ticker)) {
           stockValues.push({ ticker: s.ticker, price, pnlPct, cur: isUS ? '$' : '฿' });
         }
       });
@@ -291,7 +337,7 @@ export async function onRequest(context) {
       weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Bangkok',
     });
 
-    const flexContents = buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount });
+    const flexContents = buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount, estimatedCount });
     const altText = `TradeDesk ${today} | ฿${fm(totalNetWorth, 0)}${nwChange != null ? ` (${fmSign(nwChangePct)}%)` : ''}`;
 
     const lineRes = await sendLineFlex(LINE_TOKEN, LINE_USER, altText, flexContents);
@@ -301,7 +347,8 @@ export async function onRequest(context) {
     }
 
     // Snapshot เก็บ effPrice (carry-forward ราคาเก่าเมื่อดึงไม่สำเร็จ) เพื่อไม่ให้
-    // ticker หลุดหายจากการเทียบวันถัดไป
+    // ticker หลุดหายจากการเทียบวันถัดไป — DR ที่เป็นราคาประมาณก็เก็บเป็นเลขปกติ
+    // (พรุ่งนี้เทียบ dayChg ได้ตามจริง ไม่ว่าเมื่อวานจะเป็นราคาจริงหรือราคาประมาณ)
     const snapshotSaved = await writeSnapshot(GH_TOKEN, {
       date:     new Date().toISOString(),
       netWorth: totalNetWorth,
@@ -309,7 +356,7 @@ export async function onRequest(context) {
       prices:   effPrice,
     });
 
-    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, staleCount, stockCount: stockValues.length }), { headers: cors });
+    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, staleCount, estimatedCount, stockCount: stockValues.length }), { headers: cors });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

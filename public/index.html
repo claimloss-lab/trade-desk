@@ -421,10 +421,30 @@ let rtInterval = null;
 let pinOk = sessionStorage.getItem('td_pin') === '1';
 let ghSaveTimer = null; // moved earlier to avoid TDZ crash when savePorts() fires during first-load init
 
-// Init default portfolios if first time
+// Init default portfolios if first time.
+// IMPORTANT: do NOT auto-push to GitHub here. If td_ports is empty (fresh
+// browser, cleared cache, new device), the safe move is to try to PULL the
+// real data from GitHub first -- pushing a freshly-built default/preset
+// portfolio would silently overwrite good remote data (this caused a real
+// incident on 2026-07-31: an empty-cache load auto-saved a stale/default
+// snapshot over 10 real portfolios, dropping them to 8).
 if (!portfolios) {
   portfolios = _buildDefaultPortfolios();
-  savePorts();
+  localStorage.setItem('td_ports', JSON.stringify(portfolios));
+  fetch('/api/backup').then(r => r.ok ? r.json() : null).then(data => {
+    if (data && Array.isArray(data.portfolios) && data.portfolios.length) {
+      portfolios = data.portfolios;
+      localStorage.setItem('td_ports', JSON.stringify(portfolios));
+      if (Array.isArray(data.transactions)) { transactions = data.transactions; localStorage.setItem('td_tx', JSON.stringify(transactions)); }
+      if (Array.isArray(data.alerts)) { alerts = data.alerts; localStorage.setItem('td_alerts', JSON.stringify(alerts)); }
+      if (Array.isArray(data.notes)) { notes = data.notes; localStorage.setItem('td_notes', JSON.stringify(notes)); }
+      if (Array.isArray(data.dividends)) { dividends = data.dividends; localStorage.setItem('td_divs', JSON.stringify(dividends)); }
+      if (Array.isArray(data.watchlist)) { watchlist = data.watchlist; localStorage.setItem('td_wl', JSON.stringify(watchlist)); }
+      if (Array.isArray(data.dcaHistory)) localStorage.setItem('td_dca_hist', JSON.stringify(data.dcaHistory));
+      if (data.currency) { currency = data.currency; localStorage.setItem('td_cur', currency); }
+      try { renderOverview(); buildSidebarPortList(); showToast('✓ โหลดข้อมูลจาก GitHub อัตโนมัติ (เครื่องนี้ไม่มี cache)'); } catch (e) {}
+    }
+  }).catch(() => {});
 }
 function _buildDefaultPortfolios(){ const p = [
     { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
@@ -2267,6 +2287,28 @@ function scheduleGHSave(){
 }
 
 async function doGHSave(){
+  // Safety guard: refuse to overwrite GitHub with a local state that is
+  // missing portfolios which already exist remotely. This is the exact
+  // signature of the 2026-07-31 incident (stale/empty local cache silently
+  // pushed over 10 real portfolios, dropping them to 8). If this check
+  // itself fails (offline, endpoint down), fall through and save anyway —
+  // we don't want a network hiccup to block normal day-to-day saving.
+  try {
+    const guardRes = await fetch('/api/backup', { signal: AbortSignal.timeout(8000) });
+    if (guardRes.ok) {
+      const remote = await guardRes.json();
+      const remoteIds = new Set((remote.portfolios || []).map(p => p.id));
+      const localIds = new Set(portfolios.map(p => p.id));
+      const missing = [...remoteIds].filter(id => !localIds.has(id));
+      if (missing.length > 0) {
+        console.warn('GH auto-save BLOCKED — local is missing portfolios present on GitHub:', missing);
+        markGHSaveFailed('บล็อกการบันทึก: พอร์ตในเครื่อง (' + localIds.size + ') น้อยกว่าบน GitHub (' + remoteIds.size + ') — กด Restore ก่อนแก้ไขต่อ ไม่งั้นข้อมูลจะหาย');
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('GH save staleness guard check failed, saving anyway:', e.message);
+  }
   // Primary path: server-side /api/backup Worker (uses Cloudflare env GITHUB_TOKEN,
   // so this no longer depends on a token stored in this browser's localStorage —
   // it works even if gh_token was never set, cleared, or expired).

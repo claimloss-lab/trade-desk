@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T15:58:41.593Z",
-  "exportDateTH": "31 กรกฎาคม 2569 เวลา 22:58",
+  "exportDate": "2026-07-31T16:00:11.115Z",
+  "exportDateTH": "31 กรกฎาคม 2569 เวลา 23:00",
   "portfolios": [
     {
       "id": "dr1",
@@ -1073,6 +1073,26 @@
   "alerts": [],
   "notes": [],
   "dividends": [
+    {
+      "id": 1785513587606.8772,
+      "ticker": "ASML01",
+      "date": "2026-07-27",
+      "payDate": "2026-08-24 (est.)",
+      "perShare": 0.0404,
+      "qty": 2700,
+      "total": 109.08,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1785513606733.5032,
+      "ticker": "ORCL",
+      "date": "2026-07-10",
+      "payDate": "2026-08-07 (est.)",
+      "perShare": 16.68,
+      "qty": 6.7814134,
+      "total": 113.11,
+      "note": "auto (THB @ 33.36)"
+    },
     {
       "id": 1783429829645.2705,
       "ticker": "LHSC.BK",

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-30T16:09:16.428Z",
-  "exportDateTH": "30 กรกฎาคม 2569 เวลา 23:09",
+  "exportDate": "2026-07-31T03:55:46.497Z",
+  "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:55",
   "portfolios": [
     {
       "id": "dr1",
@@ -15,21 +15,15 @@
           "buyPrice": 1.73,
           "id": 1,
           "sector": "Consumer",
-          "underlying": "Amazon",
-          "parentTicker": "AMZN",
-          "conversion": 4000,
-          "drCurrency": "USD"
+          "underlying": "Amazon"
         },
         {
           "ticker": "ASML01",
-          "qty": 2700,
-          "buyPrice": 28.41,
+          "qty": 2025,
+          "buyPrice": 28.43,
           "id": 2,
           "sector": "Tech",
-          "underlying": "ASML",
-          "parentTicker": "ASML",
-          "conversion": 1200,
-          "drCurrency": "USD"
+          "underlying": "ASML"
         },
         {
           "ticker": "AVGO80",
@@ -37,21 +31,15 @@
           "buyPrice": 2.28,
           "id": 3,
           "sector": "Tech",
-          "underlying": "Broadcom",
-          "parentTicker": "AVGO",
-          "conversion": 5000,
-          "drCurrency": "USD"
+          "underlying": "Broadcom"
         },
         {
           "ticker": "CRWD80",
-          "qty": 4400,
-          "buyPrice": 15.01,
+          "qty": 4345,
+          "buyPrice": 14.94,
           "id": 4,
           "sector": "Tech",
-          "underlying": "CrowdStrike",
-          "parentTicker": "CRWD",
-          "conversion": 250,
-          "drCurrency": "USD"
+          "underlying": "CrowdStrike"
         },
         {
           "ticker": "GOOG80",
@@ -59,10 +47,7 @@
           "buyPrice": 4.55,
           "id": 5,
           "sector": "Tech",
-          "underlying": "Alphabet",
-          "parentTicker": "GOOGL",
-          "conversion": 2000,
-          "drCurrency": "USD"
+          "underlying": "Alphabet"
         },
         {
           "ticker": "LLY80",
@@ -70,32 +55,39 @@
           "buyPrice": 1.35,
           "id": 6,
           "sector": "Healthcare",
-          "underlying": "Eli Lilly",
-          "parentTicker": "LLY",
-          "conversion": 20000,
-          "drCurrency": "USD"
+          "underlying": "Eli Lilly"
+        },
+        {
+          "ticker": "MELI06",
+          "qty": 3420,
+          "buyPrice": 2.77,
+          "id": 7,
+          "sector": "Consumer",
+          "underlying": "MercadoLibre"
+        },
+        {
+          "ticker": "META80",
+          "qty": 800,
+          "buyPrice": 2.46,
+          "id": 8,
+          "sector": "Tech",
+          "underlying": "Meta"
         },
         {
           "ticker": "MSFT80",
-          "qty": 25400,
-          "buyPrice": 7.21,
+          "qty": 18600,
+          "buyPrice": 7.67,
           "id": 9,
           "sector": "Tech",
-          "underlying": "Microsoft",
-          "parentTicker": "MSFT",
-          "conversion": 2000,
-          "drCurrency": "USD"
+          "underlying": "Microsoft"
         },
         {
           "ticker": "NVDA80",
-          "qty": 2500,
-          "buyPrice": 28.92,
+          "qty": 2457,
+          "buyPrice": 28.8,
           "id": 10,
           "sector": "Tech",
-          "underlying": "NVIDIA",
-          "parentTicker": "NVDA",
-          "conversion": 200,
-          "drCurrency": "USD"
+          "underlying": "NVIDIA"
         },
         {
           "ticker": "PANW80",
@@ -103,10 +95,7 @@
           "buyPrice": 6.08,
           "id": 11,
           "sector": "Tech",
-          "underlying": "Palo Alto",
-          "parentTicker": "PANW",
-          "conversion": 1000,
-          "drCurrency": "USD"
+          "underlying": "Palo Alto"
         },
         {
           "ticker": "PLTR06",
@@ -114,10 +103,7 @@
           "buyPrice": 3.03,
           "id": 12,
           "sector": "Tech",
-          "underlying": "Palantir",
-          "parentTicker": "PLTR",
-          "conversion": 1500,
-          "drCurrency": "USD"
+          "underlying": "Palantir"
         },
         {
           "ticker": "QQQM19",
@@ -125,10 +111,7 @@
           "buyPrice": 15.95,
           "id": 13,
           "sector": "ETF",
-          "underlying": "Invesco QQQM",
-          "parentTicker": "QQQM",
-          "conversion": 500,
-          "drCurrency": "USD"
+          "underlying": "Invesco QQQM"
         },
         {
           "ticker": "SNOW06",
@@ -136,13 +119,18 @@
           "buyPrice": 3.07,
           "id": 14,
           "sector": "Tech",
-          "underlying": "Snowflake",
-          "parentTicker": "SNOW",
-          "conversion": 2000,
-          "drCurrency": "USD"
+          "underlying": "Snowflake"
+        },
+        {
+          "ticker": "SONY80",
+          "qty": 1550,
+          "buyPrice": 4.2,
+          "id": 15,
+          "sector": "Consumer",
+          "underlying": "Sony"
         }
       ],
-      "cash": 470.4,
+      "cash": 26227.52,
       "snapshots": []
     },
     {
@@ -150,14 +138,14 @@
       "name": "PI DCA",
       "type": "realtime_th",
       "color": "#30d158",
-      "cash": 4130.76,
+      "cash": 6954.08,
       "snapshots": [],
       "stocks": [
         {
           "id": 1,
           "ticker": "BDMS.BK",
-          "qty": 2400,
-          "buyPrice": 23.408333333333335,
+          "qty": 2000,
+          "buyPrice": 24.34,
           "sector": "Healthcare",
           "underlying": "BDMS"
         },
@@ -172,8 +160,8 @@
         {
           "id": 3,
           "ticker": "CPALL.BK",
-          "qty": 1000,
-          "buyPrice": 53.047,
+          "qty": 900,
+          "buyPrice": 54.08,
           "sector": "Consumer",
           "underlying": "CP All"
         },
@@ -188,8 +176,8 @@
         {
           "id": 5,
           "ticker": "HMPRO.BK",
-          "qty": 4200,
-          "buyPrice": 9.58,
+          "qty": 3600,
+          "buyPrice": 10.12,
           "sector": "Consumer",
           "underlying": "HomePro"
         },
@@ -212,15 +200,15 @@
         {
           "id": 8,
           "ticker": "TU.BK",
-          "qty": 3200,
-          "buyPrice": 13.584375,
+          "qty": 3000,
+          "buyPrice": 13.71,
           "sector": "Consumer",
           "underlying": "Thai Union"
         },
         {
           "id": 9,
           "ticker": "WHA.BK",
-          "qty": 8100,
+          "qty": 9100,
           "buyPrice": 3.94,
           "sector": "Industrial",
           "underlying": "WHA Corp"
@@ -284,44 +272,44 @@
       "name": "Jitta 1 - Thematic",
       "type": "realtime_us",
       "color": "#ff3b30",
-      "cash": 0,
+      "cash": 952,
       "snapshots": [],
       "stocks": [
         {
+          "id": 1,
+          "ticker": "ICLN",
+          "qty": 15.627,
+          "buyPrice": 16.68,
+          "sector": "ETF",
+          "underlying": "iShares Clean Energy ETF",
+          "buyPriceUSD": 16.68
+        },
+        {
+          "id": 2,
+          "ticker": "IXJ",
+          "qty": 2.863,
+          "buyPrice": 97.89,
+          "sector": "ETF",
+          "underlying": "iShares Global Healthcare ETF",
+          "buyPriceUSD": 97.89
+        },
+        {
           "id": 3,
           "ticker": "SMH",
-          "qty": 0.621,
-          "buyPrice": 291,
+          "qty": 0.709,
+          "buyPrice": 286.51,
           "sector": "ETF",
           "underlying": "VanEck Semiconductor ETF",
-          "buyPriceUSD": 291
+          "buyPriceUSD": 286.51
         },
         {
           "id": 4,
           "ticker": "IXN",
-          "qty": 2.683,
-          "buyPrice": 97.47,
+          "qty": 2.651,
+          "buyPrice": 96.51,
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
-          "buyPriceUSD": 97.47
-        },
-        {
-          "ticker": "LIT",
-          "buyPrice": 72.88,
-          "qty": 5.005,
-          "sector": "ETF",
-          "underlying": "Global X Lithium & Battery Tech ETF",
-          "id": 1778467474758,
-          "buyPriceUSD": 72.88
-        },
-        {
-          "ticker": "AIQ",
-          "buyPrice": 67.87,
-          "qty": 5.917,
-          "sector": "ETF",
-          "underlying": "Global X Artificial Intelligence & Technology ETF",
-          "id": 1783430231430,
-          "buyPriceUSD": 67.87
+          "buyPriceUSD": 96.51
         }
       ]
     },
@@ -330,50 +318,50 @@
       "name": "Jitta 2 - Global ETF",
       "type": "realtime_us",
       "color": "#00c7be",
-      "cash": 0,
+      "cash": 952,
       "snapshots": [],
       "stocks": [
         {
           "id": 1,
           "ticker": "VTI",
-          "qty": 2.775,
-          "buyPrice": 302.72,
+          "qty": 2.342,
+          "buyPrice": 294.29,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF",
-          "buyPriceUSD": 302.72
+          "buyPriceUSD": 294.29
         },
         {
           "id": 2,
           "ticker": "VCIT",
-          "qty": 4.439,
-          "buyPrice": 82.59,
+          "qty": 3.41,
+          "buyPrice": 82.48,
           "sector": "ETF",
           "underlying": "Vanguard Corp Bond ETF",
-          "buyPriceUSD": 82.59
+          "buyPriceUSD": 82.48
         },
         {
           "id": 3,
           "ticker": "VEA",
-          "qty": 4.154,
-          "buyPrice": 56.97,
+          "qty": 3.431,
+          "buyPrice": 54.52,
           "sector": "ETF",
           "underlying": "Vanguard Dev. Markets ETF",
-          "buyPriceUSD": 56.97
+          "buyPriceUSD": 54.52
         },
         {
           "id": 4,
           "ticker": "VWO",
-          "qty": 2.458,
-          "buyPrice": 49.91,
+          "qty": 2.01,
+          "buyPrice": 48.15,
           "sector": "ETF",
           "underlying": "Vanguard Emerging Markets ETF",
-          "buyPriceUSD": 49.91
+          "buyPriceUSD": 48.15
         }
       ]
     },
     {
       "id": "dime",
-      "name": "DIME-กองทุน",
+      "name": "DIME",
       "type": "dime_mixed",
       "color": "#ff6b35",
       "cash": 0,
@@ -382,46 +370,74 @@
         {
           "id": 1,
           "ticker": "K-GA-A(A)",
-          "qty": 1572.2788,
-          "buyPrice": 12.4024,
+          "qty": 1500.2791,
+          "buyPrice": 12.331,
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
-          "currency": "THB",
-          "currentNav": 14.3387,
-          "navDate": "30 ก.ค. 69"
+          "currency": "THB"
         },
         {
           "id": 2,
           "ticker": "MEGAWORLD30-A",
-          "qty": 1394.4863,
-          "buyPrice": 10.7566,
+          "qty": 1219.1953,
+          "buyPrice": 10.6628,
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
-          "currency": "THB",
-          "currentNav": 13.0585,
-          "navDate": "30 ก.ค. 69"
+          "currency": "THB"
         },
         {
-          "id": 1778630716727,
-          "ticker": "KKP-US500-UH-E",
-          "qty": 308.837,
-          "buyPrice": 12.9518,
-          "sector": "Mutual Fund",
-          "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
-          "currency": "THB",
-          "currentNav": 13.2244,
-          "navDate": "30 ก.ค. 69"
+          "id": 3,
+          "ticker": "BRK.B",
+          "qty": 0.463358,
+          "buyPrice": 414.06,
+          "sector": "Finance",
+          "underlying": "Berkshire Hathaway",
+          "currency": "USD"
         },
         {
-          "id": 1778630781570,
-          "ticker": "KKP-NDQ100-UH-E",
-          "qty": 114.9317,
-          "buyPrice": 17.4016,
-          "sector": "Mutual Fund",
-          "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
-          "currency": "THB",
-          "currentNav": 17.1325,
-          "navDate": "30 ก.ค. 69"
+          "id": 4,
+          "ticker": "JEPQ",
+          "qty": 2.6299477,
+          "buyPrice": 54.09,
+          "sector": "ETF",
+          "underlying": "JPMorgan Nasdaq ETF",
+          "currency": "USD"
+        },
+        {
+          "id": 5,
+          "ticker": "O",
+          "qty": 10.311237,
+          "buyPrice": 57.86,
+          "sector": "Property",
+          "underlying": "Realty Income",
+          "currency": "USD"
+        },
+        {
+          "id": 6,
+          "ticker": "SCHD",
+          "qty": 2.3704646,
+          "buyPrice": 26.31,
+          "sector": "ETF",
+          "underlying": "Schwab Dividend ETF",
+          "currency": "USD"
+        },
+        {
+          "id": 7,
+          "ticker": "TLT",
+          "qty": 0.4154889,
+          "buyPrice": 92.08,
+          "sector": "ETF",
+          "underlying": "iShares 20Y Treasury",
+          "currency": "USD"
+        },
+        {
+          "id": 8,
+          "ticker": "VOO",
+          "qty": 0.2091998,
+          "buyPrice": 487.14,
+          "sector": "ETF",
+          "underlying": "Vanguard S&P500",
+          "currency": "USD"
         }
       ]
     },
@@ -436,80 +452,47 @@
         {
           "id": 1,
           "ticker": "BGOLDRMF",
-          "qty": 386.8291,
-          "buyPrice": 28.4363,
+          "qty": 288,
+          "buyPrice": 30.47,
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
-          "currency": "THB",
-          "currentNav": 27.7852,
-          "navDate": "30 ก.ค. 69"
+          "currency": "THB"
         },
         {
           "id": 2,
           "ticker": "RMFBINNOTECH",
-          "qty": 771.1198,
-          "buyPrice": 28.5299,
+          "qty": 651,
+          "buyPrice": 29.1,
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
-          "currency": "THB",
-          "currentNav": 34.0662,
-          "navDate": "11 พ.ค. 69"
+          "currency": "THB"
         },
         {
           "id": 3,
           "ticker": "ESGSI",
-          "qty": 2041.7591,
-          "buyPrice": 11.2647,
+          "qty": 1665,
+          "buyPrice": 10.39,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
-          "currency": "THB",
-          "currentNav": 10.6336,
-          "navDate": "11 พ.ค. 69"
+          "currency": "THB"
         }
       ]
-    },
-    {
-      "id": "p_1778477894830",
-      "name": "WealthX",
-      "type": "dime_mixed",
-      "color": "#ff9500",
-      "stocks": [
-        {
-          "id": 1778477932083,
-          "ticker": "TLNDQINCOME-UH-X",
-          "qty": 196.287,
-          "buyPrice": 10.1892,
-          "sector": "Mutual Fund",
-          "underlying": "TLNDQINCOME-UH-X",
-          "currency": "THB",
-          "currentNav": 10.761,
-          "navDate": "30 ก.ค. 69"
-        }
-      ],
-      "cash": 0,
-      "snapshots": []
-    },
-    {
-      "id": "p_1778723407199",
-      "name": "DIME-USA",
-      "type": "realtime_us",
-      "color": "#ff6b35",
-      "stocks": [
-        {
-          "ticker": "ORCL",
-          "buyPrice": 200.3829484873387,
-          "qty": 6.7814134,
-          "sector": "Tech",
-          "underlying": "Oracle",
-          "id": 1778723451171,
-          "buyPriceUSD": 189.1995
-        }
-      ],
-      "cash": 0,
-      "snapshots": []
     }
   ],
   "transactions": [
+    {
+      "id": 1785470143493,
+      "ticker": "ASML01",
+      "type": "sell",
+      "date": "2026-07-31",
+      "price": 46.5,
+      "qty": 675,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 12197.25,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1784796391099,
       "ticker": "BDMS.BK",
@@ -5390,9 +5373,9 @@
   ],
   "_srAlerts": {},
   "summary": {
-    "totalPorts": 10,
-    "totalStocks": 42,
-    "totalTransactions": 39,
-    "totalNetWorth": "฿1,689,367.63"
+    "totalPorts": 8,
+    "totalStocks": 47,
+    "totalTransactions": 40,
+    "totalNetWorth": "฿1,642,864.41"
   }
 }

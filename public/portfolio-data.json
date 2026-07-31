@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:57:47.244Z",
+  "exportDate": "2026-07-31T03:57:53.510Z",
   "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:57",
   "portfolios": [
     {
@@ -67,8 +67,8 @@
         },
         {
           "ticker": "NVDA80",
-          "qty": 2457,
-          "buyPrice": 28.8,
+          "qty": 2500,
+          "buyPrice": 28.876540000000002,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA"
@@ -456,6 +456,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785470270500,
+      "ticker": "NVDA80",
+      "type": "buy",
+      "date": "2026-07-31",
+      "price": 33.25,
+      "qty": 43,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785470260165,
       "ticker": "MSFT80",
@@ -5416,7 +5429,7 @@
   "summary": {
     "totalPorts": 8,
     "totalStocks": 44,
-    "totalTransactions": 45,
-    "totalNetWorth": "฿1,657,182.41"
+    "totalTransactions": 46,
+    "totalNetWorth": "฿1,658,612.16"
   }
 }

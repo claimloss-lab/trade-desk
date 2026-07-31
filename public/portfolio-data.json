@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:57:21.293Z",
+  "exportDate": "2026-07-31T03:57:43.170Z",
   "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:57",
   "portfolios": [
     {
@@ -59,8 +59,8 @@
         },
         {
           "ticker": "MSFT80",
-          "qty": 18600,
-          "buyPrice": 7.67,
+          "qty": 25400,
+          "buyPrice": 7.611102362204725,
           "id": 9,
           "sector": "Tech",
           "underlying": "Microsoft"
@@ -456,6 +456,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785470260165,
+      "ticker": "MSFT80",
+      "type": "buy",
+      "date": "2026-07-31",
+      "price": 7.45,
+      "qty": 6800,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785470238286,
       "ticker": "MELI06",
@@ -5403,7 +5416,7 @@
   "summary": {
     "totalPorts": 8,
     "totalStocks": 44,
-    "totalTransactions": 44,
-    "totalNetWorth": "฿1,606,522.41"
+    "totalTransactions": 45,
+    "totalNetWorth": "฿1,657,182.41"
   }
 }

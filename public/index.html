@@ -419,6 +419,7 @@ let activeTab = 'overview';
 let charts = {};
 let rtInterval = null;
 let pinOk = sessionStorage.getItem('td_pin') === '1';
+let ghSaveTimer = null; // moved earlier to avoid TDZ crash when savePorts() fires during first-load init
 
 // Init default portfolios if first time
 if (!portfolios) {
@@ -2064,7 +2065,6 @@ function importBackup(event){
 // ══════════════════════════════════════════════════
 // GITHUB AUTO-SAVE
 // ══════════════════════════════════════════════════
-let ghSaveTimer = null;
 
 function getGHConfig(){
   return {

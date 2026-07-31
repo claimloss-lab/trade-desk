@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:55:46.497Z",
+  "exportDate": "2026-07-31T03:55:53.663Z",
   "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:55",
   "portfolios": [
     {
@@ -20,7 +20,7 @@
         {
           "ticker": "ASML01",
           "qty": 2025,
-          "buyPrice": 28.43,
+          "buyPrice": 28.41,
           "id": 2,
           "sector": "Tech",
           "underlying": "ASML"

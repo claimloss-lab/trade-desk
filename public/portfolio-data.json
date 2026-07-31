@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-30T16:09:16.428Z",
-  "exportDateTH": "30 กรกฎาคม 2569 เวลา 23:09",
+  "exportDate": "2026-07-31T15:51:53.036Z",
+  "exportDateTH": "31 กรกฎาคม 2569 เวลา 22:51",
   "portfolios": [
     {
       "id": "dr1",
@@ -44,7 +44,7 @@
         },
         {
           "ticker": "CRWD80",
-          "qty": 4400,
+          "qty": 3300,
           "buyPrice": 15.01,
           "id": 4,
           "sector": "Tech",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785513108758,
+      "ticker": "CRWD80",
+      "type": "sell",
+      "date": "2026-07-31",
+      "price": 24.9,
+      "qty": 1100,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 10878.999999999998,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1784796391099,
       "ticker": "BDMS.BK",
@@ -5392,7 +5405,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 39,
-    "totalNetWorth": "฿1,689,367.63"
+    "totalTransactions": 40,
+    "totalNetWorth": "฿1,707,239.77"
   }
 }

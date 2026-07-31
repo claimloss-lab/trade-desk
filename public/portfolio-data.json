@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:56:33.629Z",
+  "exportDate": "2026-07-31T03:56:43.262Z",
   "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:56",
   "portfolios": [
     {
@@ -64,14 +64,6 @@
           "id": 7,
           "sector": "Consumer",
           "underlying": "MercadoLibre"
-        },
-        {
-          "ticker": "META80",
-          "qty": 800,
-          "buyPrice": 2.46,
-          "id": 8,
-          "sector": "Tech",
-          "underlying": "Meta"
         },
         {
           "ticker": "MSFT80",
@@ -472,6 +464,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785470200260,
+      "ticker": "META80",
+      "type": "sell",
+      "date": "2026-07-31",
+      "price": 2.3,
+      "qty": 800,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": -128.0000000000001,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785470190617,
       "ticker": "SONY80",
@@ -5392,8 +5397,8 @@
   "_srAlerts": {},
   "summary": {
     "totalPorts": 8,
-    "totalStocks": 46,
-    "totalTransactions": 42,
-    "totalNetWorth": "฿1,616,912.41"
+    "totalStocks": 45,
+    "totalTransactions": 43,
+    "totalNetWorth": "฿1,615,072.41"
   }
 }

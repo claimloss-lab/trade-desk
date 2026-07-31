@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:57:53.510Z",
+  "exportDate": "2026-07-31T03:57:58.361Z",
   "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:57",
   "portfolios": [
     {
@@ -68,7 +68,7 @@
         {
           "ticker": "NVDA80",
           "qty": 2500,
-          "buyPrice": 28.876540000000002,
+          "buyPrice": 28.92,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA"

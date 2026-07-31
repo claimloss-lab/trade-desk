@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T03:55:53.663Z",
-  "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:55",
+  "exportDate": "2026-07-31T03:56:09.446Z",
+  "exportDateTH": "31 กรกฎาคม 2569 เวลา 10:56",
   "portfolios": [
     {
       "id": "dr1",
@@ -115,7 +115,7 @@
         },
         {
           "ticker": "SNOW06",
-          "qty": 15950,
+          "qty": 11950,
           "buyPrice": 3.07,
           "id": 14,
           "sector": "Tech",
@@ -480,6 +480,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785470166442,
+      "ticker": "SNOW06",
+      "type": "sell",
+      "date": "2026-07-31",
+      "price": 5,
+      "qty": 4000,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 7720.000000000001,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785470143493,
       "ticker": "ASML01",
@@ -5375,7 +5388,7 @@
   "summary": {
     "totalPorts": 8,
     "totalStocks": 47,
-    "totalTransactions": 40,
-    "totalNetWorth": "฿1,642,864.41"
+    "totalTransactions": 41,
+    "totalNetWorth": "฿1,622,864.41"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-07-31T15:51:53.036Z",
-  "exportDateTH": "31 กรกฎาคม 2569 เวลา 22:51",
+  "exportDate": "2026-07-31T15:52:11.242Z",
+  "exportDateTH": "31 กรกฎาคม 2569 เวลา 22:52",
   "portfolios": [
     {
       "id": "dr1",
@@ -99,7 +99,7 @@
         },
         {
           "ticker": "PANW80",
-          "qty": 8900,
+          "qty": 4450,
           "buyPrice": 6.08,
           "id": 11,
           "sector": "Tech",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785513127528,
+      "ticker": "PANW80",
+      "type": "sell",
+      "date": "2026-07-31",
+      "price": 11.2,
+      "qty": 4450,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 22783.999999999996,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785513108758,
       "ticker": "CRWD80",
@@ -5405,7 +5418,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 40,
-    "totalNetWorth": "฿1,707,239.77"
+    "totalTransactions": 41,
+    "totalNetWorth": "฿1,657,399.77"
   }
 }

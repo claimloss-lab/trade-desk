@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-04T06:36:01.081Z",
-  "exportDateTH": "4 สิงหาคม 2569 เวลา 13:36",
+  "exportDate": "2026-08-04T15:08:47.352Z",
+  "exportDateTH": "4 สิงหาคม 2569 เวลา 22:08",
   "portfolios": [
     {
       "id": "dr1",
@@ -100,7 +100,7 @@
         {
           "ticker": "PANW80",
           "qty": 4450,
-          "buyPrice": 6.08,
+          "buyPrice": 5.42,
           "id": 11,
           "sector": "Tech",
           "underlying": "Palo Alto",
@@ -5465,6 +5465,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 43,
-    "totalNetWorth": "฿1,782,683.03"
+    "totalNetWorth": "฿1,783,172.88"
   }
 }

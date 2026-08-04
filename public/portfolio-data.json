@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-03T18:37:51.654Z",
-  "exportDateTH": "4 สิงหาคม 2569 เวลา 01:37",
+  "exportDate": "2026-08-04T06:36:01.081Z",
+  "exportDateTH": "4 สิงหาคม 2569 เวลา 13:36",
   "portfolios": [
     {
       "id": "dr1",
@@ -483,7 +483,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 10.7332,
-          "navDate": "4 ส.ค. 69"
+          "navDate": "2026-07-31"
         }
       ],
       "cash": 0,
@@ -5465,6 +5465,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 43,
-    "totalNetWorth": "฿1,760,547.55"
+    "totalNetWorth": "฿1,782,683.03"
   }
 }

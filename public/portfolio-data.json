@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-05T05:07:01.413Z",
+  "exportDate": "2026-08-05T05:07:29.408Z",
   "exportDateTH": "5 สิงหาคม 2569 เวลา 12:07",
   "portfolios": [
     {
@@ -459,7 +459,7 @@
           "id": 3,
           "ticker": "ESGSI",
           "qty": 2134.6536,
-          "buyPrice": 11.2647,
+          "buyPrice": 11.243,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
           "currency": "THB",

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-04T15:09:24.230Z",
-  "exportDateTH": "4 สิงหาคม 2569 เวลา 22:09",
+  "exportDate": "2026-08-05T01:04:25.344Z",
+  "exportDateTH": "5 สิงหาคม 2569 เวลา 08:04",
   "portfolios": [
     {
       "id": "dr1",
@@ -99,7 +99,7 @@
         },
         {
           "ticker": "PANW80",
-          "qty": 4450,
+          "qty": 3982,
           "buyPrice": 5.42,
           "id": 11,
           "sector": "Tech",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785891861190,
+      "ticker": "PANW80",
+      "type": "sell",
+      "date": "2026-08-05",
+      "price": 11.8,
+      "qty": 468,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 2985.84,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785513178441,
       "ticker": "ASML01",
@@ -5464,7 +5477,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 43,
-    "totalNetWorth": "฿1,783,172.88"
+    "totalTransactions": 44,
+    "totalNetWorth": "฿1,778,654.22"
   }
 }

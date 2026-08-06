@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-06T02:41:44.726Z",
+  "exportDate": "2026-08-06T02:41:51.034Z",
   "exportDateTH": "6 สิงหาคม 2569 เวลา 09:41",
   "portfolios": [
     {
@@ -291,10 +291,10 @@
           "id": 3,
           "ticker": "SMH",
           "qty": 0.654,
-          "buyPrice": 1226.6701926605515,
+          "buyPrice": 303.15,
           "sector": "ETF",
           "underlying": "VanEck Semiconductor ETF",
-          "buyPriceUSD": 291
+          "buyPriceUSD": 303.15
         },
         {
           "id": 4,

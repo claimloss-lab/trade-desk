@@ -731,6 +731,7 @@ function totalPnl() { return portfolios.reduce((s,p)=>s+portPnl(p),0); }
 // ทุนที่แท้จริงของแต่ละพอร์ต = มูลค่าปัจจุบัน - กำไร/ขาดทุน (ใช้สูตรเดียวกันทุกประเภทพอร์ต กันพอร์ต snapshot เพี้ยน)
 function portCostBasis(port) { return portNet(port) - portPnl(port); }
 function totalCost() { return portfolios.reduce((s,p)=>s+portCostBasis(p),0); }
+function totalCash() { return portfolios.reduce((s,p)=>s+(p.cash||0),0); }
 
 // ══════════════════════════════════════════════════
 // BUILD UI
@@ -782,10 +783,10 @@ function buildPanels() {
 // OVERVIEW HTML
 // ══════════════════════════════════════════════════
 function buildOverviewHTML() {
-  const net = totalNetWorth(), pnl = totalPnl(), cost = totalCost();
+  const net = totalNetWorth(), pnl = totalPnl(), cost = totalCost(), cash = totalCash();
   const pct = cost>0 ? pnl/cost*100 : 0;
   return `<div class="page">
-    <div class="met-row sens" style="grid-template-columns:2fr 1fr 1fr">
+    <div class="met-row sens" style="grid-template-columns:1.6fr 1fr 1fr 1fr">
       <div class="met hero">
         <div class="met-lbl">Total Net Worth</div>
         <div class="met-val" id="ov-net">${fm(net)}</div>
@@ -795,6 +796,11 @@ function buildOverviewHTML() {
         <div class="met-lbl">Total P&L</div>
         <div class="met-val" id="ov-pnl" style="color:${pnl>=0?'var(--green-tx)':'var(--red-tx)'}">${pnl>=0?'+':''}${fm(pnl)}</div>
         <div class="bdg ${pnl>=0?'pos':'neg'}" id="ov-pct">${pct>=0?'+':''}${pct.toFixed(2)}%</div>
+      </div>
+      <div class="met">
+        <div class="met-lbl">เงินสดคงเหลือ</div>
+        <div class="met-val" id="ov-cash">${fm(cash)}</div>
+        <div class="met-sub" id="ov-cash-pct">${net>0?(cash/net*100).toFixed(1):'0.0'}% ของ Net Worth</div>
       </div>
       <div class="met">
         <div class="met-lbl">พอร์ต</div>
@@ -863,7 +869,7 @@ function buildOverviewHTML() {
 }
 
 function renderOverview() {
-  const net=totalNetWorth(),pnl=totalPnl(),cost=totalCost(),pct=cost>0?pnl/cost*100:0;
+  const net=totalNetWorth(),pnl=totalPnl(),cost=totalCost(),cash=totalCash(),pct=cost>0?pnl/cost*100:0;
   const netEl=document.getElementById('ov-net');
   if(netEl){
     netEl.textContent=fm(net);
@@ -872,12 +878,17 @@ function renderOverview() {
     document.getElementById('ov-pct').textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
     document.getElementById('ov-pct').className='bdg '+(pnl>=0?'pos':'neg');
   }
+  const cashEl=document.getElementById('ov-cash');
+  if(cashEl){
+    cashEl.textContent=fm(cash);
+    document.getElementById('ov-cash-pct').textContent=(net>0?(cash/net*100).toFixed(1):'0.0')+'% ของ Net Worth';
+  }
 
   // Portfolio cards
   const cards=document.getElementById('ov-cards');
   if(cards) {
     cards.innerHTML=portfolios.map(p=>{
-      const n=portNet(p),pl=portPnl(p),cb=portCostBasis(p),pc=cb>0?pl/cb*100:0;
+      const n=portNet(p),pl=portPnl(p),cb=portCostBasis(p),pc=cb>0?pl/cb*100:0,pCash=p.cash||0;
       const isSnap=p.type==='snapshot';
       const typeLabel=p.type==='realtime_dr'?'SET DR':p.type==='realtime_th'?'หุ้นไทย SET':p.type==='realtime_us'?'US Stocks/ETF':'Manual Snapshot';
       return `<div class="port-card" onclick="showTab('${p.id}')" style="border-top:3px solid ${p.color}">
@@ -885,7 +896,8 @@ function renderOverview() {
         <div class="port-card-type">${typeLabel} · ${isSnap?'snapshot':'realtime'}</div>
         <div class="port-card-val" style="color:${p.color}">${fm(n)}</div>
         <div class="port-card-pnl ${pl>=0?'pos':'neg'}">${pl>=0?'+':''}${fm(pl)} (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
-        <div style="font-size:10px;color:var(--tx3);margin-top:6px">${isSnap?'อัปเดตล่าสุด: '+(p.snapshots?.at(-1)?.date||'—'):p.stocks.length+' หลักทรัพย์'}</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:6px">เงินสด: ${fm(pCash)}</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:2px">${isSnap?'อัปเดตล่าสุด: '+(p.snapshots?.at(-1)?.date||'—'):p.stocks.length+' หลักทรัพย์'}</div>
       </div>`;
     }).join('');
   }

@@ -1,6 +1,7 @@
 // functions/api/insider.js
 // SEC EDGAR insider trading (Form 4) lookup for US-listed tickers.
 // Free, no API key required — SEC just asks for a real contact in the User-Agent.
+// (redeploy trigger: SEC_CONTACT_EMAIL set 2026-08-06)
 // Set a Cloudflare Pages env var SEC_CONTACT_EMAIL (e.g. "TradeDesk yourname@email.com")
 // so SEC can reach you if there's ever an issue; falls back to a generic UA if unset.
 

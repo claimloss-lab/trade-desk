@@ -728,10 +728,7 @@ function portPnl(port) {
 }
 function totalNetWorth() { return portfolios.reduce((s,p)=>s+portNet(p),0); }
 function totalPnl() { return portfolios.reduce((s,p)=>s+portPnl(p),0); }
-// ทุนที่แท้จริงของแต่ละพอร์ต = มูลค่าปัจจุบัน - กำไร/ขาดทุน (ใช้สูตรเดียวกันทุกประเภทพอร์ต กันพอร์ต snapshot เพี้ยน)
-function portCostBasis(port) { return portNet(port) - portPnl(port); }
-function totalCost() { return portfolios.reduce((s,p)=>s+portCostBasis(p),0); }
-function totalCash() { return portfolios.reduce((s,p)=>s+(p.cash||0),0); }
+function totalCost() { return portfolios.reduce((s,p)=>s+(p.type!=='snapshot'?portCost(p):portNet(p)),0); }
 
 // ══════════════════════════════════════════════════
 // BUILD UI
@@ -783,10 +780,10 @@ function buildPanels() {
 // OVERVIEW HTML
 // ══════════════════════════════════════════════════
 function buildOverviewHTML() {
-  const net = totalNetWorth(), pnl = totalPnl(), cost = totalCost(), cash = totalCash();
+  const net = totalNetWorth(), pnl = totalPnl(), cost = totalCost();
   const pct = cost>0 ? pnl/cost*100 : 0;
   return `<div class="page">
-    <div class="met-row sens" style="grid-template-columns:1.6fr 1fr 1fr 1fr">
+    <div class="met-row sens" style="grid-template-columns:2fr 1fr 1fr">
       <div class="met hero">
         <div class="met-lbl">Total Net Worth</div>
         <div class="met-val" id="ov-net">${fm(net)}</div>
@@ -796,11 +793,6 @@ function buildOverviewHTML() {
         <div class="met-lbl">Total P&L</div>
         <div class="met-val" id="ov-pnl" style="color:${pnl>=0?'var(--green-tx)':'var(--red-tx)'}">${pnl>=0?'+':''}${fm(pnl)}</div>
         <div class="bdg ${pnl>=0?'pos':'neg'}" id="ov-pct">${pct>=0?'+':''}${pct.toFixed(2)}%</div>
-      </div>
-      <div class="met">
-        <div class="met-lbl">เงินสดคงเหลือ</div>
-        <div class="met-val" id="ov-cash">${fm(cash)}</div>
-        <div class="met-sub" id="ov-cash-pct">${net>0?(cash/net*100).toFixed(1):'0.0'}% ของ Net Worth</div>
       </div>
       <div class="met">
         <div class="met-lbl">พอร์ต</div>
@@ -859,17 +851,32 @@ function buildOverviewHTML() {
           🕵️ เช็ค Insider
         </button>
       </div>
-      <div id="ov-insider-result" style="padding:16px 18px;min-height:60px">
-        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:20px 0">
-          กด "เช็ค Insider" เพื่อดู Form 4 (ผู้บริหาร/กรรมการซื้อ-ขายหุ้น) ล่าสุดของหุ้นเดี่ยวในพอร์ต (ไม่รวม ETF) · ใช้เวลา ~15-30 วินาที
+    </div>
+
+    <!-- OIL03 Signal (WTI oil ETF) — auto-loads on Overview open, links to /oil-status -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(240,185,11,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🛢️</span>
+          <div>
+            <div class="card-ti">OIL03 Signal</div>
+            <div style="font-size:11px;color:var(--tx3)" id="ov-oil-ts">กำลังโหลด...</div>
+          </div>
         </div>
+        <a href="/oil-status" target="_blank"
+          style="background:linear-gradient(135deg,#F0B90B,#f5cf4d);color:#161625;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;text-decoration:none">
+          เปิดหน้าเต็ม →
+        </a>
+      </div>
+      <div id="ov-oil-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงราคา WTI / USDTHB / RSI...</div>
       </div>
     </div>
   </div>`;
 }
 
 function renderOverview() {
-  const net=totalNetWorth(),pnl=totalPnl(),cost=totalCost(),cash=totalCash(),pct=cost>0?pnl/cost*100:0;
+  const net=totalNetWorth(),pnl=totalPnl(),cost=totalCost(),pct=cost>0?pnl/cost*100:0;
   const netEl=document.getElementById('ov-net');
   if(netEl){
     netEl.textContent=fm(net);
@@ -878,17 +885,12 @@ function renderOverview() {
     document.getElementById('ov-pct').textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
     document.getElementById('ov-pct').className='bdg '+(pnl>=0?'pos':'neg');
   }
-  const cashEl=document.getElementById('ov-cash');
-  if(cashEl){
-    cashEl.textContent=fm(cash);
-    document.getElementById('ov-cash-pct').textContent=(net>0?(cash/net*100).toFixed(1):'0.0')+'% ของ Net Worth';
-  }
 
   // Portfolio cards
   const cards=document.getElementById('ov-cards');
   if(cards) {
     cards.innerHTML=portfolios.map(p=>{
-      const n=portNet(p),pl=portPnl(p),cb=portCostBasis(p),pc=cb>0?pl/cb*100:0,pCash=p.cash||0;
+      const n=portNet(p),pl=portPnl(p),pc=portNet(p)>0?pl/portNet(p)*100:0;
       const isSnap=p.type==='snapshot';
       const typeLabel=p.type==='realtime_dr'?'SET DR':p.type==='realtime_th'?'หุ้นไทย SET':p.type==='realtime_us'?'US Stocks/ETF':'Manual Snapshot';
       return `<div class="port-card" onclick="showTab('${p.id}')" style="border-top:3px solid ${p.color}">
@@ -896,8 +898,7 @@ function renderOverview() {
         <div class="port-card-type">${typeLabel} · ${isSnap?'snapshot':'realtime'}</div>
         <div class="port-card-val" style="color:${p.color}">${fm(n)}</div>
         <div class="port-card-pnl ${pl>=0?'pos':'neg'}">${pl>=0?'+':''}${fm(pl)} (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
-        <div style="font-size:10px;color:var(--tx3);margin-top:6px">เงินสด: ${fm(pCash)}</div>
-        <div style="font-size:10px;color:var(--tx3);margin-top:2px">${isSnap?'อัปเดตล่าสุด: '+(p.snapshots?.at(-1)?.date||'—'):p.stocks.length+' หลักทรัพย์'}</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:6px">${isSnap?'อัปเดตล่าสุด: '+(p.snapshots?.at(-1)?.date||'—'):p.stocks.length+' หลักทรัพย์'}</div>
       </div>`;
     }).join('');
   }
@@ -923,6 +924,8 @@ function renderOverview() {
         scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10},callback:v=>fn(v,0)}}}}
     });
   }
+
+  if (document.getElementById('ov-oil-result')) loadOil03Overview();
 }
 
 
@@ -6087,6 +6090,46 @@ function renderInsiderHTML(data, tickers) {
   <div style="font-size:10px;color:var(--tx3);padding:8px 4px 0">ข้อมูลจาก SEC EDGAR Form 4 · แสดงล่าสุด ${Math.min(rows.length,30)} รายการจาก ${tickers.length} ticker</div>`;
 }
 
+// ── OIL03 Signal — auto-loads on Overview (read-only /oil-data, proxied through Pages) ──
+let _oil03Loaded = false;
+async function loadOil03Overview() {
+  if (_oil03Loaded) return; // avoid refetching every time renderOverview() runs (e.g. after other UI updates)
+  _oil03Loaded = true;
+  const tsEl = document.getElementById('ov-oil-ts');
+  const resultEl = document.getElementById('ov-oil-result');
+  try {
+    const res = await fetch('/oil-data', { signal: safeSignal(15000) });
+    const d = await res.json();
+    if (!d.ok) {
+      if (tsEl) tsEl.textContent = 'ดึงข้อมูลไม่สำเร็จ';
+      resultEl.innerHTML = `<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">${d.error || 'ข้อมูลไม่ครบ ลองเปิดหน้าเต็มดู'}</div>`;
+      return;
+    }
+    const anySignal = d.signals?.value || d.signals?.rsi_buy || d.signals?.rsi_sell;
+    if (tsEl) tsEl.textContent = `อัปเดต ${new Date(d.checkedAt).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT`;
+
+    const badge = (label, met, color) => `<span class="bdg" style="background:${met ? color + '22' : 'var(--bg2)'};color:${met ? color : 'var(--tx3)'};border:1px solid ${met ? color : 'var(--sep)'};margin-right:6px">${met ? '🟢' : '⚪'} ${label}</span>`;
+
+    resultEl.innerHTML = `
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px">
+        <div><div style="font-size:10px;color:var(--tx3)">WTI Crude</div><div style="font-size:15px;font-weight:700">$${d.wti?.toFixed(2) ?? '-'}</div></div>
+        <div><div style="font-size:10px;color:var(--tx3)">USDTHB</div><div style="font-size:15px;font-weight:700">฿${d.usdthb?.toFixed(2) ?? '-'}</div></div>
+        <div><div style="font-size:10px;color:var(--tx3)">RSI(14)</div><div style="font-size:15px;font-weight:700">${d.rsi ?? '-'}</div></div>
+      </div>
+      <div>
+        ${badge('Value Buy', d.signals?.value, '#00C896')}
+        ${badge('RSI Buy', d.signals?.rsi_buy, '#00C896')}
+        ${badge('RSI Sell', d.signals?.rsi_sell, '#FF5C5C')}
+      </div>
+      ${anySignal ? '<div style="font-size:11px;color:#F0B90B;margin-top:8px">⚡ มีสัญญาณเข้าเงื่อนไข — ดูรายละเอียดที่หน้าเต็ม</div>' : ''}
+    `;
+  } catch (e) {
+    _oil03Loaded = false; // allow retry on next renderOverview() call
+    if (tsEl) tsEl.textContent = 'Error';
+    resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${e.message}</div>`;
+  }
+}
+
 // ══════════════════════════════════════════════════════════
 // AI FEATURES — Claude API Integration
 // ══════════════════════════════════════════════════════════
@@ -7235,6 +7278,10 @@ function updateAlertLabel(){
     <div class="sb-item" id="sb-drscanner" onclick="showFeature('drscanner')">
       <div class="sb-item-icon" style="background:#e5f9eb">🔍</div>
       DR Fair Value Scanner
+    </div>
+    <div class="sb-item" onclick="window.open('/oil-status','_blank')">
+      <div class="sb-item-icon" style="background:#fff8e1">🛢️</div>
+      OIL03 Signal
     </div>
 
     <div class="sb-section" style="margin-top:8px">ตั้งค่า</div>

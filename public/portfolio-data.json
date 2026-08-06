@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-06T02:42:01.919Z",
+  "exportDate": "2026-08-06T02:42:09.869Z",
   "exportDateTH": "6 สิงหาคม 2569 เวลา 09:42",
   "portfolios": [
     {
@@ -307,12 +307,12 @@
         },
         {
           "ticker": "LIT",
-          "buyPrice": 143.27583879093186,
+          "buyPrice": 72.8,
           "qty": 5.161,
           "sector": "ETF",
           "underlying": "Global X Lithium & Battery Tech ETF",
           "id": 1778467474758,
-          "buyPriceUSD": 72.88
+          "buyPriceUSD": 72.8
         },
         {
           "ticker": "AIQ",

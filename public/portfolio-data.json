@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-05T05:16:54.733Z",
-  "exportDateTH": "5 สิงหาคม 2569 เวลา 12:16",
+  "exportDate": "2026-08-06T02:35:39.241Z",
+  "exportDateTH": "6 สิงหาคม 2569 เวลา 09:35",
   "portfolios": [
     {
       "id": "dr1",
@@ -388,7 +388,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.4187,
-          "navDate": "5 ส.ค. 69"
+          "navDate": "2026-08-03"
         },
         {
           "id": 2,
@@ -399,7 +399,7 @@
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
           "currentNav": 13.46,
-          "navDate": "5 ส.ค. 69"
+          "navDate": "2026-08-03"
         },
         {
           "id": 1778630716727,
@@ -410,7 +410,7 @@
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 13.4783,
-          "navDate": "5 ส.ค. 69"
+          "navDate": "2026-08-03"
         },
         {
           "id": 1778630781570,
@@ -421,7 +421,7 @@
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 17.4819,
-          "navDate": "5 ส.ค. 69"
+          "navDate": "2026-08-03"
         }
       ]
     },
@@ -447,7 +447,7 @@
         {
           "id": 2,
           "ticker": "RMFBINNOTECH",
-          "qty": 771.1198,
+          "qty": 800.1419,
           "buyPrice": 28.5299,
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
@@ -5478,6 +5478,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 44,
-    "totalNetWorth": "฿1,812,256.46"
+    "totalNetWorth": "฿1,815,586.55"
   }
 }

@@ -728,7 +728,9 @@ function portPnl(port) {
 }
 function totalNetWorth() { return portfolios.reduce((s,p)=>s+portNet(p),0); }
 function totalPnl() { return portfolios.reduce((s,p)=>s+portPnl(p),0); }
-function totalCost() { return portfolios.reduce((s,p)=>s+(p.type!=='snapshot'?portCost(p):portNet(p)),0); }
+// ทุนที่แท้จริงของแต่ละพอร์ต = มูลค่าปัจจุบัน - กำไร/ขาดทุน (ใช้สูตรเดียวกันทุกประเภทพอร์ต กันพอร์ต snapshot เพี้ยน)
+function portCostBasis(port) { return portNet(port) - portPnl(port); }
+function totalCost() { return portfolios.reduce((s,p)=>s+portCostBasis(p),0); }
 
 // ══════════════════════════════════════════════════
 // BUILD UI
@@ -875,7 +877,7 @@ function renderOverview() {
   const cards=document.getElementById('ov-cards');
   if(cards) {
     cards.innerHTML=portfolios.map(p=>{
-      const n=portNet(p),pl=portPnl(p),pc=portNet(p)>0?pl/portNet(p)*100:0;
+      const n=portNet(p),pl=portPnl(p),cb=portCostBasis(p),pc=cb>0?pl/cb*100:0;
       const isSnap=p.type==='snapshot';
       const typeLabel=p.type==='realtime_dr'?'SET DR':p.type==='realtime_th'?'หุ้นไทย SET':p.type==='realtime_us'?'US Stocks/ETF':'Manual Snapshot';
       return `<div class="port-card" onclick="showTab('${p.id}')" style="border-top:3px solid ${p.color}">

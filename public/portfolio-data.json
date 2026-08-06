@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-06T02:39:39.157Z",
-  "exportDateTH": "6 สิงหาคม 2569 เวลา 09:39",
+  "exportDate": "2026-08-06T02:41:18.983Z",
+  "exportDateTH": "6 สิงหาคม 2569 เวลา 09:41",
   "portfolios": [
     {
       "id": "dr1",
@@ -316,12 +316,12 @@
         },
         {
           "ticker": "AIQ",
-          "buyPrice": 67.87,
-          "qty": 5.917,
+          "buyPrice": 67.74,
+          "qty": 6.01,
           "sector": "ETF",
           "underlying": "Global X Artificial Intelligence & Technology ETF",
           "id": 1783430231430,
-          "buyPriceUSD": 67.87
+          "buyPriceUSD": 67.74
         }
       ]
     },
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785984069231,
+      "ticker": "AIQ",
+      "type": "buy",
+      "date": "2026-08-06",
+      "price": 2061.6216,
+      "qty": 0.09299999999999997,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1785983970027,
       "ticker": "VWO",
@@ -5529,7 +5542,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 48,
-    "totalNetWorth": "฿1,818,160.39"
+    "totalTransactions": 49,
+    "totalNetWorth": "฿1,818,352.12"
   }
 }

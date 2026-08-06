@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-06T02:41:51.034Z",
-  "exportDateTH": "6 สิงหาคม 2569 เวลา 09:41",
+  "exportDate": "2026-08-06T02:42:01.919Z",
+  "exportDateTH": "6 สิงหาคม 2569 เวลา 09:42",
   "portfolios": [
     {
       "id": "dr1",
@@ -307,8 +307,8 @@
         },
         {
           "ticker": "LIT",
-          "buyPrice": 72.88,
-          "qty": 5.005,
+          "buyPrice": 143.27583879093186,
+          "qty": 5.161,
           "sector": "ETF",
           "underlying": "Global X Lithium & Battery Tech ETF",
           "id": 1778467474758,
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785984117759,
+      "ticker": "LIT",
+      "type": "buy",
+      "date": "2026-08-06",
+      "price": 2401.809,
+      "qty": 0.1559999999999997,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1785984100537,
       "ticker": "SMH",
@@ -5568,7 +5581,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 51,
-    "totalNetWorth": "฿1,818,975.04"
+    "totalTransactions": 52,
+    "totalNetWorth": "฿1,819,349.72"
   }
 }

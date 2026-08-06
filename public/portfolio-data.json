@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-06T02:41:31.116Z",
+  "exportDate": "2026-08-06T02:41:44.726Z",
   "exportDateTH": "6 สิงหาคม 2569 เวลา 09:41",
   "portfolios": [
     {
@@ -290,8 +290,8 @@
         {
           "id": 3,
           "ticker": "SMH",
-          "qty": 0.621,
-          "buyPrice": 291,
+          "qty": 0.654,
+          "buyPrice": 1226.6701926605515,
           "sector": "ETF",
           "underlying": "VanEck Semiconductor ETF",
           "buyPriceUSD": 291
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1785984100537,
+      "ticker": "SMH",
+      "type": "buy",
+      "date": "2026-08-06",
+      "price": 18834.282000000003,
+      "qty": 0.03300000000000003,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1785984087247,
       "ticker": "IXN",
@@ -5555,7 +5568,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 50,
-    "totalNetWorth": "฿1,818,353.50"
+    "totalTransactions": 51,
+    "totalNetWorth": "฿1,818,975.04"
   }
 }

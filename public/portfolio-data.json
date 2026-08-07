@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-07T10:00:03.398Z",
+  "exportDate": "2026-08-07T10:00:31.780Z",
   "exportDateTH": "7 สิงหาคม 2569 เวลา 17:00",
   "portfolios": [
     {
@@ -1371,6 +1371,15 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1786096804367.6123,
+      "ticker": "ORCL",
+      "date": "2026-04-09",
+      "perShare": 16.025,
+      "qty": 6.7814134,
+      "total": 108.67,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485106112.4673,
       "ticker": "AVGO80",
       "date": "2026-03-23",
@@ -1501,6 +1510,15 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1786096804367.2593,
+      "ticker": "ORCL",
+      "date": "2026-01-09",
+      "perShare": 15.71,
+      "qty": 6.7814134,
+      "total": 106.54,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485106112.9207,
       "ticker": "AVGO80",
       "date": "2025-12-22",
@@ -1618,6 +1636,15 @@
       "perShare": 0.037,
       "qty": 2700,
       "total": 99.9,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1786096804367.6345,
+      "ticker": "ORCL",
+      "date": "2025-10-09",
+      "perShare": 16.385,
+      "qty": 6.7814134,
+      "total": 111.11,
       "note": "auto (THB)"
     },
     {
@@ -1758,6 +1785,15 @@
       "perShare": 0.0371,
       "qty": 2700,
       "total": 100.17,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1786096804367.791,
+      "ticker": "ORCL",
+      "date": "2025-07-10",
+      "perShare": 16.295,
+      "qty": 6.7814134,
+      "total": 110.5,
       "note": "auto (THB)"
     },
     {
@@ -1911,6 +1947,15 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1786096804367.5618,
+      "ticker": "ORCL",
+      "date": "2025-04-10",
+      "perShare": 16.91,
+      "qty": 6.7814134,
+      "total": 114.67,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485115430.1746,
       "ticker": "CPN.BK",
       "date": "2025-03-17",
@@ -1981,6 +2026,15 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1786096804367.501,
+      "ticker": "ORCL",
+      "date": "2025-01-10",
+      "perShare": 13.8052,
+      "qty": 6.7814134,
+      "total": 93.62,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485124655.3032,
       "ticker": "LHSC.BK",
       "date": "2024-12-09",
@@ -2038,6 +2092,15 @@
       "perShare": 0.0348,
       "qty": 2700,
       "total": 93.96,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1786096804367.3716,
+      "ticker": "ORCL",
+      "date": "2024-10-10",
+      "perShare": 13.3724,
+      "qty": 6.7814134,
+      "total": 90.68,
       "note": "auto (THB)"
     },
     {

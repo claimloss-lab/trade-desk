@@ -186,19 +186,31 @@ async function writeSnapshot(ghToken, snapshot) {
 }
 
 // ── Read/write history (equity curve) ────────────────────────────────────────
-async function readHistory() {
+// สำคัญ: ใช้ Contents API (authenticated, ไม่มี CDN cache) แทน raw.githubusercontent
+// เพราะไฟล์นี้สะสมข้อมูลย้อนหลัง — ถ้า read fail แล้วเงียบๆ คืน [] เหมือน readSnapshot()
+// รอบ cron ถัดไปจะ push ทับด้วย record เดียว ล้างประวัติทั้งไฟล์หายหมด (บั๊กคลาสเดียวกับ
+// ที่เคยเกิดกับ drConversions ตอน buildBackupData() ลืมใส่ฟิลด์)
+async function readHistoryWithSha(ghToken) {
+  const apiUrl = `https://api.github.com/repos/${REPO}/contents/${HISTORY_PATH}`;
+  const ghHeaders = {
+    Authorization: `token ${ghToken}`,
+    Accept: 'application/vnd.github.v3+json',
+    'User-Agent': 'TradeDesk',
+  };
   try {
-    const r = await fetch(
-      `https://raw.githubusercontent.com/${REPO}/main/${HISTORY_PATH}?t=${Date.now()}`,
-      { headers: { 'Cache-Control': 'no-cache' } }
-    );
-    if (!r.ok) return [];
-    const j = await r.json();
-    return Array.isArray(j) ? j : [];
-  } catch { return []; }
+    const r = await fetch(apiUrl, { headers: ghHeaders });
+    if (r.ok) {
+      const j = await r.json();
+      const decoded = atob(j.content.replace(/\n/g, ''));
+      const arr = JSON.parse(decoded);
+      return { list: Array.isArray(arr) ? arr : [], sha: j.sha, ok: true };
+    }
+    if (r.status === 404) return { list: [], sha: null, ok: true }; // ไฟล์ยังไม่เคยถูกสร้าง — ว่างจริง ไม่ใช่ fetch fail
+  } catch {}
+  return { list: null, sha: null, ok: false }; // fetch/parse fail จริง — ok:false ต้อง "ไม่เขียนทับ"
 }
 
-async function writeHistory(ghToken, historyArr) {
+async function writeHistory(ghToken, historyArr, sha) {
   if (!ghToken) return false;
   const apiUrl = `https://api.github.com/repos/${REPO}/contents/${HISTORY_PATH}`;
   const ghHeaders = {
@@ -207,12 +219,6 @@ async function writeHistory(ghToken, historyArr) {
     'User-Agent': 'TradeDesk',
     'Content-Type': 'application/json',
   };
-
-  let sha = null;
-  try {
-    const head = await fetch(apiUrl, { headers: ghHeaders });
-    if (head.ok) sha = (await head.json()).sha;
-  } catch {}
 
   const raw   = JSON.stringify(historyArr, null, 2);
   const bytes = new TextEncoder().encode(raw);
@@ -362,15 +368,19 @@ export async function onRequest(context) {
     // Equity curve: append record จริง (ไม่ approximate) ทุกครั้งที่ cron รัน
     let historySaved = false;
     try {
-      const history = await readHistory();
-      history.push({
-        date:        new Date().toISOString(),
-        totalTHB:    Math.round(totalNetWorth * 100) / 100,
-        byPortfolio, // ของจริงจากรอบนี้ ไม่ใช่ approximation
-      });
-      // กันไฟล์บวมไม่จำกัด — เก็บแค่ N record ล่าสุด
-      const trimmed = history.length > HISTORY_MAX ? history.slice(history.length - HISTORY_MAX) : history;
-      historySaved = await writeHistory(GH_TOKEN, trimmed);
+      const { list, sha, ok } = await readHistoryWithSha(GH_TOKEN);
+      if (ok) {
+        list.push({
+          date:        new Date().toISOString(),
+          totalTHB:    Math.round(totalNetWorth * 100) / 100,
+          byPortfolio, // ของจริงจากรอบนี้ ไม่ใช่ approximation
+        });
+        // กันไฟล์บวมไม่จำกัด — เก็บแค่ N record ล่าสุด
+        const trimmed = list.length > HISTORY_MAX ? list.slice(list.length - HISTORY_MAX) : list;
+        historySaved = await writeHistory(GH_TOKEN, trimmed, sha);
+      }
+      // ok:false = อ่านไฟล์เดิมไม่สำเร็จ (network/parse error) → "ไม่เขียน" แทนที่จะเขียนทับด้วย
+      // record เดียว (ป้องกันบั๊กคลาสเดียวกับที่เคยล้าง drConversions หายทั้งลิสต์)
     } catch {}
 
     return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, historySaved, staleCount, stockCount: stockValues.length }), { headers: cors });

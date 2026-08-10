@@ -5,6 +5,8 @@
 const REPO          = 'claimloss-lab/trade-desk';
 const DATA_PATH     = 'public/portfolio-data.json';
 const SNAPSHOT_PATH = 'public/daily-snapshot.json';
+const HISTORY_PATH  = 'public/portfolio-history.json';
+const HISTORY_MAX   = 1000; // กันไฟล์บวมไม่จำกัด (~2 records/วัน ~500 วัน)
 
 // ── Formatters ────────────────────────────────────────────────────────────────
 function fm(n, dec = 2) {
@@ -183,6 +185,49 @@ async function writeSnapshot(ghToken, snapshot) {
   } catch { return false; }
 }
 
+// ── Read/write history (equity curve) ────────────────────────────────────────
+async function readHistory() {
+  try {
+    const r = await fetch(
+      `https://raw.githubusercontent.com/${REPO}/main/${HISTORY_PATH}?t=${Date.now()}`,
+      { headers: { 'Cache-Control': 'no-cache' } }
+    );
+    if (!r.ok) return [];
+    const j = await r.json();
+    return Array.isArray(j) ? j : [];
+  } catch { return []; }
+}
+
+async function writeHistory(ghToken, historyArr) {
+  if (!ghToken) return false;
+  const apiUrl = `https://api.github.com/repos/${REPO}/contents/${HISTORY_PATH}`;
+  const ghHeaders = {
+    Authorization: `token ${ghToken}`,
+    Accept: 'application/vnd.github.v3+json',
+    'User-Agent': 'TradeDesk',
+    'Content-Type': 'application/json',
+  };
+
+  let sha = null;
+  try {
+    const head = await fetch(apiUrl, { headers: ghHeaders });
+    if (head.ok) sha = (await head.json()).sha;
+  } catch {}
+
+  const raw   = JSON.stringify(historyArr, null, 2);
+  const bytes = new TextEncoder().encode(raw);
+  let b64str  = '';
+  bytes.forEach(b => { b64str += String.fromCharCode(b); });
+  const b64  = btoa(b64str);
+  const body = { message: 'chore: append portfolio-history snapshot', content: b64 };
+  if (sha) body.sha = sha;
+
+  try {
+    const res = await fetch(apiUrl, { method: 'PUT', headers: ghHeaders, body: JSON.stringify(body) });
+    return res.ok;
+  } catch { return false; }
+}
+
 // ── Main handler ──────────────────────────────────────────────────────────────
 export async function onRequest(context) {
   const cors = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
@@ -253,23 +298,28 @@ export async function onRequest(context) {
 
     let totalNetWorth = 0;
     const stockValues = [];
+    const byPortfolio = {}; // มูลค่ารวมแยกตามพอร์ต (สำหรับ equity curve)
     portfolios.forEach(p => {
       const isUS = p.type === 'realtime_us';
+      let portfolioTotal = 0;
       (p.stocks || []).forEach(s => {
         if (!s.qty) return;
         // กองทุนรวม: ใช้ NAV (THB) จาก portfolio-data.json ตรงๆ ไม่เข้าชิง gainer/loser
-        if (s.currentNav > 0) { totalNetWorth += s.currentNav * s.qty; return; }
+        if (s.currentNav > 0) { totalNetWorth += s.currentNav * s.qty; portfolioTotal += s.currentNav * s.qty; return; }
         const price = effPrice[s.ticker];          // ราคา native (US = USD)
         if (!price) return;
         const value  = price * s.qty;              // มูลค่า native
         const cost   = (s.buyPrice || 0) * s.qty;  // ต้นทุน native สกุลเดียวกัน
         const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
-        totalNetWorth += value * (isUS ? usdThb : 1);
+        const valueThb = value * (isUS ? usdThb : 1);
+        totalNetWorth += valueThb;
+        portfolioTotal += valueThb;
         // เฉพาะตัวที่ได้ราคาสดจริงเท่านั้นถึงเข้าชิง gainer/loser
         if (pnlPct != null && priceMap[s.ticker]) {
           stockValues.push({ ticker: s.ticker, price, pnlPct, cur: isUS ? '$' : '฿' });
         }
       });
+      byPortfolio[p.id] = Math.round(portfolioTotal * 100) / 100;
     });
 
     const prevNW      = (snapshot && typeof snapshot.netWorth === 'number') ? snapshot.netWorth : null;
@@ -309,7 +359,21 @@ export async function onRequest(context) {
       prices:   effPrice,
     });
 
-    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, staleCount, stockCount: stockValues.length }), { headers: cors });
+    // Equity curve: append record จริง (ไม่ approximate) ทุกครั้งที่ cron รัน
+    let historySaved = false;
+    try {
+      const history = await readHistory();
+      history.push({
+        date:        new Date().toISOString(),
+        totalTHB:    Math.round(totalNetWorth * 100) / 100,
+        byPortfolio, // ของจริงจากรอบนี้ ไม่ใช่ approximation
+      });
+      // กันไฟล์บวมไม่จำกัด — เก็บแค่ N record ล่าสุด
+      const trimmed = history.length > HISTORY_MAX ? history.slice(history.length - HISTORY_MAX) : history;
+      historySaved = await writeHistory(GH_TOKEN, trimmed);
+    } catch {}
+
+    return new Response(JSON.stringify({ ok: true, totalNetWorth, nwChange, snapshotSaved, historySaved, staleCount, stockCount: stockValues.length }), { headers: cors });
 
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });

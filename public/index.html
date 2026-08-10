@@ -6194,7 +6194,10 @@ function renderEquityChart() {
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: eqMode === 'split', position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 8 } },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fm(ctx.parsed.y) } },
+        tooltip: {
+          filter: ctx => ctx.parsed.y !== null, // ซ่อนพอร์ตที่ยังไม่มีข้อมูล ณ วันนั้น (ไม่ใช่มูลค่า 0 จริง)
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fm(ctx.parsed.y) },
+        },
       },
       scales: {
         x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 10 } },

@@ -814,6 +814,28 @@ function buildOverviewHTML() {
       </div>
     </div>
 
+    <!-- Equity Curve — มูลค่าพอร์ตย้อนหลัง (จาก portfolio-history.json ที่ cron อัปเดตทุกครั้ง) -->
+    <div class="card sens" style="margin-top:18px">
+      <div class="card-hd">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">📈</span>
+          <div>
+            <div class="card-ti">มูลค่าพอร์ตย้อนหลัง (Equity Curve)</div>
+            <div style="font-size:11px;color:var(--tx3)" id="ov-eq-sub">กำลังโหลด...</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button id="ov-eq-mode-total" onclick="setEqMode('total')"
+            style="border:1px solid var(--blue);background:var(--blue);color:#fff;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600">รวม</button>
+          <button id="ov-eq-mode-split" onclick="setEqMode('split')"
+            style="border:1px solid var(--sep);background:transparent;color:var(--tx2);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600">แยกตามพอร์ต</button>
+        </div>
+      </div>
+      <div style="height:280px;position:relative;padding:12px 18px 18px">
+        <canvas id="ov-equity"></canvas>
+      </div>
+    </div>
+
     <!-- ข่าวสั้นประจำวัน embedded ใน Overview -->
     <div class="card sens" style="margin-top:18px">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(249,115,22,.08),transparent)">
@@ -926,6 +948,7 @@ function renderOverview() {
   }
 
   if (document.getElementById('ov-oil-result')) loadOil03Overview();
+  if (document.getElementById('ov-equity')) loadEquityCurve();
 }
 
 
@@ -6092,6 +6115,95 @@ function renderInsiderHTML(data, tickers) {
 
 // ── OIL03 Signal — auto-loads on Overview (read-only /oil-data, proxied through Pages) ──
 let _oil03Loaded = false;
+// ══════════════════════════════════════════════════
+// EQUITY CURVE — มูลค่าพอร์ตย้อนหลัง (จาก portfolio-history.json)
+// ══════════════════════════════════════════════════
+let _eqLoaded = false;
+let eqHistory = [];
+let eqMode = 'total';
+
+async function loadEquityCurve() {
+  if (_eqLoaded) return; // กันโหลดซ้ำทุกครั้งที่ renderOverview() ถูกเรียก
+  _eqLoaded = true;
+  const sub = document.getElementById('ov-eq-sub');
+  try {
+    const r = await fetch('/portfolio-history.json?t=' + Date.now(), { cache: 'no-store', signal: safeSignal(15000) });
+    if (!r.ok) throw new Error('fetch failed: ' + r.status);
+    const data = await r.json();
+    eqHistory = Array.isArray(data) ? data : [];
+    if (!eqHistory.length) {
+      if (sub) sub.textContent = 'ยังไม่มีข้อมูลย้อนหลัง';
+      return;
+    }
+    const first = new Date(eqHistory[0].date).toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: '2-digit' });
+    const last  = new Date(eqHistory[eqHistory.length - 1].date).toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: '2-digit' });
+    if (sub) sub.textContent = `${eqHistory.length} จุดข้อมูล · ${first} – ${last}`;
+    renderEquityChart();
+  } catch (e) {
+    _eqLoaded = false; // ให้ retry ได้ถ้าโหลดพลาด
+    if (sub) sub.textContent = 'โหลดข้อมูลย้อนหลังไม่สำเร็จ';
+  }
+}
+
+function setEqMode(mode) {
+  eqMode = mode;
+  const bTotal = document.getElementById('ov-eq-mode-total');
+  const bSplit = document.getElementById('ov-eq-mode-split');
+  if (bTotal && bSplit) {
+    bTotal.style.background = mode === 'total' ? 'var(--blue)' : 'transparent';
+    bTotal.style.color      = mode === 'total' ? '#fff' : 'var(--tx2)';
+    bTotal.style.borderColor = mode === 'total' ? 'var(--blue)' : 'var(--sep)';
+    bSplit.style.background = mode === 'split' ? 'var(--blue)' : 'transparent';
+    bSplit.style.color      = mode === 'split' ? '#fff' : 'var(--tx2)';
+    bSplit.style.borderColor = mode === 'split' ? 'var(--blue)' : 'var(--sep)';
+  }
+  renderEquityChart();
+}
+
+function renderEquityChart() {
+  const cv = document.getElementById('ov-equity');
+  if (!cv || !eqHistory.length) return;
+  if (charts['ov-equity']) charts['ov-equity'].destroy();
+
+  const labels = eqHistory.map(r => new Date(r.date).toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit' }));
+
+  let datasets;
+  if (eqMode === 'total') {
+    datasets = [{
+      label: 'มูลค่ารวม',
+      data: eqHistory.map(r => r.totalTHB),
+      borderColor: '#4A9EFF',
+      backgroundColor: 'rgba(74,158,255,.12)',
+      fill: true, tension: .3, pointRadius: 0, borderWidth: 2,
+    }];
+  } else {
+    datasets = portfolios.map(p => ({
+      label: p.name,
+      data: eqHistory.map(r => (r.byPortfolio && r.byPortfolio[p.id] != null) ? r.byPortfolio[p.id] : null),
+      borderColor: p.color,
+      backgroundColor: p.color + '22',
+      fill: false, tension: .3, pointRadius: 0, borderWidth: 2, spanGaps: true,
+    }));
+  }
+
+  charts['ov-equity'] = new Chart(cv.getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: eqMode === 'split', position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 8 } },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fm(ctx.parsed.y) } },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 10 } },
+        y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { size: 10 }, callback: v => fn(v, 0) } },
+      },
+    },
+  });
+}
+
 async function loadOil03Overview() {
   if (_oil03Loaded) return; // avoid refetching every time renderOverview() runs (e.g. after other UI updates)
   _oil03Loaded = true;

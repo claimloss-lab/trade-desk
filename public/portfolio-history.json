@@ -3,16 +3,16 @@
     "date": "2026-06-25T20:50:30.464Z",
     "totalTHB": 1383470.06,
     "byPortfolio": {
-      "dr1": 0.0,
-      "set1": 0.0,
-      "set2": 0.0,
-      "set3": 0.0,
-      "jitta1": 0.0,
-      "jitta2": 0.0,
+      "dr1": null,
+      "set1": null,
+      "set2": null,
+      "set3": null,
+      "jitta1": null,
+      "jitta2": null,
       "dime": 51371.45,
       "bbl_tax": 62116.6,
       "p_1778477894830": 2200.57,
-      "p_1778723407199": 0.0
+      "p_1778723407199": null
     },
     "approx": true
   },
@@ -20,16 +20,16 @@
     "date": "2026-06-25T21:01:29.520Z",
     "totalTHB": 1383470.06,
     "byPortfolio": {
-      "dr1": 0.0,
-      "set1": 0.0,
-      "set2": 0.0,
-      "set3": 0.0,
-      "jitta1": 0.0,
-      "jitta2": 0.0,
+      "dr1": null,
+      "set1": null,
+      "set2": null,
+      "set3": null,
+      "jitta1": null,
+      "jitta2": null,
       "dime": 51371.45,
       "bbl_tax": 62116.6,
       "p_1778477894830": 2200.57,
-      "p_1778723407199": 0.0
+      "p_1778723407199": null
     },
     "approx": true
   },

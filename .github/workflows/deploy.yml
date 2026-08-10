@@ -8,6 +8,7 @@ on:
       - 'functions/**'
       - '!public/portfolio-data.json'
       - '!public/daily-snapshot.json'
+      - '!public/portfolio-history.json'
   workflow_dispatch: {}
 
 jobs:

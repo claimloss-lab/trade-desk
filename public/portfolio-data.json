@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:30:13.803Z",
+  "exportDate": "2026-08-13T18:30:21.703Z",
   "exportDateTH": "14 สิงหาคม 2569 เวลา 01:30",
   "portfolios": [
     {
@@ -45,7 +45,7 @@
         {
           "ticker": "CRWD80",
           "qty": 2000,
-          "buyPrice": 14.8,
+          "buyPrice": 14.79,
           "id": 4,
           "sector": "Tech",
           "underlying": "CrowdStrike",

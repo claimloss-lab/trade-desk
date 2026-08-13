@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:19:13.363Z",
-  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:19",
+  "exportDate": "2026-08-13T18:27:34.358Z",
+  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:27",
   "portfolios": [
     {
       "id": "dr1",
@@ -2359,6 +2359,16 @@
       "_notified": true,
       "doneDate": "2 ก.ค. 69",
       "actualPrice": 11.7
+    },
+    {
+      "id": 1786645650150,
+      "ticker": "GOOG80",
+      "targetPrice": 5.53,
+      "qty": 3200,
+      "note": "",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "14 ส.ค. 69"
     }
   ],
   "dcaHistory": [],
@@ -5658,6 +5668,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 53,
-    "totalNetWorth": "฿1,875,789.08"
+    "totalNetWorth": "฿1,875,827.08"
   }
 }

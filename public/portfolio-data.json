@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:16:47.684Z",
+  "exportDate": "2026-08-13T18:16:52.996Z",
   "exportDateTH": "14 สิงหาคม 2569 เวลา 01:16",
   "portfolios": [
     {
@@ -56,7 +56,7 @@
         {
           "ticker": "GOOG80",
           "qty": 7600,
-          "buyPrice": 5.023684210526316,
+          "buyPrice": 5.01,
           "id": 5,
           "sector": "Tech",
           "underlying": "Alphabet",

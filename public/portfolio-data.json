@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:27:34.358Z",
+  "exportDate": "2026-08-13T18:27:49.645Z",
   "exportDateTH": "14 สิงหาคม 2569 เวลา 01:27",
   "portfolios": [
     {
@@ -2365,6 +2365,16 @@
       "ticker": "GOOG80",
       "targetPrice": 5.53,
       "qty": 3200,
+      "note": "",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "14 ส.ค. 69"
+    },
+    {
+      "id": 1786645665458,
+      "ticker": "GOOG80",
+      "targetPrice": 5.4,
+      "qty": 3400,
       "note": "",
       "cond": "below",
       "status": "pending",

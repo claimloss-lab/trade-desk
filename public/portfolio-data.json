@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-10T04:24:56.945Z",
-  "exportDateTH": "10 สิงหาคม 2569 เวลา 11:24",
+  "exportDate": "2026-08-13T18:16:47.684Z",
+  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:16",
   "portfolios": [
     {
       "id": "dr1",
@@ -55,8 +55,8 @@
         },
         {
           "ticker": "GOOG80",
-          "qty": 4600,
-          "buyPrice": 4.55,
+          "qty": 7600,
+          "buyPrice": 5.023684210526316,
           "id": 5,
           "sector": "Tech",
           "underlying": "Alphabet",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1786645003651,
+      "ticker": "GOOG80",
+      "type": "buy",
+      "date": "2026-08-14",
+      "price": 5.75,
+      "qty": 3000,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1785984117759,
       "ticker": "LIT",
@@ -5644,7 +5657,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 52,
-    "totalNetWorth": "฿1,824,409.99"
+    "totalTransactions": 53,
+    "totalNetWorth": "฿1,853,983.33"
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:27:49.645Z",
-  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:27",
+  "exportDate": "2026-08-13T18:30:13.803Z",
+  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:30",
   "portfolios": [
     {
       "id": "dr1",
@@ -44,7 +44,7 @@
         },
         {
           "ticker": "CRWD80",
-          "qty": 3300,
+          "qty": 2000,
           "buyPrice": 14.8,
           "id": 4,
           "sector": "Tech",
@@ -510,6 +510,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1786645809559,
+      "ticker": "CRWD80",
+      "type": "sell",
+      "date": "2026-08-14",
+      "price": 29.5,
+      "qty": 1300,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 19110,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1786645003651,
       "ticker": "GOOG80",
@@ -5677,7 +5690,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 42,
-    "totalTransactions": 53,
-    "totalNetWorth": "฿1,875,827.08"
+    "totalTransactions": 54,
+    "totalNetWorth": "฿1,837,477.08"
   }
 }

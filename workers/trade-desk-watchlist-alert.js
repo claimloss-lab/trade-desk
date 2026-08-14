@@ -5,17 +5,14 @@
  * Features:
  *   - ราคาถึงเป้า → LINE Flex Message (ธีมเดียวกับ Daily Summary)
  *   - 🔻🔺 S/R Alert — แนวรับ/แนวต้าน underlying + แผน (วันละครั้ง 10:00-10:04 ICT)
+ *       [ใหม่] เก็บค่าแนวรับ/แนวต้านลง stock.srSupport / stock.srResist ของพอร์ต dr1 (SET DR) + DIME-USA
+ *       ให้หน้าเว็บโชว์ในตาราง (DR แปลงเป็น THB ผ่าน conversion ratio, US ใช้ USD ตรงๆ)
  *   - [ใหม่] 🛢️ OIL03 Signal — 3 สัญญาณอิสระ (วันละครั้ง 10:05-10:09 ICT):
  *       value buy : WTI < $65  AND  USDTHB < 32.50
  *       rsi_buy   : RSI(WTI,14) < 30
  *       rsi_sell  : RSI(WTI,14) > 70
  *     dedup ต่อสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "oil03:") ซึ่ง frontend preserve อยู่แล้ว
- *   - [ใหม่] 🕯️ ATR Trailing Stop / Take Profit (Chandelier Exit) — เฉพาะ dr1 (SET DR) + DIME-USA:
- *       Stop = Highest High(22 วัน) − 3×ATR(14) [ratchet ขึ้นอย่างเดียว เก็บใน stock.atrStop]
- *       Take Profit = จุดสูงสุด 22 วัน + 3×ATR(14) [stock.atrTP] — อยู่เหนือราคาปัจจุบันเสมอ
- *       recalc รายวัน 10:10-10:14 ICT · เช็คราคาแตะระดับทุก tick (5 นาที)
- *       dedup: Stop เตือนซ้ำได้ทุก 3 วันถ้ายังหลุดค้าง · TP เตือนครั้งเดียวต่อจุดสูงสุดใหม่ (ไม่เตือนซ้ำจนราคาทำ high ใหม่เกินจุดที่เตือนไปแล้ว)
- *   - GET /trigger /sr-trigger /oil-trigger /atr-trigger /watchlist
+ *   - GET /trigger /sr-trigger /oil-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
  */
@@ -30,6 +27,8 @@ const SELF_URL   = 'https://trade-desk-watchlist-alert.claimloss.workers.dev';
 const SR_ZONE_PCT   = 2;
 const SR_DEDUP_DAYS = 7;
 const SR_MAX_SYMBOLS = 40;
+// พอร์ตที่จะเขียนค่าแนวรับ/แนวต้าน (srSupport/srResist) ลงในแต่ละหุ้น เพื่อโชว์ในตารางเว็บ
+const SR_DISPLAY_PORT_IDS = ['dr1', 'p_1778723407199']; // SET DR, DIME-USA
 
 // OIL03 config (สัญญาณแยกอิสระ)
 const OIL03_WTI_MAX  = 65.0;    // น้ำมันลงเยอะ (USD/bbl)
@@ -52,7 +51,7 @@ export default {
 
     if (env.ALERT_SECRET) {
       const key = url.searchParams.get('key');
-      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/atr-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
+      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });
       }
@@ -71,12 +70,6 @@ export default {
     if (url.pathname === '/oil-trigger') {
       const result = await checkOil03(env);
       return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
-    }
-
-    if (url.pathname === '/atr-trigger') {
-      const recalc = await recalcTrailingStops(env);
-      const check = await checkTrailingStopBreach(env);
-      return new Response(JSON.stringify({ recalc, check }, null, 2), { headers: { 'Content-Type': 'application/json' } });
     }
 
     if (url.pathname === '/oil-status') {
@@ -116,7 +109,7 @@ export default {
       );
     }
 
-    return new Response('trade-desk-watchlist-alert running.\nGET /trigger · /sr-trigger · /oil-trigger · /atr-trigger · /oil-status · /oil-data · /watchlist', { status: 200 });
+    return new Response('trade-desk-watchlist-alert running.\nGET /trigger · /sr-trigger · /oil-trigger · /oil-status · /oil-data · /watchlist', { status: 200 });
   },
 
   async scheduled(event, env, ctx) {
@@ -126,14 +119,10 @@ export default {
       await checkWatchlist(env);
       const now = new Date();
       const h = now.getUTCHours(), m = now.getUTCMinutes();
-      // S/R: รอบแรกของวัน 10:00-10:04 ICT (03:00-03:04 UTC)
+      // S/R: รอบแรกของวัน 10:00-10:04 ICT (03:00-03:04 UTC) — เขียน srSupport/srResist ให้ dr1+DIME-USA ด้วย
       if (h === 3 && m < 5) await checkSupportResistance(env);
       // OIL03: รอบถัดไป 10:05-10:09 ICT (03:05-03:09 UTC)
       if (h === 3 && m >= 5 && m < 10) await checkOil03(env);
-      // ATR recalc (stop/TP ratchet ใหม่): รอบถัดไป 10:10-10:14 ICT (03:10-03:14 UTC)
-      if (h === 3 && m >= 10 && m < 15) await recalcTrailingStops(env);
-      // ATR breach check: ทุก tick (5 นาที ระหว่างตลาดเปิด) — รันท้ายสุดหลังงานเขียนไฟล์อื่นๆ เสมอ
-      await checkTrailingStopBreach(env);
     })());
   },
 };
@@ -467,6 +456,19 @@ function buildSRFlex(env, alerts) {
   };
 }
 
+function uSymFor(s, portType) {
+  if (s.ticker.includes('.')) return s.ticker;
+  return portType === 'realtime_us' ? s.ticker : s.ticker.replace(/\d+$/, '');
+}
+
+async function fetchUSDTHB() {
+  try {
+    const r = await yfChart('USDTHB=X', '1d');
+    const fx = r.meta?.regularMarketPrice;
+    return typeof fx === 'number' ? fx : null;
+  } catch { return null; }
+}
+
 async function checkSupportResistance(env) {
   const { data, sha } = await fetchPortfolioData(env);
   const holdings = collectHoldings(data);
@@ -479,10 +481,12 @@ async function checkSupportResistance(env) {
     return t && (now - t) < SR_DEDUP_DAYS * 86400e3;
   };
 
+  const techMap = {}; // uSym -> { last, support, resist, currency }
   const alerts = [];
   await Promise.all(holdings.map(async h => {
     const t = await fetchTechnicals(h.uSym);
     if (!t) return;
+    techMap[h.uSym] = t;
     const distSup = (t.last - t.support) / t.support * 100;
     const distRes = (t.resist - t.last) / t.resist * 100;
     let side = null, level = null, dist = null;
@@ -496,222 +500,62 @@ async function checkSupportResistance(env) {
     alerts.push({ ...h, side, level, dist, crossed: dist < 0, last: t.last, currency: t.currency });
   }));
 
-  if (!alerts.length) return { checked: holdings.length, alerts: [] };
-
-  await Promise.all(alerts.map(async a => {
-    const p = await fetchPrice(a.holdTicker);
-    a.pnlPct = (p && a.buyPrice) ? (p - a.buyPrice) / a.buyPrice * 100 : null;
-  }));
-
-  alerts.sort((x, y) => Math.abs(x.dist) - Math.abs(y.dist));
-  const altText = `📐 แนวรับ-แนวต้าน: ${alerts.map(a => `${a.side === 'support' ? '🔻' : '🔺'}${a.uSym}`).join(' ')}`;
-  const sent = await pushFlex(env, altText, buildSRFlex(env, alerts));
-
-  let saved = false;
-  if (sent) {
-    const iso = new Date().toISOString();
-    alerts.forEach(a => { state[`${a.uSym}_${a.side}`] = iso; });
-    Object.keys(state).forEach(k => {
-      if (now - Date.parse(state[k]) > 30 * 86400e3) delete state[k];
+  // เขียนแนวรับ/แนวต้านลงหุ้นแต่ละตัวใน SR_DISPLAY_PORT_IDS ให้เว็บโชว์ในตารางได้ (ทำเสมอ ไม่ขึ้นกับว่ามี alert หรือไม่)
+  // DR: แปลงจากราคาหุ้นแม่ (USD) → THB ผ่าน conversion ratio (เหมือนเดิมที่เคยใช้ใน DR Fair Value)
+  // US (DIME-USA): ใช้ตรงๆ เพราะราคาที่โชว์ในตารางก็เป็น USD อยู่แล้ว
+  let srUpdated = 0;
+  const portsArr = Array.isArray(data.portfolios) ? data.portfolios : Object.values(data.portfolios || {});
+  const displayPorts = portsArr.filter(p => SR_DISPLAY_PORT_IDS.includes(p.id));
+  if (displayPorts.length) {
+    const needsFx = displayPorts.some(p => p.type === 'realtime_dr');
+    const fx = needsFx ? await fetchUSDTHB() : null;
+    const today = todayICT();
+    displayPorts.forEach(port => {
+      (port.stocks || []).forEach(s => {
+        const uSym = uSymFor(s, port.type);
+        const t = techMap[uSym];
+        if (!t) return;
+        if (port.type === 'realtime_dr') {
+          if (!s.conversion || !fx) return;
+          s.srSupport = +(t.support * fx / s.conversion).toFixed(4);
+          s.srResist  = +(t.resist * fx / s.conversion).toFixed(4);
+        } else {
+          s.srSupport = +t.support.toFixed(4);
+          s.srResist  = +t.resist.toFixed(4);
+        }
+        s.srUpdated = today;
+        srUpdated++;
+      });
     });
-    data._srAlerts = state;
-    saved = await savePortfolioData(env, data, sha, 'chore: S/R alert dedupe state');
   }
 
-  return { checked: holdings.length, alerts: alerts.map(a => `${a.uSym}:${a.side}`), lineSent: sent, stateSaved: saved };
-}
+  if (!alerts.length && !srUpdated) return { checked: holdings.length, alerts: [] };
 
-// ── Core: ATR Trailing Stop / Take Profit (Chandelier Exit) ─────────────────
-// Stop = Highest High(22 วัน) − 3×ATR(14)  → ratchet ขึ้นอย่างเดียว ไม่มีวันลด
-// Take Profit = จุดสูงสุด 22 วัน + 3×ATR(14)  → เป้าหมายเหนือราคาปัจจุบัน (breakout target) ไม่ใช่อิงต้นทุน
-// ใช้เฉพาะพอร์ต dr1 (SET DR) และ DIME-USA (p_1778723407199)
-const ATR_PORTFOLIO_IDS    = ['dr1', 'p_1778723407199'];
-const ATR_PERIOD           = 14;
-const ATR_LOOKBACK         = 22;
-const ATR_STOP_MULT        = 3;
-const ATR_TP_MULT          = 3;
-const ATR_ALERT_DEDUP_DAYS = 3;
-
-function atrSymbolFor(s, portType) {
-  if (portType === 'realtime_dr') return (s.ticker || '').toUpperCase() + '.BK';
-  return yahooSym(s.ticker || '');
-}
-
-function atrCostBasis(s, portType) {
-  if (portType === 'realtime_us') return s.buyPriceUSD || s.buyPrice;
-  return s.buyPrice;
-}
-
-function atrPortfolios(data) {
-  const arr = Array.isArray(data.portfolios) ? data.portfolios : Object.values(data.portfolios || {});
-  return arr.filter(p => ATR_PORTFOLIO_IDS.includes(p.id));
-}
-
-async function fetchOHLC(sym, range = '6mo') {
-  try {
-    const res = await yfChart(sym, range);
-    const q = res.indicators?.quote?.[0] || {};
-    const highs = q.high || [], lows = q.low || [], closes = q.close || [];
-    const n = Math.min(highs.length, lows.length, closes.length);
-    const clean = [];
-    for (let i = 0; i < n; i++) {
-      if (highs[i] != null && lows[i] != null && closes[i] != null) clean.push({ h: highs[i], l: lows[i], c: closes[i] });
-    }
-    return clean;
-  } catch { return null; }
-}
-
-// Wilder ATR(period) จากบาร์ OHLC เรียงเก่า→ใหม่
-function wilderATR(bars, period = ATR_PERIOD) {
-  if (bars.length < period + 1) return null;
-  const trs = [];
-  for (let i = 1; i < bars.length; i++) {
-    const { h, l } = bars[i], pc = bars[i - 1].c;
-    trs.push(Math.max(h - l, Math.abs(h - pc), Math.abs(l - pc)));
-  }
-  if (trs.length < period) return null;
-  let atr = trs.slice(0, period).reduce((a, b) => a + b, 0) / period;
-  for (let i = period; i < trs.length; i++) atr = (atr * (period - 1) + trs[i]) / period;
-  return atr;
-}
-
-function chandelierLevels(bars, lookback = ATR_LOOKBACK) {
-  const atr = wilderATR(bars);
-  if (atr == null || !bars.length) return null;
-  const win = bars.slice(-lookback);
-  const highestHigh = Math.max(...win.map(b => b.h));
-  return { atr, highestHigh, stopCalc: highestHigh - ATR_STOP_MULT * atr };
-}
-
-// รายวัน — คำนวณ/อัปเดต stop-loss (ratchet ขึ้น) + take-profit ใหม่
-async function recalcTrailingStops(env) {
-  const { data, sha } = await fetchPortfolioData(env);
-  const targets = atrPortfolios(data);
-  if (!targets.length) return { checked: 0, updated: 0 };
-
-  let updated = 0, checked = 0;
-  const today = todayICT();
-
-  for (const port of targets) {
-    for (const s of (port.stocks || [])) {
-      checked++;
-      const sym = atrSymbolFor(s, port.type);
-      const bars = await fetchOHLC(sym, '6mo');
-      if (!bars || bars.length < ATR_PERIOD + ATR_LOOKBACK) continue; // ข้อมูลไม่พอ → ข้าม ไม่แตะค่าเดิม
-      const lv = chandelierLevels(bars);
-      if (!lv) continue;
-      const prevStop = typeof s.atrStop === 'number' ? s.atrStop : -Infinity;
-      const finalStop = Math.max(prevStop, lv.stopCalc);
-      s.atrStop = +finalStop.toFixed(4);
-      // TP = จุดสูงสุด 22 วัน + 3×ATR(14) → เป้าหมายที่อยู่เหนือราคาปัจจุบันเสมอ (ไม่ใช่อิงต้นทุนเดิมที่ราคาแซงไปแล้ว)
-      s.atrTP = +(lv.highestHigh + ATR_TP_MULT * lv.atr).toFixed(4);
-      s.atrValue = +lv.atr.toFixed(4);
-      s.atrUpdated = today;
-      updated++;
-    }
+  let sent = false;
+  if (alerts.length) {
+    await Promise.all(alerts.map(async a => {
+      const p = await fetchPrice(a.holdTicker);
+      a.pnlPct = (p && a.buyPrice) ? (p - a.buyPrice) / a.buyPrice * 100 : null;
+    }));
+    alerts.sort((x, y) => Math.abs(x.dist) - Math.abs(y.dist));
+    const altText = `📐 แนวรับ-แนวต้าน: ${alerts.map(a => `${a.side === 'support' ? '🔻' : '🔺'}${a.uSym}`).join(' ')}`;
+    sent = await pushFlex(env, altText, buildSRFlex(env, alerts));
   }
 
   let saved = false;
-  if (updated) saved = await savePortfolioData(env, data, sha, `chore: recalc ATR trailing stop/TP (${updated} รายการ)`);
-  return { checked, updated, saved };
-}
-
-function buildATRFlex(env, alerts) {
-  const boxes = [];
-  alerts.forEach((a, i) => {
-    if (i > 0) boxes.push({ type: 'separator', margin: 'lg', color: C.sep });
-    const isStop = a.kind === 'stop';
-    boxes.push({
-      type: 'box', layout: 'vertical', margin: i > 0 ? 'lg' : 'none',
-      contents: [
-        { type: 'text', text: `${isStop ? '🔻' : '🎯'} ${a.ticker}`, size: 'xl',
-          color: isStop ? C.red : C.green, weight: 'bold' },
-        rowKV('ราคาปัจจุบัน', `${a.currency === 'USD' ? '$' : '฿'}${fn(a.price)}`, C.txt, true),
-        rowKV(isStop ? 'Trailing Stop' : 'Take Profit', `${a.currency === 'USD' ? '$' : '฿'}${fn(a.level)}`, isStop ? C.red : C.green),
-        ...(a.pnlPct != null ? [rowKV('P&L', `${a.pnlPct >= 0 ? '+' : ''}${fn(a.pnlPct, 1)}%`, a.pnlPct >= 0 ? C.green : C.red)] : []),
-        { type: 'text',
-          text: isStop
-            ? 'แผน: ราคาหลุด Trailing Stop (Chandelier Exit ATR14×3) — พิจารณาตัดขาดทุน/ลดสถานะตามวินัย'
-            : 'แผน: ราคาถึงเป้า Take Profit (ATR-based) — พิจารณาขายทำกำไรบางส่วนหรือทั้งหมดตามแผน',
-          size: 'xxs', color: C.dim2, margin: 'sm', wrap: true },
-      ],
-    });
-  });
-
-  const today = new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', timeZone: 'Asia/Bangkok' });
-  return {
-    type: 'bubble', size: 'kilo',
-    styles: bubbleStyles(),
-    header: headerBox('🕯️ TradeDesk · Trailing Stop / Take Profit', `Chandelier Exit ATR(14)×3 · ${today}`),
-    body: { type: 'box', layout: 'vertical', paddingAll: 'lg', contents: boxes },
-    footer: footerButtons(env),
-  };
-}
-
-// ทุก tick (5 นาที) — เช็คว่าราคาล่าสุดแตะ stop/TP ที่คำนวณไว้หรือยัง
-async function checkTrailingStopBreach(env) {
-  const { data, sha } = await fetchPortfolioData(env);
-  const targets = atrPortfolios(data);
-  if (!targets.length) return { checked: 0, alerts: [] };
-
-  const state = data._srAlerts || {};
-  const now = Date.now();
-  // STOP: dedup ตามเวลา — เตือนซ้ำได้ทุก ATR_ALERT_DEDUP_DAYS วัน ถ้ายังหลุด stop ค้างอยู่ (เร่งด่วน ต้องเตือนซ้ำ)
-  const stopFresh = key => {
-    const raw = state[key];
-    const t = raw ? Date.parse(String(raw).split('|')[0]) : 0;
-    return t && (now - t) < ATR_ALERT_DEDUP_DAYS * 86400e3;
-  };
-  // TP: เตือน "ครั้งเดียวต่อจุดสูงสุดใหม่" — เก็บราคาที่เตือนไปล่าสุด เตือนซ้ำเฉพาะราคาทำ high ใหม่เกินจุดนั้น
-  const tpShouldAlert = (key, price) => {
-    const raw = state[key];
-    if (!raw) return true;
-    const lastPrice = parseFloat(String(raw).split('|')[1]);
-    return !isFinite(lastPrice) || price > lastPrice;
-  };
-
-  const stocksToCheck = [];
-  targets.forEach(port => (port.stocks || []).forEach(s => {
-    if (typeof s.atrStop === 'number' || typeof s.atrTP === 'number') stocksToCheck.push({ s, portType: port.type });
-  }));
-  if (!stocksToCheck.length) return { checked: 0, alerts: [] };
-
-  const alerts = [];
-  const nowIso = new Date().toISOString();
-  await Promise.all(stocksToCheck.map(async ({ s, portType }) => {
-    const price = await fetchPrice(s.ticker);
-    if (!price) return;
-    const cost = atrCostBasis(s, portType);
-    const pnlPct = cost ? (price - cost) / cost * 100 : null;
-    const isUS = portType === 'realtime_us';
-    if (typeof s.atrStop === 'number' && price <= s.atrStop) {
-      const key = `atr:${s.ticker}:stop`;
-      if (!stopFresh(key)) alerts.push({ kind: 'stop', ticker: s.ticker, price, level: s.atrStop, pnlPct, currency: isUS ? 'USD' : 'THB', key, stateVal: nowIso });
+  if (sent || srUpdated) {
+    if (sent) {
+      const iso = new Date().toISOString();
+      alerts.forEach(a => { state[`${a.uSym}_${a.side}`] = iso; });
+      Object.keys(state).forEach(k => {
+        if (now - Date.parse(state[k]) > 30 * 86400e3) delete state[k];
+      });
+      data._srAlerts = state;
     }
-    if (typeof s.atrTP === 'number' && price >= s.atrTP) {
-      const key = `atr:${s.ticker}:tp`;
-      if (tpShouldAlert(key, price)) alerts.push({ kind: 'tp', ticker: s.ticker, price, level: s.atrTP, pnlPct, currency: isUS ? 'USD' : 'THB', key, stateVal: `${nowIso}|${price}` });
-    }
-  }));
-
-  if (!alerts.length) return { checked: stocksToCheck.length, alerts: [] };
-
-  const altText = `🕯️ ATR Alert: ${alerts.map(a => `${a.kind === 'stop' ? '🔻' : '🎯'}${a.ticker}`).join(' ')}`;
-  const sent = await pushFlex(env, altText, buildATRFlex(env, alerts));
-
-  let saved = false;
-  if (sent) {
-    alerts.forEach(a => { state[a.key] = a.stateVal; });
-    // cleanup: ลบ key เก่ากว่า 90 วัน (รองรับทั้ง format "iso" และ "iso|price")
-    Object.keys(state).forEach(k => {
-      const t = Date.parse(String(state[k]).split('|')[0]);
-      if (t && (now - t) > 90 * 86400e3) delete state[k];
-    });
-    data._srAlerts = state;
-    saved = await savePortfolioData(env, data, sha, 'chore: ATR trailing-stop alert dedupe state');
+    saved = await savePortfolioData(env, data, sha, srUpdated ? `chore: sync S/R levels (${srUpdated} รายการ) + alert dedupe state` : 'chore: S/R alert dedupe state');
   }
 
-  return { checked: stocksToCheck.length, alerts: alerts.map(a => `${a.ticker}:${a.kind}`), lineSent: sent, stateSaved: saved };
+  return { checked: holdings.length, alerts: alerts.map(a => `${a.uSym}:${a.side}`), srUpdated, lineSent: sent, stateSaved: saved };
 }
 
 // ── Core: OIL03 Signal (สัญญาณแยกอิสระ) ───────────────────────────────────────

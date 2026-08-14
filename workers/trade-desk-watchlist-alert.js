@@ -12,7 +12,7 @@
  *     dedup ต่อสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "oil03:") ซึ่ง frontend preserve อยู่แล้ว
  *   - [ใหม่] 🕯️ ATR Trailing Stop / Take Profit (Chandelier Exit) — เฉพาะ dr1 (SET DR) + DIME-USA:
  *       Stop = Highest High(22 วัน) − 3×ATR(14) [ratchet ขึ้นอย่างเดียว เก็บใน stock.atrStop]
- *       Take Profit = ต้นทุนเฉลี่ย + 3×ATR(14) [stock.atrTP]
+ *       Take Profit = จุดสูงสุด 22 วัน + 3×ATR(14) [stock.atrTP] — อยู่เหนือราคาปัจจุบันเสมอ
  *       recalc รายวัน 10:10-10:14 ICT · เช็คราคาแตะระดับทุก tick (5 นาที)
  *       dedup: Stop เตือนซ้ำได้ทุก 3 วันถ้ายังหลุดค้าง · TP เตือนครั้งเดียวต่อจุดสูงสุดใหม่ (ไม่เตือนซ้ำจนราคาทำ high ใหม่เกินจุดที่เตือนไปแล้ว)
  *   - GET /trigger /sr-trigger /oil-trigger /atr-trigger /watchlist
@@ -523,7 +523,7 @@ async function checkSupportResistance(env) {
 
 // ── Core: ATR Trailing Stop / Take Profit (Chandelier Exit) ─────────────────
 // Stop = Highest High(22 วัน) − 3×ATR(14)  → ratchet ขึ้นอย่างเดียว ไม่มีวันลด
-// Take Profit = ต้นทุนเฉลี่ย + 3×ATR(14)
+// Take Profit = จุดสูงสุด 22 วัน + 3×ATR(14)  → เป้าหมายเหนือราคาปัจจุบัน (breakout target) ไม่ใช่อิงต้นทุน
 // ใช้เฉพาะพอร์ต dr1 (SET DR) และ DIME-USA (p_1778723407199)
 const ATR_PORTFOLIO_IDS    = ['dr1', 'p_1778723407199'];
 const ATR_PERIOD           = 14;
@@ -600,11 +600,11 @@ async function recalcTrailingStops(env) {
       if (!bars || bars.length < ATR_PERIOD + ATR_LOOKBACK) continue; // ข้อมูลไม่พอ → ข้าม ไม่แตะค่าเดิม
       const lv = chandelierLevels(bars);
       if (!lv) continue;
-      const cost = atrCostBasis(s, port.type);
       const prevStop = typeof s.atrStop === 'number' ? s.atrStop : -Infinity;
       const finalStop = Math.max(prevStop, lv.stopCalc);
       s.atrStop = +finalStop.toFixed(4);
-      s.atrTP = cost ? +(cost + ATR_TP_MULT * lv.atr).toFixed(4) : null;
+      // TP = จุดสูงสุด 22 วัน + 3×ATR(14) → เป้าหมายที่อยู่เหนือราคาปัจจุบันเสมอ (ไม่ใช่อิงต้นทุนเดิมที่ราคาแซงไปแล้ว)
+      s.atrTP = +(lv.highestHigh + ATR_TP_MULT * lv.atr).toFixed(4);
       s.atrValue = +lv.atr.toFixed(4);
       s.atrUpdated = today;
       updated++;

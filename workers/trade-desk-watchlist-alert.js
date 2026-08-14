@@ -5,8 +5,9 @@
  * Features:
  *   - ราคาถึงเป้า → LINE Flex Message (ธีมเดียวกับ Daily Summary)
  *   - 🔻🔺 S/R Alert — แนวรับ/แนวต้าน underlying + แผน (วันละครั้ง 10:00-10:04 ICT)
- *       [ใหม่] เก็บค่าแนวรับ/แนวต้านลง stock.srSupport / stock.srResist ของพอร์ต dr1 (SET DR) + DIME-USA
- *       ให้หน้าเว็บโชว์ในตาราง (DR แปลงเป็น THB ผ่าน conversion ratio, US ใช้ USD ตรงๆ)
+ *       [จำกัดขอบเขต] คำนวณเฉพาะหุ้นในพอร์ต dr1 (SET DR) + DIME-USA เท่านั้น (ไม่รวมพอร์ตอื่น)
+ *       เก็บค่าแนวรับ/แนวต้านลง stock.srSupport / stock.srResist ให้หน้าเว็บโชว์ในตาราง
+ *       (DR แปลงเป็น THB ผ่าน conversion ratio, US ใช้ USD ตรงๆ) · alert LINE จำกัด SR_MAX_ALERTS ตัว/รอบ
  *   - [ใหม่] 🛢️ OIL03 Signal — 3 สัญญาณอิสระ (วันละครั้ง 10:05-10:09 ICT):
  *       value buy : WTI < $65  AND  USDTHB < 32.50
  *       rsi_buy   : RSI(WTI,14) < 30
@@ -396,14 +397,15 @@ function isMFTicker(t) {
 
 function collectHoldings(data) {
   const bySym = {};
-  const ports = data.portfolios || {};
-  Object.entries(ports).forEach(([pid, port]) => {
+  const portsArr = Array.isArray(data.portfolios) ? data.portfolios : Object.values(data.portfolios || {});
+  // จำกัดเฉพาะ dr1 (SET DR) + DIME-USA — ไม่คำนวณ S/R ให้พอร์ตอื่นแล้ว (ลด subrequest + ตรงตามที่ต้องการ)
+  portsArr.filter(p => SR_DISPLAY_PORT_IDS.includes(p.id)).forEach(port => {
     (port.stocks || []).forEach(s => {
       if (!s.ticker || isMFTicker(s.ticker)) return;
       const uSym = s.ticker.includes('.') ? s.ticker
                  : (port.type === 'realtime_us' ? s.ticker : s.ticker.replace(/\d+$/, ''));
       if (!uSym || bySym[uSym]) return;
-      bySym[uSym] = { uSym, holdTicker: s.ticker, buyPrice: s.buyPrice, qty: s.qty, portId: pid };
+      bySym[uSym] = { uSym, holdTicker: s.ticker, buyPrice: s.buyPrice, qty: s.qty, portId: port.id };
     });
   });
   return Object.values(bySym).slice(0, SR_MAX_SYMBOLS);

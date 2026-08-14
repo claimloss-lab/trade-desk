@@ -29,6 +29,9 @@ const SR_DEDUP_DAYS = 7;
 const SR_MAX_SYMBOLS = 40;
 // พอร์ตที่จะเขียนค่าแนวรับ/แนวต้าน (srSupport/srResist) ลงในแต่ละหุ้น เพื่อโชว์ในตารางเว็บ
 const SR_DISPLAY_PORT_IDS = ['dr1', 'p_1778723407199']; // SET DR, DIME-USA
+// จำกัดจำนวน alert ที่จะยิง LINE ต่อรอบ (แต่ละ alert ต้อง fetch ราคาเพิ่ม 1 ครั้ง) — กัน "Too many subrequests"
+// บน Cloudflare Free Plan (จำกัด 50 subrequest/การรัน — ใช้ไปแล้ว ~36 ครั้งกับ fetchTechnicals ของทุกพอร์ตรวมกัน)
+const SR_MAX_ALERTS = 8;
 
 // OIL03 config (สัญญาณแยกอิสระ)
 const OIL03_WTI_MAX  = 65.0;    // น้ำมันลงเยอะ (USD/bbl)
@@ -543,22 +546,27 @@ async function checkSupportResistance(env) {
 
   if (!alerts.length && !srUpdated) return { checked: holdings.length, alerts: [] };
 
+  const totalAlertsFound = alerts.length;
+  // เรียงเอาที่ใกล้แนวรับ/แนวต้านที่สุดก่อน แล้วตัดเหลือ SR_MAX_ALERTS ตัว ก่อนไป fetch ราคาเพิ่ม (กัน subrequest เกิน)
+  alerts.sort((x, y) => Math.abs(x.dist) - Math.abs(y.dist));
+  const capped = alerts.slice(0, SR_MAX_ALERTS);
+
   let sent = false;
-  if (alerts.length) {
-    await Promise.all(alerts.map(async a => {
+  if (capped.length) {
+    await Promise.all(capped.map(async a => {
       const p = await fetchPrice(a.holdTicker);
       a.pnlPct = (p && a.buyPrice) ? (p - a.buyPrice) / a.buyPrice * 100 : null;
     }));
-    alerts.sort((x, y) => Math.abs(x.dist) - Math.abs(y.dist));
-    const altText = `📐 แนวรับ-แนวต้าน: ${alerts.map(a => `${a.side === 'support' ? '🔻' : '🔺'}${a.uSym}`).join(' ')}`;
-    sent = await pushFlex(env, altText, buildSRFlex(env, alerts));
+    const altText = `📐 แนวรับ-แนวต้าน: ${capped.map(a => `${a.side === 'support' ? '🔻' : '🔺'}${a.uSym}`).join(' ')}`
+      + (totalAlertsFound > capped.length ? ` (+${totalAlertsFound - capped.length} ตัวอื่น)` : '');
+    sent = await pushFlex(env, altText, buildSRFlex(env, capped));
   }
 
   let saved = false;
   if (sent || srUpdated) {
     if (sent) {
       const iso = new Date().toISOString();
-      alerts.forEach(a => { state[`${a.uSym}_${a.side}`] = iso; });
+      capped.forEach(a => { state[`${a.uSym}_${a.side}`] = iso; });
       Object.keys(state).forEach(k => {
         if (now - Date.parse(state[k]) > 30 * 86400e3) delete state[k];
       });
@@ -567,7 +575,7 @@ async function checkSupportResistance(env) {
     saved = await savePortfolioData(env, data, sha, srUpdated ? `chore: sync S/R levels (${srUpdated} รายการ) + alert dedupe state` : 'chore: S/R alert dedupe state');
   }
 
-  return { checked: holdings.length, alerts: alerts.map(a => `${a.uSym}:${a.side}`), srUpdated, lineSent: sent, stateSaved: saved };
+  return { checked: holdings.length, alertsFound: totalAlertsFound, alertsSent: capped.map(a => `${a.uSym}:${a.side}`), srUpdated, lineSent: sent, stateSaved: saved };
 }
 
 // ── Core: OIL03 Signal (สัญญาณแยกอิสระ) ───────────────────────────────────────

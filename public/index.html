@@ -1249,7 +1249,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="ต้นทุนเฉลี่ย + 3×ATR(14)">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="จุดสูงสุด 22 วัน + 3×ATR(14) · เป้า breakout เหนือราคาปัจจุบัน">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>

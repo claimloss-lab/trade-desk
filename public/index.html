@@ -1249,7 +1249,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${SR_DISPLAY_PORT_IDS.includes(port.id)?'<th title="ราคาต่ำสุดในช่วง ~3 เดือนล่าสุด (excl. 5 วันล่าสุด) ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔻 แนวรับ</th><th title="ราคาสูงสุดในช่วง ~3 เดือนล่าสุด ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔺 แนวต้าน</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${SR_DISPLAY_PORT_IDS.includes(port.id)?'<th title="ราคาต่ำสุดในช่วง ~3 เดือนล่าสุด (excl. 5 วันล่าสุด) ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔻 แนวรับ</th><th title="ราคาสูงสุดในช่วง ~3 เดือนล่าสุด ของหุ้นแม่ · ถ้าราคาทะลุ (all-time high) จะเปลี่ยนเป็นเป้า Fibonacci Extension (127.2/161.8/200/261.8%) แทน">🔺 แนวต้าน</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1410,6 +1410,7 @@ function renderPortfolio(portId) {
       const resCell = typeof s.srResist==='number'
         ? `<td class="mono" style="font-size:12px">
              <div style="font-weight:600;color:${resHit?'var(--green-tx)':'var(--tx1)'}">${symPrefix}${fn(s.srResist,2)}</div>
+             ${s.srResistIsExt?'<div style="font-size:10px;color:var(--tx3)" title="ราคาทะลุแนวต้านเดิม (all-time high) แล้ว — ค่านี้คือเป้าโปรเจกต์จาก Fibonacci Extension ไม่ใช่จุดสูงสุดจริงในอดีต">📐 Fib Ext.</div>':''}
              ${resHit?'<div style="font-size:10px;color:var(--green-tx);font-weight:600">🚀 ทะลุแนวต้าน</div>':''}
            </td>`
         : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:00 ICT)">—</td>`;

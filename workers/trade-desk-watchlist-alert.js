@@ -478,6 +478,24 @@ function uSymFor(s, portType) {
   return portType === 'realtime_us' ? s.ticker : s.ticker.replace(/\d+$/, '');
 }
 
+// Fibonacci Extension — หาแนวต้านถัดไปเมื่อราคาทะลุแนวต้านเดิมไปแล้ว (ทำจุดสูงสุดใหม่ ไม่มีประวัติราคาสูงกว่าให้อ้างอิง)
+// วัด swing move จาก support (จุดต่ำสุดในช่วง) → resist (จุดสูงสุดเดิมที่เพิ่งถูกทะลุ) แล้วโปรเจกต์ต่อ
+// เลือกระดับ extension ที่ต่ำที่สุดซึ่งยังอยู่ "เหนือ" ราคาปัจจุบัน (เผื่อราคาวิ่งทะลุไปหลายระดับแล้ว)
+const FIB_EXTENSIONS = [1.272, 1.618, 2.0, 2.618];
+function nextFibResistance(support, resist, last) {
+  const move = resist - support;
+  if (!(move > 0)) return resist;
+  for (const r of FIB_EXTENSIONS) {
+    const level = support + move * r;
+    if (level > last) return level;
+  }
+  // ราคาวิ่งทะลุทุกระดับมาตรฐานแล้ว (เคสรุนแรงมาก) — ขยับ ratio ต่อไปเรื่อยๆ ทีละ 0.618 จนกว่าจะเหนือราคาปัจจุบัน
+  let r = FIB_EXTENSIONS[FIB_EXTENSIONS.length - 1];
+  let level = support + move * r;
+  while (level <= last) { r += 0.618; level = support + move * r; }
+  return level;
+}
+
 async function fetchUSDTHB() {
   try {
     const r = await yfChart('USDTHB=X', '1d');
@@ -532,14 +550,18 @@ async function checkSupportResistance(env) {
         const uSym = uSymFor(s, port.type);
         const t = techMap[uSym];
         if (!t) return;
+        // ถ้าราคาทะลุแนวต้านเดิมไปแล้ว (ทำจุดสูงสุดใหม่เหนือช่วง 3 เดือนที่ใช้คำนวณ) ใช้ Fibonacci Extension แทน
+        const isBreakout = t.last > t.resist;
+        const resistUnderlying = isBreakout ? nextFibResistance(t.support, t.resist, t.last) : t.resist;
         if (port.type === 'realtime_dr') {
           if (!s.conversion || !fx) return;
           s.srSupport = +(t.support * fx / s.conversion).toFixed(4);
-          s.srResist  = +(t.resist * fx / s.conversion).toFixed(4);
+          s.srResist  = +(resistUnderlying * fx / s.conversion).toFixed(4);
         } else {
           s.srSupport = +t.support.toFixed(4);
-          s.srResist  = +t.resist.toFixed(4);
+          s.srResist  = +resistUnderlying.toFixed(4);
         }
+        s.srResistIsExt = isBreakout; // true = แนวต้านนี้เป็น Fib extension (โปรเจกต์) ไม่ใช่จุดสูงสุดจริงในอดีต
         s.srUpdated = today;
         srUpdated++;
       });

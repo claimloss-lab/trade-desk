@@ -58,18 +58,30 @@ export default {
     }
 
     if (url.pathname === '/trigger') {
-      const result = await checkWatchlist(env);
-      return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      try {
+        const result = await checkWatchlist(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
     }
 
     if (url.pathname === '/sr-trigger') {
-      const result = await checkSupportResistance(env);
-      return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      try {
+        const result = await checkSupportResistance(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
     }
 
     if (url.pathname === '/oil-trigger') {
-      const result = await checkOil03(env);
-      return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      try {
+        const result = await checkOil03(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
     }
 
     if (url.pathname === '/oil-status') {

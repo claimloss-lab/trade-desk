@@ -13,7 +13,8 @@
  *   - [ใหม่] 🕯️ ATR Trailing Stop / Take Profit (Chandelier Exit) — เฉพาะ dr1 (SET DR) + DIME-USA:
  *       Stop = Highest High(22 วัน) − 3×ATR(14) [ratchet ขึ้นอย่างเดียว เก็บใน stock.atrStop]
  *       Take Profit = ต้นทุนเฉลี่ย + 3×ATR(14) [stock.atrTP]
- *       recalc รายวัน 10:10-10:14 ICT · เช็คราคาแตะระดับทุก tick (5 นาที) · dedup ใน _srAlerts (key "atr:")
+ *       recalc รายวัน 10:10-10:14 ICT · เช็คราคาแตะระดับทุก tick (5 นาที)
+ *       dedup: Stop เตือนซ้ำได้ทุก 3 วันถ้ายังหลุดค้าง · TP เตือนครั้งเดียวต่อจุดสูงสุดใหม่ (ไม่เตือนซ้ำจนราคาทำ high ใหม่เกินจุดที่เตือนไปแล้ว)
  *   - GET /trigger /sr-trigger /oil-trigger /atr-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
@@ -655,9 +656,18 @@ async function checkTrailingStopBreach(env) {
 
   const state = data._srAlerts || {};
   const now = Date.now();
-  const fresh = key => {
-    const t = state[key] ? Date.parse(state[key]) : 0;
+  // STOP: dedup ตามเวลา — เตือนซ้ำได้ทุก ATR_ALERT_DEDUP_DAYS วัน ถ้ายังหลุด stop ค้างอยู่ (เร่งด่วน ต้องเตือนซ้ำ)
+  const stopFresh = key => {
+    const raw = state[key];
+    const t = raw ? Date.parse(String(raw).split('|')[0]) : 0;
     return t && (now - t) < ATR_ALERT_DEDUP_DAYS * 86400e3;
+  };
+  // TP: เตือน "ครั้งเดียวต่อจุดสูงสุดใหม่" — เก็บราคาที่เตือนไปล่าสุด เตือนซ้ำเฉพาะราคาทำ high ใหม่เกินจุดนั้น
+  const tpShouldAlert = (key, price) => {
+    const raw = state[key];
+    if (!raw) return true;
+    const lastPrice = parseFloat(String(raw).split('|')[1]);
+    return !isFinite(lastPrice) || price > lastPrice;
   };
 
   const stocksToCheck = [];
@@ -667,6 +677,7 @@ async function checkTrailingStopBreach(env) {
   if (!stocksToCheck.length) return { checked: 0, alerts: [] };
 
   const alerts = [];
+  const nowIso = new Date().toISOString();
   await Promise.all(stocksToCheck.map(async ({ s, portType }) => {
     const price = await fetchPrice(s.ticker);
     if (!price) return;
@@ -675,11 +686,11 @@ async function checkTrailingStopBreach(env) {
     const isUS = portType === 'realtime_us';
     if (typeof s.atrStop === 'number' && price <= s.atrStop) {
       const key = `atr:${s.ticker}:stop`;
-      if (!fresh(key)) alerts.push({ kind: 'stop', ticker: s.ticker, price, level: s.atrStop, pnlPct, currency: isUS ? 'USD' : 'THB', key });
+      if (!stopFresh(key)) alerts.push({ kind: 'stop', ticker: s.ticker, price, level: s.atrStop, pnlPct, currency: isUS ? 'USD' : 'THB', key, stateVal: nowIso });
     }
     if (typeof s.atrTP === 'number' && price >= s.atrTP) {
       const key = `atr:${s.ticker}:tp`;
-      if (!fresh(key)) alerts.push({ kind: 'tp', ticker: s.ticker, price, level: s.atrTP, pnlPct, currency: isUS ? 'USD' : 'THB', key });
+      if (tpShouldAlert(key, price)) alerts.push({ kind: 'tp', ticker: s.ticker, price, level: s.atrTP, pnlPct, currency: isUS ? 'USD' : 'THB', key, stateVal: `${nowIso}|${price}` });
     }
   }));
 
@@ -690,9 +701,12 @@ async function checkTrailingStopBreach(env) {
 
   let saved = false;
   if (sent) {
-    const iso = new Date().toISOString();
-    alerts.forEach(a => { state[a.key] = iso; });
-    Object.keys(state).forEach(k => { if (now - Date.parse(state[k]) > 30 * 86400e3) delete state[k]; });
+    alerts.forEach(a => { state[a.key] = a.stateVal; });
+    // cleanup: ลบ key เก่ากว่า 90 วัน (รองรับทั้ง format "iso" และ "iso|price")
+    Object.keys(state).forEach(k => {
+      const t = Date.parse(String(state[k]).split('|')[0]);
+      if (t && (now - t) > 90 * 86400e3) delete state[k];
+    });
     data._srAlerts = state;
     saved = await savePortfolioData(env, data, sha, 'chore: ATR trailing-stop alert dedupe state');
   }

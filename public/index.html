@@ -390,6 +390,8 @@ const SECTOR_COLORS = {
 };
 
 const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
+// พอร์ตที่โชว์คอลัมน์ Trailing Stop / Take Profit (คำนวณโดย Worker trade-desk-watchlist-alert แบบ Chandelier Exit ATR(14))
+const ATR_PORT_IDS = ['dr1','p_1778723407199']; // SET DR, DIME-USA
 
 // ══════════════════════════════════════════════════
 // VERSION & BOOT
@@ -1249,7 +1251,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${port.type==='realtime_dr'?'<th title="ราคาหุ้นแม่×USD/THB÷Conversion">Fair Value</th><th>ส่วนต่าง%</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${port.type==='realtime_dr'?'<th title="ราคาหุ้นแม่×USD/THB÷Conversion">Fair Value</th><th>ส่วนต่าง%</th>':''}${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="ต้นทุนเฉลี่ย + 3×ATR(14)">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1354,7 +1356,8 @@ function renderPortfolio(portId) {
   setEl('cnt',port.stocks.length+' รายการ');
   const tbody=el('body');
   if(!tbody) return;
-  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="12" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
+  const showATR = ATR_PORT_IDS.includes(portId);
+  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="${showATR?14:12}" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
   const isUS = port.type==='realtime_us';
   tbody.innerHTML=port.stocks.map(s=>{
     const p=prices[s.ticker+'_'+portId];
@@ -1382,7 +1385,7 @@ function renderPortfolio(portId) {
       <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
       <td>${costCell}</td>
       <td class="muted" style="font-size:11px">โหลด...</td>
-      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td>—</td><td></td></tr>`;
+      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td>—</td>${showATR?'<td>—</td><td>—</td>':''}<td></td></tr>`;
     const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
     const pnl2=valTHB-cost2;
     const pct2=cost2>0?pnl2/cost2*100:0;
@@ -1426,6 +1429,27 @@ function renderPortfolio(portId) {
         fairDiffCell  = `<td class="muted">—</td>`;
       }
     }
+    // ── ATR Trailing Stop / Take Profit (คำนวณโดย Worker trade-desk-watchlist-alert, Chandelier Exit) ──
+    let atrCells = '';
+    if(showATR){
+      const cur = p.price; // ราคาสกุลเดียวกับที่เก็บ atrStop/atrTP (USD สำหรับ realtime_us, THB สำหรับ realtime_dr)
+      const symPrefix = isUS ? '$' : '฿';
+      const stopHit = typeof s.atrStop==='number' && cur<=s.atrStop;
+      const tpHit = typeof s.atrTP==='number' && cur>=s.atrTP;
+      const stopCell = typeof s.atrStop==='number'
+        ? `<td class="mono" style="font-size:12px">
+             <div style="font-weight:600;color:${stopHit?'var(--red-tx)':'var(--tx1)'}">${symPrefix}${fn(s.atrStop,2)}</div>
+             ${stopHit?'<div style="font-size:10px;color:var(--red-tx);font-weight:600">⚠️ หลุด Stop</div>':''}
+           </td>`
+        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:10 ICT)">—</td>`;
+      const tpCell = typeof s.atrTP==='number'
+        ? `<td class="mono" style="font-size:12px">
+             <div style="font-weight:600;color:${tpHit?'var(--green-tx)':'var(--tx1)'}">${symPrefix}${fn(s.atrTP,2)}</div>
+             ${tpHit?'<div style="font-size:10px;color:var(--green-tx);font-weight:600">🎯 ถึงเป้า</div>':''}
+           </td>`
+        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:10 ICT)">—</td>`;
+      atrCells = stopCell + tpCell;
+    }
     return `<tr>
       <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="${port.type}">${s.ticker}</span></td>
       <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
@@ -1442,7 +1466,7 @@ function renderPortfolio(portId) {
       <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}${fm(pnl2)}</td>
       <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
       <td class="mono" style="font-size:12px;font-weight:600">${weight.toFixed(1)}%</td>
-      ${fairValueCell}${fairDiffCell}
+      ${fairValueCell}${fairDiffCell}${atrCells}
       <td><canvas id="${spId}" width="56" height="24"></canvas></td></tr>`;
   }).join('');
 

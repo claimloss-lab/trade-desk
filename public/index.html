@@ -640,8 +640,6 @@ async function refreshAll(silent=false) {
     })
   ));
   renderAll();
-  // ดึงราคาหุ้นแม่สำหรับ DR fair value
-  portfolios.filter(p=>p.type==='realtime_dr').forEach(p=>fetchDRParentPrices(p.id));
   const now=new Date();
   const t=now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
   const d=now.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
@@ -1251,7 +1249,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${port.type==='realtime_dr'?'<th title="ราคาหุ้นแม่×USD/THB÷Conversion">Fair Value</th><th>ส่วนต่าง%</th>':''}${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="ต้นทุนเฉลี่ย + 3×ATR(14)">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="ต้นทุนเฉลี่ย + 3×ATR(14)">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1396,39 +1394,6 @@ function renderPortfolio(portId) {
     const dayPnlTHB=isUS&&p.prevClose?(p.price-p.prevClose)*s.qty*usdThbRate:
                     p.prevClose?(p.price-p.prevClose)*s.qty:null;
 
-    // ── DR Fair Value ──
-    let fairValueCell = port.type==='realtime_dr' ? `<td class="muted" style="font-size:11px">—</td>` : '';
-    let fairDiffCell  = port.type==='realtime_dr' ? `<td class="muted">—</td>` : '';
-    if(port.type==='realtime_dr' && s.parentTicker && s.conversion){
-      const parentKey = s.parentTicker+'_'+portId+'_parent';
-      let parentUSD = prices[parentKey]?.price || null;
-      // fallback: หาจาก portfolio อื่นที่มีหุ้นแม่
-      if(!parentUSD){
-        portfolios.forEach(p2=>{
-          if(parentUSD) return;
-          const s2 = p2.stocks?.find(x=>x.ticker===s.parentTicker);
-          if(s2 && prices[s2.ticker+'_'+p2.id]?.price)
-            parentUSD = prices[s2.ticker+'_'+p2.id].price;
-        });
-      }
-      if(parentUSD){
-        const fv = parentUSD * usdThbRate / s.conversion;
-        const diff = p.price > 0 ? (p.price - fv) / fv * 100 : null;
-        const diffColor = diff===null?'var(--tx3)':Math.abs(diff)<=2?'var(--green-tx)':diff>2?'var(--red-tx)':'var(--amber-tx)';
-        const diffLabel = diff===null?'':Math.abs(diff)<=2?'ใกล้เคียง':diff>2?'แพงกว่า':'ถูกกว่า';
-        fairValueCell = `<td class="mono" style="font-size:12px">
-          <div style="font-weight:600">฿${fn(fv,4)}</div>
-          <div style="font-size:10px;color:var(--tx3)">$${fn(parentUSD,2)}÷${s.conversion}</div>
-        </td>`;
-        fairDiffCell = diff!==null
-          ? `<td><span style="font-size:12px;font-weight:600;color:${diffColor}">${diff>=0?'+':''}${diff.toFixed(2)}%</span>
-             <div style="font-size:10px;color:${diffColor}">${diffLabel}</div></td>`
-          : `<td class="muted">—</td>`;
-      } else {
-        fairValueCell = `<td class="muted" style="font-size:11px" title="คลิก Refresh เพื่อดึงราคาหุ้นแม่">—</td>`;
-        fairDiffCell  = `<td class="muted">—</td>`;
-      }
-    }
     // ── ATR Trailing Stop / Take Profit (คำนวณโดย Worker trade-desk-watchlist-alert, Chandelier Exit) ──
     let atrCells = '';
     if(showATR){
@@ -1466,7 +1431,7 @@ function renderPortfolio(portId) {
       <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}${fm(pnl2)}</td>
       <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
       <td class="mono" style="font-size:12px;font-weight:600">${weight.toFixed(1)}%</td>
-      ${fairValueCell}${fairDiffCell}${atrCells}
+      ${atrCells}
       <td><canvas id="${spId}" width="56" height="24"></canvas></td></tr>`;
   }).join('');
 
@@ -1979,7 +1944,6 @@ async function boot(){
   setTimeout(()=>{
     portfolios.forEach(p=>{
       if(p.type!=='snapshot') fetchSparklines(p.id);
-      if(p.type==='realtime_dr') fetchDRParentPrices(p.id);
     });
   }, 3000);
   setInterval(()=>{ if(portfolios.some(p=>p.type!=='snapshot')) refreshAll(true); }, 300000);

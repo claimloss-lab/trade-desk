@@ -390,8 +390,8 @@ const SECTOR_COLORS = {
 };
 
 const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
-// พอร์ตที่โชว์คอลัมน์ Trailing Stop / Take Profit (คำนวณโดย Worker trade-desk-watchlist-alert แบบ Chandelier Exit ATR(14))
-const ATR_PORT_IDS = ['dr1','p_1778723407199']; // SET DR, DIME-USA
+// พอร์ตที่โชว์คอลัมน์แนวรับ/แนวต้าน (คำนวณโดย Worker trade-desk-watchlist-alert ระบบ Smart S/R Alert)
+const SR_DISPLAY_PORT_IDS = ['dr1','p_1778723407199']; // SET DR, DIME-USA
 
 // ══════════════════════════════════════════════════
 // VERSION & BOOT
@@ -1249,7 +1249,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${ATR_PORT_IDS.includes(port.id)?'<th title="Chandelier Exit: จุดสูงสุด 22 วัน − 3×ATR(14) · ปรับขึ้นอย่างเดียว">🔻 Trailing Stop</th><th title="จุดสูงสุด 22 วัน + 3×ATR(14) · เป้า breakout เหนือราคาปัจจุบัน">🎯 Take Profit</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${SR_DISPLAY_PORT_IDS.includes(port.id)?'<th title="ราคาต่ำสุดในช่วง ~3 เดือนล่าสุด (excl. 5 วันล่าสุด) ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔻 แนวรับ</th><th title="ราคาสูงสุดในช่วง ~3 เดือนล่าสุด ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔺 แนวต้าน</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1354,8 +1354,8 @@ function renderPortfolio(portId) {
   setEl('cnt',port.stocks.length+' รายการ');
   const tbody=el('body');
   if(!tbody) return;
-  const showATR = ATR_PORT_IDS.includes(portId);
-  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="${showATR?14:12}" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
+  const showSR = SR_DISPLAY_PORT_IDS.includes(portId);
+  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="${showSR?14:12}" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
   const isUS = port.type==='realtime_us';
   tbody.innerHTML=port.stocks.map(s=>{
     const p=prices[s.ticker+'_'+portId];
@@ -1383,7 +1383,7 @@ function renderPortfolio(portId) {
       <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
       <td>${costCell}</td>
       <td class="muted" style="font-size:11px">โหลด...</td>
-      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td>—</td>${showATR?'<td>—</td><td>—</td>':''}<td></td></tr>`;
+      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td>—</td>${showSR?'<td>—</td><td>—</td>':''}<td></td></tr>`;
     const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
     const pnl2=valTHB-cost2;
     const pct2=cost2>0?pnl2/cost2*100:0;
@@ -1394,26 +1394,26 @@ function renderPortfolio(portId) {
     const dayPnlTHB=isUS&&p.prevClose?(p.price-p.prevClose)*s.qty*usdThbRate:
                     p.prevClose?(p.price-p.prevClose)*s.qty:null;
 
-    // ── ATR Trailing Stop / Take Profit (คำนวณโดย Worker trade-desk-watchlist-alert, Chandelier Exit) ──
-    let atrCells = '';
-    if(showATR){
-      const cur = p.price; // ราคาสกุลเดียวกับที่เก็บ atrStop/atrTP (USD สำหรับ realtime_us, THB สำหรับ realtime_dr)
+    // ── แนวรับ/แนวต้าน (คำนวณโดย Worker trade-desk-watchlist-alert, Smart S/R Alert) ──
+    let srCells = '';
+    if(showSR){
+      const cur = p.price; // ราคาสกุลเดียวกับที่เก็บ srSupport/srResist (USD สำหรับ realtime_us, THB สำหรับ realtime_dr)
       const symPrefix = isUS ? '$' : '฿';
-      const stopHit = typeof s.atrStop==='number' && cur<=s.atrStop;
-      const tpHit = typeof s.atrTP==='number' && cur>=s.atrTP;
-      const stopCell = typeof s.atrStop==='number'
+      const supHit = typeof s.srSupport==='number' && cur<=s.srSupport;
+      const resHit = typeof s.srResist==='number' && cur>=s.srResist;
+      const supCell = typeof s.srSupport==='number'
         ? `<td class="mono" style="font-size:12px">
-             <div style="font-weight:600;color:${stopHit?'var(--red-tx)':'var(--tx1)'}">${symPrefix}${fn(s.atrStop,2)}</div>
-             ${stopHit?'<div style="font-size:10px;color:var(--red-tx);font-weight:600">⚠️ หลุด Stop</div>':''}
+             <div style="font-weight:600;color:${supHit?'var(--red-tx)':'var(--tx1)'}">${symPrefix}${fn(s.srSupport,2)}</div>
+             ${supHit?'<div style="font-size:10px;color:var(--red-tx);font-weight:600">⚠️ หลุดแนวรับ</div>':''}
            </td>`
-        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:10 ICT)">—</td>`;
-      const tpCell = typeof s.atrTP==='number'
+        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:00 ICT)">—</td>`;
+      const resCell = typeof s.srResist==='number'
         ? `<td class="mono" style="font-size:12px">
-             <div style="font-weight:600;color:${tpHit?'var(--green-tx)':'var(--tx1)'}">${symPrefix}${fn(s.atrTP,2)}</div>
-             ${tpHit?'<div style="font-size:10px;color:var(--green-tx);font-weight:600">🎯 ถึงเป้า</div>':''}
+             <div style="font-weight:600;color:${resHit?'var(--green-tx)':'var(--tx1)'}">${symPrefix}${fn(s.srResist,2)}</div>
+             ${resHit?'<div style="font-size:10px;color:var(--green-tx);font-weight:600">🚀 ทะลุแนวต้าน</div>':''}
            </td>`
-        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:10 ICT)">—</td>`;
-      atrCells = stopCell + tpCell;
+        : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:00 ICT)">—</td>`;
+      srCells = supCell + resCell;
     }
     return `<tr>
       <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="${port.type}">${s.ticker}</span></td>
@@ -1431,7 +1431,7 @@ function renderPortfolio(portId) {
       <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}${fm(pnl2)}</td>
       <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
       <td class="mono" style="font-size:12px;font-weight:600">${weight.toFixed(1)}%</td>
-      ${atrCells}
+      ${srCells}
       <td><canvas id="${spId}" width="56" height="24"></canvas></td></tr>`;
   }).join('');
 

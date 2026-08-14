@@ -20,7 +20,7 @@
           "conversion": 4000,
           "drCurrency": "USD",
           "atrStop": 2.2191,
-          "atrTP": 1.8909,
+          "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14"
         },
@@ -35,7 +35,7 @@
           "conversion": 1200,
           "drCurrency": "USD",
           "atrStop": 46.702,
-          "atrTP": 32.878,
+          "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14"
         },
@@ -50,7 +50,7 @@
           "conversion": 5000,
           "drCurrency": "USD",
           "atrStop": 2.5382,
-          "atrTP": 2.6018,
+          "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14"
         },
@@ -76,7 +76,7 @@
           "conversion": 2000,
           "drCurrency": "USD",
           "atrStop": 5.922,
-          "atrTP": 5.438,
+          "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14"
         },
@@ -91,7 +91,7 @@
           "conversion": 20000,
           "drCurrency": "USD",
           "atrStop": 1.8558,
-          "atrTP": 1.5542,
+          "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14"
         },
@@ -106,7 +106,7 @@
           "conversion": 2000,
           "drCurrency": "USD",
           "atrStop": 7.8467,
-          "atrTP": 7.7633,
+          "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14"
         },
@@ -121,7 +121,7 @@
           "conversion": 200,
           "drCurrency": "USD",
           "atrStop": 34.6708,
-          "atrTP": 31.4992,
+          "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14"
         },
@@ -136,7 +136,7 @@
           "conversion": 1000,
           "drCurrency": "USD",
           "atrStop": 11.3804,
-          "atrTP": 7.1896,
+          "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14"
         },
@@ -151,7 +151,7 @@
           "conversion": 1500,
           "drCurrency": "USD",
           "atrStop": 3.362,
-          "atrTP": 3.628,
+          "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14"
         },
@@ -166,7 +166,7 @@
           "conversion": 500,
           "drCurrency": "USD",
           "atrStop": 18.9568,
-          "atrTP": 17.0932,
+          "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14"
         },
@@ -181,7 +181,7 @@
           "conversion": 2000,
           "drCurrency": "USD",
           "atrStop": 4.9481,
-          "atrTP": 3.6419,
+          "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14"
         }
@@ -548,7 +548,7 @@
           "id": 1778723451171,
           "buyPriceUSD": 189.1995,
           "atrStop": 136.5265,
-          "atrTP": 211.933,
+          "atrTP": 181.9935,
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14"
         }

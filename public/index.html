@@ -979,7 +979,7 @@ function buildDimeHTML(port){
         </div>
       </div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>NAV ต้นทุน (฿)</th><th>NAV ปัจจุบัน (฿)</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th></tr></thead>
+        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>NAV ต้นทุน (฿)</th><th>NAV ปัจจุบัน (฿)</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th><th title="สัดส่วนเทียบกับมูลค่ารวมของพอร์ตนี้ (กองทุน+หุ้น US)">สัดส่วน</th></tr></thead>
         <tbody id="${port.id}-fund-body"></tbody>
       </table></div>
       <div style="padding:10px 14px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--bd2)">
@@ -1002,6 +1002,7 @@ function buildDimeHTML(port){
           <th>Ticker</th><th>ชื่อ</th><th>Sector</th><th>จำนวน</th>
           <th>ต้นทุน (USD/THB)</th><th>ราคาปัจจุบัน (USD/THB)</th><th>เปลี่ยน%</th>
           <th>มูลค่า (USD)</th><th>มูลค่า (THB)</th><th>P&L (THB)</th><th>%</th>
+          <th title="สัดส่วนเทียบกับมูลค่ารวมของพอร์ตนี้ (กองทุน+หุ้น US)">สัดส่วน</th>
         </tr></thead>
         <tbody id="${port.id}-us-body"></tbody>
       </table></div>
@@ -1077,6 +1078,7 @@ function renderDime(portId){
       const fundVal = curNav * s.qty;
       const fundPnl = (curNav - s.buyPrice) * s.qty;
       const fundPct = (curNav - s.buyPrice) / s.buyPrice * 100;
+      const rowWeight = totalVal>0 ? fundVal/totalVal*100 : 0;
       return `<tr>
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
@@ -1100,8 +1102,9 @@ function renderDime(portId){
         <td class="mono">฿${fn(fundVal)}</td>
         <td class="${fundPnl>=0?'pos':'neg'}">${fundPnl>=0?'+':''}฿${fn(fundPnl)}</td>
         <td><span class="pct-pill ${fundPnl>=0?'pos':'neg'}">${fundPct>=0?'+':''}${fundPct.toFixed(2)}%</span></td>
+        <td class="mono" style="font-size:12px;font-weight:600">${rowWeight.toFixed(1)}%</td>
       </tr>`;
-    }).join('') : '<tr><td colspan="8" class="empty">ยังไม่มีกองทุน</td></tr>';
+    }).join('') : '<tr><td colspan="9" class="empty">ยังไม่มีกองทุน</td></tr>';
   }
 
   // Show/hide US section based on whether there are USD stocks
@@ -1123,6 +1126,7 @@ function renderDime(portId){
       const pct=(curPriceUsd-s.buyPrice)/s.buyPrice*100;
       const day=p?.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
       const color=sc(s.sector);
+      const rowWeight=totalVal>0?valThb/totalVal*100:0;
       return `<tr>
         <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="realtime_us">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
@@ -1142,8 +1146,9 @@ function renderDime(portId){
         <td class="mono" style="font-weight:600">฿${fn(valThb)}</td>
         <td class="${pnl>=0?'pos':'neg'}">${pnl>=0?'+':''}฿${fn(pnl)}</td>
         <td><span class="pct-pill ${pnl>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(2)}%</span></td>
+        <td class="mono" style="font-size:12px;font-weight:600">${rowWeight.toFixed(1)}%</td>
       </tr>`;
-    }).join('') : '<tr><td colspan="11" class="empty">ยังไม่มีหุ้น US</td></tr>';
+    }).join('') : '<tr><td colspan="12" class="empty">ยังไม่มีหุ้น US</td></tr>';
   }
 }
 
@@ -1244,7 +1249,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th>${port.type==='realtime_dr'?'<th title="ราคาหุ้นแม่×USD/THB÷Conversion">Fair Value</th><th>ส่วนต่าง%</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${port.type==='realtime_dr'?'<th title="ราคาหุ้นแม่×USD/THB÷Conversion">Fair Value</th><th>ส่วนต่าง%</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1273,7 +1278,7 @@ function buildSnapshotHTML(port) {
         <div style="font-size:11px;color:var(--tx3)">NAV ประกาศวันละครั้งหลังตลาดปิด</div>
       </div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>ต้นทุน/หน่วย</th><th>NAV ปัจจุบัน</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th></tr></thead>
+        <thead><tr><th>กองทุน</th><th>ชื่อ</th><th>จำนวนหน่วย</th><th>ต้นทุน/หน่วย</th><th>NAV ปัจจุบัน</th><th>มูลค่า (฿)</th><th>P&L (฿)</th><th>%</th><th title="สัดส่วนเทียบกับมูลค่ารวมของพอร์ตนี้">สัดส่วน</th></tr></thead>
         <tbody id="${port.id}-stock-nav-body"></tbody>
       </table></div>
       <div style="padding:10px 14px;border-top:1px solid var(--bd2);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -1349,7 +1354,7 @@ function renderPortfolio(portId) {
   setEl('cnt',port.stocks.length+' รายการ');
   const tbody=el('body');
   if(!tbody) return;
-  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="11" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
+  if(!port.stocks.length){tbody.innerHTML=`<tr><td colspan="12" class="empty"><div class="empty-ico">📈</div>เพิ่มหลักทรัพย์ด้านบน</td></tr>`;return;}
   const isUS = port.type==='realtime_us';
   tbody.innerHTML=port.stocks.map(s=>{
     const p=prices[s.ticker+'_'+portId];
@@ -1377,10 +1382,11 @@ function renderPortfolio(portId) {
       <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
       <td>${costCell}</td>
       <td class="muted" style="font-size:11px">โหลด...</td>
-      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td></td></tr>`;
+      <td>—</td><td class="mono">${fm(cost2)}</td><td>—</td><td>—</td><td>—</td><td></td></tr>`;
     const valTHB=isUS?p.price*s.qty*usdThbRate:p.price*s.qty;
     const pnl2=valTHB-cost2;
     const pct2=cost2>0?pnl2/cost2*100:0;
+    const weight=eq>0?valTHB/eq*100:0;
     // day % change in price (USD for US, THB for TH) — % is same either way
     const day2=p.prevClose?(p.price-p.prevClose)/p.prevClose*100:null;
     // day P&L in THB
@@ -1435,6 +1441,7 @@ function renderPortfolio(portId) {
         : fm(valTHB)}</td>
       <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}${fm(pnl2)}</td>
       <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
+      <td class="mono" style="font-size:12px;font-weight:600">${weight.toFixed(1)}%</td>
       ${fairValueCell}${fairDiffCell}
       <td><canvas id="${spId}" width="56" height="24"></canvas></td></tr>`;
   }).join('');
@@ -1532,6 +1539,7 @@ function renderSnapshot(portId) {
         const val = nav*s.qty;
         const pnl2 = (nav-s.buyPrice)*s.qty;
         const pct2 = (nav-s.buyPrice)/s.buyPrice*100;
+        const rowWeight = stockVal>0 ? val/stockVal*100 : 0;
         return `<tr>
           <td><span class="tkr">${s.ticker}</span></td>
           <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
@@ -1550,6 +1558,7 @@ function renderSnapshot(portId) {
           <td class="mono">฿${fn(val)}</td>
           <td class="${pnl2>=0?'pos':'neg'}">${pnl2>=0?'+':''}฿${fn(pnl2)}</td>
           <td><span class="pct-pill ${pnl2>=0?'pos':'neg'}">${pct2>=0?'+':''}${pct2.toFixed(2)}%</span></td>
+          <td class="mono" style="font-size:12px;font-weight:600">${rowWeight.toFixed(1)}%</td>
         </tr>`;
       }).join('');
     }

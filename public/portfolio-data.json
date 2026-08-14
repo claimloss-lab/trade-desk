@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-13T18:30:21.703Z",
-  "exportDateTH": "14 สิงหาคม 2569 เวลา 01:30",
+  "exportDate": "2026-08-14T03:26:33.464Z",
+  "exportDateTH": "14 สิงหาคม 2569 เวลา 10:26",
   "portfolios": [
     {
       "id": "dr1",
@@ -45,7 +45,7 @@
         {
           "ticker": "CRWD80",
           "qty": 2000,
-          "buyPrice": 14.79,
+          "buyPrice": 14.08,
           "id": 4,
           "sector": "Tech",
           "underlying": "CrowdStrike",
@@ -5691,6 +5691,6 @@
     "totalPorts": 10,
     "totalStocks": 42,
     "totalTransactions": 54,
-    "totalNetWorth": "฿1,837,477.08"
+    "totalNetWorth": "฿1,838,087.74"
   }
 }

@@ -18,7 +18,11 @@
           "underlying": "Amazon",
           "parentTicker": "AMZN",
           "conversion": 4000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 2.2191,
+          "atrTP": 1.8909,
+          "atrValue": 0.0536,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "ASML01",
@@ -29,7 +33,11 @@
           "underlying": "ASML",
           "parentTicker": "ASML",
           "conversion": 1200,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 46.702,
+          "atrTP": 32.878,
+          "atrValue": 1.516,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "AVGO80",
@@ -40,7 +48,11 @@
           "underlying": "Broadcom",
           "parentTicker": "AVGO",
           "conversion": 5000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 2.5382,
+          "atrTP": 2.6018,
+          "atrValue": 0.1073,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "CRWD80",
@@ -62,7 +74,11 @@
           "underlying": "Alphabet",
           "parentTicker": "GOOGL",
           "conversion": 2000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 5.922,
+          "atrTP": 5.438,
+          "atrValue": 0.1427,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "LLY80",
@@ -73,7 +89,11 @@
           "underlying": "Eli Lilly",
           "parentTicker": "LLY",
           "conversion": 20000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 1.8558,
+          "atrTP": 1.5542,
+          "atrValue": 0.0681,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "MSFT80",
@@ -84,7 +104,11 @@
           "underlying": "Microsoft",
           "parentTicker": "MSFT",
           "conversion": 2000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 7.8467,
+          "atrTP": 7.7633,
+          "atrValue": 0.1844,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "NVDA80",
@@ -95,7 +119,11 @@
           "underlying": "NVIDIA",
           "parentTicker": "NVDA",
           "conversion": 200,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 34.6708,
+          "atrTP": 31.4992,
+          "atrValue": 0.8597,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "PANW80",
@@ -106,7 +134,11 @@
           "underlying": "Palo Alto",
           "parentTicker": "PANW",
           "conversion": 1000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 11.3804,
+          "atrTP": 7.1896,
+          "atrValue": 0.6065,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "PLTR06",
@@ -117,7 +149,11 @@
           "underlying": "Palantir",
           "parentTicker": "PLTR",
           "conversion": 1500,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 3.362,
+          "atrTP": 3.628,
+          "atrValue": 0.1993,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "QQQM19",
@@ -128,7 +164,11 @@
           "underlying": "Invesco QQQM",
           "parentTicker": "QQQM",
           "conversion": 500,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 18.9568,
+          "atrTP": 17.0932,
+          "atrValue": 0.3811,
+          "atrUpdated": "2026-08-14"
         },
         {
           "ticker": "SNOW06",
@@ -139,7 +179,11 @@
           "underlying": "Snowflake",
           "parentTicker": "SNOW",
           "conversion": 2000,
-          "drCurrency": "USD"
+          "drCurrency": "USD",
+          "atrStop": 4.9481,
+          "atrTP": 3.6419,
+          "atrValue": 0.234,
+          "atrUpdated": "2026-08-14"
         }
       ],
       "cash": 155142.12,
@@ -502,7 +546,11 @@
           "sector": "Tech",
           "underlying": "Oracle",
           "id": 1778723451171,
-          "buyPriceUSD": 189.1995
+          "buyPriceUSD": 189.1995,
+          "atrStop": 136.5265,
+          "atrTP": 211.933,
+          "atrValue": 7.5778,
+          "atrUpdated": "2026-08-14"
         }
       ],
       "cash": 0,

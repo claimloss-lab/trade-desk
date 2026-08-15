@@ -894,6 +894,98 @@ function buildOverviewHTML() {
         <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงราคา WTI / USDTHB / RSI...</div>
       </div>
     </div>
+
+    <!-- Trend Score Scanner — EMA+RSI+Volume+ATR composite score ต่อ holding -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(74,158,255,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">📈</span>
+          <div>
+            <div class="card-ti">Trend Score Scanner</div>
+            <div style="font-size:11px;color:var(--tx3)" id="ov-trend-ts">EMA+RSI+Volume+ATR · สแกนหุ้นทุกพอร์ต + watchlist</div>
+          </div>
+        </div>
+        <button id="ov-trend-btn" onclick="runTrendScanner()"
+          style="background:linear-gradient(135deg,#4A9EFF,#7cb8ff);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">
+          📈 สแกนเลย
+        </button>
+      </div>
+      <div id="ov-trend-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
+          กด "สแกนเลย" เพื่อดู Trend Score ของหุ้นทุกตัวในพอร์ต (ไม่รวมกองทุน NAV) · ใช้เวลา ~10-20 วินาที
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Backtest — Trend Score crossover -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,200,150,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🧪</span>
+          <div>
+            <div class="card-ti">Strategy Backtest</div>
+            <div style="font-size:11px;color:var(--tx3)">ทดสอบย้อนหลัง: เข้าเมื่อ Score>20 ออกเมื่อ Score<-20</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:14px 18px 0 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="bt-ticker" style="flex:1;min-width:140px;padding:8px 10px;border-radius:8px;border:1px solid var(--sep);background:var(--bg2);color:var(--tx);font-size:13px"></select>
+        <select id="bt-range" style="padding:8px 10px;border-radius:8px;border:1px solid var(--sep);background:var(--bg2);color:var(--tx);font-size:13px">
+          <option value="2y">2 ปี</option>
+          <option value="5y" selected>5 ปี</option>
+          <option value="10y">10 ปี</option>
+        </select>
+        <button id="bt-run-btn" onclick="runBacktest()"
+          style="background:linear-gradient(135deg,#00C896,#3ddba8);color:#0b1f19;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap">
+          ▶ รัน Backtest
+        </button>
+      </div>
+      <div id="bt-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">เลือกหุ้นแล้วกด "รัน Backtest"</div>
+      </div>
+    </div>
+
+    <!-- Trading Journal — วิเคราะห์ pattern การเทรดจาก transaction history -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(240,185,11,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">📓</span>
+          <div>
+            <div class="card-ti">Trading Journal</div>
+            <div style="font-size:11px;color:var(--tx3)">วิเคราะห์ win rate / drawdown / pattern จากประวัติเทรดจริง</div>
+          </div>
+        </div>
+        <button id="journal-btn" onclick="runJournalAnalysis()"
+          style="background:linear-gradient(135deg,#F0B90B,#f5cf4d);color:#161625;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">
+          📓 วิเคราะห์
+        </button>
+      </div>
+      <div id="journal-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กด "วิเคราะห์" เพื่อดูสถิติจากรายการปิดสถานะจริง</div>
+      </div>
+    </div>
+
+    <!-- Paper Trading — จำลองเทรดก่อนเงินจริง -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(139,92,246,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🧾</span>
+          <div>
+            <div class="card-ti">Paper Trading</div>
+            <div style="font-size:11px;color:var(--tx3)" id="pt-sub">กำลังโหลด...</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="paperOpenPrompt()"
+            style="background:var(--green-tx);color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600">+ เปิด</button>
+          <button onclick="paperClosePrompt()"
+            style="background:var(--red-tx);color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600">− ปิด</button>
+        </div>
+      </div>
+      <div id="pt-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังโหลดสถานะพอร์ตจำลอง...</div>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -949,6 +1041,8 @@ function renderOverview() {
 
   if (document.getElementById('ov-oil-result')) loadOil03Overview();
   if (document.getElementById('ov-equity')) loadEquityCurve();
+  if (document.getElementById('bt-ticker')) populateBacktestTickers();
+  if (document.getElementById('pt-result')) loadPaperTrade();
 }
 
 
@@ -7310,6 +7404,336 @@ function updateAlertLabel(){
   if(cond === 'change_up' || cond === 'change_down') lbl.textContent = '% change เป้า';
   else lbl.textContent = 'ราคาเป้า (฿)';
 }
+
+// ══════════════════════════════════════════════════
+// SIGNAL LAB — Trend Score Scanner / Backtest / Journal / Paper Trading
+// ══════════════════════════════════════════════════
+
+// รวม ticker จากทุกพอร์ต (DR → parentTicker, ข้ามกองทุน NAV-based) + watchlist
+function collectScanTickers() {
+  const seen = new Map(); // apiTicker -> displayTicker
+  portfolios.forEach(p => {
+    (p.stocks || []).forEach(s => {
+      if (s.currentNav != null) return; // กองทุน NAV-based ไม่มีใน Yahoo
+      const api = s.parentTicker || s.ticker;
+      if (api && !seen.has(api)) seen.set(api, s.ticker);
+    });
+  });
+  (watchlist || []).forEach(w => {
+    if (w.ticker && !seen.has(w.ticker)) seen.set(w.ticker, w.ticker);
+  });
+  return [...seen.entries()].slice(0, 40).map(([api, display]) => ({ api, display }));
+}
+
+function scoreColor(label) {
+  if (label === 'Strong Buy') return '#00C896';
+  if (label === 'Buy') return '#4A9EFF';
+  if (label === 'Strong Sell') return '#FF5C5C';
+  if (label === 'Sell') return '#f59e0b';
+  return 'var(--tx3)';
+}
+
+// ── Trend Score Scanner ──────────────────────────────────────────────
+let _lastTrendScan = null;
+
+async function runTrendScanner() {
+  const btn = document.getElementById('ov-trend-btn');
+  const tsEl = document.getElementById('ov-trend-ts');
+  const resultEl = document.getElementById('ov-trend-result');
+  const list = collectScanTickers();
+  if (!list.length) { resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ไม่มีหุ้นให้สแกน</div>'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ กำลังสแกน...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงข้อมูล ' + list.length + ' ตัว...</div>';
+  try {
+    const res = await fetch('/api/trend-score', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: list.map(t => t.api) }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    _lastTrendScan = { list, results: data.results || {} };
+    tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · สแกน ${list.length} ตัว`;
+    renderTrendScannerResults();
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '📈 สแกนเลย';
+}
+
+function renderTrendScannerResults() {
+  const resultEl = document.getElementById('ov-trend-result');
+  if (!_lastTrendScan) return;
+  const { list, results } = _lastTrendScan;
+  const rows = list
+    .map(t => ({ ...t, r: results[t.api] }))
+    .filter(x => x.r && x.r.score != null)
+    .sort((a, b) => b.r.score - a.r.score);
+  const errored = list.filter(t => !results[t.api] || results[t.api].error);
+
+  if (!rows.length) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ไม่มีข้อมูลพอสำหรับคำนวณ score (หุ้นใหม่/ข้อมูลไม่พอ)</div>';
+    return;
+  }
+
+  resultEl.innerHTML = `
+    <div style="max-height:340px;overflow-y:auto">
+      ${rows.map(x => `
+        <div class="tsrow" style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid var(--sep);cursor:pointer"
+             onclick="toggleExplain('${x.api}','${x.display}')">
+          <div style="display:flex;align-items:center;gap:8px;min-width:0">
+            <span style="font-size:12px;font-weight:600;white-space:nowrap">${x.display}</span>
+            <span class="bdg" style="background:${scoreColor(x.r.label)}22;color:${scoreColor(x.r.label)};border:1px solid ${scoreColor(x.r.label)};margin-top:0">${x.r.label}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+            <span style="font-size:11px;color:var(--tx3)">RSI ${x.r.detail?.rsi?.value ?? '-'}</span>
+            <span style="font-size:14px;font-weight:700;color:${scoreColor(x.r.label)};min-width:44px;text-align:right">${x.r.score>0?'+':''}${x.r.score}</span>
+          </div>
+        </div>
+        <div id="explain-${x.api}" style="display:none;padding:8px 6px;font-size:12px;color:var(--tx2);background:var(--bg2);border-radius:8px;margin:4px 0 8px 0"></div>
+      `).join('')}
+      ${errored.length ? `<div style="font-size:10px;color:var(--tx3);margin-top:8px">ข้ามไป ${errored.length} ตัว (ข้อมูลไม่พอ/หา symbol ไม่เจอ)</div>` : ''}
+    </div>`;
+}
+
+async function toggleExplain(api, display) {
+  const el = document.getElementById('explain-' + api);
+  if (!el) return;
+  if (el.style.display === 'block') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (el.dataset.loaded) return;
+  el.innerHTML = '⏳ กำลังวิเคราะห์...';
+  try {
+    const r = _lastTrendScan.results[api];
+    const res = await fetch('/api/explain-signal', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticker: display, trendScoreResult: r }),
+      signal: safeSignal(20000),
+    });
+    const data = await res.json();
+    el.innerHTML = data.explanation ? data.explanation.replace(/\n/g, '<br>') : ('อธิบายไม่สำเร็จ: ' + (data.error || ''));
+    el.dataset.loaded = '1';
+  } catch (e) {
+    el.innerHTML = 'โหลดไม่สำเร็จ: ' + e.message;
+  }
+}
+
+// ── Backtest ──────────────────────────────────────────────────────────
+function populateBacktestTickers() {
+  const sel = document.getElementById('bt-ticker');
+  if (!sel || sel.dataset.filled) return;
+  const list = collectScanTickers();
+  sel.innerHTML = list.map(t => `<option value="${t.api}">${t.display}</option>`).join('');
+  sel.dataset.filled = '1';
+}
+
+async function runBacktest() {
+  const sel = document.getElementById('bt-ticker');
+  const rangeSel = document.getElementById('bt-range');
+  const btn = document.getElementById('bt-run-btn');
+  const resultEl = document.getElementById('bt-result');
+  const ticker = sel.value;
+  if (!ticker) return;
+
+  btn.disabled = true; btn.textContent = '⏳ กำลังรัน...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังคำนวณ...</div>';
+  try {
+    const res = await fetch('/api/backtest', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticker, range: rangeSel.value }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; }
+    else renderBacktestResult(data);
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '▶ รัน Backtest';
+}
+
+function renderBacktestResult(data) {
+  const s = data.summary;
+  const resultEl = document.getElementById('bt-result');
+  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${label}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${value}</div></div>`;
+  const beatMkt = s.buyHoldReturnPct != null && s.totalReturnPct > s.buyHoldReturnPct;
+
+  resultEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
+      ${stat('Total Return', (s.totalReturnPct>=0?'+':'')+s.totalReturnPct+'%', s.totalReturnPct>=0?'var(--green-tx)':'var(--red-tx)')}
+      ${stat('Buy & Hold', s.buyHoldReturnPct!=null?((s.buyHoldReturnPct>=0?'+':'')+s.buyHoldReturnPct+'%'):'-', 'var(--tx3)')}
+      ${stat('Win Rate', s.winRate!=null?s.winRate+'%':'-')}
+      ${stat('Profit Factor', s.profitFactor ?? '-')}
+      ${stat('Max Drawdown', s.maxDrawdownPct+'%', 'var(--red-tx)')}
+      ${stat('เทรดทั้งหมด', s.totalTrades)}
+    </div>
+    <div style="font-size:11px;color:${beatMkt?'var(--green-tx)':'var(--tx3)'};margin-bottom:10px">
+      ${beatMkt ? '✅ Strategy ชนะ Buy&Hold ในช่วงนี้' : 'ℹ️ ช่วงนี้ Buy&Hold ทำได้ดีกว่า (หรือใกล้เคียง)'}
+      · ${s.periodStart} ถึง ${s.periodEnd}
+    </div>
+    <div style="height:180px"><canvas id="bt-equity-chart"></canvas></div>
+  `;
+  if (charts['bt-equity']) charts['bt-equity'].destroy();
+  const cv = document.getElementById('bt-equity-chart');
+  charts['bt-equity'] = new Chart(cv.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: data.equityCurve.map(p => p.date),
+      datasets: [{ data: data.equityCurve.map(p => p.equity), borderColor: '#00C896', backgroundColor: 'rgba(0,200,150,.12)', fill: true, tension: .25, pointRadius: 0, borderWidth: 2 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fn(ctx.parsed.y, 0) } } },
+      scales: { x: { grid: { display: false }, ticks: { font: { size: 9 }, maxTicksLimit: 6 } }, y: { ticks: { font: { size: 10 }, callback: v => fn(v, 0) } } },
+    },
+  });
+}
+
+// ── Trading Journal ───────────────────────────────────────────────────
+async function runJournalAnalysis() {
+  const btn = document.getElementById('journal-btn');
+  const resultEl = document.getElementById('journal-result');
+  btn.disabled = true; btn.textContent = '⏳ กำลังวิเคราะห์...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังวิเคราะห์...</div>';
+  try {
+    const res = await fetch('/api/journal', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ transactions }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    renderJournalResult(data);
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '📓 วิเคราะห์';
+}
+
+function renderJournalResult(data) {
+  const resultEl = document.getElementById('journal-result');
+  const s = data.stats;
+  if (!s || !s.totalClosedTrades) {
+    resultEl.innerHTML = `<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">${s?.message || 'ยังไม่มีข้อมูลพอ'}</div>`;
+    return;
+  }
+  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${label}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${value}</div></div>`;
+  resultEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
+      ${stat('Win Rate', s.winRate+'%')}
+      ${stat('Profit Factor', s.profitFactor ?? '-')}
+      ${stat('กำไรสุทธิ', fn(s.totalRealizedPnl,0), s.totalRealizedPnl>=0?'var(--green-tx)':'var(--red-tx)')}
+      ${stat('ปิดสถานะแล้ว', s.totalClosedTrades)}
+      ${stat('Streak ปัจจุบัน', (s.currentStreak.type==='win'?'ชนะ ':'แพ้ ')+s.currentStreak.count+' ครั้ง', s.currentStreak.type==='win'?'var(--green-tx)':'var(--red-tx)')}
+      ${stat('เทรดดีที่สุด', s.bestTrade?.ticker+' +'+fn(s.bestTrade?.pnl,0), 'var(--green-tx)')}
+    </div>
+    ${data.narrative ? `<div style="font-size:13px;line-height:1.6;color:var(--tx);background:var(--bg2);padding:12px;border-radius:10px;margin-bottom:10px">${data.narrative}</div>` : ''}
+    ${(data.patterns||[]).map(p => `
+      <div style="font-size:12px;padding:8px 0;border-top:1px solid var(--sep)">
+        <div style="color:var(--tx)">${p.finding}</div>
+        <div style="color:var(--tx3);margin-top:2px">💡 ${p.suggestion}</div>
+      </div>`).join('')}
+  `;
+}
+
+// ── Paper Trading ─────────────────────────────────────────────────────
+let _paperState = null;
+
+async function loadPaperTrade() {
+  const sub = document.getElementById('pt-sub');
+  const resultEl = document.getElementById('pt-result');
+  try {
+    // ใช้ราคาปัจจุบันของ position ที่ถืออยู่ (ถ้ามี) สำหรับ mark-to-market
+    const first = await fetch('/api/paper-trade', { signal: safeSignal(15000) });
+    const state = await first.json();
+    const tickers = [...new Set((state.positions || []).map(p => p.ticker))];
+    let prices = {};
+    if (tickers.length) {
+      const r2 = await fetch('/api/trend-score', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers }), signal: safeSignal(20000),
+      });
+      const d2 = await r2.json();
+      tickers.forEach(t => { if (d2.results?.[t]?.price != null) prices[t] = d2.results[t].price; });
+    }
+    const r3 = await fetch('/api/paper-trade', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'status', prices }), signal: safeSignal(15000),
+    });
+    _paperState = await r3.json();
+    renderPaperTrade();
+  } catch (e) {
+    sub.textContent = 'โหลดไม่สำเร็จ';
+    resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${e.message}</div>`;
+  }
+}
+
+function renderPaperTrade() {
+  const sub = document.getElementById('pt-sub');
+  const resultEl = document.getElementById('pt-result');
+  const s = _paperState;
+  if (!s) return;
+  const mtm = s.markToMarket || { cash: s.cash, positionsValue: 0, equity: s.cash, totalReturnPct: 0, realizedPnl: 0, positions: [] };
+  sub.textContent = `Equity ${fn(mtm.equity,0)} · ${(mtm.totalReturnPct>=0?'+':'')+mtm.totalReturnPct}%`;
+
+  const posRows = (mtm.positions || []).map(p => `
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--sep);font-size:12px">
+      <span>${p.ticker} × ${p.qty}</span>
+      <span>@${fn(p.entryPrice,2)} → ${p.currentPrice!=null?fn(p.currentPrice,2):'-'}
+        <span style="color:${(p.unrealizedPnl||0)>=0?'var(--green-tx)':'var(--red-tx)'}">
+          (${(p.unrealizedPnl||0)>=0?'+':''}${p.unrealizedPnlPct??'-'}%)</span></span>
+    </div>`).join('');
+
+  resultEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+      <div><div style="font-size:10px;color:var(--tx3)">เงินสด</div><div style="font-size:14px;font-weight:700">${fn(mtm.cash,0)}</div></div>
+      <div><div style="font-size:10px;color:var(--tx3)">มูลค่ารวม</div><div style="font-size:14px;font-weight:700">${fn(mtm.equity,0)}</div></div>
+      <div><div style="font-size:10px;color:var(--tx3)">กำไรที่รับรู้แล้ว</div><div style="font-size:14px;font-weight:700;color:${mtm.realizedPnl>=0?'var(--green-tx)':'var(--red-tx)'}">${fn(mtm.realizedPnl,0)}</div></div>
+    </div>
+    ${posRows ? `<div style="margin-bottom:6px;font-size:11px;color:var(--tx3)">ตำแหน่งที่ถืออยู่</div>${posRows}` : '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:6px 0">ยังไม่มีตำแหน่ง</div>'}
+    <div style="text-align:right;margin-top:10px"><a href="javascript:void(0)" onclick="paperResetPrompt()" style="font-size:11px;color:var(--tx3)">รีเซ็ตพอร์ตจำลอง</a></div>
+  `;
+}
+
+async function paperOpenPrompt() {
+  const ticker = prompt('Ticker (เช่น AAPL, PTT.BK):');
+  if (!ticker) return;
+  const price = parseFloat(prompt('ราคาที่จะซื้อ:'));
+  const qty = parseFloat(prompt('จำนวนหุ้น:'));
+  if (!price || !qty) return;
+  await paperTradeAction({ action: 'open', ticker: ticker.trim(), price, qty });
+}
+async function paperClosePrompt() {
+  const ticker = prompt('Ticker ที่จะปิด:');
+  if (!ticker) return;
+  const price = parseFloat(prompt('ราคาที่จะขาย:'));
+  if (!price) return;
+  const qtyStr = prompt('จำนวนที่จะปิด (เว้นว่าง = ปิดทั้งหมด):');
+  const body = { action: 'close', ticker: ticker.trim(), price };
+  if (qtyStr) body.qty = parseFloat(qtyStr);
+  await paperTradeAction(body);
+}
+async function paperResetPrompt() {
+  if (!confirm('รีเซ็ตพอร์ตจำลองทั้งหมด? ข้อมูลเดิมจะหายไป')) return;
+  const capStr = prompt('เงินทุนเริ่มต้น (บาท):', '1000000');
+  await paperTradeAction({ action: 'reset', initialCapital: parseFloat(capStr) || 1000000 });
+}
+async function paperTradeAction(body) {
+  const resultEl = document.getElementById('pt-result');
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังบันทึก...</div>';
+  try {
+    const r = await fetch('/api/paper-trade', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body), signal: safeSignal(20000),
+    });
+    const d = await r.json();
+    if (d.error) { alert('ผิดพลาด: ' + d.error); }
+    await loadPaperTrade();
+  } catch (e) {
+    alert('ผิดพลาด: ' + e.message);
+    await loadPaperTrade();
+  }
+}
+
 </script>
 
 <!-- OVERLAY -->

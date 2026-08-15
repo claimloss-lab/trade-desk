@@ -1,0 +1,17 @@
+{
+  "initialCapital": 1000000,
+  "cash": 0,
+  "positions": [
+    {
+      "id": 1786788686005,
+      "ticker": "nvda",
+      "entryPrice": 100,
+      "qty": 10000,
+      "entryDate": "2026-08-15",
+      "source": "manual"
+    }
+  ],
+  "closedTrades": [],
+  "createdAt": "2026-08-15T10:11:25.301Z",
+  "updatedAt": "2026-08-15T10:11:25.301Z"
+}

@@ -13,7 +13,11 @@
  *       rsi_buy   : RSI(WTI,14) < 30
  *       rsi_sell  : RSI(WTI,14) > 70
  *     dedup ต่อสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "oil03:") ซึ่ง frontend preserve อยู่แล้ว
- *   - GET /trigger /sr-trigger /oil-trigger /watchlist
+ *   - [ใหม่] 📈 Trend Score Alert — Strong Buy/Sell จาก /api/trend-score (วันละครั้ง 10:10-10:14 ICT):
+ *       ดึง ticker จากหุ้นในทุกพอร์ต (ใช้ parentTicker ถ้าเป็น DR) + watchlist แล้วยิง 1 request ไป /api/trend-score
+ *       (ไม่ fetch Yahoo ตรงจาก worker เอง กันชน subrequest limit) · score > 50 = Strong Buy, < -50 = Strong Sell
+ *     dedup ต่อ ticker+label 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "trend:")
+ *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
  */
@@ -41,6 +45,12 @@ const OIL03_RSI_P    = 14;
 const OIL03_RSI_BUY  = 30;      // oversold → ซื้อ
 const OIL03_RSI_SELL = 70;      // overbought → ขาย
 
+// Trend Score alert config
+const TREND_MAX_SYMBOLS = 40;   // จำกัด ticker/รอบ กัน payload ใหญ่เกิน (เหมือน SR_MAX_SYMBOLS)
+const TREND_STRONG_BUY  = 50;   // score > นี้ = Strong Buy
+const TREND_STRONG_SELL = -50;  // score < นี้ = Strong Sell
+const TREND_MAX_ALERTS  = 8;    // จำกัดจำนวน LINE alert/รอบ (เหมือน SR_MAX_ALERTS)
+
 // ── Colors ───────────────────────────────────────────────────────────────────
 const C = {
   bgHead: '#0F0F1A', bgBody: '#161625',
@@ -55,7 +65,7 @@ export default {
 
     if (env.ALERT_SECRET) {
       const key = url.searchParams.get('key');
-      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
+      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });
       }
@@ -82,6 +92,15 @@ export default {
     if (url.pathname === '/oil-trigger') {
       try {
         const result = await checkOil03(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
+    }
+
+    if (url.pathname === '/trend-trigger') {
+      try {
+        const result = await checkTrendAlerts(env);
         return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
@@ -139,6 +158,8 @@ export default {
       if (h === 3 && m < 5) await checkSupportResistance(env);
       // OIL03: รอบถัดไป 10:05-10:09 ICT (03:05-03:09 UTC)
       if (h === 3 && m >= 5 && m < 10) await checkOil03(env);
+      // Trend Score: รอบถัดไป 10:10-10:14 ICT (03:10-03:14 UTC)
+      if (h === 3 && m >= 10 && m < 15) await checkTrendAlerts(env);
     })());
   },
 };
@@ -777,6 +798,100 @@ async function checkOil03(env) {
   }
   out.sent = sent; out.saved = saved;
   return out;
+}
+
+// ── Trend Score Alert ────────────────────────────────────────────────────────
+// รวม ticker จากทุกพอร์ต (DR ใช้ parentTicker/underlying) + watchlist แล้วยิงไป
+// /api/trend-score ครั้งเดียว (ไม่ fetch Yahoo ตรงจาก worker เอง กัน subrequest เกิน)
+function collectTrendTickers(data) {
+  const seen = new Map(); // apiTicker -> displayTicker
+  for (const p of (data.portfolios || [])) {
+    for (const s of (p.stocks || [])) {
+      if (s.currentNav != null) continue; // กองทุน NAV-based ไม่มีใน Yahoo Finance ข้าม
+      const api = s.parentTicker || s.ticker;
+      if (api && !seen.has(api)) seen.set(api, s.ticker);
+    }
+  }
+  for (const w of (data.watchlist || [])) {
+    if (w.ticker && !seen.has(w.ticker)) seen.set(w.ticker, w.ticker);
+  }
+  return [...seen.entries()].slice(0, TREND_MAX_SYMBOLS).map(([api, display]) => ({ api, display }));
+}
+
+function buildTrendFlex(env, display, r) {
+  const isBuy = r.label === 'Strong Buy';
+  const title = isBuy ? `📈 ${display} · Strong Buy` : `📉 ${display} · Strong Sell`;
+  const sub = `Trend Score ${r.score > 0 ? '+' : ''}${fn(r.score, 1)} · ${r.label}`;
+  const rows = [
+    rowKV('ราคา', fn(r.price), C.txt, true),
+    rowKV('EMA20 / EMA50', `${fn(r.detail.ema.e20)} / ${fn(r.detail.ema.e50)}`, C.txt),
+    ...(r.detail.ema.e200 != null ? [rowKV('EMA200', fn(r.detail.ema.e200), C.dim)] : []),
+    rowKV('RSI(14)', `${fn(r.detail.rsi.value, 1)}${r.detail.rsi.overbought ? ' (overbought)' : r.detail.rsi.oversold ? ' (oversold)' : ''}`,
+      isBuy ? C.green : C.red),
+    rowKV('Volume ratio', r.detail.volume.ratio != null ? `${fn(r.detail.volume.ratio, 2)}x` : '-', C.txt),
+  ];
+  return {
+    type: 'bubble', size: 'kilo',
+    styles: bubbleStyles(),
+    header: headerBox(title, sub),
+    body: { type: 'box', layout: 'vertical', paddingAll: 'lg', contents: [
+      ...rows,
+      { type: 'separator', margin: 'lg', color: C.sep },
+      { type: 'text', text: 'ℹ️ Trend Score = EMA(40) + RSI(30) + Volume(15) + ATR(15) · ไม่ใช่คำแนะนำการลงทุน',
+        size: 'xxs', color: C.dim2, margin: 'md', wrap: true },
+    ] },
+    footer: footerButtons(env),
+  };
+}
+
+async function checkTrendAlerts(env) {
+  const { data, sha } = await fetchPortfolioData(env);
+  const tickers = collectTrendTickers(data);
+  if (!tickers.length) return { checked: false, reason: 'no tickers' };
+
+  let results;
+  try {
+    const r = await fetch(`${BASE_URL}/api/trend-score`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: tickers.map(t => t.api) }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!r.ok) return { error: 'trend-score fetch failed: ' + r.status };
+    results = (await r.json()).results || {};
+  } catch (e) {
+    return { error: e.message };
+  }
+
+  const state = data._srAlerts || {};
+  const today = todayICT();
+  const candidates = [];
+  for (const { api, display } of tickers) {
+    const res = results[api];
+    if (!res || res.error || res.score == null) continue;
+    if (res.score > TREND_STRONG_BUY || res.score < TREND_STRONG_SELL) {
+      const k = `trend:${api}:${res.label}`;
+      if (state[k] === today) continue;
+      candidates.push({ api, display, res, key: k });
+    }
+  }
+  // ยิงตัวที่คะแนนสุดขั้วที่สุดก่อน (|score| มาก = สัญญาณแรง)
+  candidates.sort((a, b) => Math.abs(b.res.score) - Math.abs(a.res.score));
+  const capped = candidates.slice(0, TREND_MAX_ALERTS);
+
+  const sent = [];
+  for (const c of capped) {
+    const ok = await pushFlex(env, `${c.display} · Trend Score ${fn(c.res.score, 1)} (${c.res.label})`,
+      buildTrendFlex(env, c.display, c.res));
+    if (ok) { state[c.key] = today; sent.push(c.display); }
+  }
+
+  let saved = false;
+  if (sent.length) {
+    data._srAlerts = state;
+    saved = await savePortfolioData(env, data, sha, 'chore: Trend Score alert dedupe state');
+  }
+  return { checked: true, scanned: tickers.length, candidates: candidates.length, sent, saved };
 }
 
 // ── GUI: หน้า /oil-status (อ่านอย่างเดียว) ────────────────────────────────────

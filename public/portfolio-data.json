@@ -5821,7 +5821,10 @@
     "trend:PANW:Strong Buy": "2026-08-15",
     "trend:NVDA:Strong Buy": "2026-08-15",
     "trend:QQQM:Strong Buy": "2026-08-15",
-    "trend:IXN:Strong Buy": "2026-08-15"
+    "trend:IXN:Strong Buy": "2026-08-15",
+    "trend:CRWD:Strong Buy": "2026-08-15",
+    "trend:ASML:Strong Buy": "2026-08-15",
+    "trend:AIQ:Strong Buy": "2026-08-15"
   },
   "summary": {
     "totalPorts": 10,

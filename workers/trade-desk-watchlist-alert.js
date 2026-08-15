@@ -13,9 +13,9 @@
  *       rsi_buy   : RSI(WTI,14) < 30
  *       rsi_sell  : RSI(WTI,14) > 70
  *     dedup ต่อสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "oil03:") ซึ่ง frontend preserve อยู่แล้ว
- *   - [ใหม่] 📈 Trend Score Alert — Strong Buy/Sell จาก /api/trend-score (วันละครั้ง 10:10-10:14 ICT):
- *       ดึง ticker จากหุ้นในทุกพอร์ต (ใช้ parentTicker ถ้าเป็น DR) + watchlist แล้วยิง 1 request ไป /api/trend-score
- *       (ไม่ fetch Yahoo ตรงจาก worker เอง กันชน subrequest limit) · score > 50 = Strong Buy, < -50 = Strong Sell
+ *   - 📈 Trend Score Alert — Strong Buy/Sell จาก /api/trend-score (วันละครั้ง 10:10-10:14 ICT):
+ *       สโคปเฉพาะหุ้นแม่ของ SET DR (dr1, ใช้ parentTicker) + หุ้นใน DIME-USA เท่านั้น (ไม่รวมพอร์ตอื่น/watchlist กันเปลือง)
+ *       ยิง 1 request ไป /api/trend-score (ไม่ fetch Yahoo ตรงจาก worker เอง กันชน subrequest limit) · score > 50 = Strong Buy, < -50 = Strong Sell
  *     dedup ต่อ ticker+label 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "trend:")
  *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /watchlist
  *
@@ -801,19 +801,17 @@ async function checkOil03(env) {
 }
 
 // ── Trend Score Alert ────────────────────────────────────────────────────────
-// รวม ticker จากทุกพอร์ต (DR ใช้ parentTicker/underlying) + watchlist แล้วยิงไป
-// /api/trend-score ครั้งเดียว (ไม่ fetch Yahoo ตรงจาก worker เอง กัน subrequest เกิน)
+// สโคป: เฉพาะหุ้นแม่ (parentTicker) ของ SET DR (dr1) + หุ้นใน DIME-USA เท่านั้น
+// (จำกัดขอบเขตกันเปลือง subrequest/Anthropic API — ไม่รวมพอร์ตอื่นหรือ watchlist)
 function collectTrendTickers(data) {
   const seen = new Map(); // apiTicker -> displayTicker
-  for (const p of (data.portfolios || [])) {
+  const targetPorts = (data.portfolios || []).filter(p => p.id === 'dr1' || p.name === 'DIME-USA');
+  for (const p of targetPorts) {
     for (const s of (p.stocks || [])) {
       if (s.currentNav != null) continue; // กองทุน NAV-based ไม่มีใน Yahoo Finance ข้าม
       const api = s.parentTicker || s.ticker;
       if (api && !seen.has(api)) seen.set(api, s.ticker);
     }
-  }
-  for (const w of (data.watchlist || [])) {
-    if (w.ticker && !seen.has(w.ticker)) seen.set(w.ticker, w.ticker);
   }
   return [...seen.entries()].slice(0, TREND_MAX_SYMBOLS).map(([api, display]) => ({ api, display }));
 }

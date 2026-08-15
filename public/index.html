@@ -885,7 +885,7 @@ function buildOverviewHTML() {
           <span style="font-size:15px">📈</span>
           <div>
             <div class="card-ti">Trend Score Scanner</div>
-            <div style="font-size:11px;color:var(--tx3)" id="ov-trend-ts">EMA+RSI+Volume+ATR · สแกนหุ้นทุกพอร์ต + watchlist</div>
+            <div style="font-size:11px;color:var(--tx3)" id="ov-trend-ts">EMA+RSI+Volume+ATR · เฉพาะ SET DR + DIME-USA</div>
           </div>
         </div>
         <button id="ov-trend-btn" onclick="runTrendScanner()"
@@ -895,7 +895,7 @@ function buildOverviewHTML() {
       </div>
       <div id="ov-trend-result" style="padding:16px 18px;min-height:40px">
         <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
-          กด "สแกนเลย" เพื่อดู Trend Score ของหุ้นทุกตัวในพอร์ต (ไม่รวมกองทุน NAV) · ใช้เวลา ~10-20 วินาที
+          กด "สแกนเลย" เพื่อดู Trend Score ของหุ้นแม่ใน SET DR + DIME-USA · ใช้เวลา ~5-10 วินาที
         </div>
       </div>
     </div>
@@ -935,7 +935,7 @@ function buildOverviewHTML() {
           <span style="font-size:15px">📓</span>
           <div>
             <div class="card-ti">Trading Journal</div>
-            <div style="font-size:11px;color:var(--tx3)">วิเคราะห์ win rate / drawdown / pattern จากประวัติเทรดจริง</div>
+            <div style="font-size:11px;color:var(--tx3)">วิเคราะห์ win rate / drawdown / pattern เฉพาะ SET DR + DIME-USA</div>
           </div>
         </div>
         <button id="journal-btn" onclick="runJournalAnalysis()"
@@ -7324,18 +7324,15 @@ function updateAlertLabel(){
 // SIGNAL LAB — Trend Score Scanner / Backtest / Journal / Paper Trading
 // ══════════════════════════════════════════════════
 
-// รวม ticker จากทุกพอร์ต (DR → parentTicker, ข้ามกองทุน NAV-based) + watchlist
+// สโคปเฉพาะหุ้นแม่ของ SET DR (dr1) + หุ้นใน DIME-USA เท่านั้น (ไม่รวมพอร์ตอื่น/watchlist กันเปลือง)
 function collectScanTickers() {
   const seen = new Map(); // apiTicker -> displayTicker
-  portfolios.forEach(p => {
+  portfolios.filter(p => p.id === 'dr1' || p.name === 'DIME-USA').forEach(p => {
     (p.stocks || []).forEach(s => {
       if (s.currentNav != null) return; // กองทุน NAV-based ไม่มีใน Yahoo
       const api = s.parentTicker || s.ticker;
       if (api && !seen.has(api)) seen.set(api, s.ticker);
     });
-  });
-  (watchlist || []).forEach(w => {
-    if (w.ticker && !seen.has(w.ticker)) seen.set(w.ticker, w.ticker);
   });
   return [...seen.entries()].slice(0, 40).map(([api, display]) => ({ api, display }));
 }
@@ -7511,9 +7508,12 @@ async function runJournalAnalysis() {
   btn.disabled = true; btn.textContent = '⏳ กำลังวิเคราะห์...';
   resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังวิเคราะห์...</div>';
   try {
+    // สโคปเฉพาะ SET DR (dr1) + DIME-USA เท่านั้น (ตามพอร์ตที่ Trend Score/Backtest ใช้)
+    const targetPortIds = portfolios.filter(p => p.id === 'dr1' || p.name === 'DIME-USA').map(p => p.id);
+    const scopedTx = transactions.filter(t => targetPortIds.includes(t.portId));
     const res = await fetch('/api/journal', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ transactions }),
+      body: JSON.stringify({ transactions: scopedTx }),
       signal: safeSignal(30000),
     });
     const data = await res.json();

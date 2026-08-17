@@ -13,7 +13,7 @@
 :root{
   --bg:#f5f5f7;--surface:#fff;--s2:#f9f9fb;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.05);
   --tx:#1d1d1f;--tx2:#6e6e73;--tx3:#aeaeb2;
-  --blue:#0071e3;--blue-bg:#e8f1fd;
+  --blue:#2F6FED;--blue-bg:#eaf2ff;
   --green:#30d158;--green-bg:#e5f9eb;--green-tx:#1a7f3c;
   --red:#ff3b30;--red-bg:#fff0ef;--red-tx:#c41e3a;
   --amber:#ff9500;--amber-bg:#fff4e5;--amber-tx:#c47d00;
@@ -319,7 +319,7 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 // CONSTANTS & DATA
 // ══════════════════════════════════════════════════
 const PIN_CODE = '018352';
-const PORT_COLORS = ['#0071e3','#30d158','#ff9500','#7c3aed','#ff3b30','#00c7be','#ff6b35','#34aadc'];
+const PORT_COLORS = ['#2F6FED','#30d158','#ff9500','#7c3aed','#ff3b30','#00c7be','#ff6b35','#34aadc'];
 
 // Auto sector + underlying database
 const STOCK_DB = {
@@ -384,12 +384,12 @@ const STOCK_DB = {
 };
 
 const SECTOR_COLORS = {
-  Tech:'#0071e3',Healthcare:'#30d158',Finance:'#ff9500',Consumer:'#7c3aed',
+  Tech:'#2F6FED',Healthcare:'#30d158',Finance:'#ff9500',Consumer:'#7c3aed',
   Energy:'#ff3b30',ETF:'#00c7be',Transport:'#ff6b35',Property:'#34aadc',
   Industrial:'#aeaeb2','Mutual Fund':'#8b5cf6',Other:'#6e6e73'
 };
 
-const PALETTE = ['#0071e3','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
+const PALETTE = ['#2F6FED','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
 // พอร์ตที่โชว์คอลัมน์แนวรับ/แนวต้าน (คำนวณโดย Worker trade-desk-watchlist-alert ระบบ Smart S/R Alert)
 const SR_DISPLAY_PORT_IDS = ['dr1','p_1778723407199']; // SET DR, DIME-USA
 
@@ -449,7 +449,7 @@ if (!portfolios) {
   }).catch(() => {});
 }
 function _buildDefaultPortfolios(){ const p = [
-    { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#0071e3', stocks: [], cash: 26227.52, snapshots: [] },
+    { id: 'dr1', name: 'SET DR', type: 'realtime_dr', color: '#2F6FED', stocks: [], cash: 26227.52, snapshots: [] },
     { id: 'set1', name: 'PI DCA', type: 'realtime_th', color: '#30d158', cash: 6954.08, snapshots: [],
       stocks: [
         {id:1, ticker:'BDMS.BK',   qty:2000, buyPrice:24.34, sector:'Healthcare', underlying:'BDMS'},
@@ -828,7 +828,7 @@ function buildOverviewHTML() {
           <button id="ov-eq-mode-total" onclick="setEqMode('total')"
             style="border:1px solid var(--blue);background:var(--blue);color:#fff;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600">รวม</button>
           <button id="ov-eq-mode-split" onclick="setEqMode('split')"
-            style="border:1px solid var(--sep);background:transparent;color:var(--tx2);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600">แยกตามพอร์ต</button>
+            style="border:1px solid var(--bd);background:transparent;color:var(--tx2);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600">แยกตามพอร์ต</button>
         </div>
       </div>
       <div style="height:280px;position:relative;padding:12px 18px 18px">
@@ -912,8 +912,8 @@ function buildOverviewHTML() {
         </div>
       </div>
       <div style="padding:14px 18px 0 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <select id="bt-ticker" style="flex:1;min-width:140px;padding:8px 10px;border-radius:8px;border:1px solid var(--sep);background:var(--bg2);color:var(--tx);font-size:13px"></select>
-        <select id="bt-range" style="padding:8px 10px;border-radius:8px;border:1px solid var(--sep);background:var(--bg2);color:var(--tx);font-size:13px">
+        <select id="bt-ticker" style="flex:1;min-width:140px;padding:8px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:13px"></select>
+        <select id="bt-range" style="padding:8px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:13px">
           <option value="2y">2 ปี</option>
           <option value="5y" selected>5 ปี</option>
           <option value="10y">10 ปี</option>
@@ -3850,7 +3850,7 @@ function displayTechnicalLevels(levels, curPrice) {
 
   function strengthBadge(l) {
     if (l.type === 'ema') {
-      const color = l.period <= 21 ? '#ff9500' : l.period <= 50 ? '#0071e3' : '#7c3aed';
+      const color = l.period <= 21 ? '#ff9500' : l.period <= 50 ? '#2F6FED' : '#7c3aed';
       const conf = l.confluence ? ' ⚡' : '';
       return `<span style="background:${color}22;color:${color};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600">EMA${l.period}${conf}</span>`;
     }
@@ -3895,7 +3895,7 @@ function displayTechnicalLevels(levels, curPrice) {
       </div>
     </div>
     <div style="padding:10px 14px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd2);display:flex;gap:16px;flex-wrap:wrap">
-      <span>EMA: <span style="color:#ff9500">●</span>21 <span style="color:#0071e3">●</span>50 <span style="color:#7c3aed">●</span>200</span>
+      <span>EMA: <span style="color:#ff9500">●</span>21 <span style="color:#2F6FED">●</span>50 <span style="color:#7c3aed">●</span>200</span>
       <span>S/R: ★★★ ชนมากกว่า 4 ครั้ง | ★★ 3 ครั้ง | ★ 2 ครั้ง</span>
       <span>⚡ = EMA ตรงกับ S/R zone (confluence)</span>
     </div>`;
@@ -3930,7 +3930,7 @@ function toggleDcaLayer(btn) {
   btn.classList.toggle('on');
   const isOn = btn.classList.contains('on');
   // Update button style
-  const colors = { ema20:'#ff9500', ema50:'#0071e3', ema200:'#7c3aed', sr:'#30d158' };
+  const colors = { ema20:'#ff9500', ema50:'#2F6FED', ema200:'#7c3aed', sr:'#30d158' };
   const c = colors[btn.dataset.key] || '#888';
   if (isOn) {
     btn.style.background = c + '22';
@@ -4152,7 +4152,7 @@ function renderDcaChart(d) {
   dcaChart = new Chart(canvas.getContext('2d'), {
     type:'bar', data:{labels, datasets:[{label:'ราคา', data:prices2,
       backgroundColor:labels.map((_,i)=>i<sN?'rgba(0,113,227,0.18)':'rgba(255,59,48,0.18)'),
-      borderColor:labels.map((_,i)=>i<sN?'#0071e3':'#ff3b30'),
+      borderColor:labels.map((_,i)=>i<sN?'#2F6FED':'#ff3b30'),
       borderWidth:2, borderRadius:6, borderSkipped:false}]},
     options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fn(ctx.parsed.y,2)}}},
       scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{ticks:{callback:v=>fn(v,2),font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}}}}
@@ -4350,7 +4350,7 @@ function drawDcaPriceChart(chartData, levels, range) {
       datasets: [
         {
           label:'ราคา', data:closes,
-          borderColor:'#0071e3', borderWidth:2.5,
+          borderColor:'#2F6FED', borderWidth:2.5,
           pointRadius:0, pointHoverRadius:4,
           fill:true, tension:0.3, order:1,
           backgroundColor:(ctx)=>{
@@ -4368,7 +4368,7 @@ function drawDcaPriceChart(chartData, levels, range) {
         },
         {
           label:'EMA 50', data:showEMA50?ema50Series:[], hidden:!showEMA50,
-          borderColor:'#0071e3', borderWidth:1.5,
+          borderColor:'#2F6FED', borderWidth:1.5,
           borderDash:[8,4],
           pointRadius:0, fill:false, tension:0.3, order:3,
         },
@@ -4407,9 +4407,9 @@ function drawDcaPriceChart(chartData, levels, range) {
   // Legend bar
   const legend = document.getElementById('dca-chart-legend');
   if (legend) legend.innerHTML = [
-    {c:'#0071e3', l:'ราคา', dash:''},
+    {c:'#2F6FED', l:'ราคา', dash:''},
     {c:'#ff9500', l:'EMA 20 - - -'},
-    {c:'#0071e3', l:'EMA 50 - - - -'},
+    {c:'#2F6FED', l:'EMA 50 - - - -'},
     {c:'#7c3aed', l:'EMA 200 ─ ─ ─'},
     {c:'rgba(48,209,88,0.6)', l:'แนวรับ zone'},
     {c:'rgba(255,59,48,0.6)', l:'แนวต้าน zone'},
@@ -5231,7 +5231,7 @@ async function loadAllNews(forceRefresh=false) {
   ];
 
   const drPort = portfolios.find(p => p.type === 'realtime_dr');
-  const drColor = drPort?.color || '#0071e3';
+  const drColor = drPort?.color || '#2F6FED';
 
   const tickerList = DR_WATCHLIST.map(d => ({
     ticker: d.ticker,
@@ -6159,10 +6159,10 @@ function setEqMode(mode) {
   if (bTotal && bSplit) {
     bTotal.style.background = mode === 'total' ? 'var(--blue)' : 'transparent';
     bTotal.style.color      = mode === 'total' ? '#fff' : 'var(--tx2)';
-    bTotal.style.borderColor = mode === 'total' ? 'var(--blue)' : 'var(--sep)';
+    bTotal.style.borderColor = mode === 'total' ? 'var(--blue)' : 'var(--bd)';
     bSplit.style.background = mode === 'split' ? 'var(--blue)' : 'transparent';
     bSplit.style.color      = mode === 'split' ? '#fff' : 'var(--tx2)';
-    bSplit.style.borderColor = mode === 'split' ? 'var(--blue)' : 'var(--sep)';
+    bSplit.style.borderColor = mode === 'split' ? 'var(--blue)' : 'var(--bd)';
   }
   renderEquityChart();
 }
@@ -6230,7 +6230,7 @@ async function loadOil03Overview() {
     const anySignal = d.signals?.value || d.signals?.rsi_buy || d.signals?.rsi_sell;
     if (tsEl) tsEl.textContent = `อัปเดต ${new Date(d.checkedAt).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT`;
 
-    const badge = (label, met, color) => `<span class="bdg" style="background:${met ? color + '22' : 'var(--bg2)'};color:${met ? color : 'var(--tx3)'};border:1px solid ${met ? color : 'var(--sep)'};margin-right:6px">${met ? '🟢' : '⚪'} ${label}</span>`;
+    const badge = (label, met, color) => `<span class="bdg" style="background:${met ? color + '22' : 'var(--s2)'};color:${met ? color : 'var(--tx3)'};border:1px solid ${met ? color : 'var(--bd)'};margin-right:6px">${met ? '🟢' : '⚪'} ${label}</span>`;
 
     resultEl.innerHTML = `
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px">
@@ -6419,7 +6419,7 @@ function renderFinancials(d) {
         ['Earnings Growth', r.earningsGrowth != null ? r.earningsGrowth + '%' : '-'],
         ['Dividend Yield', r.dividendYield != null ? r.dividendYield + '%' : '-'],
         ['Beta', r.beta ?? '-'],
-      ].map(([k,v]) => `<div style="background:var(--bg2);border-radius:8px;padding:10px 12px">
+      ].map(([k,v]) => `<div style="background:var(--s2);border-radius:8px;padding:10px 12px">
         <div style="font-size:11px;color:var(--tx3);margin-bottom:4px">${k}</div>
         <div style="font-size:15px;font-weight:600;color:var(--tx)">${v}</div>
       </div>`).join('')}
@@ -7391,7 +7391,7 @@ function renderTrendScannerResults() {
   resultEl.innerHTML = `
     <div style="max-height:340px;overflow-y:auto">
       ${rows.map(x => `
-        <div class="tsrow" style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid var(--sep);cursor:pointer"
+        <div class="tsrow" style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid var(--bd2);cursor:pointer"
              onclick="toggleExplain('${x.api}','${x.display}')">
           <div style="display:flex;align-items:center;gap:8px;min-width:0">
             <span style="font-size:12px;font-weight:600;white-space:nowrap">${x.display}</span>
@@ -7402,7 +7402,7 @@ function renderTrendScannerResults() {
             <span style="font-size:14px;font-weight:700;color:${scoreColor(x.r.label)};min-width:44px;text-align:right">${x.r.score>0?'+':''}${x.r.score}</span>
           </div>
         </div>
-        <div id="explain-${x.api}" style="display:none;padding:8px 6px;font-size:12px;color:var(--tx2);background:var(--bg2);border-radius:8px;margin:4px 0 8px 0"></div>
+        <div id="explain-${x.api}" style="display:none;padding:8px 6px;font-size:12px;color:var(--tx2);background:var(--s2);border-radius:8px;margin:4px 0 8px 0"></div>
       `).join('')}
       ${errored.length ? `<div style="font-size:10px;color:var(--tx3);margin-top:8px">ข้ามไป ${errored.length} ตัว (ข้อมูลไม่พอ/หา symbol ไม่เจอ)</div>` : ''}
     </div>`;
@@ -7541,9 +7541,9 @@ function renderJournalResult(data) {
       ${stat('Streak ปัจจุบัน', (s.currentStreak.type==='win'?'ชนะ ':'แพ้ ')+s.currentStreak.count+' ครั้ง', s.currentStreak.type==='win'?'var(--green-tx)':'var(--red-tx)')}
       ${stat('เทรดดีที่สุด', s.bestTrade?.ticker+' +'+fn(s.bestTrade?.pnl,0), 'var(--green-tx)')}
     </div>
-    ${data.narrative ? `<div style="font-size:13px;line-height:1.6;color:var(--tx);background:var(--bg2);padding:12px;border-radius:10px;margin-bottom:10px">${data.narrative}</div>` : ''}
+    ${data.narrative ? `<div style="font-size:13px;line-height:1.6;color:var(--tx);background:var(--s2);padding:12px;border-radius:10px;margin-bottom:10px">${data.narrative}</div>` : ''}
     ${(data.patterns||[]).map(p => `
-      <div style="font-size:12px;padding:8px 0;border-top:1px solid var(--sep)">
+      <div style="font-size:12px;padding:8px 0;border-top:1px solid var(--bd2)">
         <div style="color:var(--tx)">${p.finding}</div>
         <div style="color:var(--tx3);margin-top:2px">💡 ${p.suggestion}</div>
       </div>`).join('')}
@@ -7591,7 +7591,7 @@ function renderPaperTrade() {
   sub.textContent = `Equity ${fn(mtm.equity,0)} · ${(mtm.totalReturnPct>=0?'+':'')+mtm.totalReturnPct}%`;
 
   const posRows = (mtm.positions || []).map(p => `
-    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--sep);font-size:12px">
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd2);font-size:12px">
       <span>${p.ticker} × ${p.qty}</span>
       <span>@${fn(p.entryPrice,2)} → ${p.currentPrice!=null?fn(p.currentPrice,2):'-'}
         <span style="color:${(p.unrealizedPnl||0)>=0?'var(--green-tx)':'var(--red-tx)'}">
@@ -7993,7 +7993,7 @@ async function paperTradeAction(body) {
         </select>
         <div style="display:flex;gap:4px;flex-wrap:wrap" id="dca-toggle-btns">
           <button class="dca-tog on" data-key="ema20"  onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #ff9500;background:#ff950022;color:#ff9500;cursor:pointer">EMA 20</button>
-          <button class="dca-tog on" data-key="ema50"  onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #0071e3;background:#0071e322;color:#0071e3;cursor:pointer">EMA 50</button>
+          <button class="dca-tog on" data-key="ema50"  onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #2F6FED;background:#2F6FED22;color:#2F6FED;cursor:pointer">EMA 50</button>
           <button class="dca-tog on" data-key="ema200" onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #7c3aed;background:#7c3aed22;color:#7c3aed;cursor:pointer">EMA 200</button>
           <button class="dca-tog on" data-key="sr"     onclick="toggleDcaLayer(this)" style="font-size:10px;padding:3px 8px;border-radius:20px;border:1px solid #30d158;background:#30d15822;color:var(--green-tx);cursor:pointer">S/R Zones</button>
         </div>

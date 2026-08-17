@@ -40,8 +40,18 @@ async function sendLineFlex(token, userId, altText, contents) {
 
 // ── Build Flex bubble ─────────────────────────────────────────────────────────
 function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, topLoser, staleCount }) {
+  // ── ธีมฟ้า-ขาว อ่านง่าย (เดิมเป็นธีมมืด #161625 ตัวอักษรเล็ก) ──────────────
+  const BLUE      = '#2F6FED';   // หัวการ์ด / ปุ่ม
+  const BLUE_SOFT = '#EAF2FF';   // แถบพื้นหลังอ่อนสำหรับ footer
+  const NAVY      = '#0F172A';   // ตัวเลขหลัก อ่านชัดบนพื้นขาว
+  const GRAY      = '#64748B';   // label รอง
+  const GREEN     = '#059669';   // กำไร (เข้มพออ่านบนพื้นขาว ต่างจาก #00C896 เดิมที่ใช้กับพื้นดำ)
+  const RED       = '#DC2626';   // ขาดทุน
+  const AMBER     = '#B45309';   // แจ้งเตือน stale
+  const SEP       = '#E2E8F0';   // เส้นคั่น
+
   const isUp     = nwChange == null ? null : nwChange >= 0;
-  const chgColor = isUp == null ? '#8A8A9A' : isUp ? '#00C896' : '#FF5C5C';
+  const chgColor = isUp == null ? GRAY : isUp ? GREEN : RED;
   const chgArrow = isUp == null ? '─' : isUp ? '▲' : '▼';
   const chgText  = nwChange == null
     ? 'ยังไม่มีข้อมูลเมื่อวาน'
@@ -51,25 +61,25 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
   function stockRow(s, label) {
     if (!s) return null;
     const up    = s.dayChg >= 0;
-    const color = up ? '#00C896' : '#FF5C5C';
+    const color = up ? GREEN : RED;
     const arrow = up ? '▲' : '▼';
     const name  = s.ticker.replace('.BK', '');
     return {
-      type: 'box', layout: 'horizontal', margin: 'md',
+      type: 'box', layout: 'horizontal', margin: 'lg',
       contents: [
         {
           type: 'box', layout: 'vertical', flex: 0,
           contents: [
-            { type: 'text', text: label, size: 'xxs', color: '#6B7280', weight: 'bold' },
-            { type: 'text', text: name,  size: 'sm',  color: '#E2E8F0', weight: 'bold', margin: 'xs' },
+            { type: 'text', text: label, size: 'sm', color: GRAY, weight: 'bold' },
+            { type: 'text', text: name,  size: 'xl', color: NAVY, weight: 'bold', margin: 'xs' },
           ]
         },
         { type: 'filler' },
         {
           type: 'box', layout: 'vertical', flex: 0, alignItems: 'flex-end',
           contents: [
-            { type: 'text', text: `${arrow} ${fmSign(s.dayChg)}%`, size: 'sm', color, weight: 'bold', align: 'end' },
-            { type: 'text', text: `${s.cur || '฿'}${fm(s.price)}`, size: 'xxs', color: '#8A8A9A', align: 'end', margin: 'xs' },
+            { type: 'text', text: `${arrow} ${fmSign(s.dayChg)}%`, size: 'xl', color, weight: 'bold', align: 'end' },
+            { type: 'text', text: `${s.cur || '฿'}${fm(s.price)}`, size: 'sm', color: GRAY, align: 'end', margin: 'xs' },
           ]
         },
       ]
@@ -83,24 +93,24 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
     ? stockRow(topLoser, 'ลงมากสุด') : null;
 
   const stockSection = (gRow || lRow) ? [
-    { type: 'separator', margin: 'xl', color: '#2A2A3E' },
-    { type: 'text', text: 'เคลื่อนไหวโดดเด่น', size: 'xxs', color: '#6B7280', weight: 'bold', margin: 'xl' },
+    { type: 'separator', margin: 'xl', color: SEP },
+    { type: 'text', text: 'เคลื่อนไหวโดดเด่น', size: 'sm', color: GRAY, weight: 'bold', margin: 'xl' },
     ...(gRow ? [gRow] : []),
     ...(lRow ? [lRow] : []),
   ] : [];
 
   const staleNote = staleCount > 0 ? [
     { type: 'text', text: `⚠️ ${staleCount} ตัวใช้ราคาล่าสุดที่มี (ดึงราคาวันนี้ไม่สำเร็จ)`,
-      size: 'xxs', color: '#B7791F', margin: 'md', wrap: true },
+      size: 'sm', color: AMBER, margin: 'lg', wrap: true },
   ] : [];
 
   return {
     type: 'bubble',
     size: 'kilo',
     styles: {
-      header: { backgroundColor: '#0F0F1A' },
-      body:   { backgroundColor: '#161625' },
-      footer: { backgroundColor: '#0F0F1A' },
+      header: { backgroundColor: BLUE },
+      body:   { backgroundColor: '#FFFFFF' },
+      footer: { backgroundColor: BLUE_SOFT },
     },
     header: {
       type: 'box', layout: 'horizontal', paddingAll: 'lg', alignItems: 'center',
@@ -108,23 +118,23 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
         {
           type: 'box', layout: 'vertical', flex: 1,
           contents: [
-            { type: 'text', text: '📈 TradeDesk', size: 'sm', color: '#4A9EFF', weight: 'bold' },
-            { type: 'text', text: 'Daily Summary', size: 'xxs', color: '#6B7280', margin: 'xs' },
+            { type: 'text', text: '📈 TradeDesk', size: 'lg', color: '#FFFFFF', weight: 'bold' },
+            { type: 'text', text: 'Daily Summary', size: 'sm', color: '#DCEBFF', margin: 'xs' },
           ]
         },
-        { type: 'text', text: today, size: 'xxs', color: '#6B7280', align: 'end', flex: 0, wrap: false },
+        { type: 'text', text: today, size: 'sm', color: '#DCEBFF', align: 'end', flex: 0, wrap: false },
       ]
     },
     body: {
       type: 'box', layout: 'vertical', paddingAll: 'lg',
       contents: [
-        { type: 'text', text: 'มูลค่าพอร์ตรวม', size: 'xxs', color: '#6B7280', weight: 'bold' },
-        { type: 'text', text: `฿${fm(totalNetWorth, 0)}`, size: 'xxl', color: '#E2E8F0', weight: 'bold', margin: 'sm', adjustMode: 'shrink-to-fit' },
+        { type: 'text', text: 'มูลค่าพอร์ตรวม', size: 'sm', color: GRAY, weight: 'bold' },
+        { type: 'text', text: `฿${fm(totalNetWorth, 0)}`, size: '3xl', color: NAVY, weight: 'bold', margin: 'sm', adjustMode: 'shrink-to-fit' },
         {
-          type: 'box', layout: 'horizontal', margin: 'sm',
+          type: 'box', layout: 'horizontal', margin: 'md',
           contents: [
-            { type: 'text', text: 'vs เมื่อวาน', size: 'xxs', color: '#6B7280', flex: 0 },
-            { type: 'text', text: chgText, size: 'xs', color: chgColor, weight: 'bold', align: 'end', flex: 1, adjustMode: 'shrink-to-fit' },
+            { type: 'text', text: 'vs เมื่อวาน', size: 'sm', color: GRAY, flex: 0 },
+            { type: 'text', text: chgText, size: 'md', color: chgColor, weight: 'bold', align: 'end', flex: 1, adjustMode: 'shrink-to-fit' },
           ]
         },
         ...staleNote,
@@ -136,7 +146,7 @@ function buildFlex({ today, totalNetWorth, nwChange, nwChangePct, topGainer, top
       contents: [{
         type: 'button',
         action: { type: 'uri', label: 'เปิด TradeDesk', uri: 'https://trade-desk.pages.dev' },
-        style: 'primary', color: '#4A9EFF', height: 'sm',
+        style: 'primary', color: BLUE, height: 'sm',
       }]
     }
   };

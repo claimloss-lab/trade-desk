@@ -53,10 +53,11 @@ const TREND_MAX_ALERTS  = 8;    // จำกัดจำนวน LINE alert/ร
 
 // ── Colors ───────────────────────────────────────────────────────────────────
 const C = {
-  bgHead: '#0F0F1A', bgBody: '#161625',
-  blue: '#4A9EFF', green: '#00C896', red: '#FF5C5C',
-  txt: '#E2E8F0', dim: '#6B7280', dim2: '#8A8A9A', sep: '#2A2A3E',
-  gold: '#F0B90B',
+  bgHead: '#2F6FED', bgBody: '#FFFFFF', bgFoot: '#EAF2FF',
+  headerTitle: '#FFFFFF', headerSub: '#DCEBFF',
+  blue: '#2F6FED', green: '#059669', red: '#DC2626',
+  txt: '#0F172A', dim: '#64748B', dim2: '#94A3B8', sep: '#E2E8F0',
+  gold: '#B45309',
 };
 
 export default {
@@ -235,8 +236,8 @@ function rowKV(label, value, valueColor, bold) {
   return {
     type: 'box', layout: 'horizontal', margin: 'sm',
     contents: [
-      { type: 'text', text: label, size: 'xs', color: C.dim, flex: 0 },
-      { type: 'text', text: value, size: 'xs', color: valueColor || C.txt,
+      { type: 'text', text: label, size: 'md', color: C.dim, flex: 0 },
+      { type: 'text', text: value, size: 'md', color: valueColor || C.txt,
         weight: bold ? 'bold' : 'regular', align: 'end', flex: 1 },
     ],
   };
@@ -253,17 +254,17 @@ function pendingRows(pending, priceMap) {
         {
           type: 'box', layout: 'vertical', flex: 1,
           contents: [
-            { type: 'text', text: String(w.ticker), size: 'sm', color: C.txt, weight: 'bold' },
-            { type: 'text', text: `เป้า ฿${fn(w.targetPrice)} · ${w.qty || '-'} หุ้น`, size: 'xxs', color: C.dim, margin: 'xs' },
+            { type: 'text', text: String(w.ticker), size: 'lg', color: C.txt, weight: 'bold' },
+            { type: 'text', text: `เป้า ฿${fn(w.targetPrice)} · ${w.qty || '-'} หุ้น`, size: 'sm', color: C.dim, margin: 'xs' },
           ],
         },
         {
           type: 'box', layout: 'vertical', flex: 0, alignItems: 'flex-end',
           contents: [
-            { type: 'text', text: cur ? `฿${fn(cur)}` : 'n/a', size: 'sm', color: C.txt, align: 'end' },
+            { type: 'text', text: cur ? `฿${fn(cur)}` : 'n/a', size: 'lg', color: C.txt, align: 'end' },
             { type: 'text',
               text: away == null ? '' : (away <= 0 ? 'ต่ำกว่าเป้า!' : `ห่าง +${fn(away, 1)}%`),
-              size: 'xxs', color: away != null && away <= 0 ? C.green : C.dim2, align: 'end', margin: 'xs' },
+              size: 'sm', color: away != null && away <= 0 ? C.green : C.dim2, align: 'end', margin: 'xs' },
           ],
         },
       ],
@@ -288,8 +289,8 @@ function headerBox(title, subtitle) {
   return {
     type: 'box', layout: 'vertical', paddingAll: 'lg',
     contents: [
-      { type: 'text', text: title, size: 'sm', color: C.blue, weight: 'bold' },
-      { type: 'text', text: subtitle, size: 'xxs', color: C.dim, margin: 'xs' },
+      { type: 'text', text: title, size: 'lg', color: C.headerTitle, weight: 'bold' },
+      { type: 'text', text: subtitle, size: 'sm', color: C.headerSub, margin: 'xs' },
     ],
   };
 }
@@ -298,7 +299,7 @@ function bubbleStyles() {
   return {
     header: { backgroundColor: C.bgHead },
     body:   { backgroundColor: C.bgBody },
-    footer: { backgroundColor: C.bgHead },
+    footer: { backgroundColor: C.bgFoot },
   };
 }
 
@@ -313,18 +314,18 @@ function buildHitFlex(env, hits, remaining, priceMap) {
         rowKV('ราคาปัจจุบัน', `฿${fn(h.price)}`, C.green, true),
         rowKV(`เป้าซื้อ (${h.cond === 'below' ? '≤' : '≥'})`, `฿${fn(h.targetPrice)}`, C.txt),
         ...(h.qty ? [rowKV('จำนวนที่วางแผน', `${h.qty} หุ้น ≈ ฿${fn(h.price * h.qty, 0)}`, C.txt)] : []),
-        ...(h.note ? [{ type: 'text', text: `📝 ${h.note}`, size: 'xxs', color: C.dim2, margin: 'sm', wrap: true }] : []),
+        ...(h.note ? [{ type: 'text', text: `📝 ${h.note}`, size: 'sm', color: C.dim2, margin: 'sm', wrap: true }] : []),
       ],
     });
   });
 
   const remainSection = remaining.length ? [
     { type: 'separator', margin: 'xl', color: C.sep },
-    { type: 'text', text: `รอซื้ออีก ${remaining.length} ตัว`, size: 'xxs', color: C.dim, weight: 'bold', margin: 'xl' },
+    { type: 'text', text: `รอซื้ออีก ${remaining.length} ตัว`, size: 'sm', color: C.dim, weight: 'bold', margin: 'xl' },
     ...pendingRows(remaining, priceMap),
   ] : [
     { type: 'separator', margin: 'xl', color: C.sep },
-    { type: 'text', text: '🎉 ไม่เหลือรายการรอซื้อแล้ว', size: 'xxs', color: C.dim, margin: 'xl' },
+    { type: 'text', text: '🎉 ไม่เหลือรายการรอซื้อแล้ว', size: 'sm', color: C.dim, margin: 'xl' },
   ];
 
   return {
@@ -342,10 +343,10 @@ function buildSummaryFlex(env, pending, priceMap) {
   });
   const body = pending.length
     ? [
-        { type: 'text', text: `รอซื้อ ${pending.length} ตัว`, size: 'xxs', color: C.dim, weight: 'bold' },
+        { type: 'text', text: `รอซื้อ ${pending.length} ตัว`, size: 'sm', color: C.dim, weight: 'bold' },
         ...pendingRows(pending, priceMap),
       ]
-    : [{ type: 'text', text: '🎉 ไม่มีรายการรอซื้อใน watchlist', size: 'sm', color: C.txt }];
+    : [{ type: 'text', text: '🎉 ไม่มีรายการรอซื้อใน watchlist', size: 'lg', color: C.txt }];
 
   return {
     type: 'bubble', size: 'kilo',
@@ -478,7 +479,7 @@ function buildSRFlex(env, alerts) {
           a.crossed ? (isSup ? C.red : C.green) : C.txt),
         ...(a.pnlPct != null ? [rowKV(`P&L ${a.holdTicker}`, `${a.pnlPct >= 0 ? '+' : ''}${fn(a.pnlPct, 1)}%`,
           a.pnlPct >= 0 ? C.green : C.red)] : []),
-        { type: 'text', text: srPlan(a.side, a.pnlPct), size: 'xxs', color: C.dim2, margin: 'sm', wrap: true },
+        { type: 'text', text: srPlan(a.side, a.pnlPct), size: 'sm', color: C.dim2, margin: 'sm', wrap: true },
       ],
     });
   });
@@ -705,7 +706,7 @@ function buildOil03Flex(env, kind, m) {
     );
   }
   if (m.wtiSource === 'fred') {
-    rows.push({ type: 'text', text: '⚠️ WTI จาก FRED (Yahoo ล่มชั่วคราว) — อาจ lag 1 วัน', size: 'xxs', color: C.gold, margin: 'sm', wrap: true });
+    rows.push({ type: 'text', text: '⚠️ WTI จาก FRED (Yahoo ล่มชั่วคราว) — อาจ lag 1 วัน', size: 'sm', color: C.gold, margin: 'sm', wrap: true });
   }
 
   return {
@@ -716,7 +717,7 @@ function buildOil03Flex(env, kind, m) {
       ...rows,
       { type: 'separator', margin: 'lg', color: C.sep },
       { type: 'text', text: 'ℹ️ underlying = futures ETF (มี roll cost) เก็งเด้ง ไม่ใช่ถือยาว',
-        size: 'xxs', color: C.dim2, margin: 'md', wrap: true },
+        size: 'sm', color: C.dim2, margin: 'md', wrap: true },
     ] },
     footer: footerButtons(env),
   };
@@ -836,7 +837,7 @@ function buildTrendFlex(env, display, r) {
       ...rows,
       { type: 'separator', margin: 'lg', color: C.sep },
       { type: 'text', text: 'ℹ️ Trend Score = EMA(40) + RSI(30) + Volume(15) + ATR(15) · ไม่ใช่คำแนะนำการลงทุน',
-        size: 'xxs', color: C.dim2, margin: 'md', wrap: true },
+        size: 'sm', color: C.dim2, margin: 'md', wrap: true },
     ] },
     footer: footerButtons(env),
   };

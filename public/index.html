@@ -7731,15 +7731,34 @@ function renderReversalResults(list, results) {
   const rows = list
     .map(t => ({ ...t, r: results[t.api] }))
     .filter(x => x.r && !x.r.error && x.r.hasSignal)
-    .sort((a, b) => b.r.signalCount - a.r.signalCount);
+    .sort((a, b) => {
+      const ac = a.r.confirmation, bc = b.r.confirmation;
+      if ((bc?.isConfirmed ? 1 : 0) !== (ac?.isConfirmed ? 1 : 0)) return (bc?.isConfirmed ? 1 : 0) - (ac?.isConfirmed ? 1 : 0);
+      if ((bc?.confirmedCount ?? 0) !== (ac?.confirmedCount ?? 0)) return (bc?.confirmedCount ?? 0) - (ac?.confirmedCount ?? 0);
+      return b.r.signalCount - a.r.signalCount;
+    });
 
   if (!rows.length) {
     resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">วันนี้ไม่มีตัวไหนเข้าเกณฑ์ Reversal Signal</div>';
     return;
   }
 
+  function confirmBadge(c) {
+    if (!c) return '';
+    const check = (ok, label) => `<span style="color:${ok?'var(--green-tx)':'var(--tx3)'}">${ok?'✓':'○'} ${label}</span>`;
+    const chips = [
+      check(c.higherHigh, 'Higher High'),
+      check(c.rsiAbove50, 'RSI>50'),
+      check(c.trendPositive, 'Trend+'),
+    ].join(' &nbsp; ');
+    const pill = c.isConfirmed
+      ? `<span class="bdg" style="background:var(--green-bg);color:var(--green-tx);border:1px solid var(--green-tx);margin-top:0">✅ ยืนยันแล้ว</span>`
+      : `<span class="bdg" style="background:var(--amber-bg);color:var(--amber-tx);border:1px solid var(--amber-tx);margin-top:0">⏳ ${c.confirmedCount}/3 ข้อ</span>`;
+    return `<div style="margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">${pill}<span style="font-size:10px">${chips}</span></div>`;
+  }
+
   resultEl.innerHTML = `
-    <div style="max-height:420px;overflow-y:auto">
+    <div style="max-height:440px;overflow-y:auto">
       ${rows.map(x => `
         <div style="padding:10px 4px;border-bottom:1px solid var(--bd2);cursor:pointer"
              onclick="toggleReversalChart('${x.api}','${x.display}')">
@@ -7753,11 +7772,12 @@ function renderReversalResults(list, results) {
                 🔄 ${REVERSAL_LABELS[s.type] || s.type}
               </span>`).join('')}
           </div>
+          ${confirmBadge(x.r.confirmation)}
         </div>
         <div id="rv-detail-${x.api}" style="display:none;padding:10px 6px;background:var(--s2);border-radius:8px;margin:4px 0 8px 0"></div>
       `).join('')}
     </div>
-    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ควรดูแนวรับ/ปริมาณซื้อขายประกอบ</div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ✅ ยืนยันแล้ว = ผ่านครบ Higher High + RSI>50 + Trend Score พลิกบวก</div>
   `;
 }
 

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-18T18:07:21.198Z",
+  "exportDate": "2026-08-18T18:07:47.276Z",
   "exportDateTH": "19 สิงหาคม 2569 เวลา 01:07",
   "portfolios": [
     {
@@ -235,7 +235,7 @@
         },
         {
           "ticker": "MRVL80",
-          "buyPrice": 7.26,
+          "buyPrice": 7.16,
           "qty": 1500,
           "sector": "Tech",
           "underlying": "MRVL",

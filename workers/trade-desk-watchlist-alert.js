@@ -17,7 +17,10 @@
  *       สโคปเฉพาะหุ้นแม่ของ SET DR (dr1, ใช้ parentTicker) + หุ้นใน DIME-USA เท่านั้น (ไม่รวมพอร์ตอื่น/watchlist กันเปลือง)
  *       ยิง 1 request ไป /api/trend-score (ไม่ fetch Yahoo ตรงจาก worker เอง กันชน subrequest limit) · score > 50 = Strong Buy, < -50 = Strong Sell
  *     dedup ต่อ ticker+label 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "trend:")
- *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /watchlist
+ *   - 🔄 Reversal Signal Alert — Bullish Divergence/Volume Exhaustion/Hammer/Engulfing
+ *       จาก /api/reversal-signal timeframe='day' (วันละครั้ง 10:15-10:19 ICT) สโคปเดียวกับ Trend Score
+ *     dedup ต่อ ticker+ชุดสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "reversal:")
+ *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
  */
@@ -51,6 +54,9 @@ const TREND_STRONG_BUY  = 50;   // score > นี้ = Strong Buy
 const TREND_STRONG_SELL = -50;  // score < นี้ = Strong Sell
 const TREND_MAX_ALERTS  = 8;    // จำกัดจำนวน LINE alert/รอบ (เหมือน SR_MAX_ALERTS)
 
+// Reversal Signal alert config
+const REVERSAL_MAX_ALERTS = 8;  // จำกัดจำนวน LINE alert/รอบ
+
 // ── Colors ───────────────────────────────────────────────────────────────────
 const C = {
   bgHead: '#2F6FED', bgBody: '#FFFFFF', bgFoot: '#EAF2FF',
@@ -66,7 +72,7 @@ export default {
 
     if (env.ALERT_SECRET) {
       const key = url.searchParams.get('key');
-      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
+      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });
       }
@@ -102,6 +108,15 @@ export default {
     if (url.pathname === '/trend-trigger') {
       try {
         const result = await checkTrendAlerts(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
+    }
+
+    if (url.pathname === '/reversal-trigger') {
+      try {
+        const result = await checkReversalAlerts(env);
         return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
@@ -161,6 +176,8 @@ export default {
       if (h === 3 && m >= 5 && m < 10) await checkOil03(env);
       // Trend Score: รอบถัดไป 10:10-10:14 ICT (03:10-03:14 UTC)
       if (h === 3 && m >= 10 && m < 15) await checkTrendAlerts(env);
+      // Reversal Signal: รอบถัดไป 10:15-10:19 ICT (03:15-03:19 UTC)
+      if (h === 3 && m >= 15 && m < 20) await checkReversalAlerts(env);
     })());
   },
 };
@@ -889,6 +906,97 @@ async function checkTrendAlerts(env) {
   if (sent.length) {
     data._srAlerts = state;
     saved = await savePortfolioData(env, data, sha, 'chore: Trend Score alert dedupe state');
+  }
+  return { checked: true, scanned: tickers.length, candidates: candidates.length, sent, saved };
+}
+
+// ── Reversal Signal Alert ────────────────────────────────────────────────────
+// สโคปเดียวกับ Trend Score Alert (SET DR + DIME-USA) — เช็ค timeframe 'day' เท่านั้น
+// (week/month ไม่ค่อยเปลี่ยนวันต่อวัน เหมาะกับดูเองในเว็บมากกว่ายิง alert อัตโนมัติ)
+const REVERSAL_LABELS = {
+  bullish_divergence: 'RSI Divergence (โมเมนตัมขาลงอ่อนแรง)',
+  volume_exhaustion:  'วอลุ่มขาลงหมดแรง + วันนี้แท่งเขียว',
+  hammer:             'แท่งเทียน Hammer',
+  bullish_engulfing:  'แท่งเทียน Bullish Engulfing',
+};
+
+function buildReversalFlex(env, display, r) {
+  const sigRows = r.signals.map(s => {
+    const label = REVERSAL_LABELS[s.type] || s.type;
+    let detail = '';
+    if (s.type === 'bullish_divergence') detail = `ราคา ${fn(s.priorPrice)}→${fn(s.recentPrice)} · RSI ${fn(s.priorRsi,1)}→${fn(s.recentRsi,1)}`;
+    if (s.type === 'volume_exhaustion') detail = `วอลุ่มพุ่ง ${fn(s.spikeRatio,2)}x (${s.downDaysCounted} แท่งขาลงก่อนหน้า)`;
+    return {
+      type: 'box', layout: 'vertical', margin: 'lg',
+      contents: [
+        { type: 'text', text: `🔄 ${label}`, size: 'md', color: C.green, weight: 'bold', wrap: true },
+        ...(detail ? [{ type: 'text', text: detail, size: 'sm', color: C.dim, margin: 'xs', wrap: true }] : []),
+      ],
+    };
+  });
+
+  return {
+    type: 'bubble', size: 'kilo',
+    styles: bubbleStyles(),
+    header: headerBox(`🔄 ${display} · Reversal Signal`, `${r.signalCount} สัญญาณ · Day timeframe`),
+    body: { type: 'box', layout: 'vertical', paddingAll: 'lg', contents: [
+      rowKV('ราคา', fn(r.price), C.txt, true),
+      rowKV('RSI(14)', r.rsi != null ? fn(r.rsi, 1) : '-', C.txt),
+      { type: 'separator', margin: 'lg', color: C.sep },
+      ...sigRows,
+      { type: 'separator', margin: 'lg', color: C.sep },
+      { type: 'text', text: 'ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ควรดูแนวรับ/ปริมาณซื้อขายประกอบ',
+        size: 'sm', color: C.dim2, margin: 'md', wrap: true },
+    ] },
+    footer: footerButtons(env),
+  };
+}
+
+async function checkReversalAlerts(env) {
+  const { data, sha } = await fetchPortfolioData(env);
+  const tickers = collectTrendTickers(data); // สโคปเดียวกับ Trend Score: SET DR + DIME-USA
+  if (!tickers.length) return { checked: false, reason: 'no tickers' };
+
+  let results;
+  try {
+    const r = await fetch(`${BASE_URL}/api/reversal-signal`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: tickers.map(t => t.api), timeframe: 'day' }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!r.ok) return { error: 'reversal-signal fetch failed: ' + r.status };
+    results = (await r.json()).results || {};
+  } catch (e) {
+    return { error: e.message };
+  }
+
+  const state = data._srAlerts || {};
+  const today = todayICT();
+  const candidates = [];
+  for (const { api, display } of tickers) {
+    const res = results[api];
+    if (!res || res.error || !res.hasSignal) continue;
+    const sigTypes = res.signals.map(s => s.type).sort().join(',');
+    const k = `reversal:${api}:${sigTypes}`;
+    if (state[k] === today) continue;
+    candidates.push({ api, display, res, key: k });
+  }
+  // ยิงตัวที่มีหลายสัญญาณพร้อมกันก่อน (ความมั่นใจสูงกว่า)
+  candidates.sort((a, b) => b.res.signalCount - a.res.signalCount);
+  const capped = candidates.slice(0, REVERSAL_MAX_ALERTS);
+
+  const sent = [];
+  for (const c of capped) {
+    const ok = await pushFlex(env, `${c.display} · Reversal Signal (${c.res.signalCount})`,
+      buildReversalFlex(env, c.display, c.res));
+    if (ok) { state[c.key] = today; sent.push(c.display); }
+  }
+
+  let saved = false;
+  if (sent.length) {
+    data._srAlerts = state;
+    saved = await savePortfolioData(env, data, sha, 'chore: Reversal Signal alert dedupe state');
   }
   return { checked: true, scanned: tickers.length, candidates: candidates.length, sent, saved };
 }

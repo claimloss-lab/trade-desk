@@ -932,6 +932,28 @@ function buildOverviewHTML() {
       </div>
     </div>
 
+    <!-- Buy Zone Alert — ราคาอยู่ในโซนแนวรับที่ซื้อได้ไหม -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(5,150,105,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🎯</span>
+          <div>
+            <div class="card-ti">Buy Zone Alert</div>
+            <div style="font-size:11px;color:var(--tx3)" id="bz-ts">ราคาอยู่ในโซนแนวรับที่ซื้อได้ไหม · เฉพาะ SET DR + DIME-USA</div>
+          </div>
+        </div>
+        <button id="bz-btn" onclick="runBuyZoneScan()"
+          style="background:linear-gradient(135deg,#059669,#34d399);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">
+          🎯 สแกนเลย
+        </button>
+      </div>
+      <div id="bz-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
+          กด "สแกนเลย" — เช็คว่าตัวไหนราคาลงมาอยู่ใกล้แนวรับ + มีสัญญาณว่ากำลังรับอยู่จริง
+        </div>
+      </div>
+    </div>
+
     <!-- Strategy Backtest — Trend Score crossover -->
     <div class="card sens" style="margin-top:14px">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,200,150,.08),transparent)">
@@ -7866,6 +7888,74 @@ function renderReversalChart(api, r) {
       },
     },
   });
+}
+
+// ── Buy Zone Alert ────────────────────────────────────────────────────
+const BZ_EVIDENCE_LABELS = {
+  rsi_recovering: 'RSI เริ่มดีดตัว',
+  reversal_signal: 'มี Reversal Signal',
+  not_closing_at_low: 'ไม่ได้ปิดที่จุดต่ำสุดของวัน',
+};
+
+async function runBuyZoneScan() {
+  const btn = document.getElementById('bz-btn');
+  const tsEl = document.getElementById('bz-ts');
+  const resultEl = document.getElementById('bz-result');
+  const list = collectScanTickers();
+  if (!list.length) { resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ไม่มีหุ้นให้สแกน</div>'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ กำลังสแกน...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงข้อมูล ' + list.length + ' ตัว...</div>';
+  try {
+    const res = await fetch('/api/buy-zone', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: list.map(t => t.api) }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🎯 สแกนเลย'; return; }
+    tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.inZoneCount}/${data.scanned} ตัวอยู่ในโซนซื้อ`;
+    renderBuyZoneResults(list, data.results);
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '🎯 สแกนเลย';
+}
+
+function renderBuyZoneResults(list, results) {
+  const resultEl = document.getElementById('bz-result');
+  const rows = list
+    .map(t => ({ ...t, r: results[t.api] }))
+    .filter(x => x.r && !x.r.error && x.r.inBuyZone)
+    .sort((a, b) => a.r.distFromSupportPct - b.r.distFromSupportPct);
+
+  if (!rows.length) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ตอนนี้ไม่มีตัวไหนอยู่ในโซนแนวรับที่ซื้อได้</div>';
+    return;
+  }
+
+  resultEl.innerHTML = `
+    <div style="max-height:420px;overflow-y:auto">
+      ${rows.map(x => `
+        <div style="padding:12px 4px;border-bottom:1px solid var(--bd2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:14px;font-weight:700">🎯 ${x.display}</span>
+            <span class="bdg" style="background:var(--green-bg);color:var(--green-tx);border:1px solid var(--green-tx);margin-top:0">อยู่ในโซนซื้อ</span>
+          </div>
+          <div style="font-size:12px;color:var(--tx2);margin-bottom:6px">
+            ราคา ${fn(x.r.price,2)} · แนวรับ ${fn(x.r.support,2)} (ห่าง ${x.r.distFromSupportPct>=0?'+':''}${x.r.distFromSupportPct}%) · RSI ${x.r.rsiNow ?? '-'}
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            ${x.r.evidence.map(e => `
+              <span class="bdg" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue);margin-top:0">
+                ✓ ${BZ_EVIDENCE_LABELS[e] || e}
+              </span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ ไม่ใช่คำแนะนำการลงทุน — แนวรับอาจหลุดได้เสมอ ควรใช้ limit order + staged entry ตามสไตล์ที่วางไว้</div>
+  `;
 }
 
 </script>

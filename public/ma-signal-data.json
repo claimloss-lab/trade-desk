@@ -1,0 +1,459 @@
+{
+  "RKLB": {
+    "lastClose": 79.80999755859375,
+    "ma": {
+      "short": 84.17700035095214,
+      "shortPeriod": 50,
+      "long": 78.5488751411438
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:21.981Z"
+  },
+  "CRWV": {
+    "lastClose": 94.11000061035156,
+    "ma": {
+      "short": 90.49360015869141,
+      "shortPeriod": 50,
+      "long": 92.57182498931884
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.061Z"
+  },
+  "NBIS": {
+    "lastClose": 247.1649932861328,
+    "ma": {
+      "short": 222.8077005004883,
+      "shortPeriod": 50,
+      "long": 147.80115047454834
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.259Z"
+  },
+  "META": {
+    "lastClose": 547.0549926757812,
+    "ma": {
+      "short": 595.0428930664062,
+      "shortPeriod": 50,
+      "long": 625.6989727783204
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "below",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.463Z"
+  },
+  "TSLA": {
+    "lastClose": 336.3692932128906,
+    "ma": {
+      "short": 368.4097833251953,
+      "shortPeriod": 50,
+      "long": 404.8474963378906
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "below",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.533Z"
+  },
+  "SPCX": {
+    "lastClose": 143.4199981689453,
+    "ma": {
+      "short": 124.84399909973145,
+      "shortPeriod": 20,
+      "long": null
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 20
+      }
+    },
+    "long": null,
+    "updatedAt": "2026-08-18T18:32:22.704Z"
+  },
+  "ORCL": {
+    "lastClose": 144.3498992919922,
+    "ma": {
+      "short": 149.18779861450196,
+      "shortPeriod": 50,
+      "long": 174.80734943389893
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "below",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.797Z"
+  },
+  "MRVL": {
+    "lastClose": 213.09500122070312,
+    "ma": {
+      "short": 235.45090057373048,
+      "shortPeriod": 50,
+      "long": 142.79307521820067
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.883Z"
+  },
+  "GEV": {
+    "lastClose": 997.9600219726562,
+    "ma": {
+      "short": 1031.1343994140625,
+      "shortPeriod": 50,
+      "long": 862.1745489501953
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:22.962Z"
+  },
+  "VRT": {
+    "lastClose": 271.7301025390625,
+    "ma": {
+      "short": 295.54220123291014,
+      "shortPeriod": 50,
+      "long": 252.12215072631835
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.052Z"
+  },
+  "AMZN": {
+    "lastClose": 260.57000732421875,
+    "ma": {
+      "short": 248.60779968261718,
+      "shortPeriod": 50,
+      "long": 238.0141000366211
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.124Z"
+  },
+  "ASML": {
+    "lastClose": 1792.0699462890625,
+    "ma": {
+      "short": 1781.223193359375,
+      "shortPeriod": 50,
+      "long": 1436.1548959350587
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.218Z"
+  },
+  "AVGO": {
+    "lastClose": 379.7099914550781,
+    "ma": {
+      "short": 389.815,
+      "shortPeriod": 50,
+      "long": 369.2649502563477
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.311Z"
+  },
+  "CRWD": {
+    "lastClose": 212.81500244140625,
+    "ma": {
+      "short": 191.2200991821289,
+      "shortPeriod": 50,
+      "long": 137.91271244049074
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.384Z"
+  },
+  "GOOG": {
+    "lastClose": 342,
+    "ma": {
+      "short": 351.2741998291016,
+      "shortPeriod": 50,
+      "long": 331.19874923706055
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.461Z"
+  },
+  "LLY": {
+    "lastClose": 1218.43994140625,
+    "ma": {
+      "short": 1172.4380004882812,
+      "shortPeriod": 50,
+      "long": 1047.0638040161132
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.597Z"
+  },
+  "MSFT": {
+    "lastClose": 482.31500244140625,
+    "ma": {
+      "short": 415.1344976806641,
+      "shortPeriod": 50,
+      "long": 431.87572463989255
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.695Z"
+  },
+  "NVDA": {
+    "lastClose": 219.89999389648438,
+    "ma": {
+      "short": 206.94259887695313,
+      "shortPeriod": 50,
+      "long": 195.1039501953125
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.787Z"
+  },
+  "PLTR": {
+    "lastClose": 173.14999389648438,
+    "ma": {
+      "short": 136.35719955444335,
+      "shortPeriod": 50,
+      "long": 151.87949977874757
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:23.927Z"
+  },
+  "QQQM": {
+    "lastClose": 295.5799865722656,
+    "ma": {
+      "short": 293.55799987792966,
+      "shortPeriod": 50,
+      "long": 268.24470001220703
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:24.003Z"
+  },
+  "AAOI": {
+    "lastClose": 133.4700927734375,
+    "ma": {
+      "short": 132.1118020629883,
+      "shortPeriod": 50,
+      "long": 96.06657563209534
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:24.077Z"
+  },
+  "SNDK": {
+    "lastClose": 1610.4300537109375,
+    "ma": {
+      "short": 1657.191796875,
+      "shortPeriod": 50,
+      "long": 918.3204992675782
+    },
+    "short": {
+      "state": "below",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-08-18T18:32:24.160Z"
+  }
+}

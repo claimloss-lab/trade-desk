@@ -29,7 +29,18 @@
  *       ยืนยันแล้ว + มีหลักฐานว่ากำลังโดนกดอยู่ (RSI อ่อนแรง / Bearish Signal / ไม่ปิดที่จุดสูงสุด)
  *       จาก /api/sell-zone (วันละครั้ง 10:25-10:29 ICT) สโคปเดียวกับ Trend Score
  *     dedup ต่อ ticker 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "sellzone:")
- *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /buyzone-trigger /sellzone-trigger /watchlist
+ *   - 📊 MA Cross Signal — MA50(short)+MA200(long) close-cross ของราคาปิด "หุ้นแม่ US"
+ *       (ไม่ใช่ราคา DR) ครอบคลุม watchlist ที่ CRUD ได้ผ่านหน้า "MA Cross Signal"
+ *       (ไฟล์แยก public/ma-signal-watchlist.json + public/ma-signal-data.json ไม่ผูกกับ
+ *       portfolio-data.json) เรียกผ่าน GET /machross-trigger — ไม่ใช้ Cloudflare cron ใหม่
+ *       ต่อท้ายกับ GitHub Actions daily-summary.yml (08:00 ICT = Night/US close,
+ *       18:00 ICT = Day/SET close) แทน กันชนโควต้า 5 cron trigger/บัญชี
+ *     Baseline "roll" เฉพาะรอบ 18:00 (day session) เท่านั้น — รอบ 08:00 (night) แค่เทียบ+แจ้ง
+ *     ไม่ roll เพื่อให้ทั้งสองรอบแจ้งซ้ำได้ถ้า cross ยังค้างอยู่ในวันเดียวกัน (ตามที่ตกลงกันไว้)
+ *     ข้อมูลไม่พอ (หุ้นเพิ่ง IPO เช่น SPCX) → fallback ใช้ MA20 แทน MA50 ชั่วคราว
+ *     Cold start (ครั้งแรกที่เจอ ticker/เส้นนั้นๆ) → บันทึก baseline เงียบๆ ไม่แจ้ง
+ *     MA_DRY_RUN = true → คำนวณ/log ตามปกติ แต่ไม่ยิง LINE จริง (รอ verify ผลก่อนเปิด)
+ *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /buyzone-trigger /sellzone-trigger /machross-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
  */
@@ -87,7 +98,7 @@ export default {
 
     if (env.ALERT_SECRET) {
       const key = url.searchParams.get('key');
-      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger', '/sellzone-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
+      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger', '/sellzone-trigger', '/machross-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });
       }
@@ -156,6 +167,15 @@ export default {
       }
     }
 
+    if (url.pathname === '/machross-trigger') {
+      try {
+        const result = await checkMASignals(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
+    }
+
     if (url.pathname === '/oil-status') {
       const html = await renderOil03Status(env);
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
@@ -193,7 +213,7 @@ export default {
       );
     }
 
-    return new Response('trade-desk-watchlist-alert running.\nGET /trigger · /sr-trigger · /oil-trigger · /oil-status · /oil-data · /watchlist', { status: 200 });
+    return new Response('trade-desk-watchlist-alert running.\nGET /trigger · /sr-trigger · /oil-trigger · /oil-status · /oil-data · /machross-trigger · /watchlist', { status: 200 });
   },
 
   async scheduled(event, env, ctx) {
@@ -1428,6 +1448,195 @@ async function renderOil03Status(env) {
   }
 </script>
 </body></html>`;
+}
+
+// ── MA Cross Signal ──────────────────────────────────────────────────────
+// ราคาปิด "หุ้นแม่ US" ตัดผ่าน MA50(short)/MA200(long) → แจ้ง LINE
+// ดู doc ที่หัวไฟล์สำหรับ design ของ baseline-roll / dry-run / fallback
+
+function sma(arr, n) {
+  if (arr.length < n) return null;
+  return arr.slice(-n).reduce((a, b) => a + b, 0) / n;
+}
+
+async function fetchGithubJSON(env, path) {
+  const res = await fetch(`${GITHUB_API}/repos/${REPO}/contents/${path}`, {
+    headers: {
+      Authorization: `token ${env.GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'TradeDesk-Watchlist',
+    },
+  });
+  if (res.status === 404) return { data: null, sha: null }; // ไฟล์ยังไม่มี — สร้างใหม่ตอน save
+  if (!res.ok) throw new Error(`GitHub fetch ${path} failed: ${res.status}`);
+  const j = await res.json();
+  const bin = atob(j.content.replace(/\n/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return { data: JSON.parse(new TextDecoder('utf-8').decode(bytes)), sha: j.sha };
+}
+
+async function saveGithubJSON(env, path, data, sha, message) {
+  const jsonStr = JSON.stringify(data, null, 2);
+  const bytes = new TextEncoder().encode(jsonStr);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  const body = { message, content: btoa(bin) };
+  if (sha) body.sha = sha;
+  const res = await fetch(`${GITHUB_API}/repos/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${env.GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'TradeDesk-Watchlist',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  return res.ok;
+}
+
+const MA_WATCHLIST_PATH = 'public/ma-signal-watchlist.json';
+const MA_DATA_PATH      = 'public/ma-signal-data.json';
+const MA_SHORT_FULL     = 50;
+const MA_LONG           = 200;
+const MA_SHORT_FALLBACK = 20;
+const MA_MIN_BARS       = 20; // ต่ำกว่านี้ข้อมูลไม่พอจะคำนวณอะไรเลย → ข้ามไปเงียบๆ
+// true = คำนวณ/บันทึก state ตามปกติ แต่ "ไม่" ยิง LINE จริง (dry-run รอ verify ผลก่อน)
+const MA_DRY_RUN = true;
+
+function icSession() {
+  const ictHour = (new Date().getUTCHours() + 7) % 24;
+  return ictHour < 12 ? 'night' : 'day'; // 08:00 ICT ≈ night(US close) · 18:00 ICT ≈ day(SET close)
+}
+
+function todayICTDate() {
+  return new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+async function fetchMAHistory(uSym) {
+  try {
+    const r = await fetch(
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSym(uSym))}?range=1y&interval=1d`,
+      { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(8000) });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const res = j.chart?.result?.[0];
+    const closes = (res?.indicators?.quote?.[0]?.close || []).filter(x => x != null);
+    if (closes.length < MA_MIN_BARS) return null;
+    return closes; // oldest → newest
+  } catch { return null; }
+}
+
+// เลือก short line: MA50 ปกติ, ถ้าข้อมูลไม่พอ (หุ้นเพิ่ง IPO) fallback เป็น MA20 ชั่วคราว
+function pickShortMA(closes) {
+  if (closes.length >= MA_SHORT_FULL) return { period: MA_SHORT_FULL, ma: sma(closes, MA_SHORT_FULL), usedFallback: false };
+  return { period: MA_SHORT_FALLBACK, ma: sma(closes, MA_SHORT_FALLBACK), usedFallback: true };
+}
+
+function lineState(close, ma) {
+  if (ma == null) return null;
+  return close >= ma ? 'above' : 'below';
+}
+
+// เทียบ state เก่า(baseline)กับใหม่ของเส้นหนึ่งเส้น แล้วคืนว่าควร alert ไหม + baseline ถัดไป
+// (ดู header comment ของไฟล์นี้สำหรับ design: roll เฉพาะรอบ 'day' 18:00 ICT)
+function evalLine(stored, newState, newMeta, session) {
+  if (newState == null) return { alert: false, next: stored || null }; // เส้นนี้ยังคำนวณไม่ได้
+  if (!stored || stored.state == null) {
+    // cold start ของเส้นนี้ (ครั้งแรก หรือ MA200 เพิ่งมีข้อมูลพอ) → เงียบ
+    return { alert: false, next: { state: newState, meta: newMeta } };
+  }
+  // short-line เปลี่ยน period (fallback MA20 → MA50 จริง) → cold start ใหม่ ไม่นับเป็น cross
+  if (newMeta && stored.meta && newMeta.period !== stored.meta.period) {
+    return { alert: false, next: { state: newState, meta: newMeta } };
+  }
+  const crossed = newState !== stored.state;
+  if (session === 'day') {
+    // รอบเย็น = รอบ roll เสมอ (แจ้งถ้า cross แล้วอัพเดต baseline ให้พรุ่งนี้)
+    return { alert: crossed, next: { state: newState, meta: newMeta } };
+  }
+  // รอบเช้า (night) = แค่เทียบ+แจ้ง ไม่ roll baseline (ให้รอบเย็นวันเดียวกัน compare กับ baseline เดิมได้อีกที
+  // → ผลคือถ้า cross ค้างอยู่ทั้งวัน จะแจ้งได้ทั้งสองรอบตามที่ตกลงกันไว้)
+  return { alert: crossed, next: stored };
+}
+
+function buildMACrossFlex(env, a) {
+  const up = a.state === 'above';
+  return {
+    type: 'bubble', size: 'kilo',
+    styles: bubbleStyles(),
+    header: headerBox('📊 MA Cross Signal', a.ticker),
+    body: { type: 'box', layout: 'vertical', paddingAll: 'lg', contents: [
+      rowKV('เส้น', a.line),
+      rowKV('สถานะใหม่', up ? '📈 ตัดขึ้น (เหนือเส้น)' : '📉 ตัดลง (ใต้เส้น)', up ? C.green : C.red, true),
+      rowKV('ราคาปิด (หุ้นแม่ US)', fn(a.close), C.txt, true),
+      rowKV(a.line, fn(a.ma)),
+    ]},
+    footer: footerButtons(env),
+  };
+}
+
+async function sendMACrossFlex(env, a) {
+  const up = a.state === 'above';
+  const alt = `${a.ticker} ${up ? 'cross above' : 'cross below'} ${a.line}`;
+  return pushFlex(env, alt, buildMACrossFlex(env, a));
+}
+
+async function checkMASignals(env) {
+  const session = icSession();
+  const [{ data: wlData }, { data: maData, sha: maSha }] = await Promise.all([
+    fetchGithubJSON(env, MA_WATCHLIST_PATH),
+    fetchGithubJSON(env, MA_DATA_PATH),
+  ]);
+  const tickers = wlData?.tickers || [];
+  const store = maData || {};
+  const results = [];
+  const alertsToSend = [];
+
+  for (const ticker of tickers) {
+    const closes = await fetchMAHistory(ticker);
+    if (!closes) { results.push({ ticker, skipped: 'insufficient_data' }); continue; }
+    const lastClose = closes[closes.length - 1];
+    const short = pickShortMA(closes);
+    const longMA = closes.length >= MA_LONG ? sma(closes, MA_LONG) : null;
+
+    const shortState = lineState(lastClose, short.ma);
+    const longState  = lineState(lastClose, longMA);
+
+    const prev = store[ticker] || {};
+    const shortEval = evalLine(prev.short, shortState, { period: short.period }, session);
+    const longEval  = evalLine(prev.long,  longState,  { period: MA_LONG },      session);
+
+    store[ticker] = {
+      lastClose,
+      ma: { short: short.ma, shortPeriod: short.period, long: longMA },
+      short: shortEval.next,
+      long: longEval.next,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const shortLineLabel = short.usedFallback ? `MA${MA_SHORT_FALLBACK}` : `MA${MA_SHORT_FULL}`;
+    if (shortEval.alert) alertsToSend.push({ ticker, line: shortLineLabel, state: shortState, close: lastClose, ma: short.ma });
+    if (longEval.alert)  alertsToSend.push({ ticker, line: `MA${MA_LONG}`, state: longState, close: lastClose, ma: longMA });
+
+    results.push({
+      ticker, lastClose, maShort: short.ma, maShortLabel: shortLineLabel, maLong: longMA,
+      shortState, longState, alerted: shortEval.alert || longEval.alert,
+    });
+  }
+
+  const saved = await saveGithubJSON(env, MA_DATA_PATH, store, maSha, `chore: MA cross signal update (${session}, ${todayICTDate()})`);
+
+  let lineSent = 0;
+  if (alertsToSend.length && !MA_DRY_RUN) {
+    for (const a of alertsToSend) {
+      const ok = await sendMACrossFlex(env, a);
+      if (ok) lineSent++;
+    }
+  }
+
+  return { session, dryRun: MA_DRY_RUN, checked: tickers.length, saved, alerts: alertsToSend, lineSent, results };
 }
 
 async function sendWatchlistSummary(env) {

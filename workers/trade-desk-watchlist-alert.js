@@ -19,6 +19,7 @@
  *     dedup ต่อ ticker+label 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "trend:")
  *   - 🔄 Reversal Signal Alert — Bullish Divergence/Volume Exhaustion/Hammer/Engulfing
  *       จาก /api/reversal-signal timeframe='day' (วันละครั้ง 10:15-10:19 ICT) สโคปเดียวกับ Trend Score
+ *       แนบ Confirmation Check: Higher High + RSI>50 + Trend Score>0 (ยิงตัว confirm แล้วก่อน)
  *     dedup ต่อ ticker+ชุดสัญญาณ 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "reversal:")
  *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /watchlist
  *
@@ -935,6 +936,18 @@ function buildReversalFlex(env, display, r) {
     };
   });
 
+  const c = r.confirmation;
+  const confirmSection = c ? [
+    { type: 'separator', margin: 'lg', color: C.sep },
+    { type: 'text', text: c.isConfirmed ? '✅ ยืนยันแล้ว (ผ่านครบ 3 ข้อ)' : `⏳ ยืนยันแล้ว ${c.confirmedCount}/3 ข้อ`,
+      size: 'md', color: c.isConfirmed ? C.green : C.gold, weight: 'bold', margin: 'lg' },
+    { type: 'box', layout: 'vertical', margin: 'sm', spacing: 'xs', contents: [
+      { type: 'text', text: `${c.higherHigh ? '✓' : '○'} Higher High (ทะลุ ${fn(c.referenceHigh)})`, size: 'sm', color: c.higherHigh ? C.green : C.dim },
+      { type: 'text', text: `${c.rsiAbove50 ? '✓' : '○'} RSI > 50 (ตอนนี้ ${c.rsiNow ?? '-'})`, size: 'sm', color: c.rsiAbove50 ? C.green : C.dim },
+      { type: 'text', text: `${c.trendPositive ? '✓' : '○'} Trend Score พลิกบวก (ตอนนี้ ${c.trendScoreNow ?? '-'})`, size: 'sm', color: c.trendPositive ? C.green : C.dim },
+    ] },
+  ] : [];
+
   return {
     type: 'bubble', size: 'kilo',
     styles: bubbleStyles(),
@@ -944,6 +957,7 @@ function buildReversalFlex(env, display, r) {
       rowKV('RSI(14)', r.rsi != null ? fn(r.rsi, 1) : '-', C.txt),
       { type: 'separator', margin: 'lg', color: C.sep },
       ...sigRows,
+      ...confirmSection,
       { type: 'separator', margin: 'lg', color: C.sep },
       { type: 'text', text: 'ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ควรดูแนวรับ/ปริมาณซื้อขายประกอบ',
         size: 'sm', color: C.dim2, margin: 'md', wrap: true },
@@ -982,8 +996,12 @@ async function checkReversalAlerts(env) {
     if (state[k] === today) continue;
     candidates.push({ api, display, res, key: k });
   }
-  // ยิงตัวที่มีหลายสัญญาณพร้อมกันก่อน (ความมั่นใจสูงกว่า)
-  candidates.sort((a, b) => b.res.signalCount - a.res.signalCount);
+  // ยิงตัวที่ confirm แล้วก่อน แล้วค่อยตัวที่มีหลายสัญญาณพร้อมกัน
+  candidates.sort((a, b) => {
+    const ac = a.res.confirmation, bc = b.res.confirmation;
+    if ((bc?.isConfirmed ? 1 : 0) !== (ac?.isConfirmed ? 1 : 0)) return (bc?.isConfirmed ? 1 : 0) - (ac?.isConfirmed ? 1 : 0);
+    return b.res.signalCount - a.res.signalCount;
+  });
   const capped = candidates.slice(0, REVERSAL_MAX_ALERTS);
 
   const sent = [];

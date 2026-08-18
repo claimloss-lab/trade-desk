@@ -7739,11 +7739,12 @@ function renderReversalResults(list, results) {
   }
 
   resultEl.innerHTML = `
-    <div style="max-height:380px;overflow-y:auto">
+    <div style="max-height:420px;overflow-y:auto">
       ${rows.map(x => `
-        <div style="padding:10px 4px;border-bottom:1px solid var(--bd2)">
+        <div style="padding:10px 4px;border-bottom:1px solid var(--bd2);cursor:pointer"
+             onclick="toggleReversalChart('${x.api}','${x.display}')">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <span style="font-size:13px;font-weight:700">${x.display}</span>
+            <span style="font-size:13px;font-weight:700">${x.display} <span style="font-size:10px;color:var(--tx3);font-weight:400">แตะดูกราฟ</span></span>
             <span style="font-size:12px;color:var(--tx3)">ราคา ${fn(x.r.price,2)} · RSI ${x.r.rsi ?? '-'}</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:6px">
@@ -7753,10 +7754,98 @@ function renderReversalResults(list, results) {
               </span>`).join('')}
           </div>
         </div>
+        <div id="rv-detail-${x.api}" style="display:none;padding:10px 6px;background:var(--s2);border-radius:8px;margin:4px 0 8px 0"></div>
       `).join('')}
     </div>
     <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ควรดูแนวรับ/ปริมาณซื้อขายประกอบ</div>
   `;
+}
+
+async function toggleReversalChart(api, display) {
+  const el = document.getElementById('rv-detail-' + api);
+  if (!el) return;
+  if (el.style.display === 'block') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (el.dataset.loaded) return;
+  el.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">⏳ กำลังโหลดกราฟ...</div>';
+  try {
+    const res = await fetch('/api/reversal-signal', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: [api], timeframe: _reversalTimeframe, includeSeries: true }),
+      signal: safeSignal(20000),
+    });
+    const data = await res.json();
+    const r = data.results?.[api];
+    if (!r || r.error || !r.series) { el.innerHTML = `<div style="font-size:12px;color:var(--red-tx)">โหลดกราฟไม่สำเร็จ: ${r?.error || 'no data'}</div>`; return; }
+    el.innerHTML = `<div style="height:220px"><canvas id="rv-chart-${api}"></canvas></div>
+      <div style="font-size:10px;color:var(--tx3);margin-top:6px">🟣 จุดม่วง = ตำแหน่งที่เกิดสัญญาณ (ดู tooltip สำหรับรายละเอียด)</div>`;
+    renderReversalChart(api, r);
+    el.dataset.loaded = '1';
+  } catch (e) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--red-tx)">โหลดไม่สำเร็จ: ${e.message}</div>`;
+  }
+}
+
+function renderReversalChart(api, r) {
+  const key = 'rv-' + api;
+  if (charts[key]) charts[key].destroy();
+  const cv = document.getElementById('rv-chart-' + api);
+  if (!cv) return;
+  const { dates, closes, rsi } = r.series;
+
+  // มาร์คจุดที่เกิดสัญญาณบนกราฟราคา + RSI (จุดต่ำของ divergence, หรือแท่งล่าสุดสำหรับสัญญาณอื่น)
+  const priceMarkers = new Array(closes.length).fill(null);
+  const rsiMarkers = new Array(rsi.length).fill(null);
+  const noteAt = {};
+  (r.signals || []).forEach(s => {
+    if (s.type === 'bullish_divergence') {
+      priceMarkers[s.priorIdx] = closes[s.priorIdx];
+      priceMarkers[s.recentIdx] = closes[s.recentIdx];
+      rsiMarkers[s.priorIdx] = rsi[s.priorIdx];
+      rsiMarkers[s.recentIdx] = rsi[s.recentIdx];
+      noteAt[s.priorIdx] = 'จุดต่ำ 1 (Divergence)';
+      noteAt[s.recentIdx] = 'จุดต่ำ 2 (Divergence)';
+    } else {
+      const lastIdx = closes.length - 1;
+      priceMarkers[lastIdx] = closes[lastIdx];
+      noteAt[lastIdx] = REVERSAL_LABELS[s.type] || s.type;
+    }
+  });
+
+  charts[key] = new Chart(cv.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        { label: 'ราคา', data: closes, borderColor: 'var(--blue)', backgroundColor: 'transparent', tension: .2, pointRadius: 0, borderWidth: 2, yAxisID: 'y' },
+        { label: 'จุดสัญญาณ', data: priceMarkers, borderColor: 'transparent', backgroundColor: '#7c3aed', pointRadius: 7, pointHoverRadius: 9, showLine: false, yAxisID: 'y' },
+        { label: 'RSI(14)', data: rsi, borderColor: '#94A3B8', backgroundColor: 'transparent', borderDash: [4, 3], tension: .2, pointRadius: 0, borderWidth: 1.5, yAxisID: 'y1' },
+        { label: 'RSI ที่จุดสัญญาณ', data: rsiMarkers, borderColor: 'transparent', backgroundColor: '#059669', pointRadius: 6, showLine: false, yAxisID: 'y1' },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'nearest', intersect: true },
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const note = noteAt[ctx.dataIndex];
+              if (ctx.dataset.label === 'จุดสัญญาณ' && note) return `📍 ${note}: ${fn(ctx.parsed.y,2)}`;
+              if (ctx.dataset.label === 'RSI ที่จุดสัญญาณ' && note) return `📍 ${note} (RSI): ${fn(ctx.parsed.y,1)}`;
+              return `${ctx.dataset.label}: ${fn(ctx.parsed.y, ctx.dataset.label==='RSI(14)'?1:2)}`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 8 }, maxTicksLimit: 6 } },
+        y: { position: 'left', ticks: { font: { size: 9 } } },
+        y1: { position: 'right', min: 0, max: 100, grid: { display: false }, ticks: { font: { size: 9 } } },
+      },
+    },
+  });
 }
 
 </script>

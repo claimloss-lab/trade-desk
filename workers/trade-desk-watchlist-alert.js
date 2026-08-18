@@ -25,7 +25,11 @@
  *       (RSI เริ่มดีดตัว / มี Reversal Signal / ไม่ได้ปิดที่จุดต่ำสุดของวัน) จาก /api/buy-zone
  *       (วันละครั้ง 10:20-10:24 ICT) สโคปเดียวกับ Trend Score
  *     dedup ต่อ ticker 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "buyzone:")
- *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /buyzone-trigger /watchlist
+ *   - 🔔 Sell Zone Alert — mirror ของ Buy Zone ฝั่งขาย: ราคาขึ้นมาอยู่ในแนวต้านที่
+ *       ยืนยันแล้ว + มีหลักฐานว่ากำลังโดนกดอยู่ (RSI อ่อนแรง / Bearish Signal / ไม่ปิดที่จุดสูงสุด)
+ *       จาก /api/sell-zone (วันละครั้ง 10:25-10:29 ICT) สโคปเดียวกับ Trend Score
+ *     dedup ต่อ ticker 1 ครั้ง/วัน — เก็บใน _srAlerts (key ขึ้นต้น "sellzone:")
+ *   - GET /trigger /sr-trigger /oil-trigger /trend-trigger /reversal-trigger /buyzone-trigger /sellzone-trigger /watchlist
  *
  * env: LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID, GITHUB_TOKEN (+ ALERT_SECRET เสริม)
  */
@@ -65,6 +69,9 @@ const REVERSAL_MAX_ALERTS = 8;  // จำกัดจำนวน LINE alert/ร
 // Buy Zone alert config
 const BUYZONE_MAX_ALERTS = 8;   // จำกัดจำนวน LINE alert/รอบ
 
+// Sell Zone alert config
+const SELLZONE_MAX_ALERTS = 8;  // จำกัดจำนวน LINE alert/รอบ
+
 // ── Colors ───────────────────────────────────────────────────────────────────
 const C = {
   bgHead: '#2F6FED', bgBody: '#FFFFFF', bgFoot: '#EAF2FF',
@@ -80,7 +87,7 @@ export default {
 
     if (env.ALERT_SECRET) {
       const key = url.searchParams.get('key');
-      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
+      const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger', '/sellzone-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });
       }
@@ -134,6 +141,15 @@ export default {
     if (url.pathname === '/buyzone-trigger') {
       try {
         const result = await checkBuyZoneAlerts(env);
+        return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
+    }
+
+    if (url.pathname === '/sellzone-trigger') {
+      try {
+        const result = await checkSellZoneAlerts(env);
         return new Response(JSON.stringify(result, null, 2), { headers: { 'Content-Type': 'application/json' } });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message, stack: e.stack }, null, 2), { status: 500, headers: { 'Content-Type': 'application/json' } });
@@ -197,6 +213,8 @@ export default {
       if (h === 3 && m >= 15 && m < 20) await checkReversalAlerts(env);
       // Buy Zone: รอบถัดไป 10:20-10:24 ICT (03:20-03:24 UTC)
       if (h === 3 && m >= 20 && m < 25) await checkBuyZoneAlerts(env);
+      // Sell Zone: รอบถัดไป 10:25-10:29 ICT (03:25-03:29 UTC)
+      if (h === 3 && m >= 25 && m < 30) await checkSellZoneAlerts(env);
     })());
   },
 };
@@ -1112,6 +1130,85 @@ async function checkBuyZoneAlerts(env) {
   if (sent.length) {
     data._srAlerts = state;
     saved = await savePortfolioData(env, data, sha, 'chore: Buy Zone alert dedupe state');
+  }
+  return { checked: true, scanned: tickers.length, candidates: candidates.length, sent, saved };
+}
+
+// ── Sell Zone Alert ──────────────────────────────────────────────────────────
+// mirror ของ Buy Zone Alert แต่ฝั่งขาย/ทำกำไร — ตอบว่า "ตัวไหนขึ้นมาอยู่ในแนวต้าน
+// ที่ยืนยันแล้ว + มีหลักฐานว่ากำลังโดนกดอยู่จริง"
+const SZ_EVIDENCE_LABELS = {
+  rsi_weakening: 'RSI เริ่มอ่อนแรง',
+  bearish_signal: 'มี Bearish Signal',
+  not_closing_at_high: 'ไม่ได้ปิดที่จุดสูงสุดของวัน',
+};
+
+function buildSellZoneFlex(env, display, r) {
+  return {
+    type: 'bubble', size: 'kilo',
+    styles: bubbleStyles(),
+    header: headerBox(`🔔 ${display} · Sell Zone`, `ห่างแนวต้าน ${r.distFromResistancePct >= 0 ? '+' : ''}${fn(r.distFromResistancePct)}%`),
+    body: { type: 'box', layout: 'vertical', paddingAll: 'lg', contents: [
+      rowKV('ราคา', fn(r.price), C.txt, true),
+      rowKV('แนวต้าน', fn(r.resistance), C.red),
+      rowKV('RSI(14)', r.rsiNow != null ? fn(r.rsiNow, 1) : '-', C.txt),
+      { type: 'separator', margin: 'lg', color: C.sep },
+      { type: 'text', text: 'หลักฐานว่ากำลังโดนกดอยู่', size: 'sm', color: C.dim, weight: 'bold', margin: 'lg' },
+      ...r.evidence.map(e => ({
+        type: 'text', text: `✓ ${SZ_EVIDENCE_LABELS[e] || e}`, size: 'sm', color: C.red, margin: 'xs',
+      })),
+      { type: 'separator', margin: 'lg', color: C.sep },
+      { type: 'text', text: 'ℹ️ ไม่ใช่คำแนะนำการลงทุน — แนวต้านอาจทะลุได้เสมอ พิจารณาเป็นจุดทยอยขาย/ล็อกกำไรบางส่วน',
+        size: 'sm', color: C.dim2, margin: 'md', wrap: true },
+    ] },
+    footer: footerButtons(env),
+  };
+}
+
+async function checkSellZoneAlerts(env) {
+  const { data, sha } = await fetchPortfolioData(env);
+  const tickers = collectTrendTickers(data); // สโคปเดียวกับ Trend Score: SET DR + DIME-USA
+  if (!tickers.length) return { checked: false, reason: 'no tickers' };
+
+  let results;
+  try {
+    const r = await fetch(`${BASE_URL}/api/sell-zone`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: tickers.map(t => t.api) }),
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!r.ok) return { error: 'sell-zone fetch failed: ' + r.status };
+    results = (await r.json()).results || {};
+  } catch (e) {
+    return { error: e.message };
+  }
+
+  const state = data._srAlerts || {};
+  const today = todayICT();
+  const candidates = [];
+  for (const { api, display } of tickers) {
+    const res = results[api];
+    if (!res || res.error || !res.inSellZone) continue;
+    const k = `sellzone:${api}`;
+    if (state[k] === today) continue;
+    candidates.push({ api, display, res, key: k });
+  }
+  // ยิงตัวที่ใกล้แนวต้านที่สุดก่อน
+  candidates.sort((a, b) => a.res.distFromResistancePct - b.res.distFromResistancePct);
+  const capped = candidates.slice(0, SELLZONE_MAX_ALERTS);
+
+  const sent = [];
+  for (const c of capped) {
+    const ok = await pushFlex(env, `${c.display} · เข้าโซนแนวต้านแล้ว (ห่าง ${fn(c.res.distFromResistancePct)}%)`,
+      buildSellZoneFlex(env, c.display, c.res));
+    if (ok) { state[c.key] = today; sent.push(c.display); }
+  }
+
+  let saved = false;
+  if (sent.length) {
+    data._srAlerts = state;
+    saved = await savePortfolioData(env, data, sha, 'chore: Sell Zone alert dedupe state');
   }
   return { checked: true, scanned: tickers.length, candidates: candidates.length, sent, saved };
 }

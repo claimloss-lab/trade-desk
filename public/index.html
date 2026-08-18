@@ -900,6 +900,38 @@ function buildOverviewHTML() {
       </div>
     </div>
 
+    <!-- Reversal Signal — Bullish Divergence / Volume Exhaustion / Hammer / Engulfing -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(139,92,246,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🔄</span>
+          <div>
+            <div class="card-ti">Reversal Signal</div>
+            <div style="font-size:11px;color:var(--tx3)" id="rv-ts">RSI Divergence + Volume + แท่งเทียน · เฉพาะ SET DR + DIME-USA</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:14px 18px 0 18px;display:flex;gap:8px;align-items:center">
+        <div style="display:flex;background:var(--s2);border-radius:8px;padding:3px;gap:2px">
+          <button id="rv-tf-day" onclick="setReversalTimeframe('day')"
+            style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:var(--blue);color:#fff">วัน</button>
+          <button id="rv-tf-week" onclick="setReversalTimeframe('week')"
+            style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">สัปดาห์</button>
+          <button id="rv-tf-month" onclick="setReversalTimeframe('month')"
+            style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tx2)">เดือน</button>
+        </div>
+        <button id="rv-btn" onclick="runReversalScan()"
+          style="margin-left:auto;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap">
+          🔄 สแกนเลย
+        </button>
+      </div>
+      <div id="rv-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
+          เลือก timeframe แล้วกด "สแกนเลย" — หาสัญญาณว่าขาลงอาจกำลังจะจบ
+        </div>
+      </div>
+    </div>
+
     <!-- Strategy Backtest — Trend Score crossover -->
     <div class="card sens" style="margin-top:14px">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,200,150,.08),transparent)">
@@ -7647,6 +7679,84 @@ async function paperTradeAction(body) {
     alert('ผิดพลาด: ' + e.message);
     await loadPaperTrade();
   }
+}
+
+// ── Reversal Signal ────────────────────────────────────────────────────
+let _reversalTimeframe = 'day';
+const REVERSAL_LABELS = {
+  bullish_divergence: 'RSI Divergence',
+  volume_exhaustion:  'Volume Exhaustion',
+  hammer:             'Hammer',
+  bullish_engulfing:  'Bullish Engulfing',
+};
+const REVERSAL_TF_TEXT = { day: 'วัน', week: 'สัปดาห์', month: 'เดือน' };
+
+function setReversalTimeframe(tf) {
+  _reversalTimeframe = tf;
+  ['day', 'week', 'month'].forEach(t => {
+    const btn = document.getElementById('rv-tf-' + t);
+    if (!btn) return;
+    btn.style.background = t === tf ? 'var(--blue)' : 'transparent';
+    btn.style.color = t === tf ? '#fff' : 'var(--tx2)';
+  });
+}
+
+async function runReversalScan() {
+  const btn = document.getElementById('rv-btn');
+  const tsEl = document.getElementById('rv-ts');
+  const resultEl = document.getElementById('rv-result');
+  const list = collectScanTickers();
+  if (!list.length) { resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ไม่มีหุ้นให้สแกน</div>'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ กำลังสแกน...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงข้อมูล ' + list.length + ' ตัว (timeframe: ' + REVERSAL_TF_TEXT[_reversalTimeframe] + ')...</div>';
+  try {
+    const res = await fetch('/api/reversal-signal', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: list.map(t => t.api), timeframe: _reversalTimeframe }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🔄 สแกนเลย'; return; }
+    tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.withSignal}/${data.scanned} ตัวเข้าเกณฑ์ (${REVERSAL_TF_TEXT[_reversalTimeframe]})`;
+    renderReversalResults(list, data.results);
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '🔄 สแกนเลย';
+}
+
+function renderReversalResults(list, results) {
+  const resultEl = document.getElementById('rv-result');
+  const rows = list
+    .map(t => ({ ...t, r: results[t.api] }))
+    .filter(x => x.r && !x.r.error && x.r.hasSignal)
+    .sort((a, b) => b.r.signalCount - a.r.signalCount);
+
+  if (!rows.length) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">วันนี้ไม่มีตัวไหนเข้าเกณฑ์ Reversal Signal</div>';
+    return;
+  }
+
+  resultEl.innerHTML = `
+    <div style="max-height:380px;overflow-y:auto">
+      ${rows.map(x => `
+        <div style="padding:10px 4px;border-bottom:1px solid var(--bd2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:700">${x.display}</span>
+            <span style="font-size:12px;color:var(--tx3)">ราคา ${fn(x.r.price,2)} · RSI ${x.r.rsi ?? '-'}</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            ${x.r.signals.map(s => `
+              <span class="bdg" style="background:#8b5cf622;color:#7c3aed;border:1px solid #7c3aed;margin-top:0">
+                🔄 ${REVERSAL_LABELS[s.type] || s.type}
+              </span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ สัญญาณว่าขาลงอาจกำลังจะจบ ไม่ใช่คำแนะนำการลงทุน — ควรดูแนวรับ/ปริมาณซื้อขายประกอบ</div>
+  `;
 }
 
 </script>

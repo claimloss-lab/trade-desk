@@ -954,6 +954,28 @@ function buildOverviewHTML() {
       </div>
     </div>
 
+    <!-- Sell Zone Alert — ราคาอยู่ในโซนแนวต้านที่ควรพิจารณาขายไหม -->
+    <div class="card sens" style="margin-top:14px">
+      <div class="card-hd" style="background:linear-gradient(90deg,rgba(220,38,38,.08),transparent)">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:15px">🔔</span>
+          <div>
+            <div class="card-ti">Sell Zone Alert</div>
+            <div style="font-size:11px;color:var(--tx3)" id="sz-ts">ราคาอยู่ในโซนแนวต้านที่ควรพิจารณาขายไหม · เฉพาะ SET DR + DIME-USA</div>
+          </div>
+        </div>
+        <button id="sz-btn" onclick="runSellZoneScan()"
+          style="background:linear-gradient(135deg,#DC2626,#f87171);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">
+          🔔 สแกนเลย
+        </button>
+      </div>
+      <div id="sz-result" style="padding:16px 18px;min-height:40px">
+        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
+          กด "สแกนเลย" — เช็คว่าตัวไหนราคาขึ้นมาอยู่ใกล้แนวต้าน + มีสัญญาณว่ากำลังโดนกดอยู่จริง + RSI ยังไม่ร่วงไปไกลเกินไป
+        </div>
+      </div>
+    </div>
+
     <!-- Strategy Backtest — Trend Score crossover -->
     <div class="card sens" style="margin-top:14px">
       <div class="card-hd" style="background:linear-gradient(90deg,rgba(0,200,150,.08),transparent)">
@@ -7955,6 +7977,74 @@ function renderBuyZoneResults(list, results) {
       `).join('')}
     </div>
     <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ ไม่ใช่คำแนะนำการลงทุน — เกณฑ์: ใกล้แนวรับ + มีหลักฐานว่ากำลังรับอยู่ + RSI≤65 (ไม่เด้งเร็วไปแล้ว) · แนวรับอาจหลุดได้เสมอ ควรใช้ limit order + staged entry</div>
+  `;
+}
+
+// ── Sell Zone Alert ────────────────────────────────────────────────────
+const SZ_EVIDENCE_LABELS = {
+  rsi_weakening: 'RSI เริ่มอ่อนแรง',
+  bearish_signal: 'มี Bearish Signal',
+  not_closing_at_high: 'ไม่ได้ปิดที่จุดสูงสุดของวัน',
+};
+
+async function runSellZoneScan() {
+  const btn = document.getElementById('sz-btn');
+  const tsEl = document.getElementById('sz-ts');
+  const resultEl = document.getElementById('sz-result');
+  const list = collectScanTickers();
+  if (!list.length) { resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ไม่มีหุ้นให้สแกน</div>'; return; }
+
+  btn.disabled = true; btn.textContent = '⏳ กำลังสแกน...';
+  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังดึงข้อมูล ' + list.length + ' ตัว...</div>';
+  try {
+    const res = await fetch('/api/sell-zone', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tickers: list.map(t => t.api) }),
+      signal: safeSignal(30000),
+    });
+    const data = await res.json();
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🔔 สแกนเลย'; return; }
+    tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.inZoneCount}/${data.scanned} ตัวอยู่ในโซนขาย`;
+    renderSellZoneResults(list, data.results);
+  } catch (e) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '🔔 สแกนเลย';
+}
+
+function renderSellZoneResults(list, results) {
+  const resultEl = document.getElementById('sz-result');
+  const rows = list
+    .map(t => ({ ...t, r: results[t.api] }))
+    .filter(x => x.r && !x.r.error && x.r.inSellZone)
+    .sort((a, b) => a.r.distFromResistancePct - b.r.distFromResistancePct);
+
+  if (!rows.length) {
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">ตอนนี้ไม่มีตัวไหนอยู่ในโซนแนวต้านที่ควรพิจารณาขาย</div>';
+    return;
+  }
+
+  resultEl.innerHTML = `
+    <div style="max-height:420px;overflow-y:auto">
+      ${rows.map(x => `
+        <div style="padding:12px 4px;border-bottom:1px solid var(--bd2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:14px;font-weight:700">🔔 ${x.display}</span>
+            <span class="bdg" style="background:var(--red-bg);color:var(--red-tx);border:1px solid var(--red-tx);margin-top:0">อยู่ในโซนขาย</span>
+          </div>
+          <div style="font-size:12px;color:var(--tx2);margin-bottom:6px">
+            ราคา ${fn(x.r.price,2)} · แนวต้าน ${fn(x.r.resistance,2)} (ห่าง ${x.r.distFromResistancePct>=0?'+':''}${x.r.distFromResistancePct}%) · RSI ${x.r.rsiNow ?? '-'}
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            ${x.r.evidence.map(e => `
+              <span class="bdg" style="background:var(--red-bg);color:var(--red-tx);border:1px solid var(--red-tx);margin-top:0">
+                ✓ ${SZ_EVIDENCE_LABELS[e] || e}
+              </span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ ไม่ใช่คำแนะนำการลงทุน — เกณฑ์: ใกล้แนวต้าน + มีหลักฐานว่ากำลังโดนกดอยู่ + RSI≥35 (ยังไม่ร่วงไปไกลเกินไป) · แนวต้านอาจทะลุได้เสมอ</div>
   `;
 }
 

@@ -1,8 +1,9 @@
 // ── /api/buy-zone ────────────────────────────────────────────────────
-// POST { tickers: [...], range? (default '1y'), proximityPct?, undershootPct? }
+// POST { tickers: [...], range? (default '1y'), proximityPct?, undershootPct?, maxRsi? }
 // ตอบคำถาม "ตอนนี้หุ้นตัวนี้ลงมาอยู่ในแนวรับแล้ว ซื้อได้ไหม" — รวม S/R engine
 // (แนวรับที่ยืนยันด้วย pivot จริง ไม่ใช่จุดต่ำสุดชั่วคราว) + หลักฐานว่ากำลังรับอยู่
 // (RSI เริ่มดีดตัว / มี Reversal Signal / ไม่ได้ปิดที่จุดต่ำสุดของวัน)
+// + RSI ต้องไม่เกิน maxRsi (default 65) กันเคสเด้งเร็วจนพลาดจังหวะที่ดีที่สุดไปแล้ว
 import { fetchDailyOHLCV } from '../_lib/market-data.js';
 import { detectBuyZone } from '../_lib/buyzone.js';
 
@@ -17,7 +18,7 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ error: 'POST only' }), { status: 405, headers: cors });
 
   try {
-    const { tickers, range = '1y', proximityPct, undershootPct } = await context.request.json();
+    const { tickers, range = '1y', proximityPct, undershootPct, maxRsi } = await context.request.json();
     if (!tickers?.length)
       return new Response(JSON.stringify({ error: 'no tickers' }), { status: 400, headers: cors });
     if (tickers.length > 60)
@@ -27,7 +28,7 @@ export async function onRequest(context) {
     await Promise.all(tickers.map(async raw => {
       const d = await fetchDailyOHLCV(raw, range);
       if (!d.ok) { results[raw] = { error: d.error }; return; }
-      results[raw] = detectBuyZone(d, { proximityPct, undershootPct });
+      results[raw] = detectBuyZone(d, { proximityPct, undershootPct, maxRsi });
     }));
 
     const inZone = Object.entries(results).filter(([, r]) => r.inBuyZone).map(([t]) => t);

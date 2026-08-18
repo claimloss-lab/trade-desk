@@ -3,17 +3,20 @@
 // "ราคาตอนนี้อยู่ในโซนแนวรับ และแนวรับดูเหมือนจะรับอยู่จริง" — ตรงกับสไตล์
 // เข้าที่แนวรับ (ไม่ไล่ราคา) แบบ staged entry ที่ใช้อยู่แล้ว
 //
-// inBuyZone = true ต้องผ่านทั้ง 2 เงื่อนไข:
+// inBuyZone = true ต้องผ่านทั้ง 3 เงื่อนไข:
 //   1) nearSupport — ราคาห่างแนวรับไม่เกิน proximityPct% (อนุโลมหลุดลงไปได้เล็กน้อย
 //      เพราะราคาชอบมี wick ทะลุแนวรับก่อนเด้ง)
 //   2) มี "หลักฐานว่ากำลังรับอยู่" อย่างน้อย 1 ข้อ: RSI เริ่มดีดตัว, มี Reversal
 //      Signal (จาก reversal.js), หรือแท่งล่าสุดไม่ได้ปิดที่จุดต่ำสุดของวัน
+//   3) rsiNotOverbought — RSI ปัจจุบันไม่เกิน maxRsi (ค่าเริ่มต้น 65) กันเคสที่
+//      ราคาเด้งขึ้นจากแนวรับไปไกลแล้ว (RSI พุ่งเร็ว) แปลว่าจังหวะเข้าที่ดีที่สุดผ่านไปแล้ว
 import { nearestSupportResistance, rsiFull } from './technicals.js';
 import { detectReversalSignals } from './reversal.js';
 
 export function detectBuyZone({ opens, highs, lows, closes, volumes }, opts = {}) {
   const proximityPct = opts.proximityPct ?? 3;   // ยอมให้ราคาอยู่เหนือแนวรับได้ไม่เกินกี่ %
   const undershootPct = opts.undershootPct ?? 2;  // ยอมให้ราคาหลุดแนวรับไปได้ไม่เกินกี่ % (wick)
+  const maxRsi = opts.maxRsi ?? 65;               // RSI เกินนี้ = เด้งเร็วไปแล้ว ไม่นับเป็นโซนซื้อ
 
   const n = closes.length;
   if (n < 30) return { inBuyZone: false, error: 'ข้อมูลไม่พอ (ต้องการอย่างน้อย 30 แท่ง)' };
@@ -30,6 +33,7 @@ export function detectBuyZone({ opens, highs, lows, closes, volumes }, opts = {}
   const rsiNow = rsiSeries[n - 1];
   const rsiPrev = rsiSeries[n - 2];
   const rsiRecovering = rsiNow != null && rsiPrev != null && rsiNow > rsiPrev;
+  const rsiNotOverbought = rsiNow == null || rsiNow <= maxRsi;
 
   const reversal = detectReversalSignals({ opens, highs, lows, closes, volumes });
 
@@ -41,7 +45,7 @@ export function detectBuyZone({ opens, highs, lows, closes, volumes }, opts = {}
   if (reversal.hasSignal) evidence.push('reversal_signal');
   if (notClosingAtLow) evidence.push('not_closing_at_low');
 
-  const inBuyZone = nearSupport && evidence.length > 0;
+  const inBuyZone = nearSupport && evidence.length > 0 && rsiNotOverbought;
 
   return {
     inBuyZone,
@@ -54,6 +58,8 @@ export function detectBuyZone({ opens, highs, lows, closes, volumes }, opts = {}
     evidence,
     rsiNow: rsiNow != null ? +rsiNow.toFixed(1) : null,
     rsiRecovering,
+    rsiNotOverbought,
+    maxRsi,
     notClosingAtLow,
     reversalSignals: reversal.signals,
   };

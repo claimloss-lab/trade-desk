@@ -1,0 +1,19 @@
+name: MA Cross Signal Trigger
+
+on:
+  schedule:
+    - cron: '0 1 * * *'    # 01:00 UTC = 08:00 ICT (Night/US close)
+    - cron: '0 11 * * *'   # 11:00 UTC = 18:00 ICT (Day/SET close)
+  workflow_dispatch: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call MA Cross Signal worker
+        run: |
+          echo "=== Calling /machross-trigger ==="
+          curl -s -X GET "https://trade-desk-watchlist-alert.claimloss.workers.dev/machross-trigger?key=${{ secrets.WATCHLIST_ALERT_SECRET }}" \
+            --max-time 60 -w "\nHTTP_STATUS:%{http_code}" | tee /tmp/response.txt
+          echo ""
+          grep -q "HTTP_STATUS:200" /tmp/response.txt || { echo "❌ MA cross trigger failed"; exit 1; }

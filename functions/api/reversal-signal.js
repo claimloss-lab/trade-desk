@@ -1,12 +1,15 @@
 // ── /api/reversal-signal ─────────────────────────────────────────────
-// POST { tickers: [...], timeframe: 'day'|'week'|'month' (default 'day'), range? }
+// POST { tickers: [...], timeframe: 'day'|'week'|'month' (default 'day'), range?, includeSeries? }
 // หาสัญญาณว่าขาลงอาจกำลังจะจบ (ก่อน Trend Score จะพลิกบวกด้วยซ้ำ):
 //   - Bullish RSI Divergence, Volume Exhaustion, Hammer, Bullish Engulfing
 // ใช้ timeframe เดียวกับที่นักลงทุนดูจริง — day สำหรับจังหวะสั้น, week/month
 // สำหรับดูจุดกลับตัวใหญ่ (ต้องดึงราคาย้อนหลังนานขึ้นเพื่อให้มีแท่ง week/month พอ)
+// includeSeries=true: แนบ dates/closes/rsi ทั้งชุดไปด้วย (สำหรับวาดกราฟ) —
+// ปกติปิดไว้ (payload หนักขึ้น) เปิดเฉพาะตอนขอดูกราฟของ ticker เดียว
 import { fetchDailyOHLCV } from '../_lib/market-data.js';
 import { resampleOHLCV } from '../_lib/timeframe.js';
 import { detectReversalSignals } from '../_lib/reversal.js';
+import { rsiFull } from '../_lib/technicals.js';
 
 const DEFAULT_RANGE = { day: '1y', week: '3y', month: '10y' };
 
@@ -21,7 +24,7 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ error: 'POST only' }), { status: 405, headers: cors });
 
   try {
-    const { tickers, timeframe = 'day', range } = await context.request.json();
+    const { tickers, timeframe = 'day', range, includeSeries = false } = await context.request.json();
     if (!tickers?.length)
       return new Response(JSON.stringify({ error: 'no tickers' }), { status: 400, headers: cors });
     if (!['day', 'week', 'month'].includes(timeframe))
@@ -44,6 +47,14 @@ export async function onRequest(context) {
 
       const signal = detectReversalSignals(resampled);
       results[raw] = { timeframe, lastDate: resampled.dates[resampled.dates.length - 1], ...signal };
+
+      if (includeSeries) {
+        results[raw].series = {
+          dates: resampled.dates,
+          closes: resampled.closes.map(v => +v.toFixed(4)),
+          rsi: rsiFull(resampled.closes, 14).map(v => v != null ? +v.toFixed(1) : null),
+        };
+      }
     }));
 
     const withSignal = Object.entries(results).filter(([, r]) => r.hasSignal).map(([t]) => t);

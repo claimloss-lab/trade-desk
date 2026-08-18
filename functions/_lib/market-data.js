@@ -20,13 +20,14 @@ export async function fetchDailyOHLCV(rawTicker, range = '1y') {
     if (!res || !q) return { ok: false, error: 'no data' };
 
     const rows = (res.timestamp || []).map((t, i) => ({
-      date: t, close: q.close?.[i], high: q.high?.[i], low: q.low?.[i], volume: q.volume?.[i],
-    })).filter(x => x.close != null && x.high != null && x.low != null);
+      date: t, open: q.open?.[i], close: q.close?.[i], high: q.high?.[i], low: q.low?.[i], volume: q.volume?.[i],
+    })).filter(x => x.close != null && x.high != null && x.low != null && x.open != null);
 
     if (!rows.length) return { ok: false, error: 'empty series' };
 
     return {
       ok: true,
+      opens: rows.map(x => x.open),
       closes: rows.map(x => x.close),
       highs: rows.map(x => x.high),
       lows: rows.map(x => x.low),

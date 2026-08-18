@@ -156,3 +156,104 @@ export function detectReversalSignals({ opens, highs, lows, closes, volumes }) {
 
   return result;
 }
+
+// ── Bearish signals (ฝั่งขาย/แนวต้าน) ─────────────────────────────────
+// mirror ของฝั่ง bullish ข้างบน ใช้สำหรับ Sell Zone Alert (ราคาใกล้แนวต้าน + สัญญาณอ่อนแรง)
+
+// เทียบ pivot high ล่าสุด 2 จุด: ราคาสูงขึ้น (HH) แต่ RSI ต่ำลง (LH) = divergence ขาลง
+export function detectBearishDivergence(closes, rsiSeries, window = 3, lookback = 60) {
+  const n = closes.length;
+  const start = Math.max(0, n - lookback);
+  const highIdxs = findPivotIndices(closes.slice(start), window, 'high').map(i => i + start);
+  const validHighs = highIdxs.filter(i => rsiSeries[i] != null);
+  if (validHighs.length < 2) return null;
+
+  const last = validHighs[validHighs.length - 1];
+  const prev = validHighs[validHighs.length - 2];
+  const priceHH = closes[last] > closes[prev];
+  const rsiLH = rsiSeries[last] < rsiSeries[prev];
+  if (!(priceHH && rsiLH)) return null;
+
+  return {
+    type: 'bearish_divergence',
+    priorIdx: prev, priorPrice: +closes[prev].toFixed(4), priorRsi: +rsiSeries[prev].toFixed(1),
+    recentIdx: last, recentPrice: +closes[last].toFixed(4), recentRsi: +rsiSeries[last].toFixed(1),
+  };
+}
+
+// แท่งขาขึ้นติดกัน วอลุ่มเริ่มเบาลง (ผู้ซื้อหมดแรง) แล้ววันล่าสุดเป็นแท่งแดง+วอลุ่มพุ่ง = ผู้ขายเข้าแทน
+export function detectVolumeClimax(opens, closes, volumes, maxUpDays = 5, spikeMultiplier = 1.3) {
+  const n = closes.length;
+  if (n < 4) return null;
+  const i = n - 1;
+  const isRedToday = closes[i] < opens[i];
+  if (!isRedToday) return null;
+
+  const upVols = [];
+  for (let j = i - 1; j >= 0 && upVols.length < maxUpDays; j--) {
+    if (closes[j] > opens[j]) upVols.push(volumes[j]);
+    else break;
+  }
+  if (upVols.length < 3) return null;
+
+  const declining = upVols[0] < upVols[upVols.length - 1];
+  const avgUpVol = upVols.reduce((a, b) => a + b, 0) / upVols.length;
+  const volSpike = volumes[i] > avgUpVol * spikeMultiplier;
+  if (!(declining && volSpike)) return null;
+
+  return {
+    type: 'volume_climax',
+    upDaysCounted: upVols.length,
+    avgUpVolume: Math.round(avgUpVol),
+    todayVolume: Math.round(volumes[i]),
+    spikeRatio: +(volumes[i] / avgUpVol).toFixed(2),
+  };
+}
+
+export function detectShootingStar(opens, highs, lows, closes, i) {
+  const body = Math.abs(closes[i] - opens[i]);
+  const range = highs[i] - lows[i];
+  if (range <= 0) return false;
+  const upperWick = highs[i] - Math.max(opens[i], closes[i]);
+  const lowerWick = Math.min(opens[i], closes[i]) - lows[i];
+  return upperWick >= body * 2 && lowerWick <= body * 0.5 && body / range < 0.4;
+}
+
+export function detectBearishEngulfing(opens, closes, i) {
+  if (i < 1) return false;
+  const prevGreen = closes[i - 1] > opens[i - 1];
+  const curRed = closes[i] < opens[i];
+  if (!(prevGreen && curRed)) return false;
+  return opens[i] >= closes[i - 1] && closes[i] <= opens[i - 1];
+}
+
+const BEARISH_LABELS_INTERNAL = {
+  bearish_divergence: 'RSI Divergence (โมเมนตัมขาขึ้นอ่อนแรง)',
+  volume_climax: 'วอลุ่มขาขึ้นหมดแรง + วันนี้แท่งแดง',
+  shooting_star: 'แท่งเทียน Shooting Star',
+  bearish_engulfing: 'แท่งเทียน Bearish Engulfing',
+};
+
+export function detectBearishSignals({ opens, highs, lows, closes, volumes }) {
+  const n = closes.length;
+  if (n < 20) return { hasSignal: false, signalCount: 0, signals: [], error: 'ข้อมูลไม่พอ (ต้องการอย่างน้อย 20 แท่ง)' };
+
+  const rsiSeries = rsiFull(closes, 14);
+  const lastIdx = n - 1;
+
+  const signals = [];
+  const div = detectBearishDivergence(closes, rsiSeries);
+  if (div) signals.push(div);
+  const volClimax = detectVolumeClimax(opens, closes, volumes);
+  if (volClimax) signals.push(volClimax);
+  if (detectShootingStar(opens, highs, lows, closes, lastIdx)) signals.push({ type: 'shooting_star', idx: lastIdx });
+  if (detectBearishEngulfing(opens, closes, lastIdx)) signals.push({ type: 'bearish_engulfing', idx: lastIdx });
+
+  return {
+    hasSignal: signals.length > 0,
+    signalCount: signals.length,
+    signals,
+    price: +closes[lastIdx].toFixed(4),
+    rsi: rsiSeries[lastIdx] != null ? +rsiSeries[lastIdx].toFixed(1) : null,
+  };
+}

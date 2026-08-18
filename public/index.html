@@ -949,7 +949,7 @@ function buildOverviewHTML() {
       </div>
       <div id="bz-result" style="padding:16px 18px;min-height:40px">
         <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">
-          กด "สแกนเลย" — เช็คว่าตัวไหนราคาลงมาอยู่ใกล้แนวรับ + มีสัญญาณว่ากำลังรับอยู่จริง
+          กด "สแกนเลย" — เช็คว่าตัวไหนราคาลงมาอยู่ใกล้แนวรับ + มีสัญญาณว่ากำลังรับอยู่จริง + RSI ยังไม่เด้งเร็วเกินไป
         </div>
       </div>
     </div>
@@ -7954,7 +7954,7 @@ function renderBuyZoneResults(list, results) {
         </div>
       `).join('')}
     </div>
-    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ ไม่ใช่คำแนะนำการลงทุน — แนวรับอาจหลุดได้เสมอ ควรใช้ limit order + staged entry ตามสไตล์ที่วางไว้</div>
+    <div style="font-size:10px;color:var(--tx3);margin-top:10px">ℹ️ ไม่ใช่คำแนะนำการลงทุน — เกณฑ์: ใกล้แนวรับ + มีหลักฐานว่ากำลังรับอยู่ + RSI≤65 (ไม่เด้งเร็วไปแล้ว) · แนวรับอาจหลุดได้เสมอ ควรใช้ limit order + staged entry</div>
   `;
 }
 

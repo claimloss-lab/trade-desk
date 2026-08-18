@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-14T03:27:20.540Z",
-  "exportDateTH": "14 สิงหาคม 2569 เวลา 10:27",
+  "exportDate": "2026-08-18T14:44:05.749Z",
+  "exportDateTH": "18 สิงหาคม 2569 เวลา 21:44",
   "portfolios": [
     {
       "id": "dr1",
@@ -232,6 +232,14 @@
           "srResist": 5.4564,
           "srUpdated": "2026-08-17",
           "srResistIsExt": false
+        },
+        {
+          "ticker": "MRVL80",
+          "buyPrice": 7.26,
+          "qty": 1500,
+          "sector": "Tech",
+          "underlying": "MRVL",
+          "id": 1787064242205
         }
       ],
       "cash": 155142.12,
@@ -601,7 +609,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
           "srResist": 248.15,
-          "srUpdated": "2026-08-18",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -610,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1787064242205,
+      "ticker": "MRVL80",
+      "type": "buy",
+      "date": "2026-08-18",
+      "price": 7.26,
+      "qty": 1500,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1786645809559,
       "ticker": "CRWD80",
@@ -5828,8 +5849,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 42,
-    "totalTransactions": 54,
-    "totalNetWorth": "฿1,838,371.28"
+    "totalStocks": 43,
+    "totalTransactions": 55,
+    "totalNetWorth": "฿1,815,965.17"
   }
 }

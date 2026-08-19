@@ -5850,7 +5850,12 @@
     "buyzone:AMZN": "2026-08-19",
     "buyzone:QQQM": "2026-08-19",
     "buyzone:MSFT": "2026-08-19",
-    "buyzone:AVGO": "2026-08-19"
+    "buyzone:AVGO": "2026-08-19",
+    "sellzone:MSFT": "2026-08-19",
+    "sellzone:LLY": "2026-08-19",
+    "sellzone:QQQM": "2026-08-19",
+    "sellzone:AVGO": "2026-08-19",
+    "sellzone:CRWD": "2026-08-19"
   },
   "summary": {
     "totalPorts": 10,

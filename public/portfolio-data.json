@@ -5845,7 +5845,8 @@
     "trend:CRWD:Strong Buy": "2026-08-17",
     "trend:ASML:Strong Buy": "2026-08-17",
     "trend:AIQ:Strong Buy": "2026-08-15",
-    "LLY_resist": "2026-08-18T18:32:08.838Z"
+    "LLY_resist": "2026-08-18T18:32:08.838Z",
+    "reversal:ORCL:bullish_divergence": "2026-08-19"
   },
   "summary": {
     "totalPorts": 10,

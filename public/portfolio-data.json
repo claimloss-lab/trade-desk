@@ -5846,7 +5846,11 @@
     "trend:ASML:Strong Buy": "2026-08-17",
     "trend:AIQ:Strong Buy": "2026-08-15",
     "LLY_resist": "2026-08-18T18:32:08.838Z",
-    "reversal:ORCL:bullish_divergence": "2026-08-19"
+    "reversal:ORCL:bullish_divergence": "2026-08-19",
+    "buyzone:AMZN": "2026-08-19",
+    "buyzone:QQQM": "2026-08-19",
+    "buyzone:MSFT": "2026-08-19",
+    "buyzone:AVGO": "2026-08-19"
   },
   "summary": {
     "totalPorts": 10,

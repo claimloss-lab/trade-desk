@@ -5834,7 +5834,7 @@
     "PLTR_resist": "2026-08-14T14:06:36.592Z",
     "CENTEL.BK_resist": "2026-08-14T14:06:36.592Z",
     "PANW_resist": "2026-08-14T14:06:36.592Z",
-    "trend:SNOW:Strong Buy": "2026-08-19",
+    "trend:SNOW:Strong Buy": "2026-08-20",
     "trend:VTI:Strong Buy": "2026-08-15",
     "trend:CENTEL.BK:Strong Buy": "2026-08-15",
     "trend:VEA:Strong Buy": "2026-08-15",
@@ -5856,7 +5856,8 @@
     "sellzone:QQQM": "2026-08-19",
     "sellzone:AVGO": "2026-08-19",
     "sellzone:CRWD": "2026-08-19",
-    "AVGO_support": "2026-08-20T03:00:50.735Z"
+    "AVGO_support": "2026-08-20T03:00:50.735Z",
+    "trend:LLY:Strong Buy": "2026-08-20"
   },
   "summary": {
     "totalPorts": 10,

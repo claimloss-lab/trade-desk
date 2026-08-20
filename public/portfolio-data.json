@@ -5857,7 +5857,8 @@
     "sellzone:AVGO": "2026-08-19",
     "sellzone:CRWD": "2026-08-19",
     "AVGO_support": "2026-08-20T03:00:50.735Z",
-    "trend:LLY:Strong Buy": "2026-08-20"
+    "trend:LLY:Strong Buy": "2026-08-20",
+    "reversal:ORCL:bullish_divergence,bullish_engulfing": "2026-08-20"
   },
   "summary": {
     "totalPorts": 10,

@@ -5847,10 +5847,10 @@
     "trend:AIQ:Strong Buy": "2026-08-15",
     "LLY_resist": "2026-08-18T18:32:08.838Z",
     "reversal:ORCL:bullish_divergence": "2026-08-23",
-    "buyzone:AMZN": "2026-08-19",
-    "buyzone:QQQM": "2026-08-20",
-    "buyzone:MSFT": "2026-08-20",
-    "buyzone:AVGO": "2026-08-20",
+    "buyzone:AMZN": "2026-08-23",
+    "buyzone:QQQM": "2026-08-23",
+    "buyzone:MSFT": "2026-08-23",
+    "buyzone:AVGO": "2026-08-23",
     "sellzone:MSFT": "2026-08-20",
     "sellzone:LLY": "2026-08-19",
     "sellzone:QQQM": "2026-08-20",
@@ -5861,7 +5861,8 @@
     "reversal:ORCL:bullish_divergence,bullish_engulfing": "2026-08-20",
     "sellzone:GOOGL": "2026-08-20",
     "sellzone:PANW": "2026-08-20",
-    "reversal:QQQM:hammer": "2026-08-23"
+    "reversal:QQQM:hammer": "2026-08-23",
+    "buyzone:ASML": "2026-08-23"
   },
   "summary": {
     "totalPorts": 10,

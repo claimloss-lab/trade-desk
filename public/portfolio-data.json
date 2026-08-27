@@ -5868,7 +5868,8 @@
     "buyzone:GOOGL": "2026-08-26",
     "buyzone:ORCL": "2026-08-25",
     "buyzone:NVDA": "2026-08-26",
-    "buyzone:CRWD": "2026-08-26"
+    "buyzone:CRWD": "2026-08-26",
+    "trend:MSFT:Strong Buy": "2026-08-27"
   },
   "summary": {
     "totalPorts": 10,

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-27T03:49:57.566Z",
-  "exportDateTH": "27 สิงหาคม 2569 เวลา 10:49",
+  "exportDate": "2026-08-27T03:50:04.495Z",
+  "exportDateTH": "27 สิงหาคม 2569 เวลา 10:50",
   "portfolios": [
     {
       "id": "dr1",
@@ -541,8 +541,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 29.4683,
-          "navDate": "19 ส.ค. 69"
+          "currentNav": 30.7954,
+          "navDate": "27 ส.ค. 69"
         },
         {
           "id": 2,
@@ -5879,6 +5879,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 55,
-    "totalNetWorth": "฿1,796,967.44"
+    "totalNetWorth": "฿1,797,528.82"
   }
 }

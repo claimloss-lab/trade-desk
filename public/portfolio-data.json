@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-08-24T12:12:24.109Z",
-  "exportDateTH": "24 สิงหาคม 2569 เวลา 12:12",
+  "exportDate": "2026-08-27T03:49:57.566Z",
+  "exportDateTH": "27 สิงหาคม 2569 เวลา 10:49",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8602,
-          "srResist": 2.3311,
-          "srUpdated": "2026-08-27",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.409,
-          "srResist": 54.4278,
-          "srUpdated": "2026-08-27",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3667,
-          "srResist": 3.162,
-          "srUpdated": "2026-08-27",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,10 +76,10 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.1731,
-          "srResist": 29.6166,
-          "srUpdated": "2026-08-27",
-          "srResistIsExt": false
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "GOOG80",
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2256,
-          "srResist": 6.3382,
-          "srUpdated": "2026-08-27",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.6725,
-          "srResist": 2.1017,
-          "srUpdated": "2026-08-27",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.7917,
-          "srResist": 8.307,
-          "srUpdated": "2026-08-27",
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.1901,
-          "srResist": 36.983,
-          "srUpdated": "2026-08-27",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.0978,
-          "srResist": 13.0007,
-          "srUpdated": "2026-08-27",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3478,
-          "srResist": 3.9179,
-          "srUpdated": "2026-08-27",
-          "srResistIsExt": false
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 17.893,
-          "srResist": 20.1727,
-          "srUpdated": "2026-08-27",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.7173,
-          "srResist": 5.5381,
-          "srUpdated": "2026-08-27",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -487,8 +487,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.7993,
-          "navDate": "19 ส.ค. 69"
+          "currentNav": 14.6528,
+          "navDate": "27 ส.ค. 69"
         },
         {
           "id": 2,
@@ -498,8 +498,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.542,
-          "navDate": "19 ส.ค. 69"
+          "currentNav": 13.2368,
+          "navDate": "27 ส.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -509,8 +509,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.7322,
-          "navDate": "19 ส.ค. 69"
+          "currentNav": 13.3789,
+          "navDate": "27 ส.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -520,8 +520,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 18.1541,
-          "navDate": "19 ส.ค. 69"
+          "currentNav": 17.435,
+          "navDate": "27 ส.ค. 69"
         }
       ]
     },
@@ -583,7 +583,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.3183,
-          "navDate": "19 ส.ค. 69"
+          "navDate": "2026-08-14"
         }
       ],
       "cash": 0,
@@ -609,7 +609,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
           "srResist": 248.15,
-          "srUpdated": "2026-08-27",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -5879,6 +5879,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 55,
-    "totalNetWorth": "฿1,781,430.55"
+    "totalNetWorth": "฿1,796,967.44"
   }
 }

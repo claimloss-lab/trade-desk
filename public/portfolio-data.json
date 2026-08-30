@@ -5873,7 +5873,8 @@
     "reversal:PLTR:bullish_engulfing": "2026-08-27",
     "reversal:QQQM:bullish_engulfing": "2026-08-27",
     "buyzone:PLTR": "2026-08-27",
-    "buyzone:LLY": "2026-08-27"
+    "buyzone:LLY": "2026-08-27",
+    "reversal:PANW:hammer": "2026-08-30"
   },
   "summary": {
     "totalPorts": 10,

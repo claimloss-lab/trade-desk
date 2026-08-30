@@ -5865,7 +5865,7 @@
     "buyzone:ASML": "2026-08-27",
     "sellzone:NVDA": "2026-08-27",
     "sellzone:ORCL": "2026-08-27",
-    "buyzone:GOOGL": "2026-08-26",
+    "buyzone:GOOGL": "2026-08-30",
     "buyzone:ORCL": "2026-08-25",
     "buyzone:NVDA": "2026-08-26",
     "buyzone:CRWD": "2026-08-26",
@@ -5873,7 +5873,7 @@
     "reversal:PLTR:bullish_engulfing": "2026-08-27",
     "reversal:QQQM:bullish_engulfing": "2026-08-27",
     "buyzone:PLTR": "2026-08-27",
-    "buyzone:LLY": "2026-08-27",
+    "buyzone:LLY": "2026-08-30",
     "reversal:PANW:hammer": "2026-08-30"
   },
   "summary": {

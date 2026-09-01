@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-01T02:55:41.828Z",
-  "exportDateTH": "1 กันยายน 2569 เวลา 09:55",
+  "exportDate": "2026-09-01T02:56:02.038Z",
+  "exportDateTH": "1 กันยายน 2569 เวลา 09:56",
   "portfolios": [
     {
       "id": "dr1",
@@ -2522,6 +2522,17 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "1 ก.ย. 69"
+    },
+    {
+      "id": 1788231358234,
+      "ticker": "MINT.BK",
+      "targetPrice": 22.2,
+      "qty": 100,
+      "note": "DCA_08/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "1 ก.ย. 69",
+      "_notified": true
     }
   ],
   "dcaHistory": [],

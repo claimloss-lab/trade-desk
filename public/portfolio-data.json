@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-01T02:56:02.038Z",
-  "exportDateTH": "1 กันยายน 2569 เวลา 09:56",
+  "exportDate": "2026-09-01T09:33:09.720Z",
+  "exportDateTH": "1 กันยายน 2569 เวลา 16:33",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8795,
-          "srResist": 2.3552,
-          "srUpdated": "2026-09-01",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.8637,
-          "srResist": 54.9914,
-          "srUpdated": "2026-09-01",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.38,
-          "srResist": 3.1947,
-          "srUpdated": "2026-09-01",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.3923,
-          "srResist": 32.2438,
-          "srUpdated": "2026-09-01",
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2797,
-          "srResist": 6.4038,
-          "srUpdated": "2026-09-01",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.7649,
-          "srResist": 2.1234,
-          "srUpdated": "2026-09-01",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,10 +133,10 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8517,
-          "srResist": 9.0842,
-          "srUpdated": "2026-09-01",
-          "srResistIsExt": true
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": false
         },
         {
           "ticker": "NVDA80",
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.5132,
-          "srResist": 37.366,
-          "srUpdated": "2026-09-01",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.2417,
-          "srResist": 13.1353,
-          "srUpdated": "2026-09-01",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,9 +190,9 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3721,
-          "srResist": 4.4162,
-          "srUpdated": "2026-09-01",
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.0783,
-          "srResist": 20.3816,
-          "srUpdated": "2026-09-01",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.8559,
-          "srResist": 5.5954,
-          "srUpdated": "2026-09-01",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -609,7 +609,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
           "srResist": 248.15,
-          "srUpdated": "2026-09-01",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -2465,9 +2465,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-01T03:50:18.185Z",
-      "_notifiedPrice": 45.75
+      "_notified": true
     },
     {
       "id": 1782969023778,
@@ -2524,9 +2522,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "1 ก.ย. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-01T09:05:39.819Z",
-      "_notifiedPrice": 65.5
+      "_notified": true
     },
     {
       "id": 1788231358234,
@@ -2535,9 +2531,11 @@
       "qty": 100,
       "note": "DCA_08/2026",
       "cond": "below",
-      "status": "pending",
+      "status": "done",
       "addedDate": "1 ก.ย. 69",
-      "_notified": true
+      "_notified": true,
+      "doneDate": "1 ก.ย. 69",
+      "actualPrice": 22
     }
   ],
   "dcaHistory": [],
@@ -5907,6 +5905,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 55,
-    "totalNetWorth": "฿1,814,506.53"
+    "totalNetWorth": "฿1,805,803.59"
   }
 }

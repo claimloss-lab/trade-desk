@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-01T09:33:49.817Z",
+  "exportDate": "2026-09-01T09:33:59.534Z",
   "exportDateTH": "1 กันยายน 2569 เวลา 16:33",
   "portfolios": [
     {
@@ -250,7 +250,7 @@
       "name": "PI DCA",
       "type": "realtime_th",
       "color": "#30d158",
-      "cash": 4130.76,
+      "cash": 1910.47,
       "snapshots": [],
       "stocks": [
         {
@@ -5918,6 +5918,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 56,
-    "totalNetWorth": "฿1,808,003.59"
+    "totalNetWorth": "฿1,805,783.30"
   }
 }

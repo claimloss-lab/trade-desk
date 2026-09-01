@@ -2523,7 +2523,10 @@
       "note": "DCA_08/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "1 ก.ย. 69"
+      "addedDate": "1 ก.ย. 69",
+      "_notified": true,
+      "_notifiedAt": "2026-09-01T09:05:39.819Z",
+      "_notifiedPrice": 65.5
     },
     {
       "id": 1788231358234,

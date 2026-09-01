@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-01T09:33:39.384Z",
+  "exportDate": "2026-09-01T09:33:49.817Z",
   "exportDateTH": "1 กันยายน 2569 เวลา 16:33",
   "portfolios": [
     {
@@ -297,7 +297,7 @@
           "id": 6,
           "ticker": "MINT.BK",
           "qty": 1700,
-          "buyPrice": 27.609411764705882,
+          "buyPrice": 27.62,
           "sector": "Consumer",
           "underlying": "Minor International"
         },

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-01T09:33:59.534Z",
-  "exportDateTH": "1 กันยายน 2569 เวลา 16:33",
+  "exportDate": "2026-09-03T04:12:54.415Z",
+  "exportDateTH": "3 กันยายน 2569 เวลา 11:12",
   "portfolios": [
     {
       "id": "dr1",
@@ -25,7 +25,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 1.871,
           "srResist": 2.3446,
-          "srUpdated": "2026-09-03",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.6698,
+          "srSupport": 40.1589,
           "srResist": 54.7428,
-          "srUpdated": "2026-09-03",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3483,
+          "srSupport": 2.3804,
           "srResist": 3.1803,
-          "srUpdated": "2026-09-03",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,10 +76,10 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.2956,
-          "srResist": 29.788,
-          "srUpdated": "2026-09-03",
-          "srResistIsExt": false
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "GOOG80",
@@ -96,8 +96,8 @@
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
           "srSupport": 5.2558,
-          "srResist": 6.3748,
-          "srUpdated": "2026-09-03",
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.7569,
-          "srResist": 2.1138,
-          "srUpdated": "2026-09-03",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -134,8 +134,8 @@
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
           "srSupport": 5.8252,
-          "srResist": 8.3551,
-          "srUpdated": "2026-09-03",
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -153,8 +153,8 @@
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
           "srSupport": 31.3707,
-          "srResist": 37.197,
-          "srUpdated": "2026-09-03",
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.2045,
-          "srResist": 13.0759,
-          "srUpdated": "2026-09-03",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -191,9 +191,9 @@
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
           "srSupport": 2.3614,
-          "srResist": 3.9611,
-          "srUpdated": "2026-09-03",
-          "srResistIsExt": false
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -211,12 +211,12 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 17.9966,
           "srResist": 20.2895,
-          "srUpdated": "2026-09-03",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "SNOW06",
-          "qty": 11950,
+          "qty": 6270,
           "buyPrice": 2.94,
           "id": 14,
           "sector": "Tech",
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.8935,
-          "srResist": 5.5701,
-          "srUpdated": "2026-09-03",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -609,7 +609,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
           "srResist": 248.15,
-          "srUpdated": "2026-09-03",
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1788408770347,
+      "ticker": "SNOW06",
+      "type": "sell",
+      "date": "2026-09-03",
+      "price": 6.25,
+      "qty": 5680,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 18800.8,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1788255216029,
       "ticker": "MINT.BK",
@@ -2514,10 +2527,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-01T09:45:34.291Z",
-      "_notifiedPrice": 5.5
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -5924,7 +5934,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 56,
-    "totalNetWorth": "฿1,805,783.30"
+    "totalTransactions": 57,
+    "totalNetWorth": "฿1,760,937.89"
   }
 }

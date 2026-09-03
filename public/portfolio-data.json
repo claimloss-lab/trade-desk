@@ -2491,7 +2491,9 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": false
+      "_notified": true,
+      "_notifiedAt": "2026-09-03T05:55:36.872Z",
+      "_notifiedPrice": 45.75
     },
     {
       "id": 1782969023778,

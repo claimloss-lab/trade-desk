@@ -5918,7 +5918,8 @@
     "sellzone:PLTR": "2026-09-01",
     "trend:PLTR:Strong Buy": "2026-09-02",
     "sellzone:AMZN": "2026-09-02",
-    "NVDA_resist": "2026-09-03T03:00:53.447Z"
+    "NVDA_resist": "2026-09-03T03:00:53.447Z",
+    "reversal:GOOGL:bullish_engulfing": "2026-09-03"
   },
   "summary": {
     "totalPorts": 10,

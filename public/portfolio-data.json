@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:12:01.430Z",
+  "exportDate": "2026-09-04T12:12:32.363Z",
   "exportDateTH": "4 กันยายน 2569 เวลา 19:12",
   "portfolios": [
     {
@@ -390,11 +390,11 @@
         {
           "id": 3,
           "ticker": "SMH",
-          "qty": 0.654,
-          "buyPrice": 303.15,
+          "qty": 0.697,
+          "buyPrice": 318.23,
           "sector": "ETF",
           "underlying": "VanEck Semiconductor ETF",
-          "buyPriceUSD": 303.15
+          "buyPriceUSD": 318.23
         },
         {
           "id": 4,
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1788523945010,
+      "ticker": "SMH",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 18175.014000000003,
+      "qty": 0.04299999999999993,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1788523917478,
       "ticker": "VWO",
@@ -6012,7 +6025,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 63,
-    "totalNetWorth": "฿1,815,169.95"
+    "totalTransactions": 64,
+    "totalNetWorth": "฿1,815,951.47"
   }
 }

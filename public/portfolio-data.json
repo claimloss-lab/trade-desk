@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:03:15.555Z",
+  "exportDate": "2026-09-04T12:03:53.418Z",
   "exportDateTH": "4 กันยายน 2569 เวลา 19:03",
   "portfolios": [
     {
@@ -49,8 +49,8 @@
         },
         {
           "ticker": "AVGO80",
-          "qty": 2900,
-          "buyPrice": 2.29,
+          "qty": 29000,
+          "buyPrice": 2.389,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1788523429456,
+      "ticker": "AVGO80",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 2.4,
+      "qty": 26100,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1788523359319,
       "ticker": "AVGO80",
@@ -5947,7 +5960,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 58,
-    "totalNetWorth": "฿1,745,130.57"
+    "totalTransactions": 59,
+    "totalNetWorth": "฿1,807,770.57"
   }
 }

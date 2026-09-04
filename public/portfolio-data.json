@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:07:11.612Z",
+  "exportDate": "2026-09-04T12:07:28.658Z",
   "exportDateTH": "4 กันยายน 2569 เวลา 19:07",
   "portfolios": [
     {
@@ -536,7 +536,7 @@
         {
           "id": 1,
           "ticker": "BGOLDRMF",
-          "qty": 423.0143,
+          "qty": 426.9383,
           "buyPrice": 28.3678,
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
@@ -5961,6 +5961,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 59,
-    "totalNetWorth": "฿1,809,683.58"
+    "totalNetWorth": "฿1,809,798.12"
   }
 }

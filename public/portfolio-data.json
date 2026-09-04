@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:10:57.880Z",
-  "exportDateTH": "4 กันยายน 2569 เวลา 19:10",
+  "exportDate": "2026-09-04T12:11:07.206Z",
+  "exportDateTH": "4 กันยายน 2569 เวลา 19:11",
   "portfolios": [
     {
       "id": "dr1",
@@ -437,10 +437,10 @@
           "id": 1,
           "ticker": "VTI",
           "qty": 2.952,
-          "buyPrice": 660.986843563685,
+          "buyPrice": 306.95,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF",
-          "buyPriceUSD": 304.87
+          "buyPriceUSD": 306.95
         },
         {
           "id": 2,

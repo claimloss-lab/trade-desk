@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:09:47.182Z",
-  "exportDateTH": "4 กันยายน 2569 เวลา 19:09",
+  "exportDate": "2026-09-04T12:10:16.947Z",
+  "exportDateTH": "4 กันยายน 2569 เวลา 19:10",
   "portfolios": [
     {
       "id": "dr1",
@@ -487,8 +487,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.4976,
-          "navDate": "3 ก.ย. 69"
+          "currentNav": 14.4975,
+          "navDate": "2026-09-02"
         },
         {
           "id": 2,
@@ -498,8 +498,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.3219,
-          "navDate": "3 ก.ย. 69"
+          "currentNav": 13.3923,
+          "navDate": "2026-09-03"
         },
         {
           "id": 1778630716727,
@@ -509,19 +509,19 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.506,
-          "navDate": "3 ก.ย. 69"
+          "currentNav": 13.5916,
+          "navDate": "2026-09-02"
         },
         {
           "id": 1778630781570,
           "ticker": "KKP-NDQ100-UH-E",
-          "qty": 170.9343,
-          "buyPrice": 17.5506,
+          "qty": 226.9922,
+          "buyPrice": 17.6951,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 17.6248,
-          "navDate": "3 ก.ย. 69"
+          "currentNav": 17.6951,
+          "navDate": "2026-09-02"
         }
       ]
     },
@@ -5961,6 +5961,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 59,
-    "totalNetWorth": "฿1,811,992.81"
+    "totalNetWorth": "฿1,813,146.36"
   }
 }

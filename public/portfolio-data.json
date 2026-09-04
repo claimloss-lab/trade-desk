@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-03T05:11:22.124Z",
-  "exportDateTH": "3 กันยายน 2569 เวลา 12:11",
+  "exportDate": "2026-09-04T12:02:43.192Z",
+  "exportDateTH": "4 กันยายน 2569 เวลา 19:02",
   "portfolios": [
     {
       "id": "dr1",
@@ -49,8 +49,8 @@
         },
         {
           "ticker": "AVGO80",
-          "qty": 26000,
-          "buyPrice": 2.28,
+          "qty": 2900,
+          "buyPrice": 2.29,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",
@@ -583,7 +583,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.247,
-          "navDate": "3 ก.ย. 69"
+          "navDate": "2026-09-01"
         }
       ],
       "cash": 0,
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1788523359319,
+      "ticker": "AVGO80",
+      "type": "sell",
+      "date": "2026-09-04",
+      "price": 2.4,
+      "qty": 23100,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 2772.0000000000023,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1788408770347,
       "ticker": "SNOW06",
@@ -2491,9 +2504,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-03T05:55:36.872Z",
-      "_notifiedPrice": 45.75
+      "_notified": false
     },
     {
       "id": 1782969023778,
@@ -2529,10 +2540,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-03T05:35:37.709Z",
-      "_notifiedPrice": 5.5
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -5939,7 +5947,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 57,
-    "totalNetWorth": "฿1,797,273.18"
+    "totalTransactions": 58,
+    "totalNetWorth": "฿1,752,222.47"
   }
 }

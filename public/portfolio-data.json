@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:05:26.717Z",
-  "exportDateTH": "4 กันยายน 2569 เวลา 19:05",
+  "exportDate": "2026-09-04T12:06:36.997Z",
+  "exportDateTH": "4 กันยายน 2569 เวลา 19:06",
   "portfolios": [
     {
       "id": "dr1",
@@ -548,7 +548,7 @@
           "id": 2,
           "ticker": "RMFBINNOTECH",
           "qty": 828.4388,
-          "buyPrice": 28.7449,
+          "buyPrice": 28.9701,
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
           "currency": "THB",
@@ -5961,6 +5961,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 59,
-    "totalNetWorth": "฿1,808,734.54"
+    "totalNetWorth": "฿1,808,689.57"
   }
 }

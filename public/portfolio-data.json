@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8608,
-          "srResist": 2.3318,
-          "srUpdated": "2026-09-08",
+          "srSupport": 1.8642,
+          "srResist": 2.3361,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.4372,
-          "srResist": 54.4443,
-          "srUpdated": "2026-09-08",
+          "srSupport": 42.5147,
+          "srResist": 54.5438,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3355,
-          "srResist": 3.163,
-          "srUpdated": "2026-09-08",
+          "srSupport": 2.3398,
+          "srResist": 3.1687,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.1795,
-          "srResist": 29.9448,
-          "srUpdated": "2026-09-08",
+          "srSupport": 21.2182,
+          "srResist": 30.3996,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2271,
-          "srResist": 6.1632,
-          "srUpdated": "2026-09-08",
+          "srSupport": 5.2367,
+          "srResist": 6.1745,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.7473,
-          "srResist": 2.1023,
-          "srUpdated": "2026-09-08",
+          "srSupport": 1.7505,
+          "srResist": 2.1062,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.7935,
-          "srResist": 8.4322,
-          "srUpdated": "2026-09-08",
+          "srSupport": 5.8041,
+          "srResist": 8.4476,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -152,10 +152,10 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.1996,
-          "srResist": 39.1301,
-          "srUpdated": "2026-09-08",
-          "srResistIsExt": true
+          "srSupport": 31.2566,
+          "srResist": 37.5027,
+          "srUpdated": "2026-09-09",
+          "srResistIsExt": false
         },
         {
           "ticker": "PANW80",
@@ -171,9 +171,9 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.5555,
-          "srResist": 13.0046,
-          "srUpdated": "2026-09-08",
+          "srSupport": 8.5711,
+          "srResist": 13.0284,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -190,9 +190,9 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3485,
-          "srResist": 4.0785,
-          "srUpdated": "2026-09-08",
+          "srSupport": 2.3528,
+          "srResist": 4.0879,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 17.8985,
-          "srResist": 20.1789,
-          "srUpdated": "2026-09-08",
+          "srSupport": 17.9312,
+          "srResist": 20.2157,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.7101,
-          "srResist": 5.5398,
-          "srUpdated": "2026-09-08",
+          "srSupport": 3.7169,
+          "srResist": 5.5499,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         },
         {
@@ -608,8 +608,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 248.15,
-          "srUpdated": "2026-09-08",
+          "srResist": 244.58,
+          "srUpdated": "2026-09-09",
           "srResistIsExt": false
         }
       ],

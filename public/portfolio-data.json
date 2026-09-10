@@ -2516,7 +2516,10 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69"
+      "addedDate": "14 ส.ค. 69",
+      "_notified": true,
+      "_notifiedAt": "2026-09-10T03:50:08.961Z",
+      "_notifiedPrice": 5.4
     }
   ],
   "dcaHistory": [],

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-04T12:39:13.475Z",
-  "exportDateTH": "4 กันยายน 2569 เวลา 19:39",
+  "exportDate": "2026-09-11T01:03:13.122Z",
+  "exportDateTH": "11 กันยายน 2569 เวลา 08:03",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8614,
-          "srResist": 2.3325,
-          "srUpdated": "2026-09-10",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,15 +42,15 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.4501,
-          "srResist": 54.4609,
-          "srUpdated": "2026-09-10",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "AVGO80",
-          "qty": 26000,
-          "buyPrice": 2.28,
+          "qty": 29000,
+          "buyPrice": 2.29,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3362,
-          "srResist": 3.1485,
-          "srUpdated": "2026-09-10",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,10 +76,10 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.186,
-          "srResist": 30.3534,
-          "srUpdated": "2026-09-10",
-          "srResistIsExt": false
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "GOOG80",
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2287,
-          "srResist": 6.1651,
-          "srUpdated": "2026-09-10",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.7719,
-          "srResist": 2.103,
-          "srUpdated": "2026-09-10",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.7952,
-          "srResist": 8.4347,
-          "srUpdated": "2026-09-10",
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.2091,
-          "srResist": 37.4457,
-          "srUpdated": "2026-09-10",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.5581,
-          "srResist": 13.0086,
-          "srUpdated": "2026-09-10",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3492,
-          "srResist": 4.0817,
-          "srUpdated": "2026-09-10",
-          "srResistIsExt": false
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -209,15 +209,15 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 17.9039,
-          "srResist": 20.1443,
-          "srUpdated": "2026-09-10",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "SNOW06",
-          "qty": 11950,
-          "buyPrice": 2.94,
+          "qty": 6270,
+          "buyPrice": 2.75,
           "id": 14,
           "sector": "Tech",
           "underlying": "Snowflake",
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.7112,
-          "srResist": 5.5415,
-          "srUpdated": "2026-09-10",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -242,7 +242,7 @@
           "id": 1787064242205
         }
       ],
-      "cash": 144399.1,
+      "cash": 173131.19,
       "snapshots": []
     },
     {
@@ -250,7 +250,7 @@
       "name": "PI DCA",
       "type": "realtime_th",
       "color": "#30d158",
-      "cash": 4130.76,
+      "cash": 1910.47,
       "snapshots": [],
       "stocks": [
         {
@@ -296,8 +296,8 @@
         {
           "id": 6,
           "ticker": "MINT.BK",
-          "qty": 1600,
-          "buyPrice": 27.96,
+          "qty": 1700,
+          "buyPrice": 27.62,
           "sector": "Consumer",
           "underlying": "Minor International"
         },
@@ -390,20 +390,20 @@
         {
           "id": 3,
           "ticker": "SMH",
-          "qty": 0.654,
-          "buyPrice": 303.15,
+          "qty": 0.697,
+          "buyPrice": 318.23,
           "sector": "ETF",
           "underlying": "VanEck Semiconductor ETF",
-          "buyPriceUSD": 303.15
+          "buyPriceUSD": 318.23
         },
         {
           "id": 4,
           "ticker": "IXN",
-          "qty": 2.6833,
-          "buyPrice": 97.97627419967982,
+          "qty": 2.736,
+          "buyPrice": 98.29,
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
-          "buyPriceUSD": 97.47
+          "buyPriceUSD": 98.29
         },
         {
           "ticker": "LIT",
@@ -436,38 +436,38 @@
         {
           "id": 1,
           "ticker": "VTI",
-          "qty": 2.866,
-          "buyPrice": 304.87,
+          "qty": 2.952,
+          "buyPrice": 306.95,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF",
-          "buyPriceUSD": 304.87
+          "buyPriceUSD": 306.95
         },
         {
           "id": 2,
           "ticker": "VCIT",
-          "qty": 4.693,
-          "buyPrice": 82.53,
+          "qty": 4.909,
+          "buyPrice": 85.45,
           "sector": "ETF",
           "underlying": "Vanguard Corp Bond ETF",
-          "buyPriceUSD": 82.53
+          "buyPriceUSD": 85.45
         },
         {
           "id": 3,
           "ticker": "VEA",
-          "qty": 4.288,
-          "buyPrice": 57.41,
+          "qty": 4.388,
+          "buyPrice": 57.76,
           "sector": "ETF",
           "underlying": "Vanguard Dev. Markets ETF",
-          "buyPriceUSD": 57.41
+          "buyPriceUSD": 57.76
         },
         {
           "id": 4,
           "ticker": "VWO",
-          "qty": 2.566,
-          "buyPrice": 50.29,
+          "qty": 2.632,
+          "buyPrice": 99.58386496960506,
           "sector": "ETF",
           "underlying": "Vanguard Emerging Markets ETF",
-          "buyPriceUSD": 50.29
+          "buyPriceUSD": 50.55
         }
       ]
     },
@@ -504,8 +504,8 @@
         {
           "id": 1778630716727,
           "ticker": "KKP-US500-UH-E",
-          "qty": 457.239,
-          "buyPrice": 13.1222,
+          "qty": 602.4643,
+          "buyPrice": 13.2788,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
@@ -515,8 +515,8 @@
         {
           "id": 1778630781570,
           "ticker": "KKP-NDQ100-UH-E",
-          "qty": 170.9343,
-          "buyPrice": 17.5506,
+          "qty": 226.9922,
+          "buyPrice": 17.6951,
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
@@ -536,19 +536,19 @@
         {
           "id": 1,
           "ticker": "BGOLDRMF",
-          "qty": 423.0143,
-          "buyPrice": 28.3678,
+          "qty": 426.9383,
+          "buyPrice": 28.4502,
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 30.7954,
-          "navDate": "27 ส.ค. 69"
+          "currentNav": 29.7337,
+          "navDate": "4 ก.ย. 69"
         },
         {
           "id": 2,
           "ticker": "RMFBINNOTECH",
-          "qty": 800.1419,
-          "buyPrice": 28.7449,
+          "qty": 828.4388,
+          "buyPrice": 28.9701,
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
           "currency": "THB",
@@ -558,8 +558,8 @@
         {
           "id": 3,
           "ticker": "ESGSI",
-          "qty": 2134.6536,
-          "buyPrice": 11.243,
+          "qty": 2228.1325,
+          "buyPrice": 11.2201,
           "sector": "Mutual Fund",
           "underlying": "ESG SI Fund",
           "currency": "THB",
@@ -582,8 +582,8 @@
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 11.0746,
-          "navDate": "27 ส.ค. 69"
+          "currentNav": 11.2381,
+          "navDate": "2026-09-03"
         }
       ],
       "cash": 0,
@@ -608,8 +608,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 236.34,
-          "srUpdated": "2026-09-10",
+          "srResist": 248.15,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -618,6 +618,136 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1788523975957,
+      "ticker": "IXN",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 4644.396900000001,
+      "qty": 0.05270000000000019,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
+      "id": 1788523945010,
+      "ticker": "SMH",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 18175.014000000003,
+      "qty": 0.04299999999999993,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
+      "id": 1788523917478,
+      "ticker": "VWO",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 2005.9611,
+      "qty": 0.06600000000000028,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
+    {
+      "id": 1788523889144,
+      "ticker": "VEA",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 2415.4416,
+      "qty": 0.09999999999999964,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
+    {
+      "id": 1788523872733,
+      "ticker": "VCIT",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 2648.9606000000003,
+      "qty": 0.2160000000000002,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
+    {
+      "id": 1788523853886,
+      "ticker": "VTI",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 12528.7877,
+      "qty": 0.08599999999999985,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
+    {
+      "id": 1788523429456,
+      "ticker": "AVGO80",
+      "type": "buy",
+      "date": "2026-09-04",
+      "price": 2.4,
+      "qty": 26100,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
+      "id": 1788523359319,
+      "ticker": "AVGO80",
+      "type": "sell",
+      "date": "2026-09-04",
+      "price": 2.4,
+      "qty": 23100,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 2772.0000000000023,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
+      "id": 1788408770347,
+      "ticker": "SNOW06",
+      "type": "sell",
+      "date": "2026-09-03",
+      "price": 6.25,
+      "qty": 5680,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 18800.8,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
+      "id": 1788255216029,
+      "ticker": "MINT.BK",
+      "type": "buy",
+      "date": "2026-09-01",
+      "price": 22,
+      "qty": 100,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "set1",
+      "auto": true
+    },
     {
       "id": 1787064242205,
       "ticker": "MRVL80",
@@ -2465,9 +2595,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-07T04:40:33.971Z",
-      "_notifiedPrice": 45.75
+      "_notified": true
     },
     {
       "id": 1782969023778,
@@ -2504,9 +2632,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-08T05:55:33.663Z",
-      "_notifiedPrice": 5.5
+      "_notified": true
     },
     {
       "id": 1786645665458,
@@ -2517,9 +2643,31 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "14 ส.ค. 69",
+      "_notified": true
+    },
+    {
+      "id": 1788231338104,
+      "ticker": "CPN.BK",
+      "targetPrice": 65.5,
+      "qty": 100,
+      "note": "DCA_08/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "1 ก.ย. 69",
+      "_notified": true
+    },
+    {
+      "id": 1788231358234,
+      "ticker": "MINT.BK",
+      "targetPrice": 22.2,
+      "qty": 100,
+      "note": "DCA_08/2026",
+      "cond": "below",
+      "status": "done",
+      "addedDate": "1 ก.ย. 69",
       "_notified": true,
-      "_notifiedAt": "2026-09-10T03:50:08.961Z",
-      "_notifiedPrice": 5.4
+      "doneDate": "1 ก.ย. 69",
+      "actualPrice": 22
     }
   ],
   "dcaHistory": [],
@@ -5897,7 +6045,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 55,
-    "totalNetWorth": "฿1,806,312.03"
+    "totalTransactions": 65,
+    "totalNetWorth": "฿1,798,069.83"
   }
 }

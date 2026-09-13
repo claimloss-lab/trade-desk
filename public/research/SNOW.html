@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SNOW — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">SNOW</div>
+<div class="meta">Thesis · สร้างจาก briefs/SNOW.md · 2026-09-12</div>
+<hr>
+<p>ticker: SNOW</p>
+<p>company: Snowflake Inc.</p>
+<p>written_at: 2026-09-05</p>
+<p>sources: [EDGAR 10-K CIK0001640147, Yahoo Finance chart API]</p>
+<p>audra_verified_at: 2026-09-05</p>
+<hr>
+<h1>Snowflake (SNOW)</h1>
+<h2>1. Company Snapshot</h2>
+<p>Snowflake เป็นบริษัทที่ให้บริการ cloud data platform — พูดง่าย ๆ คือเป็นที่เก็บและวิเคราะห์ข้อมูลขนาดใหญ่บน cloud ที่ทำงานข้ามได้ทั้ง AWS, Azure, Google Cloud ในที่เดียว บริษัทขายให้กับองค์กรทุกขนาดที่ต้องการจัดการ data analytics, ML และ AI workloads รายได้ส่วนใหญ่มาจาก consumption model (คิดตาม compute/storage ที่ใช้จริง ไม่ใช่ subscription แบบ seat) ทำให้ revenue ผูกกับการเติบโตของ data usage ลูกค้าโดยตรง Snowflake ไม่ทำกำไร GAAP แต่ operating cash flow และ free cash flow เป็นบวก</p>
+<h2>2. Fundamentals Signal</h2>
+<li><b>Revenue เติบโตเร็วมาก:</b> $2.81B (FY2024 Jan) → $3.63B (FY2025 Jan) → $4.68B (FY2026 Jan) = +29% YoY — เติบโต double-digit ต่อเนื่องแม้ scale ใหญ่ขึ้นแล้ว (source: EDGAR 10-K)</li>
+<li><b>GAAP Net loss ยังเป็นลบ:</b> -$0.84B (FY2024) → -$1.29B (FY2025) → -$1.33B (FY2026) — loss ขยายตัวแม้ revenue โต เพราะ stock-based compensation สูงมาก; non-GAAP operating income เป็นบวก (ตรวจสอบใน 10-K ล่าสุด)</li>
+<li><b>Shares outstanding ~346M</b> (as of Mar 2026) — SBC สูงทำให้ dilution เป็นประเด็น ต้อง track ว่า share count เพิ่มขึ้นแค่ไหน</li>
+<li><b>Gross margin สูง:</b> cloud data platform มี structural gross margin ดี แต่ R&amp;D และ S&amp;M ทำให้ net loss (ตัวเลขตรวจสอบใน 10-K ล่าสุด)</li>
+<li><b>Net Revenue Retention (NRR) คือ key metric:</b> ถ้า NRR &gt;130% แปลว่าลูกค้าเดิม spending มากขึ้นเรื่อย ๆ — ดูค่านี้ในทุก earnings</li>
+<p><b>Valuation snapshot (ณ 5 ก.ย. 2026, source: Yahoo Finance chart API):</b></p>
+<p>ราคา $337.18 | 52-week range $118.30–$384.56 (ขึ้นมาแรงจาก low) | Market cap ≈ ~$116B (price × 346M shares) | P/E หาไม่ได้ (GAAP loss) | P/S ≈ 25x (mktcap / revenue ~$4.7B) | EV/EBITDA หาไม่ได้รอบนี้</p>
+<h2>3. Latest Earnings</h2>
+<li><b>FY2026 Revenue (Jan 2026): $4.68B</b> — เติบโต +29% YoY จาก $3.63B (FY2025) (source: EDGAR 10-K CIK0001640147, period 2026-01-31)</li>
+<li><b>FY2025 Revenue: $3.63B</b> — เติบโต +29% YoY จาก $2.81B (FY2024) — pattern เติบโตสม่ำเสมอ (source: EDGAR 10-K)</li>
+<li><b>EPS diluted: -$3.95</b> (FY2026) vs -$3.86 (FY2025) — GAAP loss ต่อหุ้นทรงตัว แม้ revenue โต แสดง SBC ยังดูด margin (source: EDGAR 10-K)</li>
+<li><b>GAAP Net loss: -$1.33B</b> (FY2026) — loss ขยาย แต่ FCF มักเป็นบวก (ตรวจสอบ 10-K ล่าสุดสำหรับ FCF)</li>
+<li><b>ไม่มีไฟล์ earnings call</b> ใน sources/SNOW/ — guidance, NRR, ลูกค้า $1M+ ยังไม่ verify</li>
+<h2>4. Bull Case / Bear Case</h2>
+<p><b>Bull:</b></p>
+<li><b>AI data flywheel:</b> AI workloads ต้องการ clean, centralized data — Snowflake อยู่ในตำแหน่ง &quot;ท่อส่ง data&quot; ที่บริษัทต้องใช้ก่อน train model; Cortex AI ของ Snowflake ให้ลูกค้า run ML บน data ที่อยู่ใน Snowflake แล้วโดยไม่ต้องย้ายออก</li>
+<li><b>Multi-cloud agnostic ไม่ lock-in cloud หนึ่ง:</b> บริษัทใหญ่ที่ใช้ multi-cloud strategy ต้องการ neutral data layer — Snowflake เป็นทางเลือกที่ไม่ต้องเลือกข้าง AWS/Azure/GCP</li>
+<li><b>Consumption model scale กับ data growth:</b> ยิ่ง data โต ค่าใช้จ่ายลูกค้าโตตาม — ถ้าลูกค้า enterprise grow ธุรกิจ Snowflake โตตามโดยอัตโนมัติ</li>
+<p><b>Bear:</b></p>
+<li><b>BigQuery, Databricks, Redshift แข่งตรง:</b> Google BigQuery ให้ฟรีสำหรับลูกค้า GCP, Databricks รุกตลาด data + AI อย่างหนัก — pricing pressure ชัดขึ้นเรื่อย ๆ</li>
+<li><b>Valuation สูงมากเมื่อเทียบ profitability:</b> P/S ~25x กับ GAAP loss — ถ้า growth ชะลอลงกว่า 25% ใน 1 ไตรมาส valuation อาจ re-rate ลงหนัก</li>
+<li><b>SBC dilution กินผลตอบแทนผู้ถือหุ้น:</b> Net loss ส่วนใหญ่มาจาก SBC — แม้ FCF เป็นบวก แต่ shares outstanding เพิ่มทุกปี ลด per-share value</li>
+<h2>5. Kill Conditions</h2>
+<li><b>Revenue growth ต่ำกว่า 20% ต่อปี</b> ต่อเนื่อง 2 ไตรมาส โดยไม่มีเหตุ macro — สัญญาณว่า competitive advantage เริ่มถูก erode</li>
+<li><b>NRR (Net Revenue Retention) ต่ำกว่า 120%</b> — แปลว่าลูกค้าเดิม expand น้อยลง ซึ่งขัดกับ consumption model thesis</li>
+<li><b>Gross margin ลดลง</b> ต่อเนื่อง — อาจเกิดจาก pricing war หรือ compute cost ที่ Snowflake แบกรับเพิ่มขึ้น</li>
+<h2>6. What to Ask Before Owning It</h2>
+<p>1. NRR (Net Revenue Retention) ล่าสุดอยู่ที่เท่าไหร่ — ถ้าลดลงจาก 130%+ ต้องตีความอย่างไร?</p>
+<p>2. Snowflake Cortex AI รุกตลาด AI workload ได้จริงหรือแค่ marketing — มี case study ลูกค้าที่ spend เพิ่มเพราะ AI feature?</p>
+<p>3. Databricks vs Snowflake — ลูกค้าเลือกอะไรและทำไม ใน use case ที่ทับซ้อนกัน?</p>
+<p>4. FCF (Free Cash Flow) จริง ๆ ของ FY2026 เท่าไหร่ — เทียบกับ market cap ให้ FCF yield ที่น่าสนใจไหม?</p>
+<p>5. P/S ~25x justify ได้จาก growth rate แค่ไหน — ต้องโตกี่ปีถึง revenue จะ &quot;catch up&quot; กับ valuation?</p>
+</div></body></html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AVGO — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">AVGO</div>
+<div class="meta">Thesis · สร้างจาก briefs/AVGO.md · 2026-09-12</div>
+<h1>AVGO — Broadcom Inc. | Full Giggs-style Investment Memo</h1>
+<blockquote><b>ขอบเขต:</b> หุ้นแม่ Nasdaq ที่มี DR ซื้อขายใน SET (AVGO80) | รายงาน ณ 12 ก.ย. 2026 | ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<p>&gt;</p>
+<blockquote>ราคาหุ้นแม่และช่วง 52 สัปดาห์ดึงจาก Yahoo Finance chart endpoint ณ 11 ก.ย. 2026; ตัวเลขบริษัทจาก SEC EDGAR และ transcript จาก StockAnalysis/แหล่งที่เก็บไว้ใน <code>sources/AVGO/</code></blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงวิจัย:</b> Growth-quality แต่ valuation/demand concentration สูง; ยังต้องพิสูจน์ว่า AI commitments แปลงเป็นรายได้และ FCF ได้โดยไม่ทำให้ dilution กับ leverage แย่ลง (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2025, SEC Q3 FY2026, StockAnalysis Q3 FY2026 transcript)</li>
+<li><b>Fair value:</b> ไม่กำหนดจุดเดียวอย่างเทียม ๆ; กรอบ scenario 5 ปีด้านล่างให้มูลค่าอนาคตต่อหุ้น <b>$480 / $650 / $850</b> สำหรับ bear/base/bull ตามลำดับ (Judgment, 12 ก.ย. 2026; สมมติฐานเปิดเผยใน Section 8)</li>
+<li><b>Entry / allocation:</b> ไม่ออกคำสั่งซื้อขายหรือสัดส่วนเฉพาะบุคคล; ในเชิง portfolio process ควรใช้ tranche และ cap exposure เพราะ top-five customers ~40%, distributor รายเดียว 32%, และหนี้รวม $67.1B (Judgment backed by facts, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li><b>5Y CAGR:</b> จากราคาปัจจุบัน $361.99 เป็นประมาณ <b>5.7% / 12.5% / 18.6% ต่อปี</b> ไปยัง bear/base/bull targets โดยยังไม่รวมปันผลและ FX (คำนวณเชิง scenario, 12 ก.ย. 2026; source: Yahoo Finance + Section 8 assumptions)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Broadcom ออกแบบชิปโครงสร้างพื้นฐาน เช่น custom AI accelerators, Ethernet switching/NIC, optical และชิป server/storage แล้วจ้าง TSMC/Amkor/Foxconn ผลิตเป็นหลัก; ลูกค้าหลักคือ hyperscalers, OEMs และระบบ data center (Fact, 12 ก.ย. 2026; source: <code>sources/AVGO/10-k-fy2025.md</code>)</li>
+<li>ธุรกิจ Infrastructure Software รวม VMware Cloud Foundation, mainframe, cybersecurity และ enterprise software; รายได้มีลักษณะ subscription/license ที่ recurring กว่าฝั่งชิป (Fact, 12 ก.ย. 2026; source: <code>sources/AVGO/10-k-fy2025.md</code>)</li>
+<li>FY2025 รายได้ $63.887B: Semiconductor Solutions $36.858B หรือ 58% และ Infrastructure Software $27.029B หรือ 42%; ปี FY2025 โต 24% จากปีก่อน (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>เครื่องยนต์เติบโตล่าสุดคือ AI semiconductor: Q3 FY2026 รายได้ AI semiconductor โต 221% YoY; ฝั่ง non-AI semiconductor และ software ช่วยทำให้ฐานรายได้กว้างขึ้น แต่โตช้ากว่า (Fact, 12 ก.ย. 2026; source: StockAnalysis, Q3 FY2026 transcript)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Scale / process power:</b> portfolio Ethernet, custom silicon, packaging และ system design ทำให้ขาย solution ระดับ rack ได้ ไม่ใช่ชิปชิ้นเดียว; ความได้เปรียบต้องทดสอบทุก design cycle เพราะลูกค้า hyperscaler ก็พัฒนาชิปเองได้ (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li><b>Switching costs:</b> VCF และ infrastructure software ฝังอยู่ในระบบองค์กร ขณะที่ AI custom silicon ผูกกับการออกแบบและ supply chain ของลูกค้า; การเปลี่ยนผู้ขายมีต้นทุน แต่ไม่ใช่การรับประกันการต่อสัญญา (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li><b>Threats เฉพาะบริษัท:</b> ลูกค้า top-five ~40%, distributor 48% ของรายได้ และ distributor รายเดียว 32%; AI customers อาจเลื่อน/ยกเลิกคำสั่งซื้อ ขณะที่ Nvidia, Marvell, ผู้ผลิตชิปภายใน hyperscaler และผู้ขาย enterprise software แข่งขันโดยตรงหรือทางอ้อม (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| Fiscal year | Revenue | Gross profit / margin | Operating income / margin | Net income | OCF | CapEx | FCF proxy | R&amp;D |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| FY2022 | $33.203B | $22.095B / 67% | $14.225B / 43% | $11.495B | $16.736B | $0.424B | $16.312B | $4.919B |</p>
+<p>| FY2023 | $35.819B | $24.690B / 69% | $16.207B / 45% | $14.082B | $18.085B | $0.452B | $17.633B | $5.253B |</p>
+<p>| FY2024 | $51.574B | $32.509B / 63% | $13.463B / 26% | $5.895B | $19.962B | $0.548B | $19.414B | $9.310B |</p>
+<p>| FY2025 | $63.887B | $43.294B / 68% | $25.484B / 40% | <b>ไม่พบใน tag ที่ดึงได้</b> | $27.537B | $0.623B | $26.914B | $10.977B |</p>
+<p>| FY2021 | <b>ไม่พบจาก extraction ชุดนี้</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> | <b>ไม่พบ</b> |</p>
+<li>Direction หลักคือรายได้และ OCF เร่งขึ้นใน FY2025 แต่ FY2024 margin/กำไรสุทธิถูกกดจาก VMware integration/acquisition accounting; ตารางนี้ใช้ SEC companyfacts และ 10-K ไม่เติมตัวเลขที่ extraction ไม่พบ (Fact/caveat, 12 ก.ย. 2026; source: SEC EDGAR companyfacts, SEC 10-K FY2025)</li>
+<li>SBC FY2025 $7.568B และ unrecognized SBC $23.833B; FCF proxy ยังแข็งแรง แต่ผู้ถือหุ้นต้องดู dilution และ employee tax withholding ควบคู่ ไม่ใช่ดู adjusted EBITDA อย่างเดียว (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>ROE/ROIC แบบ comparable 5 ปี: <b>ไม่พบตัวเลขที่คำนวณและตรวจสอบครบใน source set นี้</b>; ไม่ควรแต่งจาก GAAP denominator ที่ได้รับผลจาก VMware purchase accounting (Caveat, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>ณ FY2025 cash $16.178B, หนี้รวม $67.120B และหนี้ครบกำหนดภายใน 12 เดือน $3.152B; leverage ใช้ได้ตราบใดที่ OCF ไม่หดแรง แต่ลด flexibility ใน downturn (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>FY2025 จ่ายปันผลเงินสด $11.142B, ซื้อหุ้นคืน $2.450B และชำระหนี้สุทธิ $2.812B; capital return มีจริงแต่แข่งขันกับการลดหนี้และ capex AI (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>SBC $7.568B เทียบกับ buyback $2.450B ทำให้ต้องติดตาม diluted shares จริง; หุ้นคงค้างจาก SEC DEI เพิ่มเป็น 4.774B ณ 28 ส.ค. 2026 (Fact, 12 ก.ย. 2026; source: SEC companyfacts/DEI, SEC 10-K FY2025)</li>
+<li>Global minimum tax ของ Singapore มีผลต่อ FY2026 และบริษัทระบุเองว่าอาจกระทบ consolidated results/cash flows อย่างมีนัยสำคัญ (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q3 FY2026 revenue <b>$29.6B (+86% YoY)</b>, operating income <b>$20.1B (+92%)</b>, operating margin 67.9%; gross margin 75% ลดลงตาม product mix แต่ดีกว่า guidance 74% (Fact, 12 ก.ย. 2026; source: StockAnalysis Q3 FY2026 transcript, https://stockanalysis.com/stocks/avgo/transcripts/685349-q3-2026/)</li>
+<li>AI semiconductor revenue โต <b>221% YoY และ 54% QoQ</b>; ผู้บริหารพูดถึงลูกค้า XPU หกรายและ demand ที่รองรับการเติบโตต่อเนื่อง แต่เป็น management outlook ไม่ใช่รายได้ที่รับรู้แล้ว (Fact/Interpretation, 12 ก.ย. 2026; source: StockAnalysis Q3 FY2026 transcript)</li>
+<li>Infrastructure Software Q3 revenue <b>$8.8B (+29%)</b>, ARR โต 15% YoY; Q4 guide software ประมาณ $8.7B ขณะที่ non-AI semiconductors guide $4.3B (Fact, 12 ก.ย. 2026; source: StockAnalysis Q3 FY2026 transcript)</li>
+<li>Management expects AI revenue to double annually through 2028 and FY2028 EPS above $30; เป็น guidance/target ที่มี execution risk ไม่ใช่ fact ปัจจุบัน (Fact/caveat, 12 ก.ย. 2026; source: StockAnalysis Q3 FY2026 transcript)</li>
+<h2>7. Valuation</h2>
+<li>ราคาหุ้นแม่ <b>$361.99</b>, 52-week range <b>$293.41–$481.57</b>, ณ 11 ก.ย. 2026 13:30 UTC; source: Yahoo Finance chart endpoint (<code>query1.finance.yahoo.com/v8/finance/chart/AVGO?range=1y&amp;interval=1d</code>)</li>
+<li>Market cap แบบราคา × 4.774B shares ≈ <b>$1.73T</b>; FY2025 revenue $63.887B จึงได้ trailing P/S ≈ <b>27.0x</b>; เป็น calculation จาก SEC + Yahoo ไม่ใช่ provider quote (คำนวณ 12 ก.ย. 2026)</li>
+<li>Trailing P/E, forward P/E, EV/EBITDA, EV/FCF และ PEG: <b>ไม่พบตัวเลขที่เชื่อถือได้ครบจาก direct sources ที่ใช้รอบนี้</b>; ไม่แต่งตัวเลข (Caveat, 12 ก.ย. 2026)</li>
+<li>Historical range และ peer multiple: <b>ไม่พบชุดข้อมูลที่ตรวจสอบเทียบฐานเดียวกันได้ในรอบนี้</b>; valuation จึงควร cross-check กับ StockAnalysis/MarketBeat ก่อนใช้เงินจริง (Caveat, 12 ก.ย. 2026)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS FY2031 assumption | Multiple | Target | Probability | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Bear | $20 | 24x | $480 | 30% | $144 |</p>
+<p>| Base | $32.5 | 20x | $650 | 50% | $325 |</p>
+<p>| Bull | $42.5 | 20x | $850 | 20% | $170 |</p>
+<li>Expected-value target จากสมมติฐานชุดนี้ = <b>$639</b>; เป็น judgment model ไม่ใช่ analyst consensus และไม่ได้แปลว่าราคาจะไปถึง (Judgment, 12 ก.ย. 2026)</li>
+<li>Bear สะท้อน AI growth ชะลอ, margin mix ต่ำลง, customer concentration และ multiple compression; base สะท้อน AI โตต่อแต่ลดจากช่วงเร่งสุด; bull สะท้อน custom silicon/XPU และ software โตพร้อมกัน (Interpretation/Judgment, 12 ก.ย. 2026; source: SEC 10-K, StockAnalysis Q3 transcript)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: การรับรู้ AI XPU backlog/commitments, Ethernet scale-out, และ VMware/VCF ARR ที่กลับมาโต; source: StockAnalysis Q3 FY2026 transcript, ดึง 12 ก.ย. 2026</li>
+<li>Catalysts: FCF ที่เพิ่มขึ้นและหนี้ลดต่อเนื่องอาจช่วยลด balance-sheet risk; source: SEC 10-K FY2025, ดึง 12 ก.ย. 2026</li>
+<li>Risks: hyperscaler capex pause, double-ordering หรือ customer financing pressure; source: SEC 10-K FY2025, ดึง 12 ก.ย. 2026</li>
+<li>Risks: gross-margin mix ลดต่อ, tax rate สูงขึ้น, supply-chain/trade restrictions และ SBC/dilution; source: SEC 10-K FY2025, ดึง 12 ก.ย. 2026</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้ากลับสมมติฐานว่า AI bookings ไม่ใช่ demand สุดท้าย แต่เป็นการจองซ้ำ/เลื่อนส่ง รายได้ที่ตลาดคาดอาจไม่เกิดและหนี้จะขยายความเสียหาย (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>ถ้า hyperscalers ทำ custom silicon เองได้เร็วขึ้น Broadcom จะเหลือการแข่งขันด้านราคา/เวลา design มากกว่าพลังต่อรองที่คาด (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<li>Bear floor เชิงธุรกิจคือรายได้ AI หยุดโต, software flat, gross margin ลดลงหลายไตรมาส และ FCF หลัง SBC ไม่โต; จุดนี้ permanent-loss risk สูงกว่าความผันผวนของราคา (Judgment, 12 ก.ย. 2026)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>Entry/sizing/DCA: ไม่กำหนดคำสั่งซื้อขายเฉพาะบุคคล; กระบวนการที่สอดคล้องกับ long-term คือแบ่ง tranche, จำกัดเพดาน exposure และทบทวนหลังงบ ไม่ไล่ราคาจาก guidance ระยะยาว (Judgment, 12 ก.ย. 2026)</li>
+<li>Exit trigger: thesis เสียหากลูกค้า AI รายใหญ่ลด/เลื่อน commitment, AI revenue growth หยุดเร่งพร้อม backlog อ่อน, หรือ FCF หลัง SBC ไม่รองรับ dividend/buyback/debt service (Judgment backed by SEC 10-K, 12 ก.ย. 2026)</li>
+<li>Kill condition: customer concentration กลายเป็น loss ของ top-five/customer เดียว, gross margin หดเชิงโครงสร้าง, net debt ไม่ลดทั้งที่ FCF สูง, หรือ dilution จาก SBC ชนะ buyback ต่อเนื่อง (Judgment, 12 ก.ย. 2026; source: SEC 10-K FY2025)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | ข้อความ |</p>
+<p>|---|---|</p>
+<p>| Fact | FY2025 revenue $63.887B, OCF $27.537B, debt $67.120B, SBC $7.568B, top-five ~40%; source: SEC 10-K FY2025, ดึง 12 ก.ย. 2026 |</p>
+<p>| Fact | Q3 FY2026 revenue $29.6B, AI semiconductor +221%, software $8.8B; source: StockAnalysis transcript, ดึง 12 ก.ย. 2026 |</p>
+<p>| Fact | AVGO $361.99; 52-week $293.41–$481.57; source: Yahoo chart, ดึง 12 ก.ย. 2026 |</p>
+<p>| Interpretation | AI custom silicon มี design/supply-chain power และ software เพิ่ม recurring mix แต่ concentration สูง |</p>
+<p>| Judgment | ต้องให้ valuation discount กับ execution, leverage, tax และ SBC risk; ใช้ scenario ไม่ใช่ target จุดเดียว |</p>
+<p><b>ข้อจำกัด:</b> SEC extraction รอบนี้ไม่ให้ net income FY2025 และ FY2021 ครบ, direct IR timeout, และ P/E/EV-based multiples ที่ตรวจสอบฐานเดียวกันไม่ได้ จึงระบุว่าไม่พบแทนการเติมตัวเลข</p>
+</div></body></html>

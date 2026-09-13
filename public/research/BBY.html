@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBY — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">BBY</div>
+<div class="meta">Thesis · สร้างจาก briefs/BBY.md · 2026-09-12</div>
+<h1>BBY — Best Buy</h1>
+<h2>1. Company snapshot</h2>
+<p>Best Buy เป็นผู้ค้าปลีกสินค้าเทคโนโลยีและเครื่องใช้ไฟฟ้า มีทั้งร้าน หน้าร้านออนไลน์ บริการติดตั้ง/ซ่อม และสมาชิกแบบเสียเงิน ลูกค้าซื้อคอมพิวเตอร์ โทรศัพท์ ทีวี เครื่องใช้ไฟฟ้า เกม และสินค้าเทคโนโลยีเกิดใหม่ โดยบริษัทพยายามเพิ่มรายได้กำไรสูงจาก Best Buy Ads, marketplace, membership และบริการเสริม ธุรกิจจึงไม่ได้วัดแค่ยอดขายสินค้า แต่ต้องดูความสามารถในการรักษาลูกค้าและกำไรต่อการขายด้วย</p>
+<h2>2. Fundamentals signal</h2>
+<li>ยอดขาย FY2026 และแนวโน้มระยะยาวยังขึ้นกับรอบเปลี่ยนสินค้าและกำลังซื้อ แต่ Q2 FY2027 revenue $9.8B โต 3.6% และ comparable sales โต 4.1% ซึ่งเป็นไตรมาสบวกต่อเนื่องไตรมาสที่ 10 (source: sources/BBY/q2-2027-call.md)</li>
+<li>อัตรากำไรดีขึ้นจาก mix และรายได้ใหม่: adjusted operating margin Q2 4.3% เพิ่มราว 40 bps YoY; Best Buy Ads ตั้งเป้าโต 10% จาก collections ปีก่อน $900M (source: sources/BBY/q2-2027-call.md)</li>
+<li>Balance sheet มีหนี้ notes $1.15B (ครบกำหนด 2028/2030) และ capex FY2026 $704M; บริษัทตั้งใจคืนเงินผ่าน dividend/buyback โดยรักษา investment-grade metrics (source: sources/BBY/10-k-2026.md)</li>
+<li>ธุรกิจยังมี operating leverage ต่ำและการแข่งขันสูง; inventory, tariff, memory cost และการลดราคาอาจทำให้ยอดขายโตแต่กำไรไม่โตตาม (source: sources/BBY/10-k-2026.md; sources/BBY/q2-2027-call.md)</li>
+<p><b>Valuation snapshot:</b> ราคา $88.09; market cap $18.47B; P/E 14.63x; EV/EBITDA 7.72x; ช่วง 52 สัปดาห์ $55.10–$91.27 ณ 10 ก.ย. 2026 หลังตลาดสหรัฐปิด — source: yfinance <code>Ticker.history(period=&#x27;1y&#x27;)</code> และ <code>Ticker.info</code> ที่รันใน <code>scripts/fetch_missing_sources.py</code>.</p>
+<h2>3. Latest earnings</h2>
+<li>Q2 FY2027 adjusted EPS $1.47 โต 15% และ adjusted operating margin 4.3%; computing กับ home theater เป็นตัวนำ ขณะที่ traditional gaming ลดลงเมื่อเทียบฐาน Nintendo Switch 2 ปีก่อน (source: sources/BBY/q2-2027-call.md)</li>
+<li>Marketplace GMV Q2 ราว $300M และบริษัทเพิ่มเป้าเต็มปีเป็น $1.3B; membership paid members คาดเพิ่มจากกว่า 8M เป็นราว 9M สิ้นปี (source: sources/BBY/q2-2027-call.md)</li>
+<li>บริษัทปรับ guidance เป็น comparable sales growth 1.9–3.0% และ adjusted operating income rate expansion 10–20 bps สำหรับปี (source: sources/BBY/q2-2027-call.md)</li>
+<li>Memory cost inflation ทำให้ราคาคอมพิวเตอร์เพิ่ม แต่ units ลด high single digits; บริษัทคาด computing จะชะลอในครึ่งปีหลังเมื่อเทียบฐานแข็ง (source: sources/BBY/q2-2027-call.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li>Marketplace, retail media, membership และบริการช่วยเพิ่ม gross profit mix ทำให้ร้านค้าสินค้า margin ต่ำมีเศรษฐศาสตร์ดีขึ้น</li>
+<li>รอบเปลี่ยนคอมพิวเตอร์/ทีวี/เครื่องใช้ไฟฟ้าและสินค้า AI ช่วยให้ยอดขายกลับมาโตโดยใช้เครือข่ายร้านและบริการติดตั้งเป็นข้อได้เปรียบเฉพาะตัว</li>
+<p><b>Bear case</b></p>
+<li>Amazon ผู้ผลิตสินค้า และผู้ให้บริการเครือข่ายกดราคาหรือดึงลูกค้าไปช่องทางตรง ทำให้ Best Buy ต้องทำโปรโมชันมากขึ้นและ margin หด</li>
+<li>เงินเฟ้อ memory/tariff และการเปลี่ยนรสนิยมเร็วทำให้ inventory ผิดรุ่น ต้องลดราคา และรายได้ marketplace/ads ยังไม่ใหญ่พอชดเชย</li>
+<h2>5. Kill conditions</h2>
+<li>comparable sales กลับติดลบต่อเนื่องพร้อม gross margin ลด แม้ marketplace/ads โต แปลว่าโมเดลใหม่ยังชดเชยธุรกิจหลักไม่ได้</li>
+<li>paid members และ marketplace GMV ไม่โตตามแผน หรือรายได้ใหม่ไม่เพิ่ม operating income rate</li>
+<li>บริษัทเสียส่วนแบ่งใน computing, mobile, TV และ appliances ต่อเนื่องโดยไม่สามารถใช้บริการ/ร้านสร้างความแตกต่างได้</li>
+<h2>6. What to ask before owning it</h2>
+<li>รายได้จาก Ads, marketplace และ membership เพิ่มกำไรจริงต่อดอลลาร์เท่าไร หลังหักต้นทุนและ incentive?</li>
+<li>รอบเปลี่ยนสินค้าใดเป็น structural demand และใดเป็นเพียงการเร่งซื้อชั่วคราว?</li>
+<li>Best Buy จะรักษา traffic และ pricing power เมื่อผู้ผลิตขายตรงหรือ AI shopping โตได้อย่างไร?</li>
+<li>เงินสดที่ใช้ buyback ควรเทียบกับการลงทุนร้าน ระบบ fulfillment และบริการอย่างไร?</li>
+</div></body></html>

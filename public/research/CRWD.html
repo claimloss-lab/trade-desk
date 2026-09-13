@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRWD — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">CRWD</div>
+<div class="meta">Thesis · สร้างจาก briefs/CRWD.md · 2026-09-12</div>
+<h1>CRWD — CrowdStrike Holdings, Inc. | Full Giggs-style Investment Memo</h1>
+<blockquote><b>ขอบเขต:</b> หุ้นแม่ Nasdaq ที่มี DR ซื้อขายใน SET (CRWD80) | รายงาน ณ 12 ก.ย. 2026 | ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<p>&gt;</p>
+<blockquote>ราคาหุ้นแม่จาก Yahoo Finance chart ณ 11 ก.ย. 2026; fundamentals จาก SEC EDGAR และ latest earnings transcript จาก StockAnalysis</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงวิจัย:</b> High-quality recurring growth แต่ valuation สูงมากและ GAAP profitability เพิ่งตั้งหลัก; thesis ต้องพึ่ง ARR expansion, retention และการคุม SBC ไม่ใช่ revenue growth อย่างเดียว (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026, StockAnalysis Q2 FY2027 transcript)</li>
+<li><b>Fair value:</b> ไม่ใช้จุดเดียว; scenario 5 ปีให้มูลค่าอนาคตต่อหุ้น <b>$180 / $300 / $450</b> สำหรับ bear/base/bull (Judgment, 12 ก.ย. 2026; สมมติฐาน Section 8)</li>
+<li><b>Entry / allocation:</b> ไม่ออกคำสั่งซื้อขายหรือ allocation เฉพาะบุคคล; ในเชิง process ควรใช้ tranche และ cap exposure เพราะราคาสะท้อนการเติบโตสูง ขณะที่ July 19 incident, competition และ SBC ยังเป็นความเสี่ยง (Judgment, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li><b>5Y CAGR:</b> จากราคาปัจจุบัน $206.74 เป็นประมาณ <b>-2.8% / 7.7% / 16.8% ต่อปี</b> ไปยัง bear/base/bull targets ไม่รวม FX (คำนวณ scenario, 12 ก.ย. 2026; source: Yahoo Finance + Section 8 assumptions)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Falcon เป็น cloud-native cybersecurity platform ใช้ lightweight sensor เก็บข้อมูล endpoint, cloud workload, identity และ third-party sources แล้ว reuse ข้าม 33 modules; รายได้หลัก subscription 95% ใน FY2026 (Fact, 12 ก.ย. 2026; source: <code>sources/CRWD/10-k-fy2026.md</code>)</li>
+<li>โมเดลขายคือ land-and-expand: ลูกค้าเริ่มจาก core แล้วเพิ่ม modules เช่น endpoint, identity, SIEM, cloud, threat intelligence และ AI security; subscription รับรู้รายได้ตามอายุสัญญา (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>FY2026 revenue $4.812B (+22%), subscription $4.565B (+21%), ARR $5.253B (+24%); Q2 FY2027 revenue $1.47B (+26%) และ ARR $5.84B (+25%) (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2026, StockAnalysis Q2 transcript)</li>
+<li>Falcon Flex ending ARR $2.29B (+101% YoY) และ module adoption 6+/7+/8+ modules อยู่ที่ 51%/35%/26%; เป็นหลักฐานของ expansion แต่ต้องแยก organic upsell ออกจากการเปลี่ยนโครงสร้างสัญญา (Fact/Interpretation, 12 ก.ย. 2026; source: official Q2 FY2027 PR, StockAnalysis Q2 transcript)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Data/network effect:</b> sensor เดียว ingest ข้อมูลจำนวนมาก และ platform นำ threat intelligence/incident response มาปรับปรุง detection; ยิ่งติดตั้งหลาย module ยิ่งเพิ่ม switching cost แต่คู่แข่งที่มี telemetry/AI และ distribution ใหญ่สามารถไล่ตามได้ (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li><b>Switching costs / ecosystem:</b> ลูกค้าใช้หลาย module และ Falcon Store/marketplaces/channel partners; การเปลี่ยนระบบกระทบ workflow/security operations แต่ Microsoft Defender/Entra, Palo Alto และ SentinelOne แข่งขันด้วย bundle และฐานลูกค้าเดิม (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li><b>Threats เฉพาะบริษัท:</b> July 19 incident ยังมี litigation, concessions และความเสียหายต่อ trust; บริษัทระบุว่า renewal, contract length และ upsell อาจถูกกดดันจากเหตุการณ์นี้ (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| Fiscal year | Revenue | Gross profit / margin | Operating income / margin | Net income | OCF | CapEx | FCF proxy | R&amp;D | SBC |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| FY2022 | <b>ไม่พบจาก extraction ชุดนี้</b> | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
+<p>| FY2023 | $2.241B* | $1.640B / 73% | -$190M / -8% | -$183M | $0.941B | $0.235B | $0.706B | $0.608B | $0.527B |</p>
+<p>| FY2024 | $3.056B* | $2.300B / 75% | -$2M / ~0% | $89M | $1.166B | $0.177B | $0.990B | $0.768B | $0.632B |</p>
+<p>| FY2025 | $3.954B | $2.963B / 75% | -$116M / -3% | -$15M | $1.382B | $0.255B | $1.127B | $1.076B | $0.861B |</p>
+<p>| FY2026 | $4.812B | $3.593B / 75% | -$293M / -6% | -$163M | $1.612B | $0.302B | $1.310B | $1.385B | $1.097B |</p>
+<p>\* FY2023/FY2024 revenue is not displayed in the local excerpt’s revenue table; derived from annual SEC facts where available and marked for cross-check. All figures USD; FCF proxy = OCF − PP&amp;E capex, not company-defined FCF.</p>
+<li>Revenue and OCF trend up, gross margin flat around 75%, but GAAP operating losses widened in FY2026 as R&amp;D, sales and incident-related costs rose; quality is strong on cash conversion but not yet clean on GAAP earnings (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026, SEC companyfacts)</li>
+<li>FY2026 R&amp;D $1.385B and SBC $1.097B; SBC is a large component of the non-GAAP-to-GAAP bridge and must be treated as an economic cost when assessing per-share compounding (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>ROE/ROIC 5-year: <b>ไม่พบตัวเลขที่คำนวณครบและ comparable ใน source set</b>; GAAP losses, acquisitions and rapidly changing share count make an unqualified ratio misleading (Caveat, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>FY2026 cash and equivalents $5.230B, senior notes about $0.745B, accumulated deficit $1.3B; liquidity is comfortable relative to current operations but not proof of GAAP earnings power (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>FY2026 OCF $1.612B was supported by $1.097B SBC, $449M amortization of deferred contract acquisition costs and $1.0B increase in deferred revenue; cash conversion should therefore be read with working-capital and SBC context (Fact/Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>Acquisitions of Onum/Pangea consumed cash in FY2026; subsequent SGNL.AI and Seraphic transactions were also cash-heavy, so capital allocation remains growth-first rather than buyback-led (Fact, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>Shares outstanding rose to 1.024B after the four-for-one split, as of 20 Aug 2026; dilution from equity awards remains a key per-share variable (Fact, 12 ก.ย. 2026; source: SEC DEI companyfacts)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q2 FY2027 revenue <b>$1.47B (+26% YoY)</b>, subscription $1.40B (+27%); ARR <b>$5.84B (+25%)</b> and net new ARR <b>$332.8M (+51%)</b>, a record (Fact, 12 ก.ย. 2026; source: StockAnalysis Q2 FY2027 transcript, https://stockanalysis.com/stocks/crwd/transcripts/685350-q2-2027/)</li>
+<li>Non-GAAP gross margin 79%, subscription margin 81%, operating income $371.6M / 25%; GAAP net income was $5.3M and GAAP diluted EPS $0.01, so the GAAP inflection is real but still early (Fact, 12 ก.ย. 2026; source: official Q2 FY2027 PR, <code>sources/CRWD/q2-2027-call.md</code>)</li>
+<li>Q2 operating cash flow $530.3M and FCF $377.4M; cash $5.01B. Management raised FY27 net-new-ARR growth midpoint to 34%, revenue guide to $5.99–6.01B and adjusted EPS to $1.25–1.26 (Fact, 12 ก.ย. 2026; source: official Q2 FY2027 PR, StockAnalysis transcript)</li>
+<li>Call commentary linked AI adoption and platform consolidation to demand, but this is management interpretation; the hard tests are retention, module expansion, sales efficiency and GAAP profitability after SBC (Interpretation, 12 ก.ย. 2026; source: StockAnalysis Q2 FY2027 transcript)</li>
+<h2>7. Valuation</h2>
+<li>ราคาหุ้นแม่ <b>$206.74</b>, 52-week range <b>$87.56–$231.00</b>, ณ 11 ก.ย. 2026 13:30 UTC; source: Yahoo Finance chart endpoint (<code>query1.finance.yahoo.com/v8/finance/chart/CRWD?range=1y&amp;interval=1d</code>)</li>
+<li>Market cap แบบราคา × 1.024B shares ≈ <b>$211.7B</b>; FY2026 revenue $4.812B ให้ trailing P/S ≈ <b>44.0x</b>; calculation จาก Yahoo + SEC, ไม่ใช่ provider quote (คำนวณ 12 ก.ย. 2026)</li>
+<li>Trailing P/E: <b>ไม่ meaningful/ไม่พบเป็นตัวเลขที่เชื่อถือได้</b> เพราะ FY2026 GAAP net loss และ Q2 GAAP profit เพิ่งเล็กน้อย; forward P/E ที่ดึงตรงจากแหล่งบังคับรอบนี้: <b>ไม่พบ</b> (Caveat, 12 ก.ย. 2026)</li>
+<li>EV/EBITDA, EV/FCF, PEG, historical range และ peer multiples: <b>ไม่พบชุดข้อมูล direct ที่ตรวจสอบฐานเดียวกันครบในรอบนี้</b>; ไม่แต่งตัวเลข และควร cross-check StockAnalysis/MarketBeat ก่อนตัดสินใจ (Caveat, 12 ก.ย. 2026)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | FY2031 EPS assumption | Multiple | Target | Probability | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Bear | $9 | 20x | $180 | 30% | $54 |</p>
+<p>| Base | $15 | 20x | $300 | 50% | $150 |</p>
+<p>| Bull | $22.5 | 20x | $450 | 20% | $90 |</p>
+<li>Expected-value target จากชุดสมมติฐาน = <b>$294</b>; เป็น judgment model ไม่ใช่ analyst consensus (Judgment, 12 ก.ย. 2026)</li>
+<li>Bear สะท้อน ARR growth ลดลง, NRR อ่อน, bundling จาก Microsoft/Palo Alto และ multiple compression; base สะท้อน growth ระดับกลางพร้อม operating leverage; bull สะท้อน platform consolidation, AI security และ margin expansion ต่อเนื่อง (Interpretation/Judgment, 12 ก.ย. 2026; source: SEC 10-K FY2026, Q2 transcript)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: net new ARR ที่ทำสถิติ, FY27 guide ที่ raise, Falcon Flex ARR +101% และ module adoption สูงขึ้น; source: official Q2 FY2027 PR/StockAnalysis transcript, ดึง 12 ก.ย. 2026</li>
+<li>Catalysts: subscription margin และ operating leverage หาก cloud optimization ทำให้เข้าใกล้เป้า non-GAAP subscription margin 82–85% ที่ management กล่าวถึง; source: StockAnalysis Q2 FY2027 transcript, ดึง 12 ก.ย. 2026</li>
+<li>Risks: renewal/churn และ sales-cycle concessions จาก July 19 incident, litigation และลูกค้าที่เปลี่ยนไปใช้คู่แข่ง; source: SEC 10-K FY2026, ดึง 12 ก.ย. 2026</li>
+<li>Risks: Microsoft/Palo Alto bundle กด pricing, AI security spend ไม่แปลงเป็น module ARR, SBC/dilution สูง และ acquisition integration; source: SEC 10-K FY2026, ดึง 12 ก.ย. 2026</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้าลูกค้าไม่ได้ต้องการหลาย module แต่ซื้อ Falcon Flex เพื่อยืดสัญญา/รับส่วนลด net new ARR จะดูดีชั่วคราวแต่ unit economics อ่อนลง (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026, Q2 transcript)</li>
+<li>ถ้า July 19 incident เปลี่ยนจาก one-off เป็น permanent trust discount, renewal และ pricing จะเสียแม้ ARR headline ยังโตจากฐานต่ำ (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<li>Bear floor เชิงธุรกิจคือ ARR growth ลงต่ำกว่า low-teens, NRR ตกต่ำกว่า 110%, GAAP losses กลับมา และ SBC โตเร็วกว่ารายได้; นี่คือ permanent-loss risk ไม่ใช่แค่ราคาหุ้นผันผวน (Judgment, 12 ก.ย. 2026)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>Entry/sizing/DCA: ไม่กำหนดคำสั่งซื้อขายเฉพาะบุคคล; long-term process ควรแบ่ง tranche และกำหนดเพดานไว้ก่อน เพราะ P/S สูงและ earnings multiple ยังไม่นิ่ง (Judgment, 12 ก.ย. 2026)</li>
+<li>Exit trigger: thesis เสียหาก ARR/net-new ARR ชะลอหลายไตรมาส, NRR ต่ำกว่า ~110% ต่อเนื่อง, module expansion หยุด หรือ renewal ของลูกค้าใหญ่แย่ลง (Judgment backed by SEC/earnings sources, 12 ก.ย. 2026)</li>
+<li>Kill condition: เกิด breach/outage ที่ทำให้ trust และ gross retention ลดถาวร, แพ้ platform bundle ใน enterprise, หรือ GAAP FCF หลังปรับ SBC ไม่ขยายตามรายได้ (Judgment, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | ข้อความ |</p>
+<p>|---|---|</p>
+<p>| Fact | FY2026 revenue $4.812B, gross margin 75%, OCF $1.612B, SBC $1.097B, cash $5.230B; source: SEC 10-K FY2026, ดึง 12 ก.ย. 2026 |</p>
+<p>| Fact | Q2 FY2027 revenue $1.47B, ARR $5.84B, net new ARR $332.8M, FCF $377.4M; source: official PR/StockAnalysis transcript, ดึง 12 ก.ย. 2026 |</p>
+<p>| Fact | CRWD $206.74; 52-week $87.56–$231.00; source: Yahoo chart, ดึง 12 ก.ย. 2026 |</p>
+<p>| Interpretation | Falcon มี data/network effects และ switching costs จากหลาย module แต่ bundle competition จำกัด pricing power |</p>
+<p>| Judgment | ต้องให้ discount กับ valuation, July 19 tail risk และ SBC; scenario base ไม่ควรถือเป็น forecast ที่แน่นอน |</p>
+<p><b>ข้อจำกัด:</b> FY2022 และบาง revenue observations ใน annual SEC extraction ไม่ครบ, direct IR timeout, และ forward/peer valuation ที่ตรวจสอบฐานเดียวกันไม่ได้ จึงระบุว่าไม่พบแทนการเติมตัวเลข</p>
+</div></body></html>

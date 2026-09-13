@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASML — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">ASML</div>
+<div class="meta">Thesis · สร้างจาก briefs/ASML.md · 2026-09-12</div>
+<h1>ASML — Full Giggs-style Investment Memo</h1>
+<blockquote>ขอบเขต: memo เชิง long-term ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคาและ valuation เป็น snapshot เท่านั้น ดึงข้อมูล 2026-09-12 (ราคา Yahoo ปิดล่าสุด 2026-09-11 UTC)</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงวิจัย:</b> ธุรกิจเชิงยุทธศาสตร์และคุณภาพสูงมาก แต่เป็นหุ้น semiconductor-capex ที่ valuation และความเสี่ยงจีน/ลูกค้ากระจุกสูง; จัดเป็น <b>ติดตามแบบมีเงื่อนไข</b> ไม่ใช่คำแนะนำซื้อ/ขาย (Judgment; อิง sources ด้านล่าง, ดึง 2026-09-12)</li>
+<li><b>Fair-value framework 5 ปี:</b> bear/base/bull = <b>$1,300 / $2,400 / $3,600 ต่อหุ้น ADR</b> เป็น scenario range ไม่ใช่ราคาเป้าหมายที่รับรอง (Judgment; ดึง 2026-09-12)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้อหรือสัดส่วนบังคับ; ต้องเผื่อ cyclicality, currency และ regulatory shock ในการกำหนดขนาด (Judgment; ดึง 2026-09-12)</li>
+<li><b>5Y CAGR จากราคา $1,698.30:</b> bear <b>-5.2%</b>, base <b>7.2%</b>, bull <b>16.2%</b> ต่อปี ไม่รวมเงินปันผล (Yahoo price + calculation, ดึง 2026-09-12)</li>
+<li><b>สิ่งที่ต้องพิสูจน์:</b> guidance 2026/การขยาย capacity แปลงเป็นยอดส่งมอบและ FCF โดยไม่ทำให้ margin เสีย และ High-NA/บริการสร้าง growth ต่อหลังรอบ AI (Interpretation; <code>sources/ASML/20-f-fy2025.md</code> และ <code>q2-2026-call.md</code>, ดึง 2026-09-12)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>ASML ออกแบบและขายเครื่อง lithography, metrology/inspection และ software/process control ให้ผู้ผลิตชิป; EUV ใช้พิมพ์ลายวงจรระดับ advanced node ส่วน DUV เป็นเครื่องหลักของหลายชั้นในชิป (Fact; <code>sources/ASML/20-f-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>รายได้มีสองขา: system sales และ Installed Base Management/field options ซึ่งเป็นบริการ อะไหล่ และ productivity upgrade จากเครื่องที่ติดตั้งแล้ว; ปี 2025 system sales €24.5B และ service/field options €8.2B (Fact; 20-F, ดึง 2026-09-12)</li>
+<li>ASML ระบุว่าเป็นผู้ผลิต EUV รายเดียวของโลก; ecosystem ของ optics จาก Carl Zeiss SMT, software, process know-how และ installed base ทำให้คู่แข่งสร้างสินค้าทดแทนได้ยาก แต่ซัพพลายเออร์รายเดียวก็เป็นจุดเปราะ (Fact/Interpretation; 20-F, ดึง 2026-09-12)</li>
+<li>AI ทำให้ advanced logic และ DRAM/HBM ต้องเพิ่ม wafer capacity/ใช้ lithography มากขึ้น; แต่รายได้ยังผูกกับ fab capex cycle และการอนุมัติส่งออกของหลายประเทศ (Interpretation; 20-F/Q2 summary, ดึง 2026-09-12)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Technological leadership / switching costs:</b> EUV optics, source, control software และ process integration สะสมมานาน; ลูกค้าต้อง validate เครื่องใน fab และ yield ก่อนเปลี่ยน platform (Interpretation จาก Fact; 20-F, ดึง 2026-09-12)</li>
+<li><b>Scale/network of specialized suppliers:</b> การทำงานร่วมกับ Carl Zeiss SMT และ supplier ecosystem สร้าง learning curve; ASML มี installed base ราว 95% ของระบบที่ขาย 30 ปียังใช้งานอยู่ตาม filing ซึ่งหนุน service (Fact; 20-F, ดึง 2026-09-12)</li>
+<li><b>7 Powers ที่ใช้กับ ASML:</b> process-power จากความซับซ้อน/ความรู้เฉพาะ, switching costs จาก qualification และ counter-positioning เพราะลูกค้าต้องใช้ EUV เพื่อก้าว node; ไม่ควรเรียกสิ่งนี้ว่ารับประกันการเติบโต (Interpretation; ดึง 2026-09-12)</li>
+<li><b>ความเสี่ยงเฉพาะบริษัท:</b> ลูกค้าใหญ่สุด 23.9% ของยอดขาย, สองรายใหญ่ 38%; จีน 29.1% ของยอดขายปี 2025; export controls, Taiwan/Korea, Zeiss single-source, cyber/โรงงาน และ semiconductor cyclicality (Fact; 20-F, ดึง 2026-09-12)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| ปี | Revenue | Gross profit | Op. income | Net income | OCF | CapEx | FCF | R&amp;D |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| 2025 | €32.7B | €17.3B | €11.3B | €9.6B | €12.7B | ~€1.6B | €11.0B | €4.70B |</p>
+<p>| 2024 | €28.3B | €14.5B | €9.0B | €7.6B | €11.2B | ~€2.1B | €9.1B | €4.30B |</p>
+<p>| 2023 | €27.6B | €14.1B | €9.0B | €7.8B | ไม่พบใน 20-F excerpt | ~€2.2B | €3.25B | €3.98B |</p>
+<p>| 2022 | €21.2B | €10.7B | €6.5B | €5.6B | ไม่พบใน 20-F excerpt | ~€1.3B | €7.17B | €3.25B |</p>
+<p>| 2021 | ไม่พบในชุด source ที่ cache | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
+<li>รายได้โต 2022–2025 และ gross margin ขยับ 51.3% → 52.8%; net income สูงและ FCF แข็งแรง แต่ system shipments ลดจาก 418 เป็น 327 เครื่องใน 2025 สะท้อนว่า mix/ราคาสำคัญกว่าจำนวนเครื่อง (Fact/Interpretation; 20-F + Yahoo annual financials, ดึง 2026-09-12)</li>
+<li>R&amp;D €4.70B ใน 2025 (+9.2%) เป็นค่าใช้จ่ายเชิงป้องกันตำแหน่งเทคโนโลยี ไม่ควรมองเป็น cost ที่ตัดได้ง่าย (Fact/Interpretation; 20-F, ดึง 2026-09-12)</li>
+<li>ROE/ROIC 5 ปีแบบปรับ currency, goodwill และ cycle <b>ไม่พบใน source ที่ใช้</b>; ไม่เติมตัวเลขแทน (Limitation; ดึง 2026-09-12)</li>
+<li><b>Valuation snapshot:</b> ราคา <b>$1,698.30</b>, market cap <b>$652.3B</b>, trailing P/E <b>57.1x</b>, forward P/E <b>28.2x</b>, Yahoo EV/EBITDA แสดง <b>2,686x</b> และ EV/Sales <b>1,026x</b> ซึ่งผิดปกติจาก ADR/currency/data mapping จึงถือว่า <b>EV/EBITDA และ EV/Sales ใช้งานไม่ได้ใน snapshot นี้</b>; 52-week range <b>$813.92–$1,999.96</b>. ณ 2026-09-11 13:30 UTC; source: Yahoo chart/fast_info และ yfinance ดึง 2026-09-12.</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>เงินสดและ short-term investments สิ้น 2025 <b>€13.3B</b>; company ระบุว่ามีเงินทุนพอสำหรับภาระปัจจุบัน (Fact; 20-F, ดึง 2026-09-12)</li>
+<li>OCF €12.7B และ FCF €11.0B ใน 2025; capex ลดจาก €2.07B เป็นราว €1.57B ขณะที่ลงทุน Mistral AI €1.30B (Fact; 20-F, ดึง 2026-09-12)</li>
+<li>คืนผู้ถือหุ้นปี 2025 <b>€8.5B</b>; buyback เพิ่มขึ้น €5.45B และมีเงินปันผลเพิ่ม แต่บริษัทสงวนสิทธิ์ปรับ/หยุด buyback หรือ dividend ตาม liquidity, capex และ R&amp;D (Fact; 20-F, ดึง 2026-09-12)</li>
+<li>หนี้รวมแบบละเอียด, net debt, SBC และ dilution 5 ปี <b>ไม่พบครบใน source ที่ใช้</b>; yfinance แสดง total debt ราว $1.98B แต่ currency/definition ไม่ชัด จึงไม่ใช้คำนวณ leverage เชิงสรุป (Limitation; Yahoo/yfinance, ดึง 2026-09-12)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q2 2026 revenue <b>€9.3B</b>, system sales €6.6B (EUV €3.8B รวม High-NA 1 เครื่อง; non-EUV €2.8B), Installed Base Management ราว €2.8B และ mix logic/memory 51%/49% (Fact; <code>sources/ASML/q2-2026-call.md</code>, ดึง 2026-09-12)</li>
+<li>Gross margin <b>54%</b>, net income €2.9B, EPS €7.59 และ FCF €1.3B; beat มาจาก Installed Base Management และ mix ชิ้นส่วนที่ margin สูง (Fact; q2 summary, ดึง 2026-09-12)</li>
+<li>FY2026 guidance ใน summary ขยับเป็น revenue <b>€43–45B</b>, gross margin 54–56%; logic โต &gt;25%, memory &gt;75%, Low-NA EUV ราว 65 เครื่อง และ China ราว 20% ของยอดขาย (Fact; q2 summary, ดึง 2026-09-12)</li>
+<li>Q3 guidance: revenue €11–12B, Installed Base Management €2.9B, gross margin 55–57%, R&amp;D ราว €1.2B และ SG&amp;A €0.4B (Fact; q2 summary, ดึง 2026-09-12)</li>
+<li><b>Transcript status:</b> StockAnalysis fetch ไม่สำเร็จเพราะระบบ source extraction ตอบ 402 insufficient balance; ใช้ third-party prepared-remarks summary ที่มีอยู่ ไม่มี analyst Q&amp;A ครบ และต้องถือว่าตัวเลขยังไม่ได้ re-verify กับ IR release (Limitation; ดึง 2026-09-12)</li>
+<h2>7. Valuation</h2>
+<li><b>Trailing / forward P/E:</b> 57.1x / 28.2x จาก Yahoo; forward multiple ฝังสมมติฐานการฟื้นตัวของกำไรและไม่ควรอ่านเป็นข้อเท็จจริงที่รับประกัน (Fact/Interpretation; yfinance, ดึง 2026-09-12)</li>
+<li><b>EV/EBITDA และ EV/Sales:</b> Yahoo/yfinance output ผิดปกติจาก currency/ADR mapping จึงระบุว่าไม่พบตัวเลขที่เชื่อถือได้ แทนการใช้เลขดังกล่าว (Limitation; yfinance, ดึง 2026-09-12)</li>
+<li><b>Historical / peer range:</b> ไม่ได้ดึงชุด historical multiples และ peer valuation จาก StockAnalysis/MarketBeat ในรอบนี้; ระบุว่าไม่พบ (Limitation; ดึง 2026-09-12)</li>
+<li>Scenario valuation ใช้ $1,300/$2,400/$3,600 เพื่อ stress-test ความไวต่อ EUV/High-NA growth, margin และ cycle ไม่ใช่ intrinsic value ที่พิสูจน์แล้ว (Judgment; ดึง 2026-09-12)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานหลัก | EPS/FCF proxy | Multiple/ราคา 5Y | CAGR | Probability* |</p>
+<p>|---|---|---|---:|---:|---:|</p>
+<p>| Bull | AI/advanced logic/HBM ทำให้ EUV+service โต, High-NA ramp, margin ขยาย | FCF โตและคืนทุนต่อ | $3,600 | 16.2% | 25% |</p>
+<p>| Base | demand โตแต่ cyclicality/export controls จำกัด, service ช่วยพยุง | FCF โตกลาง | $2,400 | 7.2% | 50% |</p>
+<p>| Bear | fab capex ลด, จีนถูกจำกัด, shipment/margin หด | earnings ลดและ multiple ลด | $1,300 | -5.2% | 25% |</p>
+<li>*Probability เป็น judgment เพื่อบังคับให้เห็น downside ไม่ใช่ forecast ที่มีฐานสถิติ (Judgment; ดึง 2026-09-12)</li>
+<li>Expected contribution แบบ probability-weighted price = <b>$2,425</b> จาก 0.25×3,600 + 0.50×2,400 + 0.25×1,300; เป็นแบบจำลองหยาบ ไม่ใช่ fair value ที่รับรอง (Calculation/Judgment; ดึง 2026-09-12)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> 2026 guide delivery, 3nm/2nm และ HBM capacity, High-NA production milestone, service/upgrade growth, value-based pricing และ 2027 capacity +30% (Fact/Interpretation; q2 summary/20-F, ดึง 2026-09-12)</li>
+<li><b>Risks:</b> export-control shock ต่อจีน, ลูกค้าใหญ่เลื่อน fab capex, Taiwan/Korea geopolitics, Carl Zeiss single-source, High-NA industrialization, cyber/โรงงาน และ semiconductor cycle (Fact; 20-F, ดึง 2026-09-12)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้าตรงข้ามกับ thesis: AI demand โตจริงแต่ลูกค้ากระจาย capex ช้าหรือใช้เครื่องเดิมนานขึ้น ทำให้ revenue/FCF ไม่โตตาม long-term scenario (Judgment; ดึง 2026-09-12)</li>
+<li>Permanent capital loss จะมาจากการถือ multiple สูงบนกำไรช่วงพีค ขณะที่ export controls ตัดตลาดจีนและลูกค้ารายใหญ่ลดคำสั่งซื้อพร้อมกัน (Interpretation; 20-F/Yahoo, ดึง 2026-09-12)</li>
+<li>Bear floor $1,300 เป็นเพียง stress point ไม่ใช่การรับประกันราคา; สมมติฐานเปราะคือ guidance €43–45B และ gross margin 54–56% ไม่เกิดพร้อมกับ capacity expansion (Judgment; ดึง 2026-09-12)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry:</b> ไม่มีคำแนะนำจุดซื้อ; ถ้าจะติดตามให้แบ่งการตัดสินใจตาม valuation band และผลจริงของ bookings/margin ไม่ไล่ตาม headline AI (Judgment; ดึง 2026-09-12)</li>
+<li><b>Sizing/DCA/cap:</b> จำกัดขนาดให้รับ drawdown จาก fab cycle และ currency ได้; อย่านับ EUV leadership เป็น hedge ต่อทุกความเสี่ยง (Judgment; ดึง 2026-09-12)</li>
+<li><b>Exit/kill:</b> ลูกค้าหลักเลื่อน/ยกเลิก EUV ซ้ำ, guidance/bookings ลดจาก demand ไม่ใช่ timing, จีนถูกตัดจน economics เสีย, Zeiss supply disruption หรือ gross margin/FCF หดอย่างยั่งยืน (Judgment อิง 20-F/q2 summary, ดึง 2026-09-12)</li>
+<li><b>Review cadence:</b> ตรวจ orders/backlog, EUV/DUV shipments, service growth, gross margin, China mix, capex และ buyback/dividend policy ทุกไตรมาส (Judgment; ดึง 2026-09-12)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact | FY2025 revenue €32.7B, GM 52.8%, net income €9.6B, FCF €11.0B; Q2 2026 revenue €9.3B, GM 54%, FY guide €43–45B (sources/ASML, ดึง 2026-09-12) |</p>
+<p>| Interpretation | EUV/installed-base ecosystem ให้ pricing power และ visibility แต่รายได้ยังขึ้นกับ fab capex, ลูกค้ากระจุก และ export controls (ดึง 2026-09-12) |</p>
+<p>| Judgment | Scenario $1,300/$2,400/$3,600, probabilities 25/50/25 และ rating “ติดตามแบบมีเงื่อนไข”; เปลี่ยนได้เมื่อ orders/margin/จีนต่างจากสมมติฐาน (ดึง 2026-09-12) |</p>
+<h3>ข้อจำกัดแหล่งข้อมูล</h3>
+<li>ASML ใช้ Form 20-F เพราะเป็น foreign private issuer ไม่ใช่ 10-K; ไฟล์ <code>sources/ASML/20-f-fy2025.md</code> เป็น official-equivalent annual filing และมี <code>audra_verified_at: 2026-08-29</code>.</li>
+<li>Q2 เป็น third-party prepared-remarks summary ไม่ใช่ transcript เต็ม; StockAnalysis และ official IR extraction รอบนี้ถูกบล็อกด้วย 402 insufficient balance.</li>
+<li>ตัวเลข 5-year บางรายการ, debt/net debt/SBC/dilution, peer/historical multiples และ normalized ROIC ยังไม่พบจากชุด source รอบนี้ จึงไม่ได้เติมตัวเลข.</li>
+</div></body></html>

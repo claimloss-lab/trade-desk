@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACGL — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">ACGL</div>
+<div class="meta">Thesis · สร้างจาก briefs/ACGL.md · 2026-09-12</div>
+<h1>ACGL — Arch Capital Group</h1>
+<h2>1. Company snapshot</h2>
+<p>Arch Capital Group เป็นบริษัทประกันและรับประกันภัยต่อ โดยเน้น property &amp; casualty รวมถึง mortgage และธุรกิจที่เกี่ยวข้อง บริษัทเก็บเบี้ยประกัน รับความเสี่ยงไว้บางส่วน และลงทุนเงินสำรองระหว่างรอจ่ายเคลม ลูกค้าคือธุรกิจ ผู้รับประกันภัยรายอื่น และผู้กู้/ผู้ให้กู้ในตลาด mortgage ผลลัพธ์จึงขึ้นกับการตั้งราคา ความเสียหายจากภัยพิบัติ วินัยรับประกัน และผลตอบแทนการลงทุน</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้ของบริษัทประกันควรดูผ่าน net premiums earned, ผลกำไรจากการรับประกัน และรายได้ลงทุน ไม่ใช่ยอดเบี้ยอย่างเดียว (source: sources/ACGL/10-k-2026.md; sources/ACGL/10-q-latest.md)</li>
+<li>ทิศทาง margin สะท้อน combined ratio และค่าใช้จ่ายเคลม; catastrophe losses ทำให้ไตรมาสเดียวผันผวนได้มาก</li>
+<li>งบดุลพึ่งพาความเพียงพอของทุนสำรองและเงินทุนรับความเสี่ยง การประเมินต้องเผื่อความไม่แน่นอนของ reserve development</li>
+<li>การจัดสรรเงินทุน—เพิ่ม capacity, ซื้อหุ้นคืน, จ่ายปันผล หรือเก็บทุน—ต้องไม่แลกกับการลดมาตรฐานการรับประกัน</li>
+<p><b>Valuation snapshot:</b> ราคา USD 96.20; market cap, P/E และ EV/EBITDA: หาไม่ได้จากแหล่งที่ตรวจสอบได้ในรอบนี้; 52-week range USD 84.72–106.48 ณ 2026-09-11 03:00 UTC; source: Yahoo Finance chart API; SEC filings</p>
+<h2>3. Latest earnings</h2>
+<li>SEC 10-Q ล่าสุดครอบคลุมงวดสิ้นสุด 30 มิ.ย. 2026 และระบุว่าจำนวนใน filing เป็นหน่วยล้านดอลลาร์เว้นแต่ระบุเป็นอย่างอื่น (source: sources/ACGL/10-q-latest.md)</li>
+<li>รายได้ในงบประกอบด้วย net premiums earned และรายการจากการลงทุน/ธุรกิจประกัน ไม่ควรใช้ revenue บรรทัดเดียวแทนคุณภาพการรับประกัน (source: sources/ACGL/10-q-latest.md)</li>
+<li>source set ไม่พบ earnings-call transcript แยก; q2-call.md เป็น SEC filing ที่เก็บไว้เป็น primary reference จึงไม่มีการอ้างคำพูดหรือ guidance ที่ไม่อยู่ในเอกสาร (source: sources/ACGL/q2-call.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li>วินัยตั้งราคาและการกระจายความเสี่ยงทำให้ combined ratio อยู่ในระดับดี ขณะที่เงินลงทุนสร้างรายได้สม่ำเสมอ</li>
+<li>การเติบโตของเบี้ยในตลาดที่บริษัทมีความเชี่ยวชาญเพิ่ม scale โดยไม่ลดคุณภาพความเสี่ยง</li>
+<p><b>Bear case</b></p>
+<li>ภัยพิบัติขนาดใหญ่หรือ reserve deterioration หลายสายธุรกิจทำให้กำไรและทุนผันผวนพร้อมกัน</li>
+<li>ราคาเบี้ยถูกกดจากการแข่งขัน ขณะที่เงินเฟ้อค่าซ่อม/ค่ารักษาทำให้ต้นทุนเคลมสูงกว่าที่ตั้งสำรอง</li>
+<h2>5. Kill conditions</h2>
+<li>combined ratio แย่ลงต่อเนื่องจากการตั้งราคาต่ำกว่าความเสี่ยง หรือ reserve development ติดลบซ้ำ</li>
+<li>ทุนลดลงจนต้องลดการรับประกันหรือเพิ่มทุนในจังหวะที่ผลตอบแทนไม่คุ้ม</li>
+<li>การเติบโตของเบี้ยเร็วกว่าความสามารถประเมินความเสี่ยงและคุณภาพเคลมอย่างชัดเจน</li>
+<h2>6. What to ask before owning it</h2>
+<li>combined ratio ที่เห็นเป็นผลจาก underwriting จริง หรือถูกกลบด้วย reserve release?</li>
+<li>catastrophe exposure และการประกันต่อป้องกัน tail risk ได้มากแค่ไหน?</li>
+<li>book value และทุนต่อความเสี่ยงเปลี่ยนอย่างไรผ่านวัฏจักร?</li>
+<li>รายได้ลงทุนสมมติฐานอะไร และความเสี่ยง duration/เครดิตอยู่ตรงไหน?</li>
+</div></body></html>

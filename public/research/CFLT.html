@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFLT — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">CFLT</div>
+<div class="meta">Thesis · สร้างจาก briefs/CFLT.md · 2026-09-12</div>
+<hr>
+<p>ticker: CFLT</p>
+<p>company: &quot;Confluent, Inc. [ถูก IBM เข้าซื้อกิจการแล้ว — ไม่ใช่หุ้นที่ trade ได้อีกต่อไป]&quot;</p>
+<p>written_at: 2026-09-06</p>
+<p>sources: [EDGAR 10-K CIK0001699838 FY2025, EDGAR 8-K merger announcement Dec 2025]</p>
+<p>audra_note: &quot;CFLT ถูก IBM acquire สำเร็จในราคา $31/share (Mar 2026) — ไม่มีราคาตลาดแล้ว; brief นี้เป็น historical thesis analysis ก่อน acquisition&quot;</p>
+<hr>
+<h1>CFLT — Confluent, Inc. ⚠️ [ACQUIRED BY IBM — Delisted Mar 2026]</h1>
+<blockquote>บทวิเคราะห์ฉบับนี้เป็นข้อมูลเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<blockquote>⚠️ <b>CFLT ไม่ใช่หุ้นที่ trade ได้อีกแล้ว</b> — IBM ประกาศซื้อกิจการวันที่ 7 ธ.ค. 2025 ที่ $31/share และ deal ปิดสำเร็จในเดือนมีนาคม 2026 (25-NSE filed 17 Mar 2026)</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Confluent คือบริษัทเจ้าของ <b>Apache Kafka</b> เชิงพาณิชย์ — สร้างโดยทีม LinkedIn ที่ invented Kafka เดิม ธุรกิจหลักคือ <b>Confluent Cloud</b> (fully-managed Kafka บน cloud) และ <b>Confluent Platform</b> (self-managed enterprise edition) Kafka ถูกใช้เป็น <b>real-time data streaming backbone</b> ขนาดใหญ่ — ช่วยให้บริษัทส่งข้อมูลระหว่าง microservices, database และ application แบบ real-time ลูกค้าคือองค์กรขนาดใหญ่ในกลุ่ม fintech, e-commerce, logistics ที่ต้องการ event-driven architecture การที่ IBM เข้าซื้อสะท้อนว่า IBM ต้องการ <b>real-time data integration</b> เป็น layer หลักบน hybrid cloud platform (IBM Cloud + Red Hat OpenShift) โดย Confluent เติมช่องว่างที่ IBM ขาดอยู่</p>
+<h2>2. Fundamentals signal (ก่อน acquisition — ณ FY2025)</h2>
+<li><b>Revenue เติบโตสม่ำเสมอ:</b> FY2023 $777M → FY2024 $964M (+24%) → FY2025 (Dec 2025) $1,167M (+21%) — growth rate ชะลอลงแต่ scale ขึ้น (source: EDGAR 10-K CIK0001699838)</li>
+<li><b>Gross margin ดีขึ้นต่อเนื่อง:</b> Gross profit FY2025 $867M บน revenue $1,167M = <b>gross margin ~74.3%</b> — ดีขึ้นจาก ~70.5% ใน FY2023; cloud shift ช่วย margin</li>
+<li><b>Net loss ลดลงชัดเจน:</b> FY2023 -$443M → FY2024 -$345M → FY2025 -$295M — narrowing loss แต่ยังขาดทุน GAAP อยู่</li>
+<li><b>รายได้ cloud vs platform:</b> Confluent Cloud เป็น growth driver (consumption model); Platform ค่อย ๆ ลดสัดส่วนลง — mix shift ไป cloud ดี margin ระยะยาว</li>
+<li><b>Acquisition price $31/share:</b> ก่อน announcement (6 ธ.ค. 2025) หุ้น CFLT ซื้อขายที่ ~$20-25/share — IBM จ่าย premium ~24-55% สะท้อน strategic value ของ Kafka ecosystem</li>
+<p><b>Valuation ณ acquisition:</b> IBM จ่าย ~$6.4B (enterprise value โดยประมาณ ที่ $31/share × ~205M fully-diluted shares) สำหรับธุรกิจ revenue ~$1.17B = <b>EV/Revenue ~5.5x</b> — reasonable สำหรับ strategic acquisition ด้าน data infrastructure</p>
+<h2>3. Latest earnings (ก่อน acquisition — FY2025 ended Dec 31, 2025)</h2>
+<li><b>FY2025 Revenue: $1,167M</b> — +21.0% YoY จาก FY2024 $964M (source: EDGAR 10-K)</li>
+<li><b>FY2025 Gross Profit: $867M</b> — gross margin 74.3%</li>
+<li><b>FY2025 Net loss: -$295M</b> — ลดลงจาก -$345M (FY2024); trajectory ดีขึ้นต่อเนื่อง</li>
+<li><b>Confluent Cloud</b> เป็น growth driver หลัก; real-time event streaming workload เติบโตตาม AI/ML adoption (ต้องการ data pipeline คุณภาพสูง)</li>
+<li><b>IBM Merger Agreement announced 7 Dec 2025</b> at $31.00/share in cash; deal closed Mar 17, 2026 (Form 25-NSE filed) (source: EDGAR 8-K CIK0001699838)</li>
+<h2>4. Bull case / Bear case (ก่อน acquisition — เป็น historical analysis)</h2>
+<p><b>🐂 Bull case (สิ่งที่ IBM เห็น)</b></p>
+<li><b>Apache Kafka network effect:</b> Kafka เป็น de facto standard สำหรับ real-time event streaming — มี community และ ecosystem ขนาดใหญ่ที่ lock-in ทางเทคนิค; IBM ได้ทั้ง technology, talent และ customer relationships ของ Confluent ในคราวเดียว</li>
+<li><b>AI data pipeline demand:</b> AI workload ต้องการ clean, real-time data ที่มาจาก streaming — Kafka อยู่ตรงกลาง data flow ขององค์กรใหญ่; IBM เชื่อว่า real-time data will be central to AI</li>
+<li><b>IBM hybrid cloud strategy:</b> Confluent เติม gap บน Red Hat OpenShift และ IBM Cloud ด้าน data streaming; ลูกค้า IBM enterprise ที่ใช้ MQ/Message Broker เดิมสามารถ migrate มาสู่ Kafka ecosystem</li>
+<p><b>🐻 Bear case (ทำไม standalone Confluent มีความเสี่ยง)</b></p>
+<li><b>Open-source Kafka competition:</b> AWS MSK (Managed Streaming for Kafka), Azure Event Hubs, Redpanda ต่างแข่งขันตรง; ลูกค้าที่ไม่ต้องการ enterprise support สามารถ run Kafka เองบน cloud โดยไม่ต้องจ่าย Confluent</li>
+<li><b>Growth deceleration ในตลาด mature:</b> Kafka adoption ใน large enterprise ค่อนข้าง mature แล้ว; growth driver ใหม่อย่าง Tableflow (streaming table) ยังไม่ scale พอ</li>
+<li><b>Path to GAAP profitability ช้า:</b> แม้ net loss ลดลง แต่ SBC สูง; standalone Confluent ต้องใช้เวลาอีกหลายปีกว่าจะ GAAP profitable — IBM ซื้อได้ถูกกว่าถ้ารอ</li>
+<h2>5. Kill conditions (historical — ก่อน acquisition)</h2>
+<li><b>Confluent Cloud growth ชะลอต่ำกว่า 15% YoY</b> ต่อเนื่อง — cloud คือ future; ถ้า cloud หยุดโต Platform เดิมก็ decline</li>
+<li><b>NRR (Net Revenue Retention) ต่ำกว่า 120%</b> — expansion ของลูกค้าเดิมคือ core engine ของ consumption model</li>
+<li><b>Managed Kafka competitors ตัดราคา</b> จน Confluent Cloud pricing ไม่แตกต่าง — IBM ป้องกันได้บางส่วนด้วย enterprise bundle แต่ SMB segment ยังเสี่ยง</li>
+<h2>6. What to ask (สำหรับผู้ที่ track IBM post-acquisition)</h2>
+<p>1. IBM จะ integrate Confluent เข้า Red Hat OpenShift อย่างไร — เป็น separate product หรือ bundle เป็น IBM Data Fabric?</p>
+<p>2. Confluent Cloud ยังให้บริการแบบ multi-cloud ต่อได้ไหม หลัง IBM เข้าควบ — ลูกค้าที่ไม่ได้ใช้ IBM Cloud กังวลไหม?</p>
+<p>3. Confluent talent retention: team ที่ found Kafka จะอยู่กับ IBM ไหม หรือ exit หลัง lock-up?</p>
+<p>4. สำหรับ investor ที่ถือ IBM (IBM) — acquisition นี้ช่วย revenue growth ของ IBM อย่างไร และ dilutive/accretive ต่อ IBM EPS?</p>
+<p>5. มี alternative streaming technology ที่น่าสนใจหลัง Confluent ถูก acquire ไปแล้ว — Redpanda (private), Apache Flink plays คือใคร?</p>
+</div></body></html>

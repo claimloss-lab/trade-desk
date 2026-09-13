@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAYX — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">PAYX</div>
+<div class="meta">Thesis · สร้างจาก briefs/PAYX.md · 2026-09-12</div>
+<h1>PAYX — Paychex, Inc.</h1>
+<blockquote>Brief จัดทำรอบ cron catch-up (31 ส.ค. 2026) · ตัวเลขหลักจาก stockanalysis.com + Nasdaq API (third-party) ยังไม่ verify กับ 10-K / earnings call จริง (ไม่มี <code>sources/PAYX/</code>) — ถือเป็นข้อมูลเบื้องต้น</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Paychex เป็นบริษัทบริการ payroll บัญชีเงินเดือน และงาน HR สำหรับธุรกิจขนาดกลางเล็ก (SME) ในอเมริกา ลูกค้าจ้างบริษัทจัดการเงินเดือนพนักงาน คิดภาษี เบิกจ่ายให้ พร้อมทั้งบริการ HR จ้าง-CEO-สวัสดิการประกัน และการจ่ายเงินให้ผู้รับเหมา (independent contractor) ธุรกิจได้ค่าธรรมเนียมรายรับประจำจากลูกค้า (recurring subscription + service fee) พึ่งลูกค้า SME ในสหรัฐฯ เป็นหลัก รายได้เยอะจากจำนวนลูกค้าที่ผูกมาใช้บริการต่อเนื่อง</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้โตเร่งขึ้นชัดในช่วงเร็วๆ นี้ (ttm 6.51B +16.9% — เหนือกว่าในอดีตที่เคย ~5%) ส่วนหนึ่งจากดอกเบี้ยรายได้เงินฝากที่ได้จากค่าจ้างที่ถือไว้ + ขยายบริการ</li>
+<li>Margin สูงมาก (GM ~74%, op margin ~38% ล่าสุด) เพราะเป็น SaaS/บริการซ้ำๆ ไม่ต้องมีต้นทุนสินค้าสูง</li>
+<li>กำไรสุทธิ ttm 1.76B +6.2% โตช้ากว่ารายได้ เพราะรายได้ที่โตเร่งมาจากส่วนดอกเบี้ยที่มี margin พอใช้แต่ไม่เท่า core</li>
+<li>งบดุลแข็ง เงินสดเยอะ ใช้คืนผ่านปันผลสูง (~3.75%) + ซื้อหุ้นคืน — เหมาะกับรายได้มั่นคง (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
+<li>ความเสี่ยงหลักคือการพึ่ง SME ลูกค้าอาจกดงบ/เลิกใช้เมื่อศก.อ่อนแอ</li>
+<p><b>Valuation snapshot:</b> ราคา 126.70 (ปิด 28 ส.ค. 2026, Nasdaq API) · market cap 45.19B · P/E (ttm) 25.98 · forward P/E 21.26 · 52-week range 85.45–139.53 · ปันผล $4.76 (~3.75%) · Beta 0.80 · Analysts: Hold, target 111.36 (ต่ำกว่าราคา) — stockanalysis.com / Nasdaq ณ 31 ส.ค. 2026</p>
+<h2>3. Latest earnings</h2>
+<li>Q4 FY2026 (ไตรมาสล่าสุดที่รายงาน): รายได้ 1.606B โต ~12.5% YoY (ส่วนหนึ่งจากแรงหนุนของ interest ที่ได้จากเงินฝากค่าจ้าง) (source: stockanalysis.com quarterly income statement)</li>
+<li>รายได้ไตรมาสก่อนหน้าเร่งขึ้นแรง (Q3 1.809B +19.9% YoY) ก่อนทรงตัว — บ่งชี้การโตช่วงนี้ขับโดยดอกเบี้ยเงินฝากมากกว่า core payroll (source: stockanalysis.com)</li>
+<li>GM ~74%, op margin ~38% ล่าสุด (source: stockanalysis.com)</li>
+<li>ตัวเลขเป็นข้อมูลจาก stockanalysis.com ยังไม่เทียบกับ transcript รายงานจริงของบริษัท (ไม่มีไฟล์ใน <code>sources/PAYX/</code>)</li>
+<h2>4. Bull case / Bear case</h2>
+<li>บริการ payroll/HR เป็น \&quot;mission-critical\&quot; สำหรับ SME ลูกค้าเปลี่ยนผู้ให้บริการลำบาก (switching cost สูง) → recurring รายได้ค่อนข้างนิ่ง</li>
+<li>SaaS + จ่ายเป็นรายเดือน ทำให้ margin สูง และขยาย upsell บริการ HR/ประกัน/เงินโอนเพิ่มรายได้ต่อลูกค้าได้</li>
+<li>รายได้จากดอกเบี้ยเงินฝาก (ส่วนที่ถือค่าจ้างไว้) เพิ่มแถม เมื่ออัตราดอกเบี้ยสูง — bonus รายได้ช่วงนี้</li>
+<h3>Bear case</h3>
+<li>รายได้ที่โตเร่งช่วงหลัง พึ่งส่วน \&quot;ดอกเบี้ยเงินฝาก\&quot; ที่จะหายไปเมื่ออัตราดอกเบี้ยลดลง — ต้องแยก core growth ออกมาเอง</li>
+<li>การพึ่งลูกค้า SME ล้วนๆ ทำให้อ่อนไหวต่อวัฏจักรธุรกิจรอง (ถ้า SME ลดขนาด/ปิด รายได้หด)</li>
+<li>ตลาดให้ analyst target (111) ต่ำกว่าราคาปัจจุบัน (126.7) — ราคาอาจไปก่อน fundamentals แล้ว</li>
+<h2>5. Kill conditions</h2>
+<li>core revenue (ไม่รวมส่วนดอกเบี้ยฝาก) ชะลอลงจริง หลายไตรมาส — ต้องแยกให้ออก</li>
+<li>อัตราลูกค้าเลิกใช้ (churn) เพิ่มขึ้น หรือจำนวนลูกค้า SME ลดลงต่อเนื่อง (สัญญาณตลาดอ่อนแอจริง)</li>
+<li>ปันผล/ซื้อหุ้นคืนโดนลด หรือ FCF แย่ลง</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. รายได้ grow ที่เหลือ (ถ้าตัดส่วนดอกเบี้ย) เป็นเท่าไร? — จะได้ไม่หลงกลตัวเลขรวม</p>
+<p>2. จำนวนลูกค้า SME ใหม่-เก่า เปลี่ยนไปยังไง และ churn rate เท่าไร?</p>
+<p>3. อัตราดอกเบี้ยลง จะกดรายได้ราวเท่าไร และบริษัทชดเชยด้วยอะไร?</p>
+<p>4. อัตราการ upsell บริการ HR/ประกันต่อลูกค้าหนึ่งรายเป็นเท่าไร (revenue per client)?</p>
+<p>5. ด้วย PE ~26 (ไม่ถูก) จะยืนจาก core growth จริงเท่าไร ไม่ใช่ดอกเบี้ย?</p>
+<hr>
+<p>*หมายเหตุ: ยังไม่ได้ดึง 10-K/earnings call มาวางใน <code>sources/</code> — ตัวเลข fundamentals ควรไป verify กับเอกสารทางการก่อนใช้ตัดสินใจจริง*</p>
+</div></body></html>

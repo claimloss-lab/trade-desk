@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROP — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">ROP</div>
+<div class="meta">Thesis · สร้างจาก briefs/ROP.md · 2026-09-12</div>
+<h1>ROP — Roper Technologies (NASDAQ: ROP)</h1>
+<p><b>Brief date:</b> 1 ก.ย. 2026 · <b>Price source:</b> stockanalysis.com (สืบค้น 1 ก.ย. 2026)</p>
+<h2>1. Company snapshot</h2>
+<p>Roper Technologies คือ <b>บริษัทซอฟต์แวร์ (vertical application software) + เทคโนโลยีเฉพาะทาง</b> ที่โตผ่านการซื้อ (acquisitive compounder) — พอร์ตแบรนด์เช่น Deltek (ซอฟต์แวร์ government/agency contracting), Aderant (legal), SHP (tax/utility billing), iPipeline, Medical (software), Neptune/tech-enabled products (power/น้ำ) ขายซอฟต์แวร์เฉพาะอุตสาหกรรม (niche) ให้ลูกค้าองค์กร/งบเฉพาะกลุ่ม รายได้ส่วนใหญ่ recurring (subscription/maintenance) และ margin สูง — โมเดลคล้าย &quot;software rolled-up&quot; ที่ซื้อธุรกิจ niche กำไรดี มาปรับปรุง/รวมเป็นแพลตฟอร์ม</p>
+<h2>2. Fundamentals signal</h2>
+<li><b>รายได้โต organic + M&amp;A:</b> Revenue (ttm) ~$8.28B +10.9% — โตจากซอฟต์แวร์ recurring + ดีล M&amp;A</li>
+<li><b>กำไรพุ่งจาก one-time sale:</b> Net income ttm $2.50B <b>+62.7%</b> / EPS ~$23.77 — เติบโตแรงมากเพราะไตรมาสหนึ่งมีกำไรพิเศษจากการขายสินทรัพย์ (ต้องแยกตัวเลขพิเศษออก)</li>
+<li><b>margin ระดับพรีเมียม:</b> Operating margin ~28%, gross ~69.5%, FCF margin ~31.7% — เป็น signature ของ software niches ที่ recurring สูง</li>
+<li><b>งบดุล:</b> ROE ~13.1%, ROIC ~6.7% (M&amp;A ทำให้ ROIC ลดช่วงรวมดีล) — จ่ายหนี้เพื่อซื้อ</li>
+<li><b>Capital allocation:</b> เน้น M&amp;A ต่อเนื่อง + dividend เล็กน้อย (~0.9%)</li>
+<p><b>Valuation snapshot</b> (ณ ~1 ก.ย. 2026 · stockanalysis.com):</p>
+<p>ราคาปิด ~<b>$424.6</b> · Market cap <b>~$42.0B</b> · <b>P/E 17.9x (เพี้ยนจาก one-time gain)</b> / Forward 18.1x · <b>EV/EBITDA 16.4x</b> · 52-week <b>$305.96 – $530.00</b> (ราคาหดลงจากจุดสูง) · (ตัวเลขดิบ ไม่ได้แปลว่าถูก/แพง)</p>
+<h2>3. Latest earnings — Q2 FY2026 (Earnings date ~23 ก.ค. 2026)</h2>
+<li>รายได้ล่าสุด Q2&#x27;26 <b>~$2.11B</b> (Q1&#x27;26 $2.10B; Q4&#x27;25 $2.06B; Q3&#x27;25 $2.02B) (source: stockanalysis.com quarterly financials)</li>
+<li>EPS Q2&#x27;26 <b>สูง ~11.6</b> เพราะมีกำไรพิเศษจากขายสินทรัพย์ (ไตรมาสปกติก่อนหน้า ~3.7–4.9) — <b>อย่าเห็นกำไร Q2 ไตรมาสเดียวแล้วตีว่ากำไรประจำพุ่ง</b> (source: stockanalysis.com quarterly financials)</li>
+<li>Net income ttm $2.50B +62.7% · EPS ~$23.77 (source: stockanalysis.com)</li>
+<li>Analysts consensus: <b>Buy</b> · PT เฉลี่ย ~$445 (source: stockanalysis.com, ราคาปีก่อนมีช่วง $500+)</li>
+<li>3 ปี forecast: รายได้ +7%, EPS +9.7%/ปี (source: stockanalysis.com)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull:</b></p>
+<li><b>เป็น &quot;compounder&quot; วินเทจ</b> ที่ซื้อ/บูรณาการ vertical software niche ที่ recurring สูง margin สูง — รายได้ประจำและ FCF margin (~30%) ให้สายพาน M&amp;A ต่อเนื่อง</li>
+<li>พอร์ต diversify ทั่ว public sector/legal/utilities/medical/transportation → ทน cycle ได้ดีและเป็น defensive SaaS</li>
+<li>ราคาหดจาก ~$530 high มา $424 ก็ &quot;cheaper multiple&quot; กว่าเดิม (ยังตั้งคำถามว่าถูกพอไหม)</li>
+<p><b>Bear:</b></p>
+<li><b>M&amp;A-led growth:</b> ถ้าจังหวะดีล/valuations ซื้อแพงขึ้น growth ก็หด — ต่างจาก organic pure-play</li>
+<li><b>ROIC ต่ำ (~6.7%)</b> เพราะจ่ายหนี้/ซื้อดีลเยอะ — ผลตอบแทนบนเงินที่ลงไปยังต่ำกว่า software บริสุทธิ์</li>
+<li>กำไรไตรมาสมี one-time เล่นสี (EPS Q2 11.6) — ถ้ายึดตัวเลขผิดอาจ overpay; ความเสี่ยงที่ &quot;growth premium&quot; หายเมื่อ deal หยุด</li>
+<h2>5. Kill conditions</h2>
+<li><b>M&amp;A pipeline หยุด/ทำรายได้ organic ลด</b> — โมเดล compounder พึ่ง deal ถ้าไม่มี growth ก็ back to ปกติ</li>
+<li><b>ROIC ยังต่ำ (&lt;7%) พร้อมหนี้สะสม</b> — ซื้อมาแล้วไม่สร้างผลตอบแทน</li>
+<li><b>revenue retention/รายได้ recurring ของพอร์ตเริ่มลด</b> — แปลว่าซอฟต์แวร์หลักถูก disruptive/cancel</li>
+<h2>6. What to ask before owning it</h2>
+<li>กำไร &quot;organic/normalized&quot; (ตัด one-time gain) เท่าไรจริง และ Forward P/E ~18 สมเหตุสมผลกับ growth ~7% หรือไม่?</li>
+<li>สัดส่วนรายได้ recurring ที่แท้จริง (subscription/maintenance) เท่าไรของทั้งหมด?</li>
+<li>ROIC ต่ำ (~6.7%) — M&amp;A ที่ผ่านมาสร้างผลตอบแทนบนเงินลงทุนดีพอหรือเป็นเพียงค่า &quot;growth by acquisition&quot;?</li>
+<li>เมื่อ deal/จังหวะซื้อไม่ดี growth จะเหลือเท่าไร และ premium ที่จ่ายยัง justify อยู่ไหม?</li>
+<hr>
+<p><b>ข้อจำกัดของ brief นี้ (honest note):</b></p>
+<li>ยังไม่มี <code>sources/ROP/</code> — ข้อมูลจาก stockanalysis.com ณ 1 ก.ย. 2026 ยังไม่ผ่าน Audra verify ครบ</li>
+<li>ตัวเลขกำไรมี one-time gain ขนาดใหญ่ (EPS Q2 11.6) ต้องแยกให้ออก ควรเปิด press release/transcript</li>
+<li>ไม่ใช่คำแนะนำซื้อ/ขาย</li>
+</div></body></html>

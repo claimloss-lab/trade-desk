@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COF — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">COF</div>
+<div class="meta">Thesis · สร้างจาก briefs/COF.md · 2026-09-12</div>
+<h1>COF — Capital One Financial</h1>
+<blockquote>Brief generated: 2026-09-11 | Sources: SEC EDGAR 10-K (filing 2026-02-19), StockAnalysis transcript page checked but transcript content inaccessible, yfinance valuation fetch 2026-09-11T15:20:52Z</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Capital One เป็นสถาบันการเงินและผู้ให้บริการระบบชำระเงิน โดยปล่อยบัตรเครดิต สินเชื่อผู้บริโภค รับฝากเงิน และให้บริการ commercial banking บริษัทหารายได้หลักจากดอกเบี้ยสุทธิของสินเชื่อและรายได้จาก interchange, discount และค่าธรรมเนียมต่าง ๆ หลังการซื้อ Discover บริษัทมีเครือข่ายชำระเงิน Global Payment Network เพิ่มเข้ามา ธุรกิจจึงมีทั้ง lending และ network economics แต่ต้องรับความเสี่ยงเครดิตและกฎเกณฑ์ธนาคาร (source: sources/COF/10-k-2026.md)</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้หลักมาจาก lending net of funding costs ขณะที่ profitability ขึ้นกับ purchase volume, loan balances, credit losses, marketing และ operating efficiency (source: sources/COF/10-k-2026.md)</li>
+<li>การซื้อ Discover ปิดวันที่ 18 พ.ค. 2025 ทำให้ขนาดสินทรัพย์/รายได้และ mix เปลี่ยนอย่างมีนัยสำคัญ; การอ่าน trend ต้องแยกผลของ acquisition กับ organic performance (source: sources/COF/10-k-2026.md)</li>
+<li>สาม segment คือ Credit Card, Consumer Banking และ Commercial Banking; credit card เป็นแกนใหญ่แต่ไวต่อ net charge-offs และพฤติกรรมผู้บริโภค (source: sources/COF/10-k-2026.md)</li>
+<li>บริษัทกำลังจะซื้อ Brex ด้วย consideration ราว $5.15B (เงินสดประมาณ $2.58B และหุ้นราว 10.6 ล้านหุ้น) โดยยังมีเงื่อนไขปิดดีล; นี่เพิ่ม execution และ dilution risk (source: sources/COF/10-k-2026.md)</li>
+<li>Balance sheet ต้องประเมินแบบธนาคาร: credit quality, capital, liquidity และ funding ไม่ใช่ดูหนี้บริษัททั่วไปเพียงอย่างเดียว</li>
+<p><b>Valuation snapshot</b> (ราคา/ตัวคูณ ณ 2026-09-11T15:20:52Z; source: yfinance/Yahoo Finance ผ่าน scripts/fetch_missing_sources.py): Price $208.00; Market cap $127,604,850,688; trailing P/E 11.4664; EV/EBITDA: ไม่พบ; 52-week range $174.24–$259.64. ตัวเลขเป็น snapshot ดิบ ไม่ตีความว่าถูกหรือแพง</p>
+<h2>3. Latest earnings</h2>
+<li>ไม่พบ transcript ที่อ่านได้: หน้า StockAnalysis Q2 2026 ตอบกลับหน้า “Enable JavaScript and cookies to continue” (source: sources/COF/q2-2026-call.md)</li>
+<li>10-K ระบุว่าผลประกอบการขึ้นกับ expected credit losses, customer usage/payment patterns, marketing และ operating efficiency; source ที่ cache ไม่มีตัวเลข Q2 หรือ guidance ให้เติม (source: sources/COF/10-k-2026.md)</li>
+<li>ผลปี 2025 รวมกิจการ Discover ตั้งแต่วันปิดดีล จึงไม่ควรเทียบกับปีก่อนแบบตรง ๆ โดยไม่ปรับฐาน (source: sources/COF/10-k-2026.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull:</b></p>
+<li>Discover เพิ่มเครือข่าย ลูกค้า ข้อมูล และช่องทางชำระเงิน ทำให้ Capital One อาจสร้าง cross-sell และ scale ใน card/network ได้มากขึ้น</li>
+<li>การเป็นทั้ง issuer, bank และ network อาจช่วยให้บริษัทควบคุมประสบการณ์ลูกค้าและต้นทุนข้อมูลได้ดีขึ้น หาก integration เดินตามแผน</li>
+<p><b>Bear:</b></p>
+<li>credit losses สูงขึ้นจากผู้บริโภคอ่อนแอหรือ underwriting พลาด สามารถลบกำไรจาก loan growth ได้เร็ว</li>
+<li>integration ของ Discover และ Brex ซับซ้อน ขณะที่การแข่งขันจาก banks, AmEx, Visa/Mastercard, fintech และ alternative payments กด economics</li>
+<h2>5. Kill conditions</h2>
+<li>net charge-off/credit loss เร่งขึ้นต่อเนื่องโดยไม่ใช่เพียง normalization และ reserve ไม่สะท้อนความเสี่ยง</li>
+<li>Discover integration ไม่สร้าง cost/revenue synergy แต่เพิ่มค่าใช้จ่าย ปัญหาระบบ หรือทำให้ capital ตึง</li>
+<li>การซื้อ Brex ทำให้ dilution/leverage เพิ่มโดยไม่มีผลตอบแทนและการเติบโตของ deposit/fee ที่วัดได้</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. Credit card net charge-off, delinquency และ reserve coverage ล่าสุดเทียบกับ vintage เดิมเป็นอย่างไร?</p>
+<p>2. Discover เพิ่ม network volume, deposits และ cross-sell จริงเท่าไรหลังปรับผลของการรวมกิจการ?</p>
+<p>3. ROE/ROTCE และ capital ratio หลัง acquisition อยู่ในระดับใด?</p>
+<p>4. Brex ดีลจะสร้างกำไร/เงินสดเมื่อไร และต้นทุน integration กับ dilution เท่าไร?</p>
+<p>5. รายได้จาก lending กับ network มีความทนทานต่างกันอย่างไรใน recession?</p>
+</div></body></html>

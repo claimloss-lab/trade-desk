@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MDB — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">MDB</div>
+<div class="meta">Thesis · สร้างจาก briefs/MDB.md · 2026-09-12</div>
+<hr>
+<p>ticker: MDB</p>
+<p>company: MongoDB, Inc.</p>
+<p>written_at: 2026-09-06</p>
+<p>sources: [EDGAR XBRL CIK0001441816, yfinance TTM]</p>
+<p>audra_note: &quot;ตัวเลข fundamentals มาจาก EDGAR 10-K (FY end Jan 31); valuation snapshot มาจาก yfinance ณ 6 ก.ย. 2026&quot;</p>
+<hr>
+<h1>MDB — MongoDB, Inc.</h1>
+<blockquote>บทวิเคราะห์ฉบับนี้เป็นข้อมูลเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<h2>1. Company snapshot</h2>
+<p>MongoDB คือบริษัทเจ้าของ <b>NoSQL database platform</b> ที่นิยมที่สุดในโลก ผลิตภัณฑ์หลักมี 2 ก้อน: <b>MongoDB Atlas</b> (cloud-managed DBaaS ที่ run บน AWS/Azure/GCP) และ <b>Enterprise Advanced</b> (on-premise license) รายได้ Atlas คิดเป็น ~70%+ ของรายได้รวมและเป็น growth engine หลัก — ใช้ consumption model (คิดตาม compute/storage ที่ใช้จริง) ทำให้ revenue ผูกกับการเติบโตของ workload ลูกค้าโดยตรง กลุ่มเป้าหมายคือ developer ที่ต้องการ flexible document model แทน relational SQL แบบดั้งเดิม รองรับ use case หลากหลาย ตั้งแต่ mobile app ไปจนถึง real-time analytics MongoDB วางตัวเองเป็น <b>developer-first database</b> ที่แข่งกับ AWS DynamoDB, PostgreSQL, และ CockroachDB โดยจุดแข็งคือ community ขนาดใหญ่ + ecosystem ของ driver/tool ที่สมบูรณ์ที่สุดในกลุ่ม NoSQL</p>
+<h2>2. Fundamentals signal</h2>
+<li><b>Revenue เติบโตแข็งแกร่งต่อเนื่อง:</b> FY2024 (Jan 2024) $1,683M → FY2025 $2,006M (+19%) → FY2026 (Jan 2026) $2,464M (+22.8%) — re-acceleration ของ growth rate น่าสังเกต ทั้งที่ scale ใหญ่ขึ้นแล้ว (source: EDGAR 10-K CIK0001441816)</li>
+<li><b>Gross margin ดีมาก:</b> Gross profit FY2026 $1,768M บน revenue $2,464M = gross margin ~71.7% — ใกล้เคียง SaaS ideal; Atlas มี marginal cost ต่ำเมื่อ scale ขึ้น</li>
+<li><b>GAAP Net loss ลดลงอย่างรวดเร็ว:</b> Net loss FY2024 -$176.6M → FY2025 -$129.1M → FY2026 -$71.2M — path to GAAP profitability ชัดขึ้นมาก; non-GAAP operating margin เป็นบวกแล้ว</li>
+<li><b>Operating Cash Flow กระโดดแรง:</b> CFO FY2025 $150M → FY2026 $505M (+236% YoY) — สัญญาณว่า operating leverage กำลังเกิดขึ้นจริง</li>
+<li><b>หนี้ต่ำมาก:</b> Total debt ~$55M ต่อ revenue $2.46B — แทบไม่มี financial leverage risk; balance sheet แข็งแกร่ง</li>
+<p><b>Valuation snapshot (ณ 6 ก.ย. 2026, source: yfinance):</b> ราคา $368.74 · Market cap ~$29.7B · Trailing P/E 526x (ยังขาดทุน GAAP จำนวนน้อย) · Forward P/E 47.5x · P/S ~10.7x · 52-week: $215.68–$473.10 — *ตัวเลขดิบ ไม่ตีความว่าถูก/แพง*</p>
+<h2>3. Latest earnings</h2>
+<li><b>FY2026 Revenue (Jan 2026): $2,464M</b> — +22.8% YoY จาก FY2025 $2,006M (source: EDGAR 10-K)</li>
+<li><b>FY2026 Gross Profit: $1,768M</b> — gross margin 71.7% (ทรงตัวดี แม้ Atlas consumption mix เพิ่ม)</li>
+<li><b>Net loss ลดลงอย่างมีนัย:</b> -$71.2M (FY2026) vs -$129.1M (FY2025) — กำลัง approach profitability</li>
+<li><b>CFO $505M</b> (FY2026) — FCF แข็งแกร่งมาก เทียบ market cap ได้ FCF yield ที่น่าสนใจ</li>
+<li><b>TTM revenue ~$2.78B</b> (+30.5% YoY ตาม yfinance) — แสดงว่า FY2027 H1 ยังเร่งตัว</li>
+<li>หมายเหตุ: ตัวเลขไตรมาสล่าสุดและ NRR, Atlas % of revenue ควร verify จาก IR: <a href="https://investors.mongodb.com">mongodb.com/investor-relations</a></li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>🐂 Bull case</b></p>
+<li><b>Atlas consumption model = organic growth flywheel:</b> ยิ่งลูกค้า scale workload ขึ้น รายได้ MongoDB โตตามอัตโนมัติ — ไม่ต้องง้อ upsell ใหม่ถ้า existing customer grow; FY2026 CFO กระโดด 3x เป็นหลักฐานว่า operating leverage กำลัง kick in</li>
+<li><b>AI/Vector Search เพิ่ม TAM ใหม่:</b> MongoDB Atlas Vector Search ให้ developer เก็บ embedding ของ AI application ในที่เดียวกับ operational data — ลด friction ในการ build AI app; developer ที่ใช้ MongoDB อยู่แล้วเพิ่ม AI workload ได้โดยไม่ต้องเพิ่มผู้ให้บริการ</li>
+<li><b>Developer mindshare ที่แข็งแกร่ง:</b> MongoDB เป็น default choice ของ developer รุ่นใหม่ที่เรียน NoSQL — community lock-in ระยะยาวที่แปลง awareness → adoption → revenue</li>
+<p><b>🐻 Bear case</b></p>
+<li><b>AWS DynamoDB + Aurora ได้เปรียบจาก cloud bundle:</b> ลูกค้าที่ใช้ AWS อยู่แล้วมักถูก upsell DynamoDB แบบ bundle — MongoDB ต้องแข่งข้ามผ่าน switching cost ของ developer บน AWS</li>
+<li><b>Consumption model = revenue unpredictability:</b> ถ้า macro ทำให้ลูกค้า optimize/cut workload → MongoDB revenue miss guidance ได้ง่าย (เคยเกิดแล้วใน FY2023 ที่ Atlas optimization wave กด growth)</li>
+<li><b>Valuation ยังต้องการ execution สม่ำเสมอ:</b> P/S 10.7x ที่ growth 22-30% — ถ้า Atlas growth rate ชะลอลงใต้ 15-18% market อาจ re-rate valuation ลงอีกรอบ</li>
+<h2>5. Kill conditions</h2>
+<li><b>Atlas revenue growth ชะลอลงต่ำกว่า 15% YoY ต่อเนื่อง 2 ไตรมาส</b> — Atlas คือ core growth engine; ถ้า decelerate แรง thesis พัง</li>
+<li><b>CFO / FCF margin ลดลงกลับ</b> หลังจาก FY2026 พิสูจน์ว่า operating leverage มา — ถ้า trend กลับหัว แปลว่า cost structure ยังไม่ stable</li>
+<li><b>ลูกค้า Enterprise ลด spend หรือ non-renew license</b> — Enterprise Advanced คือ high-margin base; ถ้า churn เพิ่มจะกด profitability ทันที</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. Atlas % of total revenue ล่าสุดเท่าไหร่ และ Atlas เติบโต YoY กี่ % แยกจาก Enterprise Advanced?</p>
+<p>2. Atlas consumption optimization trend ที่เกิดใน FY2023 — ยังมีผลค้างอยู่ไหม หรือ FY2026 ฟื้นตัวเต็มที่แล้ว?</p>
+<p>3. Vector Search / AI workload มี revenue contribution แล้วหรือยัง หรือเป็น free feature ดึง developer ก่อน?</p>
+<p>4. FCF yield: FCF ~$561M (TTM yfinance) ÷ market cap $29.7B = FCF yield ~1.9% — เทียบ growth rate 22-30% น่าสนใจพอไหม?</p>
+<p>5. ถ้า AWS เพิ่ม DynamoDB feature ให้เทียบเท่า MongoDB document model — MongoDB รักษา switching cost ได้ในกลุ่มใดบ้าง?</p>
+</div></body></html>

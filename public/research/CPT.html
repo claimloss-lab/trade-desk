@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPT — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">CPT</div>
+<div class="meta">Thesis · สร้างจาก briefs/CPT.md · 2026-09-12</div>
+<h1>CPT — Camden Property Trust</h1>
+<blockquote>Brief generated: 2026-09-11 | Sources: SEC EDGAR 10-K (filing 2026-02-12), StockAnalysis transcript page checked but transcript content inaccessible, yfinance valuation fetch 2026-09-11T15:20:52Z</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Camden Property Trust เป็น REIT ที่เป็นเจ้าของและบริหารอพาร์ตเมนต์ให้ผู้เช่าในตลาดสหรัฐฯ บริษัทหาเงินจากค่าเช่าและการบริหารชุมชนที่พักอาศัย จุดสำคัญของธุรกิจคือ occupancy, ค่าเช่าที่ปรับได้เมื่อสัญญาเช่าหมด และการควบคุมค่าใช้จ่ายทรัพย์สิน บริษัทมีพนักงานประมาณ 1,640 คน ณ สิ้นปี 2025 และต้องแข่งขันกับอพาร์ตเมนต์ บ้านเช่า บ้านซื้อ และ short-term rental (source: sources/CPT/10-k-2026.md)</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้และกำไรของ REIT ขึ้นกับค่าเช่า occupancy และต้นทุนดำเนินงาน แต่ excerpt ที่ cache รอบนี้ไม่มีตารางรายได้/NOI/Funds From Operations ครบ จึงไม่แต่งแนวโน้มตัวเลข</li>
+<li>บริษัทบริหารทรัพย์สินเองและใช้ lease ที่เฉลี่ยประมาณ 14 เดือน ทำให้มีโอกาสปรับค่าเช่าตามตลาดเมื่อสัญญาหมุน แต่ก็มีความเสี่ยงจาก vacancy (source: sources/CPT/10-k-2026.md)</li>
+<li>Balance sheet และความสามารถ refinance เป็นตัวแปรหลัก: บริษัทระบุว่าความผันผวนของตลาดทุน/เครดิตอาจทำให้เงินกู้ใหม่ไม่พร้อมหรือมีต้นทุนสูงขึ้น (source: sources/CPT/10-k-2026.md)</li>
+<li>ในฐานะ REIT บริษัทต้องรักษาเกณฑ์ภาษีของ REIT; การจัดสรรเงินทุนจึงต้องดูทั้งการพัฒนา/ซื้อทรัพย์สิน หนี้ และ distribution</li>
+<p><b>Valuation snapshot</b> (ราคา/ตัวคูณ ณ 2026-09-11T15:20:52Z; source: yfinance/Yahoo Finance ผ่าน scripts/fetch_missing_sources.py): Price $102.64; Market cap $11,878,791,168; trailing P/E 33.8746; EV/EBITDA 17.244; 52-week range $96.53–$119.81. ตัวเลขเป็น snapshot ดิบ ไม่ตีความว่าถูกหรือแพง; สำหรับ REIT ควรดู FFO/AFFO เพิ่มเติม</p>
+<h2>3. Latest earnings</h2>
+<li>ไม่พบ transcript ที่อ่านได้: หน้า StockAnalysis Q2 2026 ตอบกลับหน้า “Enable JavaScript and cookies to continue” (source: sources/CPT/q2-2026-call.md)</li>
+<li>10-K ยืนยันว่า operational levers คือ resident satisfaction, rent collection, occupancy, rent growth และการควบคุม operating costs แต่ source รอบนี้ไม่มีตัวเลขไตรมาสล่าสุดหรือ guidance ให้สรุป (source: sources/CPT/10-k-2026.md)</li>
+<li>ความเสี่ยงที่บริษัทระบุโดยตรงคือ apartment supply ล้นตลาด, ค่าเช่าลด, ผู้เช่าฐานะอ่อนลง และ regional layoffs ซึ่งกระทบ occupancy/กระแสเงินสด (source: sources/CPT/10-k-2026.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull:</b></p>
+<li>พอร์ตอพาร์ตเมนต์ในตลาดที่มีงานและประชากรเพิ่ม หาก supply ใหม่ไม่ล้น อาจรองรับ rent growth และ occupancy ที่สม่ำเสมอ</li>
+<li>การบริหารทรัพย์สินเองและการบริการผู้เช่าอาจช่วย retention และควบคุมค่าใช้จ่ายได้ดีกว่าการปล่อยให้บุคคลภายนอกจัดการ</li>
+<p><b>Bear:</b></p>
+<li>supply apartment ใหม่หรือเศรษฐกิจท้องถิ่นอ่อนตัวกดทั้ง rent และ occupancy พร้อมกัน</li>
+<li>ต้นทุนดอกเบี้ยสูงหรือ credit market ปิด ทำให้ refinance แพงและจำกัดการพัฒนา/ซื้อทรัพย์สิน</li>
+<h2>5. Kill conditions</h2>
+<li>same-store occupancy และค่าเช่าลดลงต่อเนื่องจาก supply ในตลาดหลัก โดยไม่มีแผนฟื้นที่น่าเชื่อถือ</li>
+<li>AFFO ต่อหุ้นไม่โตหรือ dividend coverage แย่ลงเพราะต้นทุนดอกเบี้ย/ค่าใช้จ่าย</li>
+<li>leverage หรือกำหนด refinance บีบให้ต้องขายทรัพย์สิน/ออกหุ้นในเงื่อนไขเสียเปรียบ</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. ตลาดหลักของ Camden มี supply ใหม่กี่ปี และ job/population growth รองรับหรือไม่?</p>
+<p>2. Same-store rent, occupancy, concessions และ bad debt ล่าสุดเป็นอย่างไร?</p>
+<p>3. AFFO ต่อหุ้นและ dividend coverage ผ่านวัฏจักรดอกเบี้ยเป็นอย่างไร?</p>
+<p>4. หนี้ครบกำหนดเมื่อไร อัตราดอกเบี้ยคงที่/ลอยตัวเท่าไร และ refinance ได้หรือไม่?</p>
+<p>5. ราคาหุ้นเมื่อเทียบกับ NAV และ FFO ต่อหุ้นสมเหตุสมผลภายใต้สมมติฐานระยะยาวหรือไม่?</p>
+</div></body></html>

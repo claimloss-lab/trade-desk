@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TECH — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">TECH</div>
+<div class="meta">Thesis · สร้างจาก briefs/TECH.md · 2026-09-12</div>
+<h1>TECH — Bio-Techne</h1>
+<h2>1. Company snapshot</h2>
+<p>Bio-Techne ขายวัตถุดิบ เครื่องมือ และชุดทดสอบให้กับนักวิจัย บริษัทเภสัช/ไบโอเทค โรงพยาบาล และห้องแล็บ ตั้งแต่โปรตีน แอนติบอดี และ GMP reagents ไปจนถึงเครื่องมือวิเคราะห์โปรตีนและ spatial biology รายได้หลักมาจาก Protein Sciences และ Diagnostics &amp; Spatial Biology ลูกค้าต้องใช้ข้อมูลชีววิทยาคุณภาพสูงเพื่อพัฒนายา ทำให้ธุรกิจมีลักษณะ recurring consumables ผสมกับเครื่องมือที่เป็นรอบการลงทุน</p>
+<h2>2. Fundamentals signal</h2>
+<li>FY2026 adjusted net earnings ลด 1% แม้ GAAP net earnings เพิ่ม 148% เพราะปีก่อนมี impairment/arbitration items; ปี FY2025 organic revenue โต 5% แต่ต้องแยกผล one-off ก่อนประเมินทิศทาง (source: sources/TECH/10-k-2026.md)</li>
+<li>Q3 FY2026 organic revenue ลด 2% แต่ underlying growth เป็นบวก 2% เมื่อหัก timing ของลูกค้า cell therapy/OEM; adjusted operating margin 34.2% และ segment spatial biology ยังโตเร็ว (source: sources/TECH/q2-2026-call.md)</li>
+<li>เงินสด Q3 $209.8M, bank debt $200M และ total leverage ต่ำกว่า 1x EBITDA; capital allocation ยังเน้น M&amp;A และจ่าย dividend (source: sources/TECH/q2-2026-call.md)</li>
+<li>บริษัทมีความเสี่ยงจาก biotech funding และ order timing แต่มี platform/consumables breadth สูง; FY2026 มีสินค้าใหม่กว่า 1,900 รายการ และ 33% ของยอดขายมาจากเงินตราต่างประเทศ (source: sources/TECH/10-k-2026.md)</li>
+<p><b>Valuation snapshot:</b> ราคา $72.08; market cap $11.30B; P/E 62.14x; EV/EBITDA 33.90x; ช่วง 52 สัปดาห์ $43.20–$72.62 ณ 10 ก.ย. 2026 หลังตลาดสหรัฐปิด — source: yfinance <code>Ticker.history(period=&#x27;1y&#x27;)</code> และ <code>Ticker.info</code> ที่รันใน <code>scripts/fetch_missing_sources.py</code>. มี pending merger กับ Merck KGaA ที่ราคาเงินสด $73/หุ้น คาดปิดปลาย 2026 หรือต้น 2027 หากเงื่อนไขครบ (source: sources/TECH/10-k-2026.md).</p>
+<h2>3. Latest earnings</h2>
+<li>Q3 revenue $311.4M ลด 2%; underlying organic growth +2% หลังหัก 400 bps จาก cell therapy timing และ 100 bps จาก OEM order ที่เลื่อนไตรมาส (source: sources/TECH/q2-2026-call.md)</li>
+<li>Large pharma โต low double digits, China โตเป็นไตรมาสที่ 4 ติดต่อกัน และ spatial biology โต mid-teens; COMET โตมากกว่า 65% พร้อม record backlog (source: sources/TECH/q2-2026-call.md)</li>
+<li>Protein Sciences organic revenue ลด 4% แต่ GMP protein โตเกือบ 50% เมื่อหักลูกค้า Fast Track สองราย; Diagnostics &amp; Spatial Biology organic โต 3% (source: sources/TECH/q2-2026-call.md)</li>
+<li>ฝ่ายบริหารคาด Q4 organic growth ประมาณ flat และ underlying growth low single digit; meaningful acceleration คาดหวังใน FY2027 เมื่อ biotech funding แปลงเป็นการใช้จ่าย (source: sources/TECH/q2-2026-call.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li>การฟื้นของ biotech funding และ academia หลัง lag 2–3 ไตรมาสทำให้ reagent demand กลับมา ขณะที่ COMET/Spatial และ GMP เป็น growth engines ใหม่</li>
+<li>Margin ขยายจาก scale, product mix และ productivity พร้อม balance sheet เบา ทำให้มีทางเลือกลงทุน M&amp;A ที่เสริม platform</li>
+<p><b>Bear case</b></p>
+<li>biotech funding ฟื้นแต่ไม่เปลี่ยนเป็นคำสั่งซื้อ หรือคำสั่งซื้อรายใหญ่ยังเลื่อน ทำให้ core reagents โตช้าและ valuation สูงถูกกดด้วยกำไรที่ไม่เร่ง</li>
+<li>การควบรวมกับ Merck ไม่ปิดหรือมีเงื่อนไขล่าช้า ทำให้ thesis ต้องกลับไปพึ่งการดำเนินงาน standalone และเกิด execution risk จากการปรับโครงสร้างแบรนด์</li>
+<h2>5. Kill conditions</h2>
+<li>organic growth และ core reagent demand ยังติดลบต่อเนื่องหลังช่วง lag ที่บริษัทระบุ โดยไม่มีการฟื้นของ biotech/academia ให้เห็นใน order และ backlog</li>
+<li>COMET ไม่สามารถเปลี่ยน backlog เป็นรายได้และ margin ได้ หรือ productivity ไม่ชดเชย volume deleverage</li>
+<li>merger ล้มเหลวและบริษัทไม่สามารถรักษา leverage ต่ำพร้อมเร่งกำไรได้ ทำให้ multiple สูงไม่มีฐานรองรับ</li>
+<h2>6. What to ask before owning it</h2>
+<li>การฟื้น biotech funding จะไหลมาถึงรายได้จริงในไตรมาสใด และ leading indicators ที่พิสูจน์ได้คืออะไร?</li>
+<li>COMET มี economics ต่อเครื่องและ consumables อย่างไรเมื่อเทียบกับแพลตฟอร์มเดิม?</li>
+<li>รายได้จาก acquisitions/divestitures และ non-GAAP adjustments ทำให้กำไรปกติแตกต่างจาก GAAP แค่ไหน?</li>
+<li>ถ้า merger กับ Merck ไม่ปิด ธุรกิจ standalone มีแผนเร่ง organic growth อย่างไร?</li>
+</div></body></html>

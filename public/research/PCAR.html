@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PCAR — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">PCAR</div>
+<div class="meta">Thesis · สร้างจาก briefs/PCAR.md · 2026-09-12</div>
+<h1>PCAR — PACCAR Inc.</h1>
+<blockquote>Brief จัดทำรอบ cron catch-up (31 ส.ค. 2026) · ตัวเลขหลักจาก stockanalysis.com (third-party) ยังไม่ verify กับ 10-K / earnings call จริง (ไม่มี <code>sources/PCAR/</code>) — ถือเป็นข้อมูลเบื้องต้น</blockquote>
+<h2>1. Company snapshot</h2>
+<p>PACCAR เป็นผู้ผลิตรถบรรทุกหนัก/หัวลากรายใหญ่ของโลก ภายใต้สามแบรนด์หลัก Kenworth, Peterbilt และ DAF ขายให้กับผู้ประกอบการขนส่งและบริษัทโลจิสติกส์ในอเมริกาเหนือและยุโรป นอกจากการขายรถแล้วยังมีธุรกิจการเงิน (PACCAR Financial — ให้สินเชื่อ/ลีสซิ่งรถบรรทุก) และอไหล่ กำไรจึงมาจากทั้งยอดขายรถและดอกเบี้ยจากสัญญาเงิน รายได้ผูกกับวัฏจักรของตลาดรถบรรทุกอย่างแรง เพราะผู้กู้สินเชื่อซื้อรถบรรทุกหนัก ช่วงที่ตลาดซื้อรถลดลง รายได้ทั้งบริษัทก็หดตาม</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้อยู่ในช่วง trough ของวัฏจักร: ttm 27.82B ลดลง -10.6% YoY และลดลงต่อเนื่องตลอดปี 2025 (หลายไตรมาส -13% ถึง -19% YoY) เพิ่งเริ่มดูนิ่งขึ้น</li>
+<li>งวดล่าสุด Q2 2026 รายได้ 7.55B +0.48% YoY — สัญญาณเบื้องต้นว่าการลดลงอาจเริ่มหยุด (ยังไม่ยืนยัน)</li>
+<li>กำไรสุทธิ ttm 2.50B ลดลง -18.5% YoY สอดคล้องกับยอดขายรถที่น้อยลง</li>
+<li>งบดุลแข็งแรงมาก: PACCAR มีเงินสดสุทธิจำนวนมาก + ธุรกิจการเงินที่กำไรมีเสถียรภาพ ปกติทน trough ได้ดี</li>
+<li>มัลติเพิลดูไม่ถูกถ้าดูแบบ trough: P/E 26.39 แต่ forward P/E 18.97 — สะท้อนว่าตลาดคาดการฟื้นตัวของวัฏจักร (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
+<p><b>Valuation snapshot:</b> ราคาเปิด 127.7 (31 ส.ค. 2026) · market cap 65.97B · P/E (ttm) 26.39 · forward P/E 18.97 · 52-week range 92.25–139.24 · ปันผล $2.80/ปี (~2.23%) · Beta 0.98 · Analysts: Buy, target 141.03 — stockanalysis.com ณ 31 ส.ค. 2026</p>
+<h2>3. Latest earnings</h2>
+<li>Q2 2026 (งบสิ้นสุด 30 มิ.ย. 2026 — ไตรมาสล่าสุด): รายได้ 7.55B +0.48% YoY, กำไรสุทธิ 752M (source: stockanalysis.com quarterly income statement)</li>
+<li>Q1 2026: รายได้ 6.78B ลดลง -8.9% YoY, กำไรสุทธิ ~605M</li>
+<li>ภาพรวมปี 2025 หลายไตรมาสรายได้หดแรง (Q4&#x27;25 6.82B, Q3&#x27;25 6.67B) — ตอนนี้เริ่มหยุดไหลลง แต่ยังไม่กลับมาโตชัด</li>
+<li>ตัวเลขเป็นข้อมูลจาก stockanalysis.com ยังไม่เทียบกับ guidance/transcript จริง (ไม่มีไฟล์ใน <code>sources/PCAR/</code>)</li>
+<h2>4. Bull case / Bear case</h2>
+<li>วัฏจักรดูใกล้ bottom: ยอดขายรายไตรมาสเริ่มติดลบน้อยลง/ทรงตัว ถ้าตลาด freight ฟื้น backlog จะกลับมา</li>
+<li>งบดุลเงินสดสุทธิ + ธุรกิจการเงินทำให้เป็น &quot;cash machine&quot; ทน downcycle ได้ดี ผิดกับคู่แข่งบางราย</li>
+<li>แบรนด์ (Kenworth/Peterbilt/DAF) มีส่วนครองตลาดและทัศนคติความน่าเชื่อถือสูง มี pricing power ในช่วงปกติ</li>
+<li>มีธุรกิจข้างเคียง (defense/segments ใหม่) เพิ่มเติมจากธุรกิจรถบรรทุกหลัก ที่อาจเป็น growth อีกเส้น</li>
+<h3>Bear case</h3>
+<li>ยังไม่มีหลักฐานชัดว่าการฟื้นตัวเริ่มจริง — แค่ &quot;หยุดหด&quot; ยังไม่เท่ากับ &quot;กลับมาโต&quot; ถ้า trough ยืด กำไรจะถูกกดต่อ</li>
+<li>วัฏจักร freight/กำลังซื้อรถบรรทุกยังช้า อัตราดอกเบี้ยกดการกู้ซื้อของลูกค้า</li>
+<li>มัลติเพิล 26 ที่รายได้ trough หมายความคนจ่ายราคาเพื่อคาดหวัง recovery ถ้า recovery มาช้าก็เจ็บจากราคา</li>
+<li>การพึ่งตลาดรถบรรทุกอย่างเดียว ทำให้ไม่มีความหลากหลายรองรับถ้า downcycle ยาวกว่าคาด</li>
+<h2>5. Kill conditions</h2>
+<li>Backlog/คำสั่งซื้อหดต่อเนื่อง และราคาอยู่ระดับสูงเกินไป</li>
+<li>รายได้กลับมาหดแรงอีกหลายไตรมาสแทนที่จะฟื้นตัว (แปลว่าคาด trough ผิด)</li>
+<li>ลดหรือระงับปันผล/ซื้อหุ้นคืน (สัญญาณ cash ตึงใน trough)</li>
+<li>ธุรกิจการเงิน PACCAR Financial มี credit เสื่อม (default ขึ้น) — ตัวทนแท้ของบริษัทสั่น</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. Backlog และ off-take ล่าสุดเท่าไร เทียบปีก่อนและช่วง trough ก่อนหน้า?</p>
+<p>2. ตลาดรถบรรทุก US/EU อยู่ในช่วงไหนของวัฏจักร และสัญญาณ freight/order บอกอะไร?</p>
+<p>3. กำไรจาก PACCAR Financial เท่าไร และความเสี่ยงด้านเครดิต (default) เป็นอย่างไร?</p>
+<p>4. ธุรกิจข้างเคียง (defense ฯลฯ) คิดเป็นสัดส่วนเท่าไร และโตแค่ไหน?</p>
+<p>5. ถ้าอยู่ trough นี้ ROE ที่ยั่งยืนจริงเท่าไร — และมัลติเพิลนี้ต้องการ recovery ระดับไหนถึงจะคุ้ม?</p>
+<hr>
+<p>*หมายเหตุ: ยังไม่ได้ดึง 10-K/earnings call มาวางใน <code>sources/</code> — ตัวเลข fundamentals ควรไป verify กับเอกสารทางการก่อนใช้ตัดสินใจจริง*</p>
+</div></body></html>

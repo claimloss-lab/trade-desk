@@ -242,6 +242,9 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
   .hm{grid-template-columns:repeat(3,1fr)}
   thead th:nth-child(n+7),tbody td:nth-child(n+7){display:none}
 }
+
+/* Hermes Research Showcase */
+.research-frame{width:100%;min-height:calc(100vh - 170px);border:0;border-radius:12px;background:var(--surface);box-shadow:var(--sh);}
 </style>
 </head>
 <body>
@@ -736,6 +739,7 @@ function buildNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = `
     <div class="nav-tab${activeTab==='overview'?' on':''}" onclick="showTab('overview')">🏠 Overview</div>
+    <div class="nav-tab${activeTab==='research'?' on':''}" onclick="showTab('research')">📚 Research</div>
     ${portfolios.map(p=>`
       <div class="nav-tab${activeTab===p.id?' on':''}" onclick="showTab('${p.id}')">
         <span class="port-dot" style="background:${p.color}"></span>${p.name}
@@ -754,6 +758,13 @@ function buildPanels() {
   ov.id = 'panel-overview';
   ov.innerHTML = buildOverviewHTML();
   container.appendChild(ov);
+
+  // Research thesis showcase panel
+  const research = document.createElement('div');
+  research.className = `tab-panel${activeTab==='research'?' on':''}`;
+  research.id = 'panel-research';
+  research.innerHTML = '<iframe class="research-frame" src="research/index.html" title="Stock Research Thesis Showcase" loading="lazy"></iframe>';
+  container.appendChild(research);
 
   // Portfolio panels
   portfolios.forEach(port => {
@@ -1913,7 +1924,7 @@ async function refreshPort(portId){
 function showTab(id){
   activeTab=id;
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{
-    const tabs=['overview',...portfolios.map(p=>p.id)];
+    const tabs=['overview','research',...portfolios.map(p=>p.id)];
     t.className='nav-tab'+(tabs[i]===id?' on':'');
   });
   // ซ่อนทั้ง tab-panel และ feat-panel (หน้าที่เปิดจาก sidebar) ไม่ให้ค้างซ้อนกัน

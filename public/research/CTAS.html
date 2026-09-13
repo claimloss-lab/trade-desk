@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CTAS — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">CTAS</div>
+<div class="meta">Thesis · สร้างจาก briefs/CTAS.md · 2026-09-12</div>
+<h1>CTAS — Cintas Corporation</h1>
+<blockquote>Brief จัดทำรอบ cron catch-up (31 ส.ค. 2026) · ตัวเลขหลักจาก stockanalysis.com + Nasdaq API (third-party) ยังไม่ verify กับ 10-K / earnings call จริง (ไม่มี <code>sources/CTAS/</code>) — ถือเป็นข้อมูลเบื้องต้น</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Cintas เป็นบริษัทบริการเครื่องแบบและสิ่งจำเป็นสำหรับองค์กร เจ้าธุรกิจให้เช่าชุดทำงาน (uniform rental) ให้กับพนักงานบริษัท โรงงาน ร้านค้า และโรงพยาบาลทั่วอเมริกา นอกนั้นยังให้บริการสินค้าอุปโภคอื่น ๆ ทั้งไหมถูพื้น ถังขยะ ปูพรมบริการ ทำความสะอาด ห้องน้ำ พลังงานสะอาด อุปกรณ์ปฐมพยาบาล กับถังดับเพลิงและอุปกรณ์ป้องกันความปลอดภัย (PPE) ธุรกิจแบบนี้เป็น &quot;contract recurring&quot; — ลูกค้าเซ็นสัญญารายยาว จ่ายค่าบริการรายเดือนเป็นประจำ ทำให้รายได้ซ้ำๆ ค่อนข้างแน่นอน ขายให้ทั้ง SME จนถึงองค์กรขนาดใหญ่ หลัก ๆ ในสหรัฐฯ แล้วก็แคนาดา และขยายไปละตินอเมริกา</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้โตสม่ำเสมอ ~8-9% ต่อปี (revenue ttm 11.26B +8.9%) — รูปแบบ recurring ที่ขยายตัวได้เสมอกันทุกไตรมาส</li>
+<li>Margin ค่อยๆ ขยับขึ้น (GM ~51%, op margin ~23.7% ล่าสุด) สะท้อนโครงสร้างราคาบริการ + ระบบ delivery ที่มีประสิทธิภาพขึ้นเรื่อยๆ</li>
+<li>กำไรสุทธิ ttm 1.99B +10.4% โตตามรายได้ (leverage ดี ไม่ต้องลงทุนหนักเพื่อโต)</li>
+<li>งบดุลแข็ง ใช้เงินคืนผู้ถือ ผ่านปันผล (ปัจจุบัน $2.08/ปี ~1.02%) + ซื้อหุ้นคืนสม่ำเสมอ</li>
+<li>ธุรกิจสม่ำเสมอสูง ตัวเลขค่อนข้าง predictable จากสัญญา recurring (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
+<p><b>Valuation snapshot:</b> ราคา 204.18 (ปิด 28 ส.ค. 2026, Nasdaq API) · market cap 81.71B · P/E (ttm) 41.58 · forward P/E 37.18 · 52-week range 161.16–219.17 · ปันผล $2.08 (~1.02%) · Beta 0.92 · Analysts: Buy, target 216.31 — stockanalysis.com / Nasdaq ณ 31 ส.ค. 2026</p>
+<h2>3. Latest earnings</h2>
+<li>Q4 FY2026 (ไตรมาสล่าสุดที่รายงาน): รายได้ 2.905B โต ~8.9% YoY, revenue growth ทุกไตรมาสล่าสุดอยู่แถว 8-9% (source: stockanalysis.com quarterly income statement)</li>
+<li>GM ล่าสุด ~50.95%, op margin ~23.69% — ระดับสูงสุดที่ทำได้ต่อเนื่อง (source: stockanalysis.com)</li>
+<li>ตัวเลขเป็นข้อมูลจาก stockanalysis.com ยังไม่เทียบกับ transcript รายงานจริงของบริษัท (ไม่มีไฟล์ใน <code>sources/CTAS/</code>)</li>
+<h2>4. Bull case / Bear case</h2>
+<li>สัญญาเช่าเครื่องแบบ/บริการรายยาวแบบ recurring ทำให้รายได้และกำไรค่อนข้างนิ่ง น่า forecast และทนต่อรอบศก.ได้ดี เพราะบริษัทต้องมีชุดทำงานให้พนักงานเสมอ</li>
+<li>ขนาด + ระบบ deliver เครือข่ายทั่วอเมริกาเป็นแต้มต่อเวลาแข่งประมูลงานใหม่ (economies of scale + switching cost จากการผูก workflow ของลูกค้า)</li>
+<li>รายได้เสริมใหม่ๆ เช่น บริการพลังงาน/ความปลอดภัย/ปฐมพยาบาล เพิ่มสัดส่วนบริการที่ margin ดีขึ้น</li>
+<h3>Bear case</h3>
+<li>เป็นธุรกิจบริการแบบ labor-intensive ต้นทุนพนักงาน/น้ำมันขนส่งกด margin ถ้าค่าแรงขึ้น</li>
+<li>ไม่ใช่ growth แรง การโตแค่ ~9% แต่ตลาดให้ P/E สูง 41 — จ่ายแพงเกินอัตราเติบโตจริง มี downside ถ้า sentiment เปลี่ยน</li>
+<li>หนี้สินจากการเข้าซื้อกิจการ (มี M&amp;A มาบ้าง) ต้องดูระดับหนี้เทียบ cash flow</li>
+<h2>5. Kill conditions</h2>
+<li>อัตราโตของรายได้หลุดลงต่ำกว่า ~7% ต่อเนื่องหลายไตรมาส (จากเดิมสม่ำเสมอ 8-9%)</li>
+<li>Op margin หดเกินช่วงปกติหลายไตรมาสติด จากต้นทุนแรงงาน/ขนส่งที่กดดันไม่หาย</li>
+<li>ระดับหนี้สูงขึ้นจน FCF ไปชำระหนี้แทนที่จะกลับคืนผู้ถือ (ปันผล/ซื้อหุ้นคืนโดนลด)</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. รายได้ recurring (สัญญาเช่าเครื่องแบบ) คิดเป็นสัดส่วนเท่าไรของรายได้รวม และอัตรา renew rate (ต่อสัญญา/เลิก) เป็นเท่าไร?</p>
+<p>2. การขยายไปบริการอื่น (ปลอดภัย/พลังงาน/ปฐมพยาบาล) โตแค่ไหน และมี margin อย่างที่บริษัทเคลมไหม?</p>
+<p>3. ระดับหนี้ (เรา M&amp;A) เทียบกับ FCF เป็นเท่าไร และ policy คืนทุนชัดเจนแค่ไหน?</p>
+<p>4. ด้วยอัตราโตแค่ ~9% มัลติเพิลระดับ 41 จะยืนได้จากอะไรจริง (ซ้ำกับธุรกิจแบบอื่นหรือไม่)?</p>
+<p>5. อะไรคือตัวคุมต้นทุนหลัก (ค่าแรง/น้ำมัน) และบริษัทส่งผ่านราคาให้ลูกค้าได้แค่ไหน?</p>
+<hr>
+<p>*หมายเหตุ: ยังไม่ได้ดึง 10-K/earnings call มาวางใน <code>sources/</code> — ตัวเลข fundamentals ควรไป verify กับเอกสารทางการก่อนใช้ตัดสินใจจริง*</p>
+</div></body></html>

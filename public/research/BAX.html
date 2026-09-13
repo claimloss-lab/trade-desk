@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAX — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">BAX</div>
+<div class="meta">Thesis · สร้างจาก briefs/BAX.md · 2026-09-12</div>
+<h1>BAX — Baxter International</h1>
+<h2>1. Company snapshot</h2>
+<p>Baxter ขายอุปกรณ์และผลิตภัณฑ์ที่ใช้ในโรงพยาบาล ตั้งแต่ระบบให้สารน้ำ ยาผสมสำเร็จรูป ไปจนถึงอุปกรณ์ผ่าตัดและระบบติดตามผู้ป่วย ลูกค้าหลักคือโรงพยาบาล บุคลากรทางการแพทย์ และผู้ให้บริการสุขภาพทั่วโลก รายได้หลักมาจาก Medical Products &amp; Therapies โดยเฉพาะ Infusion Therapies &amp; Platforms และจาก Healthcare Systems &amp; Technologies. บริษัทอยู่ในช่วง turnaround จึงต้องดูทั้งการฟื้นยอดขายและการลดหนี้ ไม่ใช่ดูเพียงการเติบโตไตรมาสเดียว</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้ไตรมาส 2/2026 โต 5% ทั้ง reported และ organic ประมาณ $3.0B; การเติบโตมาจากทุก segment แต่ยังมีแรงกดดันจาก infusion systems และ supply constraints (source: sources/BAX/q2-2026-call.md)</li>
+<li>Margin ยังผันผวน: adjusted operating margin 14.2% ลด 90 bps YoY และ MPT margin 19.3% ลด 350 bps จากต้นทุนผลิต/ภาษี แม้มี tariff refund ช่วยพยุง (source: sources/BAX/q2-2026-call.md)</li>
+<li>กระแสเงินสดดีขึ้น โดย free cash flow ครึ่งปีแรก $257M และ Q2 $181M; ฝ่ายบริหารตั้งเป้า net leverage ราว 3x สิ้นปี จึงยังเป็นบริษัทที่ balance sheet จำกัดทางเลือก (source: sources/BAX/q2-2026-call.md)</li>
+<li>เงินทุนควรให้น้ำหนักลด leverage ก่อน M&amp;A หรือ buyback; ยังมีความเสี่ยงจาก Novum IQ LVP, สินค้าขาด และภาระต้นทุนที่สูงขึ้น (source: sources/BAX/10-k-2026.md; sources/BAX/q2-2026-call.md)</li>
+<p><b>Valuation snapshot:</b> ราคา $24.18; market cap $12.50B; P/E ไม่พบจาก yfinance; EV/EBITDA 10.61x; ช่วง 52 สัปดาห์ $15.73–$30.00 ณ 10 ก.ย. 2026 หลังตลาดสหรัฐปิด — source: yfinance <code>Ticker.history(period=&#x27;1y&#x27;)</code> และ <code>Ticker.info</code> ที่รันใน <code>scripts/fetch_missing_sources.py</code>.</p>
+<h2>3. Latest earnings</h2>
+<li>ยอดขาย Q2 อยู่ที่ประมาณ $3.0B โต 5%; Advanced Surgery โต 12% เป็นตัวนำ และ drug compounding โต double digit (source: sources/BAX/q2-2026-call.md)</li>
+<li>Adjusted EPS $0.56 ลด 5% YoY; tariff refund $75M ช่วยประมาณ $0.11 ต่อหุ้น แต่ฝ่ายบริหารระบุว่าผลการดำเนินงานปกติก็สูงกว่าคาด (source: sources/BAX/q2-2026-call.md)</li>
+<li>บริษัทปรับเป้า FY2026 organic sales growth เป็น 2–3% และ adjusted EPS เป็น $1.95–$2.15; คาด margin ดีขึ้นในครึ่งปีหลัง (source: sources/BAX/q2-2026-call.md)</li>
+<li>Novum IQ LVP ยังอยู่ระหว่างแก้ไขและทดสอบเพื่อรองรับ field actions; นี่เป็น execution item ที่ต้องติดตามต่อ (source: sources/BAX/q2-2026-call.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li>การฟื้น supply reliability, cost actions และ volume leverage ทำให้ margin กับ free cash flow กลับมาดีขึ้นพร้อมกัน</li>
+<li>Advanced Surgery, drug compounding, Connex 360 และระบบ connected hospital สร้างการเติบโตจากผลิตภัณฑ์ใหม่โดยไม่ต้องพึ่งการซื้อกิจการมากเกินไป</li>
+<p><b>Bear case</b></p>
+<li>Novum IQ LVP แก้ปัญหาช้า หรือมีผลกระทบด้าน regulatory/ลูกค้าต่อเนื่อง ทำให้ infusion franchise เสียความเชื่อมั่นและ margin ถูกกด</li>
+<li>หนี้และต้นทุนผลิตสูงทำให้เงินสดต้องใช้แก้ balance sheet มากกว่าลงทุนเพื่อเติบโต แม้รายได้จะโตเล็กน้อย</li>
+<h2>5. Kill conditions</h2>
+<li>ภายในรอบรายงานถัด ๆ ไป organic growth กลับติดลบต่อเนื่อง และไม่มีหลักฐานว่า Novum/supply issues คลี่คลาย</li>
+<li>free cash flow กลับมาติดลบหรือ net leverage ไม่ลดเข้าใกล้เป้าประมาณ 3x โดยไม่มีเหตุผลชั่วคราวที่ตรวจสอบได้</li>
+<li>การฟื้น margin ต้องพึ่ง tariff refund/รายการครั้งเดียว มากกว่าการปรับปรุงจาก volume, mix และต้นทุนจริง</li>
+<h2>6. What to ask before owning it</h2>
+<li>Baxter จะพิสูจน์การแก้ Novum IQ LVP และ supply reliability ได้ด้วยตัวชี้วัดอะไรและเมื่อไร?</li>
+<li>เป้าหมาย net leverage 3x มาจาก free cash flow ปกติจริงแค่ไหน?</li>
+<li>Margin recovery ในครึ่งปีหลังมาจากการลดต้นทุนถาวรหรือจากรายการชั่วคราว?</li>
+<li>ธุรกิจใดจะเป็นตัวขับกำไรระยะ 3–5 ปีหลัง turnaround จบ?</li>
+</div></body></html>

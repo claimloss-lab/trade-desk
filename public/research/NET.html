@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NET — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">NET</div>
+<div class="meta">Thesis · สร้างจาก briefs/NET.md · 2026-09-12</div>
+<hr>
+<p>ticker: NET</p>
+<p>brief_date: 2026-09-06</p>
+<p>source_files: []</p>
+<p>audra_note: &quot;no source files in sources/NET/ — section 3 ใช้ข้อมูลสาธารณะ ยังไม่ verified&quot;</p>
+<hr>
+<h1>NET — Cloudflare, Inc.</h1>
+<blockquote>บทวิเคราะห์ฉบับนี้เป็นข้อมูลเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Cloudflare เป็นบริษัทด้าน cloud security และ networking infrastructure ที่ดำเนินงานบน global network ที่มี PoP (Points of Presence) กว่า 300+ เมืองทั่วโลก รายได้หลักมาจากสมัครสมาชิก (subscription) สำหรับบริการที่ครอบคลุมหลายกลุ่ม ได้แก่ <b>SASE/Zero Trust security</b> (Cloudflare One, Access, Gateway), <b>CDN และ performance</b> (ลด latency เว็บไซต์), <b>DDoS protection</b>, <b>DNS</b>, และ <b>AI Gateway</b> (routing API call ของ AI application ผ่าน Cloudflare) ลูกค้าตั้งแต่ free tier (นักพัฒนา/startup) ไปจนถึงองค์กรใหญ่ระดับ Fortune 500 — โมเดลเป็น land-and-expand ชัดเจน: ลูกค้าเริ่มบริการหนึ่ง แล้วขยายไปซื้อบริการอื่นเพิ่ม Cloudflare วางตัวเองเป็น <b>network-as-a-service</b> ที่แข่งกับ Zscaler (security), Fastly (CDN), และบาง workload ของ AWS/Azure edge</p>
+<h2>2. Fundamentals signal</h2>
+<li><b>รายได้เติบโตเร็วมากสำหรับขนาดบริษัท:</b> TTM revenue ~$2.51B เติบโต ~35.9% YoY — ยังรักษา 30%+ growth ได้ในขณะที่ scale ขึ้น ซึ่งยากในระดับ $2.5B revenue</li>
+<li><b>Gross margin สูงมาก ใกล้ SaaS ideal:</b> Gross margin ~72.6% สะท้อน software-heavy revenue ที่มี marginal cost ต่ำมาก — เมื่อ scale up จะ lever เป็น operating income ได้ดี</li>
+<li><b>Operating margin ยังติดลบ:</b> Operating margin -7.6% — ขาดทุน operating ยังอยู่ เพราะลงทุนใน R&amp;D และ sales/marketing อย่างหนัก; FCF อยู่ที่ ~$692M บวกแล้ว (non-GAAP profitability ดีกว่า GAAP)</li>
+<li><b>หนี้ต่ำสำหรับ growth company:</b> Total debt ~$3.5B เมื่อเทียบกับ revenue $2.5B — ส่วนใหญ่เป็น convertible notes; cash balance แข็งแกร่ง ไม่มีสัญญาณ liquidity ตึงเครียด</li>
+<li><b>AI tailwind ผ่าน AI Gateway:</b> Cloudflare กำลัง capture workflow ของ developer ที่ route AI API calls (OpenAI, Anthropic, etc.) ผ่าน network — ถ้า developer adopt เยอะ สร้าง switching cost ใหม่ในระยะยาว (ตัวเลข AI Gateway adoption ตรวจสอบใน quarterly update)</li>
+<p><b>Valuation snapshot (Val, ณ 6 ก.ย. 2026):</b> ราคา $278.92 · Market cap ~$99.3B · Trailing P/E N/A (ยังขาดทุน GAAP) · Forward P/E 166.7x · EV/EBITDA N/A (negative EBITDA GAAP) · 52-week: $158.83–$332.22 (source: yfinance / Yahoo Finance, 6 ก.ย. 2026) — *ตัวเลขดิบ ไม่ตีความว่าถูก/แพง*</p>
+<h2>3. Latest earnings</h2>
+<blockquote>⚠️ ไม่มีไฟล์ source ใน <code>sources/NET/</code> — ข้อมูลด้านล่างมาจากข่าวสาธารณะ ยังไม่ผ่าน Audra verify</blockquote>
+<li>รายได้ TTM ~$2.51B เติบโต ~35.9% YoY ตามข้อมูล yfinance ณ ก.ย. 2026 (source: yfinance data)</li>
+<li>Cloudflare Q1 2025 (ข้อมูลสาธารณะ): revenue ~$479M (+27% YoY); large customer (&gt;$100K ARR) เพิ่มขึ้นต่อเนื่อง; FCF margin ปรับตัวดีขึ้น</li>
+<li>ลูกค้า enterprise ขนาดใหญ่ขยายตัว — Dollar-based net retention rate (DBNRR) อยู่ในระดับสูง (ตัวเลขล่าสุด ตรวจสอบใน earnings release)</li>
+<li>AI services และ Zero Trust security เป็น growth driver ใหม่ ๆ ที่ CEO Matthew Prince กล่าวถึงบ่อยในทุก earnings call (ข้อมูลจากสาธารณะ)</li>
+<li>หมายเหตุ: ตัวเลขไตรมาสล่าสุดที่แม่นยำ ควรดูจาก IR: <a href="https://cloudflare.net/investor-relations">cloudflare.net/investor-relations</a></li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>🐂 Bull case</b></p>
+<li>Network effect + switching cost จาก ecosystem depth: Cloudflare ที่มีทั้ง security, CDN, DNS, Workers (serverless), AI Gateway ในหน้าต่างเดียว — ลูกค้าที่ใช้หลายบริการย้ายออกยากมาก เพราะต้องหาผู้ให้บริการหลายรายมาทดแทน</li>
+<li>Zero Trust / SASE เป็น secular trend: องค์กรทั่วโลกกำลังย้ายจาก on-premise firewall → cloud-native security — Cloudflare One (SASE) เป็น platform ที่เติบโตเร็วที่สุดในกลุ่ม (แข่งกับ Zscaler, Palo Alto)</li>
+<li>AI workload เพิ่ม demand network infrastructure: ทุก AI API call ต้องผ่าน network; Cloudflare AI Gateway + Workers AI capture use case ใหม่ที่ยังไม่เคยมีมาก่อน</li>
+<p><b>🐻 Bear case</b></p>
+<li>Valuation premium สูงมากบนฐาน GAAP ขาดทุน: Forward P/E 166x และยังไม่มี trailing P/E — ถ้า growth rate ชะลอจาก 35% เป็น 20-25% ราคาหุ้นอาจ re-rate ลงแรง เพราะ &quot;อนาคต&quot; ที่ตลาด price in อยู่ไกลมาก</li>
+<li>Competition จาก hyperscaler เพิ่มขึ้น: AWS CloudFront, Azure CDN, Google Cloud Armor ต่างเพิ่ม feature ฟรีให้ลูกค้า cloud — กดดัน margin ของ Cloudflare ในกลุ่ม SMB โดยตรง</li>
+<li>Path to GAAP profitability ยังใช้เวลา: S&amp;M expense สูง เพราะ enterprise sales cycle นาน; ถ้า macro อ่อน enterprise delay deal → miss revenue guidance → ราคาหุ้นผันผวนสูงมาก</li>
+<h2>5. Kill conditions</h2>
+<li><b>Revenue growth ชะลอลงต่ำกว่า 20% YoY เป็นระยะเวลาหลาย quarter</b> — ถ้า momentum หาย growth story จะ unwind และ premium valuation ไม่มีเหตุผล</li>
+<li><b>DBNRR (Dollar-based Net Retention Rate) ลดต่ำกว่า 110%</b> — หมายความว่า upsell หยุดทำงาน ลูกค้าไม่ขยาย spend หรือเริ่ม churn บางส่วน</li>
+<li><b>Operating leverage ไม่เกิดขึ้นตาม guidance</b> — ถ้าใช้เงินมากขึ้นแต่ margin ไม่ดีขึ้น หรือ FCF margin ลดลง แปลว่า unit economics พัง</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. Cloudflare ทำเงิน GAAP ได้เมื่อไหร่? management target ไว้ปีไหน และ operating leverage เกิดขึ้นใน segment ไหนก่อน?</p>
+<p>2. DBNRR ล่าสุดเป็นเท่าไหร่ และลูกค้าที่มี ARR &gt;$100K เพิ่มขึ้น QoQ กี่ %?</p>
+<p>3. Cloudflare One (SASE/Zero Trust) แข่งกับ Zscaler ใน enterprise deal ได้ win rate ประมาณกี่ %?</p>
+<p>4. AI Gateway มี revenue contribution แล้วหรือยัง หรือยังเป็น free product ที่ใช้ดึง developer?</p>
+<p>5. ถ้า hyperscaler ปรับ network pricing เพื่อ bundle security ฟรีให้ลูกค้า cloud — Cloudflare ยังรักษา pricing power ได้ในกลุ่มใดบ้าง?</p>
+</div></body></html>

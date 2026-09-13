@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCHW — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">SCHW</div>
+<div class="meta">Thesis · สร้างจาก briefs/SCHW.md · 2026-09-12</div>
+<h1>SCHW — The Charles Schwab Corporation</h1>
+<h2>1. Company snapshot</h2>
+<p>Charles Schwab เป็นแพลตฟอร์มการลงทุนและบริการทางการเงินสำหรับนักลงทุนรายย่อย ที่ปรึกษาการลงทุน และสถาบัน บริษัทมี brokerage, advisory, banking และ custody โดยรายได้มาจากดอกเบี้ยสุทธิบนสินทรัพย์/เงินฝาก ค่าบริการจัดการและบริหารสินทรัพย์ และรายได้จากธุรกรรมบางส่วน ลูกค้าและสินทรัพย์บนแพลตฟอร์มสร้าง network effect เชิงการใช้งานและต้นทุนการเปลี่ยนผู้ให้บริการ แต่ economics ยังไวต่อดอกเบี้ยและการย้ายเงินสดของลูกค้า</p>
+<h2>2. Fundamentals signal</h2>
+<li>10-K แสดง net interest revenue ของปี 2025, 2024 และ 2023 แยกตามสินทรัพย์และแหล่งเงินทุน; average yield ของ cash and cash equivalents ลดจาก 5.10% ใน 2024 เป็น 4.18% ใน 2025 สะท้อน sensitivity ต่ออัตราดอกเบี้ย (source: sources/SCHW/10-k-2026.md)</li>
+<li>รายได้ไม่ได้ขึ้นกับค่าคอมมิชชั่นอย่างเดียว แต่ขึ้นกับ net interest revenue, deposit/asset flows และค่าบริการ จึงควรดูทิศทางเงินฝากและ client assets ควบคู่กับ margin</li>
+<li>Balance sheet ของบริษัทการเงินต้องอ่านผ่านคุณภาพสินทรัพย์ สภาพคล่อง และ funding ไม่ใช่ debt-to-equity แบบบริษัทอุตสาหกรรม; source set นี้ไม่มีตารางครบพอสำหรับสรุป capital ratios</li>
+<li>การจัดสรรเงินทุนต้องชั่งระหว่างลงทุนแพลตฟอร์ม/บริการ, dividend และ buyback กับความต้องการเงินทุนของธนาคารและความผันผวนของเงินฝาก</li>
+<p><b>Valuation snapshot:</b> price $107.25; market cap $185.47bn; P/E 19.54x; EV/EBITDA หาไม่ได้จาก yfinance; 52-week range $83.96–$114.53; ณ 2026-09-12 03:20 UTC; source: <code>sources/SCHW/valuation.md</code> (yfinance)</p>
+<h2>3. Latest earnings</h2>
+<li>ไม่พบ transcript ที่อ่านได้จริง: StockAnalysis คืนหน้า JavaScript/cookies challenge แม้รายการระบุ Q2 2026; จึงไม่อ้าง guidance หรือคำพูดผู้บริหารจากไฟล์นี้ (source: sources/SCHW/q-latest-call.md)</li>
+<li>10-K ล่าสุดยืนยันว่า average yield ของ cash and cash equivalents อยู่ที่ 4.18% ใน 2025 เทียบกับ 5.10% ใน 2024 และ 4.94% ใน 2023; นี่เป็นข้อมูล FY ไม่ใช่ transcript ไตรมาสล่าสุด (source: sources/SCHW/10-k-2026.md)</li>
+<li>ยังขาดตัวเลข Q2 2026 ที่ยืนยันได้เรื่อง net new assets, client cash sorting, net interest revenue และ expense guidance; ไม่แต่งตัวเลขแทน (source: sources/SCHW/q-latest-call.md)</li>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li>เงินฝากและสินทรัพย์ลูกค้าเติบโต ทำให้ scale ของ advisory/custody และรายได้ค่าบริการชดเชยแรงกดดันจาก yield ที่ลดลง</li>
+<li>การ cross-sell banking และบริการสำหรับ advisor เพิ่มรายได้ต่อครัวเรือนโดยไม่ต้องพึ่ง trading activity สูง</li>
+<p><b>Bear case</b></p>
+<li>ลูกค้าย้ายเงินสดไปกองทุนตลาดเงินหรือคู่แข่งต่อเนื่อง ทำให้ funding cost สูงและ net interest margin ถูกบีบ</li>
+<li>การแข่งขันค่าธรรมเนียม/ดอกเบี้ยและกฎระเบียบเพิ่มต้นทุน จน operating leverage ไม่เกิดแม้สินทรัพย์ลูกค้าโต</li>
+<h2>5. Kill conditions</h2>
+<li>Client cash sorting กลับมาเร่งขึ้นและไม่หยุด แม้บริษัทปรับ yield/ผลิตภัณฑ์แล้ว ทำให้ net interest revenue ลดต่อเนื่อง</li>
+<li>การเติบโตของ client assets มาจากตลาดขึ้นเป็นหลัก แต่ net new assets และรายได้ recurring ไม่โต</li>
+<li>ต้องเพิ่มทุนหรือสำรองสูงขึ้นอย่างมีนัยสำคัญจน buyback/dividend และผลตอบแทนต่อทุนเสียโครงสร้าง</li>
+<h2>6. What to ask before owning it</h2>
+<li>เงินฝากและสินทรัพย์ใหม่เป็นเงินสดจริงหรือมาจากราคาตลาดที่ปรับขึ้น?</li>
+<li>ลูกค้าถือเงินสดไว้ที่ Schwab เพราะคุณค่าบริการ หรือเพราะ yield ชั่วคราว?</li>
+<li>เมื่อดอกเบี้ยลดลงอีก economics ของ net interest revenue จะเป็นอย่างไร?</li>
+<li>Capital ratios, liquidity และ credit losses รองรับ buyback ได้แค่ไหน?</li>
+</div></body></html>

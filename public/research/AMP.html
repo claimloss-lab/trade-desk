@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMP — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">AMP</div>
+<div class="meta">Thesis · สร้างจาก briefs/AMP.md · 2026-09-12</div>
+<h1>AMP — Ameriprise Financial</h1>
+<blockquote><b>Audra status:</b> ไม่มีไฟล์ source ใน <code>sources/AMP/</code> — brief นี้เขียนจาก training knowledge (ถึง mid-2025) ยังไม่ผ่าน Audra verify. ข้อมูลเชิงตัวเลขอาจล้าสมัย ควรตรวจ SEC EDGAR / IR ก่อนตัดสินใจ</blockquote>
+<blockquote><b>Valuation note:</b> web_search / web_extract ไม่พร้อมใช้ขณะ run (billing error) — ราคา/ratios ล่าสุดหาไม่ได้</blockquote>
+<hr>
+<h2>1. Company snapshot</h2>
+<p>Ameriprise Financial เป็นบริษัทบริการทางการเงินที่โฟกัสหลักที่ <b>wealth management</b> และ <b>asset management</b> ให้กับลูกค้าบุคคลและสถาบัน แยกตัวออกจาก American Express ในปี 2005 และปัจจุบันดูแลสินทรัพย์ (AUM) รวมมากกว่า 1.4 ล้านล้านดอลลาร์ผ่านสองแขนหลัก ได้แก่ Advice &amp; Wealth Management (AWM) สำหรับลูกค้า affluent/HNW และ Columbia Threadneedle Investments ฝั่ง asset management ระดับโลก รายได้หลักมาจากค่าธรรมเนียมที่ผูกกับมูลค่าสินทรัพย์ภายใต้การดูแล (fee-based AUM) ซึ่งทำให้รายได้เติบโตตามตลาดหุ้นโดยธรรมชาติในระยะยาว</p>
+<hr>
+<h2>2. Fundamentals signal</h2>
+<li><b>Revenue trend ↑:</b> รายได้เติบโตสม่ำเสมอตามการเพิ่มของ AUM — ในช่วง 3–5 ปีที่ผ่านมารายได้รวมเพิ่มขึ้นทุกปี (ตรวจสอบตัวเลขใน 10-K ล่าสุด)</li>
+<li><b>Margin แข็งแกร่ง:</b> ธุรกิจ fee-based wealth management มี operating leverage สูง — เมื่อ AUM โต margin มักขยายตัวตาม เพราะ fixed cost ต่อตัว (ตรวจสอบใน 10-K ล่าสุด)</li>
+<li><b>Capital return สูง:</b> AMP มีประวัติ buyback หุ้นจักรวาลอย่างสม่ำเสมอ จำนวน shares outstanding ลดลงต่อเนื่อง — ผู้ถือหุ้นเดิมได้ % ของบริษัทเพิ่มโดยไม่ต้องซื้อเพิ่ม</li>
+<li><b>Balance sheet:</b> โครงสร้างธุรกิจ asset-light (ไม่ถือสินทรัพย์เสี่ยงขนาดใหญ่บนงบ) แต่มีหน้าที่ประกันและ annuity ที่ต้องติดตามความเพียงพอของ reserves (ตรวจสอบในงบ)</li>
+<li><b>EPS growth:</b> ส่วนหนึ่งมาจาก buyback จริง การดู EPS growth แยกจาก revenue growth จะช่วยให้เห็นว่า &quot;กำไรต่อหุ้นโต&quot; มาจากธุรกิจจริงหรือแค่ลด shares</li>
+<p><b>Valuation snapshot (ณ รันนี้):</b> หาไม่ได้ — web_search/web_extract ไม่พร้อมใช้ (billing error) ดู live data ที่ finance.yahoo.com/quote/AMP หรือ stockanalysis.com/stocks/amp</p>
+<hr>
+<h2>3. Latest earnings</h2>
+<p>*ไม่มีไฟล์ source ใน <code>sources/AMP/</code> — ตัวเลขต่อไปนี้มาจาก training knowledge (ถึง mid-2025) ยังไม่ผ่าน Audra verify*</p>
+<li>ในปีงบประมาณ 2024 AMP รายงาน net revenue ราว ~$16–17B (ตรวจสอบใน 10-K ปี 2024) (source: training knowledge — ไม่มีไฟล์ local)</li>
+<li>Adjusted EPS เติบโต double-digit ในปี 2023–2024 ขับเคลื่อนโดยตลาดหุ้นที่ดีขึ้นและ buyback ต่อเนื่อง (source: training knowledge — ไม่มีไฟล์ local)</li>
+<li>AWM (Advice &amp; Wealth Management) เป็น segment ที่ทำกำไรสูงสุด — pretax income margin ของ segment นี้อยู่ในระดับที่สูงกว่า industry ส่วนใหญ่ (source: training knowledge — ไม่มีไฟล์ local)</li>
+<li>Columbia Threadneedle เผชิญ outflow ในบางช่วง โดยเฉพาะ active equity ที่สู้กับ passive / ETF ได้ยาก (source: training knowledge — ไม่มีไฟล์ local)</li>
+<li>*ตัวเลขนี้อาจไม่ใช่ Q ล่าสุด — ควรดู earnings release ล่าสุดที่ ir.ameriprise.com ก่อนใช้*</li>
+<hr>
+<h2>4. Bull case / Bear case</h2>
+<p><b>Bull case</b></p>
+<li><b>Switching cost สูง:</b> ลูกค้า HNW ที่ผูกแผนทางการเงิน ภาษี และประกันไว้กับที่ปรึกษาคนเดียวมีต้นทุนย้ายออกสูง — ทำให้ revenue ต่อลูกค้า sticky</li>
+<li><b>Scale economies ใน distribution:</b> เครือข่ายที่ปรึกษาในสหรัฐฯ ~10,000+ คนสร้างต้นทุนต่อหัวที่ต่ำกว่าคู่แข่งรายเล็ก ยิ่ง AUM โตยิ่งได้ margin กลับมา</li>
+<li><b>Demographic tailwind:</b> คนเกิด Baby Boom กำลัง retire ต้องการ decumulation planning — AMP อยู่ในตำแหน่งรับ wave นี้</li>
+<p><b>Bear case</b></p>
+<li><b>AUM tied to market:</b> ถ้า equity market ปรับฐานหนัก AUM และค่าธรรมเนียมจะหดพร้อมกันทันที — รายได้ไม่ได้ stable เหมือน subscription</li>
+<li><b>Fee compression ใน asset management:</b> Columbia Threadneedle เผชิญแรงกดดันจาก passive funds — fee rate ใน active equity ลดลงเรื่อย ๆ ทั่วอุตสาหกรรม</li>
+<li><b>ความเสี่ยงด้านกฎระเบียบ:</b> fiduciary rule และการเปลี่ยนนโยบาย DOL อาจเปลี่ยนโครงสร้างค่าธรรมเนียมที่ปรึกษา</li>
+<hr>
+<h2>5. Kill conditions</h2>
+<li><b>AUM ลดลงติดต่อกัน 3+ ไตรมาส</b> โดยไม่ใช่แค่ตลาดตก แต่มี net outflow จากลูกค้าออกจากโปรแกรม — หมายความว่า switching cost กำลังอ่อนแอ</li>
+<li><b>Operating margin ของ AWM segment ต่ำกว่า 25%</b> เป็นเวลา 2+ ไตรมาสติดต่อกัน โดยไม่มีคำอธิบายชั่วคราวที่ชัดเจน</li>
+<li><b>Buyback หยุดหรือลดลงมากผิดปกติ</b> พร้อมกับหนี้ที่เพิ่มขึ้นโดยไม่มี strategic reason — อาจสัญญาณว่า cash flow แย่ลงเงียบ ๆ</li>
+<hr>
+<h2>6. What to ask before owning it</h2>
+<p>1. รายได้ของ AMP พึ่งพาตลาดหุ้นมากแค่ไหน — ถ้า S&amp;P 500 ลง 30% AUM และกำไรจะลดเท่าไร?</p>
+<p>2. Columbia Threadneedle มี track record ชนะ benchmark ในระยะยาวหรือไม่ — ถ้า active fund ทำผลงานต่ำกว่า passive จะดึงลูกค้าใหม่ได้อย่างไร?</p>
+<p>3. advisor productivity (revenue per advisor) เป็นอย่างไร — กำลังดีขึ้นหรือทรงตัว?</p>
+<p>4. โครงสร้าง capital return (buyback + dividend) ยั่งยืนหรือไม่เมื่อเทียบกับ free cash flow จริง?</p>
+<p>5. ถ้า fiduciary rule เข้มขึ้นอีก business model ที่ปรึกษาจะต้องเปลี่ยนแปลงอะไรบ้าง?</p>
+<hr>
+<p>*Brief นี้ไม่ใช่คำแนะนำซื้อ/ขาย — ใช้เป็น starting point สำหรับ due diligence เท่านั้น*</p>
+<p>*ข้อมูลตัวเลขมาจาก training knowledge ถึง mid-2025 — ควรตรวจสอบ SEC EDGAR และ IR ก่อนตัดสินใจ*</p>
+</div></body></html>

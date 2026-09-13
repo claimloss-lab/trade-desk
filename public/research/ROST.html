@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROST — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">ROST</div>
+<div class="meta">Thesis · สร้างจาก briefs/ROST.md · 2026-09-12</div>
+<h1>ROST — Ross Stores, Inc.</h1>
+<blockquote>Brief จัดทำรอบ cron catch-up (31 ส.ค. 2026) · ตัวเลขหลักจาก stockanalysis.com + Nasdaq API (third-party) ยังไม่ verify กับ 10-K / earnings call จริง (ไม่มี <code>sources/ROST/</code>) — ถือเป็นข้อมูลเบื้องต้น</blockquote>
+<h2>1. Company snapshot</h2>
+<p>Ross Stores เป็นเครือค้าปลีกเครื่องแต่งกายและของใช้บ้านแบบ off-price (ขายแบรนด์เนมในราคาลดสูง) มีทั้ง Ross Dress for Less กับ dd&#x27;s DISCOUNTS ขายเสื้อผ้า รองเท้า เครื่องประดับ และของใช้บ้านในราคาถูกกว่าร้านดีพาร์ทเมนต์/แบรนด์ กลยุทธ์คือซื้อสต็อกล้น/ปลายซีซัน/ยกเลิกจากแบรนด์มาได้ในราคาถูก แล้วขายให้ลูกค้าที่มองของถูกเป็นหลักในอเมริกา รายได้มาจากการเปิดสาขา (มีหลายพันสาขา) + ยอดต่อสาขา เติบโตแบบเปิดสาขาใหม่เป็นหลัก และทนต่อศก.อ่อนแอได้ดี เพราะผู้บริโภคหันมาช้อปถูกเมื่อประหยัด</p>
+<h2>2. Fundamentals signal</h2>
+<li>รายได้โตดียกเว้นช่วงศก.ผันผวน (ttm 24.51B +14.0%) — ไตรมาสล่าสุดเร่ง ~13% แต่ไตรมาสก่อนหน้ามีติดลบตัวหนึ่ง (Q หนึ่ง -1.83%) ชี้ว่า sensitivity กับรอบผู้บริโภคมีจริง</li>
+<li>Margin (GM ~33.8%, op margin ~17.6% ล่าสุด) ดีขึ้นช่วงเร็วๆ นี้ จากของถูก/สินค้าไม่โดนดึงราคาและประสิทธิภาพ supply</li>
+<li>กำไรสุทธิ ttm 2.66B +28.9% โตแรงกว่ารายได้ — leverage จาก op margin ที่ขยับขึ้น (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
+<li>งบดุล retail ค้าปลีกออฟไพรซ์มีหนี้จำกัด ใช้คืนผ่านปันผล (~0.78% เริ่มจ่าย) + ซื้อหุ้นคืน</li>
+<li>ความเสี่ยงหลัก: ถ้าผู้บริโภคทิ้ง off-price ไปช้อปแบรนด์เมื่อศก.ดี หรือแบรนด์ลดการทิ้งสต็อก ต้นทุนสินค้าอาจแพงขึ้น</li>
+<p><b>Valuation snapshot:</b> ราคา 227.00 (ปิด 28 ส.ค. 2026, Nasdaq API) · market cap 73.31B · P/E (ttm) 27.64 · forward P/E 26.95 · 52-week range 143.39–257.00 · ปันผล $1.78 (~0.78%) · Beta 0.88 · Analysts: Buy, target 269.94 — stockanalysis.com / Nasdaq ณ 31 ส.ค. 2026</p>
+<h2>3. Latest earnings</h2>
+<li>Q2 FY2027 (งบไตรมาสล่าสุด ~สิ้นสุด ก.ค. 2026): รายได้ 6.265B โต ~13.3% YoY, op margin ~17.6% (source: stockanalysis.com quarterly income statement)</li>
+<li>Q1 FY2027: รายได้ 6.010B โต ~20.6% YoY — อัตราโตสูงสุดช่วงเร็วๆนี้ (source: stockanalysis.com)</li>
+<li>ไม่กี่ไตรมาสก่อนหน้ามีรายได้โคตรผันผวน (ตัวหนึ่ง -1.83%) — ชี้ว่าตัวเลข retail ขึ้นกับช่วงโปรโมชัน/แฟชั่นจริง (source: stockanalysis.com)</li>
+<li>ตัวเลขเป็นข้อมูลจาก stockanalysis.com ยังไม่เทียบกับ transcript รายงานจริงของบริษัท (ไม่มีไฟล์ใน <code>sources/ROST/</code>)</li>
+<h2>4. Bull case / Bear case</h2>
+<li>Off-price ได้เปรียบสองทาง: ศก.อ่อนแอ ผู้บริโภคหันมาช้อปถูก (demand เข้า), ศก.ดี แบรนด์มีสต็อกล้นให้ซื้อถูก (supply เข้า) — กัน 2 ด้านได้ดีกว่า retail ทั่วไป</li>
+<li>ขนาดหลายพันสาขา + ระบบซื้อของลึก ทำให้ต่อรองราคาสินค้ากับแบรนด์ได้และหมุนสต็อกไว</li>
+<li>ปันผล + ซื้อหุ้นคืน เริ่มคืนเงินผู้ถือเพิ่ม ฐานะเงินสดดี</li>
+<h3>Bear case</h3>
+<li>เป็น retail ที่ volume-driven ผอม margin การสู้ราคา/โปรโมชันกดกำไรไว</li>
+<li>หากผู้บริโภคช้อปแบรนด์เต็มราคาเมื่อศก.ดี หรือแบรนด์ลดการทิ้งสต็อก (bring back less) ของที่ซื้อได้ถูกจะน้อยลง → ต้นทุนขายสูงขึ้น</li>
+<li>ระดับสต็อก/แฟชั่นพลาด (สินค้าไม่โดน) กดดัน margin และต้อง markdown เอง — ตัวเลขมีผันผวนให้เห็นแล้ว</li>
+<h2>5. Kill conditions</h2>
+<li>Revenue growth ติดลบ/ชะลอชัดหลายไตรมาส (โดยเฉพาะตอนศก.ปกติ) จากยอดสาขา-เดียว/ต่อสาขาไม่โต</li>
+<li>Gross margin หดต่อเนื่องจากการไม่มีของถูกพอ (แบรนด์ดึงสต็อกออก) หรือสู้ราคาหนัก</li>
+<li>เปิดสาขาใหม่ (new unit growth) ชะลอลงชัดหรือปิดสาขาเยอะ — ตัวขับรายได้หลักพัง</li>
+<h2>6. What to ask before owning it</h2>
+<p>1. อัตราโตของยอดขายสาขาเดียว (same-store sales) เป็นเท่าไร — แยกจากรายได้ที่โตเพราะเปิดสาขาใหม่?</p>
+<p>2. สินค้าจาก\&quot;การทิ้งสต็อกของแบรนด์\&quot;ยังมีให้ซื้อในราคาถูกพอหรือเปล่า และ margin แนวไหน?</p>
+<p>3. สต็อกปัจจุบัน (inventory levels) เทียบกับยอดขาย — กำลัง โตเร็วเกิน/prune ใหม่?</p>
+<p>4. อัตราการคืนทุนผ่านปันผล+ซื้อหุ้นคืนเป็นเท่าไร ฐานะเงินสดหลังลงทุนสาขาใหม่ยังไง?</p>
+<p>5. ความเสี่ยงของคู่แข่ง off-price รายอื่น (TJX และอื่นๆ) กับการแย่งของถูก/ลูกค้า เป็นแบบไหน?</p>
+<hr>
+<p>*หมายเหตุ: ยังไม่ได้ดึง 10-K/earnings call มาวางใน <code>sources/</code> — ตัวเลข fundamentals ควรไป verify กับเอกสารทางการก่อนใช้ตัดสินใจจริง*</p>
+</div></body></html>

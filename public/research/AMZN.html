@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMZN — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">AMZN</div>
+<div class="meta">Thesis · สร้างจาก briefs/AMZN.md · 2026-09-12</div>
+<h1>AMZN — Full Giggs-style Investment Memo</h1>
+<blockquote>ขอบเขต: memo เชิง long-term ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคาและ valuation เป็น snapshot เท่านั้น ดึงข้อมูล 2026-09-12 (ราคา Yahoo ปิดล่าสุด 2026-09-11 UTC)</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงวิจัย:</b> คุณภาพธุรกิจสูง แต่ valuation/เงินลงทุน AI ต้องพิสูจน์ผลตอบแทน; จัดเป็น <b>ติดตามแบบมีเงื่อนไข</b> ไม่ใช่คำแนะนำซื้อ/ขาย (Judgment; อิง sources ด้านล่าง, ดึง 2026-09-12)</li>
+<li><b>Fair-value framework 5 ปี:</b> bear/base/bull ที่ใช้ใน memo = <b>$240 / $420 / $600 ต่อหุ้น</b> ตามลำดับ เป็น scenario range ไม่ใช่ราคาเป้าหมายที่รับรอง (Judgment; ดึง 2026-09-12)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้อหรือสัดส่วนบังคับ; ถ้าพี่ต้องใช้เป็นกรอบตัดสินใจ ให้กำหนดขนาดจากความเสี่ยงที่รับได้และทดสอบ kill conditions ก่อน (Judgment; ดึง 2026-09-12)</li>
+<li><b>5Y CAGR จากราคา $256.78:</b> bear <b>-1.3%</b>, base <b>10.3%</b>, bull <b>18.5%</b> ต่อปี ไม่รวมเงินปันผล โดยเป็นผลคำนวณจาก scenario ข้างต้น (Yahoo price + calculation, ดึง 2026-09-12)</li>
+<li><b>สิ่งที่ต้องพิสูจน์:</b> AWS โตต่อโดยไม่ทำให้ผลตอบแทนจาก capex $220B/ปีทรุด, FCF กลับมาขยาย และกำไรปกติไม่พึ่งรายการพิเศษ (Interpretation; AMZN 10-K FY2025 และ Q2 2026 summary, ดึง 2026-09-12)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Amazon มีสามเครื่องยนต์หลัก: North America, International และ AWS; ฝั่งผู้บริโภคทำเงินจากสินค้าที่ขายเอง/ค่าบริการ marketplace/Prime ส่วน AWS เก็บค่าคลาวด์ compute, storage, database, analytics และ AI จากนักพัฒนาและองค์กร (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>FY2025 รายได้ $716.9B: North America $426.3B (59%), International $161.9B (23%), AWS $128.7B (18%); โฆษณาและ subscription ช่วยเพิ่มรายได้ที่มาร์จินดีกว่าการขายสินค้าล้วน (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>กลไก monetization ที่สำคัญคือการรวม traffic ลูกค้า, marketplace sellers, fulfillment, Prime และโฆษณาเข้าด้วยกัน แล้วใช้ AWS เป็น recurring infrastructure layer; AWS มี operating income FY2025 $45.6B จาก consolidated $80.0B (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>สิ่งที่อาจทำให้ economics ดีขึ้นคือ advertising, custom silicon, Bedrock/SageMaker และบริการร้านค้า แต่สิ่งที่อาจทำให้ economics แย่ลงคือการลงทุน data center, memory, fulfillment และแรงกดดันราคา (Interpretation; 10-K/Q2 summary, ดึง 2026-09-12)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Scale / network effects:</b> selection, price, convenience และ seller ecosystem ทำให้เกิดข้อมูล/ปริมาณคำสั่งซื้อ/ประสิทธิภาพ fulfillment; seller จ่ายค่าธรรมเนียมและซื้อโฆษณา ขณะที่ลูกค้าได้ตัวเลือกมากขึ้น (Interpretation จาก Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li><b>Switching costs และระบบครบชั้นใน AWS:</b> workload, data, tools และ developer workflow ทำให้การย้ายระบบไม่ฟรี; custom chips + managed AI services อาจเพิ่มความแตกต่าง แต่ AWS ยังแข่งขันกับผู้ให้บริการรายใหญ่หลายราย (Interpretation; 10-K/Q2 summary, ดึง 2026-09-12)</li>
+<li><b>Cost advantage จาก fulfillment/infrastructure:</b> ขนาดเครือข่ายช่วยกระจายต้นทุน แต่ต้องลงทุนต่อเนื่องและไม่ใช่ต้นทุนจมที่รับประกันผลตอบแทน (Interpretation; 10-K, ดึง 2026-09-12)</li>
+<li><b>ความเสี่ยงเฉพาะบริษัท:</b> AWS/retail แข่งขันด้านราคา, International margin บาง, regulation/FTC, cybersecurity, fraud จาก sellers, inventory, FX และการลงทุน AI ที่อาจให้ผลตอบแทนต่ำ (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| ปี | Revenue | Gross profit | Operating income | Net income | OCF | CapEx | FCF |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| 2025 | $716.9B | $360.5B | $80.0B | $77.7B | $139.5B | ~$131.8B | ~$7.7B |</p>
+<p>| 2024 | $638.0B | $311.7B | $68.6B | $59.2B | $115.9B | ~$83.0B | ~$32.9B |</p>
+<p>| 2023 | $574.8B | $270.0B | $36.9B | $30.4B | $84.9B | ~$52.7B | ~$32.2B |</p>
+<p>| 2022 | $514.0B | $225.2B | $12.2B | -$2.7B | $46.8B | ~$63.6B | -$16.9B |</p>
+<p>| 2021 | ไม่พบในชุด source ที่ cache | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
+<li>Revenue, gross profit, operating income และ net income ฟื้น/ขยายชัดจาก 2022 ถึง 2025; แต่ FCF 2025 ถูก capex กดหนัก จึงยังไม่ควรอ่านกำไรบัญชีเป็น cash economics โดยตรง (Fact/Interpretation; Yahoo Finance annual financials + <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>R&amp;D แยกบรรทัดไม่ได้จากชุด source; บริษัทระบุ technology and infrastructure รวม payroll R&amp;D และ infrastructure เป็น $108.5B ใน 2025 หรือ 15.1% ของ sales เทียบ $88.5B/13.9% ใน 2024 (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>ROE/ROIC 5 ปีแบบปรับรายการพิเศษยังไม่ทำใน memo นี้ เพราะข้อมูล capital base และรายการ Anthropic/Rivian/ภาษีไม่อยู่ในชุดเดียวกัน; อย่าเติมตัวเลขจากประมาณการ (Limitation; ดึง 2026-09-12)</li>
+<li><b>Valuation snapshot:</b> ราคา <b>$256.78</b>, market cap <b>$2.770T</b>, trailing P/E <b>20.3x</b>, forward P/E <b>24.7x</b>, EV/EBITDA <b>17.2x</b>, EV/Sales <b>3.74x</b>, 52-week range จาก Yahoo <b>$196.00–$287.20</b>, FCF yield โดยใช้ Yahoo FCF ล่าสุดราว <b>0.12%</b>. ณ 2026-09-11 13:30 UTC; source: Yahoo Finance chart/fast_info และ yfinance ดึง 2026-09-12. หมายเหตุ: Yahoo แสดง total debt รวม lease/หนี้บางส่วน จึงไม่ใช้ EV เป็นข้อสรุปเด็ดขาด.</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>เงินสดและ marketable securities สิ้น FY2025 <b>$123.0B</b>; long-term debt <b>$65.6B</b> และ long-term lease liabilities <b>$87.3B</b> (Fact; <code>sources/AMZN/10-k-fy2025.md</code>, ดึง 2026-09-12)</li>
+<li>OCF โต $115.9B → $139.5B แต่ capex cash โต $77.7B → $128.3B ทำให้ FCF ลด $38.2B → $11.2B ตามตัวเลข non-GAAP ใน 10-K; Yahoo annual table ให้ FCF ~$7.7B จากนิยามต่างกัน (Fact; 10-K/Yahoo, ดึง 2026-09-12)</li>
+<li>2026 capex guidance เพิ่มเป็น <b>$220B</b> จากราว $200B เพื่อ AI infrastructure และ memory; การลงทุนนี้เป็นทั้ง catalyst และความเสี่ยง capital intensity (Fact; <code>sources/AMZN/q2-2026-call.md</code>, ดึง 2026-09-12)</li>
+<li>บริษัทลงทุน $2.7B ใน Anthropic convertible notes ใน 2025; FY2025 other income $15.2B ได้แรงหนุนจากการปรับมูลค่า Anthropic จึงต้องแยกกำไรจากการดำเนินงานออกจาก mark-to-market (Fact; 10-K, ดึง 2026-09-12)</li>
+<li>SBC, dilution, buyback รายละเอียด 5 ปี <b>ไม่พบใน source ที่ใช้รอบนี้</b>; ไม่สมควรแต่งตัวเลข (Limitation; ดึง 2026-09-12)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q2 2026 revenue <b>$200.6B (+20% YoY)</b> และ operating income <b>$27.5B (+43%)</b>; summary ระบุว่ามีประโยชน์ครั้งเดียวราว $1.2B จาก tariff refunds และ energy-derivative accounting gains (Fact; <code>sources/AMZN/q2-2026-call.md</code>, ดึง 2026-09-12)</li>
+<li>AWS revenue <b>$42.2B (+36.7%)</b>, operating income <b>$16.6B</b>, margin <b>39.4%</b>, annualized run-rate $169B และ backlog $496B; เป็นตัวเลขจาก prepared-remarks summary ไม่ใช่ transcript เต็มที่ตรวจสอบแล้ว (Fact/Caveat; <code>sources/AMZN/q2-2026-call.md</code>, ดึง 2026-09-12)</li>
+<li>North America revenue $116.2B (+16%, margin 7.9%) และ International $42.2B (+15% ex-FX, margin 4.1%); advertising $19.8B (+26%) (Fact; q2 summary, ดึง 2026-09-12)</li>
+<li>Q3 guidance: sales $197–202B และ operating income $22.5–26.5B; มี FX headwind ราว 80 bps และ Prime Day timing shift ออกจาก Q3 (Fact; q2 summary, ดึง 2026-09-12)</li>
+<li><b>Transcript status:</b> หา/ดึง StockAnalysis ไม่ได้เพราะระบบ source extraction ตอบ 402 insufficient balance; จึงใช้ไฟล์สรุป Motley Fool ที่มีอยู่ และไม่มี analyst Q&amp;A ครบ (Limitation; ดึง 2026-09-12)</li>
+<h2>7. Valuation</h2>
+<li><b>Trailing / forward P/E:</b> 20.3x / 24.7x จาก Yahoo; trailing earnings ถูกกระทบรายการ Anthropic และรายการพิเศษอื่น จึงไม่ใช้เป็น normalized multiple โดยอัตโนมัติ (Fact/Interpretation; Yahoo, ดึง 2026-09-12)</li>
+<li><b>EV/Sales / EV/EBITDA:</b> 3.74x / 17.2x จาก yfinance; definition ของ debt/lease และ one-time earnings ทำให้เทียบข้ามบริษัทต้องระวัง (Fact/Caveat; yfinance, ดึง 2026-09-12)</li>
+<li><b>Historical / peer range:</b> ไม่ได้ดึงชุด historical multiples และ peer valuation จาก StockAnalysis/MarketBeat ในรอบนี้; ระบุว่าไม่พบแทนการประมาณ (Limitation; ดึง 2026-09-12)</li>
+<li>Scenario valuation ใช้ $240/$420/$600 เพื่อทดสอบ sensitivity ต่อ FCF, AWS growth และ multiple ไม่ใช่ intrinsic value ที่พิสูจน์แล้ว (Judgment; ดึง 2026-09-12)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานหลัก | EPS/FCF proxy | Multiple/ราคา 5Y | CAGR | Probability* |</p>
+<p>|---|---|---|---:|---:|---:|</p>
+<p>| Bull | AWS/โฆษณาโตสูง, AI capex ให้ผลตอบแทน, retail margin ดีขึ้น | กำไรปกติและ FCF เร่ง | $600 | 18.5% | 25% |</p>
+<p>| Base | AWS โตดีแต่ capex สูงหลายปี, FCF ฟื้นแบบค่อยเป็นค่อยไป | earnings โตระดับกลาง | $420 | 10.3% | 50% |</p>
+<p>| Bear | capex/ค่าเสื่อมสูง, AWS margin ถูกกด, International/กฎระเบียบแย่ | FCF ต่ำและ multiple ลด | $240 | -1.3% | 25% |</p>
+<li>*Probability เป็น judgment เพื่อบังคับให้เห็น downside ไม่ใช่ forecast ที่มีฐานสถิติ (Judgment; ดึง 2026-09-12)</li>
+<li>Expected contribution แบบ probability-weighted price = <b>$420</b> จาก 0.25×600 + 0.50×420 + 0.25×240; เป็นแบบจำลองหยาบ ไม่ใช่ fair value ที่รับรอง (Calculation/Judgment; ดึง 2026-09-12)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> AWS growth/backlog conversion, AI revenue/custom silicon, advertising scale, operating leverage ฝั่ง North America และ FCF หลัง capex peak (Interpretation; q2 summary/10-K, ดึง 2026-09-12)</li>
+<li><b>Risks:</b> capex $220B ใช้เวลาคืนทุนนาน, memory/energy cost, AWS price competition, tariff/FX, regulatory actions, cybersecurity และรายการพิเศษทำให้กำไรดูสูงกว่าปกติ (Fact/Interpretation; 10-K/q2 summary, ดึง 2026-09-12)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้าตรงข้ามกับ thesis: AI demand ยังมีแต่ value capture ไปอยู่ที่ลูกค้าหรือ supplier, AWS revenue โตแต่ margin/ROIC ลด เพราะ Amazon ต้อง overbuild capacity (Judgment; ดึง 2026-09-12)</li>
+<li>Permanent capital loss จะมาจากการสะสม capex/lease/debt ขนาดใหญ่โดย FCF ไม่กลับมา, พร้อมการถูกลด multiple เมื่อ growth ชะลอ (Interpretation; 10-K/Yahoo, ดึง 2026-09-12)</li>
+<li>Bear floor ที่ใช้ตรวจสอบคือ $240 ไม่ได้หมายความว่าราคาจะไม่ต่ำกว่านี้; สมมติฐานเปราะคือ AWS backlog โตแต่รับรู้รายได้ช้าและรายการพิเศษหายไป (Judgment; ดึง 2026-09-12)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry:</b> ไม่มีคำแนะนำจุดซื้อ; ใช้ staged review ตามการเผยแพร่ผลประกอบการแทนการไล่ราคา (Judgment; ดึง 2026-09-12)</li>
+<li><b>Sizing/DCA/cap:</b> กำหนดเพดานจากความเสี่ยงที่ยอมรับได้ โดยไม่นับ AWS เป็น “ปลอดภัย” เพียงเพราะมี recurring revenue; ควรทบทวนทุกไตรมาส (Judgment; ดึง 2026-09-12)</li>
+<li><b>Exit/kill:</b> AWS growth ชะลอเป็นเลขหลักเดียวพร้อม backlog ไม่ขยาย; FCF ติดลบหลายไตรมาสทั้งที่ capex เพิ่ม; หนี้/lease โตโดย EBITDA/FCF ไม่ตาม (Judgment อิง 10-K/q2 summary, ดึง 2026-09-12)</li>
+<li><b>Review cadence:</b> ตรวจ AWS margin, capex-to-OCF, normalized earnings, backlog conversion และ dilution ทุกไตรมาส (Judgment; ดึง 2026-09-12)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact | FY2025 revenue $716.9B, OCF $139.5B, capex $128.3B, FCF 10-K $11.2B; Q2 2026 AWS $42.2B และ capex guide $220B (sources/AMZN, ดึง 2026-09-12) |</p>
+<p>| Interpretation | AWS/advertising เป็นเครื่องยนต์กำไร แต่ company-level cash conversion ถูก capex AI กด; รายการพิเศษทำให้ P/E ต้องระวัง (ดึง 2026-09-12) |</p>
+<p>| Judgment | Scenario $240/$420/$600, probabilities 25/50/25 และ rating “ติดตามแบบมีเงื่อนไข”; เปลี่ยนได้เมื่อ FCF/ROIC จริงต่างจากสมมติฐาน (ดึง 2026-09-12) |</p>
+<h3>ข้อจำกัดแหล่งข้อมูล</h3>
+<li>AMZN มี 10-K FY2025 และ Q2 2026 summary ใน cache; Q2 เป็น third-party prepared-remarks summary ไม่ใช่ transcript เต็ม และ StockAnalysis fetch ถูกบล็อกด้วย 402.</li>
+<li>ตัวเลข 5-year บางรายการ, SBC/dilution/buyback, peer/historical multiples และ normalized ROIC ยังไม่พบจากชุด source รอบนี้ จึงไม่ได้เติมตัวเลข.</li>
+</div></body></html>

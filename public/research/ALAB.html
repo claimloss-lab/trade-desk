@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALAB — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">ALAB</div>
+<div class="meta">Thesis · สร้างจาก briefs/ALAB.md · 2026-09-12</div>
+<h1>ALAB — Astera Labs</h1>
+<p>*สร้าง: 2026-08-30 (cron brief NDX, เบา ๆ จาก web research — ยังไม่มี 10-K/earnings call cached ใน sources/ALAB/)*</p>
+<h2>1. Company snapshot</h2>
+<p>Astera Labs เป็นบริษัททำชิปเชื่อมต่อ (connectivity) สำหรับ data center AI โดยเฉพาะ — ตัวหลักคือ PCIe retimer และ CXL / Aries memory connectivity ที่ใช้ต่ออายุสัญญาณระหว่าง GPU, CPU, accelerator กับหน่วยความจำ/ระบบเครือข่าย พูดง่าย ๆ คือ &quot;สายประสานของ AI rack&quot; ที่ช่วยให้การ์ด GPU หลายตัวคุยกันได้เร็วและไม่เสื่อมสัญญาณ ขายให้ hyperscaler และผู้ผลิตระบบ AI server ใหญ่ ๆ ส่วนใหญ่ รายได้มาเกือบหมดจาก datacenter/AI accelerator ที่กำลังโตมาก</p>
+<h2>2. Fundamentals signal</h2>
+<li><b>Revenue trend:</b> โตเร็วมากและเร่งขึ้น — Q2 2026 ทำ $392.4M (+104% YoY); revenue ttm $1.20B (+98.5%) (ตัวเลข check ใน 10-K ล่าสุด)</li>
+<li><b>Margin trend:</b> สูงและดีขึ้นเรื่อย ๆ — gross margin ~75%, operating margin ~23%, net margin ~31% (ทำกำไรได้จริงแล้ว ไม่ใช่แค่ growth)</li>
+<li><b>Balance sheet feel:</b> แข็งแรงมาก — หนี้อื่นน้อย ($44M) มี net cash ~$1.2B, current ratio 10, debt/equity 0.03</li>
+<li><b>Capital allocation:</b> เน้น R&amp;D ตีตลาด AI connectivity (รุ่น 800G/1.6T PCIe-CXL) — ยังเป็นช่วงลงทุนเพื่อผม growth สูง</li>
+<li><b>Valuation:</b> แพงถ้าดู P/E ปกติ (£142) แต่ forward ต่ำลงมาก (£51) เพราะกำไรกำลังโตเร็ว (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
+<p><b>Valuation snapshot</b> (ณ 30 ส.ค. 2026, stockanalysis.com): ราคา ~$304 (mkt cap $50.22B) · P/E 142.59 · Forward P/E 51.59 · EV/EBITDA 171.73 · Revenue ttm $1.20B (+98.5%) · 52-week range $97.89–$499.48 · beta 3.84</p>
+<h2>3. Latest earnings</h2>
+<p>Source: ยังไม่มีไฟล์ใน <code>sources/ALAB/</code> (folder ว่าง) — ตัวเลขจาก stockanalysis.com (financials quarterly) trace กลับได้ที่แหล่ง web นั้น</p>
+<li>Q2 2026 (สิ้นสุด 30 มิ.ย. 2026): revenue $392.4M, โต +104% YoY จาก $191.9M ใน Q2 2025 (source: stockanalysis.com quarterly)</li>
+<li>Gross profit $287.6M, Operating income $89.3M, Net income $153.1M (source: stockanalysis.com)</li>
+<li>Diluted EPS $0.83 (Q2 2026) เทียบ $0.29 (Q2 2025) — กำไรโตแรงกว่าวุ้น (source: stockanalysis.com)</li>
+<li>Free cash flow Q2 อยู่ที่ ~$67M (source: stockanalysis.com) — ยัง turnaround/เติบโต</li>
+<li><b>หมายเหตุ:</b> ยังไม่ใช่ earnings call transcript ที่ audit แล้ว ถ้าจะถือจริงควร fetch <code>sources/ALAB/</code> ให้ครบก่อน</li>
+<h2>4. Bull case / Bear case</h2>
+<li><b>Bull:</b> เป็น picks-and-shovels แท้ของ AI scale-up — ยิ่ง GPU/accelerator ต่อกันเยอะ ยิ่งต้องใช้ connectivity ของ Astera (ผลิตภัณฑ์ PCIe-CXL กลายเป็นมาตรฐานการต่อ AI rack, &quot;cornered resource&quot; สำหรับ AI data center)</li>
+<li><b>Bull:</b> รายได้ +104% YoY ยังเร่ง พร้อมมาร์จิ้นสูง 30%+ net — มีขนาด-profitability เลย ไม่ใช่แค่ story</li>
+<li><b>Bear:</b> ราคา 52-week แคบลงมาหนัก (จากจุด $499 สู่ ~$304) — valuation เดิมสูงมาก (P/E 142, EV/EBITDA 171) ถ้า growth ชะลอจะเจอ compression กับ beta 3.84 (ผันผวนสุด ๆ)</li>
+<li><b>Bear:</b> ลูกค้าเป็น hyperscaler ไม่กี่ราย (concentration) dependent กับ CAPEX ผู้ใช้รายใหญ่ และมีความเสี่ยงคู่แข่ง (Broadcom, Marvell) เข้ามาในพื้นที่ connectivity</li>
+<h2>5. Kill conditions</h2>
+<li><b>ลบ position ถ้า:</b> อัตราการเติบโต revenue รายไตรมาสเริ่มชะลอ/หยุดโต (ต่อเนื่อง 2+ ไตรมาส) — ราคายังซื้อขายที่ growth multiple ล้วน</li>
+<li><b>ถ้า gross margin ย่อลงจากระดับ ~75% ยาว ๆ</b> แปลว่าถูกกดราคา/เสียส่วนแบ่งให้คู่แข่ง semis ใหญ่</li>
+<li><b>ถ้าการพึ่งพา hyperscaler 2-3 รายแย่ลง</b> หรือถูกมาตรฐานเทคโนโลยีข้าม (เทคโนโลยีแทนที่ PCIe/CXL) — อย่าเป็น religion ก็เพราะธีม AI</li>
+<h2>6. What to ask before owning it</h2>
+<li>รายได้มาจากลูกค้ากี่ราย และสัดส่วนใหม่/คสัญญายาวแค่ไหน?</li>
+<li>Guidance ครึ่งปีหลังจะรักษา Pace +90% ได้จริงหรือ และ &quot;trough&quot; ของ AI CAPEX cycle นัก อยู่ตรงไหน?</li>
+<li>การเข้าเซกเดียวกับ Broadcom/Marvell ใน connectivity จะกัดส่วนแบ่งตลาดเมื่อไร (และจากราคา ปกป้องได้แค่ไหน)?</li>
+<li>ความผันผวน beta 3.84 นี้ ใจถือไหวไหมถ้าราคาปรับลงมากจากจุดสูง 52-week ($100 → $499)?</li>
+<li>มาร์จิ้น 75% นั้น sustain ได้นานแค่ไหน ในเมื่อความต้องการสุดท้ายขึ้นกับ budget CAPEX ของ hyperscaler?</li>
+</div></body></html>

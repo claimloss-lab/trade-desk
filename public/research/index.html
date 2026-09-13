@@ -1,32 +1,37 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stock Research Showcase</title>
-<style>
-:root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
-@media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.6}
-header{max-width:1100px;margin:0 auto;padding:28px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-header h1{margin:0;font-size:1.5rem;font-weight:800}
-header p{margin:0;color:var(--muted);font-size:.85rem}
-.search-bar{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;max-width:340px;width:100%}
-.search-bar input{border:none;outline:none;background:transparent;color:var(--fg);font-size:.95rem;width:100%}
-.search-bar span{color:var(--muted);font-size:1.1rem}
-main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
-.section-title{font-size:1rem;font-weight:700;margin:28px 0 12px;display:flex;align-items:center;gap:8px}
-.section-title .ct{font-size:.8rem;font-weight:500;color:var(--muted);background:var(--badge);padding:2px 10px;border-radius:99px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:8px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:5px;transition:box-shadow .15s}
-.card:hover{box-shadow:0 4px 18px rgba(0,0,0,.1)}
-.card-hold{border-color:var(--accent)!important;background:var(--accent-bg)}
-.tk{font-size:1.35rem;font-weight:800;letter-spacing:-.5px}
-.sn{color:var(--muted);font-size:.82rem;min-height:2.2em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tag-hold{font-size:.7rem;font-weight:600;color:var(--accent);background:var(--badge);padding:2px 8px;border-radius:99px;align-self:flex-start}
-.dt{font-size:.72rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:2px 9px;border-radius:99px;margin-top:auto}
-.hidden{display:none!important}
-#results-section{margin-top:24px}
+<title>Stock Research Showcase</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+
+  header{max-width:1100px;margin:0 auto;padding:28px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  header h1{margin:0;font-size:1.5rem;font-weight:800} header p{margin:0;color:var(--muted);font-size:.85rem}
+  .search-bar{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;max-width:340px;width:100%}
+  .search-bar input{border:none;outline:none;background:transparent;color:var(--fg);font-size:.95rem;width:100%}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
+  .section-title{font-size:1rem;font-weight:700;margin:28px 0 12px;display:flex;align-items:center;gap:8px}
+  .section-title .ct{font-size:.8rem;font-weight:500;color:var(--muted);background:var(--badge);padding:2px 10px;border-radius:99px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:8px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:5px;transition:box-shadow .15s}
+  .card:hover{box-shadow:0 4px 18px rgba(0,0,0,.1)}
+  .card-hold{border-color:var(--accent)!important;background:var(--accent-bg)}
+  .tk{font-size:1.35rem;font-weight:800;letter-spacing:-.5px}
+  .sn{color:var(--muted);font-size:.82rem;min-height:2.2em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .tag-hold{font-size:.7rem;font-weight:600;color:var(--accent);background:var(--badge);padding:2px 8px;border-radius:99px;align-self:flex-start}
+  .dt{font-size:.72rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:2px 9px;border-radius:99px;margin-top:auto}
+  .hidden{display:none!important}
 </style></head><body>
 <header>
-  <div><h1>📊 Research Showcase</h1><p>Thesis สร้างโดย Hermes AI · อัปเดตอัตโนมัติ</p></div>
+  <div><h1>📊 Research Showcase</h1><p>Thesis โดย Hermes AI · อัปเดตอัตโนมัติ</p></div>
   <div class="search-bar"><span>🔍</span><input type="text" id="q" placeholder="ค้นหา NVDA, Apple…" oninput="doSearch(this.value)"></div>
 </header>
 <main>
@@ -35,1696 +40,291 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
     <div class="grid" id="results-grid"></div>
   </section>
   <section id="holdings-section">
-  <div class="section-title">📌 หุ้นที่ถืออยู่ <span class="ct" id="cnt-hold">13</span></div>
-  <div class="grid" id="grid-hold"><a class="card card-hold" href="ORCL.html" style="border:2px solid var(--accent);">
-  <div class="tk">ORCL</div>
-  <div class="sn">Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="AMZN.html" style="border:2px solid var(--accent);">
-  <div class="tk">AMZN</div>
-  <div class="sn">Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="ASML.html" style="border:2px solid var(--accent);">
-  <div class="tk">ASML</div>
-  <div class="sn">Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="AVGO.html" style="border:2px solid var(--accent);">
-  <div class="tk">AVGO</div>
-  <div class="sn">Broadcom Inc. | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="CRWD.html" style="border:2px solid var(--accent);">
-  <div class="tk">CRWD</div>
-  <div class="sn">CrowdStrike Holdings, Inc. | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="GOOGL.html" style="border:2px solid var(--accent);">
-  <div class="tk">GOOGL</div>
-  <div class="sn">Alphabet Inc. | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="LLY.html" style="border:2px solid var(--accent);">
-  <div class="tk">LLY</div>
-  <div class="sn">Eli Lilly and Company | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="MSFT.html" style="border:2px solid var(--accent);">
-  <div class="tk">MSFT</div>
-  <div class="sn">Microsoft Corporation | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="NVDA.html" style="border:2px solid var(--accent);">
-  <div class="tk">NVDA</div>
-  <div class="sn">Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="PANW.html" style="border:2px solid var(--accent);">
-  <div class="tk">PANW</div>
-  <div class="sn">Palo Alto Networks (Nasdaq-100)</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="PLTR.html" style="border:2px solid var(--accent);">
-  <div class="tk">PLTR</div>
-  <div class="sn">Palantir Technologies (Nasdaq-100)</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="SNOW.html" style="border:2px solid var(--accent);">
-  <div class="tk">SNOW</div>
-  <div class="sn">SNOW</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card card-hold" href="MRVL.html" style="border:2px solid var(--accent);">
-  <div class="tk">MRVL</div>
-  <div class="sn">Marvell Technology | Full Giggs-style Investment Memo</div>
-  <span class="tag-hold">📌 ถือ</span>
-  <div class="dt">2026-09-13</div>
-</a></div>
+    <div class="section-title">📌 หุ้นที่ถืออยู่ <span class="ct">13</span></div>
+    <div class="grid" id="grid-hold"><a class="card card-hold" href="ORCL.html" style="border:2px solid var(--accent);"><div class="tk">ORCL</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="AMZN.html" style="border:2px solid var(--accent);"><div class="tk">AMZN</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="ASML.html" style="border:2px solid var(--accent);"><div class="tk">ASML</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="AVGO.html" style="border:2px solid var(--accent);"><div class="tk">AVGO</div><div class="sn">Broadcom Inc. | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="CRWD.html" style="border:2px solid var(--accent);"><div class="tk">CRWD</div><div class="sn">CrowdStrike Holdings, Inc. | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="GOOGL.html" style="border:2px solid var(--accent);"><div class="tk">GOOGL</div><div class="sn">Alphabet Inc. | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="LLY.html" style="border:2px solid var(--accent);"><div class="tk">LLY</div><div class="sn">Eli Lilly and Company | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="MSFT.html" style="border:2px solid var(--accent);"><div class="tk">MSFT</div><div class="sn">Microsoft Corporation | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="NVDA.html" style="border:2px solid var(--accent);"><div class="tk">NVDA</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="PANW.html" style="border:2px solid var(--accent);"><div class="tk">PANW</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="PLTR.html" style="border:2px solid var(--accent);"><div class="tk">PLTR</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="SNOW.html" style="border:2px solid var(--accent);"><div class="tk">SNOW</div><div class="sn">SNOW</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="MRVL.html" style="border:2px solid var(--accent);"><div class="tk">MRVL</div><div class="sn">Marvell Technology | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a></div>
   </section>
   <section id="all-section">
-  <div class="section-title" id="st-all">🌐 Thesis ทั้งหมด <span class="ct" id="cnt-all">268</span></div>
-  <div class="grid" id="grid-all"><a class="card" href="000660.KS.html" style="">
-  <div class="tk">000660.KS</div>
-  <div class="sn">SK hynix Inc. (KOSPI: 000660 / KRW)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AAOI.html" style="">
-  <div class="tk">AAOI</div>
-  <div class="sn">Applied Optoelectronics</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AAPL.html" style="">
-  <div class="tk">AAPL</div>
-  <div class="sn">Apple Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ABBV.html" style="">
-  <div class="tk">ABBV</div>
-  <div class="sn">AbbVie Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ABNB.html" style="">
-  <div class="tk">ABNB</div>
-  <div class="sn">Airbnb</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ABT.html" style="">
-  <div class="tk">ABT</div>
-  <div class="sn">Abbott Laboratories</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ACGL.html" style="">
-  <div class="tk">ACGL</div>
-  <div class="sn">Arch Capital Group</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ACN.html" style="">
-  <div class="tk">ACN</div>
-  <div class="sn">Accenture plc</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADBE.html" style="">
-  <div class="tk">ADBE</div>
-  <div class="sn">Adobe</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADI.html" style="">
-  <div class="tk">ADI</div>
-  <div class="sn">Analog Devices</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADM.html" style="">
-  <div class="tk">ADM</div>
-  <div class="sn">Archer Daniels Midland</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADP.html" style="">
-  <div class="tk">ADP</div>
-  <div class="sn">Automatic Data Processing</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADSK.html" style="">
-  <div class="tk">ADSK</div>
-  <div class="sn">Autodesk, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ADYEN.html" style="">
-  <div class="tk">ADYEN</div>
-  <div class="sn">Adyen N.V.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AEE.html" style="">
-  <div class="tk">AEE</div>
-  <div class="sn">Ameren</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AEHR.html" style="">
-  <div class="tk">AEHR</div>
-  <div class="sn">Company Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AEP.html" style="">
-  <div class="tk">AEP</div>
-  <div class="sn">American Electric Power (NASDAQ: AEP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AES.html" style="">
-  <div class="tk">AES</div>
-  <div class="sn">AES</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AFL.html" style="">
-  <div class="tk">AFL</div>
-  <div class="sn">Aflac Incorporated</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AI.html" style="">
-  <div class="tk">AI</div>
-  <div class="sn">AI</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AIG.html" style="">
-  <div class="tk">AIG</div>
-  <div class="sn">American International Group</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AIZ.html" style="">
-  <div class="tk">AIZ</div>
-  <div class="sn">Assurant</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AJG.html" style="">
-  <div class="tk">AJG</div>
-  <div class="sn">Arthur J. Gallagher &amp; Co.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AKAM.html" style="">
-  <div class="tk">AKAM</div>
-  <div class="sn">AKAM</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALAB.html" style="">
-  <div class="tk">ALAB</div>
-  <div class="sn">Astera Labs</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALB.html" style="">
-  <div class="tk">ALB</div>
-  <div class="sn">ALB</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALGN.html" style="">
-  <div class="tk">ALGN</div>
-  <div class="sn">Align Technology</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALL.html" style="">
-  <div class="tk">ALL</div>
-  <div class="sn">Allstate Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALLE.html" style="">
-  <div class="tk">ALLE</div>
-  <div class="sn">Allegion</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ALNY.html" style="">
-  <div class="tk">ALNY</div>
-  <div class="sn">Alnylam Pharmaceuticals (NASDAQ: ALNY)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMAT.html" style="">
-  <div class="tk">AMAT</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMCR.html" style="">
-  <div class="tk">AMCR</div>
-  <div class="sn">Amcor</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMD.html" style="">
-  <div class="tk">AMD</div>
-  <div class="sn">AMD</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMGN.html" style="">
-  <div class="tk">AMGN</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMP.html" style="">
-  <div class="tk">AMP</div>
-  <div class="sn">Ameriprise Financial</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AMT.html" style="">
-  <div class="tk">AMT</div>
-  <div class="sn">American Tower Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ANET.html" style="">
-  <div class="tk">ANET</div>
-  <div class="sn">Arista Networks, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ANSS.html" style="">
-  <div class="tk">ANSS</div>
-  <div class="sn">ANSS</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AON.html" style="">
-  <div class="tk">AON</div>
-  <div class="sn">AON</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AOS.html" style="">
-  <div class="tk">AOS</div>
-  <div class="sn">A. O. Smith Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APA.html" style="">
-  <div class="tk">APA</div>
-  <div class="sn">APA Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APD.html" style="">
-  <div class="tk">APD</div>
-  <div class="sn">Air Products and Chemicals, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APH.html" style="">
-  <div class="tk">APH</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APLD.html" style="">
-  <div class="tk">APLD</div>
-  <div class="sn">APLD</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APO.html" style="">
-  <div class="tk">APO</div>
-  <div class="sn">Apollo Global Management</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APP.html" style="">
-  <div class="tk">APP</div>
-  <div class="sn">AppLovin (NASDAQ: APP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="APTV.html" style="">
-  <div class="tk">APTV</div>
-  <div class="sn">Aptiv</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ARE.html" style="">
-  <div class="tk">ARE</div>
-  <div class="sn">ARE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ARES.html" style="">
-  <div class="tk">ARES</div>
-  <div class="sn">Ares Management Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ARM.html" style="">
-  <div class="tk">ARM</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ASTS.html" style="">
-  <div class="tk">ASTS</div>
-  <div class="sn">AST SpaceMobile, Inc. (NASDAQ: ASTS)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ATO.html" style="">
-  <div class="tk">ATO</div>
-  <div class="sn">Atmos Energy</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AVY.html" style="">
-  <div class="tk">AVY</div>
-  <div class="sn">Avery Dennison</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AWK.html" style="">
-  <div class="tk">AWK</div>
-  <div class="sn">American Water Works</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AXON.html" style="">
-  <div class="tk">AXON</div>
-  <div class="sn">Axon Enterprise (NASDAQ: AXON)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AXP.html" style="">
-  <div class="tk">AXP</div>
-  <div class="sn">American Express</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AXTI.html" style="">
-  <div class="tk">AXTI</div>
-  <div class="sn">AXT Inc</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="AZO.html" style="">
-  <div class="tk">AZO</div>
-  <div class="sn">AZO</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BA.html" style="">
-  <div class="tk">BA</div>
-  <div class="sn">Boeing Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BAC.html" style="">
-  <div class="tk">BAC</div>
-  <div class="sn">Bank of America</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BALL.html" style="">
-  <div class="tk">BALL</div>
-  <div class="sn">Ball Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BAX.html" style="">
-  <div class="tk">BAX</div>
-  <div class="sn">Baxter International</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BBAI.html" style="">
-  <div class="tk">BBAI</div>
-  <div class="sn">BBAI</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BBY.html" style="">
-  <div class="tk">BBY</div>
-  <div class="sn">Best Buy</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BE.html" style="">
-  <div class="tk">BE</div>
-  <div class="sn">Bloom Energy</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BF.B.html" style="">
-  <div class="tk">BF.B</div>
-  <div class="sn">Brown–Forman</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BG.html" style="">
-  <div class="tk">BG</div>
-  <div class="sn">Bunge Global</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BIIB.html" style="">
-  <div class="tk">BIIB</div>
-  <div class="sn">Biogen</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BKNG.html" style="">
-  <div class="tk">BKNG</div>
-  <div class="sn">Booking Holdings (NASDAQ: BKNG)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BKR.html" style="">
-  <div class="tk">BKR</div>
-  <div class="sn">Baker Hughes (NASDAQ: BKR)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BLDR.html" style="">
-  <div class="tk">BLDR</div>
-  <div class="sn">Builders FirstSource</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BLK.html" style="">
-  <div class="tk">BLK</div>
-  <div class="sn">BLK</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BMY.html" style="">
-  <div class="tk">BMY</div>
-  <div class="sn">Bristol-Myers Squibb Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BNY.html" style="">
-  <div class="tk">BNY</div>
-  <div class="sn">BNY</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BR.html" style="">
-  <div class="tk">BR</div>
-  <div class="sn">BR</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BRK.B.html" style="">
-  <div class="tk">BRK.B</div>
-  <div class="sn">Berkshire Hathaway Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BRO.html" style="">
-  <div class="tk">BRO</div>
-  <div class="sn">BRO</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BSX.html" style="">
-  <div class="tk">BSX</div>
-  <div class="sn">Boston Scientific Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BX.html" style="">
-  <div class="tk">BX</div>
-  <div class="sn">BX</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="BXP.html" style="">
-  <div class="tk">BXP</div>
-  <div class="sn">BXP, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CAH.html" style="">
-  <div class="tk">CAH</div>
-  <div class="sn">Cardinal Health</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CASY.html" style="">
-  <div class="tk">CASY</div>
-  <div class="sn">Casey’s General Stores, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CAT.html" style="">
-  <div class="tk">CAT</div>
-  <div class="sn">CAT</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CBOE.html" style="">
-  <div class="tk">CBOE</div>
-  <div class="sn">Cboe Global Markets, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CBRE.html" style="">
-  <div class="tk">CBRE</div>
-  <div class="sn">CBRE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CCEP.html" style="">
-  <div class="tk">CCEP</div>
-  <div class="sn">Coca-Cola Europacific Partners (NASDAQ: CCEP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CCL.html" style="">
-  <div class="tk">CCL</div>
-  <div class="sn">Carnival Corporation &amp; plc</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CDNS.html" style="">
-  <div class="tk">CDNS</div>
-  <div class="sn">Cadence Design Systems, Inc. (NASDAQ: CDNS)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CDW.html" style="">
-  <div class="tk">CDW</div>
-  <div class="sn">CDW</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CEG.html" style="">
-  <div class="tk">CEG</div>
-  <div class="sn">Constellation Energy Corporation (NASDAQ: CEG)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CF.html" style="">
-  <div class="tk">CF</div>
-  <div class="sn">CF Industries</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CFLT.html" style="">
-  <div class="tk">CFLT</div>
-  <div class="sn">Confluent, Inc. ⚠️ [ACQUIRED BY IBM — Delisted Mar 2026]</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CHRW.html" style="">
-  <div class="tk">CHRW</div>
-  <div class="sn">C.H. Robinson Worldwide</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CHWY.html" style="">
-  <div class="tk">CHWY</div>
-  <div class="sn">Chewy, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CIEN.html" style="">
-  <div class="tk">CIEN</div>
-  <div class="sn">Ciena Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CIFR.html" style="">
-  <div class="tk">CIFR</div>
-  <div class="sn">Cipher Mining</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CMCSA.html" style="">
-  <div class="tk">CMCSA</div>
-  <div class="sn">Comcast Corp.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CME.html" style="">
-  <div class="tk">CME</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CNC.html" style="">
-  <div class="tk">CNC</div>
-  <div class="sn">CNC</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CNP.html" style="">
-  <div class="tk">CNP</div>
-  <div class="sn">CenterPoint Energy</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COF.html" style="">
-  <div class="tk">COF</div>
-  <div class="sn">Capital One Financial</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COHR.html" style="">
-  <div class="tk">COHR</div>
-  <div class="sn">Coherent Corp.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COIN.html" style="">
-  <div class="tk">COIN</div>
-  <div class="sn">COIN</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COP.html" style="">
-  <div class="tk">COP</div>
-  <div class="sn">ConocoPhillips</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COR.html" style="">
-  <div class="tk">COR</div>
-  <div class="sn">COR</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CORZ.html" style="">
-  <div class="tk">CORZ</div>
-  <div class="sn">Core Scientific, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="COST.html" style="">
-  <div class="tk">COST</div>
-  <div class="sn">บทวิเคราะห์เบื้องต้น</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CPRT.html" style="">
-  <div class="tk">CPRT</div>
-  <div class="sn">CPRT</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CPT.html" style="">
-  <div class="tk">CPT</div>
-  <div class="sn">Camden Property Trust</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CRL.html" style="">
-  <div class="tk">CRL</div>
-  <div class="sn">Charles River Laboratories</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CRM.html" style="">
-  <div class="tk">CRM</div>
-  <div class="sn">Salesforce</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CRWV.html" style="">
-  <div class="tk">CRWV</div>
-  <div class="sn">CoreWeave, Inc. (NASDAQ: CRWV)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CSCO.html" style="">
-  <div class="tk">CSCO</div>
-  <div class="sn">Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CSX.html" style="">
-  <div class="tk">CSX</div>
-  <div class="sn">CSX Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CTAS.html" style="">
-  <div class="tk">CTAS</div>
-  <div class="sn">Cintas Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CVNA.html" style="">
-  <div class="tk">CVNA</div>
-  <div class="sn">Carvana Co.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="CVX.html" style="">
-  <div class="tk">CVX</div>
-  <div class="sn">Chevron Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="D.html" style="">
-  <div class="tk">D</div>
-  <div class="sn">Dominion Energy, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DASH.html" style="">
-  <div class="tk">DASH</div>
-  <div class="sn">DoorDash, Inc. (NASDAQ: DASH)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DD.html" style="">
-  <div class="tk">DD</div>
-  <div class="sn">DuPont de Nemours, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DDOG.html" style="">
-  <div class="tk">DDOG</div>
-  <div class="sn">Datadog</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DE.html" style="">
-  <div class="tk">DE</div>
-  <div class="sn">Deere &amp; Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DELL.html" style="">
-  <div class="tk">DELL</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DIS.html" style="">
-  <div class="tk">DIS</div>
-  <div class="sn">The Walt Disney Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DLR.html" style="">
-  <div class="tk">DLR</div>
-  <div class="sn">Digital Realty Trust, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DPZ.html" style="">
-  <div class="tk">DPZ</div>
-  <div class="sn">Domino&#x27;s Pizza, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DUK.html" style="">
-  <div class="tk">DUK</div>
-  <div class="sn">Duke Energy Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="DXCM.html" style="">
-  <div class="tk">DXCM</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="EMR.html" style="">
-  <div class="tk">EMR</div>
-  <div class="sn">Emerson Electric Co.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ENTG.html" style="">
-  <div class="tk">ENTG</div>
-  <div class="sn">Entegris, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="EOG.html" style="">
-  <div class="tk">EOG</div>
-  <div class="sn">EOG Resources Inc</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="EQIX.html" style="">
-  <div class="tk">EQIX</div>
-  <div class="sn">Equinix, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ESTC.html" style="">
-  <div class="tk">ESTC</div>
-  <div class="sn">Elastic N.V.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ET.html" style="">
-  <div class="tk">ET</div>
-  <div class="sn">Energy Transfer LP</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ETSY.html" style="">
-  <div class="tk">ETSY</div>
-  <div class="sn">Etsy, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="EXC.html" style="">
-  <div class="tk">EXC</div>
-  <div class="sn">Exelon Corporation (NASDAQ: EXC)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="FANG.html" style="">
-  <div class="tk">FANG</div>
-  <div class="sn">Diamondback Energy, Inc. (NASDAQ: FANG)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="FAST.html" style="">
-  <div class="tk">FAST</div>
-  <div class="sn">Fastenal</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="FER.html" style="">
-  <div class="tk">FER</div>
-  <div class="sn">Ferrovial N.V. (NASDAQ: FER)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="FTNT.html" style="">
-  <div class="tk">FTNT</div>
-  <div class="sn">Fortinet (NASDAQ: FTNT)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GE.html" style="">
-  <div class="tk">GE</div>
-  <div class="sn">GE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GEHC.html" style="">
-  <div class="tk">GEHC</div>
-  <div class="sn">GE HealthCare Technologies (NASDAQ: GEHC)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GFS.html" style="">
-  <div class="tk">GFS</div>
-  <div class="sn">GlobalFoundries</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GILD.html" style="">
-  <div class="tk">GILD</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GOOG.html" style="">
-  <div class="tk">GOOG</div>
-  <div class="sn">Alphabet Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="GTLB.html" style="">
-  <div class="tk">GTLB</div>
-  <div class="sn">GitLab Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HIMS.html" style="">
-  <div class="tk">HIMS</div>
-  <div class="sn">Company Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HIVE.html" style="">
-  <div class="tk">HIVE</div>
-  <div class="sn">HIVE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HON.html" style="">
-  <div class="tk">HON</div>
-  <div class="sn">Honeywell International</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HONA.html" style="">
-  <div class="tk">HONA</div>
-  <div class="sn">Honeywell Aerospace (NASDAQ: HONA)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HOOD.html" style="">
-  <div class="tk">HOOD</div>
-  <div class="sn">Company Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HPQ.html" style="">
-  <div class="tk">HPQ</div>
-  <div class="sn">Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="HUBS.html" style="">
-  <div class="tk">HUBS</div>
-  <div class="sn">HubSpot Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="IDXX.html" style="">
-  <div class="tk">IDXX</div>
-  <div class="sn">IDEXX Laboratories</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="INTC.html" style="">
-  <div class="tk">INTC</div>
-  <div class="sn">INTC</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="INTU.html" style="">
-  <div class="tk">INTU</div>
-  <div class="sn">Intuit (NASDAQ: INTU)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="IONQ.html" style="">
-  <div class="tk">IONQ</div>
-  <div class="sn">IonQ</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="IREN.html" style="">
-  <div class="tk">IREN</div>
-  <div class="sn">IREN Limited (NASDAQ: IREN)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ISRG.html" style="">
-  <div class="tk">ISRG</div>
-  <div class="sn">Intuitive Surgical (NASDAQ: ISRG)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="JNJ.html" style="">
-  <div class="tk">JNJ</div>
-  <div class="sn">JNJ</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="JPM.html" style="">
-  <div class="tk">JPM</div>
-  <div class="sn">JPM</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KDP.html" style="">
-  <div class="tk">KDP</div>
-  <div class="sn">Keurig Dr Pepper (NASDAQ: KDP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KHC.html" style="">
-  <div class="tk">KHC</div>
-  <div class="sn">The Kraft Heinz Company (NASDAQ: KHC)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KKR.html" style="">
-  <div class="tk">KKR</div>
-  <div class="sn">KKR</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KLAC.html" style="">
-  <div class="tk">KLAC</div>
-  <div class="sn">KLA Corporation (NASDAQ: KLAC)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KMI.html" style="">
-  <div class="tk">KMI</div>
-  <div class="sn">Kinder Morgan, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="KO.html" style="">
-  <div class="tk">KO</div>
-  <div class="sn">The Coca-Cola Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LIN.html" style="">
-  <div class="tk">LIN</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LITE.html" style="">
-  <div class="tk">LITE</div>
-  <div class="sn">Lumentum Holdings Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LMT.html" style="">
-  <div class="tk">LMT</div>
-  <div class="sn">LMT</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LNT.html" style="">
-  <div class="tk">LNT</div>
-  <div class="sn">Alliant Energy</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LRCX.html" style="">
-  <div class="tk">LRCX</div>
-  <div class="sn">Lam Research Corporation (NASDAQ: LRCX)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="LULU.html" style="">
-  <div class="tk">LULU</div>
-  <div class="sn">Lululemon Athletica Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MA.html" style="">
-  <div class="tk">MA</div>
-  <div class="sn">MA</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MAR.html" style="">
-  <div class="tk">MAR</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MARA.html" style="">
-  <div class="tk">MARA</div>
-  <div class="sn">MARA</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MCHP.html" style="">
-  <div class="tk">MCHP</div>
-  <div class="sn">Microchip Technology Incorporated (NASDAQ: MCHP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MCO.html" style="">
-  <div class="tk">MCO</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MDB.html" style="">
-  <div class="tk">MDB</div>
-  <div class="sn">MongoDB, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MDLZ.html" style="">
-  <div class="tk">MDLZ</div>
-  <div class="sn">Mondelez International, Inc. (NASDAQ: MDLZ)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MELI.html" style="">
-  <div class="tk">MELI</div>
-  <div class="sn">MercadoLibre, Inc. (NASDAQ: MELI)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="META.html" style="">
-  <div class="tk">META</div>
-  <div class="sn">Meta Platforms, Inc. (Nasdaq-100)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MMM.html" style="">
-  <div class="tk">MMM</div>
-  <div class="sn">3M Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MNST.html" style="">
-  <div class="tk">MNST</div>
-  <div class="sn">Monster Beverage</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MO.html" style="">
-  <div class="tk">MO</div>
-  <div class="sn">Altria</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MPWR.html" style="">
-  <div class="tk">MPWR</div>
-  <div class="sn">Monolithic Power Systems, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MRK.html" style="">
-  <div class="tk">MRK</div>
-  <div class="sn">MRK</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MRNA.html" style="">
-  <div class="tk">MRNA</div>
-  <div class="sn">MRNA</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MSTR.html" style="">
-  <div class="tk">MSTR</div>
-  <div class="sn">Strategy (เดิม MicroStrategy)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MU.html" style="">
-  <div class="tk">MU</div>
-  <div class="sn">บทวิเคราะห์ระยะยาว</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="MXL.html" style="">
-  <div class="tk">MXL</div>
-  <div class="sn">MaxLinear</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NBIS.html" style="">
-  <div class="tk">NBIS</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NEE.html" style="">
-  <div class="tk">NEE</div>
-  <div class="sn">NEE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NET.html" style="">
-  <div class="tk">NET</div>
-  <div class="sn">Cloudflare, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NFLX.html" style="">
-  <div class="tk">NFLX</div>
-  <div class="sn">Netflix, Inc. (Nasdaq-100)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NKE.html" style="">
-  <div class="tk">NKE</div>
-  <div class="sn">NIKE, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NOC.html" style="">
-  <div class="tk">NOC</div>
-  <div class="sn">NOC</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NOW.html" style="">
-  <div class="tk">NOW</div>
-  <div class="sn">Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NVO.html" style="">
-  <div class="tk">NVO</div>
-  <div class="sn">Novo Nordisk A/S (NYSE ADR)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NVTS.html" style="">
-  <div class="tk">NVTS</div>
-  <div class="sn">Navitas Semiconductor</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="NXPI.html" style="">
-  <div class="tk">NXPI</div>
-  <div class="sn">NXP Semiconductors N.V. (NASDAQ: NXPI)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ODFL.html" style="">
-  <div class="tk">ODFL</div>
-  <div class="sn">ODFL</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="OKE.html" style="">
-  <div class="tk">OKE</div>
-  <div class="sn">ONEOK, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="OKLO.html" style="">
-  <div class="tk">OKLO</div>
-  <div class="sn">Oklo</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ON.html" style="">
-  <div class="tk">ON</div>
-  <div class="sn">ON Semiconductor Corp. (Nasdaq)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ONDS.html" style="">
-  <div class="tk">ONDS</div>
-  <div class="sn">Ondas Holdings</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="OPEN.html" style="">
-  <div class="tk">OPEN</div>
-  <div class="sn">Opendoor</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ORLY.html" style="">
-  <div class="tk">ORLY</div>
-  <div class="sn">ORLY</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PATH.html" style="">
-  <div class="tk">PATH</div>
-  <div class="sn">UiPath, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PAYX.html" style="">
-  <div class="tk">PAYX</div>
-  <div class="sn">Paychex, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PCAR.html" style="">
-  <div class="tk">PCAR</div>
-  <div class="sn">PACCAR Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PCG.html" style="">
-  <div class="tk">PCG</div>
-  <div class="sn">PG&amp;E Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PDD.html" style="">
-  <div class="tk">PDD</div>
-  <div class="sn">PDD Holdings (Temu / Pinduoduo)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PENG.html" style="">
-  <div class="tk">PENG</div>
-  <div class="sn">Penguin Solutions</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PEP.html" style="">
-  <div class="tk">PEP</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PFE.html" style="">
-  <div class="tk">PFE</div>
-  <div class="sn">PFE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PG.html" style="">
-  <div class="tk">PG</div>
-  <div class="sn">The Procter &amp; Gamble Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PWR.html" style="">
-  <div class="tk">PWR</div>
-  <div class="sn">Quanta Services, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="PYPL.html" style="">
-  <div class="tk">PYPL</div>
-  <div class="sn">Research Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="QCOM.html" style="">
-  <div class="tk">QCOM</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="RBRK.html" style="">
-  <div class="tk">RBRK</div>
-  <div class="sn">Rubrik, Inc. (NYSE: RBRK)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="REGN.html" style="">
-  <div class="tk">REGN</div>
-  <div class="sn">Regeneron Pharmaceuticals</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="RIOT.html" style="">
-  <div class="tk">RIOT</div>
-  <div class="sn">Riot Platforms</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="RKLB.html" style="">
-  <div class="tk">RKLB</div>
-  <div class="sn">Rocket Lab USA, Inc. (NASDAQ: RKLB)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ROP.html" style="">
-  <div class="tk">ROP</div>
-  <div class="sn">Roper Technologies (NASDAQ: ROP)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ROST.html" style="">
-  <div class="tk">ROST</div>
-  <div class="sn">Ross Stores, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="RTX.html" style="">
-  <div class="tk">RTX</div>
-  <div class="sn">RTX</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SAP.html" style="">
-  <div class="tk">SAP</div>
-  <div class="sn">SAP SE</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SBUX.html" style="">
-  <div class="tk">SBUX</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SCHW.html" style="">
-  <div class="tk">SCHW</div>
-  <div class="sn">The Charles Schwab Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SHOP.html" style="">
-  <div class="tk">SHOP</div>
-  <div class="sn">Shopify</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SLB.html" style="">
-  <div class="tk">SLB</div>
-  <div class="sn">SLB Limited (formerly Schlumberger)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SMCI.html" style="">
-  <div class="tk">SMCI</div>
-  <div class="sn">Super Micro Computer</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SNDK.html" style="">
-  <div class="tk">SNDK</div>
-  <div class="sn">SanDisk Corporation (NASDAQ: SNDK)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SNPS.html" style="">
-  <div class="tk">SNPS</div>
-  <div class="sn">Synopsys, Inc. (NASDAQ: SNPS)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SO.html" style="">
-  <div class="tk">SO</div>
-  <div class="sn">Southern Company</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SOFI.html" style="">
-  <div class="tk">SOFI</div>
-  <div class="sn">Company Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SOUN.html" style="">
-  <div class="tk">SOUN</div>
-  <div class="sn">SoundHound AI</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SPCX.html" style="">
-  <div class="tk">SPCX</div>
-  <div class="sn">SpaceX (Space Exploration Technologies) (ticker: SPCX)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SPGI.html" style="">
-  <div class="tk">SPGI</div>
-  <div class="sn">SPGI</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="SPOT.html" style="">
-  <div class="tk">SPOT</div>
-  <div class="sn">Spotify Technology S.A.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="STX.html" style="">
-  <div class="tk">STX</div>
-  <div class="sn">Seagate Technology Holdings plc</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="T.html" style="">
-  <div class="tk">T</div>
-  <div class="sn">AT&amp;T Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TECH.html" style="">
-  <div class="tk">TECH</div>
-  <div class="sn">Bio-Techne</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TER.html" style="">
-  <div class="tk">TER</div>
-  <div class="sn">Teradyne (NASDAQ: TER)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TMUS.html" style="">
-  <div class="tk">TMUS</div>
-  <div class="sn">Stock Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TRI.html" style="">
-  <div class="tk">TRI</div>
-  <div class="sn">Thomson Reuters (NASDAQ: TRI)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TSLA.html" style="">
-  <div class="tk">TSLA</div>
-  <div class="sn">Tesla, Inc. (Nasdaq-100)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TSM.html" style="">
-  <div class="tk">TSM</div>
-  <div class="sn">Taiwan Semiconductor Manufacturing</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TTWO.html" style="">
-  <div class="tk">TTWO</div>
-  <div class="sn">Take-Two Interactive Software (NASDAQ: TTWO)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="TXN.html" style="">
-  <div class="tk">TXN</div>
-  <div class="sn">Brief</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="UNH.html" style="">
-  <div class="tk">UNH</div>
-  <div class="sn">UNH</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="V.html" style="">
-  <div class="tk">V</div>
-  <div class="sn">Visa Inc. (NYSE)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="VIAV.html" style="">
-  <div class="tk">VIAV</div>
-  <div class="sn">VIAV</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="VRT.html" style="">
-  <div class="tk">VRT</div>
-  <div class="sn">Vertiv Holdings Co. (NYSE: VRT)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="VRTX.html" style="">
-  <div class="tk">VRTX</div>
-  <div class="sn">VRTX</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="VST.html" style="">
-  <div class="tk">VST</div>
-  <div class="sn">Vistra Corp (NYSE: VST)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WBD.html" style="">
-  <div class="tk">WBD</div>
-  <div class="sn">Warner Bros. Discovery</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WDAY.html" style="">
-  <div class="tk">WDAY</div>
-  <div class="sn">Workday, Inc. (NASDAQ: WDAY)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WDC.html" style="">
-  <div class="tk">WDC</div>
-  <div class="sn">Western Digital Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WFC.html" style="">
-  <div class="tk">WFC</div>
-  <div class="sn">WFC</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WMB.html" style="">
-  <div class="tk">WMB</div>
-  <div class="sn">The Williams Companies, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WMT.html" style="">
-  <div class="tk">WMT</div>
-  <div class="sn">Walmart Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="WULF.html" style="">
-  <div class="tk">WULF</div>
-  <div class="sn">TeraWulf, Inc.</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="XEL.html" style="">
-  <div class="tk">XEL</div>
-  <div class="sn">Xcel Energy (NASDAQ: XEL)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="XOM.html" style="">
-  <div class="tk">XOM</div>
-  <div class="sn">Exxon Mobil Corporation</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="XYZ.html" style="">
-  <div class="tk">XYZ</div>
-  <div class="sn">XYZ</div>
-  
-  <div class="dt">2026-09-13</div>
-</a>
-<a class="card" href="ZS.html" style="">
-  <div class="tk">ZS</div>
-  <div class="sn">Zscaler Inc. (Nasdaq)</div>
-  
-  <div class="dt">2026-09-13</div>
-</a></div>
+    <div class="section-title">🌐 Thesis ทั้งหมด <span class="ct">268</span></div>
+    <div class="grid" id="grid-all"><a class="card" href="000660.KS.html" style=""><div class="tk">000660.KS</div><div class="sn">SK hynix Inc. (KOSPI: 000660 / KRW)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AAOI.html" style=""><div class="tk">AAOI</div><div class="sn">Applied Optoelectronics</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AAPL.html" style=""><div class="tk">AAPL</div><div class="sn">Apple Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ABBV.html" style=""><div class="tk">ABBV</div><div class="sn">AbbVie Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ABNB.html" style=""><div class="tk">ABNB</div><div class="sn">Airbnb</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ABT.html" style=""><div class="tk">ABT</div><div class="sn">Abbott Laboratories</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ACGL.html" style=""><div class="tk">ACGL</div><div class="sn">Arch Capital Group</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ACN.html" style=""><div class="tk">ACN</div><div class="sn">Accenture plc</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADBE.html" style=""><div class="tk">ADBE</div><div class="sn">Adobe</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADI.html" style=""><div class="tk">ADI</div><div class="sn">Analog Devices</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADM.html" style=""><div class="tk">ADM</div><div class="sn">Archer Daniels Midland</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADP.html" style=""><div class="tk">ADP</div><div class="sn">Automatic Data Processing</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADSK.html" style=""><div class="tk">ADSK</div><div class="sn">Autodesk, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ADYEN.html" style=""><div class="tk">ADYEN</div><div class="sn">Adyen N.V.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AEE.html" style=""><div class="tk">AEE</div><div class="sn">Ameren</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AEHR.html" style=""><div class="tk">AEHR</div><div class="sn">Company Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AEP.html" style=""><div class="tk">AEP</div><div class="sn">American Electric Power (NASDAQ: AEP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AES.html" style=""><div class="tk">AES</div><div class="sn">AES</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AFL.html" style=""><div class="tk">AFL</div><div class="sn">Aflac Incorporated</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AI.html" style=""><div class="tk">AI</div><div class="sn">AI</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AIG.html" style=""><div class="tk">AIG</div><div class="sn">American International Group</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AIZ.html" style=""><div class="tk">AIZ</div><div class="sn">Assurant</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AJG.html" style=""><div class="tk">AJG</div><div class="sn">Arthur J. Gallagher &amp; Co.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AKAM.html" style=""><div class="tk">AKAM</div><div class="sn">AKAM</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALAB.html" style=""><div class="tk">ALAB</div><div class="sn">Astera Labs</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALB.html" style=""><div class="tk">ALB</div><div class="sn">ALB</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALGN.html" style=""><div class="tk">ALGN</div><div class="sn">Align Technology</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALL.html" style=""><div class="tk">ALL</div><div class="sn">Allstate Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALLE.html" style=""><div class="tk">ALLE</div><div class="sn">Allegion</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ALNY.html" style=""><div class="tk">ALNY</div><div class="sn">Alnylam Pharmaceuticals (NASDAQ: ALNY)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMAT.html" style=""><div class="tk">AMAT</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMCR.html" style=""><div class="tk">AMCR</div><div class="sn">Amcor</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMD.html" style=""><div class="tk">AMD</div><div class="sn">AMD</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMGN.html" style=""><div class="tk">AMGN</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMP.html" style=""><div class="tk">AMP</div><div class="sn">Ameriprise Financial</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AMT.html" style=""><div class="tk">AMT</div><div class="sn">American Tower Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ANET.html" style=""><div class="tk">ANET</div><div class="sn">Arista Networks, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ANSS.html" style=""><div class="tk">ANSS</div><div class="sn">ANSS</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AON.html" style=""><div class="tk">AON</div><div class="sn">AON</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AOS.html" style=""><div class="tk">AOS</div><div class="sn">A. O. Smith Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APA.html" style=""><div class="tk">APA</div><div class="sn">APA Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APD.html" style=""><div class="tk">APD</div><div class="sn">Air Products and Chemicals, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APH.html" style=""><div class="tk">APH</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APLD.html" style=""><div class="tk">APLD</div><div class="sn">APLD</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APO.html" style=""><div class="tk">APO</div><div class="sn">Apollo Global Management</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APP.html" style=""><div class="tk">APP</div><div class="sn">AppLovin (NASDAQ: APP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="APTV.html" style=""><div class="tk">APTV</div><div class="sn">Aptiv</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ARE.html" style=""><div class="tk">ARE</div><div class="sn">ARE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ARES.html" style=""><div class="tk">ARES</div><div class="sn">Ares Management Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ARM.html" style=""><div class="tk">ARM</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ASTS.html" style=""><div class="tk">ASTS</div><div class="sn">AST SpaceMobile, Inc. (NASDAQ: ASTS)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ATO.html" style=""><div class="tk">ATO</div><div class="sn">Atmos Energy</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AVY.html" style=""><div class="tk">AVY</div><div class="sn">Avery Dennison</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AWK.html" style=""><div class="tk">AWK</div><div class="sn">American Water Works</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AXON.html" style=""><div class="tk">AXON</div><div class="sn">Axon Enterprise (NASDAQ: AXON)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AXP.html" style=""><div class="tk">AXP</div><div class="sn">American Express</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AXTI.html" style=""><div class="tk">AXTI</div><div class="sn">AXT Inc</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AZO.html" style=""><div class="tk">AZO</div><div class="sn">AZO</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BA.html" style=""><div class="tk">BA</div><div class="sn">Boeing Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BAC.html" style=""><div class="tk">BAC</div><div class="sn">Bank of America</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BALL.html" style=""><div class="tk">BALL</div><div class="sn">Ball Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BAX.html" style=""><div class="tk">BAX</div><div class="sn">Baxter International</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BBAI.html" style=""><div class="tk">BBAI</div><div class="sn">BBAI</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BBY.html" style=""><div class="tk">BBY</div><div class="sn">Best Buy</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BE.html" style=""><div class="tk">BE</div><div class="sn">Bloom Energy</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BF.B.html" style=""><div class="tk">BF.B</div><div class="sn">Brown–Forman</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BG.html" style=""><div class="tk">BG</div><div class="sn">Bunge Global</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BIIB.html" style=""><div class="tk">BIIB</div><div class="sn">Biogen</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BKNG.html" style=""><div class="tk">BKNG</div><div class="sn">Booking Holdings (NASDAQ: BKNG)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BKR.html" style=""><div class="tk">BKR</div><div class="sn">Baker Hughes (NASDAQ: BKR)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BLDR.html" style=""><div class="tk">BLDR</div><div class="sn">Builders FirstSource</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BLK.html" style=""><div class="tk">BLK</div><div class="sn">BLK</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BMY.html" style=""><div class="tk">BMY</div><div class="sn">Bristol-Myers Squibb Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BNY.html" style=""><div class="tk">BNY</div><div class="sn">BNY</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BR.html" style=""><div class="tk">BR</div><div class="sn">BR</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BRK.B.html" style=""><div class="tk">BRK.B</div><div class="sn">Berkshire Hathaway Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BRO.html" style=""><div class="tk">BRO</div><div class="sn">BRO</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BSX.html" style=""><div class="tk">BSX</div><div class="sn">Boston Scientific Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BX.html" style=""><div class="tk">BX</div><div class="sn">BX</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="BXP.html" style=""><div class="tk">BXP</div><div class="sn">BXP, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CAH.html" style=""><div class="tk">CAH</div><div class="sn">Cardinal Health</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CASY.html" style=""><div class="tk">CASY</div><div class="sn">Casey’s General Stores, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CAT.html" style=""><div class="tk">CAT</div><div class="sn">CAT</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CBOE.html" style=""><div class="tk">CBOE</div><div class="sn">Cboe Global Markets, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CBRE.html" style=""><div class="tk">CBRE</div><div class="sn">CBRE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CCEP.html" style=""><div class="tk">CCEP</div><div class="sn">Coca-Cola Europacific Partners (NASDAQ: CCEP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CCL.html" style=""><div class="tk">CCL</div><div class="sn">Carnival Corporation &amp; plc</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CDNS.html" style=""><div class="tk">CDNS</div><div class="sn">Cadence Design Systems, Inc. (NASDAQ: CDNS)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CDW.html" style=""><div class="tk">CDW</div><div class="sn">CDW</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CEG.html" style=""><div class="tk">CEG</div><div class="sn">Constellation Energy Corporation (NASDAQ: CEG)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CF.html" style=""><div class="tk">CF</div><div class="sn">CF Industries</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CFLT.html" style=""><div class="tk">CFLT</div><div class="sn">Confluent, Inc. ⚠️ [ACQUIRED BY IBM — Delisted Mar 2026]</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CHRW.html" style=""><div class="tk">CHRW</div><div class="sn">C.H. Robinson Worldwide</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CHWY.html" style=""><div class="tk">CHWY</div><div class="sn">Chewy, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CIEN.html" style=""><div class="tk">CIEN</div><div class="sn">Ciena Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CIFR.html" style=""><div class="tk">CIFR</div><div class="sn">Cipher Mining</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CMCSA.html" style=""><div class="tk">CMCSA</div><div class="sn">Comcast Corp.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CME.html" style=""><div class="tk">CME</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CNC.html" style=""><div class="tk">CNC</div><div class="sn">CNC</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CNP.html" style=""><div class="tk">CNP</div><div class="sn">CenterPoint Energy</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COF.html" style=""><div class="tk">COF</div><div class="sn">Capital One Financial</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COHR.html" style=""><div class="tk">COHR</div><div class="sn">Coherent Corp.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COIN.html" style=""><div class="tk">COIN</div><div class="sn">COIN</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COP.html" style=""><div class="tk">COP</div><div class="sn">ConocoPhillips</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COR.html" style=""><div class="tk">COR</div><div class="sn">COR</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CORZ.html" style=""><div class="tk">CORZ</div><div class="sn">Core Scientific, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="COST.html" style=""><div class="tk">COST</div><div class="sn">บทวิเคราะห์เบื้องต้น</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CPRT.html" style=""><div class="tk">CPRT</div><div class="sn">CPRT</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CPT.html" style=""><div class="tk">CPT</div><div class="sn">Camden Property Trust</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CRL.html" style=""><div class="tk">CRL</div><div class="sn">Charles River Laboratories</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CRM.html" style=""><div class="tk">CRM</div><div class="sn">Salesforce</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CRWV.html" style=""><div class="tk">CRWV</div><div class="sn">CoreWeave, Inc. (NASDAQ: CRWV)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CSCO.html" style=""><div class="tk">CSCO</div><div class="sn">Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CSX.html" style=""><div class="tk">CSX</div><div class="sn">CSX Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CTAS.html" style=""><div class="tk">CTAS</div><div class="sn">Cintas Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CVNA.html" style=""><div class="tk">CVNA</div><div class="sn">Carvana Co.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="CVX.html" style=""><div class="tk">CVX</div><div class="sn">Chevron Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="D.html" style=""><div class="tk">D</div><div class="sn">Dominion Energy, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DASH.html" style=""><div class="tk">DASH</div><div class="sn">DoorDash, Inc. (NASDAQ: DASH)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DD.html" style=""><div class="tk">DD</div><div class="sn">DuPont de Nemours, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DDOG.html" style=""><div class="tk">DDOG</div><div class="sn">Datadog</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DE.html" style=""><div class="tk">DE</div><div class="sn">Deere &amp; Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DELL.html" style=""><div class="tk">DELL</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DIS.html" style=""><div class="tk">DIS</div><div class="sn">The Walt Disney Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DLR.html" style=""><div class="tk">DLR</div><div class="sn">Digital Realty Trust, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DPZ.html" style=""><div class="tk">DPZ</div><div class="sn">Domino&#x27;s Pizza, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DUK.html" style=""><div class="tk">DUK</div><div class="sn">Duke Energy Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="DXCM.html" style=""><div class="tk">DXCM</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="EMR.html" style=""><div class="tk">EMR</div><div class="sn">Emerson Electric Co.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ENTG.html" style=""><div class="tk">ENTG</div><div class="sn">Entegris, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="EOG.html" style=""><div class="tk">EOG</div><div class="sn">EOG Resources Inc</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="EQIX.html" style=""><div class="tk">EQIX</div><div class="sn">Equinix, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ESTC.html" style=""><div class="tk">ESTC</div><div class="sn">Elastic N.V.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ET.html" style=""><div class="tk">ET</div><div class="sn">Energy Transfer LP</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ETSY.html" style=""><div class="tk">ETSY</div><div class="sn">Etsy, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="EXC.html" style=""><div class="tk">EXC</div><div class="sn">Exelon Corporation (NASDAQ: EXC)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="FANG.html" style=""><div class="tk">FANG</div><div class="sn">Diamondback Energy, Inc. (NASDAQ: FANG)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="FAST.html" style=""><div class="tk">FAST</div><div class="sn">Fastenal</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="FER.html" style=""><div class="tk">FER</div><div class="sn">Ferrovial N.V. (NASDAQ: FER)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="FTNT.html" style=""><div class="tk">FTNT</div><div class="sn">Fortinet (NASDAQ: FTNT)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GE.html" style=""><div class="tk">GE</div><div class="sn">GE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GEHC.html" style=""><div class="tk">GEHC</div><div class="sn">GE HealthCare Technologies (NASDAQ: GEHC)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GFS.html" style=""><div class="tk">GFS</div><div class="sn">GlobalFoundries</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GILD.html" style=""><div class="tk">GILD</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GOOG.html" style=""><div class="tk">GOOG</div><div class="sn">Alphabet Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GTLB.html" style=""><div class="tk">GTLB</div><div class="sn">GitLab Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HIMS.html" style=""><div class="tk">HIMS</div><div class="sn">Company Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HIVE.html" style=""><div class="tk">HIVE</div><div class="sn">HIVE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HON.html" style=""><div class="tk">HON</div><div class="sn">Honeywell International</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HONA.html" style=""><div class="tk">HONA</div><div class="sn">Honeywell Aerospace (NASDAQ: HONA)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HOOD.html" style=""><div class="tk">HOOD</div><div class="sn">Company Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HPQ.html" style=""><div class="tk">HPQ</div><div class="sn">Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="HUBS.html" style=""><div class="tk">HUBS</div><div class="sn">HubSpot Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="IDXX.html" style=""><div class="tk">IDXX</div><div class="sn">IDEXX Laboratories</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="INTC.html" style=""><div class="tk">INTC</div><div class="sn">INTC</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="INTU.html" style=""><div class="tk">INTU</div><div class="sn">Intuit (NASDAQ: INTU)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="IONQ.html" style=""><div class="tk">IONQ</div><div class="sn">IonQ</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="IREN.html" style=""><div class="tk">IREN</div><div class="sn">IREN Limited (NASDAQ: IREN)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ISRG.html" style=""><div class="tk">ISRG</div><div class="sn">Intuitive Surgical (NASDAQ: ISRG)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="JNJ.html" style=""><div class="tk">JNJ</div><div class="sn">JNJ</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="JPM.html" style=""><div class="tk">JPM</div><div class="sn">JPM</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KDP.html" style=""><div class="tk">KDP</div><div class="sn">Keurig Dr Pepper (NASDAQ: KDP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KHC.html" style=""><div class="tk">KHC</div><div class="sn">The Kraft Heinz Company (NASDAQ: KHC)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KKR.html" style=""><div class="tk">KKR</div><div class="sn">KKR</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KLAC.html" style=""><div class="tk">KLAC</div><div class="sn">KLA Corporation (NASDAQ: KLAC)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KMI.html" style=""><div class="tk">KMI</div><div class="sn">Kinder Morgan, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="KO.html" style=""><div class="tk">KO</div><div class="sn">The Coca-Cola Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LIN.html" style=""><div class="tk">LIN</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LITE.html" style=""><div class="tk">LITE</div><div class="sn">Lumentum Holdings Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LMT.html" style=""><div class="tk">LMT</div><div class="sn">LMT</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LNT.html" style=""><div class="tk">LNT</div><div class="sn">Alliant Energy</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LRCX.html" style=""><div class="tk">LRCX</div><div class="sn">Lam Research Corporation (NASDAQ: LRCX)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="LULU.html" style=""><div class="tk">LULU</div><div class="sn">Lululemon Athletica Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MA.html" style=""><div class="tk">MA</div><div class="sn">MA</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MAR.html" style=""><div class="tk">MAR</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MARA.html" style=""><div class="tk">MARA</div><div class="sn">MARA</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MCHP.html" style=""><div class="tk">MCHP</div><div class="sn">Microchip Technology Incorporated (NASDAQ: MCHP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MCO.html" style=""><div class="tk">MCO</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MDB.html" style=""><div class="tk">MDB</div><div class="sn">MongoDB, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MDLZ.html" style=""><div class="tk">MDLZ</div><div class="sn">Mondelez International, Inc. (NASDAQ: MDLZ)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MELI.html" style=""><div class="tk">MELI</div><div class="sn">MercadoLibre, Inc. (NASDAQ: MELI)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="META.html" style=""><div class="tk">META</div><div class="sn">Meta Platforms, Inc. (Nasdaq-100)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MMM.html" style=""><div class="tk">MMM</div><div class="sn">3M Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MNST.html" style=""><div class="tk">MNST</div><div class="sn">Monster Beverage</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MO.html" style=""><div class="tk">MO</div><div class="sn">Altria</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MPWR.html" style=""><div class="tk">MPWR</div><div class="sn">Monolithic Power Systems, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MRK.html" style=""><div class="tk">MRK</div><div class="sn">MRK</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MRNA.html" style=""><div class="tk">MRNA</div><div class="sn">MRNA</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MSTR.html" style=""><div class="tk">MSTR</div><div class="sn">Strategy (เดิม MicroStrategy)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MU.html" style=""><div class="tk">MU</div><div class="sn">บทวิเคราะห์ระยะยาว</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="MXL.html" style=""><div class="tk">MXL</div><div class="sn">MaxLinear</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NBIS.html" style=""><div class="tk">NBIS</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NEE.html" style=""><div class="tk">NEE</div><div class="sn">NEE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NET.html" style=""><div class="tk">NET</div><div class="sn">Cloudflare, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NFLX.html" style=""><div class="tk">NFLX</div><div class="sn">Netflix, Inc. (Nasdaq-100)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NKE.html" style=""><div class="tk">NKE</div><div class="sn">NIKE, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NOC.html" style=""><div class="tk">NOC</div><div class="sn">NOC</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NOW.html" style=""><div class="tk">NOW</div><div class="sn">Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NVO.html" style=""><div class="tk">NVO</div><div class="sn">Novo Nordisk A/S (NYSE ADR)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NVTS.html" style=""><div class="tk">NVTS</div><div class="sn">Navitas Semiconductor</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="NXPI.html" style=""><div class="tk">NXPI</div><div class="sn">NXP Semiconductors N.V. (NASDAQ: NXPI)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ODFL.html" style=""><div class="tk">ODFL</div><div class="sn">ODFL</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="OKE.html" style=""><div class="tk">OKE</div><div class="sn">ONEOK, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="OKLO.html" style=""><div class="tk">OKLO</div><div class="sn">Oklo</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ON.html" style=""><div class="tk">ON</div><div class="sn">ON Semiconductor Corp. (Nasdaq)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ONDS.html" style=""><div class="tk">ONDS</div><div class="sn">Ondas Holdings</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="OPEN.html" style=""><div class="tk">OPEN</div><div class="sn">Opendoor</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ORLY.html" style=""><div class="tk">ORLY</div><div class="sn">ORLY</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PATH.html" style=""><div class="tk">PATH</div><div class="sn">UiPath, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PAYX.html" style=""><div class="tk">PAYX</div><div class="sn">Paychex, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PCAR.html" style=""><div class="tk">PCAR</div><div class="sn">PACCAR Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PCG.html" style=""><div class="tk">PCG</div><div class="sn">PG&amp;E Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PDD.html" style=""><div class="tk">PDD</div><div class="sn">PDD Holdings (Temu / Pinduoduo)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PENG.html" style=""><div class="tk">PENG</div><div class="sn">Penguin Solutions</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PEP.html" style=""><div class="tk">PEP</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PFE.html" style=""><div class="tk">PFE</div><div class="sn">PFE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PG.html" style=""><div class="tk">PG</div><div class="sn">The Procter &amp; Gamble Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PWR.html" style=""><div class="tk">PWR</div><div class="sn">Quanta Services, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="PYPL.html" style=""><div class="tk">PYPL</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="QCOM.html" style=""><div class="tk">QCOM</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="RBRK.html" style=""><div class="tk">RBRK</div><div class="sn">Rubrik, Inc. (NYSE: RBRK)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="REGN.html" style=""><div class="tk">REGN</div><div class="sn">Regeneron Pharmaceuticals</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="RIOT.html" style=""><div class="tk">RIOT</div><div class="sn">Riot Platforms</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="RKLB.html" style=""><div class="tk">RKLB</div><div class="sn">Rocket Lab USA, Inc. (NASDAQ: RKLB)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ROP.html" style=""><div class="tk">ROP</div><div class="sn">Roper Technologies (NASDAQ: ROP)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ROST.html" style=""><div class="tk">ROST</div><div class="sn">Ross Stores, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="RTX.html" style=""><div class="tk">RTX</div><div class="sn">RTX</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SAP.html" style=""><div class="tk">SAP</div><div class="sn">SAP SE</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SBUX.html" style=""><div class="tk">SBUX</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SCHW.html" style=""><div class="tk">SCHW</div><div class="sn">The Charles Schwab Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SHOP.html" style=""><div class="tk">SHOP</div><div class="sn">Shopify</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SLB.html" style=""><div class="tk">SLB</div><div class="sn">SLB Limited (formerly Schlumberger)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SMCI.html" style=""><div class="tk">SMCI</div><div class="sn">Super Micro Computer</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SNDK.html" style=""><div class="tk">SNDK</div><div class="sn">SanDisk Corporation (NASDAQ: SNDK)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SNPS.html" style=""><div class="tk">SNPS</div><div class="sn">Synopsys, Inc. (NASDAQ: SNPS)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SO.html" style=""><div class="tk">SO</div><div class="sn">Southern Company</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SOFI.html" style=""><div class="tk">SOFI</div><div class="sn">Company Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SOUN.html" style=""><div class="tk">SOUN</div><div class="sn">SoundHound AI</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SPCX.html" style=""><div class="tk">SPCX</div><div class="sn">SpaceX (Space Exploration Technologies) (ticker: SPCX)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SPGI.html" style=""><div class="tk">SPGI</div><div class="sn">SPGI</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="SPOT.html" style=""><div class="tk">SPOT</div><div class="sn">Spotify Technology S.A.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="STX.html" style=""><div class="tk">STX</div><div class="sn">Seagate Technology Holdings plc</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="T.html" style=""><div class="tk">T</div><div class="sn">AT&amp;T Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TECH.html" style=""><div class="tk">TECH</div><div class="sn">Bio-Techne</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TER.html" style=""><div class="tk">TER</div><div class="sn">Teradyne (NASDAQ: TER)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TMUS.html" style=""><div class="tk">TMUS</div><div class="sn">Stock Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TRI.html" style=""><div class="tk">TRI</div><div class="sn">Thomson Reuters (NASDAQ: TRI)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TSLA.html" style=""><div class="tk">TSLA</div><div class="sn">Tesla, Inc. (Nasdaq-100)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TSM.html" style=""><div class="tk">TSM</div><div class="sn">Taiwan Semiconductor Manufacturing</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TTWO.html" style=""><div class="tk">TTWO</div><div class="sn">Take-Two Interactive Software (NASDAQ: TTWO)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="TXN.html" style=""><div class="tk">TXN</div><div class="sn">Brief</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="UNH.html" style=""><div class="tk">UNH</div><div class="sn">UNH</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="V.html" style=""><div class="tk">V</div><div class="sn">Visa Inc. (NYSE)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="VIAV.html" style=""><div class="tk">VIAV</div><div class="sn">VIAV</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="VRT.html" style=""><div class="tk">VRT</div><div class="sn">Vertiv Holdings Co. (NYSE: VRT)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="VRTX.html" style=""><div class="tk">VRTX</div><div class="sn">VRTX</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="VST.html" style=""><div class="tk">VST</div><div class="sn">Vistra Corp (NYSE: VST)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WBD.html" style=""><div class="tk">WBD</div><div class="sn">Warner Bros. Discovery</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WDAY.html" style=""><div class="tk">WDAY</div><div class="sn">Workday, Inc. (NASDAQ: WDAY)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WDC.html" style=""><div class="tk">WDC</div><div class="sn">Western Digital Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WFC.html" style=""><div class="tk">WFC</div><div class="sn">WFC</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WMB.html" style=""><div class="tk">WMB</div><div class="sn">The Williams Companies, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WMT.html" style=""><div class="tk">WMT</div><div class="sn">Walmart Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="WULF.html" style=""><div class="tk">WULF</div><div class="sn">TeraWulf, Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="XEL.html" style=""><div class="tk">XEL</div><div class="sn">Xcel Energy (NASDAQ: XEL)</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="XOM.html" style=""><div class="tk">XOM</div><div class="sn">Exxon Mobil Corporation</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="XYZ.html" style=""><div class="tk">XYZ</div><div class="sn">XYZ</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="ZS.html" style=""><div class="tk">ZS</div><div class="sn">Zscaler Inc. (Nasdaq)</div><div class="dt">2026-09-13</div></a></div>
   </section>
 </main>
 <script>
@@ -1737,8 +337,7 @@ function doSearch(q){
     return !q||tk.includes(q)||sn.includes(q);
   });
   const results=document.getElementById('results-section');
-  const resultsGrid=document.getElementById('results-grid');
-  resultsGrid.innerHTML=q?matches.map(c=>c.outerHTML).join(''):'';
+  document.getElementById('results-grid').innerHTML=q?matches.map(c=>c.outerHTML).join(''):'';
   document.getElementById('cnt-results').textContent=matches.length;
   results.classList.toggle('hidden',!q);
   document.getElementById('holdings-section').classList.toggle('hidden',!!q);

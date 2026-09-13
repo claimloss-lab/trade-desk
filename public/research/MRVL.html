@@ -1,61 +1,111 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MRVL — Research Brief</title><style>
   :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
   @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
-  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
-  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
-  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
-  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
   blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
   code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
-  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
-  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
-  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
 </style></head><body><div class="wrap">
-<a class="back" href="index.html">← Portfolio</a>
+<a class="back" href="index.html">← Research</a>
 <div class="ticker">MRVL</div>
-<div class="meta">Thesis · สร้างจาก briefs/MRVL.md · 2026-09-12</div>
+<div class="meta">Thesis · 2026-09-13</div>
 <hr>
 <p>ticker: MRVL</p>
-<p>brief_date: 2026-08-28</p>
-<p>source_files:</p>
-<li>sources/MRVL/10-k-fy2026.md</li>
-<li>sources/MRVL/q1-2027-call.md</li>
-<li>sources/MRVL/q2-2027-call.md</li>
-<p>audra_verified_at: 2026-08-28</p>
+<p>document_type: full_giggs_style_investment_memo</p>
+<p>date: 2026-09-13</p>
+<p>set_dr: MRVL80 (KTB)</p>
+<p>source_status: primary SEC/IR source excerpts cached; StockAnalysis transcript page unavailable (403); Yahoo chart and SET quote fetched directly</p>
 <hr>
-<h1>MRVL — Marvell Technology (แนวรับ / buy-the-dip candidate)</h1>
-<blockquote>บทวิเคราะห์ฉบับนี้เป็นข้อมูลเพื่อการศึกษา ไมใช่คำแนะนำซื้อ/ขาย ผู้ถือ DR:Ticket MRVL80 (KTB issuer)</blockquote>
-<h2>1. Company snapshot</h2>
-<p>Marvell เป็นผู้ผลิตชิปเซมิคอนดักเตอร์โครงสร้างพื้นฐานข้อมูล (data infrastructure) แบบ fabless — ไม่มีโรงงานของตัวเอง เน้นออกแบบระบบชิป (SoC) ผลงานสูงที่รวมวงจรอนาล็อก/ดิจิทัล ขายให้ OEM/ODM และตัวแทนจำหน่ายเป็นหลัก รายได้หลักสองกลุ่มคือ <b>Data Center</b> — ชิป AI (custom/ASIC, optical interconnect, Ethernet switching, เชื่อมต่อศูนย์ข้อมูล) กับ <b>Communications and Other</b> — เน็ตเวิร์กองค์กร, โครงข่าย carrier และอุปกรณ์คอนซูเมอร์ ปัจจุบัน Data Center เป็นกลไกหลัก (79% ของรายได้) และเติบโตเร็วจาก AI ภาพพจน์ของบริษัทคือผู้เล่น custom silicon + interconnect เพื่อ AI infrastructure โดยตรง ซึ่งวางตัวท้าชน Broadcom ในตลาด custom silicon (โดยเฉพาะดีลขยายกับ Google) จุดอ่อนเชิงโครงสร้างคือลูกค้าลงตัวสูงมาก — 10 รายใหญ่สุดคิดเป็น ~82% ของรายได้ใน FY2026 (Distributor A รายเดียว ~37%) หมายความว่าทิศทางรายได้ผูกกับคำสั่งซื้อของ hyperscaler รายใหญ่กลุ่มเล็ก ๆ</p>
-<h2>2. Fundamentals signal</h2>
-<li><b>รายได้</b>: ไล่ขึ้นแรง — FY2026 ~$8.2B (+42% YoY) ขับโดย data center (+~46%); แนวโน้ม guidance ล่าสุด FY2027 ~$12B (+45%) และ FY2028 ~$18B (+50%) สะท้อนการเร่งตัวที่ยังเป็นขาขึ้น</li>
-<li><b>มาร์จิ้น</b>: กำไรขั้นต้นไต่จาก ~41% เป็น ~51% (+9.7 จุด) แต่ส่วนหนึ่งมาจากฐานปีก่อนที่มี impairment ~$358M — ทิศทางดีจริงแต่ต้องดูแบบระวังตัวเลขที่โชว์; operating margin เปลี่ยนจากขาดทุน -12.5% ของรายได้ (FY2025) มาเป็นกำไร +16.1% (FY2026) และใน Q2 FY2027 แตะ 36.6% non-GAAP</li>
-<li><b>งบดุล/กระแสเงินสด</b>: cash ~$2.6B, หนี้ senior notes ~$4.5B + credit facility $1.5B ยังไม่เบิกใช้; net debt/EBITDA แข็งแกร่ง (~0.27x จาก Q2 FY2027); OCF ~$1.8B ทั้งปี — ฐานการเงินโอเคแม้หนี้ยังสูง (ตัวเลข ตรวจสอบใน 10-K ล่าสุด)</li>
-<li><b>การจัดสรรทุน</b>: active ระหว่างคืนผู้ถือหุ้น (buyback $2.0B ใน FY2026 + ปันผล ~$205M; Q2 FY2027 อีก $200M buyback + $54M ปันผล) กับลงทุนเพื่อ AI หนัก (~$1B capacity prepayments ใน FY2027, ซื้อ Polariton + Celestial AI ~$1.3B, ขายธุรกิจ automotive ethernet เก็บเงิน $2.5B)</li>
-<p><b>Valuation snapshot (Val, ณ 28 ส.ค. 2026 — หลังประกาศผล 27/8/26):</b> ปิดตลาด $241.45 (−1.49%), after-hours $222.62 (−7.8%); Market cap ~$211.7B–220.3B; Trailing P/E ~78–84; Forward P/E ~47–61 (หลากหลายตามแหล่ง); EV/EBITDA ~48 (Yahoo)/57.5 (ValueInvesting.io); 52-week high $329.88 (18/6/26), low $61.44 (4/9/25); dividend yield ~0.10%. *ตัวเลขดิบ หลายแหล่งมีค่าต่างกัน (โดยเฉพาะ forward P/E) — ใช้เทียบกันอย่างระวัง* (source: stockanalysis.com, finance.yahoo.com, cnbc.com)</p>
-<h2>3. Latest earnings (Q2 FY2027 — reported 27 ส.ค. 2026)</h2>
-<li>รายได้ <b>$2.739B</b> (+37% YoY, +13% QoQ) สถิติสูงสุดใหม่, สูงกว่าจุดกึ่งกลาง guidance $39M; <b>Non-GAAP EPS $0.94</b> (+40% YoY) — double beat (source: sources/MRVL/q2-2027-call.md)</li>
-<li><b>Data Center $2.1715B = 79% ของรายได้</b> (+46% YoY, +18% QoQ) ขับโดย interconnect (optical DSP, 1.6T ramp), switching (51.2T โตมากกว่าเท่าตัว) และ custom ที่กำลังเร่งใน H2 (source: sources/MRVL/q2-2027-call.md)</li>
-<li><b>Guidance Q3 FY2027</b>: รายได้ <b>$3.150B ±5%</b> (+15% QoQ, +50%+ YoY), non-GAAP EPS $1.10 ±$0.05, gross margin 57.5–58.5% (ลงเล็กน้อยจาก custom mix) (source: sources/MRVL/q2-2027-call.md)</li>
-<li><b>Guidance เต็มปี</b>: FY2027 ~$12B (ปรับขึ้นจาก ~$11.5B, data center +~60%); FY2028 ~$18B (+50%, custom มากกว่าเท่าตัว, operating margin 37–40% จาก Q4 FY27) (source: sources/MRVL/q2-2027-call.md)</li>
-<li><b>คำเตือนจาก source</b>: ตัวเลข Google deal $120B/6.5 ปี + เงื่อนไข warrant มาจาก AI-transcript summary — ต้องยืนยันกับ IR deck/audio ก่อนใช้เป็นหลัก (source: sources/MRVL/q2-2027-call.md); CFO คนใหม่คือ Dan Durn (แทน Willem Meintjes ที่ลาออก มิ.ย. 2026)</li>
-<h2>4. Bull case</h2>
-<li><b>ตัวเร่ง custom AI ASIC ที่ชัด</b>: ดีลขยายกับ hyperscaler รายใหญ่ (Google) + warrant ครอบคลุมโปรแกรม custom (AI inference accelerators, storage, NIC, near-memory compute, XPU attach) มูลค่าศักยภาพหลายหมื่นล้านถึง ~$120B ตาม milestones พร้อมวางบทบาทท้าชน Broadcom ใน custom silicon — catalyst ใหญ่ที่สุดของสัปดาห์ (Reuters 19/8/26)</li>
-<li><b>ตำแหน่ง interconnect scale-up ที่แข็ง</b>: เป็นผู้เล่น NPO รายใหญ่สุด, adoption NPO/CPO แรง, สวิทช์ scale-up หลากหลาย (UALink, ESUN, NVLink Fusion) แต่ละโปรแกรมมีโอกาส lifetime revenue ระดับ multi-billion + ขยายความร่วมมือกับ Nvidia (NVLink Fusion, optics)</li>
-<li><b>เบื้องหลังทั้งงบปรับขึ้น</b>: Q2 beat + รายได้/กำไร guidance ขึ้นหลายแถว (FY27 ~$12B, FY28 ~$18B), margin เข้าสู่ช่วงเป้าหมายระยะยาว และ Discount for Investor Day 6 ต.ค. 2026 เป็นตัวปลดล็อก visibility ถัดไป</li>
-<h2>5. Bear case</h2>
-<li><b>การกระจุกตัวลูกค้าสูงมาก</b>: 10 รายใหญ่ ~82% ของรายได้ (Distributor A ~37%) — จังหวะ/การ cancel ของ hyperscaler รายเดียวกระทบทั้งบริษัท; ดีล Google ที่เป็นตัวขับเคลื่อนหลักก็พึ่งพิงคำสั่งซื้อ milestone เดียว</li>
-<li><b>วอลไม่ได้ขายถูกในแง่ valuation</b>: Trailing P/E ~78–84, forward ~47–61, EV/EBITDA ~48 — ถ้าการเติบโตช้าลงหรือ guidance ไม่ตามหลัง stock ราคาแรง (priced-in) มาก; หุ้นลงเบาๆ ~2% หลัง beat ต่อจาก ADR ~180%+ YTD สะท้อนว่าตลาดคาดหวังสูงมากอยู่แล้ว</li>
-<li><b>execution/เปลี่ยนผู้บริหาร + คำเตือน source</b>: CFO เพิ่งเปลี่ยนมือกลางปี (Meintjes → Dan Durn); ตัวเลขเชิงกลยุทธ์สำคัญ (Google $120B) ยังอยู่ในระดับ AI-summary ที่ต้องยืนยัน — ถ้าดีลจริงต่ำกว่านั้น thesis จะอ่อนลงได้</li>
-<h2>6. Kill conditions (ถ้าเห็นควรเลิกถือ)</h2>
-<p>1. <b>คำสั่งซื้อ hyperscaler หดตัว</b>: ถ้า hyperscaler รายใหญ่ (โดยเฉพาะคู่ค้า Google) ชะลอ/ยกเลิกโปรแกรม custom หรือระงับ milestones จน guidance ถัดไปถูกตัดลง (จาก ~$12B FY27 / ~$18B FY28) ถือเป็นสัญญาณ thesis พัง</p>
-<p>2. <b>มาร์จิ้นดิ่งจาก custom mix</b>: ถ้า operating margin เบนต่ำกว่าช่วงเป้าหมายระยะยาว (38–40%) ลงอย่างชัดเจน เพราะต้นทุน ASIC/capacity prepayment กัดกำไรโดยไม่เห็น output เติบโตชดเชย</p>
-<p>3. <b>ฐานะการเงินถดถอย</b>: ถ้า net debt/EBITDA พุ่งสูง (จาก ~0.27x) หรือ capacity prepayments/MPA เริ่มทำกระแสเงินสดอ่อนแอลง (OCF ลดจาก ~$1.8B) ทั้งที่รายได้ยังโต — บ่งว่ากำลังซื้อการเติบโตด้วยหนี้</p>
-<h2>ภาคผนวก: ข้อควรระวัง/ซอร์สที่ยังไม่ยืนยัน</h2>
-<li>ตัวเลข Google deal $120B/6.5 ปี + เงื่อนไข <b>warrant</b> มาจาก AI-transcript summary (ไฟล์ source เองระบุให้ระวัง) — ควรตรวจสอบกับ IR deck/audio webcast ก่อนใช้อ้างอิงชี้ขาด</li>
-<li>FY2027 ~$12B / FY2028 ~$18B มีใน PR หลักเพียงแค่ &quot;raising outlook&quot; โดยไม่ให้ตัวเลข — ตัวเลขยืนยันผ่านแหล่งทุติยภูมิ (Yahoo/BigGo/MarketBeat) ตรงกัน</li>
-<p>*บทสรุปนี้จัดทำด้วยทีม stock-research ณ 28 ส.ค. 2026 — ไม่ใช่คำแนะนำการลงทุน*</p>
+<h1>MRVL — Marvell Technology | Full Giggs-style Investment Memo</h1>
+<blockquote>เอกสารเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ และไม่ใช่ราคาเป้าหมายส่วนบุคคล มุมมองยึด long-term 3+ ปี, fundamentals-first และแยก Fact / Interpretation / Judgment อย่างชัดเจน</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> Research-only / ยังไม่ให้ rating ซื้อ-ขาย-ถือ — ข้อมูล 5-year และ valuation หลายวิธียังไม่ครบ (Judgment; source limitation: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li><b>Fair value:</b> ยังไม่คำนวณเป็นตัวเลข เพราะไม่พบชุดประมาณการ EPS/FCF 5 ปีที่ตรวจสอบได้ครบ และราคาหุ้นมี sensitivity สูงต่อ custom-AI growth (Judgment; source: SEC 10-K excerpt และ IR earnings summary, ดึง 2026-09-13)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนดจุดเข้าและสัดส่วนพอร์ตใน memo นี้; หากจะศึกษาต่อควรเริ่มจากการยืนยัน backlog, gross margin และ cash conversion ไม่ใช่ไล่ตาม guidance เพียงชุดเดียว (Judgment; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li><b>5Y CAGR:</b> ไม่ใส่ตัวเลขคาดการณ์ เนื่องจากแหล่งที่มีให้เพียง FY2026 และ guidance FY2027–FY2028; การแต่ง CAGR จะเกินหลักฐาน (Fact/limitation; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li><b>แก่น thesis:</b> Marvell กำลังเปลี่ยนจากธุรกิจชิปสื่อสารที่ผันผวนไปเป็น supplier ของ custom compute และ interconnect ใน AI data center แต่ thesis ต้องพิสูจน์ด้วยรายได้ที่รับรู้จริงและ FCF หลังการจ่ายล่วงหน้ากำลังผลิต (Interpretation; source: sources/MRVL/10-k-fy2026.md, q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Marvell เป็น fabless semiconductor designer ออกแบบ SoC, analog/mixed-signal และ digital signal processing แล้วจ้าง foundry และ subcontractor ผลิต/แพ็กเกจ ขายผ่าน OEM/ODM และ distributor (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>บริษัทมี reportable segment เดียว แต่แบ่ง end market เป็น <b>Data Center</b> และ <b>Communications &amp; Other</b>; ใน Q2 FY2027 Data Center รายได้ $2.1715B หรือ 79% ของรายได้ทั้งหมด และโต 46% YoY (Fact; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>เครื่องยนต์เติบโตคือ custom AI ASIC, optical DSP/NPO/CPO, Ethernet switching, CXL/memory expansion และ scale-up switching; การ monetization เกิดจาก design win แล้วค่อย ramp volume กับ hyperscaler/OEM (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>FY2026 revenue $8.195B เพิ่ม 42.1% YoY; company summary ระบุ Data Center โต 46% และ Communications &amp; Other โต 31% แต่ automotive Ethernet ถูกขายออก จึงต้องระวังการเทียบฐานที่เปลี่ยน (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>ความเสี่ยงของ revenue engine คือ distributor รายหนึ่งคิดเป็น 37% และลูกค้า 10 รายใหญ่รวม 82% ของรายได้ FY2026; ลูกค้าอาจเลื่อน/ยกเลิก purchase order ได้ (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Specific 7 Powers:</b> ความได้เปรียบที่เห็นจากหลักฐานคือ process power จาก IP/engineering ในชิปซับซ้อน, counter-positioning จากการเป็น supplier หลายโปรแกรมให้ hyperscaler และ switching/interconnect ecosystem; ยังไม่มีหลักฐานเพียงพอจะเรียกว่าเป็นอำนาจถาวร (Interpretation; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>มีสิทธิบัตรและ pending applications มากกว่า 10,000 รายการ และพัฒนาบนโหนด 5nm, 3nm, 2nm และ 1.4nm; นี่ช่วยลดเวลาการพัฒนา แต่ไม่รับประกัน design win (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>คู่แข่งเฉพาะบริษัทมี Broadcom, AMD, Nvidia, Astera Labs, Credo, Cisco, Intel, Qualcomm และรายอื่น; ลูกค้าบางรายก็พัฒนาชิปเองได้ (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>ความเสี่ยงหลัก: pricing pressure, พึ่ง foundry/packaging ภายนอก, customer concentration, export controls/China, AI capex cycle และการ execution ของ acquisitions Celestial AI/XConn (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| รายการ | FY2022 | FY2023 | FY2024 | FY2025 | FY2026 |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Revenue | ไม่พบใน source ที่ cache | ไม่พบ | ไม่พบ | $5.767B | $8.195B |</p>
+<p>| Gross margin | ไม่พบ | ไม่พบ | ไม่พบ | 41.3% | 51.0% |</p>
+<p>| Operating margin | ไม่พบ | ไม่พบ | ไม่พบ | -12.5% | 16.1% |</p>
+<p>| Net income | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบใน excerpt | ~$2.7B |</p>
+<p>| OCF | ไม่พบ | ไม่พบ | ไม่พบ | ~$1.7B | ~$1.8B |</p>
+<p>| CapEx | ไม่พบ | ไม่พบ | ไม่พบ | ~$0.301B | ~$0.354B |</p>
+<p>| R&amp;D | ไม่พบ | ไม่พบ | ไม่พบ | $1.950B | $2.075B |</p>
+<p>| ROE / ROIC | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
+<li>ทิศทางสองปีล่าสุดดีขึ้นมาก แต่ FY2026 net income ได้แรงหนุนจากกำไรขาย automotive Ethernet $1.8B ก่อนภาษี จึงไม่ควร annualize เป็น operating earnings (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>Gross margin FY2026 51.0% เทียบ 41.3% ปีก่อน; source ระบุว่าฐาน FY2025 มี impairment และ restructuring สูง จึงเป็นการฟื้นตัวที่ต้องแยกคุณภาพออกจาก base effect (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>SBC FY2026 $590.8M สูงเมื่อเทียบกับ R&amp;D และต้องหักออกในการประเมิน FCF ที่เป็นของผู้ถือหุ้นจริง (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li><b>ข้อจำกัด:</b> ไม่พบชุด 5-year income/cash-flow/ROE/ROIC ครบในไฟล์ source ที่ได้รับ จึงไม่เติมตัวเลขจากความจำหรือประมาณเอง (Fact/limitation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>ณ FY2026 cash ราว $2.6B และ borrowings $4.5B; บริษัทมี revolving facility $1.5B ที่ยังไม่เบิก และ Q2 FY2027 รายงาน total debt ราว $4.96B กับ net debt/EBITDA 0.27x (Fact; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>OCF FY2026 ราว $1.8B แต่ working capital ใช้เงินสด $1.1B; บริษัทเตรียมจ่ายล่วงหน้าความจุ foundry/packaging ราว $1B ใน FY2027 เพื่อรองรับ AI demand (Fact; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>FY2026 buyback $2.0B และ dividends $205.1M; Q2 FY2027 buyback $200M และ dividends $54M (Fact; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>Celestial AI ใช้เงินสดราว $1.3B และหุ้น 24.5M; XConn ใช้เงินสดราว $280M และหุ้น 2.1M จึงมี dilution และ integration risk ที่ต้องติดตาม (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>SBC $590.8M ใน FY2026 และการออกหุ้นจาก acquisitions/employee plans ทำให้การดู buyback แบบ gross ไม่พอ ต้องดู diluted shares และ FCF ต่อหุ้น (Fact/Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q2 FY2027 revenue $2.739B เพิ่ม 37% YoY และ 13% QoQ; non-GAAP EPS $0.94, non-GAAP gross margin 58.9%, non-GAAP operating margin 36.6%, OCF $605.5M (Fact; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>Data Center $2.1715B โต 46% YoY/18% QoQ; Communications &amp; Other $567.8M โต 10% YoY แต่ลด 3% QoQ (Fact; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>Q3 FY2027 guidance revenue $3.150B ±5%, non-GAAP EPS $1.10 ±$0.05 และ gross margin 57.5–58.5%; margin ลดเล็กน้อยตาม custom mix (Fact; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>FY2027 outlook ราว $12B และ FY2028 ราว $18B ตาม source summary; ตัวเลขดีล Google potential $120B/6.5 ปีในไฟล์ถูกระบุเองว่าเป็น AI-transcript summary ต้อง verify กับ IR deck/audio ก่อนใช้เป็น fact หลัก (Fact/caveat; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li><b>Transcript status:</b> ไม่พบหน้า StockAnalysis เพราะตอบ 403; จึงใช้ official IR/earnings summary ที่ cache เป็นแหล่งหลัก และไม่เรียกไฟล์นี้ว่า StockAnalysis transcript (Fact/limitation; source: https://stockanalysis.com/stocks/mrvl/transcripts/ และ sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>7. Valuation</h2>
+<li>Yahoo Finance chart endpoint ให้ราคาหุ้น MRVL <b>$236.10</b>, ข้อมูลแท่งล่าสุด 2026-09-11 13:30 UTC; 52-week range จากข้อมูล daily ในช่วงเดียวกัน <b>$67.35–$316.43</b> (Fact; source: https://query1.finance.yahoo.com/v8/finance/chart/MRVL?range=1y&amp;interval=1d, ดึง 2026-09-13)</li>
+<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ historical multiple range: <b>ไม่พบใน endpoint ที่ใช้และไม่ได้เติมตัวเลข</b> (Fact/limitation; source: Yahoo chart endpoint, ดึง 2026-09-13)</li>
+<li>Peer valuation จาก StockAnalysis/MarketBeat: <b>ยังไม่พบข้อมูลที่ดึงและ verify ได้ในรอบนี้</b>; จึงไม่มี peer premium/discount conclusion (Fact/limitation; source: StockAnalysis transcript access returned 403, ดึง 2026-09-13)</li>
+<li>วิธีประเมินที่ควรทำต่อคือ normalized FY2028 FCF/EPS, EV/EBITDA เทียบ Broadcom/AMD/Credo และ reverse DCF ที่ทดสอบ custom growth, margin และ dilution หลายกรณี; ยังไม่ใช่ fair value (Judgment; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานหลัก | EPS / multiple / target / CAGR | ความน่าจะเป็น |</p>
+<p>|---|---|---|---:|</p>
+<p>| Bull | Custom ASIC และ interconnect ramp ต่อเนื่อง; FY2028 revenue guidance ถูกทำได้และ margin เข้าเป้า | ไม่คำนวณ — ไม่มี EPS/share-count 5 ปีที่ verify ได้ | ไม่กำหนด |</p>
+<p>| Base | Data Center โตแต่ชะลอ, Communications ฟื้นบางส่วน, gross margin ทรงตัวหลัง capacity prepayment | ไม่คำนวณ — ไม่มี normalized FCF และ valuation multiple ที่ verify ได้ | ไม่กำหนด |</p>
+<p>| Bear | AI capex ลด, hyperscaler เลื่อน orders, pricing pressure และ dilution สูง | ไม่คำนวณ — ไม่ควรสร้าง bear floor จากข้อมูลไม่ครบ | ไม่กำหนด |</p>
+<li>การไม่ใส่ probability/target เป็น intentional เพราะตัวเลขดังกล่าวจะเป็น judgment ที่ไม่มีฐาน 5-year financial model ใน source (Fact/limitation; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<p><b>Catalysts</b></p>
+<li>การประกาศรายละเอียด long-term custom revenue และ strategy ใน Investor Day 6 ต.ค. 2026 อาจทำให้ตรวจสอบ quality ของ backlog/design win ได้ดีขึ้น แต่ยังไม่ใช่ผลลัพธ์ที่เกิดแล้ว (Fact/Interpretation; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>Q3 FY2027 guidance $3.150B ±5% และการ ramp ของ optical/switching/custom เป็นตัวทดสอบระยะใกล้ (Fact; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<p><b>Risks</b></p>
+<li>ลูกค้ารายใหญ่หรือ distributor ชะลอ/ยกเลิก orders; 10 รายใหญ่คิดเป็น 82% ของ FY2026 revenue (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>Capacity prepayment และ acquisitions เพิ่ม cash need, dilution และ execution risk (Fact; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>AI infrastructure spending อาจไม่ยั่งยืน, สินค้าถูกกดราคา และ export controls กระทบจีน (Fact; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า Marvell ไม่ได้เป็นผู้ชนะระยะยาว แต่เป็นผู้รับจ้างออกแบบชิปที่ลูกค้าเปลี่ยน supplier ได้ง่าย customer concentration จะทำให้กำไรหดเร็วเมื่อ program ใด program หนึ่งสะดุด (Interpretation; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>สมมติฐานที่เปราะที่สุดคือ FY2027–FY2028 growth และ margin จะเกิดพร้อมกัน ขณะที่บริษัทต้องจ่ายล่วงหน้าความจุและใช้ SBC/หุ้นเพื่อขยายตัว (Judgment; source: sources/MRVL/q2-2027-call.md และ 10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>Bear floor ที่ต้องเฝ้าดูไม่ใช่ราคาหุ้น แต่คือรายได้ Data Center ที่ลดลง YoY พร้อม gross margin และ OCF ลดลง และ net debt/EBITDA สูงขึ้น (Judgment; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ไม่กำหนด buy/sell/hold, target weight หรือราคา DCA ในเอกสารนี้ เพราะ valuation และ 5-year model ยังไม่ครบ (Judgment; source: Yahoo chart และ sources/MRVL, ดึง 2026-09-13)</li>
+<li>หากนำไปทำ portfolio playbook ควรกำหนด cap ตาม customer concentration และนับ dilution จาก Celestial/XConn/SBC ในฐาน fully diluted shares (Judgment; source: sources/MRVL/10-k-fy2026.md, ดึง 2026-09-13)</li>
+<li>การติดตามรายไตรมาสควรใช้ 5 ตัวชี้วัด: Data Center growth, gross/operating margin, OCF หลัง prepayment, diluted share count และ customer/distributor concentration (Judgment; source: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13)</li>
+<li>Kill conditions: (1) guidance FY2027/FY2028 ถูกตัดเพราะ hyperscaler orders หด, (2) margin ต่ำกว่า long-term range พร้อม OCF ไม่โต, (3) net debt/EBITDA พุ่งจากการซื้อ capacity/กิจการโดยไม่มีรายได้รองรับ (Judgment; source: sources/MRVL/q2-2027-call.md, ดึง 2026-09-13)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| <b>Fact</b> | FY2026 revenue $8.195B; Data Center Q2 FY2027 $2.1715B/79%; Q2 revenue $2.739B; cash ~$2.6B FY2026; debt ~$4.5B FY2026; SBC $590.8M; SET ระบุ MRVL80 เป็น Depositary Receipt on MRVL issued by KTB. Sources: SEC/IR/SET/Yahoo, ดึง 2026-09-13 |</p>
+<p>| <b>Interpretation</b> | AI data-center custom/interconnect เป็น growth engine ใหม่; แต่ quality ของ earnings ต้องหัก one-off sale gain และดู cash conversion หลัง capacity prepayment. Sources: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13 |</p>
+<p>| <b>Judgment</b> | ยังไม่ควรให้ fair value, 5Y CAGR หรือ allocation จนกว่าจะได้ 5-year financials, verified transcript และ peer multiples; thesis จะเสียเมื่อ growth, margin และ OCF ไม่เดินไปด้วยกัน. ผู้เขียน memo, 2026-09-13 |</p>
+<h3>Source caveats</h3>
+<li>SEC/IR source files เป็น excerpts/summaries ที่ cache ในโปรเจกต์ ไม่ใช่การยืนยันว่ามีตัวเลขครบทุกตารางของ filing.</li>
+<li>StockAnalysis transcript URL ตอบ 403 ในรอบนี้; ใช้ official IR summary ที่ cache และระบุ caveat แล้ว.</li>
+<li>SET quote page ยืนยันว่า <b>MRVL80 = Depositary Receipt on MRVL Issued by KTB</b>; underlying price/52-week เป็น USD จาก Yahoo ไม่ใช่ราคา DR ไทย.</li>
 </div></body></html>

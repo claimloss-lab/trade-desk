@@ -1,65 +1,92 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NVDA — Research Brief</title><style>
   :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
   @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
-  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
-  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
-  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
-  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
   blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
   code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
-  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
-  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
-  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
 </style></head><body><div class="wrap">
-<a class="back" href="index.html">← Portfolio</a>
+<a class="back" href="index.html">← Research</a>
 <div class="ticker">NVDA</div>
-<div class="meta">Thesis · สร้างจาก briefs/NVDA.md · 2026-09-12</div>
-<h1>NVDA — Research Brief (updated with Q2 FY2027)</h1>
-<p>*Generated 2026-08-28 ผ่าน deepseek/Hermes — refresh thesis หลังงบ Q2 FY2027 (ประกาศ 26 ส.ค. 2026) · skill: company-brief + research-team*</p>
-<hr>
-<h2>1. Company snapshot</h2>
-<p>NVIDIA ทำธุรกิจ data-center-scale AI infrastructure มีปฏิบัติการทั่วโลก (US, Taiwan, China, Europe) ธุรกิจหลักตามที่รายงาน: Compute &amp; Networking (accelerated computing สำหรับ data center, AI solutions, platform ยานยนต์) และ Edge/Gaming (GeForce + professional GPU/LPX) ลูกค้าหลักคือ hyperscaler, AI-native cloud, enterprise, บริษัทยานยนต์ — Data Center ปัจจุบันคิดเป็น <b>~92% ของรายได้รวม</b> (source: sources/NVDA/10-k-fy2026.md, q2-2027-call.md)</p>
-<h2>2. Fundamentals signal</h2>
-<li><b>Revenue trend (เร่งตัว):</b> FY2026 $215.9B (+65%) → Q1 FY27 $81.6B (+85%) → <b>Q2 FY27 $96.2B (+106% YoY / +18% QoQ)</b> — รายได้โตแบบ accelerating ต่อเนื่อง (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Margin trend (แข็งกว่าที่กลัว):</b> gross margin ทรงตัว <b>75.0%</b> GAAP/Non-GAAP ใน Q2 — สูงกว่า 74% ที่ตลาดกังวลว่า &quot;reset&quot; ลง แต่ guidance Q3 ชี้ GM จะลงไป ~74.0% (±50bps) จึงมีแรงกดจำกัดจากต้นทุน HBM/supply (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Balance sheet:</b> แข็งแรงมาก — Q2 FY27: total assets $320B, equity $229B, cash+marketable securities ~$65B, หนี้ไม่มีนัยสำคัญ (ตัวเลข ตรวจสอบใน 10-Q ล่าสุด)</li>
-<li><b>Capital allocation:</b> คืนผู้ถือหุ้นมหาศาลต่อเนื่อง — Q1 คืน ~$20B, <b>Q2 คืน ~$26B</b>, เหลือ buyback ~$99B, ปันผล $0.25/ไตรมาส (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Free cash flow:</b> สูงมาก; ระวัง net income มี unrealized gains จาก equity securities ปน (earnings quality)</li>
-<p><b>Valuation snapshot</b> (raw, ณ ปิด 27 ส.ค. 2026 หลังงบ): ราคา <b>$227.98</b> (+8.7% หลัง Q2), market cap <b>$5.51T</b> (สูงสุดในโลก), trailing P/E ~26.5 (stockanalysis) ถึง ~32 (Yahoo — ฐาน EPS ต่างกัน), forward P/E ~17.8, EV/EBITDA ~27, P/S ~18, 52-week $164.07–$236.54. (source: stockanalysis.com, finance.yahoo.com — snapshot ไม่ใช่การตีความถูก/แพง)</p>
-<h2>3. Latest earnings</h2>
-<blockquote>ไตรมาสล่าสุด = <b>Q2 FY2027</b> (period สิ้นสุด 26 ก.ค. 2026, ประกาศ 26 ส.ค. 2026) — ตัวเลขจาก official PR <code>sources/NVDA/q2-2027-call.md</code></blockquote>
-<li><b>Revenue $96.2B</b> (record) +18% QoQ / <b>+106% YoY</b> — Data Center $89.0B (+18% QoQ / <b>+117% YoY</b>, = ~92% ของรายได้) (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Gross margin 75.0%</b> / 75.0% Non-GAAP; Operating income $63.7B; <b>Net income $59.7B GAAP</b> / $53.95B Non-GAAP; EPS <b>$2.46 GAAP / $2.22 Non-GAAP</b> (beat consensus ~$2.08) (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Guidance Q3 FY27:</b> revenue <b>$108.0B ±2%</b> (สูงกว่าคาด ~$104B) — <b>ไม่รวม Data Center compute จากจีน</b>; GM 74.0% ±50bps (source: sources/NVDA/q2-2027-call.md)</li>
-<li><b>Vera Rubin เริ่ม full production</b> — racks รันที่ CoreWeave, Google Cloud, Azure, Oracle, Nebius — เป็นเจนเนอเรชันถัดไปต่อจาก Blackwell (source: sources/NVDA/q2-2027-call.md + news)</li>
-<li><b>Capital allocation Q2:</b> คืน ~$26.0B, เหลือ ~$99B buyback (source: sources/NVDA/q2-2027-call.md)</li>
-<li>Per CEO (indirect): AI ถึง inflection point, &quot;compute is revenue&quot;, demand เร่งตัว (หลาย frontier lab scaling parallel, physical AI เริ่มจริง)</li>
-<h2>4. Bull case / Bear case</h2>
-<p><b>Bull case</b></p>
-<li>รายได้เร่งตัว accelerating (+85% → +106% YoY) พร้อม GM ทรงตัว 75% แม้ต้นทุนชิป/เซิร์ฟเวอร์ขึ้น — บ่งชี้ Scale Economies + Switching Costs ของ ecosystem CUDA ที่แข็งแรง</li>
-<li><b>Vera Rubin full production</b> + CEO กรอบ Vera CPU เปิด TAM ใหม่ ~$200B (agentic AI) — growth pipeline นอกเหนือ hyperscaler เดิม</li>
-<li>งบ hyperscaler capex ~$725B + ดีล finance-backstop ป้อน demand ต่อเนื่อง; Q3 guide $108B สูงกว่าคาด</li>
-<li>Analyst bullish กว้าง, forward P/E ~17.8 ค่อนข้างสมเหตุสมผลเทียบ growth</li>
-<p><b>Bear case</b></p>
-<li>Revenue กระจุกตัว Data Center ~92% — เสี่ยงกับ hyperscaler capex รอบเดียว (ถ้าชะลอพร้อมกัน โมเมนตัมทั้งบริษัทตก)</li>
-<li><b>GM มีแนวโน้มค่อย ๆ ลด</b> (75% → Q3 guide 74%) จากต้นทุน HBM + ผสม Blackwell/Rubin — โตต้องพอชดเชย</li>
-<li>NVIDIA เริ่ม finance-backstop ให้ลูกค้าสร้าง data center (OpenAI Ohio $105B หลังลดจาก $250B) — ความเสี่ยงเครดิต/balance-sheet ที่มองไม่เห็นจากปกติ + กระแสลงทุน &quot;circular financing&quot; (หุ้นเคยร่วง 5% ตอนข่าว $250B)</li>
-<li>Valuation ไม่ถูก (P/E ~26-32, P/S ~18) + กติกาส่งออกจีนยังจำกัด upside ของ guidance</li>
-<h2>5. Kill conditions</h2>
-<li>Data Center growth ชะลอหลายไตรมาสติด (ไม่ใช่แค่ YoY comp สูง) พร้อม gross margin หดต่อเนื่อง — เปลี่ยนโครงเรื่องจาก &quot;โตเร่งตัว&quot; เป็น &quot;โตช้าลง ราคาแย่ลง&quot;</li>
-<li>Hyperscaler/AI-native ที่ผูก finance-backstop ไว้ (เช่น OpenAI ดีล Ohio) ยกเลิก/ลด commitment อย่างเป็นทางการ — สัญญาณ demand จริงอ่อนตัว (ตอนนี้ลดจาก $250B→$105B อยู่ในระดับ WATCH)</li>
-<li>มีหลักฐานลูกค้าองค์กรใหญ่ย้าย workload จำนวนมากออกจาก CUDA ไป silicon ทางเลือกได้ระดับสเกล (Google TPU/AWS Trainium/AMD เป็นแรงกดดัน แต่ยังไม่มีหลักฐานการย้ายสเกลใหญ่ — ระดับ WATCH)</li>
-<h2>6. What to ask before owning it</h2>
-<li>สัดส่วนรายได้จาก top hyperscaler รวมกันเท่าไหร่ และ customer concentration เสี่ยงแค่ไหนเมื่อขึ้นกับ 6-7 ราย</li>
-<li>คำมั่น finance-backstop ให้ลูกค้า (ดีล OpenAI Ohio $105B) — เป็นความเสี่ยงเครดิตที่งบดุลปกติไม่โชว์มากแค่ไหน</li>
-<li>Margins จะอยู่ตรงไหนเมื่อ Vera Rubin ramp เต็มที่ + hyperscaler ต่อรองราคาแรงขึ้น — 74% Q3 เป็น trend หรือจุดต่ำชั่วคราว</li>
-<li>ทำไม GM ต้องค่อย ๆ ลดทั้งที่ &quot;compute is revenue&quot; — อธิบายกลไกได้ไหม (ต้นทุน HBM/supply vs pricing power)</li>
-<li>Free cash flow คุณภาพเท่านี้หลัง strip unrealized gains จาก equity securities — earnings quality จริงแค่ไหน</li>
-<hr>
-<p><b>ข้อจำกัดของ brief นี้:</b></p>
-<li>sources/ อัปเดต Q2 แล้ว (<code>sources/NVDA/q2-2027-call.md</code>); 10-K excerpt ยังเป็น third-party fallback (sec.gov 403) — section 1-2 เป็น secondary characterization ตัวเลข financials มาจาก official PR/10-Q primary จริง</li>
-<li>ตัวเลข P/E ต่างกันตามแหล่ง (26.5–32) เพราะฐาน EPS ต่างกัน — ระบุไว้แล้ว ไม่ใช้ตัวเลขเดียวฟันธง</li>
+<div class="meta">Thesis · 2026-09-13</div>
+<h1>NVIDIA Corporation (NVDA) — Full Giggs-style Investment Memo</h1>
+<p><b>ขอบเขต:</b> บริษัทมี DR ซื้อขายใน SET คือ <b>NVDA80.BK</b> (Yahoo Finance ระบุ exchange=SET และชื่อ NVDA80_DR NVDA#KTB; ดึงข้อมูล 2026-09-13) จึงอยู่ในรอบนี้ ไม่ใช่การเสนอซื้อ/ขายหลักทรัพย์</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงกรอบวิเคราะห์:</b> Quality compounder แต่ valuation และ concentration risk สูง — ยังต้องพิสูจน์ว่าการเติบโตของ AI infrastructure แปลงเป็นกำไรยั่งยืนได้หลังรอบเร่งลงทุน</li>
+<li><b>Fair value แบบ scenario ไม่ใช่ราคาเป้าหมาย:</b> ใช้กำไรต่อหุ้น FY2026 ที่บริษัทประกาศ $4.90 เป็นฐาน และสมมติ EPS โต 20%/ปี 5 ปี; multiple ปลายทาง 30x/40x/50x ใน scenario ได้มูลค่าประมาณ $180/$329/$508 ต่อหุ้นตามลำดับ (เป็นแบบจำลอง ไม่ใช่ consensus) (source: sources/NVDA/10-k-fy2026.md, 2026-08-23; calculation assumptions, 2026-09-13)</li>
+<li><b>Entry framework:</b> ไม่กำหนดจุดซื้อแบบตายตัว; ให้เทียบราคาหุ้นสามัญ $218.29 กับ EPS ที่ธุรกิจทำได้จริงและความเสี่ยง margin/customer concentration ก่อน (Yahoo chart, 2026-09-13)</li>
+<li><b>Allocation framework:</b> หากจะถือ ควรเป็นขนาดที่รับการ drawdown จากการชะลอ capex ของลูกค้า, export control และ product-transition margin ได้; ไม่กำหนดเปอร์เซ็นต์แทนพี่ต้อง เพราะข้อมูล DR conversion/สภาพคล่องและพอร์ตปัจจุบันไม่อยู่ใน source รอบนี้</li>
+<li><b>5Y CAGR:</b> แบบจำลองราคาตั้งแต่ $218.29 ถึง $180/$329/$508 เท่ากับประมาณ -4%/9%/19% ต่อปี ก่อนเงินปันผลและผลของค่าเงิน; เป็น scenario contribution ไม่ใช่คำแนะนำ (Yahoo chart + model, 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>NVIDIA ขายแพลตฟอร์ม compute/networking ที่รวม GPU, CPU, networking, systems และ software ให้ hyperscalers, AI labs, cloud providers, enterprises, gaming และ automotive; รายได้หลักปัจจุบันมาจาก Data Center (source: sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li>FY2026 รายได้ $215.938B โต 65%; Data Center $193.7B หรือประมาณ 90% ของรายได้, Gaming $16.0B, Professional Visualization $3.2B และ Automotive $2.3B (source: sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li>Q1 FY2027 แยก Data Center $75.2B เป็น compute $60.4B และ networking $14.8B; Edge Computing $6.4B (source: sources/NVDA/q1-2027-call.md, 2026-08-23)</li>
+<li>การ monetization คือขายระบบรุ่นใหม่เป็นรอบสั้น พร้อม software ecosystem และ networking; Vera Rubin เริ่ม full production และถูกวางให้รองรับ inference/agentic AI แต่ pace การ ramp ยังขึ้นกับความซับซ้อนของระบบ (source: sources/NVDA/q2-2027-call.md, 2026-08-28; sources/NVDA/q1-2027-call.md, 2026-08-23)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>ระบบนิเวศ/ต้นทุนเปลี่ยนแพลตฟอร์ม:</b> CUDA และ vertical integration ทำให้ developer, model company และ cloud deployment เชื่อมกัน; นี่เป็น network effects และ switching costs ตามกรอบ 7 Powers ไม่เรียกว่า moat (source: sources/NVDA/10-k-fy2026.md, 2026-08-23; sources/NVDA/q1-2027-call.md, 2026-08-23)</li>
+<li><b>Scale and process power:</b> บริษัทประสาน GPU, networking, systems, software และ supply chain ได้เร็ว ขณะที่ product cadence Blackwell → Vera เป็นตัวแปรสำคัญ (source: sources/NVDA/q1-2027-call.md, 2026-08-23)</li>
+<li><b>Threats เฉพาะบริษัท:</b> hyperscalers ทำ custom silicon, AMD/คู่แข่งเร่ง inference, ลูกค้ากระจุกตัว, foundry/HBM/Taiwan concentration, export controls จีน และ product transition ที่กด gross margin (source: sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li><b>Fragility:</b> Data Center คิดเป็นราว 92% ของ Q2 FY2027 revenue และ Q3 guidance ไม่รวม China compute revenue; การเติบโตจึงไวต่อ capex ลูกค้ารายใหญ่และกฎส่งออก (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Revenue:</b> SEC XBRL ให้ตัวเลข FY2022–FY2026 ที่อ่านได้ไม่ต่อเนื่องใน output นี้; จุดที่ตรวจได้คือ $60.9B (FY2024), $130.5B (FY2025), $215.9B (FY2026) — เร่งตัวแรงมาก (source: SEC EDGAR Companyfacts CIK 0001045810, fetched 2026-09-13; sources/NVDA/10-k-fy2026.md)</li>
+<li><b>Gross profit / operating income:</b> FY2024 $44.3B/$33.0B, FY2025 $97.9B/$81.5B, FY2026 $153.5B/$130.4B; FY2026 gross margin 71.1% ลดลงจาก mix Hopper ไป Blackwell และ charge H20 $4.5B (source: SEC EDGAR Companyfacts, 2026-09-13; sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li><b>Net income / OCF:</b> FY2024 $29.8B/$28.1B, FY2025 $72.9B/$64.1B, FY2026 $120.1B/$102.7B; Q1 FY2027 OCF $50.3B แต่ net income มี unrealized equity gains ก้อนใหญ่ จึงไม่ควร annualize ตรง ๆ (source: SEC EDGAR Companyfacts, 2026-09-13; sources/NVDA/10-q-fy2027-q1.md, 2026-08-23)</li>
+<li><b>R&amp;D:</b> FY2024 $8.7B, FY2025 $12.9B, FY2026 $18.5B; โตเร็วเพื่อรักษา product cadence แต่ต้องติดตามว่ารายได้โตเร็วกว่าค่าใช้จ่ายหรือไม่ (source: SEC EDGAR Companyfacts, 2026-09-13)</li>
+<li><b>CapEx/FCF/ROE/ROIC:</b> FY2026 capex และ ROE/ROIC แบบ 5 ปีไม่พบใน source ที่อ่านได้ครบ; Q1 FY2027 capex $1.76B และ FCF ที่คำนวณจาก OCF-capex $48.59B. ห้ามใช้ Q1 ดังกล่าวแทน normalized FY (source: sources/NVDA/10-q-fy2027-q1.md, 2026-08-23)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>Q1 FY2027 cash and marketable debt securitiesรวม $50.335B, total debt $8.470B และ net cash ตามนิยามดังกล่าวราว $41.865B; marketable equity securities รวมแล้ว liquidity สูงขึ้นแต่มี mark-to-market risk (source: sources/NVDA/10-q-fy2027-q1.md, 2026-08-23)</li>
+<li>Q1 FY2027 OCF $50.344B, capex $1.757B และ repurchase $19.312B; FY2026 buyback+dividend ราว $41.1B (source: sources/NVDA/10-q-fy2027-q1.md; sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li>SBC FY2024/FY2025/FY2026 อยู่ที่ $3.549B/$4.737B/$6.386B; dilution ถูกชดเชยบางส่วนด้วย buyback แต่ต้องติดตามหุ้นคงค้างต่อหุ้น (source: SEC EDGAR Companyfacts CIK 0001045810, fetched 2026-09-13)</li>
+<h2>6. Valuation</h2>
+<h3>Valuation snapshot</h3>
+<li>หุ้นสามัญ NVDA: <b>$218.29</b>, market cap คำนวณคร่าว ๆ <b>$5.26T</b> จาก 24.1B หุ้นล่าสุดที่ SEC รายงาน, trailing P/E คร่าว ๆ <b>43.8x</b> จาก FY2026 EPS $4.90; 52-week range <b>$165.17–$235.74</b> (source: Yahoo Finance chart NVDA, SEC Companyfacts, sources/NVDA/10-k-fy2026.md; fetched 2026-09-13)</li>
+<li>EV/EBITDA, EV/FCF และ PEG: <b>ไม่พบตัวเลขที่ตรวจสอบได้ครบจาก source รอบนี้</b>; ห้ามแต่ง</li>
+<li>DR NVDA80.BK: <b>฿36.50</b>, 52-week range <b>฿27.00–฿38.25</b>, exchange SET (source: Yahoo Finance chart/search NVDA80.BK, fetched 2026-09-13)</li>
+<h2>7. Latest Earnings</h2>
+<li>Q2 FY2027 revenue $96.2B โต 106% YoY; Data Center $89.0B โต 117% และคิดเป็นประมาณ 92% ของรายได้ (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<li>Q2 gross margin 75.0%, operating income GAAP $63.7B และ diluted EPS GAAP $2.46 (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<li>Q3 FY2027 guidance revenue $108.0B ±2% และ gross margin 74.0% ±50 bps; guidance ไม่รวม Data Center compute จากจีน (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<li>บริษัทคืนเงินผู้ถือหุ้นราว $26B ในไตรมาส และเหลือ buyback authorization ราว $99B (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<li><b>Transcript:</b> ไม่พบ StockAnalysis transcript ใน source folder; ไฟล์ล่าสุดเป็น official earnings press release ไม่ใช่ analyst Q&amp;A transcript จึงไม่เรียกว่า transcript (source: sources/NVDA/q2-2027-call.md, 2026-08-28)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS FY2031 assumption | Exit P/E | Implied price | CAGR from $218.29 | Probability* |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Bull | $10.16 (15% CAGR) | 50x | $508 | 19% | 25% |</p>
+<p>| Base | $8.23 (11% CAGR) | 40x | $329 | 9% | 50% |</p>
+<p>| Bear | $6.00 (4% CAGR) | 30x | $180 | -4% | 25% |</p>
+<li><b>Bull:</b> Vera/Rubin และ inference/agentic AI ขยาย TAM โดย software/networking รักษา pricing power; <b>source:</b> company commentary in sources/NVDA/q1-2027-call.md and q2-2027-call.md, 2026-08-23/28; probability เป็น judgment</li>
+<li><b>Base:</b> AI capex โตต่อแต่ชะลอ, custom silicon แย่งบาง workload และ gross margin อยู่ต่ำกว่าจุดสูงสุด; <b>source:</b> risk discussion in sources/NVDA/10-k-fy2026.md, 2026-08-23; probability เป็น judgment</li>
+<li><b>Bear:</b> ลูกค้าลด capex, export control จีนยืดเยื้อ, competition ทำให้ราคา/มาร์จินลด และ product ramp สะดุด; <b>source:</b> sources/NVDA/10-k-fy2026.md, 2026-08-23; probability เป็น judgment</li>
+<li>*Expected contribution แบบถ่วงน้ำหนักของราคา scenario = ประมาณ $321 หรือราว 8% ต่อปีในเชิงราคา; เป็นการคำนวณจากสมมติฐานข้างบน ไม่ใช่ forecast* (calculation, 2026-09-13)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> Vera Rubin full-production ramp, Q3/Q4 shipment execution, networking growth และ inference/agentic AI adoption (source: sources/NVDA/q2-2027-call.md and q1-2027-call.md, 2026-08-23/28)</li>
+<li><b>Risks:</b> gross margin guidance ลดเหลือ 74%, จีนไม่มีใน guidance, customer concentration, supply chain Taiwan/HBM และ hyperscaler custom silicon (source: sources/NVDA/q2-2027-call.md; sources/NVDA/10-k-fy2026.md, 2026-08-23/28)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Permanent-loss path คือรายได้ Data Center สูงมากแต่เป็นการซื้อ capacity ล่วงหน้าที่ผลตอบแทนลูกค้าต่ำ; หากลูกค้าไม่ monetize AI จะเกิด capex digestion และ valuation compression (source: sources/NVDA/10-k-fy2026.md, 2026-08-23; interpretation, 2026-09-13)</li>
+<li>สมมติฐานที่เปราะบางที่สุดคือ CUDA switching costs จะเหนือกว่า custom silicon/open stack ไปเรื่อย ๆ และ NVIDIA จะรักษา product lead ทุก cycle (source: sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li>Bear floor เชิงกรอบคือ EPS โตใกล้ศูนย์หลายปีและ multiple ลดใกล้ 30x; แบบจำลองได้ประมาณ $180 ก่อนพิจารณาค่าเงิน/DR conversion (model, 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/sizing/DCA:</b> ใช้การทยอยสะสมเฉพาะเมื่อพี่ต้องยอมรับ valuation และ concentration risk ได้; ไม่กำหนดสัดส่วน/จังหวะซื้อแทน เพราะไม่เห็น portfolio และต้นทุน DR รอบนี้</li>
+<li><b>Cap:</b> ตั้งเพดานตาม maximum loss ที่ยอมรับได้ ไม่ใช่ตาม conviction เพียงอย่างเดียว; DR มี FX และ tracking/conversion risk เพิ่มจากหุ้นสหรัฐ (judgment, 2026-09-13)</li>
+<li><b>Exit/kill triggers:</b> ดูหัวข้อถัดไปเป็นหลัก; การลดราคาเพียงอย่างเดียวไม่ใช่ kill condition หาก operating thesis ยังอยู่ (framework, 2026-09-13)</li>
+<h3>Kill Conditions</h3>
+<li>Data Center growth ชะลอหลายไตรมาสติดกันพร้อม gross margin ลดลงอย่างถาวร โดยไม่มีรายได้ software/networking มาชดเชย (source: q2 guidance and 10-K risks, 2026-08-23/28)</li>
+<li>ลูกค้ารายใหญ่เปลี่ยน workload ไป custom silicon/open stack จน share หรือ pricing ลดลงอย่างมีนัยสำคัญ (source: sources/NVDA/10-k-fy2026.md, 2026-08-23)</li>
+<li>Product transition Blackwell/Rubin ส่งมอบไม่ได้ตามแผนหรือ supply commitments กลายเป็น inventory/charge ที่กิน cash flow (source: sources/NVDA/10-k-fy2026.md and q1-2027-call.md, 2026-08-23)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ประเภท | เนื้อหา | Source/date |</p>
+<p>|---|---|---|</p>
+<p>| Fact | FY2026 revenue $215.938B, net income $120.067B | SEC Companyfacts / official PR, 2026-09-13 / 2026-08-23 |</p>
+<p>| Fact | Q2 FY2027 revenue $96.2B, Data Center $89.0B | sources/NVDA/q2-2027-call.md, 2026-08-28 |</p>
+<p>| Fact | NVDA80.BK เป็น SET DR; last ฿36.50 | Yahoo Finance search/chart, 2026-09-13 |</p>
+<p>| Interpretation | ธุรกิจมี 7 Powers จาก ecosystem, switching costs และ scale แต่ concentration สูง | 10-K/source files, 2026-08-23; analysis 2026-09-13 |</p>
+<p>| Judgment | Scenario probabilities 25/50/25 และ exit multiples 30/40/50x | author model, 2026-09-13 |</p>
+<p>| Judgment | ยังไม่ควรใช้ headline AI demand แทน normalized owner earnings | q1 10-Q caveat, 2026-08-23; analysis 2026-09-13 |</p>
 </div></body></html>

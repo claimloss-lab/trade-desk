@@ -19,44 +19,84 @@
 <hr>
 <p>ticker: SNOW</p>
 <p>company: Snowflake Inc.</p>
-<p>written_at: 2026-09-05</p>
-<p>sources: [EDGAR 10-K CIK0001640147, Yahoo Finance chart API]</p>
-<p>audra_verified_at: 2026-09-05</p>
+<p>written_at: 2026-09-13</p>
+<p>scope: Full Giggs-style investment memo; underlying US equity, SET DR is SNOW06</p>
+<p>not_investment_advice: true</p>
 <hr>
-<h1>Snowflake (SNOW)</h1>
-<h2>1. Company Snapshot</h2>
-<p>Snowflake เป็นบริษัทที่ให้บริการ cloud data platform — พูดง่าย ๆ คือเป็นที่เก็บและวิเคราะห์ข้อมูลขนาดใหญ่บน cloud ที่ทำงานข้ามได้ทั้ง AWS, Azure, Google Cloud ในที่เดียว บริษัทขายให้กับองค์กรทุกขนาดที่ต้องการจัดการ data analytics, ML และ AI workloads รายได้ส่วนใหญ่มาจาก consumption model (คิดตาม compute/storage ที่ใช้จริง ไม่ใช่ subscription แบบ seat) ทำให้ revenue ผูกกับการเติบโตของ data usage ลูกค้าโดยตรง Snowflake ไม่ทำกำไร GAAP แต่ operating cash flow และ free cash flow เป็นบวก</p>
-<h2>2. Fundamentals Signal</h2>
-<li><b>Revenue เติบโตเร็วมาก:</b> $2.81B (FY2024 Jan) → $3.63B (FY2025 Jan) → $4.68B (FY2026 Jan) = +29% YoY — เติบโต double-digit ต่อเนื่องแม้ scale ใหญ่ขึ้นแล้ว (source: EDGAR 10-K)</li>
-<li><b>GAAP Net loss ยังเป็นลบ:</b> -$0.84B (FY2024) → -$1.29B (FY2025) → -$1.33B (FY2026) — loss ขยายตัวแม้ revenue โต เพราะ stock-based compensation สูงมาก; non-GAAP operating income เป็นบวก (ตรวจสอบใน 10-K ล่าสุด)</li>
-<li><b>Shares outstanding ~346M</b> (as of Mar 2026) — SBC สูงทำให้ dilution เป็นประเด็น ต้อง track ว่า share count เพิ่มขึ้นแค่ไหน</li>
-<li><b>Gross margin สูง:</b> cloud data platform มี structural gross margin ดี แต่ R&amp;D และ S&amp;M ทำให้ net loss (ตัวเลขตรวจสอบใน 10-K ล่าสุด)</li>
-<li><b>Net Revenue Retention (NRR) คือ key metric:</b> ถ้า NRR &gt;130% แปลว่าลูกค้าเดิม spending มากขึ้นเรื่อย ๆ — ดูค่านี้ในทุก earnings</li>
-<p><b>Valuation snapshot (ณ 5 ก.ย. 2026, source: Yahoo Finance chart API):</b></p>
-<p>ราคา $337.18 | 52-week range $118.30–$384.56 (ขึ้นมาแรงจาก low) | Market cap ≈ ~$116B (price × 346M shares) | P/E หาไม่ได้ (GAAP loss) | P/S ≈ 25x (mktcap / revenue ~$4.7B) | EV/EBITDA หาไม่ได้รอบนี้</p>
-<h2>3. Latest Earnings</h2>
-<li><b>FY2026 Revenue (Jan 2026): $4.68B</b> — เติบโต +29% YoY จาก $3.63B (FY2025) (source: EDGAR 10-K CIK0001640147, period 2026-01-31)</li>
-<li><b>FY2025 Revenue: $3.63B</b> — เติบโต +29% YoY จาก $2.81B (FY2024) — pattern เติบโตสม่ำเสมอ (source: EDGAR 10-K)</li>
-<li><b>EPS diluted: -$3.95</b> (FY2026) vs -$3.86 (FY2025) — GAAP loss ต่อหุ้นทรงตัว แม้ revenue โต แสดง SBC ยังดูด margin (source: EDGAR 10-K)</li>
-<li><b>GAAP Net loss: -$1.33B</b> (FY2026) — loss ขยาย แต่ FCF มักเป็นบวก (ตรวจสอบ 10-K ล่าสุดสำหรับ FCF)</li>
-<li><b>ไม่มีไฟล์ earnings call</b> ใน sources/SNOW/ — guidance, NRR, ลูกค้า $1M+ ยังไม่ verify</li>
-<h2>4. Bull Case / Bear Case</h2>
-<p><b>Bull:</b></p>
-<li><b>AI data flywheel:</b> AI workloads ต้องการ clean, centralized data — Snowflake อยู่ในตำแหน่ง &quot;ท่อส่ง data&quot; ที่บริษัทต้องใช้ก่อน train model; Cortex AI ของ Snowflake ให้ลูกค้า run ML บน data ที่อยู่ใน Snowflake แล้วโดยไม่ต้องย้ายออก</li>
-<li><b>Multi-cloud agnostic ไม่ lock-in cloud หนึ่ง:</b> บริษัทใหญ่ที่ใช้ multi-cloud strategy ต้องการ neutral data layer — Snowflake เป็นทางเลือกที่ไม่ต้องเลือกข้าง AWS/Azure/GCP</li>
-<li><b>Consumption model scale กับ data growth:</b> ยิ่ง data โต ค่าใช้จ่ายลูกค้าโตตาม — ถ้าลูกค้า enterprise grow ธุรกิจ Snowflake โตตามโดยอัตโนมัติ</li>
-<p><b>Bear:</b></p>
-<li><b>BigQuery, Databricks, Redshift แข่งตรง:</b> Google BigQuery ให้ฟรีสำหรับลูกค้า GCP, Databricks รุกตลาด data + AI อย่างหนัก — pricing pressure ชัดขึ้นเรื่อย ๆ</li>
-<li><b>Valuation สูงมากเมื่อเทียบ profitability:</b> P/S ~25x กับ GAAP loss — ถ้า growth ชะลอลงกว่า 25% ใน 1 ไตรมาส valuation อาจ re-rate ลงหนัก</li>
-<li><b>SBC dilution กินผลตอบแทนผู้ถือหุ้น:</b> Net loss ส่วนใหญ่มาจาก SBC — แม้ FCF เป็นบวก แต่ shares outstanding เพิ่มทุกปี ลด per-share value</li>
-<h2>5. Kill Conditions</h2>
-<li><b>Revenue growth ต่ำกว่า 20% ต่อปี</b> ต่อเนื่อง 2 ไตรมาส โดยไม่มีเหตุ macro — สัญญาณว่า competitive advantage เริ่มถูก erode</li>
-<li><b>NRR (Net Revenue Retention) ต่ำกว่า 120%</b> — แปลว่าลูกค้าเดิม expand น้อยลง ซึ่งขัดกับ consumption model thesis</li>
-<li><b>Gross margin ลดลง</b> ต่อเนื่อง — อาจเกิดจาก pricing war หรือ compute cost ที่ Snowflake แบกรับเพิ่มขึ้น</li>
-<h2>6. What to Ask Before Owning It</h2>
-<p>1. NRR (Net Revenue Retention) ล่าสุดอยู่ที่เท่าไหร่ — ถ้าลดลงจาก 130%+ ต้องตีความอย่างไร?</p>
-<p>2. Snowflake Cortex AI รุกตลาด AI workload ได้จริงหรือแค่ marketing — มี case study ลูกค้าที่ spend เพิ่มเพราะ AI feature?</p>
-<p>3. Databricks vs Snowflake — ลูกค้าเลือกอะไรและทำไม ใน use case ที่ทับซ้อนกัน?</p>
-<p>4. FCF (Free Cash Flow) จริง ๆ ของ FY2026 เท่าไหร่ — เทียบกับ market cap ให้ FCF yield ที่น่าสนใจไหม?</p>
-<p>5. P/S ~25x justify ได้จาก growth rate แค่ไหน — ต้องโตกี่ปีถึง revenue จะ &quot;catch up&quot; กับ valuation?</p>
+<h1>SNOW — Snowflake Inc. (Full Giggs-style Investment Memo)</h1>
+<blockquote>ขอบเขต: memo นี้เป็นกรอบวิจัยระยะยาวของหุ้นอ้างอิง SNOW สำหรับ DR SNOW06 เท่านั้น ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคาและ valuation เป็นของหุ้นสหรัฐฯ ยังไม่รวม FX, conversion ratio, premium/discount และสภาพคล่องของ DR</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> อยู่ใน watchlist / ต้องพิสูจน์ต่อ ไม่ให้ rating ซื้อขาย เพราะ GAAP loss และ SBC ยังสูงเมื่อเทียบกับกำไรต่อหุ้น (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>กรอบ fair value 5 ปี:</b> bear/base/bull = <b>$220 / $420 / $650 ต่อหุ้น</b> เป็น scenario range ไม่ใช่ราคาเป้าหมายรับรอง; ใช้ current reference $328.99 และสมมติ terminal multiple/การเติบโตตาม scenario (Judgment; Yahoo chart + model, ดึง 2026-09-13)</li>
+<li><b>กรอบ entry:</b> ไม่ตั้งจุดซื้ออัตโนมัติ; หากศึกษาเพิ่มควรกำหนดราคาโดยดู diluted FCF/share และ NRR พร้อมกัน ไม่ใช่ P/S อย่างเดียว (Judgment; SEC 10-K, ดึง 2026-09-13)</li>
+<li><b>Allocation:</b> ยังไม่กำหนดเปอร์เซ็นต์แทนพี่ต้อง; DR SNOW06 มีความเสี่ยงเพิ่มจาก FX, conversion และ tracking error จึงควร cap ตามความเสียหายที่รับได้ (Judgment; dashboard_holdings.json และ risk factors ใน 10-K, ดึง 2026-09-13)</li>
+<li><b>5Y price CAGR โดยไม่รวม FX/DR:</b> bear <b>-7.7%</b>, base <b>+5.0%</b>, bull <b>+14.6%</b> จาก $328.99 ถึงปีที่ 5; เป็นผลคำนวณจาก scenario ไม่ใช่ forecast (Calculation/Judgment; Yahoo chart + model, ดึง 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Snowflake ให้บริการแพลตฟอร์มข้อมูลบน AWS, Azure และ GCP สำหรับเก็บ ประมวลผล วิเคราะห์ แชร์ข้อมูล และสร้าง AI/data applications โดยคิดเงินตาม compute, storage และ data transfer ที่ลูกค้าใช้จริง (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>เครื่องยนต์รายได้คือ product consumption: ลูกค้าเซ็น capacity arrangement 1–4 ปีหรือใช้ on-demand และการใช้มักเพิ่มตาม workload; FY2026 product revenue อยู่ที่ $4.472B จากรายได้รวม $4.684B (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>บริษัทขยายจาก analytics/data warehouse ไปยัง data engineering, transactions, collaboration และ AI เช่น Cortex, Snowflake Intelligence และ Snowpark; การขยายนี้เพิ่มพื้นที่ให้ลูกค้าใช้เงินใน platform เดิม แต่ก็พาเข้าไปชนคู่แข่งหลายตลาดมากขึ้น (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>การเติบโตมาจากลูกค้าใหม่, การเพิ่ม consumption ของลูกค้าเดิม, การขยายต่างประเทศ, Marketplace/partners และ AI workloads; ลูกค้า Forbes Global 2000 790 รายคิดเป็นประมาณ 43% ของ FY2026 revenue จึงมี enterprise concentration ที่ต้องติดตาม (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Scale economics / process power:</b> architecture แยก storage, compute และ cloud services ทำให้รองรับหลาย use case และหลาย cloud; หากลูกค้ารวมข้อมูลและ workflow ไว้มาก switching cost เชิงปฏิบัติการจะสูงขึ้น แต่ไม่ใช่การรับประกันว่าจะย้ายไม่ได้ (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>Network/collaboration power:</b> cross-cloud sharing และ Marketplace ทำให้ data providers, partners และ consumers ใช้เครือข่ายเดียวกัน; ประโยชน์จะมีน้ำหนักก็ต่อเมื่อ usage และ ecosystem โตโดยไม่ต้องอุดหนุนมากเกินไป (Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>Threat:</b> AWS, Azure, GCP, Databricks, legacy database และผู้เล่นใหม่แข่งขันทั้ง product, price, AI และ cloud infrastructure; open formats เช่น Apache Iceberg อาจลด lock-in (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>Execution risk:</b> การขยายไป AI/transactions ทำให้ต้องลงทุน R&amp;D, GPU/inference และ go-to-market มากขึ้น ขณะที่บริษัทเองระบุว่าความสามารถ forecast ยังจำกัดจากธุรกิจที่โตเร็วและ product ใหม่จำนวนมาก (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<h2>4. Financial Quality 5-year</h2>
+<blockquote>หมายเหตุ: source ที่ cache ในรอบนี้ให้ตัวเลข FY2024–FY2026 เป็นหลัก; ตัวเลข FY2022–FY2023 บางรายการไม่พบใน excerpt จึงไม่เติมตัวเลขแทน</blockquote>
+<li><b>Revenue:</b> FY2024 $2.806B → FY2025 $3.626B → FY2026 $4.684B; โต 29% ใน FY2026 แต่ฐานข้อมูลที่มีไม่ครบ 5 ปี (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>Gross margin:</b> 68% → 67% → 67%; gross margin ทรงตัวสูง แต่ยังไม่มีหลักฐานจาก source รอบนี้ว่าดีขึ้นต่อเนื่อง (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>Operating margin / net margin:</b> operating margin -39% → -40% → -31%; net margin -30% → -36% → -28%; ขาดทุน GAAP ยังอยู่ แม้ operating loss ดีขึ้นเมื่อเทียบกับรายได้ (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>OCF / FCF:</b> OCF $848M → $960M → $1.222B และ non-GAAP FCF $779M → $884M → $1.120B; คุณภาพกระแสเงินสดดีกว่า GAAP earnings แต่ต้องหัก dilution จาก SBC ก่อนดูต่อหุ้น (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li><b>R&amp;D / CapEx / ROE / ROIC:</b> FY2026 R&amp;D $1.969B, CapEx $101.6M; ROE และ ROIC ที่เชื่อถือได้ไม่พบจาก source ที่ใช้รอบนี้ เพราะ net income ติดลบและฐานทุนมีผลจาก SBC/notes (Fact/Limitation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>Cash, cash equivalents และ investments รวมประมาณ $4.8B ณ 31 ม.ค. 2026; เป็น buffer สำคัญ แต่ไม่ควรเรียกว่า net cash จนกว่าจะหัก convertible notes ครบ (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>Convertible notes มี principal รวม $2.3B ออกปี 2024 แบ่ง due 2027 สอง tranche; capped calls $195.5M ช่วยลด dilution ได้บางส่วน แต่ conversion risk ยังมี (Fact; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>SBC FY2026 <b>$1.600B หรือ 34% ของรายได้</b>; แม้ FCF เป็นบวก ตัวเลขนี้ทำให้ต้องติดตาม diluted shares และ FCF ต่อหุ้น ไม่ใช่ดู FCF รวม (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<li>บริษัทซื้อหุ้นคืน $873.5M ใน FY2026 และเพิ่มอีก $300M ถึง 20 มี.ค. 2026; buyback อาจช่วย offset dilution แต่ไม่ได้พิสูจน์ว่ามูลค่าต่อหุ้นเพิ่ม หากซื้อใน valuation สูง (Fact/Interpretation; SEC 10-K FY2026, ดึง 2026-09-13)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Q1 FY2027 product revenue $1.334B, +34% YoY; NRR 126%; non-GAAP operating margin 12%</b> ตามสรุป transcript ที่ cache ไว้ (Fact; sources/SNOW/q1-2027-call.md, ดึง 2026-09-13)</li>
+<li>Management raised FY2027 product-revenue guidance เป็น <b>$5.84B หรือ +31%</b>, Q2 guide $1.415–$1.420B และ FY non-GAAP operating margin target 13.5%; source นี้เป็น transcript summary ไม่ใช่ filing (Fact; sources/SNOW/q1-2027-call.md, ดึง 2026-09-13)</li>
+<li>ลูกค้ารวม 13,912 ราย; มีลูกค้า 64 รายที่มี TTM revenue เกิน $10M และ 79 ราย spending เกิน $1M ในงวดตามสรุป call (Fact; sources/SNOW/q1-2027-call.md, ดึง 2026-09-13)</li>
+<li>AI adoption ที่ management ชี้ ได้แก่ Cortex Code มากกว่า 7,100 accounts และ Snowflake Intelligence accounts เพิ่มมากกว่าสองเท่า QoQ; เป็น claim ของ management ต้องตรวจเทียบ release/call ฉบับเต็มเมื่อเข้าถึงได้ (Fact/Caveat; sources/SNOW/q1-2027-call.md, ดึง 2026-09-13)</li>
+<li><b>Transcript ล่าสุดจาก StockAnalysis:</b> ไม่สามารถยืนยัน Q2 FY2027 จาก StockAnalysis ได้ในรอบนี้; จึงใช้ Q1 FY2027 summary ที่มีใน source และไม่เรียกตัวเลข Q2 ว่าเป็น transcript (Limitation; StockAnalysis URL ที่ตรวจ 2026-09-13 และ sources/SNOW/q1-2027-call.md)</li>
+<h2>7. Valuation</h2>
+<li>ราคาหุ้นอ้างอิง <b>$328.99</b>, 52-week range <b>$121.11–$356.47</b>, ณข้อมูลแท่งรายวันล่าสุดที่ Yahoo chart endpoint คืนมา (timestamp 2026-09-11; ดึง 2026-09-13) (Fact; Yahoo Finance chart endpoint, ดึง 2026-09-13)</li>
+<li>Market cap, trailing/forward P/E และ EV/EBITDA ที่เชื่อถือได้ <b>ไม่พบใน endpoint รอบนี้</b>; GAAP P/E ใช้ไม่ได้ขณะขาดทุน และไม่ควรแต่งตัวเลขแทน (Limitation; Yahoo Finance chart endpoint + SEC 10-K, ดึง 2026-09-13)</li>
+<li>P/S แบบหยาบจากราคาและ FY2026 revenue เคยประเมินได้ราว 25x แต่เป็น snapshot ที่ใช้ market cap/share count และไม่ใช่ valuation ที่ปรับ dilution; จึงไม่ใช้เป็นคำตัดสินเดียว (Interpretation/Limitation; SEC 10-K และ Yahoo chart, ดึง 2026-09-13)</li>
+<li>กรอบ scenario ใช้ diluted FCF growth, terminal multiple และ execution ของ AI เป็นตัวแปร; ไม่ใช้คำว่า cheap/expensive เป็น fact เพราะ multiple ที่เหมาะสมขึ้นกับ dilution และการเปลี่ยนจาก consumption เป็นกำไรต่อหุ้น (Judgment; SEC 10-K, ดึง 2026-09-13)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานหลัก | EPS/FCF proxy ปี 5 | Multiple proxy | ราคาอ้างอิงปี 5 | CAGR จาก $328.99 | Probability เชิงวินัย* |</p>
+<p>|---|---|---:|---:|---:|---:|---:|</p>
+<p>| Bull | product growth รักษา high-20s, AI เพิ่ม consumption, SBC/share ลด | $13 | 50x | $650 | +14.6% | 25% |</p>
+<p>| Base | growth ลดลงตาม scale, NRR ราว 120%+, operating leverage ค่อย ๆ มา | $14 | 30x | $420 | +5.0% | 50% |</p>
+<p>| Bear | competition/open formats กด growth, NRR ต่ำลง, dilution สูง | $11 | 20x | $220 | -7.7% | 25% |</p>
+<li>*Probability เป็น judgment เพื่อบังคับให้เห็น downside ไม่ใช่ statistical forecast; ตัวเลข scenario และ CAGR คำนวณจาก model ณ 2026-09-13 (Judgment/Calculation; Yahoo chart, SEC 10-K, ดึง 2026-09-13)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<p><b>Catalysts</b></p>
+<li>การเติบโตของ product revenue และ NRR เร่งขึ้นพร้อมกัน โดย AI usage แปลงเป็น paid consumption จริง (Interpretation; sources/SNOW/q1-2027-call.md, ดึง 2026-09-13)</li>
+<li>FY2027 guide ถูกทำได้โดย non-GAAP margin ดีขึ้นและ SBC/share ไม่เร่ง (Judgment; sources/SNOW/q1-2027-call.md และ SEC 10-K, ดึง 2026-09-13)</li>
+<li>Enterprise cohort และ Marketplace/partners ขยายโดยไม่ต้องลดราคาแรง (Interpretation; SEC 10-K, ดึง 2026-09-13)</li>
+<p><b>Risks</b></p>
+<li>NRR หลุดต่ำกว่า 120% หรือ product growth ชะลอจากการ optimize consumption/ย้าย workload (Judgment; SEC 10-K risk factors, ดึง 2026-09-13)</li>
+<li>Databricks/cloud vendors ใช้ bundle หรือ pricing กด gross margin และลดความแตกต่างของ multi-cloud layer (Interpretation; SEC 10-K, ดึง 2026-09-13)</li>
+<li>SBC และ convertible-note dilution ทำให้ FCF/share โตช้ากว่า FCF รวม (Fact/Interpretation; SEC 10-K, ดึง 2026-09-13)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้าสมมติฐานผิดว่า AI workloads จะเพิ่ม Snowflake consumption อย่างมีนัยสำคัญ รายได้อาจกลับไปผูกกับ budget optimization มากกว่าการเติบโตของ AI (Judgment; SEC 10-K และ Q1 summary, ดึง 2026-09-13)</li>
+<li>Permanent capital loss ไม่ได้มาจากราคาลงอย่างเดียว แต่อาจมาจากบริษัทต้องออกหุ้น/หนี้เพื่อรักษาการลงทุน ขณะที่ growth ต่ำจนไม่เกิด operating leverage (Interpretation; SEC 10-K, ดึง 2026-09-13)</li>
+<li>Bear floor เชิงกรอบ $220 ไม่ใช่การรับประกัน; หาก growth ติดลบและ dilution สูงกว่าสมมติฐาน มูลค่าอาจต่ำกว่านี้ได้ (Judgment; model, ดึง 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/DCA:</b> ใช้เป็นกรอบศึกษาเท่านั้น; แยกหุ้น SNOW ออกจาก DR SNOW06 และรวม FX, conversion ratio, fee, bid-ask และสภาพคล่องก่อนคำนวณผลตอบแทน (Judgment; dashboard_holdings.json และ Yahoo chart, ดึง 2026-09-13)</li>
+<li><b>Sizing/cap:</b> ไม่กำหนดตัวเลขแทนพี่ต้อง; จำกัดตาม maximum loss ที่รับได้จาก high-multiple software และ SBC dilution ไม่ใช่ตามความมั่นใจ (Judgment; SEC 10-K, ดึง 2026-09-13)</li>
+<li><b>Exit/kill conditions:</b> ทบทวนทันทีถ้า product growth ต่ำกว่า 20% สองไตรมาสติดโดยไม่ใช่ timing, NRR ต่ำกว่า 120%, หรือ SBC/share ไม่ลดขณะ operating leverage ไม่มา (Judgment; SEC 10-K + Q1 summary, ดึง 2026-09-13)</li>
+<li>ราคาลงเพียงอย่างเดียวไม่ใช่ thesis break; thesis break คือการเสื่อมของ consumption, retention, gross margin หรือ per-share economics (Interpretation; SEC 10-K, ดึง 2026-09-13)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ประเภท | ข้อความ | Source/date |</p>
+<p>|---|---|---|</p>
+<p>| Fact | FY2026 revenue $4.684B, OCF $1.222B, FCF $1.120B, SBC $1.600B | SEC 10-K FY2026, 2026-09-13 |</p>
+<p>| Fact | Q1 FY2027 product revenue $1.334B, NRR 126%, FY guide $5.84B | sources/SNOW/q1-2027-call.md, 2026-09-13 |</p>
+<p>| Fact | SNOW06 เป็น DR ของ Snowflake และ conversion ratio ใน dashboard คือ 2,000 | dashboard_holdings.json, 2026-09-13 |</p>
+<p>| Interpretation | AI อาจทำให้ consumption โตเร็วขึ้น แต่ต้องพิสูจน์ผ่าน NRR และ FCF/share | SEC 10-K + Q1 summary, 2026-09-13 |</p>
+<p>| Interpretation | Buyback ไม่พอชดเชย dilution โดยอัตโนมัติ | SEC 10-K, 2026-09-13 |</p>
+<p>| Judgment | Fair-value range $220/$420/$650 และ probabilities 25/50/25 | Model, 2026-09-13 |</p>
+<p>| Judgment | Kill conditions: growth &lt;20%, NRR &lt;120%, หรือ SBC/share ไม่ลด | Model จาก risk metrics, 2026-09-13 |</p>
 </div></body></html>

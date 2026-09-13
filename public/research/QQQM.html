@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QQQM — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">QQQM</div>
+<div class="meta">Thesis · 2026-09-13</div>
+<hr>
+<p>ticker: QQQM</p>
+<p>company: Invesco NASDAQ 100 ETF</p>
+<p>written_at: 2026-09-13</p>
+<p>scope: Full Giggs-style investment memo; SET DR is QQQM19</p>
+<p>not_investment_advice: true</p>
+<hr>
+<h1>QQQM — Invesco NASDAQ 100 ETF (Full Giggs-style Investment Memo)</h1>
+<blockquote>ขอบเขต: QQQM เป็น ETF ไม่ใช่บริษัทปฏิบัติการ จึงไม่มี earnings call, revenue, debt, SBC หรือ ROIC ของตัวเองแบบหุ้นรายตัว memo นี้วิเคราะห์ vehicle และดัชนีที่มันติดตาม สำหรับ DR QQQM19 เท่านั้น ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> core-watchlist / diversified growth vehicle; ไม่ให้ rating ซื้อขาย เพราะ valuation ของกองทุนสะท้อนบริษัทเทคขนาดใหญ่และยังมี concentration risk (Interpretation; Invesco product page + Yahoo chart, ดึง 2026-09-13)</li>
+<li><b>กรอบ fair value 5 ปีของ QQQM:</b> bear/base/bull = <b>$260 / $380 / $520</b> ต่อหน่วย เป็น scenario range ไม่ใช่ราคาเป้าหมายรับรอง; ใช้ราคาอ้างอิง $294.39 (Judgment; Yahoo chart + model, ดึง 2026-09-13)</li>
+<li><b>กรอบ entry:</b> ไม่ตั้งจุดซื้ออัตโนมัติ; ควรเทียบกับ earnings yield/FCF yield ของ constituent และ valuation ของ Nasdaq-100 ก่อนทำ DCA (Judgment; Yahoo chart, ดึง 2026-09-13)</li>
+<li><b>Allocation:</b> เป็น ETF จึงกระจายกว่าหุ้นเดี่ยว แต่ไม่ใช่ตลาดทั้งหมด; cap ควรคำนึงถึงการซ้ำซ้อนกับ DR MSFT, NVDA, GOOGL, AMZN และหุ้นเทคตัวอื่นในพอร์ต (Judgment; dashboard_holdings.json และ Invesco product description, ดึง 2026-09-13)</li>
+<li><b>5Y price CAGR ไม่รวม FX/DR:</b> bear <b>-2.5%</b>, base <b>+5.2%</b>, bull <b>+12.1%</b> จาก $294.39 ถึงปีที่ 5; เป็น scenario calculation ไม่ใช่ forecast (Calculation/Judgment; Yahoo chart + model, ดึง 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>QQQM เป็น passive ETF ที่มีเป้าหมายติดตาม Nasdaq-100 ซึ่งรวมหุ้น non-financial ขนาดใหญ่ที่จดทะเบียนใน Nasdaq; ผู้ถือได้รับผลตอบแทนรวมของ basket หักค่าใช้จ่ายกองทุน ไม่ได้ซื้อรายได้ของ Invesco โดยตรง (Fact; Invesco QQQM product page, ตรวจ 2026-09-13)</li>
+<li>Revenue engine ของ underlying basket มาจากยอดขาย cloud/software/advertising/semiconductor/consumer platform ของบริษัทสมาชิก ส่วน ETF เองรับค่าธรรมเนียมจากสินทรัพย์และผ่านต้นทุนดำเนินงาน; งบรายได้/กำไรแบบบริษัท operating company ของ QQQM <b>ไม่พบและไม่ควรแต่ง</b> (Fact/Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li>จุดเด่นของ vehicle คือ one-ticket exposure ต่อ growth leaders หลายบริษัท; จุดจำกัดคือ index methodology ไม่ได้คัดหุ้นตามราคาถูกหรือคุณภาพกำไร และน้ำหนัก market-cap ทำให้ผู้ชนะเดิมมีอิทธิพลมากขึ้น (Interpretation; Invesco product description, ดึง 2026-09-13)</li>
+<li>QQQM19 ใน dashboard เป็น SET DR บน QQQM, issuer YUANTA, conversion ratio 500 ตาม snapshot; ผลตอบแทนจริงจึงต่างจาก USD ETF ได้จาก FX, ratio, ค่าธรรมเนียม และ premium/discount (Fact; dashboard_holdings.json, ดึง 2026-09-13)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Scale/low-cost distribution:</b> ETF index vehicle ให้ exposure กว้างในธุรกรรมเดียวและติดตามกติกาที่โปร่งใส; ข้อได้เปรียบอยู่ที่ simplicity, liquidity และ scale ของกอง ไม่ใช่สิทธิบัตรของบริษัทสมาชิก (Interpretation; Invesco product page, ดึง 2026-09-13)</li>
+<li><b>Learning/network power ของ basket:</b> บริษัทสมาชิกมี ecosystem และ distribution ของตัวเอง แต่ QQQM ไม่ได้ป้องกันไม่ให้หุ้นถูกถอดออกหรือคู่แข่งแย่งผลกำไร; ETF รับผลของการเปลี่ยนแปลงนั้นโดยตรง (Interpretation; Nasdaq-100/ Invesco description, ดึง 2026-09-13)</li>
+<li><b>Concentration risk:</b> basket มีน้ำหนักไปที่ mega-cap technology/communication/consumer growth และผลตอบแทนพึ่งพาหุ้นใหญ่ไม่กี่ตัวมากกว่าการกระจายแบบตลาดทั้งตลาด (Interpretation; Invesco product description และ dashboard portfolio overlap, ดึง 2026-09-13)</li>
+<li><b>Threat:</b> ดอกเบี้ยสูง, multiple compression, regulation, export controls, AI capex ที่ให้ผลตอบแทนต่ำ และการแข่งขันใน cloud/ads/chips สามารถกดหลาย constituent พร้อมกัน (Interpretation; Yahoo chart + constituent business filings ไม่ได้ดึงครบในรอบนี้, ดึง 2026-09-13)</li>
+<h2>4. Financial Quality 5-year</h2>
+<blockquote>QQQM ไม่มี operating statements แบบบริษัท และ source รอบนี้ไม่ได้ดึง annual reports ของ constituent ทั้งหมด จึงรายงานเป็นข้อจำกัด ไม่สร้างตัวเลขรวมปลอม</blockquote>
+<li><b>Revenue/Gross margin/Operating margin/Net income:</b> ไม่ใช่ metric ของ ETF; QQQM ไม่มีรายได้จากการขายสินค้าและไม่มี gross margin ของธุรกิจตัวเอง (Fact/Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li><b>OCF/CapEx/FCF:</b> ไม่พบตัวเลข operating cash flow/capex/free cash flow ในรูปแบบบริษัทสำหรับ QQQM; ต้องวิเคราะห์ FCF ของ constituent และ distribution หลังค่าใช้จ่ายแทน (Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li><b>R&amp;D/ROE/ROIC:</b> ไม่ใช่ตัวเลขรวมที่มีความหมายสำหรับ ETF; ตัวเลขเหล่านี้แตกต่างกันมากระหว่าง constituent และไม่ได้ถูกรวมใน source รอบนี้ (Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li><b>คุณภาพเชิง portfolio:</b> วิธีที่ถูกต้องคือดู weighted earnings growth, FCF yield, balance-sheet risk และ contribution ของ top holdings; ชุดข้อมูลถ่วงน้ำหนักล่าสุด <b>ไม่พบในรอบนี้</b> (Limitation; Invesco page access และ Yahoo chart, ดึง 2026-09-13)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>QQQM ไม่มี debt/SBC/buyback แบบบริษัท operating company; ผู้ถือครอง exposure ต่อ balance sheet และ capital allocation ของ constituent ผ่านราคาหุ้นและเงินปันผล (Fact; Invesco product description, ดึง 2026-09-13)</li>
+<li>กองทุนมีค่าใช้จ่ายและ tracking difference ซึ่งลดผลตอบแทนเมื่อเทียบกับดัชนี; expense ratio ล่าสุดจากหน้า official ที่เข้าถึงได้ในรอบนี้ <b>ไม่สามารถยืนยันตัวเลขได้ จึงไม่ใส่ตัวเลข</b> (Limitation; Invesco product page, ตรวจ 2026-09-13)</li>
+<li>Capital allocation ของ basket อาจเป็น buyback, dividend, R&amp;D, AI/data-center capex หรือ M&amp;A; การกระจายช่วยลด single-company risk แต่ไม่ลด risk ของการลงทุนเทคขนาดใหญ่ทั้งกลุ่ม (Interpretation; constituent filings ไม่ได้ดึงครบ, ดึง 2026-09-13)</li>
+<li>DR QQQM19 เพิ่มชั้นของ issuer/custody/conversion และตลาดไทย; ต้องดูราคา DR ไม่ใช่ใช้ราคา ETF USD อย่างเดียวเมื่อวัดผลจริง (Fact/Interpretation; dashboard_holdings.json, ดึง 2026-09-13)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>ไม่มี earnings call ของ QQQM</b> เพราะเป็น ETF; การเรียกผลประกอบการของ constituent ว่าเป็น earnings ของ QQQM จะทำให้ trace ผิด (Fact/Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li>ผลตอบแทนล่าสุดของ vehicle ที่ตรวจได้คือราคา QQQM <b>$294.39</b> จาก Yahoo chart endpoint และช่วง 52 สัปดาห์ <b>$229.87–$307.23</b> ณแท่งรายวันล่าสุด (2026-09-11; ดึง 2026-09-13) (Fact; Yahoo Finance chart endpoint, ดึง 2026-09-13)</li>
+<li>Guidance/beat/miss ของ QQQM <b>ไม่พบและไม่มีความหมายโดยตรง</b>; หากต้องการ earnings ต้องเปิดงบของ top holdings เป็นรายบริษัท แล้วคำนวณ weighted contribution จาก holdings date เดียวกัน (Limitation; Invesco product page, ดึง 2026-09-13)</li>
+<li>Transcript source แบบ StockAnalysis <b>ไม่ applicable</b> สำหรับ ETF; จึงไม่มีการแทนด้วย transcript ของ constituent ใดตัวหนึ่ง (Limitation; StockAnalysis convention และ Invesco product page, ดึง 2026-09-13)</li>
+<h2>7. Valuation</h2>
+<li>ราคา QQQM <b>$294.39</b>, 52-week range <b>$229.87–$307.23</b>, ณข้อมูลแท่งรายวันล่าสุดที่ Yahoo chart endpoint คืนมา (timestamp 2026-09-11; ดึง 2026-09-13) (Fact; Yahoo Finance chart endpoint, ดึง 2026-09-13)</li>
+<li>P/E, forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield และ PEG แบบ weighted ของ QQQM <b>หาไม่ได้ใน endpoint/source รอบนี้</b>; ไม่ใช้ตัวเลขจากแหล่งที่ยังตรวจไม่ได้ (Limitation; Yahoo chart + Invesco page, ดึง 2026-09-13)</li>
+<li>Historical valuation range ของ ETF และ peer comparison กับ QQQ/SPY/ตลาดรวม <b>ไม่พบในข้อมูลที่ดึงรอบนี้</b>; จึงไม่สรุปว่าถูกหรือแพง (Limitation; source access, ดึง 2026-09-13)</li>
+<li>กรอบ scenario: bear $260, base $380, bull $520 ในปี 5; สมมติฐานสะท้อน growth และ multiple ของ mega-cap growth โดยรวม ไม่ใช่ intrinsic value ที่ audited (Judgment; model, ดึง 2026-09-13)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานหลัก | กำไร/FCF ของ basket | Multiple/return regime | ราคาอ้างอิงปี 5 | CAGR จาก $294.39 | Probability เชิงวินัย* |</p>
+<p>|---|---|---|---|---:|---:|---:|</p>
+<p>| Bull | AI/cloud monetization สูง, earnings โตต่อ, multiple ไม่หดมาก | growth สูง | premium growth | $520 | +12.1% | 25% |</p>
+<p>| Base | earnings โตระดับกลาง, multiple ลดบางส่วน, index ยังมี compounders | growth กลาง | normalized | $380 | +5.2% | 50% |</p>
+<p>| Bear | ดอกเบี้ย/valuation กด, AI capex ROI ต่ำ, mega-cap growth ชะลอพร้อมกัน | growth ต่ำ | de-rating | $260 | -2.5% | 25% |</p>
+<li>*Probability เป็น judgment เพื่อบังคับให้เห็น downside ไม่ใช่ statistical forecast; ราคาและ CAGR คำนวณ ณ 2026-09-13 (Judgment/Calculation; Yahoo chart + model, ดึง 2026-09-13)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<p><b>Catalysts</b></p>
+<li>Earnings ของ top holdings โตจาก cloud, AI infrastructure, software และ digital advertising โดยไม่ทำให้ capex สูงกว่ากระแสเงินสดระยะยาว (Interpretation; constituent filings ไม่ได้ดึงครบ, ดึง 2026-09-13)</li>
+<li>Breadth ของกำไรขยายจากหุ้น mega-cap ไปยัง constituent รองลงมา ทำให้ผลตอบแทนไม่พึ่ง top holdings ไม่กี่ราย (Judgment; holdings data ล่าสุดไม่พบ, ดึง 2026-09-13)</li>
+<li>Tracking ของ DR QQQM19 ใกล้ underlying และ FX ไม่สวนทางมาก (Interpretation; dashboard_holdings.json, ดึง 2026-09-13)</li>
+<p><b>Risks</b></p>
+<li>Multiple ของ growth stocks ลดลงแม้กำไรยังโต ทำให้ผลตอบแทนต่ำกว่าการเติบโตของ earnings (Interpretation; Yahoo chart + model, ดึง 2026-09-13)</li>
+<li>AI capex ให้ผลตอบแทนต่ำหรือเกิดการแข่งขันด้านราคาใน cloud/chips/ads กดกำไรหลาย constituent พร้อมกัน (Interpretation; constituent sources ไม่ครบ, ดึง 2026-09-13)</li>
+<li>Portfolio ซ้ำกับ DR รายตัวของพี่ต้อง ทำให้ diversification จริงต่ำกว่าที่มองจากชื่อ ETF (Fact/Interpretation; dashboard_holdings.json, ดึง 2026-09-13)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า QQQM คือการซื้อ mega-cap growth ใน valuation สูงโดยไม่รู้ weighted multiple เราอาจกำลังเพิ่ม concentration โดยเข้าใจว่าเป็น diversification (Judgment; missing weighted valuation data, ดึง 2026-09-13)</li>
+<li>Permanent capital loss เชิง real return อาจเกิดจากการถือผ่านช่วง multiple compression ยาวหลายปี ขณะที่ FX/DR tracking ลดผลตอบแทนซ้ำ (Interpretation; Yahoo chart + dashboard, ดึง 2026-09-13)</li>
+<li>Bear floor $260 ไม่ใช่การรับประกัน; shock ด้าน regulation, geopolitics หรือ earnings ของ top holdings อาจทำให้ต่ำกว่านั้น (Judgment; model, ดึง 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/DCA:</b> ใช้เป็นกรอบศึกษา ไม่กำหนดจังหวะซื้อแทน; ก่อน DCA ให้แยก QQQM19 จาก QQQM USD และรวม FX, conversion ratio 500, fee, bid-ask และ premium/discount (Fact/Judgment; dashboard_holdings.json + Yahoo chart, ดึง 2026-09-13)</li>
+<li><b>Sizing/cap:</b> QQQM อาจใช้เป็น satellite/core growth sleeve แต่ต้องหักน้ำหนักซ้ำกับ MSFT, NVDA, GOOGL, AMZN และ DR tech ตัวอื่นที่ถืออยู่; ไม่ให้เปอร์เซ็นต์ตายตัวโดยไม่เห็นเป้าหมายพอร์ตทั้งหมด (Judgment; dashboard_holdings.json, ดึง 2026-09-13)</li>
+<li><b>Exit/kill conditions:</b> ทบทวนถ้า index methodology/vehicle เปลี่ยน materially, tracking error/ค่าธรรมเนียมสูงขึ้น, top-holding concentration เกิน risk budget หรือ thesis ว่า earnings growth คุ้ม valuation ใช้ไม่ได้ (Judgment; Invesco product page + portfolio map, ดึง 2026-09-13)</li>
+<li>ราคาลงอย่างเดียวไม่ใช่ kill condition; ต้องแยก market drawdown ปกติออกจาก structural deterioration ของ basket, vehicle หรือ DR mechanics (Interpretation; Yahoo chart + dashboard, ดึง 2026-09-13)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ประเภท | ข้อความ | Source/date |</p>
+<p>|---|---|---|</p>
+<p>| Fact | QQQM เป็น ETF ของ Invesco ที่ติดตาม Nasdaq-100; ไม่ใช่ operating company | Invesco product page, 2026-09-13 |</p>
+<p>| Fact | QQQM ราคา $294.39 และ 52-week range $229.87–$307.23 จาก Yahoo chart | Yahoo Finance chart endpoint, 2026-09-13 |</p>
+<p>| Fact | QQQM19 เป็น SET DR, issuer YUANTA, conversion ratio 500 ใน dashboard snapshot | dashboard_holdings.json, 2026-09-13 |</p>
+<p>| Fact | ไม่มี earnings call/guidance ของ QQQM โดยตรง | Invesco product description, 2026-09-13 |</p>
+<p>| Interpretation | ETF กระจาย single-name risk แต่ยังมี mega-cap/growth concentration | Invesco description + dashboard overlap, 2026-09-13 |</p>
+<p>| Interpretation | ผลตอบแทน DR อาจต่างจาก USD ETF เพราะ FX, ratio, fee และ tracking | dashboard_holdings.json, 2026-09-13 |</p>
+<p>| Judgment | Fair-value range $260/$380/$520 และ probabilities 25/50/25 | Model, 2026-09-13 |</p>
+<p>| Judgment | ควรทบทวนเมื่อ concentration หรือ tracking ไม่อยู่ใน risk budget | Portfolio framework, 2026-09-13 |</p>
+</div></body></html>

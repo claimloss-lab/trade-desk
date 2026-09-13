@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AFRM — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">AFRM</div>
+<div class="meta">Thesis · 2026-09-13</div>
+<h1>AFRM — Affirm Holdings | Full Giggs-style Investment Memo</h1>
+<blockquote>ขอบเขต: หุ้นมี DR ใน SET ตาม pre-run universe. รายงานนี้เป็น research framework ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. ดึงข้อมูล 2026-09-13; ราคาจาก Yahoo Finance chart endpoint ปิดล่าสุดที่พบ 2026-09-11.</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> ยังไม่ให้ rating; transcript ล่าสุดตรวจไม่ได้และ FY2026 net income มีความเสี่ยงด้าน normalization จึงไม่ควรใช้ตัวเลข headline ตัดสินทันที (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Fair value:</b> ไม่ตั้ง point fair value; ใช้ scenario range แทน เพราะต้องแยก recurring earnings กับรายการพิเศษใน 10-K ก่อน (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนด entry หรือ allocation ใน memo นี้; สำหรับผู้ถือ DR ให้ cap ขนาดตามความเสี่ยง credit/funding และ dilution หลังทำ normalized EPS เอง (source: README.md; 2026-09-13)</li>
+<li><b>5Y CAGR:</b> ยังไม่คำนวณแบบรับผิดชอบได้; สูตร scenario อยู่ข้อ 8 และห้ามใช้ FY2026 NI เป็นฐานจนกว่าจะ reconcile (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Affirm เป็นแพลตฟอร์ม pay-over-time ที่เชื่อมผู้บริโภคกับร้านค้า ณ จุดชำระเงิน ร้านค้าได้ conversion/ตัวเลือกผ่อน ส่วน Affirm รับเศรษฐศาสตร์จาก merchant network, ดอกเบี้ย และการจัดหา/ขายสินเชื่อ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>การเติบโตต้องมาจาก active consumers, merchant adoption, transaction volume และรายได้ต่อธุรกรรม โดยไม่ทำให้ credit loss และ funding cost โตเร็วกว่ารายได้ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>FY2026 revenue $4.261bn เพิ่มจาก $3.224bn ใน FY2025; operating income พลิกเป็น $417.0m จาก -$87.3m แต่ net income $1.930bn กระโดดมาก จึงต้องตรวจรายการ non-recurring ก่อนใช้เป็นกำไรปกติ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Valuation snapshot:</b> ราคา $71.44; 52-week range ที่ดึงได้ $42.53–$92.18; market cap/P-E/EV-EBITDA หาแบบยืนยันได้ไม่ได้ใน run นี้ เพราะ share-count/กำไรที่ normalize ไม่พร้อม. เวลา 2026-09-13 UTC; source: Yahoo Finance chart endpoint <code>https://query1.finance.yahoo.com/v8/finance/chart/AFRM?range=1y&amp;interval=1d</code> (ราคาปิดล่าสุด 2026-09-11).</li>
+<h2>3. Financial Quality 5-year</h2>
+<li>FY2026 revenue $4.261bn vs $3.224bn FY2025; direction เป็นบวก แต่ five-year clean series ไม่ได้จัดทำครบจาก filing tables ในรอบนี้ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Operating income FY2026 $417.0m vs -$87.3m; margin direction ดีขึ้น แต่ต้องทดสอบความยั่งยืนของ credit/funding economics (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Net income FY2026 $1.930bn vs $52.2m; เป็น red flag ด้าน comparability ไม่ใช่หลักฐานว่ากำไรปกติอยู่ระดับนี้ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>OCF $1.231bn และ capex $238.3m FY2026; SBC $304.7m จึงควรหัก SBC ในการประเมิน owner earnings และตรวจ dilution (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>4. Balance Sheet &amp; Capital Allocation</h2>
+<li>Cash $1.630bn เทียบกับ long-term debt $9.794bn ณ 2026-06-30; นี่เป็นโครงสร้างที่ต้องดูคู่กับ loan receivables, securitization และ funding maturities ไม่ใช่ดู cash อย่างเดียว (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Assets $15.790bn และ equity $5.484bn; leverage/asset quality เป็นตัวแปรสำคัญต่อ downside (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>SBC $304.7m ลดลงเล็กน้อยจาก $321.4m แต่ยังมีนัยสำคัญเมื่อเทียบกับ operating income; ต้อง monitor diluted shares ไม่ใช่ basic EPS อย่างเดียว (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Capex $238.3m; ไม่พบหลักฐานใน source excerpt ที่ยืนยัน buyback รอบล่าสุด จึงไม่ใส่เป็น thesis (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>5. Latest Earnings</h2>
+<li>ไม่มี transcript ที่ยืนยันได้จาก StockAnalysis ในรอบนี้ เพราะหน้า direct fetch คืน 402/billing error; ไฟล์ล่าสุดจึงเป็น SEC 8-K/earnings-release ไม่ใช่ transcript (source: sources/AFRM/q2-2026-earnings-release.md; 2026-09-13)</li>
+<li>FY2026 revenue อยู่ที่ $4.261bn และ net income $1.930bn ตาม SEC Companyfacts; ห้ามเรียกตัวเลขนี้ว่า adjusted/recurring โดยไม่มี reconciliation เพิ่ม (source: sources/AFRM/q2-2026-earnings-release.md; 2026-09-13)</li>
+<li>FY2026 operating income $417.0m, OCF $1.231bn, capex $238.3m; guidance/beat-miss เทียบ consensus ไม่พบจาก source ที่เข้าถึงได้ (source: sources/AFRM/q2-2026-earnings-release.md; 2026-09-13)</li>
+<h2>6. Competitive Advantages &amp; Risks</h2>
+<li><b>Advantages:</b> network effects ระหว่าง merchant กับ consumer และ data/underwriting feedback loop เป็น Helmer-style network economies ที่อาจลด friction ได้ หาก credit performance รักษาได้ (interpretation; source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Risks:</b> คู่แข่งจากบัตรเครดิต, BNPL รายอื่น และผู้ให้บริการ checkout; merchant economics อาจถูกกด และ regulation อาจเปลี่ยน disclosure/underwriting (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Specific risk:</b> funding cost, delinquencies/charge-offs, securitization access และ SBC dilution สามารถทำให้ revenue โตแต่ owner earnings ไม่โต (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>7. Valuation</h2>
+<li>Trailing P/E จาก headline FY2026 ไม่ใช้เป็นตัวตัดสินจนกว่าจะ normalize net income; EV/EBITDA, EV/FCF, PEG และ peer set หาแบบยืนยันได้ไม่ได้ในรอบนี้ (source: Yahoo chart endpoint + sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Scenario anchor ที่ควรเก็บต่อ: recurring earnings, provision/charge-off trend, funding spread, diluted share count และ growth ของ GMV/active consumers; ตอนนี้ยังไม่มีตัวเลขครบพอจะให้ fair value ที่ไม่หลอกความแม่น (judgment; 2026-09-13)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull (25%):</b> revenue โตสูงต่อเนื่อง, operating margin ขยาย, credit loss อยู่ในกรอบ และ dilution ลดลง; ใช้ multiple สูงขึ้นกับ normalized EPS. Target/CAGR ยังไม่ระบุเพราะ EPS ฐานยังไม่ verified (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Base (50%):</b> revenue โตแต่ช้าลง, margin ทรงตัวถึงดีขึ้นเล็กน้อย, funding/credit กิน upside; ใช้ multiple ระดับกลาง. Target/CAGR ยังไม่ระบุ (interpretation; source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Bear (25%):</b> delinquencies และ funding cost สูงขึ้น, securitization แพง/จำกัด, merchant volume ชะลอ และ SBC ทำให้ per-share value ไม่โต; bear floor ต้องคำนวณจาก tangible equity/loan book หลังอ่าน notes ครบ (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>9. Catalysts &amp; Risks (12–24m)</h2>
+<li>Catalysts: recurring profitability ที่ reconcile ได้, credit loss ดีขึ้น, funding spread ลดลง และ diluted shares ทรงตัว (judgment; source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Risks: consumer stress, regulatory restrictions, warehouse/securitization funding และการแข่งขันแย่ง merchant (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>ข่าว 7 วันล่าสุด: ไม่ได้ยืนยันจาก IR/RSS ในรอบนี้ จึงไม่ใส่ข่าวเป็น catalyst (2026-09-13)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า Affirm เป็นเพียงผู้จัดสินเชื่อที่ต้องซื้อ growth ด้วย credit risk และ SBC เศรษฐศาสตร์ต่อหุ้นอาจแย่แม้ GMV โต (interpretation; source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Permanent-loss risk คือ loss severity/funding shock ทำให้ต้องเพิ่มทุนหรือยอมรับต้นทุนเงินทุนสูงนานกว่าคาด (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li>Bear floor ยังไม่ควรฟันธงจนกว่าจะตรวจ loan receivable, allowance, debt maturity และ noncontrolling/convertible details ใน 10-K ฉบับเต็ม (limitation; 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/sizing/DCA:</b> ไม่กำหนดคำสั่งซื้อหรือขนาดพอร์ต; หากศึกษาต่อให้ใช้ tranche เล็กและ cap ตาม risk budget หลัง normalized EPS/credit metrics ผ่านเท่านั้น (judgment; 2026-09-13)</li>
+<li><b>Monitor:</b> revenue/GMV, active consumers, merchant count, delinquency/charge-off, funding cost, provision, diluted shares และ SBC ทุกไตรมาส (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Exit/kill:</b> thesis เสียหาก credit losses สูงกว่ากรอบหลายไตรมาส, funding access เสื่อม, recurring operating margin กลับติดลบ หรือ per-share economics ถูก dilution กิน (judgment; source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2026 revenue $4.261bn, operating income $417.0m, NI $1.930bn, OCF $1.231bn, debt $9.794bn, SBC $304.7m. (source: sources/AFRM/10-k-fy2026.md; 2026-09-13)</li>
+<li><b>Interpretation:</b> operating leverage ดีขึ้น แต่ headline NI อาจไม่ใช่ normalized earnings; leverage/funding ทำให้ downside asymmetric. (source: same; 2026-09-13)</li>
+<li><b>Judgment:</b> ยังไม่ตั้ง fair value/rating/allocation จนกว่าจะได้ transcript หรือ management release ที่อ่านได้และ reconcile FY2026 earnings. (judgment; 2026-09-13)</li>
+<h3>ข้อจำกัด</h3>
+<p>StockAnalysis transcript และ IR pages ไม่สามารถ fetch ผ่านบริการที่มีอยู่ (402/billing error); valuation multiples, clean five-year table, guidance และ peer multiples จึงยังขาด. ห้ามใช้ memo นี้แทนการตรวจ 10-K ฉบับเต็ม.</p>
+</div></body></html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stock Research Showcase</title><style>
+<title>StockRoom</title><style>
   :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
   @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
   *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
@@ -31,16 +31,16 @@
   .hidden{display:none!important}
 </style></head><body>
 <header>
-  <div><h1>📊 Research Showcase</h1><p>Thesis โดย Hermes AI · อัปเดตอัตโนมัติ</p></div>
-  <div class="search-bar"><span>🔍</span><input type="text" id="q" placeholder="ค้นหา NVDA, Apple…" oninput="doSearch(this.value)"></div>
+  <div><h1>📚 StockRoom</h1><p>Research Thesis · Powered by Hermes AI · Auto-updated</p></div>
+  <div class="search-bar"><span>🔍</span><input type="text" id="q" placeholder="Search NVDA, Apple…" oninput="doSearch(this.value)"></div>
 </header>
 <main>
   <section id="results-section" class="hidden">
-    <div class="section-title">🔎 ผลการค้นหา <span class="ct" id="cnt-results">0</span></div>
+    <div class="section-title">🔎 Results <span class="ct" id="cnt-results">0</span></div>
     <div class="grid" id="results-grid"></div>
   </section>
   <section id="holdings-section">
-    <div class="section-title">📌 หุ้นที่ถืออยู่ <span class="ct">13</span></div>
+    <div class="section-title">🎯 Focus <span class="ct">14</span></div>
     <div class="grid" id="grid-hold"><a class="card card-hold" href="ORCL.html" style="border:2px solid var(--accent);"><div class="tk">ORCL</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
 <a class="card card-hold" href="AMZN.html" style="border:2px solid var(--accent);"><div class="tk">AMZN</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
 <a class="card card-hold" href="ASML.html" style="border:2px solid var(--accent);"><div class="tk">ASML</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
@@ -52,11 +52,12 @@
 <a class="card card-hold" href="NVDA.html" style="border:2px solid var(--accent);"><div class="tk">NVDA</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
 <a class="card card-hold" href="PANW.html" style="border:2px solid var(--accent);"><div class="tk">PANW</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
 <a class="card card-hold" href="PLTR.html" style="border:2px solid var(--accent);"><div class="tk">PLTR</div><div class="sn">Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
-<a class="card card-hold" href="SNOW.html" style="border:2px solid var(--accent);"><div class="tk">SNOW</div><div class="sn">SNOW</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="QQQM.html" style="border:2px solid var(--accent);"><div class="tk">QQQM</div><div class="sn">Invesco NASDAQ 100 ETF (Full Giggs-style Investment Memo)</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
+<a class="card card-hold" href="SNOW.html" style="border:2px solid var(--accent);"><div class="tk">SNOW</div><div class="sn">Snowflake Inc. (Full Giggs-style Investment Memo)</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a>
 <a class="card card-hold" href="MRVL.html" style="border:2px solid var(--accent);"><div class="tk">MRVL</div><div class="sn">Marvell Technology | Full Giggs-style Investment Memo</div><span class="tag-hold">📌 ถือ</span><div class="dt">2026-09-13</div></a></div>
   </section>
   <section id="all-section">
-    <div class="section-title">🌐 Thesis ทั้งหมด <span class="ct">268</span></div>
+    <div class="section-title">🌐 All Research <span class="ct">270</span></div>
     <div class="grid" id="grid-all"><a class="card" href="000660.KS.html" style=""><div class="tk">000660.KS</div><div class="sn">SK hynix Inc. (KOSPI: 000660 / KRW)</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AAOI.html" style=""><div class="tk">AAOI</div><div class="sn">Applied Optoelectronics</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AAPL.html" style=""><div class="tk">AAPL</div><div class="sn">Apple Inc.</div><div class="dt">2026-09-13</div></a>
@@ -76,6 +77,7 @@
 <a class="card" href="AEP.html" style=""><div class="tk">AEP</div><div class="sn">American Electric Power (NASDAQ: AEP)</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AES.html" style=""><div class="tk">AES</div><div class="sn">AES</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AFL.html" style=""><div class="tk">AFL</div><div class="sn">Aflac Incorporated</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="AFRM.html" style=""><div class="tk">AFRM</div><div class="sn">Affirm Holdings | Full Giggs-style Investment Memo</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AI.html" style=""><div class="tk">AI</div><div class="sn">AI</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AIG.html" style=""><div class="tk">AIG</div><div class="sn">American International Group</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="AIZ.html" style=""><div class="tk">AIZ</div><div class="sn">Assurant</div><div class="dt">2026-09-13</div></a>
@@ -202,6 +204,7 @@
 <a class="card" href="GFS.html" style=""><div class="tk">GFS</div><div class="sn">GlobalFoundries</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="GILD.html" style=""><div class="tk">GILD</div><div class="sn">Research Brief</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="GOOG.html" style=""><div class="tk">GOOG</div><div class="sn">Alphabet Inc.</div><div class="dt">2026-09-13</div></a>
+<a class="card" href="GS.html" style=""><div class="tk">GS</div><div class="sn">Goldman Sachs Group | Full Giggs-style Investment Memo</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="GTLB.html" style=""><div class="tk">GTLB</div><div class="sn">GitLab Inc.</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="HIMS.html" style=""><div class="tk">HIMS</div><div class="sn">Company Brief</div><div class="dt">2026-09-13</div></a>
 <a class="card" href="HIVE.html" style=""><div class="tk">HIVE</div><div class="sn">HIVE</div><div class="dt">2026-09-13</div></a>

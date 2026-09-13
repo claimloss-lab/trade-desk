@@ -23,12 +23,18 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
 .tag-hold{font-size:.7rem;font-weight:600;color:var(--accent);background:var(--badge);padding:2px 8px;border-radius:99px;align-self:flex-start}
 .dt{font-size:.72rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:2px 9px;border-radius:99px;margin-top:auto}
 .hidden{display:none!important}
+#results-section{margin-top:24px}
 </style></head><body>
 <header>
   <div><h1>📊 Research Showcase</h1><p>Thesis สร้างโดย Hermes AI · อัปเดตอัตโนมัติ</p></div>
   <div class="search-bar"><span>🔍</span><input type="text" id="q" placeholder="ค้นหา NVDA, Apple…" oninput="doSearch(this.value)"></div>
 </header>
 <main>
+  <section id="results-section" class="hidden">
+    <div class="section-title">🔎 ผลการค้นหา <span class="ct" id="cnt-results">0</span></div>
+    <div class="grid" id="results-grid"></div>
+  </section>
+  <section id="holdings-section">
   <div class="section-title">📌 หุ้นที่ถืออยู่ <span class="ct" id="cnt-hold">13</span></div>
   <div class="grid" id="grid-hold"><a class="card card-hold" href="ORCL.html" style="border:2px solid var(--accent);">
   <div class="tk">ORCL</div>
@@ -108,6 +114,8 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
   <span class="tag-hold">📌 ถือ</span>
   <div class="dt">2026-09-13</div>
 </a></div>
+  </section>
+  <section id="all-section">
   <div class="section-title" id="st-all">🌐 Thesis ทั้งหมด <span class="ct" id="cnt-all">268</span></div>
   <div class="grid" id="grid-all"><a class="card" href="000660.KS.html" style="">
   <div class="tk">000660.KS</div>
@@ -1717,19 +1725,24 @@ main{max-width:1100px;margin:0 auto;padding:10px 24px 60px}
   
   <div class="dt">2026-09-13</div>
 </a></div>
+  </section>
 </main>
 <script>
 function doSearch(q){
   q=q.trim().toLowerCase();
-  let allHide=0,allShow=0;
-  document.querySelectorAll('#grid-hold .card,#grid-all .card').forEach(c=>{
+  const cards=[...document.querySelectorAll('#grid-hold .card,#grid-all .card')];
+  const matches=cards.filter(c=>{
     const tk=c.querySelector('.tk').textContent.toLowerCase();
     const sn=c.querySelector('.sn').textContent.toLowerCase();
-    const show=!q||tk.includes(q)||sn.includes(q);
-    c.classList.toggle('hidden',!show);
-    if(c.closest('#grid-all'))show?allShow++:allHide++;
+    return !q||tk.includes(q)||sn.includes(q);
   });
-  document.getElementById('cnt-all').textContent=allShow||268;
+  const results=document.getElementById('results-section');
+  const resultsGrid=document.getElementById('results-grid');
+  resultsGrid.innerHTML=q?matches.map(c=>c.outerHTML).join(''):'';
+  document.getElementById('cnt-results').textContent=matches.length;
+  results.classList.toggle('hidden',!q);
+  document.getElementById('holdings-section').classList.toggle('hidden',!!q);
+  document.getElementById('all-section').classList.toggle('hidden',!!q);
 }
 </script>
 </body></html>

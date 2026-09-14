@@ -2631,7 +2631,10 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69"
+      "addedDate": "14 ส.ค. 69",
+      "_notified": true,
+      "_notifiedAt": "2026-09-14T03:35:23.896Z",
+      "_notifiedPrice": 5.5
     },
     {
       "id": 1786645665458,

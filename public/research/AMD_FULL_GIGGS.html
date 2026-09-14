@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMD_FULL_GIGGS — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">AMD_FULL_GIGGS</div>
+<div class="meta">Thesis · สร้างจาก briefs/AMD_FULL_GIGGS.md · 2026-09-14</div>
+<h1>AMD — Advanced Micro Devices | Full Investment Memo</h1>
+<p><b>วันที่จัดทำ/ดึงข้อมูล:</b> 14 กันยายน 2026 (UTC; ตลาดสหรัฐฯ อาจยังไม่ปิด)</p>
+<p><b>ขอบเขต:</b> หุ้นที่ pre-run ระบุว่าอยู่ใน DR universe ของ SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Investment question:</b> AMD จะเปลี่ยนความต้องการ AI/data-center และ CPU ให้เป็นกำไรต่อหุ้นและ free cash flow ที่ยั่งยืนได้หรือไม่ เมื่อการแข่งขันกับ NVIDIA/Intel และต้นทุนการพัฒนา/ซื้อกิจการสูงขึ้น? (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, SEC 10-K filed 2026-02-04, ดึง 2026-09-14)</li>
+<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; <b>ศึกษาต่อ / execution-dependent</b> เพราะ transcript จาก StockAnalysis ถูกปฏิเสธ HTTP 403 และ source set ไม่มี IR release ที่ยืนยัน guidance ล่าสุด. (Judgment/Caveat; ดึง 2026-09-14)</li>
+<li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดราคาเข้าหรือ allocation; scenario เป็น sensitivity framework ไม่ใช่ target priceและไม่ใช่คำแนะนำ. (Judgment; ดึง 2026-09-14)</li>
+<li><b>5Y CAGR:</b> ไม่คำนวณอย่างรับผิดชอบ เพราะ source set ไม่มี diluted EPS/share-count bridge และ peer/consensus multiples ที่ reconcile ได้. (Caveat; sources: SEC companyfacts, ดึง 2026-09-14)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>AMD ออกแบบ CPU, GPU, adaptive/embedded chips และ platform software แล้วขายผ่าน cloud providers, OEM/ODM, enterprise และผู้บริโภค; รายงานสาม segment คือ Data Center, Client and Gaming และ Embedded. (Reported; source: <code>sources/AMD/10-k-latest.html</code>, SEC 10-K, ดึง 2026-09-14)</li>
+<li><b>Follow the customer:</b> ลูกค้า Data Center จ่ายเพื่อ compute performance, efficiency และระบบ AI ที่ deploy ได้; Client/Gaming จ่ายเพื่อ performance-per-watt/graphics; Embedded จ่ายเพื่อ long-life, reliability และ design-in. (Reported/Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li><b>THE CORE:</b> EPYC server CPU, Ryzen client CPU และ Instinct accelerators; <b>THE OPTION:</b> full-stack AI systems/software, adaptive computing และ ZT Systems integration; <b>THE PRICE:</b> ต้องสะท้อนทั้ง growth และ execution/capital intensity ไม่ใช่ AI narrative อย่างเดียว. (Reported/Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li>Revenue โตจาก $16.434B ใน FY2021 เป็น $34.639B ใน FY2025 แต่ FY2022–2023 มี profitability disruption; growth จึงต้องวัดคู่กับ margin, cash conversion และ dilution. (Reported; source: SEC companyfacts <code>RevenueFromContractWithCustomerExcludingAssessedTax</code>, ดึง 2026-09-14)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Design ecosystem / switching costs:</b> x86 CPU compatibility, OEM/cloud qualification, software enablement และ customer design-in ช่วยให้ product ที่ผ่าน validation แล้วมี retention; แต่ accelerator software ecosystem ยังต้องพิสูจน์การไล่ทัน incumbent. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li><b>Portfolio breadth:</b> CPU, GPU, adaptive computing และ system capability ทำให้ cross-sell ได้มากกว่า chip เดี่ยว; ZT Systems acquisition ตั้งใจเร่ง end-to-end AI infrastructure. (Reported/Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li><b>Risks:</b> NVIDIA มี ecosystem/scale ใน AI accelerator, Intel แข่งขันใน CPU, hyperscaler ออก custom silicon, supply/TSMC dependence, export restrictions และ acquisition integration สามารถกด margin/ROIC. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| Fiscal year | Revenue ($B) | Gross profit ($B) | Operating income ($B) | Net income ($B) | OCF ($B) | R&amp;D ($B) | SBC ($B) |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| 2021 | 16.434 | 7.929 | 3.648 | 3.162 | 3.521 | 2.845 | 0.379 |</p>
+<p>| 2022 | 23.601 | 10.603 | 1.264 | 1.320 | 3.565 | 5.005 | 1.081 |</p>
+<p>| 2023 | 22.680 | 10.460 | 0.401 | 0.854 | 1.667 | 5.872 | 1.384 |</p>
+<p>| 2024 | 25.785 | 12.725 | 1.900 | 1.641 | 3.041 | 6.456 | 1.407 |</p>
+<p>| 2025 | 34.639 | 17.152 | 3.694 | 4.335 | 7.709 | 8.091 | 1.638 |</p>
+<li>Revenue and gross profit accelerated in FY2025, with operating income, net income and OCF also improving sharply; however, FY2022–2024 show that acquisition/accounting effects and product-cycle execution can separate revenue growth from earnings quality. (Reported/Interpretation; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li>R&amp;D rose from $2.845B to $8.091B and SBC from $379M to $1.638B over 2021–2025; this can fund platform expansion but must be measured against per-share value creation. (Reported; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li>Gross margin, operating margin, ROE and ROIC with one consistent normalized definition <b>ยังไม่ใส่เป็นตัวเลข</b> เพราะ source extraction ไม่ได้ reconcile purchase accounting/average invested capital ครบ. (Caveat; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Valuation snapshot:</b> ราคา $516.13; 52-week range $149.85–$584.73; market cap, P/E และ EV/EBITDA <b>ไม่พบจาก Yahoo chart endpoint ที่ใช้</b>; ณราคาที่ Yahoo chart รายงานและเวลาข้อมูลล่าสุดใน payload (<code>regularMarketTime</code> 2026-09-14), source: <code>sources/AMD/yahoo-chart.json</code>, ดึง 2026-09-14. Raw snapshot ไม่ใช่ข้อสรุปว่าถูก/แพง.</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>FY2025 cash and equivalents $5.539B, long-term debt noncurrent $2.348B และ debt long-term/short-term combined $3.222B; equity $62.999B แต่ equity series ถูกกระทบจาก acquisition accounting จึงไม่ใช้เทียบ ROIC แบบตรงไปตรงมา. (Reported/Caveat; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li>ZT Systems acquisition และการลงทุนใน AI roadmap เพิ่มโอกาส revenue แต่เพิ่ม integration, intangible/amortization และ capital allocation risk; ต้องดู cash paid, purchase accounting และ resulting return ไม่ใช่ดู revenue เพียงอย่างเดียว. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li>SBC เพิ่มเป็น $1.638B ใน FY2025; share count/dilution bridge และ buyback effect ที่ reconcile ได้ <b>ไม่พบใน source set</b> จึงไม่สรุปว่า EPS growth เป็น operating growth ทั้งหมด. (Reported/Caveat; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Transcript:</b> ไม่พบจาก StockAnalysis ในรอบนี้; direct transcript index ตอบ HTTP 403 เมื่อ 2026-09-14 จึงไม่เรียก 10-Q ว่า transcript. (Caveat; source attempt: <code>https://stockanalysis.com/stocks/amd/transcripts/</code>, ดึง 2026-09-14)</li>
+<li>Latest available SEC 10-Q filed 2026-08-05 ครอบคลุมงวดสิ้นสุด 2026-06-27; Q2 FY2026 revenue $11.536B, gross profit $6.203B, operating income $1.990B และ net income $2.297B. (Reported; source: SEC companyfacts/<code>sources/AMD/10-q-latest.html</code>, ดึง 2026-09-14)</li>
+<li>Six-month FY2026 revenue $21.789B และ OCF $5.321B; comparable six-month revenue $15.123B และ OCF $2.950B ใน prior-year presentation. (Reported; source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li>Guidance/beat-miss จาก management และ consensus <b>ไม่พบอย่างยืนยันได้</b> เพราะ transcript/IR earnings release ไม่ได้อยู่ใน source set; จึงไม่แต่ง verdict. (Caveat; ดึง 2026-09-14)</li>
+<h2>7. Valuation</h2>
+<li>Trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ peer multiples แบบวันที่เดียวกัน <b>ไม่พบ/reconcile ไม่ได้</b> จาก SEC + Yahoo chart source set. (Caveat; sources: <code>sources/AMD/yahoo-chart.json</code>, SEC companyfacts, ดึง 2026-09-14)</li>
+<li>Valuation ต้องแยก Data Center AI growth จาก Client/Gaming/Embedded cycle และหัก economic cost ของ SBC/acquisition amortization; ยังไม่ใส่ตัวเลข target เพื่อไม่สร้างความแม่นยำเทียม. (Judgment; sources: SEC 10-K/companyfacts, ดึง 2026-09-14)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS ปี 5 | Multiple | Target | CAGR จาก $516.13 | Probability | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|</p>
+<p>| Bear | N/A — ไม่พบ normalized EPS | N/A | N/A | N/A | ไม่กำหนด | N/A |</p>
+<p>| Base | N/A — ไม่พบ diluted-share bridge | N/A | N/A | N/A | ไม่กำหนด | N/A |</p>
+<p>| Bull | N/A — ไม่พบ consensus/model input ที่ verify | N/A | N/A | N/A | ไม่กำหนด | N/A |</p>
+<li><b>Bull assumption:</b> Instinct/AI systems ได้ design wins และ software adoption, EPYC share/volume โต, margin และ OCF scale; <b>Base:</b> Data Center โตแต่ competition จำกัด margin และ Client/Embedded เป็นวัฏจักร; <b>Bear:</b> accelerator share ไม่ขยาย, hyperscaler custom silicon/คู่แข่งกดราคา, export controls และ integration ทำให้ returns ต่ำ. ทั้งหมดเป็น scenario logic ไม่ใช่ forecast. (Judgment; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li>ไม่กำหนด probability/expected contribution จนกว่าจะมี current EPS, diluted shares และ peer multiple ที่ตรวจสอบได้; การใส่เลขตอนนี้จะเป็นการแต่ง. (Caveat; ดึง 2026-09-14)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> AI accelerator deployments, EPYC server adoption, platform/system cross-sell, software maturity และ cash conversion หลัง acquisition. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li><b>Risks:</b> NVIDIA ecosystem gap, custom silicon, supply/packaging constraints, export controls, customer concentration, acquisition integration และ SBC/dilution. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Thesis ผิดถ้าลูกค้าเลือก NVIDIA/custom silicon ต่อเนื่องจน AMD ได้ design win แต่ไม่สามารถแปลงเป็น recurring software/platform economics หรือ margin ที่ดีขึ้น. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
+<li>Permanent capital loss risk คือจ่าย multiple สูงกับ AI growth ที่เป็นช่วงสั้น แล้วเกิด competitive response, gross-margin compression, acquisition write-down หรือ dilution พร้อมกัน. (Judgment; sources: SEC companyfacts/10-K, ดึง 2026-09-14)</li>
+<li>Bear floor เชิงราคา <b>ยังไม่คำนวณ</b> เพราะไม่มี normalized EPS/multiple ที่ตรวจสอบได้. (Caveat; ดึง 2026-09-14)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ใช้เป็น <b>watchlist/evidence-position framework</b> ไม่ใช่คำสั่งซื้อขาย; ก่อนคิด sizing ต้องเติม transcript/IR guidance, current valuation, share count และ AI cash-conversion evidence. (Judgment; ดึง 2026-09-14)</li>
+<li>หากทำ DCA ให้แยก core CPU economics, AI option และ acquisition execution ออกจากกัน ตั้ง cap ต่อหุ้น/ต่อ semiconductor theme และติดตาม FCF หลัง SBC. (Process judgment; sources: SEC 10-K/companyfacts, ดึง 2026-09-14)</li>
+<li><b>Exit/kill conditions:</b> Data Center/AI growth ชะลอหลายไตรมาสพร้อม margin ลด, software/ecosystem ไม่เพิ่ม retention, OCF ไม่ตามกำไร, dilution เร่ง หรือ acquisition returns ต่ำกว่าต้นทุนเงินทุน. (Judgment; source: SEC 10-K/companyfacts, ดึง 2026-09-14)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact / Reported | FY2021–2025 revenue/gross profit/operating income/net income/OCF/R&amp;D/SBC; FY2025 cash/debt/equity; Q2 FY2026 revenue/net income; price/range. (sources: SEC companyfacts, SEC 10-Q, Yahoo chart, ดึง 2026-09-14) |</p>
+<p>| Interpretation | Portfolio breadth และ design-in ช่วย switching costs แต่ AI accelerator ecosystem, custom silicon และ acquisition execution เป็นความเสี่ยงหลัก. (source: SEC 10-K, ดึง 2026-09-14) |</p>
+<p>| Judgment | ศึกษาต่อ, scenario logic, ไม่กำหนด rating/target/probability, kill conditions และ sizing process. (ผู้จัดทำ, 2026-09-14) |</p>
+<p><b>ข้อจำกัดสำคัญ:</b> ไม่มี StockAnalysis transcript เพราะ HTTP 403; ไม่มี IR earnings release/guidance ที่ดึงได้ในรอบนี้; Yahoo chart ไม่มี market cap/P-E/EV-EBITDA; จึงไม่แต่ง valuation หรือ CAGR.</p>
+</div></body></html>

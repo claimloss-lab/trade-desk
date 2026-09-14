@@ -22,7 +22,7 @@
 <p><b>ขอบเขต:</b> หุ้นที่ pre-run ระบุว่าอยู่ใน DR universe ของ SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
 <h2>1. Investment Verdict</h2>
 <li><b>Investment question:</b> Applied Materials จะเปลี่ยนการเติบโตของการลงทุนโรงงานชิปและ advanced packaging ให้เป็นรายได้/กระแสเงินสดที่ยั่งยืนได้หรือไม่ ขณะที่ลูกค้ารายใหญ่มีวัฏจักรลงทุนและข้อจำกัดการส่งออกจีน? (Interpretation; source: <code>sources/AMAT/10-k-latest.html</code>, SEC 10-K filed 2025-12-12, ดึง 2026-09-14)</li>
-<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; <b>ศึกษาต่อ / execution- and cycle-dependent</b> เพราะ transcript จาก StockAnalysis ถูกปฏิเสธ HTTP 403 และ source set ไม่มี earnings release จาก IR ที่ยืนยัน guidance ล่าสุด. (Judgment/Caveat; ดึง 2026-09-14)</li>
+<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; <b>ศึกษาต่อ / execution- and cycle-dependent</b> เพราะ transcript จาก StockAnalysis ไม่สามารถดึงได้ในรอบนี้ (ตัวดึงข้อมูลติด billing 402) และ source set ไม่มี earnings release จาก IR ที่ยืนยัน guidance ล่าสุด. (Judgment/Caveat; ดึง 2026-09-14)</li>
 <li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดราคาเข้าหรือ allocation; scenario ด้านล่างเป็น sensitivity framework ไม่ใช่ target price และไม่ใช่คำแนะนำ. (Judgment; ดึง 2026-09-14)</li>
 <li><b>5Y CAGR:</b> ไม่คำนวณอย่างรับผิดชอบ เพราะ source set ไม่มี diluted EPS/share count ล่าสุดและไม่มี consensus ที่ reconcile ได้. (Caveat; sources: SEC companyfacts, ดึง 2026-09-14)</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
@@ -51,7 +51,7 @@
 <li>บริษัทลงทุน R&amp;D สูงและมี AGS/service installed-base economics; การประเมิน capital allocation ต้องแยก capex, buyback, debt issuance/repayment และ acquisitions จาก annual cash-flow statement ที่ source extraction รอบนี้ยังไม่ได้ดึงครบ. (Caveat; source: <code>sources/AMAT/10-k-latest.html</code>, ดึง 2026-09-14)</li>
 <li>SBC เพิ่มต่อเนื่องถึง $660M ใน FY2025; ยังไม่มี share-count bridge ที่ reconcile ได้ใน source set จึงไม่สรุปว่าการซื้อหุ้นคืนชดเชย dilution ได้ทั้งหมด. (Reported/Caveat; source: SEC companyfacts, ดึง 2026-09-14)</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Transcript:</b> ไม่พบจาก StockAnalysis ในรอบนี้; direct transcript index ตอบ HTTP 403 เมื่อ 2026-09-14 จึงไม่เรียก 10-Q ว่า transcript. (Caveat; source attempt: <code>https://stockanalysis.com/stocks/amat/transcripts/</code>, ดึง 2026-09-14)</li>
+<li><b>Transcript:</b> ไม่พบจาก StockAnalysis ในรอบนี้; การดึงหน้า transcript ติด billing 402 เมื่อ 2026-09-14 จึงไม่เรียก 10-Q ว่า transcript. (Caveat; source attempt: <code>https://stockanalysis.com/stocks/amat/transcripts/</code>, ดึง 2026-09-14)</li>
 <li>Latest available SEC 10-Q filed 2026-08-20 ครอบคลุมงวดสิ้นสุด 2026-07-26; Q3 FY2026 revenue $9.115B, gross profit $4.586B, operating income $3.075B และ net income $2.538B. (Reported; source: SEC companyfacts/<code>sources/AMAT/10-q-latest.html</code>, ดึง 2026-09-14)</li>
 <li>Nine-month FY2026 revenue $24.037B และ OCF $5.568B; เทียบกับ comparable nine-month revenue $21.568B และ OCF $5.130B ใน prior-year presentation. (Reported; source: SEC companyfacts, ดึง 2026-09-14)</li>
 <li>Guidance/beat-miss จาก management และ consensus <b>ไม่พบอย่างยืนยันได้</b> เพราะ transcript/IR earnings release ไม่ได้อยู่ใน source set; จึงไม่แต่ง verdict. (Caveat; ดึง 2026-09-14)</li>
@@ -83,5 +83,5 @@
 <p>| Fact / Reported | FY2021–2025 revenue/gross profit/operating income/net income/OCF/R&amp;D/SBC; FY2025 cash/debt/equity; Q3 FY2026 revenue/net income; price/range. (sources: SEC companyfacts, SEC 10-Q, Yahoo chart, ดึง 2026-09-14) |</p>
 <p>| Interpretation | Installed base, process qualification และ AGS ช่วย switching cost แต่ capex/export controls ทำให้ earnings เป็น cycle-dependent. (source: SEC 10-K, ดึง 2026-09-14) |</p>
 <p>| Judgment | ศึกษาต่อ, scenario logic, ไม่กำหนด rating/target/probability, kill conditions และ sizing process. (ผู้จัดทำ, 2026-09-14) |</p>
-<p><b>ข้อจำกัดสำคัญ:</b> ไม่มี StockAnalysis transcript เพราะ HTTP 403; ไม่มี IR earnings release/guidance ที่ดึงได้ในรอบนี้; Yahoo chart ไม่มี market cap/P-E/EV-EBITDA; จึงไม่แต่ง valuation หรือ CAGR.</p>
+<p><b>ข้อจำกัดสำคัญ:</b> ไม่มี StockAnalysis transcript เพราะตัวดึงข้อมูลติด billing 402; ไม่มี IR earnings release/guidance ที่ดึงได้ในรอบนี้; Yahoo chart ไม่มี market cap/P-E/EV-EBITDA; จึงไม่แต่ง valuation หรือ CAGR.</p>
 </div></body></html>

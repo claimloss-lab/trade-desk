@@ -22,7 +22,7 @@
 <p><b>ขอบเขต:</b> หุ้นที่ pre-run ระบุว่าอยู่ใน DR universe ของ SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
 <h2>1. Investment Verdict</h2>
 <li><b>Investment question:</b> AMD จะเปลี่ยนความต้องการ AI/data-center และ CPU ให้เป็นกำไรต่อหุ้นและ free cash flow ที่ยั่งยืนได้หรือไม่ เมื่อการแข่งขันกับ NVIDIA/Intel และต้นทุนการพัฒนา/ซื้อกิจการสูงขึ้น? (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, SEC 10-K filed 2026-02-04, ดึง 2026-09-14)</li>
-<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; <b>ศึกษาต่อ / execution-dependent</b> เพราะ transcript จาก StockAnalysis ถูกปฏิเสธ HTTP 403 และ source set ไม่มี IR release ที่ยืนยัน guidance ล่าสุด. (Judgment/Caveat; ดึง 2026-09-14)</li>
+<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; <b>ศึกษาต่อ / execution-dependent</b> เพราะ transcript จาก StockAnalysis ไม่สามารถดึงได้ในรอบนี้ (ตัวดึงข้อมูลติด billing 402) และ source set ไม่มี IR release ที่ยืนยัน guidance ล่าสุด. (Judgment/Caveat; ดึง 2026-09-14)</li>
 <li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดราคาเข้าหรือ allocation; scenario เป็น sensitivity framework ไม่ใช่ target priceและไม่ใช่คำแนะนำ. (Judgment; ดึง 2026-09-14)</li>
 <li><b>5Y CAGR:</b> ไม่คำนวณอย่างรับผิดชอบ เพราะ source set ไม่มี diluted EPS/share-count bridge และ peer/consensus multiples ที่ reconcile ได้. (Caveat; sources: SEC companyfacts, ดึง 2026-09-14)</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
@@ -51,7 +51,7 @@
 <li>ZT Systems acquisition และการลงทุนใน AI roadmap เพิ่มโอกาส revenue แต่เพิ่ม integration, intangible/amortization และ capital allocation risk; ต้องดู cash paid, purchase accounting และ resulting return ไม่ใช่ดู revenue เพียงอย่างเดียว. (Interpretation; source: <code>sources/AMD/10-k-latest.html</code>, ดึง 2026-09-14)</li>
 <li>SBC เพิ่มเป็น $1.638B ใน FY2025; share count/dilution bridge และ buyback effect ที่ reconcile ได้ <b>ไม่พบใน source set</b> จึงไม่สรุปว่า EPS growth เป็น operating growth ทั้งหมด. (Reported/Caveat; source: SEC companyfacts, ดึง 2026-09-14)</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Transcript:</b> ไม่พบจาก StockAnalysis ในรอบนี้; direct transcript index ตอบ HTTP 403 เมื่อ 2026-09-14 จึงไม่เรียก 10-Q ว่า transcript. (Caveat; source attempt: <code>https://stockanalysis.com/stocks/amd/transcripts/</code>, ดึง 2026-09-14)</li>
+<li><b>Transcript:</b> ไม่พบจาก StockAnalysis ในรอบนี้; การดึงหน้า transcript ติด billing 402 เมื่อ 2026-09-14 จึงไม่เรียก 10-Q ว่า transcript. (Caveat; source attempt: <code>https://stockanalysis.com/stocks/amd/transcripts/</code>, ดึง 2026-09-14)</li>
 <li>Latest available SEC 10-Q filed 2026-08-05 ครอบคลุมงวดสิ้นสุด 2026-06-27; Q2 FY2026 revenue $11.536B, gross profit $6.203B, operating income $1.990B และ net income $2.297B. (Reported; source: SEC companyfacts/<code>sources/AMD/10-q-latest.html</code>, ดึง 2026-09-14)</li>
 <li>Six-month FY2026 revenue $21.789B และ OCF $5.321B; comparable six-month revenue $15.123B และ OCF $2.950B ใน prior-year presentation. (Reported; source: SEC companyfacts, ดึง 2026-09-14)</li>
 <li>Guidance/beat-miss จาก management และ consensus <b>ไม่พบอย่างยืนยันได้</b> เพราะ transcript/IR earnings release ไม่ได้อยู่ใน source set; จึงไม่แต่ง verdict. (Caveat; ดึง 2026-09-14)</li>
@@ -83,5 +83,5 @@
 <p>| Fact / Reported | FY2021–2025 revenue/gross profit/operating income/net income/OCF/R&amp;D/SBC; FY2025 cash/debt/equity; Q2 FY2026 revenue/net income; price/range. (sources: SEC companyfacts, SEC 10-Q, Yahoo chart, ดึง 2026-09-14) |</p>
 <p>| Interpretation | Portfolio breadth และ design-in ช่วย switching costs แต่ AI accelerator ecosystem, custom silicon และ acquisition execution เป็นความเสี่ยงหลัก. (source: SEC 10-K, ดึง 2026-09-14) |</p>
 <p>| Judgment | ศึกษาต่อ, scenario logic, ไม่กำหนด rating/target/probability, kill conditions และ sizing process. (ผู้จัดทำ, 2026-09-14) |</p>
-<p><b>ข้อจำกัดสำคัญ:</b> ไม่มี StockAnalysis transcript เพราะ HTTP 403; ไม่มี IR earnings release/guidance ที่ดึงได้ในรอบนี้; Yahoo chart ไม่มี market cap/P-E/EV-EBITDA; จึงไม่แต่ง valuation หรือ CAGR.</p>
+<p><b>ข้อจำกัดสำคัญ:</b> ไม่มี StockAnalysis transcript เพราะตัวดึงข้อมูลติด billing 402; ไม่มี IR earnings release/guidance ที่ดึงได้ในรอบนี้; Yahoo chart ไม่มี market cap/P-E/EV-EBITDA; จึงไม่แต่ง valuation หรือ CAGR.</p>
 </div></body></html>

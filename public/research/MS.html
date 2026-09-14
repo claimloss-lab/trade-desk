@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MS — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">MS</div>
+<div class="meta">Thesis · สร้างจาก briefs/MS.md · 2026-09-14</div>
+<h1>Morgan Stanley (MS) — Full Investment Memo</h1>
+<p><b>ดึงข้อมูล:</b> 14 ก.ย. 2026 (ข้อมูลราคาจาก Yahoo Finance; งบ/filing จาก SEC EDGAR)</p>
+<p><b>Investment question:</b> Morgan Stanley จะเปลี่ยนฐานลูกค้าและสินทรัพย์ที่ดูแลให้เป็นกำไรที่เติบโตสม่ำเสมอได้หรือไม่ โดยไม่เพิ่ม leverage/ความเสี่ยงตลาดเร็วกว่ารายได้?</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Research stance / rating:</b> <b>Quality financial franchise — ต้องติดตามราคาและคุณภาพกำไร; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</b>. หลักฐานปัจจุบันคือกำไรปี 2025 ฟื้นแรง แต่ธุรกิจยังมีความไวต่อวัฏจักรตลาดทุนและ balance sheet ใหญ่ (source: <code>sources/MS/10-k-fy2026.md</code>, ดึง 2026-09-14)</li>
+<li><b>Fair-value framework (scenario ไม่ใช่ target ที่รับรอง):</b> ใช้ EPS ปี 2025 ที่ $10.21 เป็นฐาน แล้วสมมติ EPS ปี 2031 และ P/E terminal: Bear $8.5×12 = <b>$102</b>, Base $18×15 = <b>$270</b>, Bull $24×18 = <b>$432</b>; ไม่ใช่ consensus และไม่มีการ forecast ว่าตลาดจะคิดอย่างไร (source: SEC companyfacts, ดึง 2026-09-14; multiples/assumptions เป็นผู้จัดทำ)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้ออัตโนมัติ; หากจะทำ due diligence ต่อ ควรเริ่มจากขนาดทดลองที่จำกัดและกำหนดเพดาน exposure ต่อบริษัทการเงินก่อน (judgment, 2026-09-14)</li>
+<li><b>5Y scenario CAGR จากราคาปัจจุบัน $214.38 ถึงปี 2031:</b> Bear -13.0% ต่อปี, Base 4.7% ต่อปี, Bull 15.1% ต่อปี ก่อนเงินปันผล โดยเป็น arithmetic ของ scenario ข้างต้น ไม่ใช่คำพยากรณ์ (source: Yahoo Finance price, ดึง 2026-09-14; calculation/assumption: ผู้จัดทำ)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Morgan Stanley ขายบริการให้บริษัท นักลงทุนสถาบัน รัฐบาล และบุคคลมั่งคั่ง: ช่วยระดมทุน/ควบรวมกิจการ, ซื้อขายและทำ market-making, บริหารเงิน และให้คำปรึกษาการลงทุน (source: <code>sources/MS/10-k-fy2026.md</code>, ดึง 2026-09-14)</li>
+<li>เครื่องยนต์รายได้มีสามแกน: Institutional Securities, Wealth Management และ Investment Management; ลูกค้าจ่ายเพื่อ execution, access to capital, advice, custody และการบริหารเงิน—not เพียงผลิตภัณฑ์การเงินชิ้นเดียว (source: SEC 10-K, ดึง 2026-09-14)</li>
+<li><b>THE CORE:</b> เครือข่ายลูกค้าสถาบัน + financial advisers + ความสามารถจัดจำหน่ายธุรกรรม ทำให้ cross-sell ได้; <b>THE OPTION:</b> การเพิ่มสินทรัพย์ใน Wealth/Investment Management และรายได้ recurring; <b>THE PRICE:</b> ราคาหุ้น $214.38 และ high/low 52 สัปดาห์ $232.25/$151.84 (source: SEC 10-K และ Yahoo Finance, ดึง 2026-09-14)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Scale/network economies:</b> ความสัมพันธ์ลูกค้าและ distribution ช่วยให้ underwriting, trading และ advice ทำงานเป็นระบบเดียว; เป็น Helmer 7 Powers ที่ใกล้เคียงกับ process power/network economics แต่ต้องพิสูจน์ผ่าน share และ fee stability ต่อไป (source: SEC 10-K, ดึง 2026-09-14; interpretation)</li>
+<li><b>Counter-positioning ไม่ชัดเท่า pure-play:</b> Morgan Stanley มีรายได้หลากหลายกว่าบริษัทที่พึ่ง investment banking อย่างเดียว แต่ก็มีความซับซ้อนและ capital intensity สูงกว่า (source: SEC 10-K, ดึง 2026-09-14; interpretation)</li>
+<li>ความเสี่ยงเฉพาะบริษัทคือ credit/market/operational risk, regulatory capital, การแข่งขันแย่ง advisers และค่าธรรมเนียม, รวมถึงรายได้ underwriting/trading ที่ขึ้นลงตามตลาด (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Revenue proxy — noninterest income:</b> $44.34bn (2022), $45.91bn (2023), $53.15bn (2024), $60.60bn (2025): ทิศทางเติบโต แต่ตัวเลขของธนาคารต้องอ่านคู่กับ net interest และ provision ไม่ใช้ gross margin แบบบริษัทอุตสาหกรรม (source: SEC companyfacts/10-K, ดึง 2026-09-14)</li>
+<li><b>Net income:</b> $11.03bn, $9.09bn, $13.39bn, $16.86bn ใน 2022–2025; EPS diluted $6.15, $5.18, $7.95, $10.21 ตามลำดับ แสดงการฟื้นตัวหลังปี 2023 แต่ยังเป็นวัฏจักร (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>OCF/FCF:</b> OCF ที่รายงานผันผวนมาก (-$6.40bn, -$33.54bn, +$1.36bn, -$17.89bn ใน 2022–2025) เพราะ balance-sheet trading/financing flows; จึงไม่ควรใช้ FCF แบบ industrial เป็นตัวชี้เดียว (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>R&amp;D / ROE / ROIC:</b> ตัวเลข R&amp;D แบบบริษัทเทคและ ROIC แบบ non-financial ไม่ comparable/ไม่พบเป็น metric หลักที่ใช้ตรง ๆ ใน source ที่ดึงมา; ควรใช้ ROTCE, CET1, net new assets และ fee-based assets ในการตรวจรอบถัดไป (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>สินทรัพย์รวม $1.420tn, cash $111.7bn, long-term debt $341.7bn และ equity $111.6bn ณ 31 ธ.ค. 2025; debt ของสถาบันการเงินเป็นส่วนหนึ่งของ operating model จึงห้ามตีความเป็น net debt แบบบริษัททั่วไปโดยตรง (source: SEC companyfacts/10-K, ดึง 2026-09-14)</li>
+<li>บริษัทคืนทุนผ่านเงินปันผลและ buyback ตาม capital plan แต่จำนวน/จังหวะที่เหมาะสมต้องผูกกับ regulatory capital และผล stress test; ตรวจรายละเอียดล่าสุดก่อนตัดสินใจ (source: SEC 10-K, ดึง 2026-09-14)</li>
+<li>SBC และ dilution ไม่ได้สรุปเป็นตัวเลขเดียวที่เชื่อถือได้จาก extraction นี้; ให้ตรวจ stock-compensation note และ weighted-average shares ใน 10-K ล่าสุดก่อนใช้ per-share valuation (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>6. Latest Earnings</h2>
+<li>ไฟล์ล่าสุดที่ได้คือ 10-Q/8-K ของไตรมาสสิ้นสุด 30 มิ.ย. 2026; <b>StockAnalysis transcript เข้าถึงไม่ได้จากข้อจำกัด billing ของเครื่องมือ จึงไม่มี transcript ที่จะอ้างว่าอ่านแล้ว</b> (source: <code>sources/MS/q2-2026-call.md</code>, SEC 8-K, ดึง 2026-09-14)</li>
+<li>ตัวเลขไตรมาสล่าสุดและ management guidance จาก 8-K ควรอ่านจาก exhibit ต้นฉบับโดยตรง; extraction รอบนี้เก็บ filing metadata แล้ว แต่ไม่สามารถยืนยันตัวเลข earnings release ทุกบรรทัดได้ จึงไม่ใส่ตัวเลขที่อาจคลาดเคลื่อน (source: <code>sources/MS/q2-2026-call.md</code>, ดึง 2026-09-14)</li>
+<li>รอบติดตามต้องตอบให้ได้ว่า net new assets, fee-based asset mix, investment-banking backlog, trading revenue และ CET1 เปลี่ยนทิศทางอย่างไรเมื่อเทียบกับ guidance (source: SEC 10-Q/8-K, ดึง 2026-09-14; checklist เป็น judgment)</li>
+<h2>7. Valuation</h2>
+<li><b>Price:</b> $214.38; <b>52-week range:</b> $151.84–$232.25; ณ 14 ก.ย. 2026 ตาม Yahoo Finance chart endpoint (source: <code>sources/MS/yahoo-chart.json</code>, ดึง 2026-09-14)</li>
+<li><b>Market cap / P/E / EV/EBITDA:</b> ไม่ใส่ตัวเลขที่ยังไม่ได้ยืนยันจาก quote endpoint และไม่ใช้ EV/EBITDA เป็น primary metric สำหรับธนาคาร; trailing P/E แบบคำนวณหยาบจาก $214.38/$10.21 ≈ <b>21.0×</b> แต่ต้องตรวจ diluted EPS แบบ LTM ก่อนใช้ (source: Yahoo + SEC companyfacts, ดึง 2026-09-14; calculation)</li>
+<li><b>Scenario:</b> Bear/Base/Bull ใช้ EPS × multiple ตาม section 1; เป็น sensitivity analysis ไม่ใช่ consensus, target หรือ recommendation (source: ผู้จัดทำ, 2026-09-14)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | Operating assumption | 2031 EPS | Multiple | 2031 value | Probability | Expected contribution |</p>
+<p>|---|---|---:|---:|---:|---:|---:|</p>
+<p>| Bear | capital-market cycle อ่อน, fee pressure, credit loss สูง | $8.5 | 12× | $102 | 25% | $25.5 |</p>
+<p>| Base | Wealth/IM เติบโต, IB ฟื้นเป็นวัฏจักรปกติ, capital discipline | $18 | 15× | $270 | 50% | $135 |</p>
+<p>| Bull | recurring assets โตเร็ว, operating leverage และ buyback ดี | $24 | 18× | $432 | 25% | $108 |</p>
+<p>(source: SEC historical EPS, Yahoo price ดึง 2026-09-14; scenario assumptions/probabilities เป็น judgment ไม่ใช่ guidance)</p>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> net new assets และ fee-based mix เร่ง, advisory/underwriting backlog แปลงเป็น revenue, expense discipline และ buyback ภายใต้ CET1 แข็งแรง (source: SEC 10-Q/10-K, ดึง 2026-09-14; interpretation)</li>
+<li><b>Risks:</b> ตลาดทุนซบทำให้ IB/trading ลด, credit provision สูงขึ้น, regulatory capital/ข้อกำกับจำกัดการคืนทุน, adviser attrition หรือ fee compression (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้าบริษัทไม่ได้เป็น platform ที่ทำ recurring wealth economics แต่กำไรดีเพราะตลาดทุนรอบเดียว thesis จะเปราะ (source: SEC 10-K, ดึง 2026-09-14; judgment)</li>
+<li>Permanent-loss risk มาจากการประเมิน risk controls ต่ำไป, leverage/market exposure และ regulatory event ไม่ใช่แค่ EPS miss (source: SEC 10-K, ดึง 2026-09-14)</li>
+<li><b>Bear floor ใน memo นี้:</b> $102 เป็น sensitivity floor จาก EPS $8.5×12 ไม่ใช่มูลค่าขั้นต่ำจริง (source: scenario model, 2026-09-14)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/sizing:</b> ไม่มีคำแนะนำ buy/sell/hold; หากนำไปทำ watchlist ให้ผูกขนาดกับ risk budget ของ financials และไม่ใช้ scenario base เป็นเหตุผลเดียว (judgment, 2026-09-14)</li>
+<li><b>DCA/cap:</b> ถ้าจะสะสมเชิงกระบวนการ ให้แบ่งไม้และกำหนด cap ของหุ้นการเงินล่วงหน้า; ไม่ตั้งจำนวนเพราะข้อมูล portfolio allocation ปัจจุบันไม่ได้อยู่ใน source (judgment)</li>
+<li><b>Exit/kill triggers:</b> CET1/เงินกองทุนอ่อนผิดแผน, fee-based asset/retention แย่ต่อเนื่อง, credit losses สูงกว่าวงจรที่รับได้, หรือมี control/regulatory failure ที่เปลี่ยน economics (source: SEC 10-K, ดึง 2026-09-14; judgment)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> 2025 net income $16.861bn, diluted EPS $10.21, assets $1.420tn, debt $341.681bn, price $214.38. (source: SEC companyfacts + Yahoo, ดึง 2026-09-14)</li>
+<li><b>Interpretation:</b> earnings momentum ดีขึ้น แต่ OCF และรายได้ยังสะท้อนลักษณะสถาบันการเงินที่ผันผวน (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Judgment:</b> quality สูงกว่าธุรกิจการเงินที่กระจุกตัว แต่ valuation ต้องอาศัย recurring asset growth และ capital discipline; scenario outputs เป็นเครื่องมือคิด ไม่ใช่ recommendation (ผู้จัดทำ, 2026-09-14)</li>
+<h2>ข้อจำกัด</h2>
+<p>StockAnalysis transcript ไม่ได้เพราะเครื่องมือคืน 402 billing error; transcript section จึงใช้ไม่ได้และถูกระบุเป็น missing แทนการเรียก SEC 8-K ว่า transcript. P/E, market cap, SBC/dilution และ latest-quarter line items ต้องยืนยันเพิ่มจาก quote/filing exhibit ก่อนใช้เงินจริง.</p>
+</div></body></html>

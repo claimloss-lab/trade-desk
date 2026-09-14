@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HD — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">HD</div>
+<div class="meta">Thesis · สร้างจาก briefs/HD.md · 2026-09-14</div>
+<h1>The Home Depot (HD) — Full Investment Memo</h1>
+<blockquote><b>ขอบเขต:</b> memo เชิงวิจัยสำหรับ DR ใน SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. ดึงข้อมูล 2026-09-13 (SEAST). ตัวเลขการเงิน USD เว้นแต่ระบุอื่น</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Investment question:</b> Home Depot จะเปลี่ยนการฟื้นตัวของงานปรับปรุงบ้านและการชนะลูกค้า Pro ให้เป็นการเติบโตที่ยั่งยืนได้หรือไม่ โดยไม่เสีย margin จากต้นทุน/ที่อยู่อาศัยที่ชะลอ? (Interpretation; source: sources/HD/10-k-latest.md, sources/HD/q-latest-call.md; ดึง 2026-09-13)</li>
+<li><b>Rating:</b> <b>Monitor / Conditional compounder</b> — โครงสร้างธุรกิจดีและผลไตรมาสล่าสุดแข็งแรง แต่ยังต้องพิสูจน์ว่า comp และ margin ฟื้นโดยไม่พึ่งปัจจัยครั้งเดียว (Judgment; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li><b>Fair value framework:</b> ไม่ใช้ single-point fair value เพราะ market-cap/EPS forward จาก endpoint ที่ตรวจสอบได้ไม่ครบ; scenario 5 ปีใน Section 8 ให้กรอบราคาเป้าหมายเชิงแบบจำลอง โดยสมมติ EPS ไม่ใช่ guidance ของบริษัท (Judgment; source: scenario model, 2026-09-13)</li>
+<li><b>Entry / allocation:</b> ไม่มีคำสั่งซื้อหรือสัดส่วนพอร์ตเฉพาะบุคคล; ใช้ staged entry เท่านั้นเมื่อ thesis ผ่าน kill conditions และจำกัดน้ำหนักตามความเสี่ยงของ DR/FX (Judgment; 2026-09-13)</li>
+<li><b>5Y CAGR:</b> scenario model ให้ช่วงประมาณ <b>-1% ถึง 13% ต่อปี</b> จากราคาปัจจุบัน $308.74; ไม่ใช่ forecast ของบริษัท (Judgment; Yahoo chart + scenario assumptions; 2026-09-13)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Home Depot เป็น retailer วัสดุก่อสร้าง/ซ่อมแซมบ้าน ลูกค้าคือเจ้าของบ้าน ผู้รับเหมา และช่างมืออาชีพ; รายได้มาจากการขายสินค้าในร้านและดิจิทัล โดยธุรกิจ Pro สำคัญต่อ basket size และความถี่การซื้อ (Fact/Interpretation; source: HD 2026 10-K, SEC URL ใน sources/HD/10-k-latest.md; 2026-09-13)</li>
+<li>ลูกค้าจ่ายเงินเพื่อ “ทำงานให้เสร็จ” — ต้องมีของครบ ส่งถึงไซต์ได้ และมีคำแนะนำ/บริการ ไม่ใช่เพียงซื้อสินค้า SKU เดี่ยว; การลงทุนด้าน delivery, job-lot quantities, sales teams และระบบสำหรับ Pro ตรงกับ customer workflow (Interpretation; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li>Growth monetization มาจาก comp sales, ticket/volume, Pro share, interconnected retail และการเพิ่ม availability/ส่งเร็ว; Q2 sales $47.861B โตจากช่วงเดียวกันของปีก่อน และ comp sales +1.7% (Fact; source: sources/HD/10-k-latest.md, sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li><b>THE CORE:</b> ความหนาแน่นของสาขา/assortment, supplier scale และ customer habit; <b>THE OPTION:</b> Pro ecosystem, delivery และ technology; <b>THE PRICE:</b> ต้องจ่ายด้วยความเสี่ยง housing affordability, discretionary projects และแรงกดดันต้นทุน (Interpretation; source: HD 10-K/transcript; 2026-09-13)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>7 Powers ที่เห็นได้:</b> scale economies จากเครือข่ายร้านและ procurement; counter-positioning ผ่าน one-stop Pro workflow; switching cost เชิงพฤติกรรมจาก availability/ความน่าเชื่อถือ; brand และ distribution density ช่วยลดเวลาของลูกค้า (Interpretation; source: HD 10-K และ transcript; 2026-09-13)</li>
+<li>ความได้เปรียบไม่ใช่กำแพงถาวร: Lowe’s, specialty retailers, Amazon และผู้จัดจำหน่าย Pro แข่งขันด้วยราคา/ความเร็ว/ดิจิทัล; ลูกค้า Pro อาจย้ายถ้าสินค้าไม่ครบหรือ delivery ไม่ตรงไซต์ (Judgment; source: HD 10-K; 2026-09-13)</li>
+<li>ความเสี่ยงเฉพาะบริษัทคือการซื้อกิจการ/ลงทุนระบบแล้วไม่เพิ่ม productivity, การลดราคาเพื่อรักษา traffic และ tariff/supply-chain cost ที่กด gross margin (Judgment; source: HD 10-K และ transcript; 2026-09-13)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li>Revenue ที่ SEC XBRL รายงาน: FY2025 $164.683B; FY2026 YTD Q2 $89.626B เทียบกับ FY2026 Q2 standalone $47.861B; direction ล่าสุดคือยอดขายกลับมาโต แต่ยังไม่ใช่หลักฐานว่ากลับสู่ high-growth (Fact/Interpretation; source: sources/HD/10-k-latest.md; 2026-09-13)</li>
+<li>Gross profit FY2025 $54.865B และ operating income $20.890B; Q2 FY2026 gross profit $16.115B และ operating income $6.839B. Margin ต้องอ่านคู่กับ tariff refund $685M ที่ transcript ระบุว่าเป็น tailwind ครั้งเดียว (Fact; source: SEC XBRL + transcript; 2026-09-13)</li>
+<li>Net income FY2025 $14.156B; Q2 FY2026 $4.766B. OCF FY2025 $16.325B และ H1 FY2026 $11.422B; cash conversion ยังมีน้ำหนัก แต่ CapEx/FCF 5 ปีและ ROIC แบบ comparable <b>ไม่พบใน source pack ที่ดึงได้</b> (Fact; source: sources/HD/10-k-latest.md; 2026-09-13)</li>
+<li>Gross margin, operating margin, ROE/ROIC, R&amp;D และ CapEx แบบ 5 ปีที่เทียบฐานเดียวกัน <b>ไม่สรุปเพิ่ม</b> เพราะ SEC extraction ที่ได้ปะปน YTD/quarter และไม่ครบ tag; ให้ตรวจ 10-K ฉบับเต็มก่อนใช้ valuation (Caveat; source: SEC 10-K URL; 2026-09-13)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>ณ 2026-08-02 assets $109.384B และ liabilities $92.767B ตาม XBRL; liabilities ลดจาก $94.030B ณ Q1 แต่ balance sheet ยังมี leverage สูงเมื่อเทียบกับ equity accounting (Fact; source: sources/HD/10-k-latest.md; 2026-09-13)</li>
+<li>บริษัทลงทุนใน stores, technology, delivery และ associate tools; Q2 call ระบุการลงทุนต่อเนื่องเพื่อ frictionless/interconnected experience และ Pro (Fact; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li>Cash, gross debt, net debt, SBC, dilution และ buyback รายปี <b>ไม่พบตัวเลขที่ผ่านการดึง/ตรวจครบใน source pack นี้</b>; ห้ามแทนด้วยค่าประมาณ (Caveat; source: SEC 10-K URL; 2026-09-13)</li>
+<h2>6. Latest Earnings</h2>
+<li>Q2 FY2026 sales $47.9B โต 5.7% YoY; comp +1.7% และ U.S. comp +1.3%; adjusted diluted EPS $4.92 เทียบ $4.68 ปีก่อน — บริษัทระบุว่าผลเกินความคาดหมายภายใน (Fact; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li>Demand broad-based แต่ large projects ยังถูกกดจาก consumer uncertainty และ housing affordability; Pro comp เป็นบวก และบริษัทชี้การลงทุน assortment, delivery และ specialized services (Fact/Interpretation; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li>Gross margin ได้แรงช่วยจาก tariff refund $685M; จึงต้องแยก reported operating improvement ออกจาก recurring economics (Fact/Judgment; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<li>Guidance FY2026 ถูก reaffirm ตาม transcript summary ที่ดึงได้; ตัวเลข guidance รายบรรทัดที่ละเอียด <b>ไม่พบใน transcript extract นี้</b> จึงไม่แต่ง (Fact/Caveat; source: sources/HD/q-latest-call.md; 2026-09-13)</li>
+<h2>7. Valuation</h2>
+<li>Price: <b>$308.74</b>; 52-week range จาก daily Yahoo chart ที่ดึง 2026-09-13: <b>$297.51–$422.71</b> (Fact; source: Yahoo Finance chart endpoint <code>query1.finance.yahoo.com/v8/finance/chart/HD?range=1y&amp;interval=1d</code>; 2026-09-13)</li>
+<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ historical multiple range: <b>ไม่พบค่าที่ดึงได้อย่างน่าเชื่อถือจาก endpoint รอบนี้</b> (Caveat; Yahoo chart/SEC source pack; 2026-09-13)</li>
+<li>วิธีประเมินที่ใช้แทน: EPS growth × terminal multiple ใน Section 8; multiple เป็น assumption ของ memo ไม่ใช่ consensus หรือ management guidance (Judgment; 2026-09-13)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS ปี 5 (สมมติ) | Multiple | ราคาเป้าหมายเชิงแบบจำลอง | CAGR จาก $308.74 | Probability* | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|</p>
+<p>| Bear | $15.0 | 15x | $225 | -6% | 25% | -1.5% |</p>
+<p>| Base | $20.0 | 19x | $380 | 4% | 50% | 2.0% |</p>
+<p>| Bull | $26.0 | 23x | $598 | 14% | 25% | 3.5% |</p>
+<li>Bear: comp ต่ำ, Pro ไม่เร่ง, margin กลับสู่ระดับต่ำและ multiple หด; Base: revenue โตระดับกลางหลักเดียวและ EPS โตตาม productivity/ซื้อหุ้น; Bull: Pro/digital/delivery เพิ่ม share และ margin ฟื้นต่อเนื่อง (Judgment; assumptions created 2026-09-13)</li>
+<li>*Probability เป็น judgment เพื่อ sensitivity ไม่ใช่ความน่าจะเป็นทางสถิติ; expected contribution รวมแบบหยาบจาก scenario CAGR × probability ไม่ใช่ expected return ที่รับประกัน (Caveat; 2026-09-13)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: comp positive ต่อเนื่อง, Pro bookings/share, delivery productivity และ margin ที่ไม่พึ่ง tariff refund; (Interpretation; source: transcript/10-K; 2026-09-13)</li>
+<li>Risks: housing affordability, deferred big-ticket projects, tariff/supplier cost, price competition และการลงทุนที่ไม่แปลงเป็น sales productivity (Judgment; source: HD 10-K/transcript; 2026-09-13)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า Home Depot เป็นเพียงธุรกิจค้าปลีก mature ที่ต้องใช้ promotion เพื่อรักษา traffic, EPS growth อาจต่ำกว่าสมมติฐานและ multiple 19–23x จะไม่เหมาะสม (Judgment; 2026-09-13)</li>
+<li>Permanent-loss risks: leverage สูง, การซื้อกิจการ/CapEx ให้ผลตอบแทนต่ำ, margin ถูก structural pressure และ DR/FX ทำให้ผลตอบแทนบาทแย่กว่าหุ้นแม่ (Judgment; source: SEC/DR structure; 2026-09-13)</li>
+<li>Bear floor เชิงวิเคราะห์คือ $225 จาก EPS $15 × 15x; ไม่ใช่ liquidation value และไม่ใช่บริษัทประกาศ (Judgment; 2026-09-13)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>Entry: แบ่งเป็น tranches และให้ราคาหรือ valuation เป็นเพียงเงื่อนไขหนึ่ง; ต้องเห็น comp/Pro/margin ผ่าน kill conditions ก่อนเพิ่มน้ำหนัก (Judgment; 2026-09-13)</li>
+<li>Sizing: เริ่มเล็กกว่าหุ้น core เพราะ concentration ใน U.S. retail, FX และ DR liquidity; ไม่กำหนด % ส่วนบุคคลจากข้อมูลที่ไม่มีพอร์ตล่าสุด (Judgment; 2026-09-13)</li>
+<li>DCA: ใช้ได้เฉพาะเมื่อ thesis operational ยังอยู่; ห้าม DCA อัตโนมัติผ่าน permanent deterioration. Exit/kill: ดู Section 10 และเงื่อนไขด้านล่าง (Judgment; 2026-09-13)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact | Q2 sales $47.9B, +5.7%; comp +1.7%; adjusted EPS $4.92; tariff refund $685M; FY2026 guidance reaffirmed; price $308.74 และ 52-week $297.51–$422.71 (sources cited above; fetched 2026-09-13) |</p>
+<p>| Interpretation | Pro/delivery/interconnected retail เป็นเครื่องยนต์สำคัญ แต่ margin improvement ล่าสุดมี one-off component |</p>
+<p>| Judgment | Monitor/Conditional compounder; scenario range $225–$598; ไม่ให้ buy/sell/hold recommendation |</p>
+<h3>Kill conditions</h3>
+<li>Comp sales ติดลบต่อเนื่องหลายไตรมาสพร้อม Pro ไม่ฟื้น แม้ housing comparables ดีขึ้น (Judgment; 2026-09-13)</li>
+<li>Operating margin ลดลงต่อเนื่องโดยต้องพึ่ง one-off/tariff benefit หรือ promotion เพื่อรักษายอด (Judgment; 2026-09-13)</li>
+<li>Net debt/dilution หรือ CapEx/การลงทุนเพิ่มขึ้น แต่ OCF/FCF และ productivity ไม่ตาม (Judgment; ต้องตรวจ 10-K ล่าสุด)</li>
+</div></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIVN — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">RIVN</div>
+<div class="meta">Thesis · สร้างจาก briefs/RIVN.md · 2026-09-14</div>
+<h1>Rivian Automotive (RIVN) — Full Investment Memo</h1>
+<p><b>ดึงข้อมูล:</b> 14 ก.ย. 2026 (SEC EDGAR และ Yahoo Finance)</p>
+<p><b>Investment question:</b> Rivian จะเปลี่ยนการผลิตรถยนต์ที่ยังขาดทุนให้เป็นธุรกิจที่สร้าง gross profit และ free cash flow ได้ก่อนเงินสดหมด/ต้องระดมทุนเพิ่มหรือไม่?</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Research stance / rating:</b> <b>High-risk turnaround / option value — ต้องติดตาม milestone ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</b>. บริษัทมีสัญญาณ gross profit ปี 2025 เป็นบวก แต่ยังขาดทุนจากการดำเนินงานและใช้เงินลงทุนสูง (source: <code>sources/RIVN/10-k-fy2026.md</code>, SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Fair-value framework (scenario ไม่ใช่ target):</b> เพราะ EPS ยังติดลบ จึงใช้ 2031 revenue × net margin ÷ diluted shares เป็น cross-check และสมมติ terminal P/S: Bear revenue $10bn, margin 0%, value <b>$5/share</b>; Base $20bn, margin 6%, P/E 25× = <b>$6/share</b>; Bull $30bn, margin 10%, P/E 30× = <b>$15/share</b>. ยังไม่รวม dilution เพิ่ม จึงเป็น sensitivity ที่ conservative ต่อ dilution แต่หยาบมาก (source: SEC historical data, ดึง 2026-09-14; assumptions เป็นผู้จัดทำ)</li>
+<li><b>Entry / allocation:</b> ไม่มีจุดซื้อหรือคำแนะนำ; หากทำ watchlist ให้ถือเป็น venture-like position และกำหนดเพดาน loss/exposure ก่อน ไม่ใช้ bull case เป็น base case (judgment, 2026-09-14)</li>
+<li><b>5Y scenario CAGR จากราคาปัจจุบัน $16.03 ถึงปี 2031:</b> Bear -20.0% ต่อปี, Base -16.5% ต่อปี, Bull -1.3% ต่อปี ก่อน dilution/เงินปันผล (source: Yahoo Finance price, ดึง 2026-09-14; calculation/assumption: ผู้จัดทำ)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Rivian ขายรถ EV และบริการที่เกี่ยวข้องให้ผู้บริโภคและ fleet/commercial customers; ลูกค้าจ่ายเพื่อ vehicle utility, software/service experience และต้นทุนการใช้งานระยะยาว ไม่ใช่เพียงแบตเตอรี่หรือรูปทรงรถ (source: <code>sources/RIVN/10-k-fy2026.md</code>, ดึง 2026-09-14)</li>
+<li>รายได้หลักยังเป็น Automotive; economics ขึ้นกับ volume, ASP, battery/material cost, manufacturing yield, warranty/service และ software/other revenue. Gross profit ที่เปลี่ยนจาก -$2.03bn (2023) เป็น -$1.20bn (2024) และ +$144m (2025) เป็น inflection ที่ต้องพิสูจน์ว่าไม่ใช่ one-off credits/ต้นทุนชั่วคราว (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>THE CORE:</b> ทำ gross profit ต่อคันและส่งมอบได้อย่างมีคุณภาพ; <b>THE OPTION:</b> platform/software, R2 และ commercial/fleet scale; <b>THE PRICE:</b> $16.03, high/low 52 สัปดาห์ $22.69/$12.39 (source: Yahoo Finance, ดึง 2026-09-14; product/platform references: SEC 10-K)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Process power / brand differentiation:</b> design, software integration และ customer experience อาจทำให้มี willingness-to-pay ในกลุ่ม EV premium แต่ยังไม่มีหลักฐานระยะยาวว่าก่อให้เกิด pricing power หลัง incentives (source: SEC 10-K, ดึง 2026-09-14; interpretation)</li>
+<li><b>Scale disadvantage:</b> Rivian แข่งขันกับผู้ผลิตรถยนต์ขนาดใหญ่และ EV pure-play ที่มีโรงงาน, supply chain, service network และเงินทุนมากกว่า; fixed-cost absorption เป็นความเสี่ยงเฉพาะบริษัท (source: SEC 10-K, ดึง 2026-09-14)</li>
+<li>ความเสี่ยงคือ demand/ราคาขาย, production ramp, recalls/warranty, battery/raw materials, charging ecosystem, tariffs/regulation และการพึ่งพาเงินทุนภายนอก (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Revenue:</b> $0.055bn (2021), $1.658bn (2022), $4.434bn (2023), $4.970bn (2024), $5.387bn (2025): โตเร็วจากฐานเล็กแต่ชะลอลงชัดหลัง 2023 (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Gross profit:</b> -$0.465bn, -$3.123bn, -$2.030bn, -$1.200bn, +$0.144bn ใน 2021–2025; ทิศทางดีขึ้นมาก แต่ต้องดู gross profit ต่อคันและคุณภาพของ credits/ต้นทุน (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Operating income / net income:</b> operating loss -$4.220bn, -$6.856bn, -$5.739bn, -$4.689bn, -$3.585bn; net loss -$4.688bn, -$6.752bn, -$5.432bn, -$4.747bn, -$3.646bn ใน 2021–2025. ขาดทุนลดลงแต่ยังใหญ่เมื่อเทียบกับรายได้ (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Cash flow / investment:</b> OCF -$2.622bn, -$5.052bn, -$4.866bn, -$1.716bn, -$0.779bn; capex $1.794bn, $1.369bn, $1.026bn, $1.141bn, $1.710bn. FCF ยังติดลบทุกปีในชุดข้อมูลนี้ (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>R&amp;D / ROE / ROIC:</b> R&amp;D $1.850bn, $1.944bn, $1.995bn, $1.613bn, $1.668bn (2021–2025); ROE/ROIC ที่มีความหมายยังติดลบหรือไม่เหมาะกับธุรกิจที่ยังขาดทุน จึงไม่ใส่ ratio ที่อาจทำให้เข้าใจผิด (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>Cash and equivalents ลดจาก $7.857bn (2023) เป็น $5.294bn (2024) และ $3.579bn (2025); total assets $14.864bn และ long-term debt $4.440bn ณ 31 ธ.ค. 2025 (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li>บริษัทต้องจัดสรรเงินไปโรงงาน tooling, R&amp;D, service/charging และ ramp รุ่นใหม่ ขณะที่ OCF ยังติดลบ; capital allocation จึงเป็น survival/ramp allocation มากกว่า buyback/dividend (source: SEC 10-K/companyfacts, ดึง 2026-09-14)</li>
+<li>SBC, warrants/convertibles และ dilution เป็น risk สำคัญ แต่ extraction รอบนี้ยังไม่สรุป diluted share count ล่าสุดและ fully diluted cap table ได้ครบ; ต้องอ่าน equity compensation/convertible notes ก่อนใช้ per-share fair value (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>6. Latest Earnings</h2>
+<li>ไฟล์ล่าสุดคือ 10-Q/8-K สำหรับไตรมาสสิ้นสุด 30 มิ.ย. 2026; <b>StockAnalysis transcript เข้าถึงไม่ได้เพราะเครื่องมือคืน 402 billing error จึงไม่มี transcript</b> และไฟล์ <code>q2-2026-call.md</code> เป็น SEC 8-K/earnings release ไม่ใช่ transcript (source: <code>sources/RIVN/q2-2026-call.md</code>, ดึง 2026-09-14)</li>
+<li>ไม่ใส่ตัวเลข latest-quarter ที่ extraction ยังยืนยัน exhibit ตารางไม่ได้; การเติมตัวเลขจะเสี่ยงแต่งข้อมูล. ให้ตรวจ production, deliveries, gross profit, cash burn และ 2026 guidance จาก 10-Q/8-K ต้นฉบับก่อน (source: SEC 10-Q/8-K, ดึง 2026-09-14)</li>
+<li>สิ่งที่ต้องจับคือ gross profit หลัง credits, cost per vehicle, R2 timing/ใช้เงินลงทุน, cash runway และการเปลี่ยนแปลง diluted shares—not headline delivery เพียงอย่างเดียว (source: SEC 10-K/10-Q, ดึง 2026-09-14; checklist เป็น judgment)</li>
+<h2>7. Valuation</h2>
+<li><b>Price:</b> $16.03; <b>52-week range:</b> $12.39–$22.69; ณ 14 ก.ย. 2026 ตาม Yahoo Finance chart endpoint (source: <code>sources/RIVN/yahoo-chart.json</code>, ดึง 2026-09-14)</li>
+<li><b>Market cap / P/E / EV/EBITDA / EV/FCF / FCF yield / PEG:</b> ไม่พบชุดตัวเลขที่ยืนยันได้จาก endpoint ที่ดึงมา; P/E และ EV/FCF ใช้ไม่ได้อย่างมีความหมายขณะ EPS/FCF ติดลบ (source: Yahoo chart + SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Sales sensitivity:</b> 2025 revenue $5.387bn; price-to-sales ที่ใช้ใน scenario ไม่ใช่ current P/S เพราะ market cap และ diluted share count ล่าสุดยังต้องยืนยัน (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | Operating assumption | 2031 revenue | Margin/EPS bridge | 2031 value/share | Probability | Expected contribution |</p>
+<p>|---|---|---:|---|---:|---:|---:|</p>
+<p>| Bear | ramp สะดุด, cash burn/dilution, margin กลับลบ | $10bn | 0% net margin | $5 | 35% | $1.75 |</p>
+<p>| Base | volume โต, gross profit อยู่, scale ลด opex | $20bn | 6% net margin, 25× | $6 | 40% | $2.40 |</p>
+<p>| Bull | R2/บริการ scale, margin 10%, dilution จำกัด | $30bn | 10% net margin, 30× | $15 | 25% | $3.75 |</p>
+<p>ตัวเลขต่อหุ้นเป็น sensitivity ที่ไม่รวม dilution เพิ่มอย่างครบถ้วน; probabilities เป็น judgment ไม่ใช่ guidance/consensus (source: SEC historical financials, ดึง 2026-09-14; scenario assumptions: ผู้จัดทำ)</p>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> gross profit ต่อคันเป็นบวกโดยไม่พึ่ง credits, delivery/ramp ของรุ่นใหม่, R2 cost-down, cash burn ลด และ software/service revenue เริ่มมีสัดส่วนที่ตรวจสอบได้ (source: SEC 10-K/10-Q, ดึง 2026-09-14; interpretation)</li>
+<li><b>Risks:</b> เงินสดลดเร็วกว่าคาด, ต้องออกหุ้น/หนี้เพิ่ม, demand elasticity/price cuts, production delay, warranty/recall, และการแข่งขันทำให้ ASP หรือ margin ไม่ถึงจุดคุ้มทุน (source: SEC 10-K, ดึง 2026-09-14)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า gross profit ปี 2025 เป็นผลจากรายการชั่วคราว แต่ contribution margin ต่อคันยังไม่พอ บริษัทอาจไม่เคยถึง cash breakeven (source: SEC companyfacts/10-K, ดึง 2026-09-14; judgment)</li>
+<li>Permanent-loss risk คือ dilution และการระดมทุนในช่วงที่ economics ยังไม่พิสูจน์ มากกว่าความผันผวนของราคาหุ้นระยะสั้น (source: SEC 10-K, ดึง 2026-09-14)</li>
+<li><b>Bear floor ใน memo นี้:</b> $5/share เป็น sensitivity floor ของ scenario ไม่ใช่ liquidation value หรือราคาต่ำสุดจริง (source: scenario model, 2026-09-14)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>Entry/sizing:</b> ไม่มีคำแนะนำ buy/sell/hold; หากนำไปทำ watchlist ให้จัดเป็น speculative/venture-like และจำกัดขนาดให้การสูญเสียทั้งก้อนไม่ทำลายพอร์ต (judgment, 2026-09-14)</li>
+<li><b>DCA/cap:</b> ไม่ควรใช้ DCA แบบอัตโนมัติก่อนเห็น cash runway, gross profit quality และ dilution; ถ้าจะติดตามให้ใช้ milestone-based tranches และ cap exposure (judgment)</li>
+<li><b>Exit/kill triggers:</b> gross profit ต่อคันกลับติดลบหลายไตรมาส, cash burn ไม่ลดตามแผน, R2/โรงงานเลื่อนจน runway ต่ำ, dilution สูงเกิน thesis, หรือ demand ต้องพึ่ง price cuts ต่อเนื่อง (source: SEC 10-K/10-Q, ดึง 2026-09-14; judgment)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> 2025 revenue $5.387bn, gross profit $144m, operating loss $3.585bn, net loss $3.646bn, OCF -$779m, capex $1.710bn, cash $3.579bn, debt $4.440bn, price $16.03. (source: SEC companyfacts + Yahoo, ดึง 2026-09-14)</li>
+<li><b>Interpretation:</b> unit economics ดีขึ้นอย่างมีนัยสำคัญ แต่บริษัทอยู่ระหว่างพิสูจน์ scale economics และยังไม่ใช่ cash-generative business (source: SEC companyfacts, ดึง 2026-09-14)</li>
+<li><b>Judgment:</b> upside มีลักษณะ option จาก product/platform ramp; downside จาก dilution/runway เป็น structural risk. Scenario valuation จึงควรอ่านเป็น distribution of outcomes ไม่ใช่ fair value เดียว (ผู้จัดทำ, 2026-09-14)</li>
+<h2>ข้อจำกัด</h2>
+<p>StockAnalysis transcript ไม่ได้เพราะเครื่องมือคืน 402 billing error; จึงใช้ SEC 8-K/10-Q เป็น primary source และระบุชัดว่าไม่ใช่ transcript. Latest-quarter table, market cap, diluted cap table, SBC/convertible dilution และ peer multiples ยังต้องยืนยันเพิ่มก่อนใช้เงินจริง.</p>
+</div></body></html>

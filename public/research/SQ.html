@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQ — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">SQ</div>
+<div class="meta">Thesis · สร้างจาก briefs/SQ.md · 2026-09-14</div>
+<h1>SQ / XYZ — Full Investment Memo (Block, Inc.)</h1>
+<blockquote><b>ขอบเขต:</b> Block เปลี่ยน ticker จาก SQ เป็น <b>XYZ</b> ในปี 2025; รายงานนี้ใช้ underlying XYZ แต่ pre-run universe เรียก SQ. รายงานเป็น research framework ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ และ valuation scenario เป็น judgment ไม่ใช่ราคาเป้าหมายจากบริษัท</blockquote>
+<p>&gt;</p>
+<blockquote><b>วันที่ดึงข้อมูล:</b> 14 ก.ย. 2026 (SEAST). แหล่งหลักคือ SEC 10-K/10-Q, SEC XBRL, StockAnalysis transcript และ Yahoo Finance chart endpoint</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงกรอบ:</b> ติดตามแบบมีเงื่อนไข (Neutral framework) — ธุรกิจมีหลักฐานการขยาย gross profit และ cash generation แต่ยังต้องพิสูจน์ว่า Cash App/Square โตได้โดยไม่แลกด้วย credit loss, SBC/dilution หรือ margin ที่ถอยลง (source: SEC 10-K FY2025; StockAnalysis Q2 2026 transcript, ดึง 14 ก.ย. 2026)</li>
+<li><b>ราคาตลาดอ้างอิง:</b> $79.21; ช่วง 52 สัปดาห์ $49.09–$84.85. Market cap, P/E และ EV/EBITDA แบบสด <b>ไม่พบจาก endpoint ที่เข้าถึงได้</b> จึงไม่แต่งตัวเลข (source: Yahoo Finance chart <code>XYZ</code>, ดึง 14 ก.ย. 2026)</li>
+<li><b>Scenario fair-value framework:</b> Worst $144 / Base $264 / Bull $450 ในอีก 5 ปี จาก EPS สมมติ $8/$11/$15 และ multiple 18x/24x/30x ตามลำดับ; นี่เป็น judgment model ไม่ใช่ consensus และไม่ใช่คำแนะนำราคา (source: assumptions ของ memo; reported inputs จาก SEC 10-K และ guidance ใน Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>Entry / allocation framework:</b> หากใช้ base-case margin of safety 20% จะได้ “จุดตรวจสอบ” ราว $211—not an instruction to buy. กรอบพอร์ตเชิงวินัย: ceiling 2–4% ต่อหุ้น จนกว่าจะเห็น gross-profit growth, credit losses และ diluted share count ผ่านเกณฑ์ต่อเนื่อง (source: judgment ของ memo, informed by SEC 10-K/Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>5Y CAGR:</b> Worst 12.7%, Base 27.2%, Bull 41.5%; probability 25%/50%/25% เป็น judgment. Expected target แบบถ่วงน้ำหนัก = $280.5 (ไม่ใช่ fair value ที่รับรอง) (source: memo scenario assumptions, คำนวณ 14 ก.ย. 2026)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Block ขายระบบรับชำระเงินและซอฟต์แวร์ให้ผู้ขายผ่าน Square และขาย payment/commerce/financial products ให้ผู้บริโภคผ่าน Cash App; ลูกค้าจ่ายเพื่อให้รับเงิน ขายของ บริหารร้าน เข้าถึงเงิน และทำธุรกรรมใน ecosystem เดียว (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<li><b>Square:</b> รายได้ผูกกับ GPV, commerce enablement และ financial solutions; Q2 2026 Square gross profit และ GPV โต 13% YoY และบริษัทระบุว่า gross profit ครึ่งหลังคาดโตใกล้ GPV (source: StockAnalysis, Q2 2026 transcript, 5 ส.ค. 2026)</li>
+<li><b>Cash App:</b> monetization มาจาก commerce enablement, card, lending และบริการการเงิน; Q2 gross profit โต 31% YoY, monthly transacting actives โต 3% YoY ในเดือนมิถุนายน และ lending origination โต 59% YoY (source: StockAnalysis Q2 2026 transcript, 5 ส.ค. 2026)</li>
+<li>การติดตามควรใช้ gross profit มากกว่า revenue เพราะ transaction-based revenue มีต้นทุน pass-through สูง; FY2021–FY2025 gross profit เพิ่มจาก $4.420B เป็น $10.360B ขณะที่ revenue เพิ่มจาก $17.661B เป็น $24.194B (source: SEC XBRL CompanyFacts; sources/SQ/10-k-fy2026.md, ดึง 14 ก.ย. 2026)</li>
+<li><b>THE CORE / THE OPTION / THE PRICE:</b> Core = Square + Cash App gross-profit compounding; Option = cross-network products, AI/Buzz และ Neighborhoods; Price = $79.21 แต่ valuation multiples สดที่เชื่อถือได้ไม่พบ จึงยังไม่สรุปว่าถูกหรือแพง (source: SEC 10-K; StockAnalysis Q2 transcript; Yahoo chart, ดึง 14 ก.ย. 2026)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>7 Powers ที่พอเห็นได้:</b> network effects ระหว่าง sellers กับ consumers, switching costs จาก workflow/ข้อมูล, economies of scale ใน payment/underwriting และ counter-positioning จากการเชื่อมสอง ecosystem; เป็นข้อสังเกตเชิงวิเคราะห์ ไม่ใช่ข้อเท็จจริงที่บริษัทรับรอง (source: SEC 10-K; StockAnalysis Q2 transcript, ดึง 14 ก.ย. 2026)</li>
+<li>ความเสี่ยงเฉพาะ: PayPal, Block คู่แข่งธนาคาร/บัตร, Shopify และผู้ให้บริการ POS อาจกดราคา/แย่ง seller; Cash App เผชิญคู่แข่ง wallet/bank และความเสี่ยง fraud, compliance, credit losses (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<li>AI ช่วย shipping velocity ได้ แต่การลงทุน AI infrastructure/Buzz ยังไม่ใช่หลักฐานว่าเป็นรายได้หรือกำไรที่ยั่งยืน; ต้องดู incremental gross profit ต่อค่าใช้จ่าย (source: StockAnalysis Q2 2026 transcript, 5 ส.ค. 2026)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| ปี | Revenue | Gross profit | Op. income | Net income | OCF | CapEx | FCF proxy | R&amp;D |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| 2021 | $17.661B | $4.420B | $161M | $166M | $848M | $134M | $714M | $1.384B |</p>
+<p>| 2022 | $17.532B | $5.992B | ($625M) | ($541M) | $176M | $171M | $5M | $2.136B |</p>
+<p>| 2023 | $21.916B | $7.505B | ($279M) | $10M | $101M | $151M | ($50M) | $2.721B |</p>
+<p>| 2024 | $24.121B | $8.889B | $892M | $2.897B | $1.707B | $154M | $1.553B | $2.914B |</p>
+<p>| 2025 | $24.194B | $10.360B | $1.708B | $1.306B | $2.580B | $155M | $2.425B | $2.908B |</p>
+<li><b>Reported:</b> gross profit และ OCF direction ดีขึ้นมากใน 2024–25; <b>Interpretation:</b> operating leverage เริ่มปรากฏ; <b>Judgment:</b> คุณภาพกำไรต้องหักผลกระทบ one-off และดู diluted EPS/SBC ควบคู่ (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>ROE/ROIC แบบ comparable 5 ปี <b>ไม่คำนวณ</b> เพราะมีผลจาก one-off, cash/financial-products balance sheet และ denominator ที่เปลี่ยน; ให้ตรวจใน 10-K ล่าสุดก่อนใช้ตัดสินใจ (source: SEC 10-K, ดึง 14 ก.ย. 2026)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>FY2025 assets $39.550B, liabilities $17.380B, cash $6.564B; Block มี financial-product funding/borrowings จึงไม่ควรอ่าน net cash แบบบริษัท software ธรรมดา (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>CapEx อยู่ราว $134M–$171M ในช่วง 2021–25 ขณะที่ R&amp;D อยู่ $1.384B–$2.914B; การเติบโตจึงพึ่งคน/ผลิตภัณฑ์และ credit/payment execution มากกว่าการสร้างโรงงาน (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>SBC, dilution, buyback และ debt detail ต้องตรวจจาก stock-compensation/share-count tables ใน 10-K ทุกไตรมาส; memo นี้ไม่ใส่ตัวเลขที่ดึงสดไม่ได้ (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported:</b> Q2 2026 gross profit โต 25% YoY, adjusted operating-income margin ทำสถิติ 27%, adjusted diluted EPS โต 65%; <b>Guidance:</b> FY2026 gross profit $12.51B (+21%), adjusted operating income $3.47B (28% margin), adjusted diluted EPS growth 70% YoY (source: sources/SQ/q2-2026-call.md; StockAnalysis, 5 ส.ค. 2026)</li>
+<li>Square GPV และ gross profit โต 13%; U.S. GPV เร่งตัว ขณะที่ Cash App gross profit โต 31% แต่ actives โตเพียง low single digit — thesis จึงพึ่ง depth/monetization มากกว่าการเพิ่มผู้ใช้เร็ว (source: sources/SQ/q2-2026-call.md, 5 ส.ค. 2026)</li>
+<li>บริษัทระบุว่าการลงทุน go-to-market, Neighborhoods และ AI/Buzz จะเพิ่มได้หากเห็นโอกาส ROI; สิ่งที่ต้องวัดคือกำไรเพิ่มจริงหลัง investment ไม่ใช่เพียง product launch (source: sources/SQ/q2-2026-call.md, 5 ส.ค. 2026)</li>
+<li>Transcript ล่าสุดพบจาก StockAnalysis; ใช้ paraphrase เท่านั้น ไม่มี verbatim quote ใน memo (source: https://stockanalysis.com/stocks/xyz/transcripts/662758-q2-2026/, 5 ส.ค. 2026)</li>
+<h2>7. Valuation</h2>
+<li><b>Observed:</b> $79.21; 52-week range $49.09–$84.85; market cap/P/E/EV-EBITDA/EV-FCF/PEG และ historical multiple range <b>ไม่พบจาก endpoint ที่เข้าถึงได้</b> (source: Yahoo Finance chart XYZ, ดึง 14 ก.ย. 2026)</li>
+<li><b>Scenario assumptions (Judgment):</b> Worst EPS $8 × 18x = $144; Base $11 × 24x = $264; Bull $15 × 30x = $450. ไม่มีการเรียกตัวเลขนี้ว่า consensus (source: memo model, reported anchors from SEC and Q2 guidance, 14 ก.ย. 2026)</li>
+<li>Peer valuation ยังไม่ใส่ เพราะไม่มีข้อมูลที่ดึงและ verify ได้ในรอบนี้; ห้ามเติมตัวเลขจากความจำ (source: research log, 14 ก.ย. 2026)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS 5Y (สมมติ) | Multiple | Target | CAGR จาก $79.21 | Probability | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|</p>
+<p>| Worst | $8 | 18x | $144 | 12.7% | 25% | $36.0 |</p>
+<p>| Base | $11 | 24x | $264 | 27.2% | 50% | $132.0 |</p>
+<p>| Bull | $15 | 30x | $450 | 41.5% | 25% | $112.5 |</p>
+<li>Bull ต้องเห็น Square acceleration, Cash App monetization โดย credit losses คุมได้ และ network cross-sell แปลงเป็น diluted EPS จริง (source: StockAnalysis Q2 transcript; judgment model, ดึง 14 ก.ย. 2026)</li>
+<li>Base คือ gross profit โตต่อแต่ actives โตต่ำและ valuation ไม่ขยายมาก; Worst คือ growth สะดุด, compliance/credit loss สูงขึ้น หรือ dilution กินกำไรต่อหุ้น (source: SEC 10-K; judgment model, ดึง 14 ก.ย. 2026)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: FY2026 guidance delivery, U.S. Square GPV, Cash App commerce/lending, Neighborhoods และ evidence ว่า AI เพิ่ม productivity โดยไม่กด margin (source: StockAnalysis Q2 transcript, 5 ส.ค. 2026)</li>
+<li>Risks: competitive pricing, fraud/regulatory event, credit deterioration, lower Cash App actives, SBC/dilution และ guidance miss (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Permanent-loss path คือ Block โต gross profit แต่ต้องใช้ incentive/credit risk/SBC มากขึ้นจน owner earnings ต่อหุ้นไม่โต; headline adjusted EPS จึงต้องเทียบกับ GAAP, OCF และ diluted shares (source: SEC 10-K; SEC XBRL, ดึง 14 ก.ย. 2026)</li>
+<li>Bear floor ของ memo คือ $144—not a guaranteed floor—ภายใต้ EPS $8 และ 18x; assumption ที่เปราะที่สุดคือ margin conversion และ multiple ที่ตลาดยอมให้ (source: judgment model, 14 ก.ย. 2026)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ใช้เป็น satellite research position เท่านั้นในกรอบนี้; ceiling 2–4% และเพิ่มน้ำหนักได้ก็ต่อเมื่อ quarterly evidence สนับสนุน thesis ไม่ใช่เพราะราคาลง (source: judgment ของ memo, 14 ก.ย. 2026)</li>
+<li>DCA/entry framework: แบ่ง 3 ไม้ตามการยืนยัน gross-profit trend, credit loss และ dilution; ไม่มีการกำหนดคำสั่งซื้อขายจริงให้ผู้ใช้ (source: judgment ของ memo, 14 ก.ย. 2026)</li>
+<li><b>Kill conditions:</b> (1) gross profit growth ต่ำกว่าระดับ mid-teens ต่อเนื่อง 2–3 ไตรมาสโดยไม่มีเหตุชั่วคราว, (2) credit losses/fraud/compliance กระทบ economics อย่างมีนัย, (3) OCF ไม่แปลงเป็น per-share FCF เพราะ dilution หรือ leverage (source: SEC 10-K/Q2 transcript; judgment, ดึง 14 ก.ย. 2026)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2025 gross profit $10.360B, OCF $2.580B; Q2 2026 GP +25%, FY guidance GP $12.51B (source: SEC XBRL; StockAnalysis Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>Interpretation:</b> Block กำลังเปลี่ยนจาก growth-at-any-cost ไปสู่ profitable gross-profit compounding; Cash App growth มาจาก monetization depth มากกว่า user growth (source: memo analysis, anchored to cited facts, 14 ก.ย. 2026)</li>
+<li><b>Judgment:</b> Base EPS $11/24x, 2–4% ceiling, probabilities 25/50/25 และ kill conditions ข้างต้นเป็นกรอบของ memo ไม่ใช่ guidance หรือ recommendation (source: memo model, 14 ก.ย. 2026)</li>
+</div></body></html>

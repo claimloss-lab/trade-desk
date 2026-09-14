@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UBER — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">UBER</div>
+<div class="meta">Thesis · สร้างจาก briefs/UBER.md · 2026-09-14</div>
+<h1>UBER — Full Investment Memo (Uber Technologies, Inc.)</h1>
+<blockquote><b>ขอบเขต:</b> รายงานนี้เป็น research framework ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. AV เป็น option ของ thesis ไม่ใช่กำไรที่พิสูจน์แล้ว</blockquote>
+<p>&gt;</p>
+<blockquote><b>วันที่ดึงข้อมูล:</b> 14 ก.ย. 2026 (SEAST). แหล่งหลักคือ SEC 10-K/10-Q, SEC XBRL, StockAnalysis transcript และ Yahoo Finance chart endpoint</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงกรอบ:</b> ติดตามแบบมีเงื่อนไข (Neutral framework) — core Mobility/Delivery มี operating leverage และ cash flow ดีขึ้นชัด แต่ valuation ต้องแยก core earnings ออกจาก AV/M&amp;A option และ regulatory exposure (source: SEC 10-K FY2025; StockAnalysis Q2 2026 transcript, ดึง 14 ก.ย. 2026)</li>
+<li><b>ราคาตลาดอ้างอิง:</b> $71.67; ช่วง 52 สัปดาห์ $65.94–$100.10. Market cap, P/E และ EV/EBITDA แบบสด <b>ไม่พบจาก endpoint ที่เข้าถึงได้</b> จึงไม่แต่งตัวเลข (source: Yahoo Finance chart UBER, ดึง 14 ก.ย. 2026)</li>
+<li><b>Scenario fair-value framework:</b> Worst $90 / Base $168 / Bull $280 ในอีก 5 ปี จาก EPS สมมติ $5/$7/$10 และ multiple 18x/24x/28x ตามลำดับ; เป็น judgment model ไม่ใช่ consensus (source: assumptions ของ memo; reported inputs จาก SEC 10-K และ Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>Entry / allocation framework:</b> หากใช้ base-case margin of safety 20% จะได้ “จุดตรวจสอบ” ราว $134—not an instruction to buy. กรอบพอร์ตเชิงวินัย: ceiling 2–4% จนกว่าจะเห็น bookings, FCF ต่อหุ้น, regulatory cost และ M&amp;A discipline สนับสนุน thesis (source: judgment ของ memo, informed by SEC 10-K/Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>5Y CAGR:</b> Worst 4.6%, Base 18.6%, Bull 31.3%; probability 25%/50%/25% เป็น judgment. Expected target ถ่วงน้ำหนัก = $176.5 (ไม่ใช่ fair value ที่รับรอง) (source: memo scenario assumptions, คำนวณ 14 ก.ย. 2026)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Uber เป็น marketplace เชื่อม rider-driver, consumer-merchant/courier และ shipper-carrier; ลูกค้าจ่ายเพื่อความสะดวก ความหนาแน่นของ supply/demand และการจัดการธุรกรรม/โลจิสติกส์ ไม่ใช่เพียงค่าเรียกรถ (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<li>Segments หลักคือ Mobility, Delivery และ Freight; ให้ติดตาม gross bookings, trips, MAPCs, take rate, adjusted EBITDA และ FCF มากกว่า revenue อย่างเดียว เพราะบริษัทมี principal/agent presentation และธุรกรรม pass-through (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<li>Q2 2026 gross bookings มากกว่า $58B โต 22% YoY; non-GAAP EPS โต 35% และ trailing-12-month FCF เกิน $10B เป็นครั้งแรกตามที่บริษัทสื่อสาร (source: sources/UBER/q2-2026-call.md; StockAnalysis, 5 ส.ค. 2026)</li>
+<li><b>THE CORE / THE OPTION / THE PRICE:</b> Core = Mobility + Delivery network economics; Option = AV commercialization platform, Uber One expansion และการขยายตลาดจาก Delivery Hero; Price = $71.67 แต่สด multiples หาไม่ได้ (source: SEC 10-K; StockAnalysis Q2 transcript; Yahoo chart, ดึง 14 ก.ย. 2026)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>7 Powers ที่พอเห็นได้:</b> network effects ของ marketplace, density economies ในเมือง, scale economies ด้าน dispatch/marketing/data และ switching costs จาก Uber One/merchant workflow; strength ต้องพิสูจน์แยกตามเมือง ไม่ควรเหมารวมเป็นข้อได้เปรียบถาวร (source: SEC 10-K; StockAnalysis Q2 transcript, ดึง 14 ก.ย. 2026)</li>
+<li>คู่แข่งเฉพาะคือ Lyft/ผู้ให้บริการท้องถิ่นใน Mobility, DoorDash/ผู้เล่นท้องถิ่นใน Delivery, carrier/forwarder ใน Freight; pricing, driver supply และ regulation อาจทำให้ take rate ไม่แปลงเป็นกำไร (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<li>AV ไม่ได้ลดความเสี่ยงทั้งหมด: deployment เป็น physical, regulated, market-by-market และต้องพิสูจน์ utilization, quality of service, unit economics รวมถึง partner dependence (source: StockAnalysis Q2 transcript, 5 ส.ค. 2026)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| ปี | Revenue | Op. income | Net income | OCF | CapEx | FCF proxy | R&amp;D |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|---:|</p>
+<p>| 2021 | $17.455B | ($3.834B) | ($496M) | ($445M) | $298M | ($743M) | $2.054B |</p>
+<p>| 2022 | $31.877B | ($1.832B) | ($9.141B) | $642M | $252M | $390M | $2.798B |</p>
+<p>| 2023 | $37.281B | $1.110B | $1.887B | $3.585B | $223M | $3.362B | $3.164B |</p>
+<p>| 2024 | $43.978B | $2.799B | $9.856B | $7.137B | $242M | $6.895B | $3.109B |</p>
+<p>| 2025 | $52.017B | $5.565B | $10.053B | $10.099B | $336M | $9.763B | $3.402B |</p>
+<li><b>Reported:</b> revenue, operating income and OCF directionดีขึ้นมากตั้งแต่ 2023; <b>Interpretation:</b> platform scale เริ่มแปลงเป็น operating leverage; <b>Judgment:</b> net income มีรายการผันผวน จึงควรใช้ FCF ต่อหุ้นและ diluted share count เป็น anchor (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>Gross profit และ ROE/ROIC แบบ comparable 5 ปี <b>ไม่พบ/ไม่คำนวณ</b> จากชุด tag นี้ เพราะ presentation ของ marketplace และ denominator เปลี่ยน; อย่าแต่งตัวเลข ให้ตรวจ 10-K ล่าสุด (source: SEC 10-K/XBRL, ดึง 14 ก.ย. 2026)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>FY2025 assets $61.802B, liabilities $33.719B, cash $7.105B และ non-current debt $10.521B; ต้องรวม leases, insurance reserves และ acquisition obligations ในการประเมิน leverage (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>OCF เพิ่มจาก negative $445M ใน 2021 เป็น $10.099B ใน 2025 ขณะที่ CapEx 2025 $336M; cash conversion เป็นจุดแข็ง แต่ FCF ยังต้อง normalize for working capital/insurance timing (source: SEC XBRL CompanyFacts, ดึง 14 ก.ย. 2026)</li>
+<li>SBC/dilution และ buyback ต้องวัดต่อหุ้น ไม่ใช่ดู total FCF; ข้อมูลละเอียดอยู่ใน 10-K/10-Q และ memo นี้ไม่ใส่ตัวเลขที่ endpoint สดดึงไม่ได้ (source: SEC 10-K FY2025, ดึง 14 ก.ย. 2026)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported:</b> Q2 gross bookings &gt;$58B, +22% YoY; non-GAAP EPS +35%; TTM FCF &gt;$10B; bookings สูงกว่าปลายบนของ guidance ตามคำกล่าวบริษัท (source: sources/UBER/q2-2026-call.md; StockAnalysis, 5 ส.ค. 2026)</li>
+<li>Mobility ในสหรัฐฯ เร่งตัว ขณะที่บริษัทระบุ competitive/regulatory challenges ใน Brazil และ AV ยังอยู่ระยะ commercial rollout (source: StockAnalysis Q2 2026 transcript, 5 ส.ค. 2026)</li>
+<li>บริษัทบอกว่ามี AV live 7 เมืองและตั้งเป้า 15 เมืองภายในสิ้นปี 2026; ตัวชี้วัดที่ควรตามคือ quality, utilization และ economics ต่อคัน ไม่ใช่จำนวน partnership อย่างเดียว (source: sources/UBER/q2-2026-call.md, 5 ส.ค. 2026)</li>
+<li>การซื้อ Delivery Hero อาจเพิ่มตลาดและ Uber One reach แต่เป็น capital-allocation/M&amp;A execution risk จนกว่าจะเห็นผลต่อ FCF ต่อหุ้น (source: sources/UBER/q2-2026-call.md; SEC 8-K/10-Q, ดึง 14 ก.ย. 2026)</li>
+<li>Transcript ล่าสุดพบจาก StockAnalysis; ใช้ paraphrase ไม่ใส่ verbatim quote ที่ยังไม่ verify (source: https://stockanalysis.com/stocks/uber/transcripts/661328-q2-2026/, 5 ส.ค. 2026)</li>
+<h2>7. Valuation</h2>
+<li><b>Observed:</b> $71.67; 52-week range $65.94–$100.10; market cap/P/E/EV-EBITDA/EV-FCF/PEG และ historical/peer multiples <b>ไม่พบจาก endpoint ที่เข้าถึงได้</b> (source: Yahoo Finance chart UBER, ดึง 14 ก.ย. 2026)</li>
+<li><b>Scenario assumptions (Judgment):</b> Worst EPS $5 × 18x = $90; Base $7 × 24x = $168; Bull $10 × 28x = $280. ไม่เรียกเป็น consensus (source: memo model; reported anchors from SEC and Q2 transcript, 14 ก.ย. 2026)</li>
+<li>ไม่ใส่ peer valuation เพราะรอบนี้ไม่มีตัวเลขที่ดึงและ verify ได้ครบ; ห้ามเติมจากความจำ (source: research log, 14 ก.ย. 2026)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS 5Y (สมมติ) | Multiple | Target | CAGR จาก $71.67 | Probability | Expected contribution |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|</p>
+<p>| Worst | $5 | 18x | $90 | 4.6% | 25% | $22.5 |</p>
+<p>| Base | $7 | 24x | $168 | 18.6% | 50% | $84.0 |</p>
+<p>| Bull | $10 | 28x | $280 | 31.3% | 25% | $70.0 |</p>
+<li>Bull ต้องเห็น bookings โตต่อ, take-rate/EBITDA/FCF ต่อหุ้นดีขึ้น, Delivery Hero integration สร้าง economics และ AV เพิ่ม utilization โดยไม่ต้อง subsidize หนัก (source: StockAnalysis Q2 transcript; judgment model, ดึง 14 ก.ย. 2026)</li>
+<li>Base คือ core platform โตระดับดีและ multiple คงกลาง ๆ โดย AV ยังเป็น option; Worst คือ regulation/competition กด pricing, M&amp;A ทำลาย per-share value หรือ AV ใช้ทุนสูงแต่ไม่เกิด unit economics (source: SEC 10-K; judgment model, ดึง 14 ก.ย. 2026)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: bookings &gt;20% ต่อเนื่อง, U.S. Mobility acceleration, FCF conversion, AV launches ตาม milestone และ integration ของ Delivery Hero/Uber One (source: StockAnalysis Q2 transcript, 5 ส.ค. 2026)</li>
+<li>Risks: worker classification/regulation, local competition, insurance/claims, Brazil pressure, M&amp;A leverage/integration และ AV commercialization ที่ช้าหรือขาดกำไร (source: SEC 10-K FY2025; StockAnalysis Q2 transcript, ดึง 14 ก.ย. 2026)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Permanent-loss path คือ Uber กลายเป็น low-margin marketplace ที่ต้องใช้ incentive เพื่อรักษา supply/demand ขณะที่ cash ถูกใช้กับ M&amp;A/AV และ diluted EPS ไม่โตตาม headline FCF (source: SEC 10-K; judgment, ดึง 14 ก.ย. 2026)</li>
+<li>Bear floor ของ memo คือ $90—not a guaranteed floor—ภายใต้ EPS $5 และ 18x; assumption ที่เปราะที่สุดคือ sustainable take rate, regulation และ capital allocation discipline (source: judgment model, 14 ก.ย. 2026)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ใช้เป็น satellite position ในกรอบนี้; ceiling 2–4% จนกว่าจะเห็น FCF ต่อหุ้นและ regulatory economics ผ่านหลายไตรมาส ไม่เพิ่มเพียงเพราะราคาลง (source: judgment ของ memo, 14 ก.ย. 2026)</li>
+<li>DCA/entry framework: แบ่ง 3 ไม้ตาม booking growth, adjusted EBITDA-to-FCF conversion และ M&amp;A/AV milestone; ไม่มีคำสั่งซื้อขายจริงในรายงานนี้ (source: judgment ของ memo, 14 ก.ย. 2026)</li>
+<li><b>Kill conditions:</b> (1) bookings growth ต่ำกว่า low-teens ต่อเนื่องโดย take rate/EBITDA ไม่ชดเชย, (2) FCF ต่อหุ้นหดจาก SBC/buyback/M&amp;A, (3) regulatory ruling ทำให้ economics ของตลาดใหญ่เสียถาวร, (4) AV ใช้เงินมากแต่ utilization/quality/unit economics ไม่ดีขึ้น (source: SEC 10-K/Q2 transcript; judgment, ดึง 14 ก.ย. 2026)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2025 revenue $52.017B, OCF $10.099B; Q2 2026 bookings &gt;$58B +22%, TTM FCF &gt;$10B; AV live 7 เมืองและเป้า 15 เมืองสิ้นปี (source: SEC XBRL; StockAnalysis Q2 transcript, 14 ก.ย. 2026)</li>
+<li><b>Interpretation:</b> core marketplace มี operating leverage แล้ว แต่ส่วน AV/M&amp;A ทำให้ความเสี่ยง allocation สูงขึ้น; gross bookings และ FCF ต่อหุ้นจึงสำคัญกว่า revenue headline (source: memo analysis anchored to cited facts, 14 ก.ย. 2026)</li>
+<li><b>Judgment:</b> Base EPS $7/24x, 2–4% ceiling, probabilities 25/50/25 และ kill conditions เป็นกรอบของ memo ไม่ใช่ company guidance หรือ recommendation (source: memo model, 14 ก.ย. 2026)</li>
+</div></body></html>

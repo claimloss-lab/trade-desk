@@ -6017,7 +6017,8 @@
     "LLY_support": "2026-09-13T03:00:27.073Z",
     "buyzone:PANW": "2026-09-14",
     "ASML_support": "2026-09-15T03:00:30.556Z",
-    "trend:ORCL:Strong Sell": "2026-09-15"
+    "trend:ORCL:Strong Sell": "2026-09-15",
+    "reversal:PLTR:volume_exhaustion": "2026-09-15"
   },
   "summary": {
     "totalPorts": 10,

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-14T02:33:12.047Z",
-  "exportDateTH": "14 กันยายน 2569 เวลา 09:33",
+  "exportDate": "2026-09-15T12:38:49.004Z",
+  "exportDateTH": "15 กันยายน 2569 เวลา 07:38",
   "portfolios": [
     {
       "id": "dr1",
@@ -6025,6 +6025,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 65,
-    "totalNetWorth": "฿1,796,558.64"
+    "totalNetWorth": "฿1,800,169.96"
   }
 }

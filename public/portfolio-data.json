@@ -5969,10 +5969,10 @@
     "CRWD_resist": "2026-09-15T03:00:30.556Z",
     "PLTR_resist": "2026-08-31T03:00:19.199Z",
     "trend:SNOW:Strong Buy": "2026-09-01",
-    "trend:PANW:Strong Buy": "2026-08-19",
+    "trend:PANW:Strong Buy": "2026-09-15",
     "trend:NVDA:Strong Buy": "2026-09-08",
     "trend:QQQM:Strong Buy": "2026-08-17",
-    "trend:CRWD:Strong Buy": "2026-09-01",
+    "trend:CRWD:Strong Buy": "2026-09-15",
     "trend:ASML:Strong Buy": "2026-08-17",
     "LLY_resist": "2026-08-26T03:00:38.374Z",
     "reversal:ORCL:bullish_divergence": "2026-08-25",
@@ -5998,7 +5998,7 @@
     "buyzone:ORCL": "2026-09-10",
     "buyzone:NVDA": "2026-08-26",
     "buyzone:CRWD": "2026-08-26",
-    "trend:MSFT:Strong Buy": "2026-09-03",
+    "trend:MSFT:Strong Buy": "2026-09-15",
     "reversal:PLTR:bullish_engulfing": "2026-08-27",
     "reversal:QQQM:bullish_engulfing": "2026-08-27",
     "buyzone:PLTR": "2026-09-14",
@@ -6016,7 +6016,8 @@
     "reversal:GOOGL:hammer": "2026-09-10",
     "LLY_support": "2026-09-13T03:00:27.073Z",
     "buyzone:PANW": "2026-09-14",
-    "ASML_support": "2026-09-15T03:00:30.556Z"
+    "ASML_support": "2026-09-15T03:00:30.556Z",
+    "trend:ORCL:Strong Sell": "2026-09-15"
   },
   "summary": {
     "totalPorts": 10,

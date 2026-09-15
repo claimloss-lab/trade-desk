@@ -17,34 +17,67 @@
 <a class="back" href="index.html">← Portfolio</a>
 <div class="ticker">BIIB</div>
 <div class="meta">Thesis · สร้างจาก briefs/BIIB.md · 2026-09-15</div>
-<h1>BIIB — Biogen</h1>
-<h2>1. Company snapshot</h2>
-<p>Biogen เป็นบริษัทยาที่พัฒนายาและทำตลาดยาสำหรับโรคระบบประสาทและโรคภูมิคุ้มกัน รายได้เดิมมาจากยากลุ่ม multiple sclerosis แต่บริษัทกำลังเปลี่ยนไปพึ่ง growth portfolio เช่น SPINRAZA, LEQEMBI, SKYCLARYS, ZURZUVAE และผลิตภัณฑ์จาก Apellis มากขึ้น ธุรกิจมีความเสี่ยงสูงจากสิทธิบัตร ผลการทดลอง การอนุมัติ และการเบิกจ่ายยา แต่หาก pipeline สำเร็จจะกระจายแหล่งรายได้ได้มากกว่าเดิม</p>
-<h2>2. Fundamentals signal</h2>
-<li>การเปลี่ยน mix เริ่มเห็นชัด: growth portfolio ไตรมาส 2/2026 สร้างรายได้กว่า $1B โต 24% YoY และมากกว่าพอร์ต MS เดิม; core pharmaceutical revenue $1.8B โต 4% (source: sources/BIIB/q2-2026-call.md)</li>
-<li>สินค้าหลักมีทิศทางผสม: SPINRAZA $402M โต 2%, LEQEMBI $184M โต 15%, SKYCLARYS $168M โต 29%, แต่ VUMERITY $197M ลด 7% และ TYSABRI $451M ลด 1% (source: sources/BIIB/q2-2026-call.md)</li>
-<li>Balance sheet มีหนี้ระยะยาว $6.3B ณ สิ้นปี 2025 และไม่มีการซื้อหุ้นคืนในปี 2025; การซื้อ Apellis เพิ่มโอกาสการเติบโตแต่ก็เพิ่มต้นทุน financing/ดอกเบี้ย (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md)</li>
-<li>Capital allocation เปลี่ยนจากพึ่ง M&amp;A ขนาดใหญ่ไปสู่การ integrate Apellis และลงทุน pipeline; 10-K ระบุว่าบริษัทมีวงเงิน buyback เหลือประมาณ $2.1B แต่ยังไม่มี repurchase ในปี 2025 (source: sources/BIIB/10-k-2026.md)</li>
-<p><b>Valuation snapshot:</b> ราคา $215.43; market cap $31.83B; P/E 37.47x; EV/EBITDA 11.58x; ช่วง 52 สัปดาห์ $135.39–$225.80 ณ 10 ก.ย. 2026 หลังตลาดสหรัฐปิด — source: yfinance <code>Ticker.history(period=&#x27;1y&#x27;)</code> และ <code>Ticker.info</code> ที่รันใน <code>scripts/fetch_missing_sources.py</code>.</p>
-<h2>3. Latest earnings</h2>
-<li>Apellis products หลังปิดดีล 14 พ.ค. สร้างรายได้รวม $128M ในช่วงที่รวมบัญชี; SYFOVRE $162M โต 8% และ EMPAVELI $46M โต 123% YoY (source: sources/BIIB/q2-2026-call.md)</li>
-<li>LEQEMBI IQLIK แบบฉีดใต้ผิวหนังสำหรับทั้ง initiation และ maintenance ได้รับอนุมัติ FDA ตามที่กล่าวในสาย และอาจช่วยลดภาระการไป infusion center (source: sources/BIIB/q2-2026-call.md)</li>
-<li>บริษัทระบุว่ามี phase III readouts 5 รายการใน 4 indications ได้แก่ SLE, CLE, AMR และ Dravet syndrome ในช่วงถัดไป; readout ของ AMR และ CLE ถูกเร่งมาเป็นครึ่งแรกปี 2027 (source: sources/BIIB/q2-2026-call.md)</li>
-<li>ฝ่ายบริหารคาด SYFOVRE และ EMPAVELI โต mid-to-high teens ถึงอย่างน้อยปี 2028 แต่ดีล Apellis ทำให้มี other income/expense impact ราว $120–130M ทั้งปี 2026 และ 2027 (source: sources/BIIB/q2-2026-call.md)</li>
-<h2>4. Bull case / Bear case</h2>
-<p><b>Bull case</b></p>
-<li>Growth portfolio และ Apellis ทำให้รายได้กลับมาโต ขณะที่ high-dose SPINRAZA และ LEQEMBI IQLIK ยืดอายุ/ขยายการใช้ผลิตภัณฑ์หลัก</li>
-<li>phase III pipeline สำเร็จหลายรายการและ commercial execution ดี จะเปลี่ยน Biogen จากบริษัทที่พึ่ง MS ไปเป็น portfolio หลายโรค</li>
-<p><b>Bear case</b></p>
-<li>การทดลอง phase III ล้มเหลวหรืออนุมัติล่าช้า ขณะที่ราคายา/การแข่งขันและ biosimilar กด TYSABRI กับ franchise เดิม</li>
-<li>Apellis integration ไม่เป็นไปตามแผน หรือ SYFOVRE/EMPAVELI โตต่ำกว่าคาด ทำให้หนี้และต้นทุน financing เพิ่มโดยไม่สร้างกำไรพอ</li>
-<h2>5. Kill conditions</h2>
-<li>growth portfolio ไม่โตหลังหักการรวม Apellis และการลดลงของ legacy MS เร็วกว่าการชดเชยจากสินค้าใหม่</li>
-<li>phase III readouts สำคัญล้มเหลวหลายรายการ หรือ LEQEMBI/SPINRAZA conversion ไม่เปลี่ยนเป็นยอดขายและกำไรตามแผน</li>
-<li>หนี้ไม่ลดหรือกระแสเงินสดถูกใช้กับ M&amp;A ต่อเนื่อง ขณะที่ Apellis synergy และกำไรต่อหุ้นไม่ดีขึ้นอย่างตรวจสอบได้</li>
-<h2>6. What to ask before owning it</h2>
-<li>รายได้ growth portfolio ที่โตนั้นเป็น recurring demand หรือมี stocking/transition effect เท่าไร?</li>
-<li>Apellis สร้างกำไรและ free cash flow หลังต้นทุน financing ได้จริงเมื่อใด?</li>
-<li>ถ้า phase III pipeline สำเร็จเพียงบางรายการ บริษัทจะยังกลับมาโตได้หรือไม่?</li>
-<li>สิทธิบัตร ราคา และการแข่งขันของ LEQEMBI, SPINRAZA และ Apellis products ยืนระยะได้กี่ปี?</li>
+<h1>BIIB — Full Giggs-style Investment Memo</h1>
+<p>ข้อมูล ณ 2026-09-15; universe จาก pre-run ระบุว่า BIIB มี DR ซื้อขายใน SET. เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> ยังไม่จัดอันดับ — เป็น pipeline-plus-portfolio transition thesis ที่มีตัวเลขไตรมาสและ guidance รองรับบางส่วน แต่มี clinical, integration และ leverage risk สูง (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณ fair value/entry/สัดส่วน เพราะไม่มี fully verified diluted shares, peer multiple และ scenario EPS base ที่สอดคล้องกันใน source cache; ราคาจาก Yahoo เป็น reference ไม่ใช่ target (source: work/BIIB_full_data.json; Yahoo Finance chart endpoint fetched 2026-09-15)</li>
+<li><b>Investment question:</b> การเปลี่ยนจาก legacy MS ไปสู่ growth portfolio, Apellis และ late-stage pipeline จะสร้างรายได้/FCF ที่โตพอชดเชย execution risk และ net debt ที่เพิ่มขึ้นหรือไม่?</li>
+<li><b>Judgment:</b> BIIB มีหลักฐาน commercial traction ดีกว่า pure pipeline biotech แต่ value creation ระยะ 5 ปีขึ้นกับ clinical readouts และการรักษา cash conversion หลัง acquisition</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Biogen พัฒนายาเฉพาะทาง โดยขายผ่านแพทย์/โรงพยาบาลและระบบ reimbursement ใน neurology, rare disease, immunology และ ophthalmology รายได้มาจากผลิตภัณฑ์ที่ทำตลาดเอง, royalties/profit share และ collaboration (source: sources/BIIB/10-k-2026.md; 2026-09-15)</li>
+<li><b>Segment/revenue engine:</b> growth products เดิม เช่น SPINRAZA, LEQEMBI, SKYCLARYS, ZURZUVAE และ VUMERITY; หลังซื้อ Apellis เพิ่ม SYFOVRE/EMPAVELI; anti-CD20 royalties/profit share เป็นอีกกระแสรายได้ (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Follow the customer:</b> ผู้ป่วย/แพทย์จ่ายเพื่อ efficacy, dosing ที่สะดวก, access และการชะลอโรค; LEQEMBI IQLIK เพิ่ม home dosing, SPINRAZA high-dose เพิ่ม option ด้าน efficacy, ส่วน SYFOVRE/EMPAVELI ต้องพิสูจน์ทั้ง clinical value และการคงผู้ป่วยบนยา (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>THE CORE:</b> regulatory know-how, specialist sales force, manufacturing/royalty relationships และ switching friction จากการรักษาต่อเนื่องเป็น 7 Powers ที่สำคัญ แต่ patent, reimbursement และ clinical competition จำกัด durability (source: sources/BIIB/10-k-2026.md; 2026-09-15)</li>
+<li><b>THE OPTION:</b> five registrational Phase III readouts ใน SLE, CLE, AMR และ Dravet รวมถึง salanersen/felzartamab คือ option value; management ระบุว่าอ่านผลหลายรายการใน 4 ไตรมาสข้างหน้า แต่ยังไม่ใช่รายได้ที่รายงานแล้ว (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>THE PRICE:</b> Yahoo chart ให้ราคา BIIB $217.36 และ 52-week range $135.67–$224.51 ณข้อมูลล่าสุดในชุด fetch วันที่ 2026-09-15. Market cap และ multiple ที่ดึงได้แบบ verify ไม่ครบ จึงไม่ตีความว่าถูกหรือแพง (source: work/BIIB_full_data.json; Yahoo Finance chart endpoint; fetched 2026-09-15)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li>High-dose SPINRAZA, LEQEMBI home dosing และ commercial integration ของ Apellis แสดงการใช้ commercial platform เพื่อขยาย product lifecycle; นี่เป็น interpretation จาก execution ไม่ใช่คำรับรองว่าจะสำเร็จทุก asset (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>ความเสี่ยงเฉพาะคือ biosimilar/competitive pressure ใน MS, clinical failure หรือ safety signal, payer/access friction, post-acquisition execution และการที่ growth products โตไม่พอชดเชย legacy decline (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>BTK inhibitor BIIB091 อยู่ในจุดที่บริษัทกำลังประเมินว่าจะ advance ต่อหรือไม่ เพราะตลาด RRMS แข่งขันสูง; จึงไม่ควรนับเป็น base-case pipeline revenue (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported revenue:</b> FY2023 $9.836bn, FY2024 $9.676bn, FY2025 $9.891bn — หลังลดลงใน 2024 กลับมาโตเล็กน้อยใน 2025 แต่ยังไม่ใช่ growth profile ที่ชัดเจนจากข้อมูล 3 ปีที่ดึงได้ (source: work/BIIB_full_data.json; SEC Companyfacts; fetched 2026-09-15)</li>
+<li><b>Reported net income:</b> FY2023 $1.161bn, FY2024 $1.632bn, FY2025 $1.293bn; ทิศทางกำไรผันผวนจาก product mix, charges และ transaction effects (source: work/BIIB_full_data.json; SEC Companyfacts; fetched 2026-09-15)</li>
+<li><b>Latest reported operating signal:</b> Q2 2026 total revenue $2.7bn (+3% YoY), growth portfolio &gt;$1bn (+24% YoY) และ free cash flow $408m; core pharmaceutical revenue $1.8bn (+4% YoY) (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>Gross margin, operating margin, OCF, CapEx, R&amp;D, ROE และ ROIC แบบครบ 5 ปี: ไม่พบ/ไม่สอดคล้องจาก standard XBRL extraction รอบนี้ จึงไม่แต่งตารางตัวเลขแทน (source: work/BIIB_full_data.json; SEC Companyfacts fetched 2026-09-15)</li>
+<li><b>Interpretation:</b> commercial growth เริ่มเห็น แต่ reported earnings quality ต้องหัก acquired IPR&amp;D/milestone charges, financing cost และ product transition เพื่อดู recurring economics (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>ณ Q2 2026 บริษัทมี cash $1.3bn และ net debt $6.8bn; Apellis ใช้ cash $3.6bn และ term loan $2bn, โดย repaid term loan $200m ในไตรมาส และคาดว่าจะจ่ายส่วนที่เหลือภายในสิ้น 2027 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>10-K ระบุ long-term debt $6.3bn ณ 2025-12-31, ไม่มี revolving borrowings และมีวงเงิน share repurchase เหลือประมาณ $2.1bn แต่ไม่มี repurchases ใน 2025/2024 (source: sources/BIIB/10-k-2026.md; filed 2026-02-06)</li>
+<li>Apellis transaction guidance ระบุ synergies run-rate อย่างน้อย $250m ภายในสิ้น 2027 แต่มี financing/foregone-interest impact $120–130m ใน 2026 และ 2027 และ non-GAAP EPS dilution ราว $0.85 ใน 2026 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>SBC และ dilution share count แบบตัวเลขล่าสุดไม่พบใน extraction รอบนี้; ห้ามสรุปว่าการซื้อหุ้นคืนจะ offset dilution ได้ (source: work/BIIB_full_data.json; 2026-09-15)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported Q2 2026:</b> total revenue $2.7bn (+3% YoY); anti-CD20 royalties/profit share $514m (+10%); FCF $408m; cash $1.3bn และ net debt $6.8bn (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>Growth portfolio โตมากกว่า legacy MS portfolio: SPINRAZA $402m (+2%), LEQEMBI in-market $184m (+15%), SKYCLARYS $168m (+29%), SYFOVRE $162m (+8%) และ EMPAVELI $46m (+123%); VUMERITY $197m (-7%) และ TYSABRI $451m (-1%) (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Guidance:</b> บริษัทปรับ 2026 total revenue จาก mid-single-digit decrease เป็น mid-single-digit increase และ non-GAAP diluted EPS เป็น $12–13; คาด Apellis จะ accretive ต่อ non-GAAP diluted EPS ใน 2027 และ synergies อย่างน้อย $250m run-rate สิ้น 2027 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Transcript status:</b> มี Q2 2026 StockAnalysis transcript ใน cache และใช้เป็นแหล่งหลัก แต่ web re-verification รอบนี้ทำไม่ได้เพราะ retrieval service ตอบ insufficient balance/402; ตัวเลขจึงต้องถือเป็น cached third-party source ที่ยังมี caveat (source: sources/BIIB/q2-2026-call.md; StockAnalysis URL; checked 2026-09-15)</li>
+<li>Beat/miss เทียบ consensus: ไม่พบ consensus ที่ verify ได้จากแหล่งบังคับ จึงไม่สรุปว่า beat หรือ miss (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>7. Valuation</h2>
+<li><b>Trailing/Forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG:</b> ไม่คำนวณครบ เพราะ market cap, diluted shares และ peer/historical multiple dataset ไม่ได้ถูกดึงแบบ verify ในรอบนี้ (source: work/BIIB_full_data.json; Yahoo/SEC retrieval 2026-09-15)</li>
+<li>ใช้ FY2025 net income $1.293bn หรือ 2026 guidance EPS $12–13 เป็น denominator เดี่ยว ๆ ไม่ได้ เพราะ Apellis financing, IPR&amp;D/milestones และ integration ทำให้ GAAP/non-GAAP ต่างกันมาก (source: sources/BIIB/q2-2026-call.md; work/BIIB_full_data.json; 2026-09-15)</li>
+<li><b>Scenario method:</b> ควร value ด้วย probability-weighted product revenue + normalized FCF แล้ว cross-check P/E/EV/FCF; target price, historical range และ peer valuation ยังไม่ระบุจนกว่าจะได้ inputs ครบ (source: research judgment; 2026-09-15)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull:</b> growth portfolio และ Apellis โตต่อ, IQLIK ขยาย access, SPINRAZA high-dose รักษา franchise, Phase III lupus/AMR/Dravet ให้ผลดี และหนี้ลดตามแผน; EPS/target/CAGR/probability ไม่คำนวณเพราะไม่มี share count/multiple ที่ verify (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Base:</b> 2026 revenue กลับมาโตตาม guidance, Apellis synergies ค่อย ๆ ชดเชย financing cost, growth products offset legacy decline และ pipeline สำเร็จเพียงบางส่วน; target/CAGR/probability ไม่ระบุ (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Bear:</b> Apellis integration หรือ reimbursement สะดุด, SPINRAZA/TYSABRI/legacy erosion เร็ว, lupus/AMR/Dravet trials ไม่ผ่าน หรือหนี้ลดช้า ทำให้ FCF ต่อหุ้นหด; bear floor ไม่คำนวณเพราะ valuation inputs ไม่ครบ (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: Q4 2026 SLE data, CLE 52-week data, AMR/CLE Phase III timing, continued SYFOVRE/EMPAVELI growth, IQLIK uptake, SPINRAZA high-dose conversion และ debt repayment (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>Risks: trial endpoint/safety failure, competitive MS pressure, early discontinuationของ SYFOVRE, payer restrictions, acquisition integration, $120–130m annual financing impact และ leverage ที่สูงขึ้น (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้ากลับด้าน thesis: growth portfolio อาจโตเพราะ one-time transition/stocking และ acquired revenue แต่ไม่แปลงเป็น FCF หลัง R&amp;D, sales investment, financing และ patient discontinuation (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li>Permanent capital loss เกิดได้จากการซื้อ Apellis ที่ไม่สร้าง synergies, pipeline failure หลายรายการพร้อมกัน และ debt service ที่บังคับให้ลด R&amp;D หรือขายสินทรัพย์ (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Bear floor:</b> ไม่คำนวณ; fragile assumptions คือ revenue guidance สำเร็จ, synergies เกิดเต็มจำนวน และ clinical probability ไม่ถูกตีราคาสูงเกินจริง</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ไม่ออก buy/sell/hold recommendation และไม่กำหนด sizing/DCA เพราะยังไม่มี probability-weighted valuation ที่ตรวจสอบครบ (source: work/BIIB_full_data.json; 2026-09-15)</li>
+<li>หากอยู่ใน watchlist ให้แยก “reported growth” จาก “guidance” และ “pipeline option” ทุกไตรมาส; ดู FCF หลัง financing, net debt/EBITDA, patient persistence และ trial readout ไม่ใช่ headline revenue อย่างเดียว (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Kill conditions:</b> growth portfolio หยุดโตและไม่ชดเชย legacy decline; FCF ไม่พอให้ net debt ลด; Apellis synergies ไม่เกิดตาม timeline; หรือ Phase III failure/safety signal ทำให้ pipeline replacement thesis เสีย (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2025 revenue $9.891bn, net income $1.293bn; Q2 2026 revenue $2.7bn, FCF $408m, net debt $6.8bn และ 2026 non-GAAP EPS guidance $12–13 (source: work/BIIB_full_data.json; sources/BIIB/q2-2026-call.md; fetched 2026-09-15)</li>
+<li><b>Fact:</b> Apellis adds SYFOVRE/EMPAVELI; management expects at least $250m run-rate synergies by end-2027 and EPS accretion in 2027 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Interpretation:</b> commercial transition มีหลักฐานแล้ว แต่ per-share economics ยังถูกกดด้วย acquisition financing และ clinical execution (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Judgment:</b> ก่อนถือควรตอบว่า growth portfolio มี persistence เท่าไร, clinical pipeline ใดเป็น must-have, และ FCF หลังชำระหนี้เหลือพอสำหรับ R&amp;D/BD หรือไม่ (source: research judgment; 2026-09-15)</li>
+<li><b>Questions before owning it:</b> Consensus EPS/revenue และ diluted share count ล่าสุดเป็นเท่าไร ก่อนคำนวณ fair value?</li>
+<li>Q4 SLE/CLE และ 2027 AMR/Dravet readout มี efficacy/safety ที่พอสร้าง commercial differentiation หรือไม่?</li>
+<li>SYFOVRE discontinuation หลัง first injection ลดลงจริงหรือยัง และ EMPAVELI uptake มี economics หลังค่าใช้จ่ายอย่างไร?</li>
+<li>Apellis synergies และ term-loan repayment เดินตาม timeline หรือไม่?</li>
 </div></body></html>

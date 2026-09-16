@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-15T12:38:49.004Z",
-  "exportDateTH": "15 กันยายน 2569 เวลา 07:38",
+  "exportDate": "2026-09-16T03:15:21.622Z",
+  "exportDateTH": "16 กันยายน 2569 เวลา 10:15",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8823,
-          "srResist": 2.3588,
-          "srUpdated": "2026-09-16",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,15 +42,15 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.9283,
-          "srResist": 55.0743,
-          "srUpdated": "2026-09-16",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "AVGO80",
-          "qty": 29000,
-          "buyPrice": 2.29,
+          "qty": 31200,
+          "buyPrice": 2.28,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3625,
-          "srResist": 2.842,
-          "srUpdated": "2026-09-16",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 21.4246,
-          "srResist": 33.2169,
-          "srUpdated": "2026-09-16",
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2876,
-          "srResist": 6.2346,
-          "srUpdated": "2026-09-16",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8247,
-          "srResist": 2.1266,
-          "srUpdated": "2026-09-16",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8605,
-          "srResist": 8.5297,
-          "srUpdated": "2026-09-16",
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.5607,
-          "srResist": 38.2628,
-          "srUpdated": "2026-09-16",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 8.6545,
-          "srResist": 13.1551,
-          "srUpdated": "2026-09-16",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3757,
-          "srResist": 4.1277,
-          "srUpdated": "2026-09-16",
-          "srResistIsExt": false
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.1056,
-          "srResist": 20.3466,
-          "srUpdated": "2026-09-16",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.753,
-          "srResist": 5.921,
-          "srUpdated": "2026-09-16",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -583,7 +583,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.1446,
-          "navDate": "14 ก.ย. 69"
+          "navDate": "2026-09-10"
         }
       ],
       "cash": 0,
@@ -608,8 +608,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 205.81,
-          "srUpdated": "2026-09-16",
+          "srResist": 248.15,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1789528515158,
+      "ticker": "AVGO80",
+      "type": "buy",
+      "date": "2026-09-16",
+      "price": 2.32,
+      "qty": 2200,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1788523975957,
       "ticker": "IXN",
@@ -2631,10 +2644,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-09-14T03:35:23.896Z",
-      "_notifiedPrice": 5.5
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -6024,7 +6034,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 65,
-    "totalNetWorth": "฿1,800,169.96"
+    "totalTransactions": 66,
+    "totalNetWorth": "฿1,803,727.21"
   }
 }

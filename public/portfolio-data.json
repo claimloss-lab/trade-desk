@@ -6029,7 +6029,8 @@
     "ASML_support": "2026-09-15T03:00:30.556Z",
     "trend:ORCL:Strong Sell": "2026-09-16",
     "reversal:PLTR:volume_exhaustion": "2026-09-15",
-    "sellzone:ASML": "2026-09-16"
+    "sellzone:ASML": "2026-09-16",
+    "reversal:SNOW:bullish_engulfing": "2026-09-17"
   },
   "summary": {
     "totalPorts": 10,

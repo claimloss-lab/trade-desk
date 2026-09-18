@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-18T16:00:12.438Z",
+  "exportDate": "2026-09-18T16:00:34.753Z",
   "exportDateTH": "18 กันยายน 2569 เวลา 23:00",
   "portfolios": [
     {
@@ -242,7 +242,7 @@
           "id": 1787064242205
         }
       ],
-      "cash": 173131.2,
+      "cash": 104924.81,
       "snapshots": []
     },
     {
@@ -6077,6 +6077,6 @@
     "totalPorts": 10,
     "totalStocks": 43,
     "totalTransactions": 69,
-    "totalNetWorth": "฿1,924,989.91"
+    "totalNetWorth": "฿1,856,783.52"
   }
 }

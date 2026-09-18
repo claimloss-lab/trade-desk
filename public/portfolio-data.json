@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-18T15:59:48.514Z",
-  "exportDateTH": "18 กันยายน 2569 เวลา 22:59",
+  "exportDate": "2026-09-18T16:00:02.532Z",
+  "exportDateTH": "18 กันยายน 2569 เวลา 23:00",
   "portfolios": [
     {
       "id": "dr1",
@@ -140,8 +140,8 @@
         },
         {
           "ticker": "NVDA80",
-          "qty": 2500,
-          "buyPrice": 28.92,
+          "qty": 3500,
+          "buyPrice": 31.228571428571428,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA",
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1789747198164,
+      "ticker": "NVDA80",
+      "type": "buy",
+      "date": "2026-09-18",
+      "price": 37,
+      "qty": 1000,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1789747175255,
       "ticker": "GOOG80",
@@ -6063,7 +6076,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 68,
-    "totalNetWorth": "฿1,887,989.91"
+    "totalTransactions": 69,
+    "totalNetWorth": "฿1,924,989.91"
   }
 }

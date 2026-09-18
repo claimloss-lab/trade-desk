@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-18T15:59:21.618Z",
+  "exportDate": "2026-09-18T15:59:38.797Z",
   "exportDateTH": "18 กันยายน 2569 เวลา 22:59",
   "portfolios": [
     {
@@ -83,8 +83,8 @@
         },
         {
           "ticker": "GOOG80",
-          "qty": 7600,
-          "buyPrice": 5.01,
+          "qty": 15200,
+          "buyPrice": 5.43,
           "id": 5,
           "sector": "Tech",
           "underlying": "Alphabet",
@@ -618,6 +618,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1789747175255,
+      "ticker": "GOOG80",
+      "type": "buy",
+      "date": "2026-09-18",
+      "price": 5.85,
+      "qty": 7600,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1789747152082,
       "ticker": "AVGO80",
@@ -6050,7 +6063,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 67,
-    "totalNetWorth": "฿1,843,558.24"
+    "totalTransactions": 68,
+    "totalNetWorth": "฿1,887,989.91"
   }
 }

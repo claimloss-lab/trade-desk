@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-18T15:59:15.918Z",
+  "exportDate": "2026-09-18T15:59:21.618Z",
   "exportDateTH": "18 กันยายน 2569 เวลา 22:59",
   "portfolios": [
     {
@@ -50,7 +50,7 @@
         {
           "ticker": "AVGO80",
           "qty": 39200,
-          "buyPrice": 2.3082142857142856,
+          "buyPrice": 2.3,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",

@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAP_FULL_GIGGS — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">SAP_FULL_GIGGS</div>
+<div class="meta">Thesis · สร้างจาก briefs/SAP_FULL_GIGGS.md · 2026-09-20</div>
+<h1>SAP — Full Investment Memo (ข้อมูลดึง 2026-09-19)</h1>
+<blockquote><b>ขอบเขต:</b> SAP อยู่ในรายชื่อ DR universe จาก pre-run script รอบนี้ จึงจัดทำ memo นี้ตาม scope ที่กำหนด ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Investment question:</b> การย้ายลูกค้า ERP จาก on-premise ไป cloud และการขายบริการบนข้อมูลธุรกิจ จะสร้างการเติบโตของกำไรได้ยาวพอชดเชยความเสี่ยง execution และ valuation หรือไม่? (source: <code>sources/SAP/10-k-2025.md</code>, SEC EDGAR JSON/XBRL, ดึง 2026-09-19)</li>
+<li><b>Rating:</b> ไม่จัดอันดับ — ข้อมูล SAP จาก SEC เป็น 20-F/6-K และ XBRL แบบ US-GAAP ให้ตัวเลข annual ไม่ครบ จึงยังไม่ควรแปลงเป็นคะแนนเชิงลงทุน (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Fair value / Entry / Allocation:</b> ไม่กำหนด entry หรือ allocation จริง เพราะยังไม่มี verified 5-year IFRS financial bridge และ transcript ล่าสุด; ราคาอ้างอิงเป็นเพียง market data ไม่ใช่ fair value (source: <code>sources/SAP/market-data.md</code>, <code>sources/SAP/valuation-page.md</code>, 2026-09-19)</li>
+<li><b>Illustrative 5Y sensitivity—not recommendation:</b> ใช้ราคา $209.45, EPS page $7.63, EPS growth 10% ต่อปี และ terminal P/E 25x ได้เป้าหมายเชิงแบบจำลอง ~$307 และ CAGR ~8.0%; เป็น sensitivity ที่ผู้ใช้งานต้องแทนด้วย IFRS/consensus ที่ตรวจสอบเอง (source: <code>sources/SAP/market-data.md</code>, <code>sources/SAP/valuation-page.md</code>, 2026-09-19; calculation run 2026-09-19)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>SAP ขายซอฟต์แวร์จัดการกระบวนการธุรกิจ เช่น finance, procurement, supply chain, HR และ ERP ให้บริษัทขนาดใหญ่/องค์กรข้ามชาติ ลูกค้าจ่ายเพื่อให้ข้อมูลและ workflow สำคัญทำงานร่วมกัน ไม่ใช่เพียงซื้อหน้าจอซอฟต์แวร์ (source: <code>sources/SAP/10-k-2025.md</code>, SEC 20-F filing link dated 2026-02-26, ดึง 2026-09-19)</li>
+<li><b>Revenue engine:</b> เปลี่ยนฐาน license/maintenance เดิมไปเป็น cloud subscription และ cloud backlog ที่ทยอยรับรู้เป็นรายได้; รายได้ recurring มากขึ้น แต่การเปรียบเทียบตัวเลขต้องใช้รายงาน IFRS ของ SAP โดยตรง (source: <code>sources/SAP/q2-2026-call.md</code>, SEC 6-K filed 2026-07-28, ดึง 2026-09-19)</li>
+<li><b>THE CORE:</b> switching friction และ Process Power จากการฝัง ERP ในกระบวนการหลัก ข้อมูล และ ecosystem ของ implementation partners; การเปลี่ยนระบบมีต้นทุน เวลา และ operational risk สูง (source: <code>sources/SAP/10-k-2025.md</code>, SEC 20-F, 2026-09-19)</li>
+<li><b>THE OPTION:</b> S/4HANA Cloud, Business AI/Joule และการขายบริการเสริมบนข้อมูล workflow เดิม อาจเพิ่ม ARPU และความลึกของ ecosystem แต่ยังต้องพิสูจน์เป็นกำไร/FCF ไม่ใช่สมมติฐานลอย ๆ (source: <code>sources/SAP/q2-2026-call.md</code>, SEC 6-K, 2026-09-19)</li>
+<li><b>Customer test:</b> ลูกค้าไม่ได้จ่ายเพราะ AI เป็นคำโฆษณา; ต้องเห็น cycle time, compliance, cost และ decision quality ดีขึ้นหลัง migration (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Specific 7 Powers:</b> Process Power จาก workflow mission-critical, Switching Costs จากข้อมูล/การฝึกคน/partner ecosystem และ Scale Economies ใน R&amp;D/distribution เป็นข้อได้เปรียบที่ตรวจได้จากลักษณะธุรกิจ; ไม่ควรเรียกว่าเป็นสิ่งถาวรโดยไม่ติดตาม retention และ cloud backlog (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>คู่แข่งที่ต้องติดตามคือ Oracle Fusion, Microsoft Dynamics และผู้ให้บริการ implementation รายใหญ่; ความเสี่ยงคือคู่แข่งลดเวลา/ต้นทุน migration หรือชนะลูกค้าใหม่ก่อน SAP (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>ความเสี่ยงเฉพาะบริษัทคือ migration ซับซ้อน, การเปลี่ยน product mix, การพึ่งพาคู่ค้า และการรายงานสกุลเงิน EUR/ADR USD ซึ่งทำให้ตัวเลขสำหรับผู้ถือ DR ผันผวน (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported revenue:</b> SEC Companyfacts ของ SAP CIK 1000184 ไม่มี annual US-GAAP rows ที่ดึงได้ในไฟล์รอบนี้ เพราะ SAP รายงานหลักตาม IFRS; จึงไม่ใส่ตัวเลข 5 ปีแทน (source: <code>sources/SAP/10-k-2025.md</code>, fetched 2026-09-19)</li>
+<li><b>Gross margin / operating margin / net income / OCF / CapEx / FCF / R&amp;D / ROE / ROIC:</b> ไม่พบชุด 5 ปีที่ trace ได้จาก SEC JSON/XBRL รอบนี้; ต้องดึง SAP Annual Report IFRS โดยตรงก่อนคำนวณ (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Direction:</b> ข่าว/filing ล่าสุดมีข้อมูล cloud และ backlog เป็นตัวชี้นำ แต่ไม่มี transcript ที่ยืนยันรายละเอียด management commentary; จึงสรุปได้เพียงว่า transition เป็นแกนหลัก ไม่สรุปว่า margin expansion สำเร็จแล้ว (source: <code>sources/SAP/q2-2026-call.md</code>, SEC 6-K, 2026-09-19)</li>
+<li><b>Quality check ที่ต้องทำต่อ:</b> reconcile reported IFRS revenue, non-IFRS operating profit, SBC และ FCF ให้เป็นนิยามเดียวกันก่อนเทียบ 5 ปี (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>Cash, total debt, net debt, SBC, dilution และ buyback แบบตัวเลขที่ตรวจสอบได้ครบ <b>ไม่พบ</b> ใน SEC extraction รอบนี้; ไม่แต่งตัวเลขจากแหล่งรอง (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>สิ่งที่ต้องติดตามคือ cash conversion หลัง cloud migration, acquisitions, dividend/buyback และการใช้หุ้นชดเชยพนักงาน เพราะรายได้ recurring ไม่ได้แปลว่า FCF ต่อหุ้นเพิ่มอัตโนมัติ (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Capital-allocation judgment:</b> ยังไม่มีหลักฐานพอให้สรุปว่าการซื้อกิจการ/คืนทุนสร้างมูลค่ามากกว่าการลงทุนใน product และ migration; ต้องอ่าน note IFRS ฉบับเต็ม (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>6. Latest Earnings</h2>
+<li>SAP มี 6-K ล่าสุดที่ดึงได้ลงวันที่ 2026-07-28 แต่ไม่พบ StockAnalysis earnings transcript สำหรับ SAP (หน้า transcript ตอบ 404); ดังนั้นข้อมูลนี้เป็น filing/earnings material ไม่เรียกว่า transcript (source: <code>sources/SAP/q2-2026-call.md</code>, StockAnalysis transcript index attempted 2026-09-19)</li>
+<li>Filing ล่าสุดยืนยันว่า SAP เป็น foreign private issuer ที่ใช้ Form 20-F และ filing หลักสำหรับผลประกอบการอยู่ใน 6-K/IR; ตัวเลข Q2 แบบ headline ที่ extract ได้ไม่ครบ จึงระบุว่า <b>ไม่พบชุดตัวเลข Q2 ที่พร้อมใช้</b> (source: <code>sources/SAP/q2-2026-call.md</code>, SEC 6-K filed 2026-07-28, 2026-09-19)</li>
+<li>Guidance, beat/miss เทียบ consensus และ management tone แบบ transcript: <b>ไม่พบจากแหล่งที่ verify ได้ในรอบนี้</b> (source: <code>sources/SAP/q2-2026-call.md</code>, 2026-09-19)</li>
+<h2>7. Valuation</h2>
+<li>Price: <b>$209.45</b>, market cap: <b>$242.38B</b>, trailing P/E: <b>27.21x</b>, forward P/E: <b>23.67x</b>, revenue TTM: <b>$43.63B</b>, EPS page: <b>$7.63</b>, 52-week range: <b>$144.97–$281.37</b>; EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG: <b>ไม่พบ</b> ในแหล่งที่ดึงได้ (source: <code>sources/SAP/market-data.md</code>, <code>sources/SAP/valuation-page.md</code>, 2026-09-19)</li>
+<li>Historical multiple range และ peer multiples: <b>ไม่พบข้อมูลที่ cache/verify ได้</b> ในรอบนี้; จึงไม่สรุปว่าราคาถูกหรือแพง (source: <code>sources/SAP/valuation-page.md</code>, 2026-09-19)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull (25% illustrative):</b> EPS โต 15% ต่อปี, terminal P/E 30x, target = $7.63×1.15^5×30 ≈ <b>$401</b>, CAGR จาก $209.45 ≈ <b>13.9%</b>; ต้องเห็น cloud backlog และ margin/FCF ดีขึ้นจริง (source: <code>sources/SAP/valuation-page.md</code>, scenario assumptions, 2026-09-19)</li>
+<li><b>Base (50% illustrative):</b> EPS โต 10% ต่อปี, terminal P/E 25x, target ≈ <b>$307</b>, CAGR ≈ <b>8.0%</b>; เป็น sensitivity ไม่ใช่ consensus หรือคำแนะนำ (source: <code>sources/SAP/valuation-page.md</code>, scenario assumptions, 2026-09-19)</li>
+<li><b>Bear (25% illustrative):</b> EPS โต 3% ต่อปี, terminal P/E 18x, target ≈ <b>$151</b>, CAGR ≈ <b>-6.5%</b>; bear floor ยังไม่ใช่ liquidation value และอาจต่ำกว่านี้หาก migration ล้มเหลว (source: <code>sources/SAP/valuation-page.md</code>, scenario assumptions, 2026-09-19)</li>
+<li>Expected contribution แบบหยาบจาก probability-weighted targets ≈ <b>$292</b>; ไม่ควรใช้ตัดสินใจจนกว่าจะเติม IFRS EPS/FCF และ price ณ วันที่ตัดสินใจ (source: scenario calculation, 2026-09-19)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> รายงาน cloud backlog growth ที่ยืนยันได้, migration ของลูกค้าเดิม, operating margin/FCF conversion ดีขึ้น และ AI ที่สร้าง usage/revenue จริง (source: <code>sources/SAP/q2-2026-call.md</code>, <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Risks:</b> Oracle/Microsoft ชนะดีล, project migration เลื่อน, pricing ถูกกด, FX EUR/USD และการจัดสรรทุนที่ไม่สร้างผลตอบแทน (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า ERP กลายเป็น commodity ที่ migrate ได้เร็ว หรือ AI ลดความจำเป็นของ workflow ที่ซับซ้อน SAP อาจเสีย switching friction ก่อนที่ cloud growth จะชดเชยได้ (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>สมมติฐานที่เปราะบางที่สุดคือ backlog แปลงเป็นรายได้และกำไรได้ตามเวลา โดยไม่มี implementation failure, price concession หรือ SBC/dilution เพิ่มขึ้น (source: <code>sources/SAP/q2-2026-call.md</code>, <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Bear floor:</b> sensitivity $151 จาก EPS/multiple ต่ำ ไม่ใช่มูลค่าพื้นฐานที่ยืนยันแล้ว; permanent loss อาจเกิดจากการถือผ่านการเสื่อมของ product relevance (source: scenario calculation, 2026-09-19)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>ไม่กำหนด buy/sell/hold, entry หรือ allocation</b> จนกว่าจะได้ IFRS 5-year bridge, current DR conversion/ค่าธรรมเนียม และ valuation ที่ตรงกับ underlying exposure (source: research limitation, 2026-09-19)</li>
+<li>หากศึกษาต่อ ให้กำหนดขนาดจากความเสี่ยง thesis ไม่ใช่จากชื่อเสียงของบริษัท และติดตามรายไตรมาส: cloud backlog, cloud growth, margin, FCF/share, FX และ dilution (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Exit/kill conditions:</b> cloud growth ต่ำกว่าเป้าหมายของบริษัทต่อเนื่อง 2 ไตรมาส, backlog หด, gross/operating margin เสื่อมโดยไม่มีเหตุชั่วคราว, หรือ migration/customer retention เสียหายอย่างมีนัย (source: <code>sources/SAP/q2-2026-call.md</code>, <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> SAP CIK 1000184 มี 20-F filed 2026-02-26, 6-K filed 2026-07-28; Yahoo chart price $209.45 และ StockAnalysis page market cap $242.38B/P-E 27.21x ณ 2026-09-19 (source: <code>sources/SAP/10-k-2025.md</code>, <code>sources/SAP/q2-2026-call.md</code>, <code>sources/SAP/market-data.md</code>, <code>sources/SAP/valuation-page.md</code>)</li>
+<li><b>Interpretation:</b> SAP มี Process Power และ switching friction ที่น่าสนใจ แต่คุณภาพการเติบโตขึ้นกับ execution ของ cloud transition (source: <code>sources/SAP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Judgment:</b> ยังไม่จัดอันดับและไม่กำหนด allocation; คำถามก่อนเป็นเจ้าของคือ IFRS FCF/share เท่าไร, backlog convert อย่างไร, และลูกค้ามีเหตุผลอะไรที่จะไม่เลือก Oracle/Microsoft (source: research judgment, 2026-09-19)</li>
+</div></body></html>

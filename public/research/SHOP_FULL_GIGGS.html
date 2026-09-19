@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHOP_FULL_GIGGS — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .sn{color:var(--muted);font-size:.85rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Portfolio</a>
+<div class="ticker">SHOP_FULL_GIGGS</div>
+<div class="meta">Thesis · สร้างจาก briefs/SHOP_FULL_GIGGS.md · 2026-09-20</div>
+<h1>SHOP — Full Investment Memo (ข้อมูลดึง 2026-09-19)</h1>
+<blockquote><b>ขอบเขต:</b> SHOP อยู่ในรายชื่อ DR universe จาก pre-run script รอบนี้; memo นี้เป็น research artifact ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Investment question:</b> Shopify จะเปลี่ยนการเติบโตของ merchant GMV และ payments ให้เป็นกำไรต่อหุ้นที่ยั่งยืนได้หรือไม่ เมื่อฐานใหญ่ขึ้นและคู่แข่ง/วัฏจักรผู้บริโภคกดดัน take-rate? (source: <code>sources/SHOP/10-k-2025.md</code>, SEC 10-K filed 2026-02-11, ดึง 2026-09-19)</li>
+<li><b>Rating:</b> ไม่จัดอันดับ — ธุรกิจมี growth/FCF ที่น่าสนใจ แต่ valuation ยังไวต่อสมมติฐาน EPS และ multiple จึงไม่สรุปเป็น buy/sell/hold (source: <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
+<li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดเป็นคำแนะนำจริง; ใช้ sensitivity เท่านั้น เพราะ DR conversion, FX และ Thai-market premium ยังไม่ได้ verify ใน source set นี้ (source: <code>sources/SHOP/market-data.md</code>, 2026-09-19)</li>
+<li><b>Illustrative 5Y sensitivity—not recommendation:</b> ใช้ราคา $128.50, EPS page $1.48, EPS growth 20% ต่อปี และ terminal P/E 40x ได้ target ~$147.31 และ CAGR ~2.8%; ราคานี้จึงต้องอาศัย growth/multiple ที่แม่นมาก (source: <code>sources/SHOP/market-data.md</code>, <code>sources/SHOP/valuation-page.md</code>, 2026-09-19; calculation run 2026-09-19)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Shopify ให้ merchant ตั้งแต่ SMB ถึง enterprise สร้างร้าน, จัดการ catalog/order และขายผ่าน online/offline/B2B; ลูกค้าจ่ายเพื่อเพิ่ม conversion, ลด operational friction และเข้าถึง payment/merchant tools (source: <code>sources/SHOP/10-k-2025.md</code>, SEC 10-K, 2026-09-19)</li>
+<li>รายได้มี 2 เครื่องยนต์: <b>Subscription Solutions</b> จาก platform plans และ <b>Merchant Solutions</b> ที่โตตาม GMV เช่น payments, Shop Pay และ services; Merchant Solutions มีรายได้มากขึ้นเมื่อ merchant ขายได้มาก แต่มีต้นทุนและความเสี่ยง payment economics (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>THE CORE:</b> ecosystem integration, merchant data/workflow, brand trust และ switching friction จากร้านค้า/แอป/การชำระเงิน/partner tools; merchant อยู่ต่อเมื่อ platform ช่วยขายของและบริหารธุรกิจได้จริง (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>THE OPTION:</b> Sidekick/Catalog, agentic commerce, Shop app, offline และ B2B; transcript ระบุว่า Sidekick onboarding ทำให้ merchant ที่ถึง 5 orders ภายใน 15 วันเพิ่ม 8% และ Shop app native GMV โตมากกว่า 70% ใน Q2 แต่ยังต้องติดตาม monetization และ retention ระยะยาว (source: <code>sources/SHOP/q2-2026-call.md</code>, StockAnalysis Q2 2026 transcript, 2026-09-19)</li>
+<li><b>Customer test:</b> GMV โตไม่พอ ต้องดู contribution margin หลัง payment processing, support, incentives และ credit losses ว่ารายได้เพิ่มแล้วเหลือเงินสดต่อหุ้นเท่าไร (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Specific 7 Powers:</b> Scale Economies ใน payments/platform R&amp;D, Network Economies ระหว่าง merchant–buyer–partner, Switching Costs จากข้อมูล/order/integration และ Brand/Counter-positioning ในฐานะ platform ที่ merchant เป็นเจ้าของ relationship เอง; ความแข็งแรงต้องดู merchant retention และ take-rate ไม่ใช่จำนวนร้านอย่างเดียว (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>คู่แข่งคือ Amazon/marketplaces, BigCommerce/Wix, Adobe Commerce, Salesforce Commerce และ payment providers; enterprise อาจ build หรือซื้อระบบหลายชิ้นเอง ขณะที่ SMB อ่อนไหวต่อราคา (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>ความเสี่ยงจำเพาะคือการพึ่ง GMV/consumer spending, payment fraud/credit, privacy/regulation, platform outages, merchant concentration และการแข่งขันที่กด gross margin/take-rate (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported revenue:</b> FY2021–FY2025 แบบ 5 ปีเต็ม <b>ไม่ครบใน extracted SEC rows รอบนี้</b>; ตัวเลขที่ยืนยันได้คือ FY2022 $5.60B, FY2023 $7.06B, FY2024 $8.88B และ FY2025 $11.556B (source: <code>sources/SHOP/10-k-2025.md</code>, SEC Companyfacts/XBRL, fetched 2026-09-19)</li>
+<li><b>Gross profit:</b> FY2022 $2.754B, FY2023 $3.515B, FY2024 $4.472B, FY2025 $5.555B; gross margin ควรคำนวณด้วยนิยามเดียวกันและติดตาม payment mix (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Operating income:</b> FY2022 -$822M, FY2023 -$1.418B, FY2024 $1.075B, FY2025 $1.468B; direction เปลี่ยนจากขาดทุน operating เป็นกำไร แต่ต้องแยก one-time items/stock compensation (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Net income:</b> FY2022 -$3.460B, FY2023 $132M, FY2024 $2.019B, FY2025 $1.231B; ความผันผวนสูงกว่ากำไร operating จึงไม่ควรใช้ P/E เดียวสรุปคุณภาพ (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>OCF / CapEx / FCF proxy:</b> OCF FY2022 -$136M, FY2023 $944M, FY2024 $1.616B, FY2025 $2.033B; CapEx FY2022 $50M, FY2023 $39M, FY2024 $19M, FY2025 $26M จึงเห็น cash conversion ดีขึ้น แต่ FCF แบบ normalized, R&amp;D, ROE และ ROIC 5 ปี <b>ไม่พบครบ</b> ใน extraction นี้ (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>Cash, total debt, net debt, SBC และ dilution แบบครบใน 10-K/10-Q <b>ไม่ถูก extract เป็นชุดตัวเลขพร้อมใช้</b> ในรอบนี้; ห้ามแทนด้วยตัวเลขจาก brief เก่า (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<li>ธุรกิจใช้เงินทุนไม่หนักด้าน CapEx เมื่อเทียบกับ OCF แต่ payment/credit working capital, reserves และ SBC ยังเป็นตัวแปรต่อ FCF ต่อหุ้น (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>การขาย/ลดบทบาท logistics ช่วยให้ capital allocation โฟกัส platform/payments มากขึ้น แต่ต้องตรวจผลขาดทุน/รายการพิเศษว่าไม่ทำให้กำไรไตรมาสหลอกตา (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<h2>6. Latest Earnings</h2>
+<li>StockAnalysis มี <b>Earnings Call: Q2 2026</b> และ transcript ถูกเก็บไว้ใน source; management summary ระบุ GMV โต 32% เป็น $116B, revenue โต 34% เป็น $3.6B และ FCF margin 18% (source: <code>sources/SHOP/q2-2026-call.md</code>, StockAnalysis Q2 2026 transcript, 2026-09-19)</li>
+<li>Transcript ระบุว่าเป็นไตรมาสที่ 5 ติดต่อกันที่ GMV โตเกิน 30% และการเติบโตครอบคลุม international, offline และ B2B; นี่เป็น management-reported commentary ไม่ใช่ consensus comparison (source: <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
+<li>Q2 2026 10-Q เป็น primary filing ที่ยืนยันงวดสิ้นสุด 2026-06-30; ตัวเลขที่ source extract ได้พร้อมใช้บางส่วนยังไม่ครบทุก line item จึงไม่แต่ง EPS/beat-miss (source: <code>sources/SHOP/q2-2026-10q.md</code>, SEC 10-Q filed 2026-08-05, ดึง 2026-09-19)</li>
+<li>Guidance และ beat/miss เทียบ consensus: <b>ไม่พบ consensus dataset ที่ verify ได้จากแหล่งบังคับ</b>; จึงรายงานเฉพาะตัวเลข reported/management transcript (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<h2>7. Valuation</h2>
+<li>Price: <b>$128.50</b>, market cap: <b>$165.33B</b>, trailing P/E: <b>86.73x</b>, forward P/E: <b>61.52x</b>, revenue TTM: <b>$13.27B</b>, EPS page: <b>$1.48</b>, 52-week range: <b>$94.00–$182.19</b> (source: <code>sources/SHOP/market-data.md</code>, <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
+<li>EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ historical range แบบหลายปี: <b>ไม่พบ/ไม่ verify ได้</b> จาก source set รอบนี้; ไม่สรุปว่าถูกหรือแพงจาก P/E เดียว (source: <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
+<li>Peer valuation ของ BigCommerce/Adobe/Amazon/ฯลฯ: <b>ไม่พบชุดที่ดึงตรงและ timestamp เดียวกัน</b> จึงไม่ใส่ตัวเลขเปรียบเทียบ (source: valuation retrieval limitation, 2026-09-19)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull (25% illustrative):</b> EPS โต 30% ต่อปี, terminal P/E 55x, target = $1.48×1.30^5×55 ≈ <b>$1,135</b>, CAGR จาก $128.50 ≈ <b>54.4%</b>; ต้องเห็น GMV &gt;20%, payments penetration และ margin expansion ต่อเนื่อง ซึ่งเป็นสมมติฐานเข้มมาก (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
+<li><b>Base (50% illustrative):</b> EPS โต 20% ต่อปี, terminal P/E 40x, target ≈ <b>$147</b>, CAGR ≈ <b>2.8%</b>; ไม่ใช่ consensus หรือคำแนะนำ (source: <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
+<li><b>Bear (25% illustrative):</b> EPS โต 5% ต่อปี, terminal P/E 25x, target ≈ <b>$52</b>, CAGR ≈ <b>-18.5%</b>; bear floor ไม่ใช่มูลค่า liquidation (source: <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
+<li>Expected contribution แบบ probability-weighted targets ≈ <b>$403</b> แต่ถูกขับโดย bull tail ที่รุนแรงมาก จึงไม่ควรใช้แทน margin-of-safety analysis (source: scenario calculation, 2026-09-19)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> GMV โตต่อใน international/offline/B2B, Shop Pay/payment penetration, Sidekick/Catalog เพิ่ม merchant productivity, agentic commerce และ FCF margin ขยาย (source: <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
+<li><b>Risks:</b> consumer/merchant slowdown, payments take-rate และ gross margin ถูกกด, fraud/credit loss, regulation, outage, Amazon/Adobe/BigCommerce competition และ SBC dilution (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า merchant ใช้ Shopify เป็น storefront แต่ชำระเงิน/ค้นพบสินค้าผ่านช่องทางอื่น Shopify อาจได้ GMV โตแต่ monetization ต่อ dollar ต่ำลง (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li>ถ้า AI ทำให้สร้างร้านและจัดการ catalog ง่ายขึ้นสำหรับทุกแพลตฟอร์ม ความแตกต่างของ product อาจลดลง ขณะที่ payment economics ยังมี cost และ regulatory burden (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Bear floor:</b> sensitivity $52 จาก EPS/multiple ต่ำไม่ใช่ข้อเท็จจริง; permanent capital loss เกิดได้ถ้า growth ต่ำกว่า valuation และ SBC/credit losses กิน cash economics (source: scenario calculation, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>11. Portfolio Strategy</h2>
+<li><b>ไม่กำหนด buy/sell/hold, entry หรือ allocation</b> เพราะ price-to-EPS sensitivity กว้าง และยังไม่มี DR conversion/FX/ค่าธรรมเนียมไทยใน source set (source: <code>sources/SHOP/market-data.md</code>, research limitation, 2026-09-19)</li>
+<li>หากศึกษาต่อ ให้แยก exposure ของ Subscription กับ Merchant Solutions และติดตาม GMV growth, take-rate, gross margin, FCF/share, SBC dilution, credit loss และ merchant retention ทุกไตรมาส (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
+<li><b>Exit/kill conditions:</b> GMV/revenue growth ต่ำกว่า 20% ต่อเนื่อง 2 ไตรมาสโดยไม่มีเหตุชั่วคราว, FCF margin ลดลงยาว, payment losses/การกำกับดูแลกด margin, หรือ merchant retention/Shop Pay penetration หยุดโต (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2022–FY2025 revenue ที่ extract ได้ $5.60B/$7.06B/$8.88B/$11.556B; Q2 2026 transcript รายงาน GMV $116B, revenue $3.6B และ FCF margin 18%; Yahoo price $128.50 (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/market-data.md</code>, 2026-09-19)</li>
+<li><b>Interpretation:</b> Shopify มี Scale/Network/Switching advantages ที่อาจขยาย payments economics แต่ต้องพิสูจน์กำไรต่อหุ้นหลังต้นทุนและ dilution (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>Judgment:</b> growth ที่รายงานดี แต่ valuation ต้องการ execution สูง; คำถามก่อนเป็นเจ้าของคือ normalized EPS/FCF/share เท่าไร, payment risk ใครรับ และ GMV โตโดยไม่เสีย take-rate ได้กี่ปี (source: research judgment, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+</div></body></html>

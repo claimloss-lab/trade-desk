@@ -16,51 +16,65 @@
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">PFE</div>
 <div class="meta">Thesis · 2026-09-21</div>
-<h1>PFE (Pfizer) — Full Investment Memo</h1>
-<p>ข้อมูล ณ 2026-09-19; หุ้นอยู่ในกลุ่ม DR_UNIVERSE ที่ pre-run script ระบุ</p>
+<h1>PFE — Pfizer Inc. | Full Investment Memo</h1>
+<p>วันที่จัดทำ/ดึงข้อมูล: 2026-09-19 (UTC). <b>ขอบเขต:</b> PFE19 ตั้งใจให้ติดตาม PFE ผ่าน DR; ตรวจหน้า SET ตรงไม่ได้เพราะตัวดึงข้อมูลตอบ 402 จึงยังไม่ถือเป็นการยืนยันสถานะ DR จากตลาดหลักทรัพย์</p>
 <h2>1. Investment Verdict</h2>
-<li><b>Rating:</b> ยังไม่จัดอันดับ; ต้องแยกกำไรฐานเดิมออกจาก COVID normalization และตรวจ valuation/หนี้ให้ครบก่อน (source: research rule; 2026-09-19)</li>
-<li><b>Fair value / Entry / Allocation:</b> ไม่คำนวณ; ราคา $27.66 และกรอบ 52 สัปดาห์ $23.58–$29.21 แต่ไม่มี verified diluted EPS/consensus/multiple ครบ (source: Yahoo Finance chart endpoint; 2026-09-19)</li>
-<li><b>5Y CAGR:</b> ไม่ระบุ; ขึ้นกับ pipeline และการชดเชย patent/ผลิตภัณฑ์ที่ยอดขายลดลง (source: SEC 10-Q/Companyfacts; 2026-09-19)</li>
-<li><b>Investment question:</b> Pfizer จะเปลี่ยนฐานรายได้ที่หดตัวหลัง COVID ให้เป็นกระแสเงินสดที่เติบโตได้ โดยไม่เพิ่มหนี้และ dilution จนผลตอบแทนผู้ถือหุ้นถูกกินหรือไม่ (source: SEC 10-Q; 2026-09-19)</li>
+<li><b>Rating:</b> ไม่จัดอันดับ/ไม่ใช่คำแนะนำซื้อขาย — ต้องยืนยัน latest earnings transcript และ forward estimates ก่อน (source: StockAnalysis transcript page checked 2026-09-19; HTTP200 แต่เนื้อหา extract ไม่เสถียร)</li>
+<li><b>Fair value / Entry / Allocation:</b> ไม่คำนวณ/ไม่กำหนด เพราะ Yahoo quoteSummary ตอบ HTTP401 ทำให้ multiples และ forward EPS ไม่พร้อม (source: Yahoo Finance endpoint, fetched 2026-09-19)</li>
+<li><b>5Y CAGR:</b> ไม่คำนวณ; ยังมี patent cliff, debt และ pipeline uncertainty ที่ทำให้ single-point target เสี่ยงทำให้เกิด false precision (source: Pfizer 10-K/10-Q URLs, 2026-09-19)</li>
+<li><b>Investment question:</b> cash flow จากยาหลักและ oncology จาก Seagen จะชดเชยการลดลงของ COVID products และ patent expiry ได้หรือไม่ (source: <code>sources/PFE/10-q-2026.md</code>, SEC filed 2026-02-26/2026-08-04)</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>Pfizer ค้นคว้า พัฒนา ผลิต และขายยาตามใบสั่งแพทย์/วัคซีนให้ผู้ป่วยผ่านแพทย์ ผู้จ่ายเงิน และระบบโรงพยาบาล; ลูกค้าจ่ายเพื่อผลลัพธ์ทางการแพทย์และความน่าเชื่อถือของ supply ไม่ใช่ feature (source: sources/PFE/10-k-2025.md; 2026-09-19)</li>
-<li><b>Core:</b> portfolio ยาและวัคซีนที่มีสิทธิบัตร/การเข้าถึงตลาด; <b>Option:</b> pipeline, business development และ indication ใหม่ แต่ต้องหักค่า R&amp;D, regulatory และ launch cost (source: sources/PFE/10-k-2025.md; 2026-09-19)</li>
-<li>Revenue FY2023/24/25 = $58.496bn/$63.627bn/$62.579bn: FY2025 ลดจาก FY2024 เล็กน้อย แต่ยังต้อง normalize ผลของ COVID products ก่อนอ่าน direction (source: SEC Companyfacts/10-Q; 2026-09-19)</li>
+<li>Pfizer ขายยาตามใบสั่งแพทย์/วัคซีนให้ผู้ป่วยผ่านผู้จ่ายเงิน โดยรายได้กระจายตามกลุ่มยา; FY2023–25 revenue อยู่ที่ $58.496bn, $63.627bn, $62.579bn ตามลำดับ (source: <code>sources/PFE/10-q-2026.md</code>, SEC 10-K/companyfacts filed 2026-02-26)</li>
+<li>Engine คือสิทธิบัตร, clinical evidence, commercial scale และการเพิ่ม indication; COVID revenue ที่หดตัวทำให้คุณภาพการเติบโตต้องดูรายได้ฐานเดิมและผลิตภัณฑ์ oncology แยกกัน (source: Pfizer SEC 10-K/companyfacts, fetched 2026-09-19)</li>
+<li>Segment economics แบบ 5 ปีและรายได้ราย product ไม่ได้ extract ครบจาก structured facts รอบนี้; ไม่ใส่ product split ที่ยังไม่มี source line-by-line (source: SEC Companyfacts, 2026-09-19)</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li>Powers ที่เฉพาะกับธุรกิจคือ regulatory/clinical know-how, global distribution, manufacturing scale และความสัมพันธ์กับผู้จ่ายเงิน; สิทธิบัตรเป็นสิทธิชั่วคราว ไม่ใช่การป้องกันถาวร (source: sources/PFE/10-k-2025.md; 2026-09-19)</li>
-<li>ความเสี่ยงจำเพาะ: patent cliff, trial failure, pricing/regulation, integration/deleveraging และ portfolio ที่พึ่งผลิตภัณฑ์สำคัญ (source: SEC 10-Q; 2026-09-19)</li>
+<li><b>7 Powers ที่ specific:</b> scale ในการทดลอง/ขึ้นทะเบียน/ขายยา, brand trust และ switching friction จาก clinical protocols; แต่สิทธิบัตรเป็นอายุจำกัดและไม่ใช่ข้อได้เปรียบถาวร (source: Pfizer 10-K, SEC URL in <code>sources/PFE/10-q-2026.md</code>, 2026-09-19)</li>
+<li>Seagen เพิ่ม exposure ด้าน antibody-drug conjugates/oncology แต่ execution และ safety/clinical competition เป็นความเสี่ยงเฉพาะดีล (source: Pfizer 10-K/IR source set, 2026-09-19)</li>
+<li>Debt สูงกว่า cash มาก: FY2025 cash $1.142bn เทียบ current debt $2.997bn และ noncurrent debt $61.641bn; balance sheet จึงจำกัดความยืดหยุ่นหาก earnings สะดุด (source: SEC Companyfacts, filed 2026-02-26)</li>
 <h2>4. Financial Quality 5-year</h2>
-<li>ชุดข้อมูลที่ verify ครอบคลุม FY2023–FY2025: revenue $58.496bn/$63.627bn/$62.579bn และ net income $2.119bn/$8.031bn/$7.771bn; ยังไม่ครบ 5 ปีและ COVID base effect ทำให้เทียบตรง ๆ ต้องระวัง (source: SEC Companyfacts/10-Q; 2026-09-19)</li>
-<li>OCF $8.700bn/$12.744bn/$11.704bn และ capex $3.907bn/$2.909bn/$2.629bn; FCF แบบ OCF-capex ประมาณ $4.793bn/$9.835bn/$9.075bn (source: SEC Companyfacts; calculated 2026-09-19)</li>
-<li>Gross margin, operating margin, R&amp;D, ROE และ ROIC แบบ 5 ปีไม่พบชุด tag ที่ verify ครบใน cache จึงไม่แต่งตัวเลข (source: SEC Companyfacts; 2026-09-19)</li>
+<p>| USD bn | 2021 | 2022 | 2023 | 2024 | 2025 |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Revenue | ไม่พบ | ไม่พบ | 58.496 | 63.627 | 62.579 |</p>
+<p>| Operating profit | ไม่พบ | ไม่พบ | ไม่พบแบบ single comparable tag | ไม่พบ | ไม่พบ |</p>
+<p>| Net income | ไม่พบ | ไม่พบ | 2.119 | 8.031 | 7.771 |</p>
+<p>| OCF | ไม่พบ | ไม่พบ | 8.700 | 12.744 | 11.704 |</p>
+<p>| CapEx | ไม่พบ | ไม่พบ | 3.907 | 2.909 | 2.629 |</p>
+<p>| FCF (OCF-CapEx) | ไม่พบ | ไม่พบ | 4.793 | 9.835 | 9.075 |</p>
+<p>| R&amp;D | ไม่พบ | ไม่พบ | ไม่พบ comparable | ไม่พบ | ไม่พบ |</p>
+<li>หลัง COVID cliff รายได้ปี 2025 ลดจาก 2024 เล็กน้อย แต่ OCF และ FCF ยังเป็นบวก; net income ฟื้นจาก 2023 ที่มีผลกระทบพิเศษ แต่ยังไม่ควร extrapolate เป็น normalized earnings (source: SEC Companyfacts, fetched 2026-09-19)</li>
+<li>Gross margin, operating margin, R&amp;D, ROE และ ROIC 5 ปี <b>ไม่พบใน structured extraction ที่เทียบได้ครบ</b>; ไม่สร้าง ratio จากข้อมูลไม่ comparable (source: SEC Companyfacts, 2026-09-19)</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>FY2025 cash $1.142bn, current debt $2.997bn, non-current debt $61.641bn และ equity $86.476bn; gross debt สูงเมื่อเทียบกับ cash จึงต้องติดตามดอกเบี้ยและ deleveraging (source: SEC 10-Q; 2026-09-19)</li>
-<li>Capex ลดลงจาก $3.907bn ใน FY2023 เป็น $2.629bn ใน FY2025 แต่ cash generation ก็ลดจาก FY2024; จึงยังสรุป capital allocation ว่าดีขึ้นไม่ได้ (source: SEC Companyfacts; calculated 2026-09-19)</li>
-<li>SBC, diluted share trend, buyback และเงินปันผลแบบแยกละเอียดไม่พบใน source cache รอบนี้ (source: sources/PFE/10-k-2025.md; 2026-09-19)</li>
+<li>FY2025 cash $1.142bn, current debt $2.997bn, noncurrent debt $61.641bn และ equity $86.476bn (source: SEC Companyfacts, filed 2026-02-26)</li>
+<li>FCF เชิงกลไกจาก OCF หัก capex อยู่ $9.075bn ใน 2025 เทียบ $9.835bn ใน 2024; dividend, acquisition debt paydown และ R&amp;D ต้องพิจารณาร่วมกัน ไม่ใช่ดู yield เดี่ยว (source: SEC Companyfacts, 2026-09-19)</li>
+<li>SBC, dilution, buyback และ dividend coverage 5 ปี <b>ไม่พบแบบ verified ครบ</b> จากชุดข้อมูลรอบนี้ (source: SEC Companyfacts extraction, 2026-09-19)</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Transcript:</b> ไม่พบ transcript ที่ดึงตรวจสอบได้จาก StockAnalysis; ไฟล์นี้ใช้ SEC 10-Q/earnings source note และไม่เรียกมันว่า transcript (source: sources/PFE/q2-2026-call.md; StockAnalysis checked 2026-09-19)</li>
-<li>Latest verified comparative figures: FY2025 revenue $62.579bn, net income $7.771bn, OCF $11.704bn และ capex $2.629bn (source: sources/PFE/q2-2026-call.md; 2026-09-19)</li>
-<li>Q2 2026 guidance และ beat/miss เทียบ consensus: ไม่พบข้อมูลที่ verify ได้ในรอบนี้ (source: sources/PFE/q2-2026-call.md; 2026-09-19)</li>
+<li>StockAnalysis transcript page ของ PFE ตอบ HTTP200 วันที่ 2026-09-19 แต่ runtime ดึงเนื้อหา transcript ที่เชื่อถือได้ไม่ได้ จึงไม่ paraphrase ผู้บริหารและไม่เรียก filing ว่า transcript (source: <code>https://stockanalysis.com/stocks/pfe/transcripts/</code>)</li>
+<li>Latest SEC filing ที่พบคือ Q2 2026 10-Q filed 2026-08-04, accession <code>0000078003-26-000095</code>; ตัวเลข quarterly/guidance รายบรรทัดไม่ได้ extract สำเร็จ จึงระบุว่าไม่พบแทนการแต่ง (source: SEC 10-Q URL in <code>sources/PFE/10-q-2026.md</code>)</li>
+<li>FY2025 ที่ verify ได้: revenue $62.579bn, net income $7.771bn, OCF $11.704bn, capex $2.629bn (source: SEC 10-K/companyfacts, filed 2026-02-26)</li>
+<li>Beat/miss และ current guidance: ไม่พบจาก transcript/IR ที่ extract ได้ในรอบนี้ (source: StockAnalysis/SEC runtime checks, 2026-09-19)</li>
 <h2>7. Valuation</h2>
-<li>ราคา $27.66; 52-week range $23.58–$29.21 ณ 2026-09-19 (source: Yahoo Finance chart endpoint; fetched 2026-09-19)</li>
-<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG, historical range และ peer multiple: ไม่พบจาก endpoint ที่ตรวจสอบได้ จึงไม่แต่ง (source: Yahoo Finance/StockAnalysis attempts; 2026-09-19)</li>
-<li>Scenario EPS/target/CAGR/probability จึงยังไม่คำนวณ; ตัวเลขราคาปัจจุบันเพียงอย่างเดียวไม่พอสร้าง fair value (source: valuation audit; 2026-09-19)</li>
+<li>ราคาหุ้น PFE $27.66 ณ fetch 2026-09-19; 52-week high/low จาก Yahoo chart metadata $29.21/$23.58; market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG <b>ไม่พบ</b> เพราะ quoteSummary HTTP401 (source: Yahoo Finance chart endpoint, 2026-09-19)</li>
+<li>Historical multiples และ peer valuation: ไม่พบจาก direct endpoint ที่ verify ได้; web search ใช้งานไม่ได้จาก 402 (source: runtime web tools, 2026-09-19)</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bull:</b> pipeline/ผลิตภัณฑ์ใหม่ชดเชยยอดขาย COVID และ patent loss, FCF ทรงตัวหรือฟื้น และหนี้ลด; EPS/target/CAGR/probability ยังไม่ระบุเพราะไม่มี verified consensus (source: SEC 10-Q; 2026-09-19)</li>
-<li><b>Base:</b> revenue ทรงตัวถึงลดเล็กน้อย, FCF ยังเป็นบวกแต่ถูกแบ่งให้ดอกเบี้ย/ปันผล/หนี้; target/CAGR/probability ไม่คำนวณ (source: SEC Companyfacts; 2026-09-19)</li>
-<li><b>Bear:</b> patent cliff/pipeline failure และหนี้สูงทำให้กำไรกับ FCF ลดพร้อมกัน; bear floor ไม่ระบุเพราะไม่มี multiple ที่ตรวจสอบได้ (source: SEC 10-Q; 2026-09-19)</li>
-<h2>9. Catalysts (12m) &amp; Risks (12-24m)</h2>
-<li>Catalysts: clinical readouts/approval, launch ที่ชดเชย product erosion, cost control และการลดหนี้ที่เห็นในงบจริง (source: SEC 10-Q; 2026-09-19)</li>
-<li>Risks: pipeline delay/failure, pricing pressure, patent expiry, leverage และการที่ FCF ต่ำกว่าภาระ capital allocation (source: SEC 10-Q; 2026-09-19)</li>
+<p>| Scenario | EPS/FCF driver | Multiple/target | CAGR | Probability |</p>
+<p>|---|---|---|---|---:|</p>
+<p>| Bull | Oncology/Seagen โต, pipeline ชดเชย patent expiry, FCF คงที่/ฟื้น | ไม่คำนวณ | ไม่คำนวณ | ไม่กำหนด |</p>
+<p>| Base | รายได้ทรงตัว, COVID ลด, cost discipline ช่วย FCF | ไม่คำนวณ | ไม่คำนวณ | ไม่กำหนด |</p>
+<p>| Bear | Eliquis/Ibrance และผลิตภัณฑ์หลักเจอ erosion เร็ว, debt จำกัด capital allocation | ไม่คำนวณ; bear floor ไม่พบ | ไม่คำนวณ | ไม่กำหนด |</p>
+<li>ไม่ใส่ target/probability เพราะ forward EPS และ peer multiple ยังไม่ผ่านการ verify; ตารางจึงเป็น scenario map ไม่ใช่ราคาเป้าหมาย (source: Yahoo HTTP401 + transcript extraction gap, 2026-09-19)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalyst: ผลิตภัณฑ์ oncology จาก Seagen, pipeline approvals/positive trials, cost savings และการรักษา FCF เพื่อรองรับหนี้/เงินปันผล (source: Pfizer SEC 10-K, 2026-09-19)</li>
+<li>Risk: patent expiry ของยาหลัก, COVID franchise decline, clinical failure, pricing pressure และ refinancing/interest burden (source: Pfizer SEC 10-K/10-Q, 2026-09-19)</li>
+<li>ข่าว 7 วันล่าสุด: ไม่สามารถยืนยันจาก IR/RSS ได้ในรอบนี้; web search ตอบ 402 จึงไม่สรุปข่าวสด (source: runtime output, 2026-09-19)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>Permanent capital loss อาจเกิดถ้าซื้อจาก dividend/low price แต่รายได้ฐานเดิมหดเร็วกว่าที่ pipeline สร้าง และหนี้จำกัดทางเลือกของบริษัท (source: SEC 10-Q; interpretation 2026-09-19)</li>
-<li>สมมติฐานที่เปราะบางคือการถือว่า FCF FY2025 เป็น normalized และ pipeline จะสำเร็จตามเวลา; bear floor ไม่คำนวณ (source: SEC Companyfacts; judgment 2026-09-19)</li>
+<li>Permanent capital loss เกิดได้หากรายได้จากยาหลักหายเร็วกว่าการเติบโตของ oncology/pipeline และหนี้ยังสูง (source: SEC FY2025 balance sheet, 2026-09-19)</li>
+<li>Fragile assumption คือใช้ forward P/E ต่ำเป็นเหตุผลเพียงอย่างเดียว ทั้งที่ forward EPS/multiple ปัจจุบันยังดึงไม่ได้ และ GAAP earnings มีรายการพิเศษ (source: Yahoo HTTP401; SEC Companyfacts, 2026-09-19)</li>
+<li>Bear floor เป็นตัวเลข: ไม่พบเพราะยังไม่มี normalized FCF multiple/peer set ที่ verified (source: valuation data-gap log, 2026-09-19)</li>
 <h2>11. Portfolio Strategy</h2>
-<li>ไม่กำหนด sizing/DCA/entry; DR ต้องพิจารณา FX, conversion ratio, liquidity และ dividend/tax mechanics แยกจากหุ้นสหรัฐฯ (source: Yahoo chart; pre-run DR universe; 2026-09-19)</li>
-<li><b>Kill conditions:</b> รายได้ผลิตภัณฑ์หลักลดต่อเนื่องโดย pipeline ไม่ชดเชย; FCF หลังดอกเบี้ย/ลงทุนไม่พอรองรับหนี้และ payout; leverage ไม่ลดหรือ dilution เพิ่ม (source: SEC 10-Q; 2026-09-19)</li>
+<li>Entry/sizing/DCA/cap: ไม่กำหนดเป็นคำสั่งลงทุน; ต้อง verify patent bridge, dividend coverage, debt maturity และ latest guidance ก่อน (source: SEC 10-K/10-Q, 2026-09-19)</li>
+<li>Exit/kill conditions: (1) FCF หลัง dividend ไม่พอซ้ำๆ, (2) รายได้จาก core products ลดเร็วกว่าการชดเชยของ oncology, (3) debt ลดไม่ได้ขณะ pipeline fail, (4) dividend cut, (5) safety/regulatory event สำคัญ (source: SEC balance sheet/FCF facts, 2026-09-19)</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<li><b>Fact:</b> FY2025 revenue $62.579bn, net income $7.771bn, OCF $11.704bn, capex $2.629bn, cash $1.142bn, gross debt $64.638bn โดยบวก current/non-current debt; price $27.66 (source: SEC Companyfacts/10-Q; Yahoo Finance; 2026-09-19)</li>
-<li><b>Interpretation:</b> cash flow ยังเป็นบวก แต่ balance sheet leverage และการทดแทนรายได้เป็นแกน thesis มากกว่าราคาหุ้นต่ำ (source: SEC 10-Q; calculated 2026-09-19)</li>
-<li><b>Judgment:</b> ยังไม่ควรสรุป fair value หรือ allocation จนกว่าจะได้ transcript/earnings release ล่าสุด, product-level guidance, dilution และ peer valuation ที่ verify ได้ (source: research judgment; 2026-09-19)</li>
+<li><b>Fact:</b> revenue $58.496bn/$63.627bn/$62.579bn และ FCF เชิงกลไก $4.793bn/$9.835bn/$9.075bn ใน 2023–25; <b>Interpretation:</b> กำไรและ cash flow ฟื้นจาก COVID trough แต่ยังไม่ใช่ growth compounder ที่พิสูจน์แล้ว; <b>Judgment:</b> ต้องการ evidence จาก pipeline/patent bridge ก่อน fair value (source: SEC Companyfacts, 2026-09-19)</li>
+<li><b>Fact:</b> price $27.66, range $23.58–$29.21; <b>Interpretation:</b> ราคาปัจจุบันอยู่ใกล้กรอบล่าง-กลางของ 52 สัปดาห์; <b>Judgment:</b> ไม่แปลว่าถูกเพราะไม่มี current multiples (source: Yahoo chart, 2026-09-19)</li>
+<li><b>Fact:</b> transcript page ตอบ HTTP200 แต่ extract ไม่พร้อม; <b>Interpretation:</b> latest commentary/guidance ยังขาด; <b>Judgment:</b> memo นี้ partial-complete ด้าน earnings/valuation และไม่ควรใช้เป็น decision record จนกว่าจะเติมข้อมูล (source: StockAnalysis check, 2026-09-19)</li>
 </div></body></html>

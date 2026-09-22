@@ -21,15 +21,15 @@
   <span class="badge">DRAFT · รอยืนยันก่อนใช้เป็นกฎถาวร</span>
 
   <div class="grid">
-    <div class="metric"><div class="label">Market value</div><div class="value">฿913,198</div><div class="note">หุ้น/ETF ในภาพล่าสุด</div></div>
-    <div class="metric"><div class="label">Cash balance</div><div class="value">฿68,113</div><div class="note">คิดเป็น 6.94% ของ liquid assets</div></div>
-    <div class="metric"><div class="label">Cash floor</div><div class="value">5.00%</div><div class="note">ห้ามใช้จนต่ำกว่านี้</div></div>
-    <div class="metric"><div class="label">Equity sleeve</div><div class="value">95%</div><div class="note">สูงสุดของ liquid assets</div></div>
+    <div class="metric"><div class="label">Market value</div><div id="live-market" class="value">โหลด...</div><div class="note">หุ้น/ETF · live จาก Trade Desk</div></div>
+        <div class="metric"><div class="label">Cash balance</div><div id="live-cash" class="value">โหลด...</div><div class="note">คำนวณ live จากพอร์ต SET DR</div></div>
+        <div class="metric"><div class="label">Cash floor</div><div id="live-cash-floor" class="value">5.00%</div><div class="note">ห้ามใช้จนต่ำกว่านี้</div></div>
+        <div class="metric"><div class="label">Data status</div><div id="live-status" class="value" style="font-size:15px">กำลังโหลด</div><div class="note">ราคาปัจจุบัน / เวลา fetch</div></div>
   </div>
 
   <section class="card"><h2>ภาพรวมสัดส่วนเป้าหมาย</h2><div class="chart-row"><div class="donut-wrap"><div class="donut"><div class="donut-label">100%<small>equity sleeve</small></div></div></div><div><div class="legend"><div class="legend-item"><i class="swatch" style="background:#2f6fed"></i>MSFT <b>15%</b></div><div class="legend-item"><i class="swatch" style="background:#7c3aed"></i>NVDA <b>13%</b></div><div class="legend-item"><i class="swatch" style="background:#14b8a6"></i>GOOG <b>10%</b></div><div class="legend-item"><i class="swatch" style="background:#f59e0b"></i>AMZN <b>10%</b></div><div class="legend-item"><i class="swatch" style="background:#ef4444"></i>AVGO <b>10%</b></div><div class="legend-item"><i class="swatch" style="background:#06b6d4"></i>ASML <b>9%</b></div><div class="legend-item"><i class="swatch" style="background:#ec4899"></i>CRWD <b>8%</b></div><div class="legend-item"><i class="swatch" style="background:#84cc16"></i>PANW <b>7%</b></div><div class="legend-item"><i class="swatch" style="background:#f97316"></i>LLY <b>6%</b></div><div class="legend-item"><i class="swatch" style="background:#64748b"></i>PLTR <b>4%</b></div><div class="legend-item"><i class="swatch" style="background:#a855f7"></i>SNOW <b>3%</b></div><div class="legend-item"><i class="swatch" style="background:#0ea5e9"></i>QQQM <b>3%</b></div><div class="legend-item"><i class="swatch" style="background:#78716c"></i>MRVL <b>2%</b></div></div></div></div></section>
 
-  <section class="card"><h2>เป้าหมายรายตัว</h2><div class="body"><div class="table-wrap"><table><thead><tr><th>Underlying</th><th>ปัจจุบัน<br>(หุ้น)</th><th>Target<br>(หุ้น)</th><th>Target<br>(ทั้งพอร์ต)</th><th>บทบาท</th><th>สถานะ</th></tr></thead><tbody>
+  <section class="card"><h2>เป้าหมายรายตัว</h2><div class="body"><div class="table-wrap"><table><thead><tr><th>Underlying</th><th>ปัจจุบัน<br>(หุ้น)</th><th>Target<br>(หุ้น)</th><th>Target<br>(ทั้งพอร์ต)</th><th>บทบาท</th><th>สถานะ</th></tr></thead><tbody id="allocation-tbody">
 <tr><td>MSFT</td><td class="mono">22.81%</td><td class="mono">15%</td><td class="mono">14.25%</td><td>Core platform</td><td><span class="pill down">ลดแบบทยอย</span></td></tr>
 <tr><td>NVDA</td><td class="mono">14.56%</td><td class="mono">13%</td><td class="mono">12.35%</td><td>AI infrastructure</td><td><span class="pill flat">ถือ / ไม่เพิ่ม</span></td></tr>
 <tr><td>GOOG</td><td class="mono">9.49%</td><td class="mono">10%</td><td class="mono">9.50%</td><td>AI + cash-flow platform</td><td><span class="pill flat">ถือ</span></td></tr>
@@ -55,4 +55,29 @@
 </div></div></section>
 <p class="foot">ข้อมูลปัจจุบันจาก broker screenshot วันที่ 22 Sep 2026 08:22:30 · ORCL อยู่ในพอร์ต Dime แยก ไม่รวมหน้านี้ · หน้านี้เป็น framework draft ไม่ใช่คำสั่งซื้อขาย</p>
 </div>
+<script>
+const ALLOC_TARGET={MSFT:15,NVDA:13,GOOG:10,AMZN:10,AVGO:10,ASML:9,CRWD:8,PANW:7,LLY:6,PLTR:4,SNOW:3,QQQM:3,MRVL:2};
+const ALLOC_ROLE={MSFT:'Core platform',NVDA:'AI infrastructure',GOOG:'AI + cash-flow platform',AMZN:'Cloud / AI consumption',AVGO:'ASIC / networking',ASML:'Semiconductor bottleneck',CRWD:'Cybersecurity growth',PANW:'Security platform',LLY:'Healthcare growth',PLTR:'High-growth option',SNOW:'Data platform option',QQQM:'Broad ETF',MRVL:'Semiconductor option'};
+const moneyTHB=n=>new Intl.NumberFormat('th-TH',{style:'currency',currency:'THB',maximumFractionDigits:0}).format(n);
+function allocationStatus(delta){if(delta>1.5)return ['OVERWEIGHT','down'];if(delta<-1.5)return ['UNDERWEIGHT','up'];return ['ON TARGET','flat'];}
+async function loadLiveAllocation(){
+  const status=document.getElementById('live-status');
+  try{
+    const data=await fetch('/portfolio-data.json?allocation='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('portfolio-data '+r.status);return r.json()});
+    const port=(data.portfolios||[]).find(p=>p.id==='dr1'||p.type==='realtime_dr');
+    if(!port)throw Error('SET DR portfolio not found');
+    const stocks=port.stocks||[];
+    const quotes=await Promise.all(stocks.map(async s=>{try{const r=await fetch('/api/price?ticker='+encodeURIComponent(s.ticker),{cache:'no-store'});const d=await r.json();return [s.ticker,Number(d.price)||0]}catch{return [s.ticker,0]}}));
+    const priceMap=Object.fromEntries(quotes);
+    const agg={};
+    for(const s of stocks){const key=(s.parentTicker||s.ticker).toUpperCase().replace('GOOGL','GOOG');const price=priceMap[s.ticker]||0;if(!price)continue;if(!agg[key])agg[key]={market:0,qty:0,price:0};agg[key].market+=Number(s.qty||0)*price;agg[key].qty+=Number(s.qty||0);agg[key].price=price}
+    const market=Object.values(agg).reduce((a,x)=>a+x.market,0), cash=Number(port.cash||0), liquid=market+cash;
+    if(!market)throw Error('ไม่มีราคาที่ดึงได้');
+    document.getElementById('live-market').textContent=moneyTHB(market);document.getElementById('live-cash').textContent=moneyTHB(cash);document.getElementById('live-cash-floor').textContent=(cash/liquid*100).toFixed(2)+'%';
+    const rows=Object.entries(ALLOC_TARGET).map(([ticker,target])=>{const x=agg[ticker]||{market:0,qty:0,price:0};const current=x.market/market*100;const delta=current-target;const [label,cls]=allocationStatus(delta);return `<tr><td>${ticker}</td><td class="mono">${current.toFixed(2)}%</td><td class="mono">${target}%</td><td class="mono">${(target*.95).toFixed(2)}%</td><td>${ALLOC_ROLE[ticker]}</td><td><span class="pill ${cls}">${label} ${delta>=0?'+':''}${delta.toFixed(2)}จุด</span></td></tr>`}).join('');
+    document.getElementById('allocation-tbody').innerHTML=rows;status.textContent='LIVE · '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});status.style.color='var(--green)';
+  }catch(e){status.textContent='fallback · '+e.message;status.style.color='var(--amber)'}
+}
+loadLiveAllocation();setInterval(loadLiveAllocation,300000);
+</script>
 </body></html>

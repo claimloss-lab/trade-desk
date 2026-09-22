@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-18T16:00:34.753Z",
-  "exportDateTH": "18 กันยายน 2569 เวลา 23:00",
+  "exportDate": "2026-09-22T16:12:54.164Z",
+  "exportDateTH": "22 กันยายน 2569 เวลา 23:12",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8829,
-          "srResist": 2.3595,
-          "srUpdated": "2026-09-22",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,15 +42,15 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.9412,
-          "srResist": 55.0909,
-          "srUpdated": "2026-09-22",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "AVGO80",
           "qty": 39200,
-          "buyPrice": 2.3,
+          "buyPrice": 2.3085714285714287,
           "id": 3,
           "sector": "Tech",
           "underlying": "Broadcom",
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.291,
-          "srResist": 2.8429,
-          "srUpdated": "2026-09-22",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,15 +76,15 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 22.3645,
-          "srResist": 33.7136,
-          "srUpdated": "2026-09-22",
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
           "ticker": "GOOG80",
-          "qty": 15200,
-          "buyPrice": 5.41,
+          "qty": 7600,
+          "buyPrice": 5.01,
           "id": 5,
           "sector": "Tech",
           "underlying": "Alphabet",
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2892,
-          "srResist": 6.2364,
-          "srUpdated": "2026-09-22",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8253,
-          "srResist": 2.1273,
-          "srUpdated": "2026-09-22",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,15 +133,15 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8623,
-          "srResist": 8.5323,
-          "srUpdated": "2026-09-22",
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
           "ticker": "NVDA80",
-          "qty": 3500,
-          "buyPrice": 31.183,
+          "qty": 2500,
+          "buyPrice": 28.92,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA",
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.5702,
-          "srResist": 38.2743,
-          "srUpdated": "2026-09-22",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 9.3011,
-          "srResist": 13.1591,
-          "srUpdated": "2026-09-22",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3764,
-          "srResist": 4.1289,
-          "srUpdated": "2026-09-22",
-          "srResistIsExt": false
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.111,
-          "srResist": 20.3527,
-          "srUpdated": "2026-09-22",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.7542,
-          "srResist": 5.9227,
-          "srUpdated": "2026-09-22",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -242,7 +242,7 @@
           "id": 1787064242205
         }
       ],
-      "cash": 104924.81,
+      "cash": 168150.84,
       "snapshots": []
     },
     {
@@ -487,8 +487,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.4975,
-          "navDate": "4 ก.ย. 69"
+          "currentNav": 14.4534,
+          "navDate": "14 ก.ย. 69"
         },
         {
           "id": 2,
@@ -498,8 +498,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.3923,
-          "navDate": "4 ก.ย. 69"
+          "currentNav": 13.2935,
+          "navDate": "14 ก.ย. 69"
         },
         {
           "id": 1778630716727,
@@ -509,8 +509,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.5916,
-          "navDate": "4 ก.ย. 69"
+          "currentNav": 13.3011,
+          "navDate": "14 ก.ย. 69"
         },
         {
           "id": 1778630781570,
@@ -520,8 +520,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 17.6951,
-          "navDate": "4 ก.ย. 69"
+          "currentNav": 17.4701,
+          "navDate": "14 ก.ย. 69"
         }
       ]
     },
@@ -541,8 +541,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 29.7337,
-          "navDate": "4 ก.ย. 69"
+          "currentNav": 29.1839,
+          "navDate": "14 ก.ย. 69"
         },
         {
           "id": 2,
@@ -582,8 +582,8 @@
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 11.2381,
-          "navDate": "2026-09-03"
+          "currentNav": 11.1446,
+          "navDate": "2026-09-10"
         }
       ],
       "cash": 0,
@@ -608,8 +608,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 192.64,
-          "srUpdated": "2026-09-22",
+          "srResist": 248.15,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -619,37 +619,11 @@
   ],
   "transactions": [
     {
-      "id": 1789747198164,
-      "ticker": "NVDA80",
-      "type": "buy",
-      "date": "2026-09-18",
-      "price": 37,
-      "qty": 1000,
-      "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
-      "realizedPnl": null,
-      "portId": "dr1",
-      "auto": true
-    },
-    {
-      "id": 1789747175255,
-      "ticker": "GOOG80",
-      "type": "buy",
-      "date": "2026-09-18",
-      "price": 5.85,
-      "qty": 7600,
-      "fee": 0,
-      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
-      "realizedPnl": null,
-      "portId": "dr1",
-      "auto": true
-    },
-    {
-      "id": 1789747152082,
+      "id": 1790093570577,
       "ticker": "AVGO80",
       "type": "buy",
-      "date": "2026-09-18",
-      "price": 2.36,
+      "date": "2026-09-22",
+      "price": 2.42,
       "qty": 8000,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
@@ -658,11 +632,11 @@
       "auto": true
     },
     {
-      "id": 1789747137895,
+      "id": 1789528515158,
       "ticker": "AVGO80",
       "type": "buy",
-      "date": "2026-09-18",
-      "price": 2.36,
+      "date": "2026-09-16",
+      "price": 2.32,
       "qty": 2200,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
@@ -2683,8 +2657,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": false
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -2694,8 +2667,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": false
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1788231338104,
@@ -6077,7 +6049,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 43,
-    "totalTransactions": 69,
-    "totalNetWorth": "฿1,856,783.52"
+    "totalTransactions": 67,
+    "totalNetWorth": "฿1,858,763.75"
   }
 }

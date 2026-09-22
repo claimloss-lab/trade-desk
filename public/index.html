@@ -740,6 +740,7 @@ function buildNav() {
   nav.innerHTML = `
     <div class="nav-tab${activeTab==='overview'?' on':''}" onclick="showTab('overview')">🏠 Overview</div>
     <div class="nav-tab${activeTab==='research'?' on':''}" onclick="showTab('research')">📚 Research</div>
+    <a class="nav-tab" href="allocation.html" style="text-decoration:none">🎯 Allocation</a>
     ${portfolios.map(p=>`
       <div class="nav-tab${activeTab===p.id?' on':''}" onclick="showTab('${p.id}')">
         <span class="port-dot" style="background:${p.color}"></span>${p.name}

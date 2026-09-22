@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Target Allocation — TradeDesk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f7;--surface:#fff;--s2:#f9f9fb;--bd:rgba(0,0,0,.08);--tx:#1d1d1f;--tx2:#6e6e73;--blue:#2f6fed;--blue-bg:#eaf2ff;--green:#198754;--green-bg:#e7f7ed;--amber:#b76b00;--amber-bg:#fff4df;--red:#c41e3a;--red-bg:#fff0ef;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.55}.wrap{max-width:1180px;margin:auto;padding:28px 22px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.brand{font-weight:700;font-size:15px}.brand em{color:var(--blue);font-style:normal}.back{color:var(--blue);text-decoration:none;font-size:13px}.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700}.title{font-size:clamp(28px,4vw,42px);letter-spacing:-.04em;margin:6px 0}.sub{color:var(--tx2);max-width:760px}.badge{display:inline-flex;padding:4px 10px;border-radius:999px;background:var(--amber-bg);color:var(--amber);font:500 11px var(--mono);margin-top:12px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}.metric{background:var(--surface);border:1px solid var(--bd);border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.04)}.label{font-size:11px;color:var(--tx2);margin-bottom:7px}.value{font:600 22px var(--mono)}.note{font-size:11px;color:var(--tx2);margin-top:4px}.card{background:var(--surface);border:1px solid var(--bd);border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;margin:14px 0}.card h2{font-size:15px;margin:0;padding:16px 18px;border-bottom:1px solid var(--bd)}.card .body{padding:0 18px 18px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:11px 10px;border-bottom:1px solid rgba(0,0,0,.06);text-align:right;font-size:12px;white-space:nowrap}th{color:var(--tx2);font-size:10px;text-transform:uppercase;letter-spacing:.04em;background:var(--s2)}th:first-child,td:first-child{text-align:left;font-weight:600}.mono{font-family:var(--mono)}.pill{display:inline-block;padding:3px 8px;border-radius:999px;font:500 11px var(--mono)}.up{background:var(--green-bg);color:var(--green)}.down{background:var(--red-bg);color:var(--red)}.flat{background:var(--blue-bg);color:var(--blue)}.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}.rule{padding:14px;border-radius:11px;background:var(--s2);font-size:13px}.rule b{display:block;margin-bottom:4px}.foot{font-size:11px;color:var(--tx2);margin-top:20px}.bar{height:8px;background:#e8e8ed;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue);border-radius:99px}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}.wrap{padding:20px 14px 40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">Trade<em>Desk</em> · Allocation</div><a class="back" href="index.html">← กลับหน้า TradeDesk</a></div>
+  <div class="eyebrow">Portfolio framework · 22 Sep 2026</div>
+  <h1 class="title">Target Allocation</h1>
+  <p class="sub">สัดส่วนเป้าหมายแบบ conviction-weighted — ให้น้ำหนักตามอนาคตและ growth runway โดยไม่บังคับให้ทุกตัวเท่ากัน</p>
+  <span class="badge">DRAFT · รอยืนยันก่อนใช้เป็นกฎถาวร</span>
+
+  <div class="grid">
+    <div class="metric"><div class="label">Market value</div><div class="value">฿913,198</div><div class="note">หุ้น/ETF ในภาพล่าสุด</div></div>
+    <div class="metric"><div class="label">Cash balance</div><div class="value">฿68,113</div><div class="note">คิดเป็น 6.94% ของ liquid assets</div></div>
+    <div class="metric"><div class="label">Cash floor</div><div class="value">5.00%</div><div class="note">ห้ามใช้จนต่ำกว่านี้</div></div>
+    <div class="metric"><div class="label">Equity sleeve</div><div class="value">95%</div><div class="note">สูงสุดของ liquid assets</div></div>
+  </div>
+
+  <section class="card"><h2>เป้าหมายรายตัว</h2><div class="body"><div class="table-wrap"><table><thead><tr><th>Underlying</th><th>ปัจจุบัน<br>(หุ้น)</th><th>Target<br>(หุ้น)</th><th>Target<br>(ทั้งพอร์ต)</th><th>บทบาท</th><th>สถานะ</th></tr></thead><tbody>
+<tr><td>MSFT</td><td class="mono">22.81%</td><td class="mono">15%</td><td class="mono">14.25%</td><td>Core platform</td><td><span class="pill down">ลดแบบทยอย</span></td></tr>
+<tr><td>NVDA</td><td class="mono">14.56%</td><td class="mono">13%</td><td class="mono">12.35%</td><td>AI infrastructure</td><td><span class="pill flat">ถือ / ไม่เพิ่ม</span></td></tr>
+<tr><td>GOOG</td><td class="mono">9.49%</td><td class="mono">10%</td><td class="mono">9.50%</td><td>AI + cash-flow platform</td><td><span class="pill flat">ถือ</span></td></tr>
+<tr><td>AMZN</td><td class="mono">6.78%</td><td class="mono">10%</td><td class="mono">9.50%</td><td>Cloud / AI consumption</td><td><span class="pill up">เพิ่มจาก rebalance</span></td></tr>
+<tr><td>AVGO</td><td class="mono">10.39%</td><td class="mono">10%</td><td class="mono">9.50%</td><td>ASIC / networking</td><td><span class="pill flat">ถือ</span></td></tr>
+<tr><td>ASML</td><td class="mono">10.53%</td><td class="mono">9%</td><td class="mono">8.55%</td><td>Semiconductor bottleneck</td><td><span class="pill flat">ถือ / ไม่เพิ่ม</span></td></tr>
+<tr><td>CRWD</td><td class="mono">7.17%</td><td class="mono">8%</td><td class="mono">7.60%</td><td>Cybersecurity growth</td><td><span class="pill up">เพิ่มเมื่อแนวรับ</span></td></tr>
+<tr><td>PANW</td><td class="mono">5.36%</td><td class="mono">7%</td><td class="mono">6.65%</td><td>Security platform</td><td><span class="pill up">เพิ่มเมื่อเหมาะสม</span></td></tr>
+<tr><td>LLY</td><td class="mono">0.85%</td><td class="mono">6%</td><td class="mono">5.70%</td><td>Healthcare growth</td><td><span class="pill up">ค่อย ๆ สะสม</span></td></tr>
+<tr><td>PLTR</td><td class="mono">3.40%</td><td class="mono">4%</td><td class="mono">3.80%</td><td>High-growth option</td><td><span class="pill flat">เพิ่มเล็กน้อย</span></td></tr>
+<tr><td>SNOW</td><td class="mono">3.88%</td><td class="mono">3%</td><td class="mono">2.85%</td><td>Data platform option</td><td><span class="pill down">งดเพิ่ม</span></td></tr>
+<tr><td>QQQM</td><td class="mono">3.35%</td><td class="mono">3%</td><td class="mono">2.85%</td><td>Broad ETF</td><td><span class="pill down">งดเพิ่ม / overlap</span></td></tr>
+<tr><td>MRVL</td><td class="mono">1.43%</td><td class="mono">2%</td><td class="mono">1.90%</td><td>Semiconductor option</td><td><span class="pill flat">ถือขนาดเล็ก</span></td></tr>
+</tbody></table></div></div></section>
+
+<section class="card"><h2>กฎใช้งาน</h2><div class="body"><div class="rules">
+<div class="rule"><b>Cash first</b>รักษาเงินสดอย่างน้อย 5% ของ liquid assets ทุกช่วงเวลา</div>
+<div class="rule"><b>No new money</b>ไม่มีเงินเติมเพิ่ม ใช้ rebalance จากตัวที่เกินเป้าเท่านั้น</div>
+<div class="rule"><b>MSFT concentration</b>ไม่ต้องขายหมดทันที ทยอยลดจาก 22.81% ลงสู่กรอบ 18–20% ก่อน</div>
+<div class="rule"><b>Buy at support</b>AMZN, LLY, PANW และ CRWD เพิ่มเฉพาะเมื่อ valuation/แนวรับเหมาะสม</div>
+<div class="rule"><b>Overlap control</b>QQQM ซ้ำกับหุ้นเดี่ยวสูง จึงไม่เพิ่มจนกว่าจะทบทวนบทบาท ETF</div>
+<div class="rule"><b>Review trigger</b>ทบทวนเมื่อ thesis หรือ earnings เปลี่ยน ไม่ใช่เพราะราคาผันผวนระยะสั้น</div>
+</div></div></section>
+<p class="foot">ข้อมูลปัจจุบันจาก broker screenshot วันที่ 22 Sep 2026 08:22:30 · ORCL อยู่ในพอร์ต Dime แยก ไม่รวมหน้านี้ · หน้านี้เป็น framework draft ไม่ใช่คำสั่งซื้อขาย</p>
+</div>
+</body></html>

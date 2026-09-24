@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8801,
-          "srResist": 2.3559,
-          "srUpdated": "2026-09-23",
+          "srSupport": 1.8908,
+          "srResist": 2.3694,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 42.8766,
-          "srResist": 55.008,
-          "srUpdated": "2026-09-23",
+          "srSupport": 43.1221,
+          "srResist": 55.323,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.2876,
-          "srResist": 2.8386,
-          "srUpdated": "2026-09-23",
+          "srSupport": 2.2643,
+          "srResist": 2.8549,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 22.3308,
-          "srResist": 33.6628,
-          "srUpdated": "2026-09-23",
+          "srSupport": 22.4587,
+          "srResist": 35.0628,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2813,
-          "srResist": 6.2271,
-          "srUpdated": "2026-09-23",
+          "srSupport": 5.3115,
+          "srResist": 6.2627,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8225,
-          "srResist": 2.1241,
-          "srUpdated": "2026-09-23",
+          "srSupport": 1.833,
+          "srResist": 2.1362,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8534,
-          "srResist": 8.5195,
-          "srUpdated": "2026-09-23",
+          "srSupport": 5.887,
+          "srResist": 8.5682,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.5227,
-          "srResist": 38.2167,
-          "srUpdated": "2026-09-23",
+          "srSupport": 31.7032,
+          "srResist": 38.4356,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -171,9 +171,9 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 9.2871,
-          "srResist": 13.1393,
-          "srUpdated": "2026-09-23",
+          "srSupport": 9.3403,
+          "srResist": 13.2145,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3728,
-          "srResist": 4.1227,
-          "srUpdated": "2026-09-23",
-          "srResistIsExt": false
+          "srSupport": 2.3864,
+          "srResist": 4.625,
+          "srUpdated": "2026-09-24",
+          "srResistIsExt": true
         },
         {
           "ticker": "QQQM19",
@@ -209,10 +209,10 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.0838,
-          "srResist": 20.3221,
-          "srUpdated": "2026-09-23",
-          "srResistIsExt": false
+          "srSupport": 18.1873,
+          "srResist": 20.9048,
+          "srUpdated": "2026-09-24",
+          "srResistIsExt": true
         },
         {
           "ticker": "SNOW06",
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.7485,
-          "srResist": 5.9138,
-          "srUpdated": "2026-09-23",
+          "srSupport": 3.77,
+          "srResist": 5.9477,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         },
         {
@@ -608,8 +608,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 192.64,
-          "srUpdated": "2026-09-23",
+          "srResist": 184.29,
+          "srUpdated": "2026-09-24",
           "srResistIsExt": false
         }
       ],

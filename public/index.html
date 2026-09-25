@@ -728,9 +728,15 @@ function portPnl(port) {
   }
   return portEquity(port)-portCost(port);
 }
-function totalNetWorth() { return portfolios.reduce((s,p)=>s+portNet(p),0); }
-function totalPnl() { return portfolios.reduce((s,p)=>s+portPnl(p),0); }
-function totalCost() { return portfolios.reduce((s,p)=>s+(p.type!=='snapshot'?portCost(p):portNet(p)),0); }
+// Private PVD data lives in this browser only; it is intentionally excluded from every backup payload.
+function privatePvdData(){ try { const d=JSON.parse(localStorage.getItem('td_private_pvd_v1')||'null'); return d&&Array.isArray(d.policies)?d:null; } catch { return null; } }
+function privatePvdValue(){ const d=privatePvdData(); return d?Number(d.totalTHB)||0:0; }
+function privatePvdPnl(){ const d=privatePvdData(); return d?(Number(d.employeeBenefitTHB)||0)+(Number(d.employerBenefitTHB)||0):0; }
+function privatePvdCost(){ const d=privatePvdData(); return d?(Number(d.employeeContributionTHB)||0)+(Number(d.employerContributionTHB)||0):0; }
+function totalNetWorth() { return portfolios.reduce((s,p)=>s+portNet(p),0)+privatePvdValue(); }
+function totalPnl() { return portfolios.reduce((s,p)=>s+portPnl(p),0)+privatePvdPnl(); }
+function totalCost() { return portfolios.reduce((s,p)=>s+(p.type!=='snapshot'?portCost(p):portNet(p)),0)+privatePvdCost(); }
+window.addEventListener('storage',e=>{if(e.key==='td_private_pvd_v1'&&typeof renderOverview==='function')renderOverview();});
 
 // ══════════════════════════════════════════════════
 // BUILD UI
@@ -741,6 +747,7 @@ function buildNav() {
     <div class="nav-tab${activeTab==='overview'?' on':''}" onclick="showTab('overview')">🏠 Overview</div>
     <div class="nav-tab${activeTab==='research'?' on':''}" onclick="showTab('research')">📚 Research</div>
     <a class="nav-tab" href="allocation.html" style="text-decoration:none">🎯 Allocation</a>
+    <a class="nav-tab" href="pvd.html" style="text-decoration:none">🔒 PVD</a>
     ${portfolios.map(p=>`
       <div class="nav-tab${activeTab===p.id?' on':''}" onclick="showTab('${p.id}')">
         <span class="port-dot" style="background:${p.color}"></span>${p.name}
@@ -798,7 +805,7 @@ function buildOverviewHTML() {
       <div class="met hero">
         <div class="met-lbl">Total Net Worth</div>
         <div class="met-val" id="ov-net">${fm(net)}</div>
-        <div class="met-sub">รวมทุก ${portfolios.length} พอร์ต</div>
+        <div class="met-sub">รวม ${portfolios.length} พอร์ต + PVD (เก็บส่วนตัวในเบราว์เซอร์)</div>
       </div>
       <div class="met">
         <div class="met-lbl">Total P&L</div>
@@ -1084,7 +1091,7 @@ function renderOverview() {
         <div class="port-card-pnl ${pl>=0?'pos':'neg'}">${pl>=0?'+':''}${fm(pl)} (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
         <div style="font-size:10px;color:var(--tx3);margin-top:6px">${isSnap?'อัปเดตล่าสุด: '+(p.snapshots?.at(-1)?.date||'—'):p.stocks.length+' หลักทรัพย์'}</div>
       </div>`;
-    }).join('');
+    }).join('') + (()=>{const d=privatePvdData();const v=privatePvdValue(),g=privatePvdPnl(),c=privatePvdCost(),pc=c?g/c*100:0;return `<a class="port-card" href="pvd.html" style="display:block;text-decoration:none;color:inherit;border-top:3px solid #7c3aed"><div class="port-card-name">กองทุนสำรองเลี้ยงชีพ (PVD)</div><div class="port-card-type">${d?'KTAM · ข้อมูลส่วนตัว':'ยังไม่ได้โหลดข้อมูลส่วนตัว'}</div><div class="port-card-val" style="color:#7c3aed">${d?fm(v):'แตะเพื่อตั้งค่า'}</div><div class="port-card-pnl ${g>=0?'pos':'neg'}">${d?((g>=0?'+':'')+fm(g)+' ('+(pc>=0?'+':'')+pc.toFixed(2)+'%)'):'เก็บในเบราว์เซอร์นี้เท่านั้น'}</div><div style="font-size:10px;color:var(--tx3);margin-top:6px">${d?'ข้อมูล ณ '+(d.asOf||'—'):'กดเพื่อนำเข้าไฟล์ส่วนตัว'}</div></a>`})();
   }
 
   // Charts
@@ -1092,15 +1099,17 @@ function renderOverview() {
   if(charts['ov-bar']) charts['ov-bar'].destroy();
   const pc=document.getElementById('ov-pie');
   const bc=document.getElementById('ov-bar');
+  const piePorts=privatePvdValue()>0?[...portfolios,{name:'PVD',color:'#7c3aed',__privatePvd:true}]:portfolios;
   if(pc){
     charts['ov-pie']=new Chart(pc.getContext('2d'),{
       type:'doughnut',
-      data:{labels:portfolios.map(p=>p.name),datasets:[{data:portfolios.map(p=>Math.max(portNet(p),0)),backgroundColor:portfolios.map(p=>p.color),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},
+      data:{labels:piePorts.map(p=>p.name),datasets:[{data:piePorts.map(p=>p.__privatePvd?privatePvdValue():Math.max(portNet(p),0)),backgroundColor:piePorts.map(p=>p.color),borderWidth:2,borderColor:'#fff',hoverOffset:5}]},
       options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:8}},tooltip:{callbacks:{label:ctx=>' '+ctx.label+': '+fm(ctx.parsed)}}}}
     });
   }
   if(bc){
     const bdata=portfolios.map(p=>({n:p.name,v:portPnl(p),c:p.color}));
+    if(privatePvdValue()>0)bdata.push({n:'PVD',v:privatePvdPnl(),c:'#7c3aed'});
     charts['ov-bar']=new Chart(bc.getContext('2d'),{
       type:'bar',
       data:{labels:bdata.map(d=>d.n),datasets:[{data:bdata.map(d=>cv(d.v)),backgroundColor:bdata.map(d=>d.c),borderRadius:5,borderSkipped:false}]},
@@ -2237,7 +2246,8 @@ function buildBackupData(){
       totalPorts:portfolios.length,
       totalStocks:portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0),
       totalTransactions:transactions.length,
-      totalNetWorth:fm(totalNetWorth()),
+      // Shared/GitHub backup intentionally excludes browser-private PVD assets.
+      totalNetWorth:fm(portfolios.reduce((s,p)=>s+portNet(p),0)),
     }
   };
 }

@@ -15,61 +15,183 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">SHOP</div>
-<div class="meta">Thesis · 2026-09-24</div>
-<h1>SHOP — Full Investment Memo (ข้อมูลดึง 2026-09-19)</h1>
-<blockquote><b>ขอบเขต:</b> SHOP อยู่ในรายชื่อ DR universe จาก pre-run script รอบนี้; memo นี้เป็น research artifact ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</blockquote>
+<div class="meta">Thesis · 2026-09-29</div>
+<h1>SHOP — Shopify Inc. (Full Investment Memo · Tongz House Style)</h1>
+<blockquote><b>Thesis Update reason (29 ก.ย. 2026):</b> วิเคราะห์ memo ภายนอกที่พี่ต้องส่ง (<code>SHOP_Investment_Memo_Giggs_and_Co_Fund_25Sep2026.pdf</code>) แล้วนำข้อสรุปที่สอดคล้องกับ primary sources เข้ามา: เพิ่มกรอบ valuation/5-year scenarios, เน้น AI เป็น option ไม่ใช่รายได้ที่พิสูจน์แล้ว และปรับราคาอ้างอิงเป็น $144.01 ตาม Yahoo/TradingView snapshot ณ 28 ก.ย. พร้อมแก้เลข probability-weighted ใน memo ที่คำนวณไม่ตรงกับ case targets/weights ที่พิมพ์ไว้</blockquote>
+<blockquote><b>ประวัติ:</b> เนื้อหา brief เดิมเก็บไว้; ฉบับนี้เพิ่ม valuation discipline และตรวจ arithmetic โดยไม่แทนความเห็นผู้เขียน PDF ด้วยข้อเท็จจริง (6-section version เดิม: <code>sources/SHOP/prior-6-section-brief-2026-09-28.md</code>)</blockquote>
+<blockquote><b>ขอบเขต:</b> research artifact — ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</blockquote>
+<blockquote><b>ชั้นตัวเลข:</b> ทุกตัวเลขติดป้าย Reported / Guidance / Consensus / Scenario กำกับไว้ (อิง Earth Evans structure เป็น reference เท่านั้น)</blockquote>
+<h2>External memo review — 25 ก.ย. 2026 (ตรวจ 29 ก.ย.)</h2>
+<li><b>Reported ที่ตรวจตรงกับ IR/SEC:</b> Q2 GMV $115.567B (+32%), revenue $3.583B (+34%), gross profit $1.708B, operating income $488M, FCF $654M/18%; Q3 guidance low-30s% revenue growth และ FCF margin high-teens–low-20s%. Q2 buyback $1.420B เป็นส่วนหนึ่งของ H1 $1.933B (ไม่ใช่ยอดบวกซ้ำ); average H1 repurchase price $114.63. (source: <code>sources/SHOP/q2-2026-IR-release.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>)</li>
+<li><b>Interpretation ที่รับมา:</b> คุณภาพ operating business แข็ง แต่ AI/agentic commerce ยังเป็น option; Shopify ยังไม่เปิด AI revenue/GMV/take-rate/FCF แยก จึงยังไม่เพิ่ม AI earnings เข้า valuation base. (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Judgment จาก memo (ไม่ใช่ fact/consensus):</b> WATCHLIST ที่ $145.16, fair value $125, attractive entry $105–115, role Satellite 2–3%/เพดาน 4%. PDF ไม่แสดง bridge/model รายละเอียดพอให้ verify fair value $125; เก็บเป็น external reference ไม่ใช่ fair value ที่โฮมิรับรอง. (source: <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</li>
+<li><b>Arithmetic correction:</b> จาก scenario targets $300/$225/$85 และ weights 25%/55%/20% ที่พิมพ์ใน PDF ได้ weighted target <b>$215.75</b>, total return <b>+48.6%</b>, CAGR ราว <b>8.25%</b> จาก $145.16 (5 ปี) — ไม่ใช่ $220.5 / +52% / ~8.7% ตาม memo. ค่าเฉลี่ย probability-weighted ของ case CAGRs ต่างออกไป (~6.9%); ทั้งหมดเป็น scenario math ไม่ใช่ forecast. (source: <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</li>
+<li><b>Thesis change:</b> ไม่เปลี่ยนมุมมองต่อคุณภาพกิจการ แต่เพิ่มความเข้มงวดด้านราคา: ต้องเห็นโตและ FCF ต่อเนื่อง หรือได้ valuation ที่ให้ expected return ตาม hurdle ของผู้เขียน memo; ไม่ควรให้ AI option value กลายเป็น earnings fact.</li>
+<hr>
+<h2>THE INVESTMENT QUESTION</h2>
+<blockquote>คำถามที่แท้จริงไม่ใช่ &quot;AI จะทำให้ร้านค้าออนไลน์ตายไหม&quot; แต่คือ <b>&quot;เมื่อ commerce แตกกระจายไปทุกพื้นผิว (agents, social, search AI) ใครจะได้เก็บค่าผ่าน&quot;</b> — และที่ quote ล่าสุด $144.01 (P/E ราว 97x โดยใช้ EPS TTM $1.48 เดิม) เรากำลังจ่ายล่วงหน้าสำหรับกี่ปีของ agentic commerce ที่ยังพิสูจน์ว่าเก็บเงินได้จริง?</blockquote>
+<p><b>THE CORE</b> — ธุรกิจเดิม (subscription + merchant solutions) ต้องยังโตและ margin ขยาย ไม่ใช่ถูก AI กัดทั้งสองทาง</p>
+<p><b>THE OPTION</b> — agentic commerce (Catalog/UCP/Sidekick/Shop Pay) คือ option ที่ต้องเพิ่ม GMV/revenue จริง ไม่ใช่แค่เพิ่มเรื่องเล่า</p>
+<p><b>THE PRICE</b> — ราคาปัจจุบันคิดรวม option จนเกือบหมดแล้ว ถ้าตัวเลขใดตัวเลขหนึ่งสะดุด downside หักจาก option value</p>
+<hr>
 <h2>1. Investment Verdict</h2>
-<li><b>Investment question:</b> Shopify จะเปลี่ยนการเติบโตของ merchant GMV และ payments ให้เป็นกำไรต่อหุ้นที่ยั่งยืนได้หรือไม่ เมื่อฐานใหญ่ขึ้นและคู่แข่ง/วัฏจักรผู้บริโภคกดดัน take-rate? (source: <code>sources/SHOP/10-k-2025.md</code>, SEC 10-K filed 2026-02-11, ดึง 2026-09-19)</li>
-<li><b>Rating:</b> ไม่จัดอันดับ — ธุรกิจมี growth/FCF ที่น่าสนใจ แต่ valuation ยังไวต่อสมมติฐาน EPS และ multiple จึงไม่สรุปเป็น buy/sell/hold (source: <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
-<li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดเป็นคำแนะนำจริง; ใช้ sensitivity เท่านั้น เพราะ DR conversion, FX และ Thai-market premium ยังไม่ได้ verify ใน source set นี้ (source: <code>sources/SHOP/market-data.md</code>, 2026-09-19)</li>
-<li><b>Illustrative 5Y sensitivity—not recommendation:</b> ใช้ราคา $128.50, EPS page $1.48, EPS growth 20% ต่อปี และ terminal P/E 40x ได้ target ~$147.31 และ CAGR ~2.8%; ราคานี้จึงต้องอาศัย growth/multiple ที่แม่นมาก (source: <code>sources/SHOP/market-data.md</code>, <code>sources/SHOP/valuation-page.md</code>, 2026-09-19; calculation run 2026-09-19)</li>
+<p>Shopify คือ &quot;commerce operating system&quot; — แพลตฟอร์มให้ร้านค้าตั้งแต่ SMB ถึง enterprise ขายออนไลน์ หน้าร้าน (POS) B2B และทุกช่องทางใหม่ ๆ (AI agents/social) รายได้มาจาก 2 เครื่องยนต์: <b>Subscription Solutions</b> (ค่ารายเดือนแพลตฟอร์ม) และ <b>Merchant Solutions</b> (~78% ของรายได้ ตามสัดส่วน Q2 2026: Sub $802M / Merchant $2,781M) ซึ่งเป็นค่าอำนวยความสะดวกการขาย เช่น รับชำระเงิน จัดส่ง เงินทุน (source: <code>sources/SHOP/q2-2026-10q.md</code>, <code>sources/SHOP/q2-2026-IR-release.md</code>)</p>
+<p><b>จุดยืน (Fact / Interpretation / Judgment):</b> operating business แข็ง — Q2 GMV +32%, revenue +34%, operating income +68%, FCF margin 18%; H1 buyback $1.933B. แต่ net income มี investment marks และ AI monetization ยังไม่แยกรายได้. <b>Judgment:</b> คุณภาพกิจการน่าสนใจ แต่ valuation มี execution risk สูง; memo ภายนอกให้ WATCHLIST ที่ราคา $145.16 และ fair value $125 ซึ่งเป็น model judgment ที่ยังตรวจ bridge ไม่ได้. Thesis หลักคงเดิม: compounder potential มี แต่ไม่ควรจ่าย agentic-commerce option ล่วงหน้าเต็มมูลค่า. (source: <code>sources/SHOP/q2-2026-IR-release.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</p>
+<hr>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>Shopify ให้ merchant ตั้งแต่ SMB ถึง enterprise สร้างร้าน, จัดการ catalog/order และขายผ่าน online/offline/B2B; ลูกค้าจ่ายเพื่อเพิ่ม conversion, ลด operational friction และเข้าถึง payment/merchant tools (source: <code>sources/SHOP/10-k-2025.md</code>, SEC 10-K, 2026-09-19)</li>
-<li>รายได้มี 2 เครื่องยนต์: <b>Subscription Solutions</b> จาก platform plans และ <b>Merchant Solutions</b> ที่โตตาม GMV เช่น payments, Shop Pay และ services; Merchant Solutions มีรายได้มากขึ้นเมื่อ merchant ขายได้มาก แต่มีต้นทุนและความเสี่ยง payment economics (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>THE CORE:</b> ecosystem integration, merchant data/workflow, brand trust และ switching friction จากร้านค้า/แอป/การชำระเงิน/partner tools; merchant อยู่ต่อเมื่อ platform ช่วยขายของและบริหารธุรกิจได้จริง (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>THE OPTION:</b> Sidekick/Catalog, agentic commerce, Shop app, offline และ B2B; transcript ระบุว่า Sidekick onboarding ทำให้ merchant ที่ถึง 5 orders ภายใน 15 วันเพิ่ม 8% และ Shop app native GMV โตมากกว่า 70% ใน Q2 แต่ยังต้องติดตาม monetization และ retention ระยะยาว (source: <code>sources/SHOP/q2-2026-call.md</code>, StockAnalysis Q2 2026 transcript, 2026-09-19)</li>
-<li><b>Customer test:</b> GMV โตไม่พอ ต้องดู contribution margin หลัง payment processing, support, incentives และ credit losses ว่ารายได้เพิ่มแล้วเหลือเงินสดต่อหุ้นเท่าไร (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<p><b>Follow the customer:</b> ร้านค้าจ่ายเงินให้ Shopify ไม่ใช่เพราะ &quot;มีเว็บไซต์&quot; แต่เพราะ <b>ลด friction ระหว่าง &quot;อยากขาย&quot; กับ &quot;ขายได้จริง&quot;</b> — เปิดร้านได้ในวันเดียว, รับเงินได้หลายวิธี, ขายได้ทุกช่องทางโดยใช้ backend เดียว ลูกค้าตัวเล็กจ่ายรายเดือนเพื่อเริ่มธุรกิจ ลูกค้าใหญ่ (Guess, Avon, e.l.f., Holt Renfrew, Canada Goose, Arhaus — Q2 2026) จ่ายเพื่อรวม online/offline/B2B ไว้ที่เดียว (source: <code>sources/SHOP/q2-2026-call.md</code>)</p>
+<p><b>Revenue engine (Reported, Q2 2026):</b></p>
+<li><b>Subscription Solutions</b> $802M (+22% YoY): ค่าแผน Standard/Plus/POS + variable platform fees; MRR $221M (+19% YoY), Plus = 34% ของ MRR (source: <code>sources/SHOP/q2-2026-IR-release.md</code>, <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Merchant Solutions</b> $2,781M (+37% YoY): ใหญ่สุดคือ Shopify Payments — penetration 68% ของ global GMV (+3pts YoY), 40 ประเทศ, GPV ทะลุ $1T (cumulative, Q2 2026 ตาม CFO) บวก partner rev shares, capital, shipping, Shop Pay (GMV +53% YoY) (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>โครงสร้างรายได้เชิงกลไก:</b> GMV เป็นตัวขับต้นน้ำ → merchant revenue ตามสัดส่วน; subscription เป็นฐาน recurring; payment take rate ยังมี upside จาก penetration อีก 32% (Scenario)</li>
+<p><b>เครื่องยนต์ใหม่ (agentic era, ยังเป็น Option ไม่ใช่ core revenue):</b></p>
+<li><b>Catalog</b> — คลังสินค้า &gt;1B รายการ structured สำหรับ AI agents; AI search ที่ใช้ Catalog convert 2x ของ scraped data (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>UCP (Universal Commerce Protocol)</b> — มาตรฐานเปิดตั้งแต่ต้น 2026 ที่ partners (OpenAI, Google, Meta, Microsoft) เลือกใช้; agentic orders +3x YoY ใน Q2 (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Sidekick</b> — AI assistant: DAU +3.6x YoY, 34M conversations, 36,000 custom apps ใน Q2 (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>ข่าว 22 ก.ย. 2026:</b> partnership กับ Meta (Shop Pay checkout บน Meta Muse/agent surfaces) → ราคา +10.7% (source: MarketBeat headlines 25–26 ก.ย. 2026, marketbeat-current.md — รายละเอียดสัญญายังไม่เปิดเผย ระวัง)</li>
+<hr>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li><b>Specific 7 Powers:</b> Scale Economies ใน payments/platform R&amp;D, Network Economies ระหว่าง merchant–buyer–partner, Switching Costs จากข้อมูล/order/integration และ Brand/Counter-positioning ในฐานะ platform ที่ merchant เป็นเจ้าของ relationship เอง; ความแข็งแรงต้องดู merchant retention และ take-rate ไม่ใช่จำนวนร้านอย่างเดียว (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li>คู่แข่งคือ Amazon/marketplaces, BigCommerce/Wix, Adobe Commerce, Salesforce Commerce และ payment providers; enterprise อาจ build หรือซื้อระบบหลายชิ้นเอง ขณะที่ SMB อ่อนไหวต่อราคา (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li>ความเสี่ยงจำเพาะคือการพึ่ง GMV/consumer spending, payment fraud/credit, privacy/regulation, platform outages, merchant concentration และการแข่งขันที่กด gross margin/take-rate (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<h2>4. Financial Quality 5-year</h2>
-<li><b>Reported revenue:</b> FY2021–FY2025 แบบ 5 ปีเต็ม <b>ไม่ครบใน extracted SEC rows รอบนี้</b>; ตัวเลขที่ยืนยันได้คือ FY2022 $5.60B, FY2023 $7.06B, FY2024 $8.88B และ FY2025 $11.556B (source: <code>sources/SHOP/10-k-2025.md</code>, SEC Companyfacts/XBRL, fetched 2026-09-19)</li>
-<li><b>Gross profit:</b> FY2022 $2.754B, FY2023 $3.515B, FY2024 $4.472B, FY2025 $5.555B; gross margin ควรคำนวณด้วยนิยามเดียวกันและติดตาม payment mix (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>Operating income:</b> FY2022 -$822M, FY2023 -$1.418B, FY2024 $1.075B, FY2025 $1.468B; direction เปลี่ยนจากขาดทุน operating เป็นกำไร แต่ต้องแยก one-time items/stock compensation (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>Net income:</b> FY2022 -$3.460B, FY2023 $132M, FY2024 $2.019B, FY2025 $1.231B; ความผันผวนสูงกว่ากำไร operating จึงไม่ควรใช้ P/E เดียวสรุปคุณภาพ (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>OCF / CapEx / FCF proxy:</b> OCF FY2022 -$136M, FY2023 $944M, FY2024 $1.616B, FY2025 $2.033B; CapEx FY2022 $50M, FY2023 $39M, FY2024 $19M, FY2025 $26M จึงเห็น cash conversion ดีขึ้น แต่ FCF แบบ normalized, R&amp;D, ROE และ ROIC 5 ปี <b>ไม่พบครบ</b> ใน extraction นี้ (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<p><b>Advantages (Helmer&#x27;s 7 Powers — เฉพาะเจาะจง ไม่ใช้คำว่า moat):</b></p>
+<li><b>Scale economies:</b> GMV $116B/ไตรมาส → ต่อรอง interchange/processing ได้, ข้อมูล transaction ระดับ trillion ดอลลาร์สะสม (GPV cumulative &gt;$1T) — ยิ่งใหญ่ยิ่งต่อได้ถูกลง (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Counter-positioning:</b> คู่แข่ง legacy (Amazon, Adobe Commerce, BigCommerce, Salesforce) มีโมเดลที่ทำกำไรจากค่าเก่า Shopify เปิด API/ecosystem ฟรีให้ partners สร้างบนเรา (36,000 apps) — สิ่งที่คู่แข่งทำตามยากเพราะ商业模式ขัดกัน (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Switching costs:</b> merchants ฝัง backend เดียว (inventory, B2B, POS, payments, data) เปลี่ยนยาก; หลักฐาน: retention 5 ปี 92% ($1M+ GMV), 97% ($10M+); second-shop founders รายได้/ร้าน 2x (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Cornered resource:</b> Catalog + UCP protocol + Shop identity (hundreds of millions ของ buyers) — ข้อมูล structured commerce ที่คู่แข่งสร้างเลียนแบบยากในเวลาอันสั้น (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<li><b>Network economies:</b> buyers (Shop app) ↔ merchants (ร้าน) ↔ developers (ecosystem) ยิ่งครบวง ยิ่งหนีไม่ออก (source: <code>sources/SHOP/q2-2026-call.md</code>)</li>
+<p><b>Risks:</b></p>
+<li>การพึ่งพา partners AI (Meta/OpenAI/Google/Microsoft) — ถ้า partner สร้าง checkout ตัวเอง exposure ลดทันที (ยังเป็น Scenario ยังไม่เกิด)</li>
+<li>Revenue concentration ใน Merchant Solutions (~78%) ซึ่งมี gross margin ต่ำกว่า subscription (Q2 2026: merchant GP ~$1,069M/32.6% margin vs sub ~$639M/79.7%) — mix shift กด gross margin รวม (คำนวณจาก <code>sources/SHOP/q2-2026-IR-release.md</code>)</li>
+<li>Transaction/loan losses $141M ใน Q2 (vs $80M ปีก่อน) — โตตาม capital/credit products</li>
+<li>Consumer spending/Tariff sensitivity ผ่าน GMV (source: <code>sources/SHOP/q2-2026-IR-release.md</code> forward-looking statements)</li>
+<hr>
+<h2>4. Financial Quality — 5-Year (Reported, SEC XBRL)</h2>
+<p>| FY | Revenue ($M) | Gross Profit ($M) | Operating Income ($M) | Net Income ($M) | OCF ($M) | CapEx ($M) | R&amp;D ($M) |</p>
+<p>|---|---|---|---|---|---|---|---|</p>
+<p>| 2021 | 4,612 | 2,481 | 269 | 2,915 | 536 | 51 | 854 |</p>
+<p>| 2022 | 5,600 | 2,754 | -822 | -3,460 | -136 | 50 | 1,503 |</p>
+<p>| 2023 | 7,060 | 3,515 | -1,418 | 132 | 944 | 39 | 1,730 |</p>
+<p>| 2024 | 8,880 | 4,472 | 1,075 | 2,019 | 1,616 | 19 | 1,367 |</p>
+<p>| 2025 | 11,556 | 5,555 | 1,468 | 1,231 | 2,033 | 26 | 1,536 |</p>
+<p>(source: FY2021 = 40-F XBRL companyfacts CIK 1594805; FY2022–2025 = 10-K XBRL, <code>sources/SHOP/sec-current-facts.md</code>, <code>sources/SHOP/10-k-2025.md</code>)</p>
+<p><b>Reading the table (Fact → signal):</b></p>
+<li>Revenue โตต่อเนื่อง 22–25% YoY (2022–2024) แล้วเร่งเป็น +30% (2025) — direction ขึ้น</li>
+<li>Operating income พลิกจากขาดทุน (2022–23) เป็นกำไร $1.08B → $1.47B — แนวโน้ม margin ดีขึ้นชัดเจน แต่ยังบาง (~13% op margin 2025)</li>
+<li><b>Net income ผันผวนมาก (2021: +$2.9B, 2022: -$3.5B) เพราะ mark-to-market ของ equity investments (Affirm, Klaviyo, Global-e ฯลฯ)</b> — กำไรสุทธิตามบัญชีไม่ใช่ตัวชี้วัดแกนธุรกิจ ต้องดู operating + FCF แทน (Interpretation)</li>
+<li><b>OCF เริ่มเป็นบวกจาก 2023 และโต $944M → $2.03B</b> ขณะที่ CapEx ต่ำมาก ($19–51M) → โมเดล asset-light สุดขั้ว, cash conversion สูง (Fact)</li>
+<li>2026 Q2: revenue +34%, op income +68%, FCF margin 18% — การเร่งตัวยังอยู่ (Reported, source: <code>sources/SHOP/q2-2026-IR-release.md</code>)</li>
+<hr>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash, total debt, net debt, SBC และ dilution แบบครบใน 10-K/10-Q <b>ไม่ถูก extract เป็นชุดตัวเลขพร้อมใช้</b> ในรอบนี้; ห้ามแทนด้วยตัวเลขจาก brief เก่า (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
-<li>ธุรกิจใช้เงินทุนไม่หนักด้าน CapEx เมื่อเทียบกับ OCF แต่ payment/credit working capital, reserves และ SBC ยังเป็นตัวแปรต่อ FCF ต่อหุ้น (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li>การขาย/ลดบทบาท logistics ช่วยให้ capital allocation โฟกัส platform/payments มากขึ้น แต่ต้องตรวจผลขาดทุน/รายการพิเศษว่าไม่ทำให้กำไรไตรมาสหลอกตา (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
-<h2>6. Latest Earnings</h2>
-<li>StockAnalysis มี <b>Earnings Call: Q2 2026</b> และ transcript ถูกเก็บไว้ใน source; management summary ระบุ GMV โต 32% เป็น $116B, revenue โต 34% เป็น $3.6B และ FCF margin 18% (source: <code>sources/SHOP/q2-2026-call.md</code>, StockAnalysis Q2 2026 transcript, 2026-09-19)</li>
-<li>Transcript ระบุว่าเป็นไตรมาสที่ 5 ติดต่อกันที่ GMV โตเกิน 30% และการเติบโตครอบคลุม international, offline และ B2B; นี่เป็น management-reported commentary ไม่ใช่ consensus comparison (source: <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
-<li>Q2 2026 10-Q เป็น primary filing ที่ยืนยันงวดสิ้นสุด 2026-06-30; ตัวเลขที่ source extract ได้พร้อมใช้บางส่วนยังไม่ครบทุก line item จึงไม่แต่ง EPS/beat-miss (source: <code>sources/SHOP/q2-2026-10q.md</code>, SEC 10-Q filed 2026-08-05, ดึง 2026-09-19)</li>
-<li>Guidance และ beat/miss เทียบ consensus: <b>ไม่พบ consensus dataset ที่ verify ได้จากแหล่งบังคับ</b>; จึงรายงานเฉพาะตัวเลข reported/management transcript (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
-<h2>7. Valuation</h2>
-<li>Price: <b>$128.50</b>, market cap: <b>$165.33B</b>, trailing P/E: <b>86.73x</b>, forward P/E: <b>61.52x</b>, revenue TTM: <b>$13.27B</b>, EPS page: <b>$1.48</b>, 52-week range: <b>$94.00–$182.19</b> (source: <code>sources/SHOP/market-data.md</code>, <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
-<li>EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ historical range แบบหลายปี: <b>ไม่พบ/ไม่ verify ได้</b> จาก source set รอบนี้; ไม่สรุปว่าถูกหรือแพงจาก P/E เดียว (source: <code>sources/SHOP/valuation-page.md</code>, 2026-09-19)</li>
-<li>Peer valuation ของ BigCommerce/Adobe/Amazon/ฯลฯ: <b>ไม่พบชุดที่ดึงตรงและ timestamp เดียวกัน</b> จึงไม่ใส่ตัวเลขเปรียบเทียบ (source: valuation retrieval limitation, 2026-09-19)</li>
-<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bull (25% illustrative):</b> EPS โต 30% ต่อปี, terminal P/E 55x, target = $1.48×1.30^5×55 ≈ <b>$1,135</b>, CAGR จาก $128.50 ≈ <b>54.4%</b>; ต้องเห็น GMV &gt;20%, payments penetration และ margin expansion ต่อเนื่อง ซึ่งเป็นสมมติฐานเข้มมาก (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
-<li><b>Base (50% illustrative):</b> EPS โต 20% ต่อปี, terminal P/E 40x, target ≈ <b>$147</b>, CAGR ≈ <b>2.8%</b>; ไม่ใช่ consensus หรือคำแนะนำ (source: <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
-<li><b>Bear (25% illustrative):</b> EPS โต 5% ต่อปี, terminal P/E 25x, target ≈ <b>$52</b>, CAGR ≈ <b>-18.5%</b>; bear floor ไม่ใช่มูลค่า liquidation (source: <code>sources/SHOP/market-data.md</code>, scenario assumptions, 2026-09-19)</li>
-<li>Expected contribution แบบ probability-weighted targets ≈ <b>$403</b> แต่ถูกขับโดย bull tail ที่รุนแรงมาก จึงไม่ควรใช้แทน margin-of-safety analysis (source: scenario calculation, 2026-09-19)</li>
-<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
-<li><b>Catalysts:</b> GMV โตต่อใน international/offline/B2B, Shop Pay/payment penetration, Sidekick/Catalog เพิ่ม merchant productivity, agentic commerce และ FCF margin ขยาย (source: <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
-<li><b>Risks:</b> consumer/merchant slowdown, payments take-rate และ gross margin ถูกกด, fraud/credit loss, regulation, outage, Amazon/Adobe/BigCommerce competition และ SBC dilution (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>, 2026-09-19)</li>
+<p><b>Balance sheet (Reported, 30 มิ.ย. 2026, <code>sources/SHOP/q2-2026-IR-release.md</code>):</b></p>
+<li>Cash + marketable securities = $1,656M + $3,291M; long-term investments $525M; equity investments $4,854M + equity method $559M</li>
+<li>Total assets $14,470M; liabilities $1,786M (ส่วนใหญ่ AP/deferred); <b>ไม่มีหนี้ระยะยาวเชิงสาระสำคัญ</b> (D/E ~0.01 ตาม MarketBeat) → net cash แท้จริง</li>
+<li>Shareholders&#x27; equity $12,684M; loan book (merchant cash advances/loans) $2,184M net — พอร์ต lending ที่ต้องคุม loss rate ($141M losses Q2)</li>
+<p><b>Capital allocation (Reported):</b></p>
+<li>R&amp;D $1,536M (FY2025) ~13% ของ revenue — ลงทุนหนักใน AI (Sidekick costs อยู่ใน subscription COGS ตาม CFO)</li>
+<li><b>Buyback เริ่มจริงปี 2026:</b> Q1 2026 อนุมัติ $2B → Q2 เพิ่มอีก $3B รวม $5B authorization; H1 2026 ซื้อคืน 16.86M หุ้น @ เฉลี่ย $114.63 = <b>$1,933M</b>, เหลือวงเงิน $3,067M (source: <code>sources/SHOP/q2-2026-10q.md</code> p.22, PR 2 มิ.ย. 2026 shopify.com/investors)</li>
+<li>ยังไม่จ่าย dividend (source: marketbeat-current.md) — ผลตอบแทนผู้ถือหุ้นหลัก = buyback</li>
+<li><b>Interpretation:</b> การเริ่ม buyback ก้อนใหญ่หลังจาก free-cash-flow-positive หลายปี = สัญญาณ mature-ing ของ capital allocation แต่จังหวะซื้อเฉลี่ย $114.63 (ต่ำกว่าราคาปัจจุบัน $142.25) แสดงว่าบริษัทซื้อตอน panic — ไม่ใช่หลักฐานว่าราคาปัจจุบันถูก</li>
+<hr>
+<h2>6. Latest Earnings — Q2 2026 (สิ้นสุด 30 มิ.ย. 2026)</h2>
+<p>ทุกตัวเลข Reported ยกเว้นที่ระบุ (source: <code>sources/SHOP/q2-2026-IR-release.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/q2-2026-10q.md</code>):</p>
+<li><b>GMV $115,567M (+32% YoY)</b> — ไตรมาสที่ 5 ติดต่อกัน &gt;30%; cc +30% (เร่งจาก comp 29% ปีก่อน); องค์ประกอบ: International +37%, POS/offline +32%, B2B +76%, Shop app native GMV +70% (source: q2-2026-IR-release.md, q2-2026-call.md)</li>
+<li><b>Revenue $3,583M (+34%, +33% cc)</b> — Subscription $802M (+22%), Merchant Solutions $2,781M (+37%); สูงกว่า expectations (CFO: &quot;clearly surpassing expectations&quot;) (source: q2-2026-IR-release.md)</li>
+<li><b>Gross profit $1,708M (+31%)</b> — gross margin ~47.7% (เทียบ 48.6% ปีก่อน) กดโดย mix payments; subscription GM ~80% (source: q2-2026-IR-release.md, q2-2026-call.md)</li>
+<li><b>Operating income $488M (+68%)</b>, operating margin ~13.6% จาก ~10.9% — OpEx 34% ของ revenue (-2pts YoY) (source: q2-2026-IR-release.md, q2-2026-call.md)</li>
+<li><b>Net income $1,502M (diluted EPS $1.16 vs $0.69 ปีก่อน)</b> — แต่มี equity investments mark-to-market net of tax $1,063M; <b>NI ไม่รวม equities = $439M (vs $338M)</b> — กำไรแกนโตจริง ~30% แต่ตัวเลข $1.16 อย่าอ่านเป็นกำลังซื้อเต็ม (source: q2-2026-IR-release.md, q2-2026-10q.md)</li>
+<li><b>FCF $654M (margin 18% vs 16% ปีก่อน)</b> — OCF $658M − CapEx $4M; +1.5pt YoY ex-accounting change; รวม tailwind เล็กน้อยจาก reclass merchant cash advances (source: q2-2026-IR-release.md)</li>
+<li><b>Payments:</b> penetration 68% (+3pts), GPV cumulative &gt;$1T, Shop Pay lifetime accelerated GMV &gt;$400B (มิ.ย. 2026); Europe penetration +350bps YoY (source: q2-2026-call.md)</li>
+<li><b>AI adoption:</b> agentic orders +3x YoY, AI-attributed orders 75% มาจากนอก top-100 categories (long tail ได้ประโยชน์), Sidekick DAU +3.6x / sessions +4.8x, แปลง 8% ขึ้นใน new merchants ถึง first 5 orders (source: q2-2026-call.md)</li>
+<p><b>Guidance Q3 2026 (Guidance — management):</b> revenue +low-30s% YoY; gross profit dollars +mid-to-high-20s%; OpEx 33–34% ของ revenue (vs 37% ปีก่อน); SBC ~$150M; FCF margin high-teens ถึง low-20s%; ไม่มี FX effect มีนัยสำคัญ (source: q2-2026-IR-release.md, q2-2026-call.md)</p>
+<hr>
+<h2>7. Valuation (market data ล่าสุด ณ 28 ก.ย. 2026; memo model ณ 24–25 ก.ย.)</h2>
+<p><b>Snapshot (ตัวเลขดิบ ไม่ตีความ):</b></p>
+<li>Price snapshot <b>$144.01</b> (TradingView scanner, 28 ก.ย. 2026; Yahoo chart metadata timestamp 28 ก.ย. 20:00 UTC แต่ bar OHLC ของวันยัง incomplete ณ retrieval); prior close 25 ก.ย. <b>$142.25</b>. ที่ EPS TTM $1.48 เดิม implied P/E ~<b>97.3x</b>; market cap โดยประมาณ <b>$185.3B</b> ถ้าใช้ diluted shares ~1.2866B. (source: Yahoo chart API, TradingView scanner; P/E/market cap เป็นการคำนวณจาก quote และ snapshot inputs)</li>
+<li>Third-party multiples ที่ดึงได้ ณ ราคาอ้างอิง $142.25 (25 ก.ย.; ดึง/บันทึก 28 ก.ย.): P/E (TTM) <b>96.1x</b>, Forward P/E <b>68.1x</b>, EV/EBITDA <b>74.2x</b>, Revenue TTM <b>$13.27B</b> (+32.5%), P/S ~13.8x. เป็น snapshot เก่ากว่า quote ล่าสุดหนึ่ง session ไม่ใช่ตัวเลข recalculated ณ $144.01. (source: <code>sources/SHOP/marketbeat-current.md</code>, StockAnalysis Val/Stats output 28 ก.ย., <code>sources/SHOP/market-data-current.md</code>)</li>
+<li>52-week range <b>$94.00–$182.19</b> (price อยู่กลาง-ล่างของ range หลังร่วงจาก high ในปีนี้); Beta ~2.6</li>
+<li>Consensus snapshot (อิงราคา $142.25): <b>Moderate Buy</b>, target เฉลี่ย <b>$172.13</b> (+21%, 47 analysts; high $200/low $130), EPS consensus ปีหน้า $1.84 (+26%) — <b>Consensus ชั้น; ไม่ใช่ fair value ที่ยืนยัน</b> (source: <code>sources/SHOP/marketbeat-current.md</code>)</li>
+<li>Earnings date ถัดไป: <b>3 พ.ย. 2026</b> (source: market-data-current.md/metadata)</li>
+<p><b>External valuation memo (dated 24–25 ก.ย.; author judgment, not adopted as verified fair value):</b> Fair value $125; attractive-entry range $105–115; deep-value &lt;=$95; rating WATCHLIST at $145.16; target allocation starter 1%, target 2–3%, cap 4%. The PDF supplies no reproducible valuation bridge in the extracted memo, so retain these only as an external reference. At its own $145.16 base, $125 is ~13.9% lower and $105–115 is ~20.8–27.7% lower. Revisit if growth/FCF assumptions change. (source: user-provided PDF; review: <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</p>
+<p><b>การอ่าน (Interpretation — แยกจากตัวเลข):</b></p>
+<li>P/E 96x ตั้งอยู่บน EPS ที่มี equity gains ปน (TTM $1.48) — ถ้าใช้กำไรแกน ex-equities valuation จะแพงกว่านั้นอีก</li>
+<li>Consensus PT $172.13 เป็น snapshot ที่อิงราคา $142.25; เทียบ quote $144.01 จะเหลือ upside ราว 19.5% ก่อน fees/tax — ยังไม่เท่ากับหลักฐานว่าหุ้นถูก (คำนวณจาก consensus snapshot)</li>
+<li><b>Scenario valuation อยู่ใน section 8 — ไม่มีตัวเลขเดียว ใช้ช่วงสมมติฐาน</b></li>
+<hr>
+<h2>8. Bull / Base / Bear — 5-Year Scenarios (Scenario 100% — สมมติฐาน ไม่ใช่ Guidance)</h2>
+<p><b>สมมติฐานตั้งต้น (Reported base; memo date):</b> revenue TTM $13.27B, FCF margin ~18%, price $145.16 ณ 24 ก.ย. 2026. ตัวเลขด้านล่างเป็น *external memo model* (25 ก.ย.) ไม่ใช่ company guidance.</p>
+<p>| Scenario | Memo assumptions | 2031 target | Implied 5Y CAGR from $145.16 | Weight in memo |</p>
+<p>|---|---|---:|---:|---:|</p>
+<p>| Bull | Revenue CAGR 25%, FCF margin 24%, terminal EV/FCF 45–50x | $300 | ~15.6% | 25% |</p>
+<p>| Base | Revenue CAGR 20%, FCF margin 22%, terminal EV/FCF 36–40x | $225 | ~9.2% | 55% |</p>
+<p>| Bear | Revenue CAGR 12%, FCF margin 16%, terminal EV/FCF 25–28x | $85 | ~-10.2% | 20% |</p>
+<li>Recalculated probability-weighted target from the printed targets/weights = <b>$215.75</b>, implying <b>+48.6% total / ~8.25% CAGR</b> over five years from $145.16. The memo states $220.5 / ~52% / ~8.7%; those figures do not reconcile to the printed inputs. (source: <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</li>
+<li>The probability-weighted arithmetic average of the three CAGRs is ~6.9%; it is a different aggregation from CAGR of the weighted terminal value. Do not conflate them.</li>
+<li><b>Interpretation:</b> the memo&#x27;s own Base case (9.2% annualized) is below its stated 12–15% hurdle; its recommendation to wait for lower entry is internally directionally consistent, even though its weighted summary arithmetic is off.</li>
+<li><b>Caveat:</b> $300/$225/$85 targets and weights are subjective scenarios; fair value $125 lacks a reproducible bridge in the PDF. These are sensitivity anchors, not price promises or endorsed fair value.</li>
+<hr>
+<h2>9. Catalysts &amp; Risks</h2>
+<p><b>Catalysts (สิ่งที่ต้องติดตาม):</b></p>
+<li>Q3 2026 earnings <b>3 พ.ย. 2026</b> — ตรวจ guidance เทียบ low-30s% และ FCF margin</li>
+<li>Agentic GMV ตัวเลขจริง: ปัจจุบัน +3x YoY — ขนาดยังเล็กเทียบ GMV รวม แต่ถ้าแตะ 5–10% ของ GMV จะเปลี่ยนสมการ (Scenario)</li>
+<li>Buyback execution: เหลือวงเงิน $3B — ถ้าซื้อคืนต่อเนื่องที่ราคาต่ำกว่าราคาตลาด = capital returns เพิ่ม (Reported plan, execution ยังต้องดู)</li>
+<li>UCP adoption: &quot;dozens ของ retailers/platforms&quot; — ตัวเลข partners ต่อไตรมาส (source: q2-2026-call.md)</li>
+<li>Payments penetration 68% → เป้า 75%+ ในประเทศที่ payments เปิดแล้ว (interpretation จาก &quot;runway&quot; ตาม CFO)</li>
+<p><b>Risks:</b></p>
+<li><b>Valuation risk:</b> 96x P/E ราคาลงได้ 30–40% โดยไม่มีอะไรผิดกับธุรกิจ (Scenario จาก sensitivity)</li>
+<li><b>Dependency risk:</b> รายได้เติบโต hinged กับ partners AI 3-4 เจ้า + consumer spending</li>
+<li><b>Credit/loan losses</b> โตตาม capital products — $141M/Q2 และ scale ต่อ</li>
+<li><b>SBC dilution:</b> Q2 SBC $128M/Q; guidance Q3 $150M — ยังสูงเมื่อเทียบ FCF $654M (ต้องนับ SBC ใน &quot;กำไรจริง&quot;)</li>
+<li><b>FX/geopolitics:</b> international 37% ของ GMV growth — tariff/FX กด cc ตัวเลขได้</li>
+<hr>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>ถ้า merchant ใช้ Shopify เป็น storefront แต่ชำระเงิน/ค้นพบสินค้าผ่านช่องทางอื่น Shopify อาจได้ GMV โตแต่ monetization ต่อ dollar ต่ำลง (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li>ถ้า AI ทำให้สร้างร้านและจัดการ catalog ง่ายขึ้นสำหรับทุกแพลตฟอร์ม ความแตกต่างของ product อาจลดลง ขณะที่ payment economics ยังมี cost และ regulatory burden (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>Bear floor:</b> sensitivity $52 จาก EPS/multiple ต่ำไม่ใช่ข้อเท็จจริง; permanent capital loss เกิดได้ถ้า growth ต่ำกว่า valuation และ SBC/credit losses กิน cash economics (source: scenario calculation, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<p><b>ถ้าเราเป็นคนผิด ความจริงที่น่ากลัวคือ:</b></p>
+<p>1. <b>Agentic commerce อาจ &quot;bypass&quot; แพลตฟอร์ม:</b> ถ้า agents ฝัง checkout ของ Meta/OpenAI/Google เองได้โดยไม่ผ่าน Shopify (UCP เป็น protocol เปิด — ใคร ๆ ใช้ได้) ค่า &quot;gatekeeper&quot; ของ Shopify อาจกลายเป็น API provider ค่าแพงที่ถูก bypass — แล้ว Catalog/UCP ที่ภูมิใจวันนี้คือสิ่งที่ทำให้ตัวเอง commodity (Scenario ยังไม่เกิด แต่เป็นโครงสร้าง)</p>
+<p>2. <b>ตัวเลข Q2 ที่ดูดีมีของแถม:</b> NI $1.5B มี equity gain $1.06B; FCF ได้ benefit จาก accounting reclass (merchant cash advances ย้ายออกจาก OCF) — ประเมิน FCF ต้องเทียบ apples-to-apples</p>
+<p>3. <b>Retention 92–97% วัดจาก cohort ที่รอดแล้ว:</b> มันไม่รวม SMB ที่ตายไปแล้ว — ตัวเลขจริงของ &quot;ทุก merchant ที่เริ่ม&quot; อาจต่ำกว่ามาก อย่า extrapolate enterprise retention ไปทั้งฐาน</p>
+<p>4. <b>ถ้าอีคอมเมิร์ซโลก decel (ไม่ใช่แค่ US):</b> รายได้ 2 เครื่องยนต์หดพร้อมกัน — beta สูง (~2.6) ทั้งขาขึ้น/ขาลง</p>
+<p><b>Kill conditions (สำคัญ อย่าข้าม — ถ้าเห็นข้อไหน ให้เลิกถือ/ทบทวน thesis ทันที):</b></p>
+<li><b>GMV หรือ revenue โต &lt;20% YoY สองไตรมาสติด</b> โดยไม่มีเหตุชั่วคราว (ปัจจุบัน +32%)</li>
+<li><b>FCF margin ลดลงต่อเนื่องจนต่ำกว่า teens</b> หรือ credit losses เพิ่มจนกด gross margin &gt;1pt</li>
+<li><b>AI adoption หยุดโต:</b> Sidekick DAU / Shop Pay penetration / agentic orders flat หรือ -x YoY</li>
+<li><b>Retention ลดลง</b> โดยเฉพาะ cohort $1M+ (จาก 92%) หรือ enterprise เริ่ม build-in-house/ย้าย platform</li>
+<li><b>Partner checkout คู่แข่งเกิดจริง:</b> Meta/Amazon/OpenAI ส่ง checkout ตัวเองแบบ standalone แล้ว GMV เริ่ม shift</li>
+<hr>
 <h2>11. Portfolio Strategy</h2>
-<li><b>ไม่กำหนด buy/sell/hold, entry หรือ allocation</b> เพราะ price-to-EPS sensitivity กว้าง และยังไม่มี DR conversion/FX/ค่าธรรมเนียมไทยใน source set (source: <code>sources/SHOP/market-data.md</code>, research limitation, 2026-09-19)</li>
-<li>หากศึกษาต่อ ให้แยก exposure ของ Subscription กับ Merchant Solutions และติดตาม GMV growth, take-rate, gross margin, FCF/share, SBC dilution, credit loss และ merchant retention ทุกไตรมาส (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, 2026-09-19)</li>
-<li><b>Exit/kill conditions:</b> GMV/revenue growth ต่ำกว่า 20% ต่อเนื่อง 2 ไตรมาสโดยไม่มีเหตุชั่วคราว, FCF margin ลดลงยาว, payment losses/การกำกับดูแลกด margin, หรือ merchant retention/Shop Pay penetration หยุดโต (source: <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<li><b>สถานะในพอร์ต (อิง portfolio.json):</b> HOLDING — บทบาทคือ growth compounder + option บน agentic commerce; มีความสัมพันธ์สูงกับตลาด tech (beta ~2.6) → ดูน้ำหนักรวมกับหุ้น tech อื่น. Memo ภายนอกเสนอ starter 1%, target 2–3%, cap 4%; ใช้เป็นกรอบผู้เขียน ไม่ใช่ target ที่เรารับรองหรือคำแนะนำรายบุคคล. (source: marketdata, portfolio.json, <code>sources/SHOP/external-memo-review-2026-09-25.md</code>)</li>
+<li><b>การติดตาม:</b> รายไตรมาส 3 ตัวชี้วัด = GMV growth / FCF margin / payments penetration; รายสัปดาห์ = DR liquidity (ข้างล่าง)</li>
+<li><b>SET DR (Selection note — metadata แยกจาก thesis):</b> ณ 28 ก.ย. 2026 เลือกติดตาม <b>SHOP06</b> (KKPS, 2000:1) เพราะ daily trading value สูงกว่า: avg 5 วัน ฿479K vs SHOP03 ฿67K; avg 10 วัน ฿291K vs ฿34K (Yahoo chart API, 28 ก.ย. 2026) — <b>กฎ value สูงสุดใช้หลายวันประกอบ ไม่ฟันธงวันเดียว; SHOP03 = PI (1500:1)</b> รายละเอียดตารางใน section สุดท้าย</li>
+<li><b>คำถามที่ต้องตอบได้ก่อนตัดสินใจถือเพิ่ม (What to ask — ไม่ใช่คำตอบ):</b></li>
+<p>1. FCF/share หลังหัก SBC dilution จริงเท่าไร — เทียบกับ P/FCF 74x ที่เห็น?</p>
+<p>2. ถ้าตัด equity gains ออก (ไตรมาสละ ~$1B) กำไรแกนที่ยั่งยืนคือเท่าไร และ P/E แท้คือเท่าไร?</p>
+<p>3. ถ้า GMV โต 30% แต่ take rate ถูกกด 2–3 ปี รายได้จะโตกี่ %?</p>
+<p>4. Revenue กี่ % เป็น recurring แท้ (subscription) vs transaction-based (merchant)?</p>
+<p>5. ถ้า Meta/Amazon ทำ checkout ของตัวเอง UCP จะกลายเป็นข้อเสียหรือข้อดีของเรา?</p>
+<hr>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<li><b>Fact:</b> FY2022–FY2025 revenue ที่ extract ได้ $5.60B/$7.06B/$8.88B/$11.556B; Q2 2026 transcript รายงาน GMV $116B, revenue $3.6B และ FCF margin 18%; Yahoo price $128.50 (source: <code>sources/SHOP/10-k-2025.md</code>, <code>sources/SHOP/q2-2026-call.md</code>, <code>sources/SHOP/market-data.md</code>, 2026-09-19)</li>
-<li><b>Interpretation:</b> Shopify มี Scale/Network/Switching advantages ที่อาจขยาย payments economics แต่ต้องพิสูจน์กำไรต่อหุ้นหลังต้นทุนและ dilution (source: <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
-<li><b>Judgment:</b> growth ที่รายงานดี แต่ valuation ต้องการ execution สูง; คำถามก่อนเป็นเจ้าของคือ normalized EPS/FCF/share เท่าไร, payment risk ใครรับ และ GMV โตโดยไม่เสีย take-rate ได้กี่ปี (source: research judgment, <code>sources/SHOP/10-k-2025.md</code>, 2026-09-19)</li>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| <b>Fact (Reported)</b> | GMV Q2 $115,567M +32%; revenue $3,583M +34%; op income $488M +68%; FCF $654M/18%; NI $1,502M รวม equity gain $1,063M; buyback H1 $1,933M @ $114.63; วงเงินเหลือ $3,067M; retention 92%/97% (5 ปี); payments pen 68%; 52wk $94–$182.19; ราคา 25 ก.ย. $142.25 |</p>
+<p>| <b>Fact (Guidance)</b> | Q3 2026: revenue +low-30s%, GP dollars +mid-high-20s%, OpEx 33–34%, SBC $150M, FCF margin high-teens–low-20s% |</p>
+<p>| <b>Fact (Consensus)</b> | Moderate Buy 2.83/4, PT เฉลี่ย $172.13 (47 analysts), EPS ปีหน้า $1.84 (+26%) |</p>
+<p>| <b>Interpretation</b> | Net income ไม่ใช่ตัวชี้วัดแกนธุรกิจ (equity mark-to-market ผันผวน); FCF margin 18% มี tailwind &lt;1pt จาก accounting reclass (ตาม guidance Q3) ตอนเปรียบเทียบ margin YoY ต้องหัก benefit นี้ (~1.5pt expansion ex-benefit ตาม CFO); mix shift ไป merchant กด gross margin แต่ชดเชยด้วย op leverage; buyback ที่ราคาเฉลี่ย $114.63 แสดงมุมมอง management ต่อราคา |</p>
+<p>| <b>Judgment</b> | Shopify มีคุณภาพระดับ compounder (scale + switching costs + network) แต่ราคาปัจจุบันสวม option value ไว้มาก — ต้องได้ราคาที่ไม่จ่ายล่วงหน้าเกิน 1 ปีของ agentic upside; scenario น้ำหนัก base 50% → 5 ปี ราคา 1.25–1.5x ปัจจุบัน ถ้าไม่ผิดพลาด (ความเห็น ไม่ใช่คำแนะนำ) |</p>
+<hr>
+<h2>Appendix A — SET DR (อัปเดต 28 ก.ย. 2026)</h2>
+<p>| DR | Issuer | Conversion | ราคาล่าสุด | Volume | Trading Value (โดยประมาณ) |</p>
+<p>|---|---|---|---|---|---|</p>
+<p>| SHOP03 | PI | 1500:1 | ฿3.26 (25 ก.ย.) | 50,300 | ≈ ฿164K (25 ก.ย.) |</p>
+<p>| <b>SHOP06</b> ✅ ตัวหลัก | KKPS | 2000:1 | ฿2.40 (28 ก.ย.) | <b>82,335</b> | <b>≈ ฿198K (28 ก.ย.)</b> |</p>
+<li><b>DR ที่เลือกติดตาม: SHOP06</b> — สภาพคล่องเฉลี่ยสูงกว่าชัดเจน: avg daily value 5 วัน ฿479K vs SHOP03 ฿67K; avg 10 วัน ฿291K vs ฿34K (Yahoo chart API 28 ก.ย. 2026). SHOP03 มีวัน trading แห้ง (vol 30–200 หน่วย) เสี่ยงติดมือ. *หมายเหตุ: กฎ &quot;value สูงสุด&quot; ใช้หลายวันประกอบ ไม่ฟันธงจากวันเดียว — tracking อาจเปลี่ยนได้ทุกวัน*</li>
+<li>Issuer ตามที่ผู้ใช้แจ้ง: SHOP03 = PI, SHOP06 = KKPS (Kiatnakin Phatra Securities); conversion ratio สอดคล้องราคา (SHOP $142.25 ÷ 1500 ≈ ฿3.27, ÷ 2000 ≈ ฿2.45 FX ~34.5) — ยังไม่ได้ยืนยันจากหน้า SET โดยตรง (หน้า SET แสดง Conversion Ratio &quot;-&quot; ใน SSR, API 403)</li>
+<li>52-week: SHOP03 ฿2.04–3.54, SHOP06 ฿1.53–2.64</li>
+<h2>Appendix B — Sources</h2>
+<li><code>sources/SHOP/10-k-2025.md</code> (SEC XBRL 10-K, audra verified 19 ก.ย. 2026)</li>
+<li><code>sources/SHOP/q2-2026-call.md</code> (StockAnalysis transcript Q2 2026, audra verified 19 ก.ย. 2026)</li>
+<li><code>sources/SHOP/q2-2026-10q.md</code> (SEC 10-Q 30 มิ.ย. 2026, audra verified 19 ก.ย. 2026)</li>
+<li><code>sources/SHOP/q2-2026-IR-release.md</code> (Shopify IR, official, audra verified 28 ก.ย. 2026)</li>
+<li><code>sources/SHOP/sec-current-facts.md</code> (SEC EDGAR submissions/companyfacts, audra verified 28 ก.ย. 2026)</li>
+<li><code>sources/SHOP/market-data-current.md</code> (Yahoo chart API 28 ก.ย. 2026, verified)</li>
+<li><code>sources/SHOP/marketbeat-current.md</code>, <code>sources/SHOP/valuation-page.md</code>, <code>sources/SHOP/market-data.md</code></li>
+<li><code>sources/SHOP/external-memo-review-2026-09-25.md</code> — ตรวจข้อเท็จจริงและคำนวณ scenario ซ้ำจาก PDF ที่พี่ต้องส่ง (รับ/สกัดข้อความ 29 ก.ย. 2026)</li>
+<li>SEC EDGAR companyfacts CIK 1594805 (FY2021 40-F) — fetched 28 ก.ย. 2026</li>
+<li>Shopify IR press releases (shopify.com/investors) — buyback PR 2 มิ.ย. 2026, fetched 28 ก.ย. 2026</li>
+<li><code>sources/CRM/earth_evans_thesis_reference.md</code> — ใช้เป็น reference ด้าน depth/โครงสร้างเท่านั้น (Tongz House Style)</li>
 </div></body></html>

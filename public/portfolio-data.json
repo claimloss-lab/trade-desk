@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-29T04:14:40.882Z",
-  "exportDateTH": "29 กันยายน 2569 เวลา 11:14",
+  "exportDate": "2026-09-29T04:38:35.815Z",
+  "exportDateTH": "29 กันยายน 2569 เวลา 11:38",
   "portfolios": [
     {
       "id": "dr1",
@@ -251,7 +251,7 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 3,
+          "buyPrice": 3.01,
           "qty": 3244,
           "sector": "Tech",
           "underlying": "Meta",
@@ -6118,6 +6118,6 @@
     "totalPorts": 10,
     "totalStocks": 45,
     "totalTransactions": 71,
-    "totalNetWorth": "฿1,843,927.52"
+    "totalNetWorth": "฿1,845,873.69"
   }
 }

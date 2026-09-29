@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-28T04:50:10.284Z",
-  "exportDateTH": "28 กันยายน 2569 เวลา 11:50",
+  "exportDate": "2026-09-29T04:14:31.895Z",
+  "exportDateTH": "29 กันยายน 2569 เวลา 11:14",
   "portfolios": [
     {
       "id": "dr1",
@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.9027,
-          "srResist": 2.3843,
-          "srUpdated": "2026-09-29",
+          "srSupport": 1.871,
+          "srResist": 2.3446,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 43.3935,
-          "srResist": 55.6712,
-          "srUpdated": "2026-09-29",
+          "srSupport": 40.1589,
+          "srResist": 54.7428,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.2785,
-          "srResist": 2.8728,
-          "srUpdated": "2026-09-29",
+          "srSupport": 2.3804,
+          "srResist": 3.1803,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 22.6,
-          "srResist": 36.4555,
-          "srUpdated": "2026-09-29",
+          "srSupport": 17.427,
+          "srResist": 31.2837,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.3449,
-          "srResist": 6.3021,
-          "srUpdated": "2026-09-29",
+          "srSupport": 5.2558,
+          "srResist": 6.5882,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8588,
-          "srResist": 2.1497,
-          "srUpdated": "2026-09-29",
+          "srSupport": 1.5659,
+          "srResist": 2.0399,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.924,
-          "srResist": 8.6222,
-          "srUpdated": "2026-09-29",
+          "srSupport": 5.8252,
+          "srResist": 8.2548,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.9027,
-          "srResist": 38.6774,
-          "srUpdated": "2026-09-29",
+          "srSupport": 31.3707,
+          "srResist": 38.9207,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 9.579,
-          "srResist": 13.2977,
-          "srUpdated": "2026-09-29",
-          "srResistIsExt": false
+          "srSupport": 6.8642,
+          "srResist": 13.5197,
+          "srUpdated": "2026-08-17",
+          "srResistIsExt": true
         },
         {
           "ticker": "PLTR06",
@@ -190,9 +190,9 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.4014,
-          "srResist": 4.6541,
-          "srUpdated": "2026-09-29",
+          "srSupport": 2.3614,
+          "srResist": 4.1742,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": true
         },
         {
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.3018,
-          "srResist": 20.5019,
-          "srUpdated": "2026-09-29",
+          "srSupport": 17.9966,
+          "srResist": 20.2895,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 3.7937,
-          "srResist": 5.9851,
-          "srUpdated": "2026-09-29",
+          "srSupport": 2.489,
+          "srResist": 5.4564,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         },
         {
@@ -248,6 +248,14 @@
           "sector": "Tech",
           "underlying": "SHOP",
           "id": 1790570926902
+        },
+        {
+          "ticker": "META80",
+          "buyPrice": 3,
+          "qty": 3244,
+          "sector": "Tech",
+          "underlying": "Meta",
+          "id": 1790655268421
         }
       ],
       "cash": 58496.95,
@@ -616,8 +624,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 165.16,
-          "srUpdated": "2026-09-29",
+          "srResist": 248.15,
+          "srUpdated": "2026-08-17",
           "srResistIsExt": false
         }
       ],
@@ -626,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1790655268421,
+      "ticker": "META80",
+      "type": "buy",
+      "date": "2026-09-29",
+      "price": 3,
+      "qty": 3244,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1790570926902,
       "ticker": "SHOP06",
@@ -6095,8 +6116,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 44,
-    "totalTransactions": 70,
-    "totalNetWorth": "฿1,842,993.84"
+    "totalStocks": 45,
+    "totalTransactions": 71,
+    "totalNetWorth": "฿1,853,675.89"
   }
 }

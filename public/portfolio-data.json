@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-29T04:38:35.815Z",
-  "exportDateTH": "29 กันยายน 2569 เวลา 11:38",
+  "exportDate": "2026-09-29T05:02:22.272Z",
+  "exportDateTH": "29 กันยายน 2569 เวลา 12:02",
   "portfolios": [
     {
       "id": "dr1",
@@ -251,11 +251,15 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 3.01,
+          "buyPrice": 3.0050400739827374,
           "qty": 3244,
           "sector": "Tech",
-          "underlying": "Meta",
-          "id": 1790655268421
+          "underlying": "Meta Platforms",
+          "id": 1790655268421,
+          "parentTicker": "META",
+          "conversion": 8000,
+          "drCurrency": "USD",
+          "issuer": "KTB"
         }
       ],
       "cash": 48748.58,
@@ -639,13 +643,13 @@
       "ticker": "META80",
       "type": "buy",
       "date": "2026-09-29",
-      "price": 3,
+      "price": 3.0,
       "qty": 3244,
-      "fee": 0,
-      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "fee": 16.35,
+      "note": "ผู้ใช้ยืนยันรายการซื้อ META80 3,244 DR @ ฿3.00; match แล้ว; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",
       "realizedPnl": null,
       "portId": "dr1",
-      "auto": true
+      "auto": false
     },
     {
       "id": 1790570926902,

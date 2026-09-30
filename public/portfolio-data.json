@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.871,
-          "srResist": 2.3446,
-          "srUpdated": "2026-08-17",
+          "srSupport": 1.8993,
+          "srResist": 2.3801,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 40.1589,
-          "srResist": 54.7428,
-          "srUpdated": "2026-08-17",
+          "srSupport": 43.3159,
+          "srResist": 55.5717,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3804,
-          "srResist": 3.1803,
-          "srUpdated": "2026-08-17",
+          "srSupport": 2.2745,
+          "srResist": 2.8677,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 17.427,
-          "srResist": 31.2837,
-          "srUpdated": "2026-08-17",
+          "srSupport": 22.5596,
+          "srResist": 36.5115,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2558,
-          "srResist": 6.5882,
-          "srUpdated": "2026-08-17",
+          "srSupport": 5.3354,
+          "srResist": 6.2909,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.5659,
-          "srResist": 2.0399,
-          "srUpdated": "2026-08-17",
+          "srSupport": 1.8699,
+          "srResist": 2.1458,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8252,
-          "srResist": 8.2548,
-          "srUpdated": "2026-08-17",
+          "srSupport": 5.9134,
+          "srResist": 8.6068,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.3707,
-          "srResist": 38.9207,
-          "srUpdated": "2026-08-17",
+          "srSupport": 31.8457,
+          "srResist": 38.6083,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 6.8642,
-          "srResist": 13.5197,
-          "srUpdated": "2026-08-17",
-          "srResistIsExt": true
+          "srSupport": 9.5619,
+          "srResist": 13.2739,
+          "srUpdated": "2026-09-30",
+          "srResistIsExt": false
         },
         {
           "ticker": "PLTR06",
@@ -190,9 +190,9 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3614,
-          "srResist": 4.1742,
-          "srUpdated": "2026-08-17",
+          "srSupport": 2.3971,
+          "srResist": 4.6458,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": true
         },
         {
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 17.9966,
-          "srResist": 20.2895,
-          "srUpdated": "2026-08-17",
+          "srSupport": 18.2691,
+          "srResist": 20.6336,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.489,
-          "srResist": 5.4564,
-          "srUpdated": "2026-08-17",
+          "srSupport": 3.7869,
+          "srResist": 5.9744,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         },
         {
@@ -259,7 +259,11 @@
           "parentTicker": "META",
           "conversion": 8000,
           "drCurrency": "USD",
-          "issuer": "KTB"
+          "issuer": "KTB",
+          "srSupport": 2.2585,
+          "srResist": 3.1058,
+          "srResistIsExt": false,
+          "srUpdated": "2026-09-30"
         }
       ],
       "cash": 48748.58,
@@ -628,8 +632,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 248.15,
-          "srUpdated": "2026-08-17",
+          "srResist": 162.52,
+          "srUpdated": "2026-09-30",
           "srResistIsExt": false
         }
       ],
@@ -643,7 +647,7 @@
       "ticker": "META80",
       "type": "buy",
       "date": "2026-09-29",
-      "price": 3.0,
+      "price": 3,
       "qty": 3244,
       "fee": 16.35,
       "note": "ผู้ใช้ยืนยันรายการซื้อ META80 3,244 DR @ ฿3.00; match แล้ว; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",

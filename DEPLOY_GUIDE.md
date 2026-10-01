@@ -125,9 +125,10 @@ https://trade-desk-abc123.pages.dev/api/price?ticker=AMZN80
 - `SUMMARY_SECRET` — shared secret สำหรับ `/api/daily-summary`
 - `LINE_CHANNEL_ACCESS_TOKEN` และ `LINE_USER_ID` — ปลายทาง LINE ของ daily summary
 
-ตั้ง GitHub Actions secrets เพิ่ม:
+ตั้ง `SUMMARY_SECRET` เป็น secret ใน Cloudflare Pages และ Cloudflare Worker `trade-desk-daily-cron` ให้ตรงกัน; Worker ที่ deploy อยู่ส่ง secret ผ่าน `Authorization: Bearer ...` (ไม่ใส่ใน URL) และคง Cron เดิมไว้
 
-- `SUMMARY_SECRET` — ต้องตรงกับค่าใน Cloudflare Functions; workflow ส่งผ่าน `Authorization: Bearer ...`
+หมายเหตุ: GitHub Actions workflow เดิมยังส่ง secret ผ่าน query string และขณะนี้จะได้รับ 401 จาก endpoint ที่ปิดการใช้ query-string auth แล้ว การอัปเดต workflow ต้องใช้ GitHub token ที่มี `workflow` scope; credential ปัจจุบันไม่มีสิทธิ์นี้ จึงยังไม่ได้แก้ workflow (Cloudflare cron Worker ยังทำงานตามตารางเดิม)
+
 - `CLOUDFLARE_API_TOKEN` — ใช้โดย workflow deploy
 
 ใน Trade Desk ให้ตั้ง GitHub PAT ที่มีสิทธิ์ **push** เข้า `claimloss-lab/trade-desk`; ใช้ยืนยันผู้เรียก API ที่แก้ไขข้อมูลหรือเรียก AI แบบมีค่าใช้จ่าย ทั้งนี้ PAT เก็บใน browser `localStorage` เท่านั้น ห้าม commit ลง Git หรือส่งในแชต

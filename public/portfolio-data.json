@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-09-30T11:56:33.585Z",
-  "exportDateTH": "30 กันยายน 2569 เวลา 18:56",
+  "exportDate": "2026-10-01T08:12:47.104Z",
+  "exportDateTH": "1 ตุลาคม 2569 เวลา 15:12",
   "portfolios": [
     {
       "id": "dr1",
@@ -141,7 +141,7 @@
         {
           "ticker": "NVDA80",
           "qty": 3500,
-          "buyPrice": 31.183,
+          "buyPrice": 31.18,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA",
@@ -240,48 +240,37 @@
           "sector": "Tech",
           "underlying": "MRVL",
           "id": 1787064242205,
-          "parentTicker": "MRVL",
-          "conversion": 1000,
-          "drCurrency": "USD",
           "srSupport": 5.4853,
           "srResist": 10.0002,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
-          "ticker": "META80",
-          "buyPrice": 3.0050400739827374,
-          "qty": 3244,
-          "sector": "Tech",
-          "underlying": "Meta Platforms",
-          "id": 1790655268421,
-          "parentTicker": "META",
-          "conversion": 8000,
-          "drCurrency": "USD",
-          "issuer": "KTB",
-          "srSupport": 2.2619,
-          "srResist": 3.1224,
-          "srUpdated": "2026-10-01",
-          "srResistIsExt": false
-        },
-        {
           "ticker": "SHOP06",
-          "buyPrice": 2.404,
+          "buyPrice": 2.4,
           "qty": 4000,
           "sector": "Tech",
           "underlying": "SHOP",
           "id": 1790570926902,
-          "parentTicker": "SHOP",
-          "conversion": 2000,
-          "drCurrency": "USD",
-          "issuer": "KKPS",
           "srSupport": 1.8735,
           "srResist": 2.6609,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
+        },
+        {
+          "ticker": "META80",
+          "buyPrice": 3.01,
+          "qty": 3244,
+          "sector": "Tech",
+          "underlying": "Meta",
+          "id": 1790655268421,
+          "srSupport": 2.2619,
+          "srResist": 3.1224,
+          "srUpdated": "2026-10-01",
+          "srResistIsExt": false
         }
       ],
-      "cash": 104924.81,
+      "cash": 48808.56,
       "snapshots": []
     },
     {
@@ -526,8 +515,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.3816,
-          "navDate": "30 ก.ย. 69"
+          "currentNav": 14.3531,
+          "navDate": "1 ต.ค. 69"
         },
         {
           "id": 2,
@@ -537,8 +526,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.8494,
-          "navDate": "30 ก.ย. 69"
+          "currentNav": 13.8781,
+          "navDate": "1 ต.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -548,8 +537,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.728,
-          "navDate": "30 ก.ย. 69"
+          "currentNav": 13.7016,
+          "navDate": "1 ต.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -559,8 +548,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 18.5347,
-          "navDate": "30 ก.ย. 69"
+          "currentNav": 18.5656,
+          "navDate": "1 ต.ค. 69"
         }
       ]
     },
@@ -658,37 +647,37 @@
   ],
   "transactions": [
     {
-      "id": 1790570926902,
-      "ticker": "SHOP06",
-      "type": "buy",
-      "date": "2026-09-28",
-      "price": 2.4,
-      "qty": 4000,
-      "fee": 16.14,
-      "note": "ผู้ใช้ยืนยันซื้อ SHOP06 4,000 DR @ ฿2.40; ต้นทุนรวมค่าธรรมเนียม ฿9,616.14; average cost ฿2.404; issuer KKPS",
-      "realizedPnl": null,
-      "portId": "dr1",
-      "auto": false
-    },
-    {
       "id": 1790655268421,
       "ticker": "META80",
       "type": "buy",
       "date": "2026-09-29",
       "price": 3,
       "qty": 3244,
-      "fee": 16.35,
-      "note": "ผู้ใช้ยืนยันซื้อ META80 3,244 DR @ ฿3.00; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
       "realizedPnl": null,
       "portId": "dr1",
-      "auto": false
+      "auto": true
     },
     {
-      "id": 1789747198164,
+      "id": 1790570926902,
+      "ticker": "SHOP06",
+      "type": "buy",
+      "date": "2026-09-28",
+      "price": 2.4,
+      "qty": 4000,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
+    {
+      "id": 1790093601840,
       "ticker": "NVDA80",
       "type": "buy",
-      "date": "2026-09-18",
-      "price": 37,
+      "date": "2026-09-22",
+      "price": 37.75,
       "qty": 1000,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
@@ -697,10 +686,10 @@
       "auto": true
     },
     {
-      "id": 1789747175255,
+      "id": 1790093589251,
       "ticker": "GOOG80",
       "type": "buy",
-      "date": "2026-09-18",
+      "date": "2026-09-22",
       "price": 5.85,
       "qty": 7600,
       "fee": 0,
@@ -710,11 +699,11 @@
       "auto": true
     },
     {
-      "id": 1789747152082,
+      "id": 1790093570577,
       "ticker": "AVGO80",
       "type": "buy",
-      "date": "2026-09-18",
-      "price": 2.36,
+      "date": "2026-09-22",
+      "price": 2.42,
       "qty": 8000,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
@@ -723,11 +712,11 @@
       "auto": true
     },
     {
-      "id": 1789747137895,
+      "id": 1789528515158,
       "ticker": "AVGO80",
       "type": "buy",
-      "date": "2026-09-18",
-      "price": 2.36,
+      "date": "2026-09-16",
+      "price": 2.32,
       "qty": 2200,
       "fee": 0,
       "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
@@ -2748,8 +2737,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": false
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -2759,8 +2747,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": false
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1788231338104,
@@ -6137,7 +6124,6 @@
     "totalPorts": 10,
     "totalStocks": 45,
     "totalTransactions": 71,
-    "totalNetWorth": null,
-    "note": "META80/SHOP06 holdings restored from user-confirmed buys; net worth not recalculated; cash preserved from latest source snapshot."
+    "totalNetWorth": "฿1,855,465.72"
   }
 }

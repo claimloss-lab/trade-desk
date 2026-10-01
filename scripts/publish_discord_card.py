@@ -88,7 +88,7 @@ def publish(kind, content, source_job, dry_run=False):
         payload = {'message': f'chore: update latest {kind} Discord card', 'content': encoded,
                    'sha': file_data['sha'], 'branch': 'main'}
         status, result = api_json('PUT', token, payload)
-        if status == 201:
+        if status in (200, 201):
             return {'kind': kind, 'characters': len(content), 'updatedAt': updated_at,
                     'commit': result.get('commit', {}).get('sha', '')[:12]}
         if attempt < 2:

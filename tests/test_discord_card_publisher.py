@@ -1,14 +1,38 @@
+import base64
+import json
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 
-from publish_discord_card import DEFAULT_CARDS, merge_card  # noqa: E402
+from publish_discord_card import DEFAULT_CARDS, merge_card, publish  # noqa: E402
 
 
 class DiscordCardPublisherTests(unittest.TestCase):
+    def test_publish_accepts_http_200_update_without_retrying(self):
+        file_data = {
+            'content': base64.b64encode(json.dumps(DEFAULT_CARDS).encode('utf-8')).decode('ascii'),
+            'sha': 'existing-file-sha',
+        }
+        with patch('publish_discord_card.github_token_from_credential_manager', return_value='test-token'), \
+                patch('publish_discord_card.api_json') as api, \
+                patch('publish_discord_card.time.sleep') as sleep:
+            api.side_effect = lambda method, token, body=None: (
+                (200, file_data) if method == 'GET' else
+                (200, {'commit': {'sha': '1234567890abcdef'}})
+            )
+            result = publish('signals', 'new signal', 'Portfolio Pullback Monitor')
+
+        self.assertEqual(result['kind'], 'signals')
+        self.assertEqual(result['characters'], len('new signal'))
+        self.assertEqual(result['commit'], '1234567890ab')
+        self.assertEqual(api.call_count, 2)
+        self.assertEqual([call.args[0] for call in api.call_args_list], ['GET', 'PUT'])
+        sleep.assert_not_called()
+
     def test_updating_one_channel_replaces_only_that_channel(self):
         old = {
             'signals': {'content': 'old signal', 'updatedAt': '2026-01-01T00:00:00Z', 'discordUrl': DEFAULT_CARDS['signals']['discordUrl'], 'sourceJob': 'old'},

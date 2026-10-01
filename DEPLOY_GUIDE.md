@@ -127,7 +127,7 @@ https://trade-desk-abc123.pages.dev/api/price?ticker=AMZN80
 
 ตั้ง `SUMMARY_SECRET` เป็น secret ใน Cloudflare Pages และ Cloudflare Worker `trade-desk-daily-cron` ให้ตรงกัน; Worker ที่ deploy อยู่ส่ง secret ผ่าน `Authorization: Bearer ...` (ไม่ใส่ใน URL) และคง Cron เดิมไว้
 
-หมายเหตุ: GitHub Actions workflow เดิมยังส่ง secret ผ่าน query string และขณะนี้จะได้รับ 401 จาก endpoint ที่ปิดการใช้ query-string auth แล้ว การอัปเดต workflow ต้องใช้ GitHub token ที่มี `workflow` scope; credential ปัจจุบันไม่มีสิทธิ์นี้ จึงยังไม่ได้แก้ workflow (Cloudflare cron Worker ยังทำงานตามตารางเดิม)
+GitHub Actions ใช้ secret `SUMMARY_SECRET` จาก repository secrets แล้วส่งผ่าน `Authorization: Bearer ...` โดยไม่ใส่ secret ใน URL
 
 - `CLOUDFLARE_API_TOKEN` — ใช้โดย workflow deploy
 

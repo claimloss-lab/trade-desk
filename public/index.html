@@ -317,7 +317,11 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
   </div>
 </div>
 
+<script src="/backup-safety.js"></script>
+<script src="/api-auth.js"></script>
 <script>
+const escHTML = value => window.TradeDeskBackupSafety.escapeHTML(value);
+const safeExternalHttpURL = value => window.TradeDeskBackupSafety.safeExternalUrl(value);
 // ══════════════════════════════════════════════════
 // CONSTANTS & DATA
 // ══════════════════════════════════════════════════
@@ -1253,7 +1257,7 @@ function renderDime(portId){
       const fundPct = (curNav - s.buyPrice) / s.buyPrice * 100;
       const rowWeight = totalVal>0 ? fundVal/totalVal*100 : 0;
       return `<tr>
-        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="snapshot">${s.ticker}</span></td>
+        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${escHTML(s.underlying||s.ticker)}" data-ptype="snapshot">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
         <td>
@@ -1301,7 +1305,7 @@ function renderDime(portId){
       const color=sc(s.sector);
       const rowWeight=totalVal>0?valThb/totalVal*100:0;
       return `<tr>
-        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="realtime_us">${s.ticker}</span></td>
+        <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${escHTML(s.underlying||s.ticker)}" data-ptype="realtime_us">${s.ticker}</span></td>
         <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
         <td><span class="sec-tag" style="background:${color}22;color:${color}">${s.sector||'—'}</span></td>
         <td><span class="edt" onclick="edtDime('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
@@ -1590,7 +1594,7 @@ function renderPortfolio(portId) {
       srCells = supCell + resCell;
     }
     return `<tr>
-      <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${s.underlying||s.ticker}" data-ptype="${port.type}">${s.ticker}</span></td>
+      <td><span class="tkr stock-link" style="cursor:pointer" data-ticker="${s.ticker}" data-name="${escHTML(s.underlying||s.ticker)}" data-ptype="${port.type}">${s.ticker}</span></td>
       <td style="font-size:11px;color:var(--tx2)">${s.underlying||''}</td>
       <td><span class="sec-tag" style="background:${sc}22;color:${sc}">${s.sector||'—'}</span></td>
       <td><span class="edt" onclick="edt('${portId}',${s.id},'qty',this)">${fq(s.qty)}</span></td>
@@ -2287,6 +2291,12 @@ function importBackup(event){
         alert('ไฟล์ไม่ถูกต้อง — ต้องเป็น TradeDesk backup file');
         return;
       }
+      const checker = window.TradeDeskBackupSafety;
+      const validation = checker?.validateImportedBackup?.(data);
+      if(!validation?.ok){
+        alert('ไม่ได้นำเข้า: backup มี markup หรือ identifier ที่ไม่ปลอดภัย');
+        return;
+      }
       const portCount = data.portfolios.length;
       const stockCount = data.portfolios.reduce((s,p)=>s+(p.stocks?.length||0),0);
       const txCount = (data.transactions||[]).length;
@@ -2443,7 +2453,7 @@ async function testLineConnection(){
   }
 }
 
-// Core LINE send function — calls Cloudflare Worker which holds env vars
+// Core LINE send function — the browser supplies credentials per request.
 async function sendLineFlex(altText, flex, tokenOverride, userIdOverride){
   const cfg = getLineConfig();
   const token  = tokenOverride  || cfg.token;
@@ -2460,9 +2470,8 @@ async function sendLineFlex(altText, flex, tokenOverride, userIdOverride){
   } catch { return false; }
 }
 async function sendLineMessage(message, tokenOverride, userIdOverride){
-  // ถ้าผ่าน token โดยตรง (test mode) ให้ embed ใน header ผ่าน Worker
-  // Worker /api/line-message ใช้ env var ฝั่ง server เป็นหลัก
-  // แต่ถ้า user ตั้ง client-side token ไว้ ส่งผ่าน header เพิ่มเติม
+  // ส่ง credential ที่ผู้ใช้ตั้งใน browser ผ่าน request header ให้ Worker เท่านั้น
+  // Scheduled daily summary ใช้ server-side credentials ผ่าน route ที่มี shared-secret guard
   const cfg = getLineConfig();
   const token  = tokenOverride  || cfg.token;
   const userId = userIdOverride || cfg.userId;
@@ -2520,38 +2529,56 @@ function scheduleGHSave(){
 }
 
 async function doGHSave(){
-  // Safety guard: refuse to overwrite GitHub with a local state that is
-  // missing portfolios which already exist remotely. This is the exact
-  // signature of the 2026-07-31 incident (stale/empty local cache silently
-  // pushed over 10 real portfolios, dropping them to 8). If this check
-  // itself fails (offline, endpoint down), fall through and save anyway —
-  // we don't want a network hiccup to block normal day-to-day saving.
-  try {
-    const guardRes = await fetch('/api/backup', { signal: AbortSignal.timeout(8000) });
-    if (guardRes.ok) {
-      const remote = await guardRes.json();
-      const remoteIds = new Set((remote.portfolios || []).map(p => p.id));
-      const localIds = new Set(portfolios.map(p => p.id));
-      const missing = [...remoteIds].filter(id => !localIds.has(id));
-      if (missing.length > 0) {
-        console.warn('GH auto-save BLOCKED — local is missing portfolios present on GitHub:', missing);
-        markGHSaveFailed('บล็อกการบันทึก: พอร์ตในเครื่อง (' + localIds.size + ') น้อยกว่าบน GitHub (' + remoteIds.size + ') — กด Restore ก่อนแก้ไขต่อ ไม่งั้นข้อมูลจะหาย');
-        return;
-      }
-    }
-  } catch (e) {
-    console.warn('GH save staleness guard check failed, saving anyway:', e.message);
-  }
-  // Primary path: server-side /api/backup Worker (uses Cloudflare env GITHUB_TOKEN,
-  // so this no longer depends on a token stored in this browser's localStorage —
-  // it works even if gh_token was never set, cleared, or expired).
   const backup = buildBackupData();
+  let remote;
+  try{
+    const guardRes = await fetch('/api/backup', {signal:AbortSignal.timeout(8000)});
+    if(!guardRes.ok){
+      let detail = 'HTTP '+guardRes.status;
+      try{const err=await guardRes.json();detail=err.error||detail;}catch{}
+      markGHSaveFailed('หยุดการบันทึก: ตรวจสอบ backup ล่าสุดไม่ได้ ('+detail+')');
+      return;
+    }
+    remote = await guardRes.json();
+  }catch(e){
+    markGHSaveFailed('หยุดการบันทึก: ตรวจสอบ backup ล่าสุดไม่ได้ ('+(e.message||'network error')+')');
+    return;
+  }
+
+  const checker = window.TradeDeskBackupSafety;
+  if(!checker || typeof checker.findSnapshotLosses!=='function'){
+    markGHSaveFailed('หยุดการบันทึก: โหลดตัวตรวจป้องกันข้อมูลหายไม่สำเร็จ');
+    return;
+  }
+  const losses = checker.findSnapshotLosses(remote, backup);
+  if(losses.invalidSnapshot){
+    markGHSaveFailed('หยุดการบันทึก: backup ล่าสุดบน GitHub มีรูปแบบไม่ถูกต้อง — ไม่มีการเขียนทับ');
+    return;
+  }
+  if(losses.hasLoss){
+    const summary = [];
+    if(losses.missingPortfolios.length) summary.push(losses.missingPortfolios.length+' พอร์ต');
+    if(losses.missingHoldings.length) summary.push(losses.missingHoldings.length+' สถานะ/จำนวนหุ้น');
+    if(losses.missingTransactions.length) summary.push(losses.missingTransactions.length+' รายการซื้อขาย');
+    if(losses.changedHoldings.length) summary.push(losses.changedHoldings.length+' รายละเอียดหุ้นเปลี่ยน');
+    if(losses.changedTransactions.length) summary.push(losses.changedTransactions.length+' รายการซื้อขายเปลี่ยน');
+    if(losses.cashChanges.length) summary.push(losses.cashChanges.length+' ยอดเงินสด');
+    if(losses.changedBackupFields?.length) summary.push('ข้อมูลเสริม: '+losses.changedBackupFields.join(', '));
+    const message = 'ข้อมูลในเครื่องไม่ตรงกับ backup บน GitHub: '+summary.join(', ')+'.\n\nหากยืนยันว่าการเปลี่ยนแปลงนี้ตั้งใจ กด OK เพื่อเขียนทับ; หากไม่แน่ใจ กด Cancel แล้วตรวจ/Restore backup ก่อน';
+    if(!confirm(message)){
+      markGHSaveFailed('บล็อกการบันทึก: ข้อมูลในเครื่องไม่ตรงกับ backup บน GitHub — ตรวจสอบก่อน หรือยืนยันการเปลี่ยนแปลงที่ตั้งใจ');
+      return;
+    }
+  }
+
+  // Primary path uses the server-side GitHub token. The caller must also authenticate
+  // with a GitHub account that has push permission to this repository.
   try{
     const res = await fetch('/api/backup', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(backup),
-      signal: AbortSignal.timeout(15000),
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(getGHConfig().token||'')},
+      body:JSON.stringify(backup),
+      signal:AbortSignal.timeout(15000),
     });
     if(res.ok){
       showToast('✓ Auto-saved ไป GitHub แล้ว');
@@ -2559,33 +2586,28 @@ async function doGHSave(){
       return;
     }
     let detail = 'HTTP '+res.status;
-    try{ const err = await res.json(); detail = err.error || err.detail || detail; }catch{}
-    console.warn('GitHub auto-save failed (server):', detail);
+    try{const err=await res.json();detail=err.error||detail;}catch{}
+    console.warn('GitHub auto-save failed (server):',detail);
     markGHSaveFailed(detail);
-  } catch(e){
-    console.warn('GitHub auto-save error (server):', e.message);
-    // Fallback: legacy client-side token path, only if the user configured one.
-    const cfg = getGHConfig();
-    if(!cfg.token){ markGHSaveFailed(e.message||'Network error'); return; }
+  }catch(e){
+    console.warn('GitHub auto-save error (server):',e.message);
+    const cfg=getGHConfig();
+    if(!cfg.token){markGHSaveFailed(e.message||'Network error');return;}
     try{
-      const _jsonStr = JSON.stringify(backup, null, 2);
-      const _bytes = new TextEncoder().encode(_jsonStr);
-      let _bin = ''; for(let i=0;i<_bytes.length;i++) _bin += String.fromCharCode(_bytes[i]);
-      const content64 = btoa(_bin);
-      const path = 'public/portfolio-data.json';
-      const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
-      let sha = null;
-      const getRes = await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
-      if(getRes.ok){ const d=await getRes.json(); sha=d.sha; }
-      const body = { message: 'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'), content: content64, ...(sha ? {sha} : {}) };
-      const putRes = await fetch(apiUrl,{
-        method:'PUT',
-        headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
-      if(putRes.ok){ showToast('✓ Auto-saved ไป GitHub แล้ว (fallback token)'); markGHSaveOk(); }
-      else { const err = await putRes.json(); markGHSaveFailed(err.message||'fallback save failed'); }
-    } catch(e2){ markGHSaveFailed(e2.message||'fallback network error'); }
+      const jsonStr=JSON.stringify(backup,null,2);
+      const bytes=new TextEncoder().encode(jsonStr);
+      let binary='';for(let i=0;i<bytes.length;i++)binary+=String.fromCharCode(bytes[i]);
+      const content64=btoa(binary);
+      const path='public/portfolio-data.json';
+      const apiUrl=`https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
+      const getRes=await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
+      if(!getRes.ok){markGHSaveFailed('fallback could not read current backup (HTTP '+getRes.status+')');return;}
+      const d=await getRes.json();
+      const body={message:'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'),content:content64,sha:d.sha};
+      const putRes=await fetch(apiUrl,{method:'PUT',headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(putRes.ok){showToast('✓ Auto-saved ไป GitHub แล้ว (fallback token)');markGHSaveOk();}
+      else markGHSaveFailed('fallback save failed (HTTP '+putRes.status+')');
+    }catch(e2){markGHSaveFailed(e2.message||'fallback network error');}
   }
 }
 
@@ -2607,7 +2629,20 @@ function showGHWarningBanner(msg){
     b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10000;background:#d92d20;color:#fff;padding:10px 16px;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.15)';
     document.body.appendChild(b);
   }
-  b.innerHTML = `<span>${msg}</span><button onclick="doGHSave()" style="background:#fff;color:#d92d20;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer">ลองใหม่</button><button onclick="hideGHWarningBanner(true)" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer">ปิด</button>`;
+  b.replaceChildren();
+  const label = document.createElement('span');
+  label.textContent = msg;
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.textContent = 'ลองใหม่';
+  retry.style.cssText = 'background:#fff;color:#d92d20;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer';
+  retry.addEventListener('click',()=>doGHSave());
+  const dismiss = document.createElement('button');
+  dismiss.type = 'button';
+  dismiss.textContent = 'ปิด';
+  dismiss.style.cssText = 'background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer';
+  dismiss.addEventListener('click',()=>hideGHWarningBanner(true));
+  b.append(label,retry,dismiss);
   b.style.display = 'flex';
 }
 function hideGHWarningBanner(dismissedByUser){
@@ -2903,19 +2938,20 @@ function renderNotes(){
   const tagIcon = {Bullish:'📈',Bearish:'📉',Watching:'👁️',General:'📝'};
   body.innerHTML = notes.map(n=>{
     const tag = n.tag||'General';
-    const linkHtml = n.link ? `<a href="${n.link}" target="_blank" style="font-size:11px;color:var(--blue)">🔗 ${n.link.replace(/https?:\/\//,'').split('/')[0]}</a>` : '';
+    const safeLink = safeExternalHttpURL(n.link);
+    const linkHtml = safeLink ? `<a href="${escHTML(safeLink)}" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:var(--blue)">🔗 ${escHTML(new URL(safeLink).host)}</a>` : '';
     return `<div class="card" style="margin-bottom:10px">
       <div style="padding:10px 14px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        ${n.ticker?`<span class="tkr">${n.ticker}</span>`:''}
-        <span style="background:${tagBg[tag]||tagBg.General};color:${tagTx[tag]||tagTx.General};font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">${tagIcon[tag]||'📝'} ${tag}</span>
-        <span style="font-size:11px;color:var(--tx3)">${n.date||''}</span>
+        ${n.ticker?`<span class="tkr">${escHTML(n.ticker)}</span>`:''}
+        <span style="background:${tagBg[tag]||tagBg.General};color:${tagTx[tag]||tagTx.General};font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500">${tagIcon[tag]||'📝'} ${escHTML(tag)}</span>
+        <span style="font-size:11px;color:var(--tx3)">${escHTML(n.date||'')}</span>
         <div style="margin-left:auto;display:flex;gap:6px">
           <button class="btn btn-sm btn-g" onclick="openNoteModal(${n.id})">แก้ไข</button>
           <button onclick="deleteNote(${n.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:16px">✕</button>
         </div>
       </div>
       <div style="padding:12px 14px">
-        <div style="font-size:13px;color:var(--tx2);line-height:1.7;white-space:pre-wrap;margin-bottom:${linkHtml?'8':'0'}px">${n.text}</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.7;white-space:pre-wrap;margin-bottom:${linkHtml?'8':'0'}px">${escHTML(n.text)}</div>
         ${linkHtml}
       </div>
     </div>`;
@@ -2953,12 +2989,12 @@ function renderDividends(){
     return;
   }
   body.innerHTML=list.map(d=>`<tr>
-    <td class="muted">${d.date}</td>
-    <td><span class="tkr" style="cursor:pointer" onclick="showDivYearPopup('${d.ticker}')" title="คลิกดูปันผลรายปี">${d.ticker}</span></td>
+    <td class="muted">${escHTML(d.date)}</td>
+    <td><span class="tkr" style="cursor:pointer" data-div-ticker="${escHTML(d.ticker)}" onclick="showDivYearPopup(this.dataset.divTicker)" title="คลิกดูปันผลรายปี">${escHTML(d.ticker)}</span></td>
     <td class="mono">฿${fn(d.perShare,4)}</td><td class="mono">${fq(d.qty)}</td>
     <td class="mono pos">+฿${fn(d.total)}</td>
-    <td class="muted" style="font-size:12px">${d.payDate||'—'}</td>
-    <td style="font-size:11px;color:var(--tx2)">${d.note||'—'}</td>
+    <td class="muted" style="font-size:12px">${escHTML(d.payDate||'—')}</td>
+    <td style="font-size:11px;color:var(--tx2)">${escHTML(d.note||'—')}</td>
     <td><button onclick="deleteDividend(${d.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer">✕</button></td>
   </tr>`).join('');
 
@@ -3601,8 +3637,8 @@ function renderWatchlist(){
         <div style="flex:1;min-width:200px">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
             ${isHit?'<span style="background:var(--green-bg);color:var(--green-tx);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">🟢 ถึงเป้าแล้ว!</span>':'<span style="background:var(--amber-bg);color:var(--amber-tx);padding:2px 8px;border-radius:20px;font-size:11px">🟡 รอ</span>'}
-            <span class="tkr">${w.ticker}</span>
-            <span style="font-size:11px;color:var(--tx3)">${w.addedDate}</span>
+            <span class="tkr">${escHTML(w.ticker)}</span>
+            <span style="font-size:11px;color:var(--tx3)">${escHTML(w.addedDate)}</span>
           </div>
           <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px">
             <span>เป้าหมาย: <strong class="mono">฿${fn(w.targetPrice)}</strong></span>
@@ -3610,7 +3646,7 @@ function renderWatchlist(){
             <span>งบ: <strong class="mono">฿${fn(budget)}</strong></span>
             ${curPrice?`<span>ราคาตอนนี้: <strong class="mono ${isHit?'pos':diff<0?'pos':'neg'}">฿${fn(curPrice)} (${diff>=0?'+':''}${diff?.toFixed(1)}%)</strong></span>`:''}
           </div>
-          ${w.note?`<div style="font-size:11px;color:var(--tx3);margin-top:4px">📌 ${w.note}</div>`:''}
+          ${w.note?`<div style="font-size:11px;color:var(--tx3);margin-top:4px">📌 ${escHTML(w.note)}</div>`:''}
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0">
           <button class="btn btn-sm btn-p" onclick="markWatchlistDone(${w.id})" title="บันทึกว่าซื้อแล้ว">✓ ซื้อแล้ว</button>
@@ -3629,10 +3665,10 @@ function renderWatchlist(){
     if(!done.length){ db.innerHTML=`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี</div>`; }
     else db.innerHTML = done.map(w=>`
       <div style="padding:12px 18px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;opacity:0.75">
-        <span class="tkr">${w.ticker}</span>
+        <span class="tkr">${escHTML(w.ticker)}</span>
         <span style="font-size:12px;color:var(--tx2)">${fq(w.qty)} หุ้น ที่ ฿${fn(w.actualPrice||w.targetPrice)}</span>
         <span class="mono pos" style="font-size:12px">฿${fn((w.actualPrice||w.targetPrice)*w.qty)}</span>
-        <span style="font-size:11px;color:var(--tx3);margin-left:auto">${w.doneDate}</span>
+        <span style="font-size:11px;color:var(--tx3);margin-left:auto">${escHTML(w.doneDate)}</span>
         <button onclick="deleteWatchlistItem(${w.id})" style="border:none;background:none;color:var(--red-tx);cursor:pointer;font-size:13px">✕</button>
       </div>`).join('');
   }
@@ -5420,6 +5456,10 @@ function renderNewsFeed() {
     const ctx = getStockContext(n.ticker, n.drTicker);
     const pnlColor = ctx ? (ctx.pnl >= 0 ? 'var(--green-tx)' : 'var(--red-tx)') : '';
     const pnlStr = ctx ? (ctx.pnl >= 0 ? '+' : '') + ctx.pnl.toFixed(1) + '%' : '';
+    const portColor = /^#[0-9a-f]{6}$/i.test(n.portColor || '') ? n.portColor : '#0071e3';
+    const newsTicker = String(n.drTicker || n.ticker || '');
+    const portType = /^[A-Za-z0-9_-]{1,32}$/.test(n.portType || '') ? n.portType : 'realtime_us';
+    const safeLink = safeExternalHttpURL(n.link);
 
     // Format date
     let dateStr = '';
@@ -5432,28 +5472,29 @@ function renderNewsFeed() {
     const newsId = 'newsitem_' + _nIdx;
     return `<div style="background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);
       box-shadow:var(--sh);margin-bottom:10px;overflow:hidden;
-      border-left:4px solid ${n.portColor}" id="${newsId}">
+      border-left:4px solid ${portColor}" id="${newsId}">
       <div style="padding:12px 16px">
         <!-- Header -->
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <span class="tkr" style="cursor:pointer"
-            onclick="openStockModal('${n.drTicker||n.ticker}','${n.underlying}','${n.portType||'realtime_us'}')"
-          >${n.drTicker || n.ticker}</span>
-          <span style="font-size:11px;color:var(--tx3)">${n.underlying}</span>
+            data-ticker="${escHTML(newsTicker)}" data-underlying="${escHTML(n.underlying)}" data-ptype="${escHTML(portType)}"
+            onclick="openStockModal(this.dataset.ticker,this.dataset.underlying,this.dataset.ptype)"
+          >${escHTML(newsTicker)}</span>
+          <span style="font-size:11px;color:var(--tx3)">${escHTML(n.underlying)}</span>
           ${ctx ? `<span class="mono" style="font-size:11px;color:${pnlColor};font-weight:600">${pnlStr}</span>` : ''}
-          ${n.source ? `<span style="font-size:9px;padding:2px 6px;background:var(--s2);color:var(--tx2);border-radius:4px;font-weight:500">${n.source}</span>` : ''}
-          <span style="font-size:10px;color:var(--tx3);margin-left:auto">${dateStr}</span>
+          ${n.source ? `<span style="font-size:9px;padding:2px 6px;background:var(--s2);color:var(--tx2);border-radius:4px;font-weight:500">${escHTML(n.source)}</span>` : ''}
+          <span style="font-size:10px;color:var(--tx3);margin-left:auto">${escHTML(dateStr)}</span>
         </div>
         <!-- Thai Summary (AI) -->
         <div id="${newsId}_sum" style="font-size:13px;font-weight:500;color:var(--tx);line-height:1.6;margin-bottom:8px">
-          <span style="color:var(--tx2);font-size:13px">${n.title}</span>
+          <span style="color:var(--tx2);font-size:13px">${escHTML(n.title)}</span>
         </div>
         <!-- Read more link -->
-        <a href="${n.link}" target="_blank" rel="noopener"
+        ${safeLink ? `<a href="${escHTML(safeLink)}" target="_blank" rel="noopener noreferrer"
           style="font-size:11px;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:4px"
           onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
           อ่านข่าวต้นฉบับ ↗
-        </a>
+        </a>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -5493,9 +5534,9 @@ async function summarizeNewsItems(items) {
     const cacheKey = (n.link||n.title).slice(0,80);
     if (el) {
       if (newsSummaryCache[cacheKey]) {
-        el.innerHTML = newsSummaryCache[cacheKey];
+        el.textContent = newsSummaryCache[cacheKey];
       } else {
-        el.innerHTML = `<span style="color:var(--tx2);font-size:12px">${n.title}</span>`;
+        el.textContent = n.title;
       }
     }
   });
@@ -5542,10 +5583,10 @@ async function summarizeBatch(items) {
       const summary = summaries[i];
       if (!summary) return;
       const key = (n.link||n.title).slice(0,80);
-      newsSummaryCache[key] = `<span>${summary}</span>`;
+      newsSummaryCache[key] = String(summary);
       const newsId = 'news_' + n.ticker + '_' + (n.link||'').slice(-20).replace(/[^a-z0-9]/gi,'');
       const el = document.getElementById(newsId + '_sum');
-      if (el) el.innerHTML = newsSummaryCache[key];
+      if (el) el.textContent = newsSummaryCache[key];
     });
   } catch(e) {
     console.warn('Batch summarize error:', e.message);
@@ -5590,7 +5631,7 @@ async function manualSummarizeAll() {
         if (!summary) return;
         const globalIdx = i + j;
         const el = document.getElementById('newsitem_' + globalIdx + '_sum');
-        if (el) el.innerHTML = '<span>' + summary + '</span>';
+        if (el) el.textContent = String(summary);
       });
       if (i + BATCH < flat.length) await new Promise(r => setTimeout(r, 800));
     }
@@ -7406,7 +7447,7 @@ async function runTrendScanner() {
     tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · สแกน ${list.length} ตัว`;
     renderTrendScannerResults();
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '📈 สแกนเลย';
 }
@@ -7461,10 +7502,10 @@ async function toggleExplain(api, display) {
       signal: safeSignal(20000),
     });
     const data = await res.json();
-    el.innerHTML = data.explanation ? data.explanation.replace(/\n/g, '<br>') : ('อธิบายไม่สำเร็จ: ' + (data.error || ''));
+    el.innerHTML = data.explanation ? escHTML(data.explanation).replace(/\n/g, '<br>') : ('อธิบายไม่สำเร็จ: ' + escHTML(data.error || ''));
     el.dataset.loaded = '1';
   } catch (e) {
-    el.innerHTML = 'โหลดไม่สำเร็จ: ' + e.message;
+    el.textContent = 'โหลดไม่สำเร็จ: ' + e.message;
   }
 }
 
@@ -7494,10 +7535,10 @@ async function runBacktest() {
       signal: safeSignal(30000),
     });
     const data = await res.json();
-    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; }
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${escHTML(data.error)}</div>`; }
     else renderBacktestResult(data);
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '▶ รัน Backtest';
 }
@@ -7505,7 +7546,7 @@ async function runBacktest() {
 function renderBacktestResult(data) {
   const s = data.summary;
   const resultEl = document.getElementById('bt-result');
-  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${label}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${value}</div></div>`;
+  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${escHTML(label)}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${escHTML(value)}</div></div>`;
   const beatMkt = s.buyHoldReturnPct != null && s.totalReturnPct > s.buyHoldReturnPct;
 
   resultEl.innerHTML = `
@@ -7519,7 +7560,7 @@ function renderBacktestResult(data) {
     </div>
     <div style="font-size:11px;color:${beatMkt?'var(--green-tx)':'var(--tx3)'};margin-bottom:10px">
       ${beatMkt ? '✅ Strategy ชนะ Buy&Hold ในช่วงนี้' : 'ℹ️ ช่วงนี้ Buy&Hold ทำได้ดีกว่า (หรือใกล้เคียง)'}
-      · ${s.periodStart} ถึง ${s.periodEnd}
+      · ${escHTML(s.periodStart)} ถึง ${escHTML(s.periodEnd)}
     </div>
     <div style="height:180px"><canvas id="bt-equity-chart"></canvas></div>
   `;
@@ -7557,7 +7598,7 @@ async function runJournalAnalysis() {
     const data = await res.json();
     renderJournalResult(data);
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '📓 วิเคราะห์';
 }
@@ -7566,10 +7607,10 @@ function renderJournalResult(data) {
   const resultEl = document.getElementById('journal-result');
   const s = data.stats;
   if (!s || !s.totalClosedTrades) {
-    resultEl.innerHTML = `<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">${s?.message || 'ยังไม่มีข้อมูลพอ'}</div>`;
+    resultEl.innerHTML = `<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">${escHTML(s?.message || 'ยังไม่มีข้อมูลพอ')}</div>`;
     return;
   }
-  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${label}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${value}</div></div>`;
+  const stat = (label, value, color) => `<div><div style="font-size:10px;color:var(--tx3)">${escHTML(label)}</div><div style="font-size:15px;font-weight:700;${color?'color:'+color:''}">${escHTML(value)}</div></div>`;
   resultEl.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
       ${stat('Win Rate', s.winRate+'%')}
@@ -7579,11 +7620,11 @@ function renderJournalResult(data) {
       ${stat('Streak ปัจจุบัน', (s.currentStreak.type==='win'?'ชนะ ':'แพ้ ')+s.currentStreak.count+' ครั้ง', s.currentStreak.type==='win'?'var(--green-tx)':'var(--red-tx)')}
       ${stat('เทรดดีที่สุด', s.bestTrade?.ticker+' +'+fn(s.bestTrade?.pnl,0), 'var(--green-tx)')}
     </div>
-    ${data.narrative ? `<div style="font-size:13px;line-height:1.6;color:var(--tx);background:var(--s2);padding:12px;border-radius:10px;margin-bottom:10px">${data.narrative}</div>` : ''}
+    ${data.narrative ? `<div style="font-size:13px;line-height:1.6;color:var(--tx);background:var(--s2);padding:12px;border-radius:10px;margin-bottom:10px">${escHTML(data.narrative)}</div>` : ''}
     ${(data.patterns||[]).map(p => `
       <div style="font-size:12px;padding:8px 0;border-top:1px solid var(--bd2)">
-        <div style="color:var(--tx)">${p.finding}</div>
-        <div style="color:var(--tx3);margin-top:2px">💡 ${p.suggestion}</div>
+        <div style="color:var(--tx)">${escHTML(p.finding)}</div>
+        <div style="color:var(--tx3);margin-top:2px">💡 ${escHTML(p.suggestion)}</div>
       </div>`).join('')}
   `;
 }
@@ -7723,11 +7764,11 @@ async function runReversalScan() {
       signal: safeSignal(30000),
     });
     const data = await res.json();
-    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🔄 สแกนเลย'; return; }
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${escHTML(data.error)}</div>`; btn.disabled = false; btn.textContent = '🔄 สแกนเลย'; return; }
     tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.withSignal}/${data.scanned} ตัวเข้าเกณฑ์ (${REVERSAL_TF_TEXT[_reversalTimeframe]})`;
     renderReversalResults(list, data.results);
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '🔄 สแกนเลย';
 }
@@ -7897,11 +7938,11 @@ async function runBuyZoneScan() {
       signal: safeSignal(30000),
     });
     const data = await res.json();
-    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🎯 สแกนเลย'; return; }
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${escHTML(data.error)}</div>`; btn.disabled = false; btn.textContent = '🎯 สแกนเลย'; return; }
     tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.inZoneCount}/${data.scanned} ตัวอยู่ในโซนซื้อ`;
     renderBuyZoneResults(list, data.results);
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '🎯 สแกนเลย';
 }
@@ -7965,11 +8006,11 @@ async function runSellZoneScan() {
       signal: safeSignal(30000),
     });
     const data = await res.json();
-    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${data.error}</div>`; btn.disabled = false; btn.textContent = '🔔 สแกนเลย'; return; }
+    if (data.error) { resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${escHTML(data.error)}</div>`; btn.disabled = false; btn.textContent = '🔔 สแกนเลย'; return; }
     tsEl.textContent = `อัปเดต ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} ICT · ${data.inZoneCount}/${data.scanned} ตัวอยู่ในโซนขาย`;
     renderSellZoneResults(list, data.results);
   } catch (e) {
-    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + e.message + '</div>';
+    resultEl.innerHTML = '<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">โหลดไม่สำเร็จ: ' + escHTML(e.message) + '</div>';
   }
   btn.disabled = false; btn.textContent = '🔔 สแกนเลย';
 }

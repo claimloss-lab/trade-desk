@@ -254,17 +254,18 @@ export async function onRequest(context) {
   const LINE_USER  = env.LINE_USER_ID;
   const GH_TOKEN   = env.GITHUB_TOKEN;
 
-  // Optional shared-secret guard: ตั้ง env SUMMARY_SECRET แล้วให้ cron worker
-  // เรียกด้วย ?key=<secret> — ถ้าไม่ตั้ง env จะทำงานแบบเดิม (เปิด public)
-  // Robust lookup — ชื่อตัวแปรใน dashboard อาจติด whitespace มาโดยไม่เห็นใน UI
+  // Fail closed: this endpoint reads the shared portfolio and sends LINE messages.
+  // The scheduled workflow supplies the secret in Authorization, never in the URL.
   const SUMMARY_SECRET = (env.SUMMARY_SECRET
     ?? Object.entries(env).find(([k]) => k.trim() === 'SUMMARY_SECRET')?.[1]
     ?? '').trim();
-  if (SUMMARY_SECRET) {
-    const key = new URL(req.url).searchParams.get('key');
-    if (key !== SUMMARY_SECRET) {
-      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: cors });
-    }
+  if (!SUMMARY_SECRET) {
+    return new Response(JSON.stringify({ error: 'daily summary is not configured' }), { status: 503, headers: cors });
+  }
+  const authHeader = req.headers.get('Authorization') || '';
+  const providedSecret = authHeader.match(/^Bearer\s+(.+)$/i)?.[1]?.trim();
+  if (!providedSecret || providedSecret !== SUMMARY_SECRET) {
+    return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: cors });
   }
 
   if (!LINE_TOKEN || !LINE_USER) {
@@ -316,23 +317,37 @@ export async function onRequest(context) {
     const stockValues = [];
     const byPortfolio = {}; // มูลค่ารวมแยกตามพอร์ต (สำหรับ equity curve)
     portfolios.forEach(p => {
-      const isUS = p.type === 'realtime_us';
-      let portfolioTotal = 0;
+      const cash = Number(p.cash);
+      const cashThb = Number.isFinite(cash) ? cash : 0;
+
+      // Mirror the dashboard's manual snapshot valuation rather than dropping it.
+      if (p.type === 'snapshot') {
+        const value = p.stocks?.length
+          ? p.stocks.reduce((sum, s) => sum + (Number(s.currentNav) || Number(s.buyPrice) || 0) * (Number(s.qty) || 0), 0)
+          : (Number(p.snapshots?.at(-1)?.value) || 0);
+        const portfolioTotal = value + cashThb;
+        totalNetWorth += portfolioTotal;
+        byPortfolio[p.id] = Math.round(portfolioTotal * 100) / 100;
+        return;
+      }
+
+      let portfolioTotal = cashThb;
+      totalNetWorth += cashThb;
       (p.stocks || []).forEach(s => {
         if (!s.qty) return;
-        // กองทุนรวม: ใช้ NAV (THB) จาก portfolio-data.json ตรงๆ ไม่เข้าชิง gainer/loser
+        // Manual mutual-fund NAV is already THB.
         if (s.currentNav > 0) { totalNetWorth += s.currentNav * s.qty; portfolioTotal += s.currentNav * s.qty; return; }
-        const price = effPrice[s.ticker];          // ราคา native (US = USD)
+        const price = effPrice[s.ticker];
         if (!price) return;
-        const value  = price * s.qty;              // มูลค่า native
-        const cost   = (s.buyPrice || 0) * s.qty;  // ต้นทุน native สกุลเดียวกัน
+        const isUSD = p.type === 'realtime_us' || (p.type === 'dime_mixed' && s.currency === 'USD');
+        const value = price * s.qty;
+        const cost = (s.buyPrice || 0) * s.qty;
         const pnlPct = cost > 0 ? ((value - cost) / cost) * 100 : null;
-        const valueThb = value * (isUS ? usdThb : 1);
+        const valueThb = value * (isUSD ? usdThb : 1);
         totalNetWorth += valueThb;
         portfolioTotal += valueThb;
-        // เฉพาะตัวที่ได้ราคาสดจริงเท่านั้นถึงเข้าชิง gainer/loser
         if (pnlPct != null && priceMap[s.ticker]) {
-          stockValues.push({ ticker: s.ticker, price, pnlPct, cur: isUS ? '$' : '฿' });
+          stockValues.push({ ticker: s.ticker, price, pnlPct, cur: isUSD ? '$' : '฿' });
         }
       });
       byPortfolio[p.id] = Math.round(portfolioTotal * 100) / 100;

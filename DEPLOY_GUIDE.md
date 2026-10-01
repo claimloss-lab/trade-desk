@@ -116,6 +116,26 @@ https://trade-desk-abc123.pages.dev/api/price?ticker=AMZN80
 
 ---
 
+## ตั้งค่า Secrets และสิทธิ์ใช้งาน
+
+กำหนดค่าใน Cloudflare Pages → **Settings → Variables and Secrets → Functions** (ค่า secret อย่าใส่ใน source code):
+
+- `GITHUB_TOKEN` — token ฝั่ง server สำหรับบันทึก backup, paper-trade และ MA watchlist
+- `ANTHROPIC_API_KEY` — ใช้เฉพาะ API วิเคราะห์/สรุปข้อความ
+- `SUMMARY_SECRET` — shared secret สำหรับ `/api/daily-summary`
+- `LINE_CHANNEL_ACCESS_TOKEN` และ `LINE_USER_ID` — ปลายทาง LINE ของ daily summary
+
+ตั้ง GitHub Actions secrets เพิ่ม:
+
+- `SUMMARY_SECRET` — ต้องตรงกับค่าใน Cloudflare Functions; workflow ส่งผ่าน `Authorization: Bearer ...`
+- `CLOUDFLARE_API_TOKEN` — ใช้โดย workflow deploy
+
+ใน Trade Desk ให้ตั้ง GitHub PAT ที่มีสิทธิ์ **push** เข้า `claimloss-lab/trade-desk`; ใช้ยืนยันผู้เรียก API ที่แก้ไขข้อมูลหรือเรียก AI แบบมีค่าใช้จ่าย ทั้งนี้ PAT เก็บใน browser `localStorage` เท่านั้น ห้าม commit ลง Git หรือส่งในแชต
+
+ข้อมูล PVD ยังคงอยู่ใน `localStorage` ของ browser เท่านั้น ห้ามใส่ยอด PVD จริงใน `public/portfolio-data.json` หรือไฟล์ backup ที่แชร์ได้
+
+---
+
 ## ขั้นตอนที่ 8 (Optional) — ใช้ Custom Domain
 
 ถ้าอยากได้ URL สวยๆ เช่น `portfolio.yourdomain.com`:

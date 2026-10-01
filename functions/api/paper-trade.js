@@ -9,6 +9,7 @@
 //   reset: { initialCapital? }                  (ล้างและเริ่มใหม่)
 //   status:{ prices?: { ticker: price } }        (mark-to-market ถ้าส่งราคามาด้วย)
 import { freshState, openPosition, closePosition, markToMarket } from '../_lib/paper-trading-logic.js';
+import { requireRepoWriter } from '../_lib/repo-auth.js';
 
 const REPO = 'claimloss-lab/trade-desk';
 const FILE_PATH = 'public/paper-trading.json';
@@ -68,6 +69,7 @@ export async function onRequest(context) {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
   if (context.request.method === 'OPTIONS') return new Response(null, { headers: cors });
@@ -82,6 +84,8 @@ export async function onRequest(context) {
 
   if (context.request.method !== 'POST')
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: cors });
+  const auth = await requireRepoWriter(context.request);
+  if (!auth.ok) return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers: cors });
 
   try {
     const body = await context.request.json();

@@ -3,16 +3,20 @@
 // คำนวณสถิติเชิงปริมาณจากรายการปิดสถานะ (sell + realizedPnl) แล้วให้
 // Claude Sonnet สรุปเป็นภาษาไทยว่ามี pattern อะไรบ้าง แพ้/ชนะเพราะอะไร
 import { computeJournalStats } from '../_lib/journal-stats.js';
+import { requireRepoWriter } from '../_lib/repo-auth.js';
 
 export async function onRequest(context) {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
   if (context.request.method === 'OPTIONS') return new Response(null, { headers: cors });
   if (context.request.method !== 'POST')
     return new Response(JSON.stringify({ error: 'POST only' }), { status: 405, headers: cors });
+  const auth = await requireRepoWriter(context.request);
+  if (!auth.ok) return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers: cors });
 
   try {
     const { transactions } = await context.request.json();

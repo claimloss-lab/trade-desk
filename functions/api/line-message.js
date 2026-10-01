@@ -2,9 +2,7 @@
  * /api/line-message
  * POST { message: string } → ส่ง LINE Messaging API (push message)
  *
- * Token resolution order:
- *   1. Cloudflare env vars (LINE_CHANNEL_ACCESS_TOKEN, LINE_USER_ID)  ← production
- *   2. Request headers (X-Line-Token, X-Line-Userid)                  ← client-side fallback
+ * Caller-supplied LINE credentials only. Scheduled summary uses its own authenticated route.
  */
 export async function onRequest(context) {
   const cors = {
@@ -22,14 +20,13 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: cors });
   }
 
-  // Resolve token & userId — env vars first, then request headers
-  const TOKEN   = context.env.LINE_CHANNEL_ACCESS_TOKEN
-                  || context.request.headers.get('X-Line-Token');
-  const USER_ID = context.env.LINE_USER_ID
-                  || context.request.headers.get('X-Line-Userid');
+  // Use credentials supplied by the browser only. Server LINE credentials are
+  // reserved for the authenticated scheduled /api/daily-summary job.
+  const TOKEN = context.request.headers.get('X-Line-Token');
+  const USER_ID = context.request.headers.get('X-Line-Userid');
 
   if (!TOKEN || !USER_ID) {
-    return new Response(JSON.stringify({ error: 'LINE token/userId not configured' }), { status: 500, headers: cors });
+    return new Response(JSON.stringify({ error: 'LINE token/userId required' }), { status: 401, headers: cors });
   }
 
   try {

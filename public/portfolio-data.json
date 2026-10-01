@@ -240,6 +240,30 @@
           "sector": "Tech",
           "underlying": "MRVL",
           "id": 1787064242205
+        },
+        {
+          "ticker": "META80",
+          "buyPrice": 3.0050400739827374,
+          "qty": 3244,
+          "sector": "Tech",
+          "underlying": "Meta Platforms",
+          "id": 1790655268421,
+          "parentTicker": "META",
+          "conversion": 8000,
+          "drCurrency": "USD",
+          "issuer": "KTB"
+        },
+        {
+          "ticker": "SHOP06",
+          "buyPrice": 2.404,
+          "qty": 4000,
+          "sector": "Tech",
+          "underlying": "SHOP",
+          "id": 1790570926902,
+          "parentTicker": "SHOP",
+          "conversion": 2000,
+          "drCurrency": "USD",
+          "issuer": "KKPS"
         }
       ],
       "cash": 104924.81,
@@ -618,6 +642,32 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1790570926902,
+      "ticker": "SHOP06",
+      "type": "buy",
+      "date": "2026-09-28",
+      "price": 2.4,
+      "qty": 4000,
+      "fee": 16.14,
+      "note": "ผู้ใช้ยืนยันซื้อ SHOP06 4,000 DR @ ฿2.40; ต้นทุนรวมค่าธรรมเนียม ฿9,616.14; average cost ฿2.404; issuer KKPS",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": false
+    },
+    {
+      "id": 1790655268421,
+      "ticker": "META80",
+      "type": "buy",
+      "date": "2026-09-29",
+      "price": 3.0,
+      "qty": 3244,
+      "fee": 16.35,
+      "note": "ผู้ใช้ยืนยันซื้อ META80 3,244 DR @ ฿3.00; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": false
+    },
     {
       "id": 1789747198164,
       "ticker": "NVDA80",
@@ -6076,8 +6126,9 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 43,
-    "totalTransactions": 69,
-    "totalNetWorth": "฿1,881,648.24"
+    "totalStocks": 45,
+    "totalTransactions": 71,
+    "totalNetWorth": null,
+    "note": "META80/SHOP06 holdings restored from user-confirmed buys; net worth not recalculated; cash preserved from latest source snapshot."
   }
 }

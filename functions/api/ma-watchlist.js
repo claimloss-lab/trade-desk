@@ -1,5 +1,6 @@
 // functions/api/ma-watchlist.js
 // CRUD สำหรับ watchlist ของ "MA Cross Signal" (เดิมคือหน้า Price Alert)
+import { requireRepoWriter } from '../_lib/repo-auth.js';
 // เก็บแยกจาก portfolio-data.json:
 //   public/ma-signal-watchlist.json  — รายชื่อ ticker (CRUD ผ่านหน้านี้)
 //   public/ma-signal-data.json       — MA50/MA200 ที่ worker คำนวณไว้แล้ว (read-only จากฝั่งนี้)
@@ -10,6 +11,7 @@
 const REPO = 'claimloss-lab/trade-desk';
 const WATCHLIST_PATH = 'public/ma-signal-watchlist.json';
 const DATA_PATH = 'public/ma-signal-data.json';
+const SAFE_TICKER = /^[A-Z0-9][A-Z0-9._^$()&-]{0,31}$/i;
 
 function ghHeaders(token) {
   return {
@@ -49,9 +51,15 @@ export async function onRequest(context) {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
   if (context.request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+  if (context.request.method === 'POST' || context.request.method === 'DELETE') {
+    const auth = await requireRepoWriter(context.request, REPO);
+    if (!auth.ok) return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers: cors });
+  }
 
   const token = context.env.GITHUB_TOKEN;
   if (!token) return new Response(JSON.stringify({ error: 'GITHUB_TOKEN not configured' }), { status: 500, headers: cors });
@@ -69,6 +77,7 @@ export async function onRequest(context) {
       const body = await context.request.json();
       const ticker = String(body.ticker || '').trim().toUpperCase();
       if (!ticker) return new Response(JSON.stringify({ error: 'ticker required' }), { status: 400, headers: cors });
+      if (!SAFE_TICKER.test(ticker)) return new Response(JSON.stringify({ error: 'invalid ticker format' }), { status: 400, headers: cors });
 
       const { data: wl, sha } = await ghGet(token, WATCHLIST_PATH);
       const tickers = wl?.tickers || [];
@@ -84,6 +93,7 @@ export async function onRequest(context) {
       const body = await context.request.json();
       const ticker = String(body.ticker || '').trim().toUpperCase();
       if (!ticker) return new Response(JSON.stringify({ error: 'ticker required' }), { status: 400, headers: cors });
+      if (!SAFE_TICKER.test(ticker)) return new Response(JSON.stringify({ error: 'invalid ticker format' }), { status: 400, headers: cors });
 
       const { data: wl, sha } = await ghGet(token, WATCHLIST_PATH);
       const tickers = (wl?.tickers || []).filter(t => t !== ticker);

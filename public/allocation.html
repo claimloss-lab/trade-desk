@@ -75,8 +75,18 @@ async function loadLiveAllocation(){
     const port=(data.portfolios||[]).find(p=>p.id==='dr1'||p.type==='realtime_dr');
     if(!port)throw Error('SET DR portfolio not found');
     const stocks=port.stocks||[];
-    const quotes=await Promise.all(stocks.map(async s=>{try{const r=await fetch('/api/price?ticker='+encodeURIComponent(s.ticker),{cache:'no-store'});const d=await r.json();return [s.ticker,Number(d.price)||0]}catch{return [s.ticker,0]}}));
+    const quotes=await Promise.all(stocks.map(async s=>{
+      try{
+        const r=await fetch('/api/price?ticker='+encodeURIComponent(s.ticker),{cache:'no-store'});
+        if(!r.ok)throw Error('price '+r.status);
+        const d=await r.json();
+        const price=(typeof d?.price==='number'||typeof d?.price==='string')?Number(d.price):NaN;
+        return [s.ticker,Number.isFinite(price)&&price>0?price:0];
+      }catch{return [s.ticker,0]}
+    }));
     const priceMap=Object.fromEntries(quotes);
+    const missing=stocks.filter(s=>Number(s.qty)!==0&&!priceMap[s.ticker]);
+    if(missing.length)throw Error('ราคาข้อมูลไม่ครบ: '+missing.map(s=>s.ticker).join(', '));
     const agg={};
     for(const s of stocks){const key=(s.parentTicker||s.underlying||s.ticker).toUpperCase().replace('GOOGL','GOOG');const price=priceMap[s.ticker]||0;if(!price)continue;if(!agg[key])agg[key]={market:0,qty:0,price:0};agg[key].market+=Number(s.qty||0)*price;agg[key].qty+=Number(s.qty||0);agg[key].price=price}
     const market=Object.values(agg).reduce((a,x)=>a+x.market,0), cash=Number(port.cash||0), liquid=market+cash, equityTarget=liquid*.95;
@@ -84,7 +94,7 @@ async function loadLiveAllocation(){
         document.getElementById('live-market').textContent=moneyTHB(market);document.getElementById('live-cash').textContent=moneyTHB(cash);document.getElementById('live-cash-floor').textContent=(cash/liquid*100).toFixed(2)+'%';
         const rows=Object.entries(ALLOC_TARGET).map(([ticker,target])=>{const x=agg[ticker]||{market:0,qty:0,price:0};const current=x.market/market*100;const delta=current-target;const gap=equityTarget*target/100-x.market;const [label,cls]=allocationStatus(delta);const gapCls=gap>0?'up':gap<0?'down':'flat';const gapText=(gap>=0?'+':'')+moneyTHB(gap);return `<tr><td>${ticker}</td><td class="mono">${current.toFixed(2)}%</td><td class="mono">${target}%</td><td class="mono">${(target*.95).toFixed(2)}%</td><td><span class="pill ${gapCls}">${gapText}</span></td><td>${ALLOC_ROLE[ticker]}</td><td><span class="pill ${cls}">${label} ${delta>=0?'+':''}${delta.toFixed(2)}จุด</span></td></tr>`}).join('');
     document.getElementById('allocation-tbody').innerHTML=rows;if(allocationSortColumn!==null)sortAllocationTable(allocationSortColumn,true);status.textContent='LIVE · '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});status.style.color='var(--green)';
-  }catch(e){status.textContent='fallback · '+e.message;status.style.color='var(--amber)';document.getElementById('allocation-tbody').innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--amber)">ยังดึงข้อมูล live ไม่ได้ — กรุณารีเฟรชหน้า ห้ามใช้ตัวเลขนี้ตั้งคำสั่งซื้อ</td></tr>'}
+  }catch(e){for(const id of ['live-market','live-cash','live-cash-floor'])document.getElementById(id).textContent='—';status.textContent='fallback · '+e.message;status.style.color='var(--amber)';document.getElementById('allocation-tbody').innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--amber)">ยังดึงข้อมูล live ไม่ได้ — กรุณารีเฟรชหน้า ห้ามใช้ตัวเลขนี้ตั้งคำสั่งซื้อ</td></tr>'}
 }
 loadLiveAllocation();setInterval(loadLiveAllocation,300000);
 </script>

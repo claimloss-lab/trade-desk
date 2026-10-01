@@ -96,8 +96,12 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
+    const mutationRoutes = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger', '/sellzone-trigger', '/machross-trigger'];
+    if (mutationRoutes.includes(url.pathname) && !env.ALERT_SECRET) {
+      return new Response('Alert secret not configured', { status: 503 });
+    }
     if (env.ALERT_SECRET) {
-      const key = url.searchParams.get('key');
+      const key = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '') || url.searchParams.get('key');
       const guarded = ['/trigger', '/watchlist', '/sr-trigger', '/oil-trigger', '/trend-trigger', '/reversal-trigger', '/buyzone-trigger', '/sellzone-trigger', '/machross-trigger']; // /oil-status, /oil-data เปิดสาธารณะ (read-only)
       if (guarded.includes(url.pathname) && key !== env.ALERT_SECRET) {
         return new Response('unauthorized', { status: 401 });

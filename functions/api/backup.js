@@ -1,64 +1,72 @@
+import { requireRepoWriter } from '../_lib/repo-auth.js';
+
 export async function onRequest(context) {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
 
   if (context.request.method === 'OPTIONS') return new Response(null, { headers: cors });
 
-  const GITHUB_TOKEN = context.env.GITHUB_TOKEN;
   const REPO = 'claimloss-lab/trade-desk';
   const FILE_PATH = 'public/portfolio-data.json';
   const API_BASE = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`;
-
+  const GITHUB_TOKEN = context.env.GITHUB_TOKEN;
   const ghHeaders = {
-    'Authorization': `token ${GITHUB_TOKEN}`,
-    'Accept': 'application/vnd.github.v3+json',
+    ...(GITHUB_TOKEN ? { 'Authorization': `Bearer ${GITHUB_TOKEN}` } : {}),
+    'Accept': 'application/vnd.github+json',
     'User-Agent': 'TradeDesk-Backup',
     'Content-Type': 'application/json',
   };
 
-  // ── GET: Load backup from GitHub ──
+  // ── GET: Load the public backup ──
   if (context.request.method === 'GET') {
     try {
       const res = await fetch(API_BASE, { headers: ghHeaders });
       if (!res.ok) return new Response(JSON.stringify({ error: 'Load failed', status: res.status }), { status: 502, headers: cors });
       const data = await res.json();
-      const _bin = atob(data.content.replace(/\n/g, ''));
-      const _bytes = new Uint8Array(_bin.length);
-      for (let i = 0; i < _bin.length; i++) _bytes[i] = _bin.charCodeAt(i);
-      const content = new TextDecoder('utf-8').decode(_bytes);
-      return new Response(content, { headers: { ...cors, 'Content-Type': 'application/json' } });
-    } catch(e) {
-      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
+      const binary = atob(data.content.replace(/\n/g, ''));
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return new Response(new TextDecoder('utf-8').decode(bytes), { headers: { ...cors, 'Content-Type': 'application/json' } });
+    } catch {
+      return new Response(JSON.stringify({ error: 'Load failed' }), { status: 502, headers: cors });
     }
   }
 
   // ── POST: Save backup to GitHub ──
   if (context.request.method === 'POST') {
+    const auth = await requireRepoWriter(context.request, REPO);
+    if (!auth.ok) return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers: cors });
+    if (!GITHUB_TOKEN) return new Response(JSON.stringify({ error: 'Backup service is not configured' }), { status: 503, headers: cors });
+
+    let body;
     try {
-      const body = await context.request.json();
+      body = await context.request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: 'Invalid JSON body' }), { status: 400, headers: cors });
+    }
+    if (!body || typeof body !== 'object' || !Array.isArray(body.portfolios) ||
+        body.portfolios.some(p => !p || p.id == null || !Array.isArray(p.stocks))) {
+      return new Response(JSON.stringify({ error: 'Invalid portfolio backup shape' }), { status: 400, headers: cors });
+    }
 
-      // Get current file SHA (needed for update)
+    try {
+      // Get current file SHA (required by GitHub to update an existing file).
       const shaRes = await fetch(API_BASE, { headers: ghHeaders });
-      let sha = null;
-      if (shaRes.ok) {
-        const shaData = await shaRes.json();
-        sha = shaData.sha;
-      }
-
-      // Encode content to base64
-      const _jsonStr = JSON.stringify(body, null, 2);
-      const _bytes = new TextEncoder().encode(_jsonStr);
-      let _bin = ''; for (let i = 0; i < _bytes.length; i++) _bin += String.fromCharCode(_bytes[i]);
-      const content = btoa(_bin);
+      if (!shaRes.ok) return new Response(JSON.stringify({ error: 'Could not read the current backup', status: shaRes.status }), { status: 502, headers: cors });
+      const shaData = await shaRes.json();
       const now = new Date().toISOString();
 
+      const jsonBytes = new TextEncoder().encode(JSON.stringify(body, null, 2));
+      let binary = '';
+      for (let i = 0; i < jsonBytes.length; i++) binary += String.fromCharCode(jsonBytes[i]);
       const payload = {
         message: `backup: auto-save ${now}`,
-        content,
-        ...(sha ? { sha } : {}),
+        content: btoa(binary),
+        sha: shaData.sha,
       };
 
       const updateRes = await fetch(API_BASE, {
@@ -66,15 +74,10 @@ export async function onRequest(context) {
         headers: ghHeaders,
         body: JSON.stringify(payload),
       });
-
-      if (!updateRes.ok) {
-        const err = await updateRes.text();
-        return new Response(JSON.stringify({ error: 'Save failed', detail: err }), { status: 502, headers: cors });
-      }
-
+      if (!updateRes.ok) return new Response(JSON.stringify({ error: 'Save failed', status: updateRes.status }), { status: 502, headers: cors });
       return new Response(JSON.stringify({ ok: true, savedAt: now }), { headers: cors });
-    } catch(e) {
-      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
+    } catch {
+      return new Response(JSON.stringify({ error: 'Backup service request failed' }), { status: 502, headers: cors });
     }
   }
 

@@ -2,15 +2,19 @@
 // POST { ticker, trendScoreResult }  (ผลลัพธ์จาก /api/trend-score ต่อหุ้นตัวเดียว)
 // ให้ Claude Haiku อธิบายสั้นๆ ภาษาไทยว่าทำไม Trend Score ถึงออกมาแบบนี้
 // เช่น "ทำไมรอบนี้ถึงเข้า Long" — ใช้ Haiku เพราะเป็น text สั้น ไม่ต้อง reasoning ลึก
+import { requireRepoWriter } from '../_lib/repo-auth.js';
 export async function onRequest(context) {
   const cors = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   };
   if (context.request.method === 'OPTIONS') return new Response(null, { headers: cors });
   if (context.request.method !== 'POST')
     return new Response(JSON.stringify({ error: 'POST only' }), { status: 405, headers: cors });
+  const auth = await requireRepoWriter(context.request);
+  if (!auth.ok) return new Response(JSON.stringify({ error: auth.error }), { status: auth.status, headers: cors });
 
   try {
     const { ticker, trendScoreResult } = await context.request.json();

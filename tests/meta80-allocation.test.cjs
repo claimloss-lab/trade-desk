@@ -22,6 +22,27 @@ test('META80 transaction records the user-confirmed gross price and fees exactly
   assert.ok(Math.abs((trades[0].price * trades[0].qty + trades[0].fee) - 9748.35) < 1e-9);
 });
 
+test('SHOP06 transaction includes the user-confirmed fee-adjusted cost basis', () => {
+  const shop = dr1.stocks.find(s => s.ticker === 'SHOP06');
+  const trades = data.transactions.filter(t => t.ticker === 'SHOP06' && t.type === 'buy' && t.date === '2026-09-28');
+  assert.equal(shop.qty, 4000);
+  assert.equal(shop.issuer, 'KKPS');
+  assert.ok(Math.abs(shop.buyPrice - 2.404) < 1e-9);
+  assert.equal(trades.length, 1);
+  assert.equal(trades[0].price, 2.40);
+  assert.equal(trades[0].fee, 16.14);
+  assert.ok(Math.abs(trades[0].price * trades[0].qty + trades[0].fee - 9616.14) < 1e-9);
+});
+
+test('restored backup counts match the actual holdings and transactions without stale net-worth metadata', () => {
+  assert.equal(data.summary.totalStocks, data.portfolios.reduce((n, p) => n + p.stocks.length, 0));
+  assert.equal(data.summary.totalTransactions, data.transactions.length);
+  assert.equal(data.summary.totalStocks, 45);
+  assert.equal(data.summary.totalTransactions, 71);
+  assert.equal(data.summary.totalNetWorth, null);
+  assert.match(data.summary.note, /not recalculated/i);
+});
+
 test('META target is 2% of the full SET-DR account and equity targets sum to 100%', () => {
   const match = allocation.match(/const ALLOC_TARGET\s*=\s*(\{[^;]+\});/);
   assert.ok(match, 'ALLOC_TARGET map exists');
@@ -37,6 +58,7 @@ test('META research is current and listed under Focus holdings', () => {
   assert.match(focus, /href="META\.html"/);
   assert.match(focus, /tag-hold/);
   assert.doesNotMatch(all, /href="META\.html"/);
-  assert.match(metaResearch, /2026-09-29/);
+  const publishedDate = metaResearch.match(/class="meta">[^<]*?(\d{4}-\d{2}-\d{2})/);
+  assert.ok(publishedDate && publishedDate[1] >= '2026-09-29', 'research must not regress to an older revision');
   assert.match(metaResearch, /3,244 DR/);
 });

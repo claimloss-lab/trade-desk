@@ -306,20 +306,11 @@ test('renders user-entered dividend notes as escaped text', () => {
   assert.doesNotMatch(source, /\$\{d\.note\}/);
 });
 
-test('escapes model-generated trading journal content before rendering', () => {
-  const start = html.indexOf('function renderJournalResult(data)');
-  const end = html.indexOf('// ──', start);
-  const source = html.slice(start, end);
-  assert.match(source, /escHTML\(data\.narrative\)/);
-  assert.match(source, /escHTML\(p\.finding\)/);
-  assert.match(source, /escHTML\(p\.suggestion\)/);
-  assert.doesNotMatch(source, /\$\{data\.narrative\}/);
-});
-
 test('escapes server error messages before inserting them as HTML', () => {
   const matches = [...html.matchAll(/\$\{data\.error\}/g)];
   assert.equal(matches.length, 0, 'raw API error text must not enter HTML templates');
-  assert.ok(html.includes('${escHTML(data.error)}'));
+  assert.match(html, /contentEl\.textContent = data\.analysis \|\| data\.error/);
+  assert.match(html, /status\.textContent = '❌ ' \+ data\.error/);
 });
 
 test('escapes local watchlist ticker, note, and date fields before HTML rendering', () => {

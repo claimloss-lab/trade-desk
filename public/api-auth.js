@@ -5,8 +5,6 @@
     '/api/paper-trade',
     '/api/ma-watchlist',
     '/api/analyze',
-    '/api/explain-signal',
-    '/api/journal',
     '/api/rebalance-ai',
     '/api/research',
     '/api/summarize',

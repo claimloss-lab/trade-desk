@@ -1,0 +1,10 @@
+{
+  "name": "trade-desk-watchlist-alert",
+  "main": "workers/trade-desk-watchlist-alert.js",
+  "compatibility_date": "2026-06-29",
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true, "logs": { "enabled": true } },
+  "keep_vars": true,
+  "triggers": { "crons": ["*/5 3-10 * * 1-5"] }
+}

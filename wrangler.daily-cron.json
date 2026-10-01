@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "trade-desk-daily-cron",
-  "main": "C:/Users/Admin/AppData/Local/Temp/trade-desk-release/workers/trade-desk-daily-cron.mjs",
+  "main": "workers/trade-desk-daily-cron.mjs",
   "compatibility_date": "2026-06-29",
   "workers_dev": true,
   "preview_urls": true,

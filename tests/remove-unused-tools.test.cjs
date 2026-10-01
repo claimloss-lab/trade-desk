@@ -37,6 +37,19 @@ test('retired signal and journal API endpoints are removed, shared services rema
   assert.doesNotMatch(apiAuthSource, /\/api\/(?:backtest|buy-zone|explain-signal|journal|reversal-signal|sell-zone|trend-score)/);
 });
 
+test('removed Pages API endpoints return 410 instead of the SPA fallback', async () => {
+  const file = path.join(root, 'functions/api/[[path]].js');
+  assert.equal(fs.existsSync(file), true, 'API fallback route exists');
+  const source = fs.readFileSync(file, 'utf8').replace(/^export\s+async\s+function\s+onRequest/m, 'async function onRequest');
+  const onRequest = new Function(source + '\nreturn onRequest;')();
+  for (const route of ['backtest', 'buy-zone', 'explain-signal', 'journal', 'reversal-signal', 'sell-zone', 'trend-score']) {
+    const response = await onRequest({ request: new Request(`https://trade-desk.pages.dev/api/${route}`) });
+    assert.equal(response.status, 410, `/api/${route} is retired`);
+  }
+  const unknown = await onRequest({ request: new Request('https://trade-desk.pages.dev/api/not-a-route') });
+  assert.equal(unknown.status, 404);
+});
+
 test('retired scheduled signal alerts are no longer run by the watchlist worker', async () => {
   for (const name of ['checkTrendAlerts', 'checkReversalAlerts', 'checkBuyZoneAlerts', 'checkSellZoneAlerts']) {
     assert.doesNotMatch(workerSource, new RegExp(`function ${name}\\s*\\(`));

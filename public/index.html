@@ -440,6 +440,42 @@ function syncSrMetadata(localPortfolios, remotePortfolios) {
   return changed;
 }
 
+// Read-only backup merge: NAV is remote metadata, positions remain browser-owned.
+function syncNavMetadata(localPortfolios, remotePortfolios) {
+  if (!Array.isArray(localPortfolios) || !Array.isArray(remotePortfolios)) return false;
+  const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+  function navDay(value) {
+    if (typeof value !== 'string') return NaN;
+    const iso = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    const thai = value.trim().match(/^(\d{1,2})\s+(\S+)\s+(\d{2}|\d{4})$/);
+    if (!iso && !thai) return NaN;
+    const month = iso ? Number(iso[2]) - 1 : thaiMonths.indexOf(thai[2]);
+    const year = iso ? Number(iso[1]) : Number(thai[3]) + (thai[3].length === 2 ? 2500 : 0) - 543;
+    const day = Number(iso ? iso[3] : thai[1]);
+    const date = new Date(Date.UTC(year, month, day));
+    return month >= 0 && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day ? date.getTime() : NaN;
+  }
+  let changed = false;
+  for (const port of localPortfolios) {
+    if (port?.id == null || port.id === '') continue;
+    const remote = remotePortfolios.find(p => p?.id === port.id);
+    if (!Array.isArray(port.stocks) || !Array.isArray(remote?.stocks)) continue;
+    for (const stock of port.stocks) {
+      if (typeof stock?.ticker !== 'string' || !stock.ticker) continue;
+      const source = remote.stocks.find(s => s?.ticker === stock.ticker && (s.id == null || stock.id == null || s.id === stock.id));
+      if (!source || !Number.isFinite(source.currentNav) || source.currentNav <= 0) continue;
+      const remoteDay = navDay(source.navDate);
+      const localDay = navDay(stock.navDate);
+      if (!Number.isFinite(remoteDay) || (Number.isFinite(localDay) && remoteDay < localDay)) continue;
+      if (remoteDay === localDay && source.currentNav === stock.currentNav) continue;
+      stock.currentNav = source.currentNav;
+      stock.navDate = source.navDate;
+      changed = true;
+    }
+  }
+  return changed;
+}
+
 // ══════════════════════════════════════════════════
 // VERSION & BOOT
 // ══════════════════════════════════════════════════
@@ -1997,6 +2033,10 @@ async function boot(){
     if(drRes.ok){
       const drData = await drRes.json();
       if (syncSrMetadata(portfolios, drData.portfolios)) {
+        localStorage.setItem('td_ports', JSON.stringify(portfolios));
+      }
+      // Pull daily NAV updates into cached holdings; never schedule a GitHub save.
+      if (syncNavMetadata(portfolios, drData.portfolios)) {
         localStorage.setItem('td_ports', JSON.stringify(portfolios));
       }
       if(drData.drConversions?.length){ drsBaseList = drData.drConversions; window.__lastKnownDrConversions = drData.drConversions; }

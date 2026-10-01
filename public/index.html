@@ -410,6 +410,28 @@ const SECTOR_COLORS = {
 const PALETTE = ['#2F6FED','#30d158','#ff9500','#ff3b30','#5e5ce6','#00c7be','#ff6b35','#34aadc','#4cd964','#ff2d55','#8b5cf6','#06d6a0'];
 // พอร์ตที่โชว์คอลัมน์แนวรับ/แนวต้าน (คำนวณโดย Worker trade-desk-watchlist-alert ระบบ Smart S/R Alert)
 const SR_DISPLAY_PORT_IDS = ['dr1','p_1778723407199']; // SET DR, DIME-USA
+function syncSrMetadata(localPortfolios, remotePortfolios) {
+  if (!Array.isArray(localPortfolios) || !Array.isArray(remotePortfolios)) return false;
+  const fields = ['srSupport', 'srResist', 'srUpdated', 'srResistIsExt'];
+  const remoteById = new Map(remotePortfolios.map(port => [port.id, port]));
+  let changed = false;
+  for (const localPort of localPortfolios) {
+    const remotePort = remoteById.get(localPort.id);
+    if (!Array.isArray(localPort.stocks) || !Array.isArray(remotePort?.stocks)) continue;
+    const remoteByTicker = new Map(remotePort.stocks.map(stock => [stock.ticker, stock]));
+    for (const stock of localPort.stocks) {
+      const remoteStock = remoteByTicker.get(stock.ticker);
+      if (!remoteStock) continue;
+      for (const field of fields) {
+        if (Object.prototype.hasOwnProperty.call(remoteStock, field) && stock[field] !== remoteStock[field]) {
+          stock[field] = remoteStock[field];
+          changed = true;
+        }
+      }
+    }
+  }
+  return changed;
+}
 
 // ══════════════════════════════════════════════════
 // VERSION & BOOT
@@ -1925,6 +1947,9 @@ async function boot(){
     const drRes = await fetch('/api/backup', {cache:'no-cache'});
     if(drRes.ok){
       const drData = await drRes.json();
+      if (syncSrMetadata(portfolios, drData.portfolios)) {
+        localStorage.setItem('td_ports', JSON.stringify(portfolios));
+      }
       if(drData.drConversions?.length){ drsBaseList = drData.drConversions; window.__lastKnownDrConversions = drData.drConversions; }
       // preserve S/R alert dedupe state written by the alert Worker
       window.__srAlerts = drData._srAlerts || {};

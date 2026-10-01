@@ -49,6 +49,16 @@ test('removed Pages API endpoints return 410 instead of the SPA fallback', async
   assert.equal(unknown.status, 404);
 });
 
+test('former public Paper Trading state URL returns 410 without disclosing saved state', async () => {
+  const file = path.join(root, 'functions/paper-trading.json.js');
+  assert.equal(fs.existsSync(file), true, 'retired state route exists');
+  const source = fs.readFileSync(file, 'utf8').replace(/^export\s+async\s+function\s+onRequest/m, 'async function onRequest');
+  const onRequest = new Function(source + '\nreturn onRequest;')();
+  const response = await onRequest({ request: new Request('https://trade-desk.pages.dev/paper-trading.json') });
+  assert.equal(response.status, 410);
+  assert.deepEqual(await response.json(), { error: 'Paper Trading state retired' });
+});
+
 test('retired scheduled signal alerts are no longer run by the watchlist worker', async () => {
   for (const name of ['checkTrendAlerts', 'checkReversalAlerts', 'checkBuyZoneAlerts', 'checkSellZoneAlerts']) {
     assert.doesNotMatch(workerSource, new RegExp(`function ${name}\\s*\\(`));

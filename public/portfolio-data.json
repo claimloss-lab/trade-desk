@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-01T08:12:47.104Z",
-  "exportDateTH": "1 ตุลาคม 2569 เวลา 15:12",
+  "exportDate": "2026-10-01T08:13:10.836Z",
+  "exportDateTH": "1 ตุลาคม 2569 เวลา 15:13",
   "portfolios": [
     {
       "id": "dr1",
@@ -570,7 +570,7 @@
           "underlying": "BBL Gold RMF",
           "currency": "THB",
           "currentNav": 28.541,
-          "navDate": "2026-09-30"
+          "navDate": "1 ต.ค. 69"
         },
         {
           "id": 2,

@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.871,
-          "srResist": 2.3446,
-          "srUpdated": "2026-08-17",
+          "srSupport": 1.9022,
+          "srResist": 2.3836,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 40.1589,
-          "srResist": 54.7428,
-          "srUpdated": "2026-08-17",
+          "srSupport": 43.3806,
+          "srResist": 55.6546,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3804,
-          "srResist": 3.1803,
-          "srUpdated": "2026-08-17",
+          "srSupport": 2.2779,
+          "srResist": 2.872,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -76,9 +76,9 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 17.427,
-          "srResist": 31.2837,
-          "srUpdated": "2026-08-17",
+          "srSupport": 22.7823,
+          "srResist": 38.6376,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": true
         },
         {
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.2558,
-          "srResist": 6.5882,
-          "srUpdated": "2026-08-17",
+          "srSupport": 5.3433,
+          "srResist": 6.3002,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.5659,
-          "srResist": 2.0399,
-          "srUpdated": "2026-08-17",
+          "srSupport": 1.8727,
+          "srResist": 2.1491,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.8252,
-          "srResist": 8.2548,
-          "srUpdated": "2026-08-17",
+          "srSupport": 5.9223,
+          "srResist": 8.6196,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.3707,
-          "srResist": 38.9207,
-          "srUpdated": "2026-08-17",
+          "srSupport": 31.8932,
+          "srResist": 38.6659,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -171,9 +171,9 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 6.8642,
-          "srResist": 13.5197,
-          "srUpdated": "2026-08-17",
+          "srSupport": 9.839,
+          "srResist": 14.2334,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": true
         },
         {
@@ -190,10 +190,10 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.3614,
-          "srResist": 4.1742,
-          "srUpdated": "2026-08-17",
-          "srResistIsExt": true
+          "srSupport": 2.4007,
+          "srResist": 4.2923,
+          "srUpdated": "2026-10-01",
+          "srResistIsExt": false
         },
         {
           "ticker": "QQQM19",
@@ -209,9 +209,9 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 17.9966,
-          "srResist": 20.2895,
-          "srUpdated": "2026-08-17",
+          "srSupport": 18.2963,
+          "srResist": 20.6643,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.489,
-          "srResist": 5.4564,
-          "srUpdated": "2026-08-17",
+          "srSupport": 3.8112,
+          "srResist": 5.9833,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
         {
@@ -243,8 +243,8 @@
           "parentTicker": "MRVL",
           "conversion": 1000,
           "drCurrency": "USD",
-          "srSupport": 5.4951,
-          "srResist": 10.018,
+          "srSupport": 5.4853,
+          "srResist": 10.0002,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
@@ -259,8 +259,8 @@
           "conversion": 8000,
           "drCurrency": "USD",
           "issuer": "KTB",
-          "srSupport": 2.2659,
-          "srResist": 3.128,
+          "srSupport": 2.2619,
+          "srResist": 3.1224,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
@@ -275,8 +275,8 @@
           "conversion": 2000,
           "drCurrency": "USD",
           "issuer": "KKPS",
-          "srSupport": 1.8769,
-          "srResist": 2.6657,
+          "srSupport": 1.8735,
+          "srResist": 2.6609,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
         }
@@ -647,8 +647,8 @@
           "atrValue": 7.5778,
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
-          "srResist": 248.15,
-          "srUpdated": "2026-08-17",
+          "srResist": 162.52,
+          "srUpdated": "2026-10-01",
           "srResistIsExt": false
         }
       ],
@@ -675,7 +675,7 @@
       "ticker": "META80",
       "type": "buy",
       "date": "2026-09-29",
-      "price": 3.0,
+      "price": 3,
       "qty": 3244,
       "fee": 16.35,
       "note": "ผู้ใช้ยืนยันซื้อ META80 3,244 DR @ ฿3.00; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",
@@ -6080,18 +6080,12 @@
     }
   ],
   "_srAlerts": {
-    "MSFT_resist": "2026-09-15T03:00:30.556Z",
+    "MSFT_resist": "2026-10-01T03:01:07.246Z",
     "SNOW_resist": "2026-09-08T03:00:37.955Z",
-    "CRWD_resist": "2026-09-15T03:00:30.556Z",
-    "PLTR_resist": "2026-08-31T03:00:19.199Z",
-    "trend:SNOW:Strong Buy": "2026-09-01",
+    "CRWD_resist": "2026-10-01T03:01:07.246Z",
     "trend:PANW:Strong Buy": "2026-09-17",
     "trend:NVDA:Strong Buy": "2026-09-21",
-    "trend:QQQM:Strong Buy": "2026-08-17",
     "trend:CRWD:Strong Buy": "2026-09-17",
-    "trend:ASML:Strong Buy": "2026-08-17",
-    "LLY_resist": "2026-08-26T03:00:38.374Z",
-    "reversal:ORCL:bullish_divergence": "2026-08-25",
     "buyzone:AMZN": "2026-09-14",
     "buyzone:QQQM": "2026-09-21",
     "buyzone:MSFT": "2026-09-21",
@@ -6102,28 +6096,20 @@
     "sellzone:AVGO": "2026-09-21",
     "sellzone:CRWD": "2026-09-14",
     "AVGO_support": "2026-09-14T03:00:27.151Z",
-    "trend:LLY:Strong Buy": "2026-08-24",
-    "reversal:ORCL:bullish_divergence,bullish_engulfing": "2026-08-20",
     "sellzone:GOOGL": "2026-09-21",
     "sellzone:PANW": "2026-09-21",
-    "reversal:QQQM:hammer": "2026-08-24",
     "buyzone:ASML": "2026-09-10",
     "sellzone:NVDA": "2026-09-20",
     "sellzone:ORCL": "2026-09-21",
     "buyzone:GOOGL": "2026-09-21",
     "buyzone:ORCL": "2026-09-17",
     "buyzone:NVDA": "2026-09-17",
-    "buyzone:CRWD": "2026-08-26",
     "trend:MSFT:Strong Buy": "2026-09-15",
-    "reversal:PLTR:bullish_engulfing": "2026-08-27",
-    "reversal:QQQM:bullish_engulfing": "2026-08-27",
     "buyzone:PLTR": "2026-09-21",
     "buyzone:LLY": "2026-09-21",
-    "reversal:PANW:hammer": "2026-08-31",
-    "sellzone:PLTR": "2026-09-01",
     "trend:PLTR:Strong Buy": "2026-09-21",
     "sellzone:AMZN": "2026-09-20",
-    "NVDA_resist": "2026-09-03T03:00:53.447Z",
+    "NVDA_resist": "2026-10-01T03:01:07.246Z",
     "reversal:GOOGL:bullish_engulfing": "2026-09-03",
     "reversal:ORCL:hammer": "2026-09-08",
     "reversal:AVGO:hammer": "2026-09-08",
@@ -6137,7 +6123,9 @@
     "reversal:PLTR:volume_exhaustion": "2026-09-15",
     "sellzone:ASML": "2026-09-17",
     "reversal:SNOW:bullish_engulfing": "2026-09-17",
-    "reversal:PLTR:hammer": "2026-09-21"
+    "reversal:PLTR:hammer": "2026-09-21",
+    "PANW_resist": "2026-10-01T03:01:07.246Z",
+    "QQQM_resist": "2026-10-01T03:01:07.246Z"
   },
   "summary": {
     "totalPorts": 10,

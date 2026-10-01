@@ -1,9 +1,9 @@
 {
   "signals": {
-    "content": "",
-    "updatedAt": null,
+    "content": "🎯 Portfolio pullback scan — US close — 2026-09-30\n\n【ถืออยู่ ราคาเข้าแนวรับ】\n\n• **ORCL** — close **$137.33**; ต่ำกว่า MA50 $142.90 อยู่ **3.90%** (pullback: ใช่) แต่ยังห่าง swing low $116.20 **18.18%**; trend **ลง**. **ไม่มี DR** — ถือหุ้นตรงผ่าน Dime. ระวังแนวโน้มขาลงและหนี้/CapEx; playbook ระบุให้มีเงินสดก่อนพิจารณาเพิ่ม  \nsource: [Yahoo Finance](https://query1.finance.yahoo.com/v8/finance/chart/ORCL?range=1y&interval=1d) · portfolio.json · playbook/ORCL.md\n\n• **AMZN** — close **$249.15**; MA50 $256.12 อยู่เหนือราคา **2.72%** (pullback: ใช่); swing low $226.16 อยู่ต่ำกว่า **10.17%**; trend **ขึ้น**. **AMZN80, 4,000:1**. รอมีสภาพคล่องก่อน; playbook วาง trigger ที่ ฿1.87/DR และให้ติดตาม AWS  \nsource: [Yahoo Finance](https://query1.finance.yahoo.com/v8/finance/chart/AMZN?range=1y&interval=1d) · portfolio.json · playbook/AMZN.md\n\n• **AVGO** — close **$351.19**; swing low **$335.81** (ห่าง **4.58%**); MA50 $375.03 อยู่เหนือราคา 6.36% (pullback: ใช่); trend **ลง**. **AVGO80, 5,000:1**. ใกล้ swing support แต่ trend ยังลง; playbook ระบุให้เพิ่มเมื่อมีเงินสดและ thesis ยังอยู่  \nsource: [Yahoo Finance](https://query1.finance.yahoo.com/v8/finance/chart/AVGO?range=1y&interval=1d) · portfolio.json · playbook/AVGO.md\n\n• **GOOGL** — close **$344.08**; swing low **$327.74** (ห่าง **4.99%**); pullback: **ไม่ใช่**; trend **ขึ้น**. **GOOG80, 2,000:1**. จับตาบริเวณแนวรับ; playbook ระบุให้ core Search/Cloud ยังแข็งและมีสภาพคล่องก่อนพิจารณาเพิ่ม  \nsource: [Yahoo Finance](https://query1.finance.yahoo.com/v8/finance/chart/GOOGL?range=1y&interval=1d) · portfolio.json · playbook/GOOGL.md\n\n• **LLY** — close **$1,159.25**; swing low **$1,109.15** (ห่าง **4.52%**); pullback: **ไม่ใช่**; trend **ขึ้น**. **LLY80, 20,000:1**. เป็นหุ้นยา ไม่ใช่เทค; playbook ระบุให้รอมีเงินสดและติดตามยอดขายยากลุ่ม GLP-1\n\nsource: [Yahoo Finance](https://query1.finance.yahoo.com/v8/finance/chart/LLY?range=1y&interval=1d) · portfolio.json · playbook/LLY.md\n\n— ข้อมูลจาก Yahoo และไฟล์พอร์ต/Playbook ณ 2026-10-01 03:07 น. เวลาไทย · เป็นสัญญาณประกอบการตัดสินใจ ไม่ใช่คำแนะนำการลงทุน",
+    "updatedAt": "2026-10-01T04:58:43Z",
     "discordUrl": "https://discord.com/channels/1542575495021985835/1543408231395893248",
-    "sourceJob": null
+    "sourceJob": "Portfolio Pullback Monitor (US close) [latest existing post]"
   },
   "morningAiNews": {
     "content": "",

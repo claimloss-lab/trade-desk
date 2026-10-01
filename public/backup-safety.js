@@ -155,7 +155,12 @@
           if (candidates.length) changedHoldings.push({ portfolioId: remotePortfolio.id, ticker });
           continue;
         }
-        if (stableRecord(remoteStock, 'qty') !== stableRecord(localStock, 'qty')) {
+        // NAV refresh changes market data, not the user's position or cost basis.
+        // Keep every other holding field protected, including unknown fields.
+        const holdingRecord = stock => stableRecord(Object.fromEntries(
+          Object.entries(stock).filter(([key]) => !['qty', 'currentNav', 'navDate'].includes(key))
+        ));
+        if (holdingRecord(remoteStock) !== holdingRecord(localStock)) {
           changedHoldings.push({ portfolioId: remotePortfolio.id, ticker });
         }
       }

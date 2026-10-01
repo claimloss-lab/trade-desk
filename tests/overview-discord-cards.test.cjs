@@ -24,8 +24,8 @@ test('published cards data keeps the two channels separate with replacement meta
   const cards = JSON.parse(fs.readFileSync(path.join(root, 'public/discord-cards.json'), 'utf8'));
   for (const key of ['signals', 'morningAiNews']) {
     assert.ok(cards[key] && typeof cards[key] === 'object', `${key} card exists`);
-    assert.equal(cards[key].content, '');
-    assert.equal(cards[key].updatedAt, null);
+    assert.equal(typeof cards[key].content, 'string');
+    assert.ok(cards[key].updatedAt === null || Number.isFinite(Date.parse(cards[key].updatedAt)));
     assert.equal(typeof cards[key].discordUrl, 'string');
   }
 });

@@ -87,6 +87,28 @@ test('detects changed transaction fields when an existing transaction ID is reus
   assert.equal(result.hasLoss, true);
 });
 
+test('NAV refresh autosaves updated price and date without confirmation', async () => {
+  const remote = { portfolios: [{ id: 'fund1', type: 'manual', cash: 0, stocks: [{ id: 7, ticker: 'BGOLDRMF', qty: 10, buyPrice: 20, currentNav: 28, navDate: '2026-09-30' }] }], transactions: [] };
+  const local = structuredClone(remote);
+  local.portfolios[0].stocks[0].currentNav = 29;
+  local.portfolios[0].stocks[0].navDate = '2026-10-01';
+  assert.equal(loadSafety().findSnapshotLosses(remote, local).hasLoss, false);
+  const h = createSaveHarness({ remote, local });
+  await h.save();
+  assert.equal(h.confirmCalls(), 0);
+  assert.ok(h.calls.some(call => call.method !== 'GET'), 'updated NAV is saved');
+  assert.equal(h.failures.length, 0);
+});
+
+test('NAV refresh does not bypass financial or unknown holding changes', () => {
+  const remote = { portfolios: [{ id: 'fund1', type: 'manual', cash: 0, stocks: [{ id: 7, ticker: 'BGOLDRMF', qty: 10, buyPrice: 20, currentNav: 28, navDate: '2026-09-30' }] }], transactions: [] };
+  for (const [field, value] of [['buyPrice', 21], ['qty', 9], ['id', 8], ['unexpectedField', 'changed']]) {
+    const local = structuredClone(remote);
+    Object.assign(local.portfolios[0].stocks[0], { currentNav: 29, navDate: '2026-10-01', [field]: value });
+    assert.equal(loadSafety().findSnapshotLosses(remote, local).hasLoss, true, field + ' remains protected');
+  }
+});
+
 test('detects cost-basis changes when a holding quantity is unchanged', () => {
   const remote = { portfolios: [{ id: 'dr1', type: 'realtime_dr', cash: 0, stocks: [{ id: 7, ticker: 'TST80', qty: 10, buyPrice: 5 }] }], transactions: [] };
   const local = { portfolios: [{ id: 'dr1', type: 'realtime_dr', cash: 0, stocks: [{ id: 7, ticker: 'TST80', qty: 10, buyPrice: 4 }] }], transactions: [] };

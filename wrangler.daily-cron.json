@@ -4,6 +4,8 @@
   "main": "C:/Users/Admin/AppData/Local/Temp/trade-desk-release/workers/trade-desk-daily-cron.mjs",
   "compatibility_date": "2026-06-29",
   "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true, "logs": { "enabled": true } },
   "keep_vars": true,
   "triggers": {
     "crons": ["0 11 * * MON-FRI", "0 2 * * TUE-SAT"]

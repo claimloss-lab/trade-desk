@@ -58,13 +58,24 @@ header{background:rgba(245,245,247,.88);backdrop-filter:blur(20px);border-bottom
 .cur-btn.on{background:var(--blue);color:#fff}
 
 /* NAV TABS */
-.nav{background:var(--surface);border-bottom:1px solid var(--bd);padding:0 24px;display:flex;align-items:center;gap:0;position:sticky;top:52px;z-index:190;overflow-x:auto}
+.nav{background:var(--surface);border-bottom:1px solid var(--bd);padding:0 24px;display:flex;align-items:center;gap:0;position:sticky;top:52px;z-index:190;overflow:visible}
+.nav-scroll{display:flex;align-items:center;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav-scroll::-webkit-scrollbar{display:none}
 .nav-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
 .nav-tab:hover{color:var(--tx)}
 .nav-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
 .nav-tab .port-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .nav-add{padding:8px 12px;font-size:12px;font-weight:500;color:var(--blue);cursor:pointer;margin-left:4px;white-space:nowrap}
 .nav-add:hover{text-decoration:underline}
+.nav-tools{position:relative;flex:none;border-left:1px solid var(--bd);padding-left:8px;margin-left:4px}
+.nav-tools>summary{list-style:none;display:flex;align-items:center;gap:6px;padding:12px 12px;font-size:13px;font-weight:500;color:var(--tx2);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;user-select:none}
+.nav-tools>summary::-webkit-details-marker{display:none}
+.nav-tools>summary::after{content:'⌄';font-size:12px;color:var(--tx3)}
+.nav-tools[open]>summary,.nav-tools.on>summary{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-tools-menu{position:absolute;right:0;top:calc(100% + 3px);z-index:260;min-width:190px;padding:6px;background:var(--surface);border:1px solid var(--bd);border-radius:12px;box-shadow:var(--sh2);display:grid;gap:2px}
+.nav-tools-menu a,.nav-tools-menu button{display:flex;align-items:center;gap:9px;width:100%;padding:10px 11px;border:0;border-radius:8px;background:transparent;color:var(--tx);font:500 13px var(--sans);text-decoration:none;text-align:left;white-space:nowrap;cursor:pointer}
+.nav-tools-menu a:hover,.nav-tools-menu button:hover{background:var(--s2);color:var(--blue)}
+@media(max-width:600px){.nav{padding:0 10px}.nav-tab{padding:11px 12px;font-size:12px}.nav-tools{padding-left:4px;margin-left:2px}.nav-tools>summary{padding:11px 8px;font-size:12px}}
 
 /* PAGE */
 .page{max-width:1440px;margin:0 auto;padding:22px 24px 60px}
@@ -748,15 +759,22 @@ window.addEventListener('storage',e=>{if(e.key==='td_private_pvd_v1'&&typeof ren
 function buildNav() {
   const nav = document.getElementById('nav-bar');
   nav.innerHTML = `
-    <div class="nav-tab${activeTab==='overview'?' on':''}" onclick="showTab('overview')">🏠 Overview</div>
-    <div class="nav-tab${activeTab==='research'?' on':''}" onclick="showTab('research')">📚 Research</div>
-    <a class="nav-tab" href="allocation.html" style="text-decoration:none">🎯 Allocation</a>
-    <a class="nav-tab" href="pvd.html" style="text-decoration:none">🔒 PVD</a>
-    ${portfolios.map(p=>`
-      <div class="nav-tab${activeTab===p.id?' on':''}" onclick="showTab('${p.id}')">
-        <span class="port-dot" style="background:${p.color}"></span>${p.name}
-      </div>`).join('')}
-    <div class="nav-add" onclick="openAddPort()">+ เพิ่มพอร์ต</div>
+    <div class="nav-scroll">
+      <div class="nav-tab${activeTab==='overview'?' on':''}" onclick="showTab('overview')">🏠 Overview</div>
+      ${portfolios.map(p=>`
+        <div class="nav-tab${activeTab===p.id?' on':''}" onclick="showTab('${p.id}')">
+          <span class="port-dot" style="background:${p.color}"></span>${p.name}
+        </div>`).join('')}
+      <div class="nav-add" onclick="openAddPort()">+ เพิ่มพอร์ต</div>
+    </div>
+    <details class="nav-tools${activeTab==='research'?' on':''}" id="nav-tools-menu">
+      <summary aria-label="เปิดเมนูเครื่องมือ">เครื่องมือ</summary>
+      <div class="nav-tools-menu">
+        <button type="button" onclick="document.getElementById('nav-tools-menu').open=false;showTab('research')">📚 Research</button>
+        <a href="allocation.html">🎯 Allocation</a>
+        <a href="pvd.html">🔒 PVD</a>
+      </div>
+    </details>
   `;
 }
 
@@ -1426,7 +1444,7 @@ function buildRealtimeHTML(port) {
     <div class="card sens">
       <div class="card-hd"><div class="card-ti">${port.name}</div><div style="font-size:11px;color:var(--tx3)" id="${port.id}-cnt">0 รายการ</div></div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${SR_DISPLAY_PORT_IDS.includes(port.id)?'<th title="ราคาต่ำสุดในช่วง ~3 เดือนล่าสุด (excl. 5 วันล่าสุด) ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔻 แนวรับ</th><th title="ราคาสูงสุดในช่วง ~3 เดือนล่าสุด ของหุ้นแม่ · ถ้าราคาทะลุ (all-time high) จะเปลี่ยนเป็นเป้า Fibonacci Extension (127.2/161.8/200/261.8%) แทน">🔺 แนวต้าน</th>':''}<th>Spark</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>บริษัท</th><th>Sector</th><th>จำนวน</th><th>ต้นทุน/หุ้น</th><th>ราคาปัจจุบัน</th><th>เปลี่ยน%</th><th>มูลค่า</th><th>P&L</th><th>%</th><th title="สัดส่วนของหุ้นตัวนี้เทียบกับมูลค่าหุ้นรวมในพอร์ต">สัดส่วน</th>${SR_DISPLAY_PORT_IDS.includes(port.id)?'<th title="ราคาปิดต่ำสุดในช่วง ~3 เดือนล่าสุด (เว้น 5 วันทำการล่าสุด) ของหุ้นแม่ · แปลงเป็น ฿ ผ่าน conversion ratio">🔻 แนวรับ</th><th title="ราคาปิดสูงสุดในช่วง ~3 เดือนล่าสุด (เว้น 5 วันทำการล่าสุด) ของหุ้นแม่ · ถ้าราคาทะลุ (all-time high) จะเปลี่ยนเป็นเป้า Fibonacci Extension (127.2/161.8/200/261.8%) แทน">🔺 แนวต้าน</th>':''}<th>Spark</th></tr></thead>
         <tbody id="${port.id}-body"></tbody>
       </table></div>
     </div>
@@ -1581,13 +1599,15 @@ function renderPortfolio(portId) {
       const supCell = typeof s.srSupport==='number'
         ? `<td class="mono" style="font-size:12px">
              <div style="font-weight:600;color:${supHit?'var(--red-tx)':'var(--tx1)'}">${symPrefix}${fn(s.srSupport,2)}</div>
+             <div style="font-size:9px;color:var(--tx3)" title="วันที่คำนวณแนวรับ">${escHTML(s.srUpdated||'ไม่ทราบวันที่')}</div>
              ${supHit?'<div style="font-size:10px;color:var(--red-tx);font-weight:600">⚠️ หลุดแนวรับ</div>':''}
            </td>`
         : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:00 ICT)">—</td>`;
       const resCell = typeof s.srResist==='number'
         ? `<td class="mono" style="font-size:12px">
              <div style="font-weight:600;color:${resHit?'var(--green-tx)':'var(--tx1)'}">${symPrefix}${fn(s.srResist,2)}</div>
-             ${s.srResistIsExt?'<div style="font-size:10px;color:var(--tx3)" title="ราคาทะลุแนวต้านเดิม (all-time high) แล้ว — ค่านี้คือเป้าโปรเจกต์จาก Fibonacci Extension ไม่ใช่จุดสูงสุดจริงในอดีต">📐 Fib Ext.</div>':''}
+             <div style="font-size:9px;color:var(--tx3)" title="วันที่คำนวณแนวต้าน">${escHTML(s.srUpdated||'ไม่ทราบวันที่')}</div>
+             ${s.srResistIsExt?'<div style="font-size:10px;color:var(--tx3)" title="ราคาปิดล่าสุดทะลุกรอบราคาปิดสูงสุด 3 เดือนเดิมแล้ว — ค่านี้คือเป้า Fibonacci Extension ไม่ใช่แนวต้านจากยอดสูงสุดจริงตลอดกาล">📐 Fib Ext.</div>':''}
              ${resHit?'<div style="font-size:10px;color:var(--green-tx);font-weight:600">🚀 ทะลุแนวต้าน</div>':''}
            </td>`
         : `<td class="muted" style="font-size:11px" title="รอ Worker คำนวณรอบถัดไป (~10:00 ICT)">—</td>`;
@@ -1938,9 +1958,11 @@ async function refreshPort(portId){
 function showTab(id){
   activeTab=id;
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{
-    const tabs=['overview','research',...portfolios.map(p=>p.id)];
+    const tabs=['overview',...portfolios.map(p=>p.id)];
     t.className='nav-tab'+(tabs[i]===id?' on':'');
   });
+  const tools=document.getElementById('nav-tools-menu');
+  if(tools){tools.classList.toggle('on',id==='research');tools.open=false;}
   // ซ่อนทั้ง tab-panel และ feat-panel (หน้าที่เปิดจาก sidebar) ไม่ให้ค้างซ้อนกัน
   document.querySelectorAll('.tab-panel').forEach(p=>p.className='tab-panel');
   document.querySelectorAll('.feat-panel').forEach(p=>p.classList.remove('on'));

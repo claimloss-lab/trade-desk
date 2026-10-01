@@ -239,7 +239,14 @@
           "qty": 1500,
           "sector": "Tech",
           "underlying": "MRVL",
-          "id": 1787064242205
+          "id": 1787064242205,
+          "parentTicker": "MRVL",
+          "conversion": 1000,
+          "drCurrency": "USD",
+          "srSupport": 5.4951,
+          "srResist": 10.018,
+          "srUpdated": "2026-10-01",
+          "srResistIsExt": false
         },
         {
           "ticker": "META80",
@@ -251,7 +258,11 @@
           "parentTicker": "META",
           "conversion": 8000,
           "drCurrency": "USD",
-          "issuer": "KTB"
+          "issuer": "KTB",
+          "srSupport": 2.2659,
+          "srResist": 3.128,
+          "srUpdated": "2026-10-01",
+          "srResistIsExt": false
         },
         {
           "ticker": "SHOP06",
@@ -263,7 +274,11 @@
           "parentTicker": "SHOP",
           "conversion": 2000,
           "drCurrency": "USD",
-          "issuer": "KKPS"
+          "issuer": "KKPS",
+          "srSupport": 1.8769,
+          "srResist": 2.6657,
+          "srUpdated": "2026-10-01",
+          "srResistIsExt": false
         }
       ],
       "cash": 104924.81,

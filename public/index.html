@@ -896,27 +896,7 @@ function buildOverviewHTML() {
       </div>
     </div>
 
-    <!-- Paper Trading — จำลองเทรดก่อนเงินจริง -->
-    <div class="card sens" style="margin-top:14px">
-      <div class="card-hd" style="background:linear-gradient(90deg,rgba(139,92,246,.08),transparent)">
-        <div style="display:flex;align-items:center;gap:10px;flex:1">
-          <span style="font-size:15px">🧾</span>
-          <div>
-            <div class="card-ti">Paper Trading</div>
-            <div style="font-size:11px;color:var(--tx3)" id="pt-sub">กำลังโหลด...</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:6px">
-          <button onclick="paperOpenPrompt()"
-            style="background:var(--green-tx);color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600">+ เปิด</button>
-          <button onclick="paperClosePrompt()"
-            style="background:var(--red-tx);color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600">− ปิด</button>
-        </div>
-      </div>
-      <div id="pt-result" style="padding:16px 18px;min-height:40px">
-        <div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังโหลดสถานะพอร์ตจำลอง...</div>
-      </div>
-    </div>
+
   </div>`;
 }
 
@@ -974,7 +954,7 @@ function renderOverview() {
 
   if (document.getElementById('ov-oil-result')) loadOil03Overview();
   if (document.getElementById('ov-equity')) loadEquityCurve();
-  if (document.getElementById('pt-result')) loadPaperTrade();
+
 }
 
 
@@ -7087,108 +7067,6 @@ async function fetchAllNAV(onlyPortId) {
   renderAll();
   showToast(`✅ อัปเดต NAV ${updated} กองทุน`);
   if (btn) { btn.disabled = false; btn.textContent = '↻ ดึง NAV'; }
-}
-
-// ══════════════════════════════════════════════════
-// ── Paper Trading ─────────────────────────────────────────────────────
-let _paperState = null;
-
-async function loadPaperTrade() {
-  const sub = document.getElementById('pt-sub');
-  const resultEl = document.getElementById('pt-result');
-  try {
-    // ใช้ราคาปัจจุบันของ position ที่ถืออยู่ (ถ้ามี) สำหรับ mark-to-market
-    const first = await fetch('/api/paper-trade', { signal: safeSignal(15000) });
-    const state = await first.json();
-    const tickers = [...new Set((state.positions || []).map(p => p.ticker))];
-    let prices = {};
-    if (tickers.length) {
-      await Promise.all(tickers.map(async ticker => {
-        try {
-          const r = await fetch('/api/price?ticker=' + encodeURIComponent(ticker), { signal: safeSignal(20000) });
-          if (!r.ok) return;
-          const data = await r.json();
-          if (typeof data.price === 'number' && Number.isFinite(data.price) && data.price > 0) prices[ticker] = data.price;
-        } catch (e) { console.warn('Paper Trading price unavailable:', ticker, e); }
-      }));
-    }
-    const r3 = await fetch('/api/paper-trade', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'status', prices }), signal: safeSignal(15000),
-    });
-    _paperState = await r3.json();
-    renderPaperTrade();
-  } catch (e) {
-    sub.textContent = 'โหลดไม่สำเร็จ';
-    resultEl.innerHTML = `<div style="font-size:12px;color:var(--red-tx);text-align:center;padding:10px 0">${e.message}</div>`;
-  }
-}
-
-function renderPaperTrade() {
-  const sub = document.getElementById('pt-sub');
-  const resultEl = document.getElementById('pt-result');
-  const s = _paperState;
-  if (!s) return;
-  const mtm = s.markToMarket || { cash: s.cash, positionsValue: 0, equity: s.cash, totalReturnPct: 0, realizedPnl: 0, positions: [] };
-  sub.textContent = `Equity ${fn(mtm.equity,0)} · ${(mtm.totalReturnPct>=0?'+':'')+mtm.totalReturnPct}%`;
-
-  const posRows = (mtm.positions || []).map(p => `
-    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd2);font-size:12px">
-      <span>${p.ticker} × ${p.qty}</span>
-      <span>@${fn(p.entryPrice,2)} → ${p.currentPrice!=null?fn(p.currentPrice,2):'-'}
-        <span style="color:${(p.unrealizedPnl||0)>=0?'var(--green-tx)':'var(--red-tx)'}">
-          (${(p.unrealizedPnl||0)>=0?'+':''}${p.unrealizedPnlPct??'-'}%)</span></span>
-    </div>`).join('');
-
-  resultEl.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
-      <div><div style="font-size:10px;color:var(--tx3)">เงินสด</div><div style="font-size:14px;font-weight:700">${fn(mtm.cash,0)}</div></div>
-      <div><div style="font-size:10px;color:var(--tx3)">มูลค่ารวม</div><div style="font-size:14px;font-weight:700">${fn(mtm.equity,0)}</div></div>
-      <div><div style="font-size:10px;color:var(--tx3)">กำไรที่รับรู้แล้ว</div><div style="font-size:14px;font-weight:700;color:${mtm.realizedPnl>=0?'var(--green-tx)':'var(--red-tx)'}">${fn(mtm.realizedPnl,0)}</div></div>
-    </div>
-    ${posRows ? `<div style="margin-bottom:6px;font-size:11px;color:var(--tx3)">ตำแหน่งที่ถืออยู่</div>${posRows}` : '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:6px 0">ยังไม่มีตำแหน่ง</div>'}
-    <div style="text-align:right;margin-top:10px"><a href="javascript:void(0)" onclick="paperResetPrompt()" style="font-size:11px;color:var(--tx3)">รีเซ็ตพอร์ตจำลอง</a></div>
-  `;
-}
-
-async function paperOpenPrompt() {
-  const ticker = prompt('Ticker (เช่น AAPL, PTT.BK):');
-  if (!ticker) return;
-  const price = parseFloat(prompt('ราคาที่จะซื้อ:'));
-  const qty = parseFloat(prompt('จำนวนหุ้น:'));
-  if (!price || !qty) return;
-  await paperTradeAction({ action: 'open', ticker: ticker.trim(), price, qty });
-}
-async function paperClosePrompt() {
-  const ticker = prompt('Ticker ที่จะปิด:');
-  if (!ticker) return;
-  const price = parseFloat(prompt('ราคาที่จะขาย:'));
-  if (!price) return;
-  const qtyStr = prompt('จำนวนที่จะปิด (เว้นว่าง = ปิดทั้งหมด):');
-  const body = { action: 'close', ticker: ticker.trim(), price };
-  if (qtyStr) body.qty = parseFloat(qtyStr);
-  await paperTradeAction(body);
-}
-async function paperResetPrompt() {
-  if (!confirm('รีเซ็ตพอร์ตจำลองทั้งหมด? ข้อมูลเดิมจะหายไป')) return;
-  const capStr = prompt('เงินทุนเริ่มต้น (บาท):', '1000000');
-  await paperTradeAction({ action: 'reset', initialCapital: parseFloat(capStr) || 1000000 });
-}
-async function paperTradeAction(body) {
-  const resultEl = document.getElementById('pt-result');
-  resultEl.innerHTML = '<div style="font-size:12px;color:var(--tx3);text-align:center;padding:10px 0">กำลังบันทึก...</div>';
-  try {
-    const r = await fetch('/api/paper-trade', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body), signal: safeSignal(20000),
-    });
-    const d = await r.json();
-    if (d.error) { alert('ผิดพลาด: ' + d.error); }
-    await loadPaperTrade();
-  } catch (e) {
-    alert('ผิดพลาด: ' + e.message);
-    await loadPaperTrade();
-  }
 }
 
 </script>

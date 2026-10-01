@@ -8,7 +8,7 @@ const authSource = fs.readFileSync(path.join(root, 'functions/_lib/repo-auth.js'
   .replace(/^export\s+async\s+function\s+requireRepoWriter/m, 'async function requireRepoWriter');
 const protectedRoutes = [
   'analyze', 'rebalance-ai', 'research', 'summarize',
-  'paper-trade', 'ma-watchlist', 'backup',
+  'ma-watchlist', 'backup',
 ];
 
 for (const route of protectedRoutes) {

@@ -4,6 +4,7 @@ const retiredRoutes = new Set([
   '/api/buy-zone',
   '/api/explain-signal',
   '/api/journal',
+  '/api/paper-trade',
   '/api/reversal-signal',
   '/api/sell-zone',
   '/api/trend-score',

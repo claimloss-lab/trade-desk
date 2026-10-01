@@ -2,7 +2,6 @@
   'use strict';
   const protectedMutations = new Set([
     '/api/backup',
-    '/api/paper-trade',
     '/api/ma-watchlist',
     '/api/analyze',
     '/api/rebalance-ai',

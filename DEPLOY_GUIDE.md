@@ -120,7 +120,7 @@ https://trade-desk-abc123.pages.dev/api/price?ticker=AMZN80
 
 กำหนดค่าใน Cloudflare Pages → **Settings → Variables and Secrets → Functions** (ค่า secret อย่าใส่ใน source code):
 
-- `GITHUB_TOKEN` — token ฝั่ง server สำหรับบันทึก backup, paper-trade และ MA watchlist
+- `GITHUB_TOKEN` — token ฝั่ง server สำหรับบันทึก backup และ MA watchlist
 - `ANTHROPIC_API_KEY` — ใช้เฉพาะ API วิเคราะห์/สรุปข้อความ
 - `SUMMARY_SECRET` — shared secret สำหรับ `/api/daily-summary`
 - `LINE_CHANNEL_ACCESS_TOKEN` และ `LINE_USER_ID` — ปลายทาง LINE ของ daily summary

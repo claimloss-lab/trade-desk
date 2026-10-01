@@ -40,6 +40,6 @@ test('adds GitHub authorization only to protected same-origin mutation routes', 
 test('leaves protected requests unauthenticated when no GitHub token is configured', async () => {
   const { win, calls } = makeWindow('');
   install(win);
-  await win.fetch('/api/paper-trade', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+  await win.fetch('/api/rebalance-ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
   assert.equal(calls[0].headers.has('Authorization'), false);
 });

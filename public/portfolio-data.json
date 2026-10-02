@@ -569,8 +569,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 28.541,
-          "navDate": "1 ต.ค. 69"
+          "currentNav": 28.4565,
+          "navDate": "2026-10-01"
         },
         {
           "id": 2,
@@ -580,8 +580,8 @@
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
           "currency": "THB",
-          "currentNav": 35.1269,
-          "navDate": "2026-09-28"
+          "currentNav": 35.2858,
+          "navDate": "2026-09-29"
         },
         {
           "id": 3,

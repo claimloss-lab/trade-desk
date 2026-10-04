@@ -1,31 +1,31 @@
 {
   "RKLB": {
-    "lastClose": 79.80999755859375,
+    "lastClose": 73.91999816894531,
     "ma": {
-      "short": 84.17700035095214,
+      "short": 69.76039993286133,
       "shortPeriod": 50,
-      "long": 78.5488751411438
+      "long": 81.41395011901855
     },
     "short": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 50
       }
     },
     "long": {
-      "state": "above",
+      "state": "below",
       "meta": {
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:21.981Z"
+    "updatedAt": "2026-10-04T16:51:08.354Z"
   },
   "CRWV": {
-    "lastClose": 94.11000061035156,
+    "lastClose": 89.62000274658203,
     "ma": {
-      "short": 90.49360015869141,
+      "short": 86.69720046997071,
       "shortPeriod": 50,
-      "long": 92.57182498931884
+      "long": 92.2789750289917
     },
     "short": {
       "state": "above",
@@ -34,19 +34,19 @@
       }
     },
     "long": {
-      "state": "above",
+      "state": "below",
       "meta": {
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.061Z"
+    "updatedAt": "2026-10-04T16:51:08.439Z"
   },
   "NBIS": {
-    "lastClose": 247.1649932861328,
+    "lastClose": 242.80999755859375,
     "ma": {
-      "short": 222.8077005004883,
+      "short": 218.85150024414062,
       "shortPeriod": 50,
-      "long": 147.80115047454834
+      "long": 167.73955032348633
     },
     "short": {
       "state": "above",
@@ -60,38 +60,38 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.259Z"
+    "updatedAt": "2026-10-04T16:51:08.478Z"
   },
   "META": {
-    "lastClose": 547.0549926757812,
+    "lastClose": 728.0800170898438,
     "ma": {
-      "short": 595.0428930664062,
+      "short": 625.0395971679687,
       "shortPeriod": 50,
-      "long": 625.6989727783204
+      "long": 628.382547302246
     },
     "short": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 50
       }
     },
     "long": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.463Z"
+    "updatedAt": "2026-10-04T16:51:08.526Z"
   },
   "TSLA": {
-    "lastClose": 336.3692932128906,
+    "lastClose": 370.5899963378906,
     "ma": {
-      "short": 368.4097833251953,
+      "short": 347.5837976074219,
       "shortPeriod": 50,
-      "long": 404.8474963378906
+      "long": 393.18214935302734
     },
     "short": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 50
       }
@@ -102,30 +102,30 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.533Z"
+    "updatedAt": "2026-10-04T16:51:08.564Z"
   },
   "SPCX": {
-    "lastClose": 143.4199981689453,
+    "lastClose": 158.9600067138672,
     "ma": {
-      "short": 124.84399909973145,
-      "shortPeriod": 20,
+      "short": 138.95760025024413,
+      "shortPeriod": 50,
       "long": null
     },
     "short": {
       "state": "above",
       "meta": {
-        "period": 20
+        "period": 50
       }
     },
     "long": null,
-    "updatedAt": "2026-08-18T18:32:22.704Z"
+    "updatedAt": "2026-10-04T16:51:08.602Z"
   },
   "ORCL": {
-    "lastClose": 144.3498992919922,
+    "lastClose": 142.3000030517578,
     "ma": {
-      "short": 149.18779861450196,
+      "short": 143.59200012207032,
       "shortPeriod": 50,
-      "long": 174.80734943389893
+      "long": 162.88849987030028
     },
     "short": {
       "state": "below",
@@ -139,17 +139,17 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.797Z"
+    "updatedAt": "2026-10-04T16:51:08.659Z"
   },
   "MRVL": {
-    "lastClose": 213.09500122070312,
+    "lastClose": 272.2900085449219,
     "ma": {
-      "short": 235.45090057373048,
+      "short": 226.72679901123047,
       "shortPeriod": 50,
-      "long": 142.79307521820067
+      "long": 166.9131000518799
     },
     "short": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 50
       }
@@ -160,17 +160,17 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.883Z"
+    "updatedAt": "2026-10-04T16:51:08.705Z"
   },
   "GEV": {
-    "lastClose": 997.9600219726562,
+    "lastClose": 988.7000122070312,
     "ma": {
-      "short": 1031.1343994140625,
+      "short": 965.0416052246094,
       "shortPeriod": 50,
-      "long": 862.1745489501953
+      "long": 917.5017489624023
     },
     "short": {
-      "state": "below",
+      "state": "above",
       "meta": {
         "period": 50
       }
@@ -181,14 +181,14 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:22.962Z"
+    "updatedAt": "2026-10-04T16:51:08.747Z"
   },
   "VRT": {
-    "lastClose": 271.7301025390625,
+    "lastClose": 252.17999267578125,
     "ma": {
-      "short": 295.54220123291014,
+      "short": 260.76719940185546,
       "shortPeriod": 50,
-      "long": 252.12215072631835
+      "long": 264.6110500335693
     },
     "short": {
       "state": "below",
@@ -197,22 +197,22 @@
       }
     },
     "long": {
-      "state": "above",
+      "state": "below",
       "meta": {
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.052Z"
+    "updatedAt": "2026-10-04T16:51:08.827Z"
   },
   "AMZN": {
-    "lastClose": 260.57000732421875,
+    "lastClose": 251.52000427246094,
     "ma": {
-      "short": 248.60779968261718,
+      "short": 256.5437994384766,
       "shortPeriod": 50,
-      "long": 238.0141000366211
+      "long": 241.36289993286132
     },
     "short": {
-      "state": "above",
+      "state": "below",
       "meta": {
         "period": 50
       }
@@ -223,14 +223,14 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.124Z"
+    "updatedAt": "2026-10-04T16:51:08.864Z"
   },
   "ASML": {
-    "lastClose": 1792.0699462890625,
+    "lastClose": 1867.31005859375,
     "ma": {
-      "short": 1781.223193359375,
+      "short": 1721.5786010742188,
       "shortPeriod": 50,
-      "long": 1436.1548959350587
+      "long": 1542.7812509155274
     },
     "short": {
       "state": "above",
@@ -244,14 +244,14 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.218Z"
+    "updatedAt": "2026-10-04T16:51:08.925Z"
   },
   "AVGO": {
-    "lastClose": 379.7099914550781,
+    "lastClose": 355.1400146484375,
     "ma": {
-      "short": 389.815,
+      "short": 373.22260009765625,
       "shortPeriod": 50,
-      "long": 369.2649502563477
+      "long": 367.4972003173828
     },
     "short": {
       "state": "below",
@@ -260,19 +260,19 @@
       }
     },
     "long": {
-      "state": "above",
+      "state": "below",
       "meta": {
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.311Z"
+    "updatedAt": "2026-10-04T16:51:08.986Z"
   },
   "CRWD": {
-    "lastClose": 212.81500244140625,
+    "lastClose": 270.0400085449219,
     "ma": {
-      "short": 191.2200991821289,
+      "short": 219.79740020751953,
       "shortPeriod": 50,
-      "long": 137.91271244049074
+      "long": 153.54156242370607
     },
     "short": {
       "state": "above",
@@ -286,14 +286,14 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.384Z"
+    "updatedAt": "2026-10-04T16:51:09.032Z"
   },
   "GOOG": {
-    "lastClose": 342,
+    "lastClose": 340.3500061035156,
     "ma": {
-      "short": 351.2741998291016,
+      "short": 341.7746008300781,
       "shortPeriod": 50,
-      "long": 331.19874923706055
+      "long": 337.3886492919922
     },
     "short": {
       "state": "below",
@@ -307,140 +307,14 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:23.461Z"
+    "updatedAt": "2026-10-04T16:51:09.073Z"
   },
   "LLY": {
-    "lastClose": 1218.43994140625,
+    "lastClose": 1142.8499755859375,
     "ma": {
-      "short": 1172.4380004882812,
+      "short": 1176.7893969726563,
       "shortPeriod": 50,
-      "long": 1047.0638040161132
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:23.597Z"
-  },
-  "MSFT": {
-    "lastClose": 482.31500244140625,
-    "ma": {
-      "short": 415.1344976806641,
-      "shortPeriod": 50,
-      "long": 431.87572463989255
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:23.695Z"
-  },
-  "NVDA": {
-    "lastClose": 219.89999389648438,
-    "ma": {
-      "short": 206.94259887695313,
-      "shortPeriod": 50,
-      "long": 195.1039501953125
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:23.787Z"
-  },
-  "PLTR": {
-    "lastClose": 173.14999389648438,
-    "ma": {
-      "short": 136.35719955444335,
-      "shortPeriod": 50,
-      "long": 151.87949977874757
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:23.927Z"
-  },
-  "QQQM": {
-    "lastClose": 295.5799865722656,
-    "ma": {
-      "short": 293.55799987792966,
-      "shortPeriod": 50,
-      "long": 268.24470001220703
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:24.003Z"
-  },
-  "AAOI": {
-    "lastClose": 133.4700927734375,
-    "ma": {
-      "short": 132.1118020629883,
-      "shortPeriod": 50,
-      "long": 96.06657563209534
-    },
-    "short": {
-      "state": "above",
-      "meta": {
-        "period": 50
-      }
-    },
-    "long": {
-      "state": "above",
-      "meta": {
-        "period": 200
-      }
-    },
-    "updatedAt": "2026-08-18T18:32:24.077Z"
-  },
-  "SNDK": {
-    "lastClose": 1610.4300537109375,
-    "ma": {
-      "short": 1657.191796875,
-      "shortPeriod": 50,
-      "long": 918.3204992675782
+      "long": 1073.8146032714844
     },
     "short": {
       "state": "below",
@@ -454,6 +328,195 @@
         "period": 200
       }
     },
-    "updatedAt": "2026-08-18T18:32:24.160Z"
+    "updatedAt": "2026-10-04T16:51:09.168Z"
+  },
+  "MSFT": {
+    "lastClose": 517.530029296875,
+    "ma": {
+      "short": 487.72419982910156,
+      "shortPeriod": 50,
+      "long": 432.8309494018555
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.262Z"
+  },
+  "NVDA": {
+    "lastClose": 233.9499969482422,
+    "ma": {
+      "short": 218.27820007324217,
+      "shortPeriod": 50,
+      "long": 200.71460006713866
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.319Z"
+  },
+  "PLTR": {
+    "lastClose": 188.75,
+    "ma": {
+      "short": 169.77599884033202,
+      "shortPeriod": 50,
+      "long": 152.10452465057372
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.358Z"
+  },
+  "QQQM": {
+    "lastClose": 308.69000244140625,
+    "ma": {
+      "short": 295.1518029785156,
+      "shortPeriod": 50,
+      "long": 275.28725090026853
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.400Z"
+  },
+  "AAOI": {
+    "lastClose": 115.58999633789062,
+    "ma": {
+      "short": 111.14880020141601,
+      "shortPeriod": 50,
+      "long": 108.79075017929077
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.438Z"
+  },
+  "SNDK": {
+    "lastClose": 1719.989990234375,
+    "ma": {
+      "short": 1539.6678955078125,
+      "shortPeriod": 50,
+      "long": 1145.8527728271483
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.516Z"
+  },
+  "PANW": {
+    "lastClose": 403.239990234375,
+    "ma": {
+      "short": 361.86079956054687,
+      "shortPeriod": 50,
+      "long": 250.34009986877442
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.552Z"
+  },
+  "MU": {
+    "lastClose": 1074.8900146484375,
+    "ma": {
+      "short": 956.04580078125,
+      "shortPeriod": 50,
+      "long": 681.6143009185791
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.628Z"
+  },
+  "AMD": {
+    "lastClose": 633.9099731445312,
+    "ma": {
+      "short": 513.5342016601562,
+      "shortPeriod": 50,
+      "long": 374.7236004638672
+    },
+    "short": {
+      "state": "above",
+      "meta": {
+        "period": 50
+      }
+    },
+    "long": {
+      "state": "above",
+      "meta": {
+        "period": 200
+      }
+    },
+    "updatedAt": "2026-10-04T16:51:09.680Z"
   }
 }

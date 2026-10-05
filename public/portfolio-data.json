@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-05T03:29:44.381Z",
-  "exportDateTH": "5 ตุลาคม 2569 เวลา 10:29",
+  "exportDate": "2026-10-05T03:30:05.057Z",
+  "exportDateTH": "5 ตุลาคม 2569 เวลา 10:30",
   "portfolios": [
     {
       "id": "dr1",
@@ -516,7 +516,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.3013,
-          "navDate": "2026-10-01"
+          "navDate": "5 ต.ค. 69"
         },
         {
           "id": 2,
@@ -527,7 +527,7 @@
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
           "currentNav": 13.8206,
-          "navDate": "2026-10-01"
+          "navDate": "5 ต.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -538,7 +538,7 @@
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 13.745,
-          "navDate": "2026-10-01"
+          "navDate": "5 ต.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -549,7 +549,7 @@
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
           "currentNav": 18.7343,
-          "navDate": "2026-10-01"
+          "navDate": "5 ต.ค. 69"
         }
       ]
     },

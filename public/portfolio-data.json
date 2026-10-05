@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-05T03:29:35.384Z",
+  "exportDate": "2026-10-05T03:29:44.381Z",
   "exportDateTH": "5 ตุลาคม 2569 เวลา 10:29",
   "portfolios": [
     {
@@ -611,7 +611,7 @@
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
           "currentNav": 11.7593,
-          "navDate": "2026-10-01"
+          "navDate": "5 ต.ค. 69"
         }
       ],
       "cash": 0,

@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:12:45.405Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:12",
+  "exportDate": "2026-10-07T02:13:00.053Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:13",
   "portfolios": [
     {
       "id": "dr1",
@@ -416,15 +416,6 @@
       "snapshots": [],
       "stocks": [
         {
-          "id": 3,
-          "ticker": "SMH",
-          "qty": 0.697,
-          "buyPrice": 318.23,
-          "sector": "ETF",
-          "underlying": "VanEck Semiconductor ETF",
-          "buyPriceUSD": 318.23
-        },
-        {
           "id": 4,
           "ticker": "IXN",
           "qty": 2.757,
@@ -432,15 +423,6 @@
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
           "buyPriceUSD": 98.87
-        },
-        {
-          "ticker": "LIT",
-          "buyPrice": 72.8,
-          "qty": 5.161,
-          "sector": "ETF",
-          "underlying": "Global X Lithium & Battery Tech ETF",
-          "id": 1778467474758,
-          "buyPriceUSD": 72.8
         },
         {
           "ticker": "AIQ",
@@ -664,6 +646,32 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791339180526,
+      "ticker": "LIT",
+      "type": "sell",
+      "date": "2026-10-07",
+      "price": 2390.0841,
+      "qty": 5.161,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 11959.503240099999,
+      "portId": "jitta1",
+      "auto": true
+    },
+    {
+      "id": 1791339177051,
+      "ticker": "SMH",
+      "type": "sell",
+      "date": "2026-10-07",
+      "price": 21270.975000000002,
+      "qty": 0.697,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 14604.063265,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1791339162399,
       "ticker": "IDNA",
@@ -6245,8 +6253,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 47,
-    "totalTransactions": 79,
-    "totalNetWorth": "฿1,916,025.77"
+    "totalStocks": 46,
+    "totalTransactions": 80,
+    "totalNetWorth": "฿1,901,199.90"
   }
 }

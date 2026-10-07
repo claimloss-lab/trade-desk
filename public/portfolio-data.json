@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:11:27.809Z",
+  "exportDate": "2026-10-07T02:11:42.693Z",
   "exportDateTH": "7 ตุลาคม 2569 เวลา 09:11",
   "portfolios": [
     {
@@ -444,8 +444,8 @@
         },
         {
           "ticker": "AIQ",
-          "buyPrice": 67.74,
-          "qty": 6.01,
+          "buyPrice": 157.43170823360478,
+          "qty": 6.267,
           "sector": "ETF",
           "underlying": "Global X Artificial Intelligence & Technology ETF",
           "id": 1783430231430,
@@ -655,6 +655,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791339099682,
+      "ticker": "AIQ",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 2254.8915,
+      "qty": 0.25700000000000056,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1791339079782,
       "ticker": "IXN",
@@ -6211,7 +6224,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 46,
-    "totalTransactions": 77,
-    "totalNetWorth": "฿1,902,126.39"
+    "totalTransactions": 78,
+    "totalNetWorth": "฿1,902,705.90"
   }
 }

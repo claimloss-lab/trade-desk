@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:11:42.693Z",
+  "exportDate": "2026-10-07T02:11:50.976Z",
   "exportDateTH": "7 ตุลาคม 2569 เวลา 09:11",
   "portfolios": [
     {
@@ -444,12 +444,12 @@
         },
         {
           "ticker": "AIQ",
-          "buyPrice": 157.43170823360478,
+          "buyPrice": 67.67,
           "qty": 6.267,
           "sector": "ETF",
           "underlying": "Global X Artificial Intelligence & Technology ETF",
           "id": 1783430231430,
-          "buyPriceUSD": 67.74
+          "buyPriceUSD": 67.67
         },
         {
           "ticker": "CIBR",

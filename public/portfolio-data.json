@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:08:32.285Z",
+  "exportDate": "2026-10-07T02:08:59.010Z",
   "exportDateTH": "7 ตุลาคม 2569 เวลา 09:08",
   "portfolios": [
     {
@@ -491,11 +491,11 @@
         {
           "id": 4,
           "ticker": "VWO",
-          "qty": 2.632,
-          "buyPrice": 99.58386496960506,
+          "qty": 2.721,
+          "buyPrice": 50.84,
           "sector": "ETF",
           "underlying": "Vanguard Emerging Markets ETF",
-          "buyPriceUSD": 50.55
+          "buyPriceUSD": 50.84
         }
       ]
     },
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791338929208,
+      "ticker": "VWO",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 2038.6506000000002,
+      "qty": 0.08899999999999997,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1791338902591,
       "ticker": "VEA",
@@ -6163,7 +6176,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 74,
-    "totalNetWorth": "฿1,887,309.47"
+    "totalTransactions": 75,
+    "totalNetWorth": "฿1,887,490.91"
   }
 }

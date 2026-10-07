@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:21:44.962Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:21",
+  "exportDate": "2026-10-07T02:23:11.531Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:23",
   "portfolios": [
     {
       "id": "dr1",
@@ -1703,6 +1703,126 @@
   "notes": [],
   "dividends": [
     {
+      "id": 1791339773663.0293,
+      "ticker": "AVGO80",
+      "date": "2026-09-21",
+      "payDate": "2026-10-19 (est.)",
+      "perShare": 0.00431,
+      "qty": 31200,
+      "total": 134.47,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339778386.4668,
+      "ticker": "QQQM19",
+      "date": "2026-09-21",
+      "payDate": "2026-10-19 (est.)",
+      "perShare": 0.0191,
+      "qty": 1500,
+      "total": 28.65,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339781212.1228,
+      "ticker": "BDMS.BK",
+      "date": "2026-09-08",
+      "payDate": "2026-10-06 (est.)",
+      "perShare": 0.35,
+      "qty": 2400,
+      "total": 840,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339783541.3652,
+      "ticker": "HMPRO.BK",
+      "date": "2026-09-08",
+      "payDate": "2026-10-06 (est.)",
+      "perShare": 0.16,
+      "qty": 4200,
+      "total": 672,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339784774.284,
+      "ticker": "TISCO.BK",
+      "date": "2026-09-07",
+      "payDate": "2026-10-05 (est.)",
+      "perShare": 2,
+      "qty": 400,
+      "total": 800,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339774914.5225,
+      "ticker": "GOOG80",
+      "date": "2026-09-04",
+      "payDate": "2026-10-02 (est.)",
+      "perShare": 0.0037,
+      "qty": 7600,
+      "total": 28.12,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339784184.7048,
+      "ticker": "MINT.BK",
+      "date": "2026-08-27",
+      "payDate": "2026-09-24 (est.)",
+      "perShare": 0.3,
+      "qty": 1600,
+      "total": 480,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339786412.7954,
+      "ticker": "LHHOTEL.BK",
+      "date": "2026-08-27",
+      "payDate": "2026-09-24 (est.)",
+      "perShare": 0.25,
+      "qty": 1800,
+      "total": 450,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339786934.3618,
+      "ticker": "LHSC.BK",
+      "date": "2026-08-27",
+      "payDate": "2026-09-24 (est.)",
+      "perShare": 0.2,
+      "qty": 8000,
+      "total": 1600,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339776158.79,
+      "ticker": "MSFT80",
+      "date": "2026-08-20",
+      "payDate": "2026-09-17 (est.)",
+      "perShare": 0.0149,
+      "qty": 25400,
+      "total": 378.46,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339775574.5955,
+      "ticker": "LLY80",
+      "date": "2026-08-14",
+      "payDate": "2026-09-11 (est.)",
+      "perShare": 0.00283,
+      "qty": 4000,
+      "total": 11.32,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339785345.5142,
+      "ticker": "TU.BK",
+      "date": "2026-08-14",
+      "payDate": "2026-09-11 (est.)",
+      "perShare": 0.4,
+      "qty": 3200,
+      "total": 1280,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1785513587606.8772,
       "ticker": "ASML01",
       "date": "2026-07-27",
@@ -1912,6 +2032,16 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1791339780637.3196,
+      "ticker": "META80",
+      "date": "2026-03-16",
+      "payDate": "2026-04-13 (est.)",
+      "perShare": 0.00203,
+      "qty": 800,
+      "total": 1.62,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485109597.0684,
       "ticker": "NVDA80",
       "date": "2026-03-11",
@@ -2061,6 +2191,16 @@
       "note": "auto (THB)"
     },
     {
+      "id": 1791339780637.1807,
+      "ticker": "META80",
+      "date": "2025-12-15",
+      "payDate": "2026-01-12 (est.)",
+      "perShare": 0.00209,
+      "qty": 800,
+      "total": 1.67,
+      "note": "auto (THB)"
+    },
+    {
       "id": 1778485107530.4314,
       "ticker": "GOOG80",
       "date": "2025-12-08",
@@ -2177,6 +2317,16 @@
       "perShare": 0.0173,
       "qty": 1500,
       "total": 25.95,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339780637.504,
+      "ticker": "META80",
+      "date": "2025-09-22",
+      "payDate": "2025-10-20 (est.)",
+      "perShare": 0.00171,
+      "qty": 800,
+      "total": 1.37,
       "note": "auto (THB)"
     },
     {
@@ -2336,6 +2486,16 @@
       "perShare": 0.00382,
       "qty": 26000,
       "total": 99.32,
+      "note": "auto (THB)"
+    },
+    {
+      "id": 1791339780637.4348,
+      "ticker": "META80",
+      "date": "2025-06-16",
+      "payDate": "2025-07-14 (est.)",
+      "perShare": 0.00172,
+      "qty": 800,
+      "total": 1.38,
       "note": "auto (THB)"
     },
     {
@@ -6266,6 +6426,6 @@
     "totalPorts": 10,
     "totalStocks": 45,
     "totalTransactions": 81,
-    "totalNetWorth": "฿1,893,467.57"
+    "totalNetWorth": "฿1,893,655.76"
   }
 }

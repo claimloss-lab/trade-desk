@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:08:59.010Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:08",
+  "exportDate": "2026-10-07T02:11:04.010Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:11",
   "portfolios": [
     {
       "id": "dr1",
@@ -450,6 +450,15 @@
           "underlying": "Global X Artificial Intelligence & Technology ETF",
           "id": 1783430231430,
           "buyPriceUSD": 67.74
+        },
+        {
+          "ticker": "CIBR",
+          "buyPrice": 95.19,
+          "qty": 3.995,
+          "sector": "ETF",
+          "underlying": "First Trust  NASDAQ Cybersecurity ETF",
+          "id": 1791339060997,
+          "buyPriceUSD": 95.19
         }
       ]
     },
@@ -646,6 +655,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791339060997,
+      "ticker": "CIBR",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 95.19,
+      "qty": 3.995,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1791338929208,
       "ticker": "VWO",
@@ -6175,8 +6197,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 45,
-    "totalTransactions": 75,
-    "totalNetWorth": "฿1,887,490.91"
+    "totalStocks": 46,
+    "totalTransactions": 76,
+    "totalNetWorth": "฿1,902,018.38"
   }
 }

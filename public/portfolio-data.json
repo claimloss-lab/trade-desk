@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:17:39.858Z",
+  "exportDate": "2026-10-07T02:17:49.608Z",
   "exportDateTH": "7 ตุลาคม 2569 เวลา 09:17",
   "portfolios": [
     {
@@ -516,7 +516,7 @@
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
           "currentNav": 14.399,
-          "navDate": "7 ต.ค. 69"
+          "navDate": "2026-10-05"
         },
         {
           "id": 2,

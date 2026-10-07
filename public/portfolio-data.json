@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T01:58:46.649Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 08:58",
+  "exportDate": "2026-10-07T02:08:00.437Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:08",
   "portfolios": [
     {
       "id": "dr1",
@@ -473,8 +473,8 @@
         {
           "id": 2,
           "ticker": "VCIT",
-          "qty": 4.909,
-          "buyPrice": 85.45,
+          "qty": 5.214,
+          "buyPrice": 234.3677533563486,
           "sector": "ETF",
           "underlying": "Vanguard Corp Bond ETF",
           "buyPriceUSD": 85.45
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791338877426,
+      "ticker": "VCIT",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 2631.2112,
+      "qty": 0.3050000000000006,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1791338313608,
       "ticker": "VTI",
@@ -6137,7 +6150,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 72,
-    "totalNetWorth": "฿1,886,117.93"
+    "totalTransactions": 73,
+    "totalNetWorth": "฿1,886,874.23"
   }
 }

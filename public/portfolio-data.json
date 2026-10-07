@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:11:50.976Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:11",
+  "exportDate": "2026-10-07T02:12:45.405Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:12",
   "portfolios": [
     {
       "id": "dr1",
@@ -459,6 +459,15 @@
           "underlying": "First Trust  NASDAQ Cybersecurity ETF",
           "id": 1791339060997,
           "buyPriceUSD": 95.19
+        },
+        {
+          "ticker": "IDNA",
+          "buyPrice": 40.2,
+          "qty": 9.691,
+          "sector": "ETF",
+          "underlying": "iShares Genomics Immunology and Headlthcare ETF",
+          "id": 1791339162399,
+          "buyPriceUSD": 40.2
         }
       ]
     },
@@ -655,6 +664,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791339162399,
+      "ticker": "IDNA",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 40.2,
+      "qty": 9.691,
+      "fee": 0,
+      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1791339099682,
       "ticker": "AIQ",
@@ -6223,8 +6245,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 46,
-    "totalTransactions": 78,
-    "totalNetWorth": "฿1,902,705.90"
+    "totalStocks": 47,
+    "totalTransactions": 79,
+    "totalNetWorth": "฿1,916,025.77"
   }
 }

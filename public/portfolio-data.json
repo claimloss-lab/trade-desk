@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:13:03.536Z",
-  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:13",
+  "exportDate": "2026-10-07T02:14:04.803Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 09:14",
   "portfolios": [
     {
       "id": "dr1",
@@ -515,8 +515,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 14.3013,
-          "navDate": "5 ต.ค. 69"
+          "currentNav": 14.399,
+          "navDate": "7 ต.ค. 69"
         },
         {
           "id": 2,
@@ -526,8 +526,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.8206,
-          "navDate": "5 ต.ค. 69"
+          "currentNav": 14.1154,
+          "navDate": "7 ต.ค. 69"
         },
         {
           "id": 1778630716727,
@@ -537,8 +537,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.745,
-          "navDate": "5 ต.ค. 69"
+          "currentNav": 13.9287,
+          "navDate": "7 ต.ค. 69"
         },
         {
           "id": 1778630781570,
@@ -548,8 +548,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 18.7343,
-          "navDate": "5 ต.ค. 69"
+          "currentNav": 19.0766,
+          "navDate": "7 ต.ค. 69"
         }
       ]
     },
@@ -569,8 +569,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 28.4561,
-          "navDate": "2026-10-05"
+          "currentNav": 28.3627,
+          "navDate": "2026-10-06"
         },
         {
           "id": 2,
@@ -6255,6 +6255,6 @@
     "totalPorts": 10,
     "totalStocks": 45,
     "totalTransactions": 81,
-    "totalNetWorth": "฿1,888,864.68"
+    "totalNetWorth": "฿1,889,617.76"
   }
 }

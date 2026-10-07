@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-06T13:36:48.288Z",
-  "exportDateTH": "6 ตุลาคม 2569 เวลา 20:36",
+  "exportDate": "2026-10-07T01:58:46.649Z",
+  "exportDateTH": "7 ตุลาคม 2569 เวลา 08:58",
   "portfolios": [
     {
       "id": "dr1",
@@ -464,11 +464,11 @@
         {
           "id": 1,
           "ticker": "VTI",
-          "qty": 2.952,
-          "buyPrice": 306.95,
+          "qty": 3.02,
+          "buyPrice": 308.51,
           "sector": "ETF",
           "underlying": "Vanguard Total Market ETF",
-          "buyPriceUSD": 306.95
+          "buyPriceUSD": 308.51
         },
         {
           "id": 2,
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791338313608,
+      "ticker": "VTI",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 12868.645600000002,
+      "qty": 0.06800000000000006,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta2",
+      "auto": true
+    },
     {
       "id": 1790655268421,
       "ticker": "META80",
@@ -6124,7 +6137,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 71,
-    "totalNetWorth": "฿1,885,334.68"
+    "totalTransactions": 72,
+    "totalNetWorth": "฿1,886,117.93"
   }
 }

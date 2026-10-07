@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-07T02:11:04.010Z",
+  "exportDate": "2026-10-07T02:11:27.809Z",
   "exportDateTH": "7 ตุลาคม 2569 เวลา 09:11",
   "portfolios": [
     {
@@ -427,11 +427,11 @@
         {
           "id": 4,
           "ticker": "IXN",
-          "qty": 2.736,
-          "buyPrice": 98.29,
+          "qty": 2.757,
+          "buyPrice": 98.87,
           "sector": "ETF",
           "underlying": "iShares Global Tech ETF",
-          "buyPriceUSD": 98.29
+          "buyPriceUSD": 98.87
         },
         {
           "ticker": "LIT",
@@ -655,6 +655,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1791339079782,
+      "ticker": "IXN",
+      "type": "buy",
+      "date": "2026-10-07",
+      "price": 5143.372200000001,
+      "qty": 0.020999999999999908,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "jitta1",
+      "auto": true
+    },
     {
       "id": 1791339060997,
       "ticker": "CIBR",
@@ -6198,7 +6211,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 46,
-    "totalTransactions": 76,
-    "totalNetWorth": "฿1,902,018.38"
+    "totalTransactions": 77,
+    "totalNetWorth": "฿1,902,126.39"
   }
 }

@@ -13,14 +13,14 @@ function loadSafety() {
   return require(helperPath);
 }
 
-function createSaveHarness({ remote, local, confirmResult = false, failGuard = false }) {
+function createSaveHarness({ remote, local, confirmResult = false, failGuard = false, token = 'fixture-user-token' }) {
   const calls = [];
   const failures = [];
   let confirmCalls = 0;
   const context = {
     window: { TradeDeskBackupSafety: loadSafety() },
     buildBackupData: () => local,
-    getGHConfig: () => ({ token: 'fixture-user-token', user: 'claimloss-lab', repo: 'trade-desk' }),
+    getGHConfig: () => ({ token, user: 'claimloss-lab', repo: 'trade-desk' }),
     confirm: () => { confirmCalls++; return confirmResult; },
     markGHSaveFailed: message => failures.push(message),
     markGHSaveOk() {},
@@ -343,4 +343,22 @@ test('escapes local watchlist ticker, note, and date fields before HTML renderin
   assert.match(source, /escHTML\(w\.note\)/);
   assert.match(source, /escHTML\(w\.addedDate\)/);
   assert.match(source, /escHTML\(w\.doneDate\)/);
+});
+
+test('missing website GitHub token is blocked without contacting backup API or writing data', async () => {
+  const snapshot = { portfolios: [{ id: 'dr1', stocks: [] }], transactions: [] };
+  const h = createSaveHarness({ remote: snapshot, local: snapshot, token: '' });
+  await h.save();
+  assert.equal(h.calls.length, 0, 'no GET or POST before credentials are configured');
+  assert.equal(h.failures.length, 1);
+  assert.match(h.failures[0], /GitHub Token/);
+});
+
+test('frontend requires server-guarded backup writes and offers a settings action', () => {
+  const saveStart = html.indexOf('async function doGHSave(){');
+  const saveEnd = html.indexOf('// ── Auto-save health tracking', saveStart);
+  const saveSource = html.slice(saveStart, saveEnd);
+  assert.match(saveSource, /fetch\('\/api\/backup',\s*\{/);
+  assert.doesNotMatch(saveSource, /https:\/\/api\.github\.com\/repos/);
+  assert.match(html, /settings\.addEventListener\('click',\(\)=>openGitHubSettings\(\)\)/);
 });

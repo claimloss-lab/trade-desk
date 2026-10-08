@@ -243,11 +243,14 @@
           "srSupport": 5.4853,
           "srResist": 10.0002,
           "srUpdated": "2026-10-01",
-          "srResistIsExt": false
+          "srResistIsExt": false,
+          "parentTicker": "MRVL",
+          "conversion": 1000,
+          "drCurrency": "USD"
         },
         {
           "ticker": "SHOP06",
-          "buyPrice": 2.4,
+          "buyPrice": 2.404,
           "qty": 4000,
           "sector": "Tech",
           "underlying": "SHOP",
@@ -255,11 +258,15 @@
           "srSupport": 1.8735,
           "srResist": 2.6609,
           "srUpdated": "2026-10-01",
-          "srResistIsExt": false
+          "srResistIsExt": false,
+          "parentTicker": "SHOP",
+          "conversion": 2000,
+          "drCurrency": "USD",
+          "issuer": "KKPS"
         },
         {
           "ticker": "META80",
-          "buyPrice": 3.01,
+          "buyPrice": 3.0050400739827374,
           "qty": 3244,
           "sector": "Tech",
           "underlying": "Meta",
@@ -267,7 +274,11 @@
           "srSupport": 2.2619,
           "srResist": 3.1224,
           "srUpdated": "2026-10-01",
-          "srResistIsExt": false
+          "srResistIsExt": false,
+          "parentTicker": "META",
+          "conversion": 8000,
+          "drCurrency": "USD",
+          "issuer": "KTB"
         }
       ],
       "cash": 48808.56,
@@ -783,11 +794,11 @@
       "date": "2026-09-29",
       "price": 3,
       "qty": 3244,
-      "fee": 0,
-      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "fee": 16.35,
+      "note": "ผู้ใช้ยืนยันซื้อ META80 3,244 DR @ ฿3.00; ยอดสุทธิรวมค่าธรรมเนียมและภาษี ฿9,748.35",
       "realizedPnl": null,
       "portId": "dr1",
-      "auto": true
+      "auto": false
     },
     {
       "id": 1790570926902,
@@ -796,11 +807,11 @@
       "date": "2026-09-28",
       "price": 2.4,
       "qty": 4000,
-      "fee": 0,
-      "note": "เพิ่มหุ้นใหม่ (auto)",
+      "fee": 16.14,
+      "note": "ผู้ใช้ยืนยันซื้อ SHOP06 4,000 DR @ ฿2.40; ต้นทุนรวมค่าธรรมเนียม ฿9,616.14; average cost ฿2.404; issuer KKPS",
       "realizedPnl": null,
       "portId": "dr1",
-      "auto": true
+      "auto": false
     },
     {
       "id": 1790093601840,

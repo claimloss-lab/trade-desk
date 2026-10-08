@@ -1,0 +1,54 @@
+/* TradeDesk Phase 1 — theme tokens and accessible toggle. No business logic changes. */
+:root {
+  color-scheme: light;
+  --theme-header: rgba(245,247,251,.94);
+  --theme-pin-overlay: rgba(245,247,251,.97);
+  --theme-pin-box: #fff;
+  --theme-hero-start:#152740;
+  --theme-hero-end:#213956;
+}
+:root[data-theme="light"] {
+  --bg:#f3f6fb;--surface:#fff;--s2:#f7f9fd;
+  --bd:rgba(29,50,83,.13);--bd2:rgba(29,50,83,.08);
+  --tx:#15263e;--tx2:#50627c;--tx3:#71819a;
+  --blue:#2866e6;--blue-bg:#e9f1ff;
+  --green:#14895b;--green-bg:#e5f7ee;--green-tx:#126b49;
+  --red:#d94555;--red-bg:#fff0f2;--red-tx:#be3046;
+  --amber:#b8770c;--amber-bg:#fff5e4;--amber-tx:#a66700;
+  --purple:#7656ce;--purple-bg:#f2edff;
+  --sh:0 2px 10px rgba(28,52,83,.05);--sh2:0 8px 28px rgba(28,52,83,.10);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#0b1423;--surface:#142238;--s2:#1a2c45;
+  --bd:rgba(169,193,228,.20);--bd2:rgba(169,193,228,.13);
+  --tx:#f2f6ff;--tx2:#becce0;--tx3:#96abc8;
+  --blue:#6ea4ff;--blue-bg:#203b61;
+  --green:#40d6a0;--green-bg:#153d35;--green-tx:#64e5b7;
+  --red:#ff7887;--red-bg:#492731;--red-tx:#ff9aa8;
+  --amber:#f4bb62;--amber-bg:#453723;--amber-tx:#f9ce83;
+  --purple:#b3a0ff;--purple-bg:#332c54;
+  --sh:0 3px 12px rgba(0,0,0,.2);--sh2:0 10px 36px rgba(0,0,0,.3);
+  --theme-header:rgba(11,20,35,.96);
+  --theme-pin-overlay:rgba(11,20,35,.98);
+  --theme-pin-box:#142238;
+  --theme-hero-start:#1c3554;
+  --theme-hero-end:#264d70;
+}
+html[data-theme] body {background:var(--bg);color:var(--tx)}
+html[data-theme] header {background:var(--theme-header)}
+html[data-theme] .pin-ov {background:var(--theme-pin-overlay)}
+html[data-theme] .pin-box {background:var(--theme-pin-box);color:var(--tx)}
+html[data-theme] .met.hero {background:linear-gradient(135deg,var(--theme-hero-start),var(--theme-hero-end))}
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {background:var(--s2);color:var(--tx);border-color:var(--bd)}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {color:var(--tx3)}
+html[data-theme="dark"] .modal,
+html[data-theme="dark"] .modal-bg .modal {background:var(--surface);color:var(--tx)}
+html[data-theme="dark"] canvas {color:var(--tx)}
+.theme-toggle{height:32px;display:inline-flex;align-items:center;gap:7px;padding:0 11px;border:1px solid var(--bd);border-radius:999px;background:var(--surface);color:var(--tx);font:500 12px var(--sans);cursor:pointer;white-space:nowrap}
+.theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--blue);outline-offset:2px}
+.theme-toggle-icon{font-size:15px;line-height:1}
+@media(max-width:600px){.theme-toggle{width:34px;padding:0;justify-content:center}.theme-toggle-label{display:none}}

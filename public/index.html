@@ -8278,11 +8278,11 @@ async function fetchAllNAV(onlyPortId) {
     <div style="font-size:12px;color:var(--tx3);margin-bottom:12px">ข้อมูลจะ backup อัตโนมัติขึ้น GitHub ทุกครั้งที่มีการเปลี่ยนแปลง ผ่านเซิร์ฟเวอร์ (ไม่ต้องตั้ง token ในเครื่องนี้)</div>
     <div id="gh-server-status" style="font-size:12px;padding:8px 10px;border-radius:8px;margin-bottom:16px;background:var(--s2)">กำลังเช็คสถานะ...</div>
 
-    <div style="font-size:12px;color:var(--tx3);margin-bottom:8px">ตั้งค่าด้านล่าง (ไม่บังคับ) — ใช้เป็น fallback ก็ต่อเมื่อ save ผ่านเซิร์ฟเวอร์ล้มเหลวเท่านั้น:</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:8px">ต้องตั้งค่า GitHub Token ที่มีสิทธิ์ Contents: Read &amp; Write เพื่อบันทึก Backup ระบบจะไม่เขียนทับข้อมูลที่แตกต่างโดยอัตโนมัติ:</div>
     <div style="margin-bottom:12px">
-      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Personal Access Token (fallback)</label>
+      <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">GitHub Personal Access Token (สำหรับ Auto-save)</label>
       <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
-      <div style="font-size:11px;color:var(--tx3);margin-top:4px">สร้างได้ที่ github.com/settings/tokens → repo scope</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">สร้างได้ที่ GitHub Settings → Personal Access Tokens → เลือก Repository trade-desk และ Contents: Read &amp; Write</div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">

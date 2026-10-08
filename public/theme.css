@@ -52,3 +52,7 @@ html[data-theme="dark"] canvas {color:var(--tx)}
 .theme-toggle:hover,.theme-toggle:focus-visible{border-color:var(--blue);outline-offset:2px}
 .theme-toggle-icon{font-size:15px;line-height:1}
 @media(max-width:600px){.theme-toggle{width:34px;padding:0;justify-content:center}.theme-toggle-label{display:none}}
+
+/* Phase 1 nav placement: keep visible beside Tools even when main header is hidden. */
+#nav-bar .theme-toggle{flex:none;margin:5px 9px 5px 6px;position:relative;z-index:3;min-width:73px;justify-content:center}
+@media(max-width:600px){#nav-bar .theme-toggle{min-width:62px;width:auto;padding:0 7px;font-size:11px;margin:5px 4px}}

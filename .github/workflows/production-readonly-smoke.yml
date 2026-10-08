@@ -1,0 +1,48 @@
+name: Production read-only smoke test
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ['.github/workflows/production-readonly-smoke.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify deployed public assets and backup read endpoint
+        env:
+          BASE_URL: https://trade-desk.pages.dev
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const base = process.env.BASE_URL;
+          async function check(path, predicate) {
+            const response = await fetch(base+path, {signal:AbortSignal.timeout(15000),headers:{'User-Agent':'TradeDesk-Production-Smoke/1.0'}});
+            assert.equal(response.status,200,path+' status '+response.status);
+            const body = await response.text();
+            assert.ok(predicate(body),path+' content check failed');
+            console.log('PASS: GET '+path+' | status=200 | content check ok');
+          }
+          (async()=>{
+            await check('/',s=>s.includes('overview-bento.css')&&s.includes('theme.js')&&s.includes('navigation-fintech.css'));
+            await check('/theme.js',s=>s.includes('td_ui_theme')&&s.includes('td-theme-toggle'));
+            await check('/theme.css',s=>s.includes('[data-theme="dark"]'));
+            await check('/overview-bento.css',s=>s.includes('.td-overview .port-cards'));
+            await check('/navigation-fintech.css',s=>s.includes('.nav-tab:focus-visible'));
+            await check('/api/backup',s=>{
+              const data=JSON.parse(s);
+              if(!Array.isArray(data.portfolios)||!Array.isArray(data.transactions))return false;
+              console.log('Backup JSON parsed; arrays present (private amounts not logged)');
+              return true;
+            });
+          })().catch(e=>{console.error('FAILED:',e.message);process.exitCode=1});
+          NODE

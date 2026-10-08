@@ -340,6 +340,7 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 </div>
 
 <script src="/backup-safety.js"></script>
+<script src="/backup-diff.js"></script>
 <script src="/api-auth.js"></script>
 <script>
 const escHTML = value => window.TradeDeskBackupSafety.escapeHTML(value);
@@ -2332,8 +2333,9 @@ function saveGitHubSettings(){
   updateGHBadge();
   closeModal('gh-modal');
   showToast('✓ บันทึก GitHub settings แล้ว');
-  // Trigger first save
-  scheduleGHSave();
+  // Changing credentials is not consent to overwrite a different backup.
+  // Review the differences before retrying the first save.
+  showToast('GitHub settings saved — ตรวจสอบความแตกต่างก่อนบันทึก');
 }
 
 function clearGitHubSettings(){
@@ -2599,9 +2601,87 @@ function showGHWarningBanner(msg){
   dismiss.textContent = 'ปิด';
   dismiss.style.cssText = 'background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer';
   dismiss.addEventListener('click',()=>hideGHWarningBanner(true));
-  b.append(label,settings,retry,dismiss);
+  const compare = document.createElement('button');
+  compare.type = 'button';
+  compare.textContent = 'เปรียบเทียบข้อมูล';
+  compare.style.cssText = 'background:#fff;color:#b42318;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer';
+  compare.addEventListener('click',()=>openBackupCompare());
+  b.append(label,compare,settings,retry,dismiss);
   b.style.display = 'flex';
+  b.style.flexWrap = 'wrap';
 }
+
+async function openBackupCompare(){
+  // Fetch data for inspection only. No POST, localStorage updates, or implicit restore.
+  const safe = window.TradeDeskBackupSafety;
+  const diff = window.TradeDeskBackupDiff;
+  if(!safe || !diff){ alert('ตัวตรวจสอบ Backup โหลดไม่สำเร็จ'); return; }
+  const local = buildBackupData();
+  let remote;
+  try{
+    const r=await fetch('/api/backup',{cache:'no-store',signal:AbortSignal.timeout(12000)});
+    if(!r.ok)throw Error('HTTP '+r.status);
+    remote=await r.json();
+  }catch(e){alert('อ่านข้อมูล GitHub ไม่สำเร็จ: '+(e.message||'network error'));return;}
+  if(safe.findSnapshotLosses(remote,local).invalidSnapshot){
+    alert('รูปแบบ Backup ไม่ถูกต้อง — หยุดการเปรียบเทียบและห้ามเขียนทับ');return;
+  }
+  const result=diff.compare(remote,local);
+  const previous=document.getElementById('td-backup-compare');
+  if(previous)previous.remove();
+  const dialog=document.createElement('dialog');
+  dialog.id='td-backup-compare';
+  dialog.style.cssText='border:1px solid var(--bd);background:var(--surface);color:var(--tx);border-radius:18px;padding:22px;width:min(860px,95vw);max-height:85vh;overflow:auto;margin:auto;box-shadow:0 25px 90px rgba(0,0,0,.4);font:13px var(--sans)';
+  function line(tag,text,css){
+    const e=document.createElement(tag);e.textContent=text;
+    if(css)e.style.cssText=css;
+    return e;
+  }
+  dialog.appendChild(line('h2','เปรียบเทียบ Backup: Browser กับ GitHub','font-size:20px;margin-bottom:8px'));
+  dialog.appendChild(line('p','ดูข้อมูลอย่างเดียว ไม่มีการเขียนทับหรือแก้ไขพอร์ต','color:var(--tx2);margin-bottom:15px'));
+  const counts=result.counts;
+  dialog.appendChild(line('p',
+    'พอร์ต: GitHub '+counts.remotePortfolios+' / Browser '+counts.localPortfolios+
+    '   |   หุ้น: '+counts.remoteHoldings+' / '+counts.localHoldings+
+    '   |   ธุรกรรม: '+counts.remoteTransactions+' / '+counts.localTransactions,
+    'font:12px var(--mono);white-space:pre-wrap;color:var(--tx2);margin-bottom:12px'));
+  dialog.appendChild(line('p','พบ '+result.changes.length+' จุดที่แตกต่าง — ก่อนเลือกให้บันทึกทับ ควรเก็บ Backup ทั้งสองชุด',
+    'font-weight:600;margin-bottom:12px'));
+  const buttons=document.createElement('div');
+  buttons.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px';
+  function downloadBackup(obj,name){
+    const data=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(data);
+    const a=document.createElement('a');a.href=url;a.download=name;a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function action(label,fn){
+    const button=line('button',label,'padding:9px 12px;border-radius:9px;border:1px solid var(--bd);background:var(--s2);color:var(--tx);font:600 12px var(--sans);cursor:pointer');
+    button.type='button';button.addEventListener('click',fn);buttons.appendChild(button);
+  }
+  action('สำรองข้อมูล Browser',()=>downloadBackup(local,'tradedesk-browser-before-reconcile.json'));
+  action('สำรองข้อมูล GitHub',()=>downloadBackup(remote,'tradedesk-github-before-reconcile.json'));
+  action('ปิด',()=>dialog.close());
+  dialog.appendChild(buttons);
+  const details=document.createElement('div');
+  details.style.cssText='max-height:48vh;overflow:auto;border:1px solid var(--bd);border-radius:10px;padding:0 12px';
+  for(const change of result.changes.slice(0,160)){
+    const item=document.createElement('div');item.style.cssText='border-bottom:1px solid var(--bd2);padding:10px 2px';
+    item.appendChild(line('div',change.group+' · '+change.name+' · '+change.field,'font-weight:600;margin-bottom:5px;overflow-wrap:anywhere'));
+    item.appendChild(line('div','GitHub: '+change.github,'color:var(--tx2);overflow-wrap:anywhere'));
+    item.appendChild(line('div','Browser: '+change.browser,'color:var(--tx2);overflow-wrap:anywhere'));
+    details.appendChild(item);
+  }
+  if(result.changes.length>160)details.appendChild(line('p','แสดง 160 รายการแรกจาก '+result.changes.length+' รายการ','padding:10px'));
+  if(!result.changes.length)details.appendChild(line('p','ไม่พบความแตกต่างในข้อมูลพอร์ตที่ตรวจสอบ','padding:12px'));
+  dialog.appendChild(details);
+  dialog.appendChild(line('p','⚠️ หน้าจอนี้ไม่ได้ซิงก์ข้อมูลอัตโนมัติ การกดยืนยันเขียนทับยังคงต้องตรวจสอบแยกต่างหาก',
+    'color:var(--tx2);font-size:11px;margin-top:13px'));
+  document.body.appendChild(dialog);
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+  dialog.showModal();
+}
+
 function hideGHWarningBanner(dismissedByUser){
   const b = document.getElementById('gh-warn-banner');
   if(b) b.style.display = 'none';

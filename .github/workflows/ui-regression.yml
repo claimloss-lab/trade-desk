@@ -19,6 +19,7 @@ jobs:
       - name: Check JavaScript test suite
         run: node --test tests/*.test.cjs
       - name: Validate UI assets and element bindings
+        if: always()
         run: |
           node - <<'NODE'
           const fs = require('node:fs');

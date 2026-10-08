@@ -264,6 +264,10 @@ select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/s
 /* Hermes Research Showcase */
 .research-frame{width:100%;min-height:calc(100vh - 170px);border:0;border-radius:12px;background:var(--surface);box-shadow:var(--sh);}
 </style>
+<link rel="stylesheet" href="/theme.css">
+<link rel="stylesheet" href="/overview-bento.css">
+<link rel="stylesheet" href="/navigation-fintech.css">
+<script src="/theme.js" defer></script>
 </head>
 <body>
 
@@ -887,7 +891,7 @@ function buildPanels() {
 function buildOverviewHTML() {
   const net = totalNetWorth(), pnl = totalPnl(), cost = totalCost();
   const pct = cost>0 ? pnl/cost*100 : 0;
-  return `<div class="page">
+  return `<div class="page td-overview">\n    <div class="td-overview-head"><div><div class="td-eyebrow">TRADEDESK / PORTFOLIO ANALYTICS</div><h1>Portfolio Overview</h1><div class="td-head-sub">ภาพรวมสินทรัพย์และผลตอบแทนจากทุกพอร์ต</div></div><span class="td-head-tag">● Live portfolio dashboard</span></div>
     <div class="met-row sens" style="grid-template-columns:2fr 1fr 1fr">
       <div class="met hero">
         <div class="met-lbl">Total Net Worth</div>
@@ -905,8 +909,8 @@ function buildOverviewHTML() {
         <div class="met-sub">${portfolios.filter(p=>p.type!=='snapshot').length} realtime · ${portfolios.filter(p=>p.type==='snapshot').length} snapshot</div>
       </div>
     </div>
-    <div class="port-cards sens" id="ov-cards"></div>
-    <div class="charts-row" style="grid-template-columns:1fr 1fr">
+    <div class="td-section-heading"><strong>My Portfolios</strong><span>เลือกการ์ดเพื่อดูรายละเอียดพอร์ต</span></div>\n    <div class="port-cards sens" id="ov-cards"></div>
+    <div class="td-section-heading"><strong>Portfolio Analytics</strong><span>สัดส่วนและผลตอบแทน</span></div>\n    <div class="charts-row" style="grid-template-columns:1fr 1fr">
       <div class="chart-card sens">
         <div class="chart-ti">สัดส่วนแต่ละพอร์ต</div>
         <div class="chart-su">% ของ Net Worth รวม</div>

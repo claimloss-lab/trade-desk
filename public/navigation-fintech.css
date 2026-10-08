@@ -1,0 +1,21 @@
+/* Phase 3 — resilient navigation, accessible focus and compact mobile layout. */
+:root{--td-nav-bg:var(--surface)}
+.nav{background:var(--td-nav-bg);box-shadow:0 3px 18px rgba(0,0,0,.04);isolation:isolate}
+.nav-scroll{min-width:0;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
+.nav-tab{scroll-snap-align:start;transition:background .15s,color .15s,border-color .15s}
+.nav-tab:focus-visible,.nav-tools>summary:focus-visible,.nav-tools-menu :is(a,button):focus-visible,.theme-toggle:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.nav-tools{margin-left:auto;background:var(--surface)}
+.nav-tools-menu{max-width:min(90vw,330px);max-height:min(75vh,550px);overflow-y:auto}
+:root[data-theme="dark"] .nav{box-shadow:0 3px 20px rgba(0,0,0,.18)}
+:root[data-theme="dark"] .nav-tab:hover{background:rgba(110,164,255,.08)}
+:root[data-theme="dark"] .nav-tools-menu{background:var(--surface);border-color:var(--bd)}
+@media(max-width:760px){
+  .nav{padding:0 5px}
+  .nav-scroll{scrollbar-width:none}
+  .nav-tab{padding:12px 10px;font-size:12px}
+  .nav-tools{padding-left:4px;margin-left:0}
+  .nav-tools>summary{font-size:12px;padding:11px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .nav-tab,.port-card,.met,.theme-toggle{transition:none!important}
+}

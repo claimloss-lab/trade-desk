@@ -1,0 +1,36 @@
+/* Phase 2 — Overview Bento Fintech. Scoped to overview; other tabs untouched. */
+.td-overview{--td-gap:16px;max-width:1540px;padding:27px 28px 70px}
+.td-overview .td-overview-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.td-overview .td-eyebrow{font:600 10px var(--mono);text-transform:uppercase;letter-spacing:2px;color:var(--blue);margin-bottom:6px}
+.td-overview h1{font-size:clamp(23px,2.3vw,33px);font-weight:600;letter-spacing:-1px;color:var(--tx)}
+.td-overview .td-head-sub{font-size:12px;color:var(--tx2);margin-top:6px}
+.td-overview .td-head-tag{padding:8px 13px;border:1px solid var(--bd);border-radius:100px;background:var(--surface);font-size:11px;color:var(--tx2);white-space:nowrap}
+.td-overview .met-row{display:grid!important;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)!important;gap:var(--td-gap);margin-bottom:26px}
+.td-overview .met,.td-overview .port-card,.td-overview .chart-card,.td-overview .card{border-radius:18px;border:1px solid var(--bd2);box-shadow:var(--sh)}
+.td-overview .met{min-height:142px;padding:23px 24px;display:flex;flex-direction:column;justify-content:center}
+.td-overview .met.hero{background:linear-gradient(125deg,var(--theme-hero-start),var(--theme-hero-end))}
+.td-overview .met-lbl{font-size:10px;letter-spacing:1.1px;margin-bottom:12px}
+.td-overview .met-val{font-size:clamp(21px,2vw,30px);font-variant-numeric:tabular-nums}
+.td-overview .met.hero .met-val{font-size:clamp(25px,2.5vw,38px)}
+.td-overview .met-sub{margin-top:10px;line-height:1.5}
+.td-overview .td-section-heading{margin:0 0 13px;display:flex;align-items:center;gap:10px}
+.td-overview .td-section-heading strong{font-size:15px;letter-spacing:-.2px;color:var(--tx)}
+.td-overview .td-section-heading span{font-size:11px;color:var(--tx3)}
+.td-overview .port-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--td-gap);margin-bottom:27px}
+.td-overview .port-card{padding:21px;min-height:168px;transition:transform .2s,box-shadow .2s;min-width:0}
+.td-overview .port-card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.td-overview .port-card-name{font-size:14px;margin-bottom:7px}
+.td-overview .port-card-val{font-size:clamp(16px,1.55vw,23px);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.td-overview .port-card-type{margin-bottom:15px}
+.td-overview .charts-row{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)!important;gap:var(--td-gap);margin-bottom:24px}
+.td-overview .chart-card{padding:21px 24px;min-width:0}
+.td-overview .chart-ti{font-size:15px}
+.td-overview .chart-su{margin-top:6px;margin-bottom:17px}
+.td-overview .card{overflow:hidden}
+.td-overview .card-hd{padding:17px 22px}
+.td-overview .card-ti{font-size:14px}
+.td-overview .bdg{width:max-content}
+:root[data-theme="dark"] .td-overview .port-card:hover,:root[data-theme="dark"] .td-overview .chart-card:hover{border-color:rgba(110,164,255,.33)}
+@media(max-width:1150px){.td-overview .port-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.td-overview{padding:20px 16px 55px}.td-overview .met-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.td-overview .met.hero{grid-column:1/-1}.td-overview .port-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.td-overview .charts-row{grid-template-columns:1fr!important}}
+@media(max-width:480px){.td-overview{padding:18px 12px 40px;--td-gap:10px}.td-overview .td-head-tag{display:none}.td-overview .met{padding:17px;min-height:112px}.td-overview .met-val{font-size:19px}.td-overview .port-card{padding:15px;min-height:148px}.td-overview .port-card-val{font-size:16px}.td-overview .chart-card{padding:17px}}

@@ -1,0 +1,39 @@
+name: TradeDesk UI regression
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript test suite
+        run: node --test tests/*.test.cjs
+      - name: Validate UI assets and element bindings
+        if: always()
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const assert = require('node:assert/strict');
+          const html = fs.readFileSync('public/index.html','utf8');
+          const js = fs.readFileSync('public/theme.js','utf8');
+          const css = fs.readFileSync('public/theme.css','utf8');
+          for (const asset of ['theme.css','theme.js','overview-bento.css','navigation-fintech.css']) {
+            assert(html.includes('/'+asset), 'asset missing from HTML: '+asset);
+            assert(fs.existsSync('public/'+asset), 'asset missing on disk: '+asset);
+          }
+          for (const id of ['ov-cards','ov-net','ov-pnl','ov-pct','ov-pie','ov-bar','ov-equity']) assert(html.includes('id="'+id+'"'), 'UI hook missing: '+id);
+          assert(html.includes('class="page td-overview"'), 'Bento overview missing');
+          assert(js.includes("localStorage.setItem(KEY,theme)"),'theme storage missing');
+          assert(css.includes('[data-theme="dark"]'),'dark theme missing');
+          console.log('UI asset and hook checks passed');
+          NODE

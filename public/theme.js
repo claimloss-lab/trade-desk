@@ -1,44 +1,39 @@
-/* TradeDesk Phase 1 — isolated theme preference; no portfolio storage keys touched. */
+/* Phase 1: theme toggle in the persistent, visible navigation bar. */
 (function(){
-  'use strict';
-  const KEY='td_ui_theme';
-  const root=document.documentElement;
-  function readTheme(){
-    try {return localStorage.getItem(KEY)==='dark'?'dark':'light';}
-    catch(e){return 'light';}
-  }
-  function apply(theme){
-    const mode=theme==='dark'?'dark':'light';
-    root.setAttribute('data-theme',mode);
-    const button=document.getElementById('td-theme-toggle');
-    if(button){
-      const dark=mode==='dark';
-      button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
-      button.setAttribute('aria-pressed',String(dark));
-      const ico=button.querySelector('.theme-toggle-icon');
-      const label=button.querySelector('.theme-toggle-label');
-      if(ico)ico.textContent=dark?'☀':'☾';
-      if(label)label.textContent=dark?'Light':'Dark';
-      button.title=dark?'Switch to light mode':'Switch to dark mode';
-    }
-  }
-  apply(readTheme());
-  function mount(){
-    const header=document.querySelector('header .hdr-r');
-    if(!header || document.getElementById('td-theme-toggle'))return;
-    const button=document.createElement('button');
-    button.type='button';
-    button.id='td-theme-toggle';
-    button.className='theme-toggle';
-    button.innerHTML='<span class="theme-toggle-icon" aria-hidden="true"></span><span class="theme-toggle-label"></span>';
-    button.addEventListener('click',function(){
-      const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
-      try {localStorage.setItem(KEY,next);}catch(e){}
-      apply(next);
-    });
-    header.insertBefore(button,header.firstChild);
-    apply(root.getAttribute('data-theme'));
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
-  else mount();
+ 'use strict';
+ const KEY='td_ui_theme', root=document.documentElement;
+ let theme='light';
+ try { theme=localStorage.getItem(KEY)==='dark'?'dark':'light'; } catch(e){}
+ function apply(){
+   root.dataset.theme=theme;
+   const b=document.getElementById('td-theme-toggle');
+   if(b){
+     b.setAttribute('aria-label',theme==='dark'?'Switch to light mode':'Switch to dark mode');
+     b.setAttribute('aria-pressed',String(theme==='dark'));
+     b.title=theme==='dark'?'Switch to light mode':'Switch to dark mode';
+     b.textContent=theme==='dark'?'☀ Light':'☾ Dark';
+   }
+ }
+ function mount(){
+   const nav=document.getElementById('nav-bar');
+   if(!nav || document.getElementById('td-theme-toggle'))return;
+   const b=document.createElement('button');
+   b.type='button';b.id='td-theme-toggle';b.className='theme-toggle';
+   b.addEventListener('click',()=>{
+     theme=theme==='dark'?'light':'dark';
+     try{localStorage.setItem(KEY,theme)}catch(e){}
+     apply();
+   });
+   nav.appendChild(b);
+   apply();
+ }
+ function init(){
+   apply();mount();
+   const nav=document.getElementById('nav-bar');
+   if(nav && typeof MutationObserver!=='undefined'){
+     const observer=new MutationObserver(()=>{if(!document.getElementById('td-theme-toggle'))mount()});
+     observer.observe(nav,{childList:true});
+   }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

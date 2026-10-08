@@ -2465,7 +2465,14 @@ async function testGitHubConnection(){
       headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'}
     });
     if(r.ok){
-      resultEl.innerHTML = '<span style="color:var(--green-tx)">✓ เชื่อมต่อสำเร็จ!</span>';
+      const info=await r.json();
+      if(info.permissions?.push===true && user==='claimloss-lab' && repo==='trade-desk'){
+        resultEl.textContent = '✓ Token ใช้เขียน Repository ของ TradeDesk ได้';
+        resultEl.style.color = 'var(--green-tx)';
+      }else{
+        resultEl.textContent = '✗ ต้องใช้ Token ที่มีสิทธิ์เขียน claimloss-lab/trade-desk';
+        resultEl.style.color = 'var(--red-tx)';
+      }
     } else {
       resultEl.innerHTML = '<span style="color:var(--red-tx)">✗ Error '+r.status+' — ตรวจสอบ Token และ repo</span>';
     }
@@ -2481,6 +2488,12 @@ function scheduleGHSave(){
 }
 
 async function doGHSave(){
+  // The GitHub app connection inside ChatGPT is not shared with this website.
+  // Never attempt an anonymous write or read/create a backup just to test a missing token.
+  if(!getGHConfig().token){
+    markGHSaveFailed('ยังไม่ได้ตั้งค่า GitHub Token สำหรับเว็บไซต์นี้ — กด ตั้งค่า GitHub เพื่อเชื่อมต่อ');
+    return;
+  }
   const backup = buildBackupData();
   let remote;
   try{
@@ -2523,12 +2536,13 @@ async function doGHSave(){
     }
   }
 
-  // Primary path uses the server-side GitHub token. The caller must also authenticate
-  // with a GitHub account that has push permission to this repository.
+  // Server verifies that this caller has repository push permission before writing.
+  // There is deliberately no direct GitHub browser fallback; all writes stay on
+  // the guarded endpoint and never bypass the backup safety check.
   try{
     const res = await fetch('/api/backup', {
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(getGHConfig().token||'')},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getGHConfig().token},
       body:JSON.stringify(backup),
       signal:AbortSignal.timeout(15000),
     });
@@ -2539,27 +2553,11 @@ async function doGHSave(){
     }
     let detail = 'HTTP '+res.status;
     try{const err=await res.json();detail=err.error||detail;}catch{}
-    console.warn('GitHub auto-save failed (server):',detail);
+    console.warn('GitHub auto-save failed:',detail);
     markGHSaveFailed(detail);
   }catch(e){
-    console.warn('GitHub auto-save error (server):',e.message);
-    const cfg=getGHConfig();
-    if(!cfg.token){markGHSaveFailed(e.message||'Network error');return;}
-    try{
-      const jsonStr=JSON.stringify(backup,null,2);
-      const bytes=new TextEncoder().encode(jsonStr);
-      let binary='';for(let i=0;i<bytes.length;i++)binary+=String.fromCharCode(bytes[i]);
-      const content64=btoa(binary);
-      const path='public/portfolio-data.json';
-      const apiUrl=`https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
-      const getRes=await fetch(apiUrl,{headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json'}});
-      if(!getRes.ok){markGHSaveFailed('fallback could not read current backup (HTTP '+getRes.status+')');return;}
-      const d=await getRes.json();
-      const body={message:'Auto-save portfolio data '+new Date().toLocaleDateString('th-TH'),content:content64,sha:d.sha};
-      const putRes=await fetch(apiUrl,{method:'PUT',headers:{'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(putRes.ok){showToast('✓ Auto-saved ไป GitHub แล้ว (fallback token)');markGHSaveOk();}
-      else markGHSaveFailed('fallback save failed (HTTP '+putRes.status+')');
-    }catch(e2){markGHSaveFailed(e2.message||'fallback network error');}
+    console.warn('GitHub auto-save network error:',e.message);
+    markGHSaveFailed('เชื่อมต่อ GitHub ไม่สำเร็จ — '+(e.message||'network error'));
   }
 }
 
@@ -2571,7 +2569,7 @@ function markGHSaveOk(){
 }
 function markGHSaveFailed(detail){
   localStorage.setItem('gh_save_last_error', JSON.stringify({time:new Date().toISOString(), detail:String(detail||'').slice(0,200)}));
-  showGHWarningBanner('⚠️ Auto-save ไป GitHub ล้มเหลว (token เซิร์ฟเวอร์อาจหมดอายุ/ถูกลบ) — '+String(detail||'').slice(0,120));
+  showGHWarningBanner('⚠️ Auto-save ไป GitHub ล้มเหลว — '+String(detail||'').slice(0,120));
 }
 function showGHWarningBanner(msg){
   let b = document.getElementById('gh-warn-banner');
@@ -2589,12 +2587,19 @@ function showGHWarningBanner(msg){
   retry.textContent = 'ลองใหม่';
   retry.style.cssText = 'background:#fff;color:#d92d20;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer';
   retry.addEventListener('click',()=>doGHSave());
+  const settings = document.createElement('button');
+  settings.type = 'button';
+  settings.textContent = 'ตั้งค่า GitHub';
+  settings.style.cssText = 'background:#fff;color:#b42318;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer';
+  settings.addEventListener('click',()=>openGitHubSettings());
+  const missingToken = !getGHConfig().token;
+  retry.style.display = missingToken ? 'none' : '';
   const dismiss = document.createElement('button');
   dismiss.type = 'button';
   dismiss.textContent = 'ปิด';
   dismiss.style.cssText = 'background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer';
   dismiss.addEventListener('click',()=>hideGHWarningBanner(true));
-  b.append(label,retry,dismiss);
+  b.append(label,settings,retry,dismiss);
   b.style.display = 'flex';
 }
 function hideGHWarningBanner(dismissedByUser){

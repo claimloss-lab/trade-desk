@@ -54,11 +54,21 @@ export async function onRequest(context) {
     });
 
     if (!lineRes.ok) {
-      const err = await lineRes.text();
-      return new Response(JSON.stringify({ error: 'LINE API error', detail: err }), { status: 502, headers: cors });
+      // Never forward raw upstream error text: it can contain recipient IDs or
+      // request context. The browser only needs a stable, non-sensitive code.
+      const lineStatus = lineRes.status;
+      const code = lineStatus === 400 ? 'INVALID_REQUEST'
+        : lineStatus === 401 ? 'INVALID_CHANNEL_TOKEN'
+        : lineStatus === 403 ? 'PERMISSION_DENIED'
+        : lineStatus === 404 ? 'RECIPIENT_NOT_FOUND'
+        : lineStatus === 429 ? 'RATE_LIMITED'
+        : lineStatus >= 500 ? 'LINE_SERVICE_UNAVAILABLE'
+        : 'LINE_REQUEST_FAILED';
+      return new Response(JSON.stringify({ error: 'LINE push request failed', code, lineStatus }),
+        { status: 502, headers: { ...cors, 'Cache-Control': 'no-store' } });
     }
 
-    return new Response(JSON.stringify({ ok: true }), { headers: cors });
+    return new Response(JSON.stringify({ ok: true, status: 'accepted' }), { headers: { ...cors, 'Cache-Control': 'no-store' } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: cors });
   }

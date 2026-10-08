@@ -60,5 +60,39 @@ test('an authenticated repository writer can save a valid backup', async () => {
   assert.equal(response.status, 200);
   assert.equal(calls.filter(x => x.method === 'PUT').length, 1);
   assert.equal(calls.find(x => x.url.endsWith('/user')).authorization, 'Bearer writer-token');
-  assert.equal(calls.find(x => x.method === 'PUT').authorization, 'Bearer service-token');
+  assert.equal(calls.find(x => x.method === 'PUT').authorization, 'Bearer writer-token');
+});
+
+test('a verified writer can save even when the unrelated service token is not configured', async () => {
+  const calls = [];
+  const fakeFetch = async (url, init = {}) => {
+    calls.push({ url: String(url), method: init.method || 'GET', authorization: new Headers(init.headers).get('Authorization') });
+    if (String(url).endsWith('/user')) return new Response(JSON.stringify({ login: 'writer' }), { status: 200 });
+    if (String(url).endsWith('/repos/claimloss-lab/trade-desk')) return new Response(JSON.stringify({ permissions: { push: true } }), { status: 200 });
+    if (init.method === 'PUT') return new Response(JSON.stringify({ ok: true }), { status: 200 });
+    return new Response(JSON.stringify({ sha: 'current-sha' }), { status: 200 });
+  };
+  const response = await compiled(fakeFetch)({ request: request('Bearer valid-writer-token'), env: {} });
+  assert.equal(response.status, 200);
+  assert.equal(calls.filter(c => c.method === 'PUT').length, 1);
+  assert.equal(calls.find(c => c.method === 'PUT').authorization, 'Bearer valid-writer-token');
+});
+
+test('public backup reads can recover from an expired optional server secret', async () => {
+  const calls = [];
+  const snapshot = { portfolios: [{ id: 'dr1', stocks: [] }], transactions: [] };
+  const fakeFetch = async (url, init = {}) => {
+    const auth = new Headers(init.headers).get('Authorization');
+    calls.push(auth);
+    if (auth) return new Response('{}', { status: 401 });
+    const content = Buffer.from(JSON.stringify(snapshot)).toString('base64');
+    return new Response(JSON.stringify({ content }), { status: 200 });
+  };
+  const response = await compiled(fakeFetch)({
+    request: new Request('https://trade-desk.pages.dev/api/backup'),
+    env: { GITHUB_TOKEN: 'expired-service-token' },
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), snapshot);
+  assert.deepEqual(calls, ['Bearer expired-service-token', null]);
 });

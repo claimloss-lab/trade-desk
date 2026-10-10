@@ -1,0 +1,26 @@
+name: LINE notification diagnostics
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'functions/api/line-message.js'
+      - 'public/index.html'
+      - 'tests/line-diagnostics.test.cjs'
+      - 'tests/line-message-auth.test.cjs'
+      - '.github/workflows/line-diagnostics.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  line-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify LINE diagnostic paths, error handling and authorization
+        run: node --test tests/line-message-auth.test.cjs tests/line-diagnostics.test.cjs

@@ -2394,19 +2394,57 @@ function updateLineBadge(){
 }
 
 async function testLineConnection(){
-  const token  = document.getElementById('line-token').value.trim();
-  const userId = document.getElementById('line-userid').value.trim();
-  const resultEl = document.getElementById('line-test-result');
-  if(!token || !userId){ resultEl.textContent = 'กรอกข้อมูลให้ครบ'; return; }
-  resultEl.textContent = '⏳ กำลังทดสอบ...';
-  const ok = await sendLineMessage('🔌 TradeDesk: ทดสอบการเชื่อมต่อ LINE สำเร็จ! ✅', token, userId);
-  if(ok){
-    resultEl.innerHTML = '<span style="color:var(--green-tx)">✓ ส่งข้อความทดสอบสำเร็จ! เช็ค LINE ได้เลย</span>';
-  } else {
-    resultEl.innerHTML = '<span style="color:var(--red-tx)">✗ ส่งไม่สำเร็จ — ตรวจสอบ Token และ User ID</span>';
+  const token=document.getElementById('line-token').value.trim();
+  const userId=document.getElementById('line-userid').value.trim();
+  const resultEl=document.getElementById('line-test-result');
+  function status(message,ok=false){
+    resultEl.textContent=message;
+    resultEl.style.color=ok?'var(--green-tx)':'var(--red-tx)';
+  }
+  if(!token || !userId){
+    status('กรุณากรอก Channel Access Token และ LINE User ID');
+    return;
+  }
+  // LINE OA Basic ID (@account) is not the recipient's Messaging API userId.
+  if(!/^U[a-f0-9]{32}$/i.test(userId)){
+    status('LINE User ID ต้องขึ้นต้นด้วย U และตามด้วยอักขระ hexadecimal 32 ตัว — ใช้ source.userId จาก Webhook ของ LINE OA ไม่ใช่ Basic ID');
+    return;
+  }
+  resultEl.style.color='var(--tx2)';
+  resultEl.textContent='⏳ กำลังส่งข้อความทดสอบผ่าน LINE Messaging API...';
+  try{
+    const res=await fetch('/api/line-message',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Line-Token':token,'X-Line-Userid':userId},
+      body:JSON.stringify({message:'🔌 TradeDesk: ทดสอบการเชื่อมต่อ LINE สำเร็จ! ✅'}),
+      signal:AbortSignal.timeout(15000),
+    });
+    let data={};
+    try{data=await res.json()}catch(e){}
+    if(res.ok){
+      status('✓ LINE API รับคำขอส่งข้อความแล้ว — กรุณาเช็กใน LINE (ถ้าไม่เข้า ให้เพิ่ม LINE OA เป็นเพื่อนและตรวจ User ID)',true);
+      return;
+    }
+    const lineStatus=Number(data.lineStatus);
+    const help={
+      400:'คำขอไม่ถูกต้อง — ตรวจสอบ LINE User ID หรือรูปแบบข้อความ',
+      401:'Channel Access Token ใช้ไม่ได้หรือหมดอายุ — ออก Token ใหม่จาก LINE Developers',
+      403:'ไม่มีสิทธิ์ส่งข้อความ — ตรวจสอบสิทธิ์ Messaging API ของ LINE OA',
+      404:'ไม่พบผู้รับ — ตรวจสอบ LINE User ID ที่ได้จาก Webhook ของ LINE OA',
+      429:'ส่งข้อความเกินโควตาหรือถี่เกินไป — ตรวจสอบ Messaging API quota',
+      500:'LINE มีปัญหาชั่วคราว — ลองอีกครั้งภายหลัง',
+      503:'LINE มีปัญหาชั่วคราว — ลองอีกครั้งภายหลัง',
+    };
+    const description=help[lineStatus]||(
+      res.status===401?'เว็บไซต์ไม่ได้รับข้อมูลยืนยันตัวตน':
+      res.status===502?'LINE API ปฏิเสธคำขอ':
+      'เซิร์ฟเวอร์ส่งข้อความไม่สำเร็จ'
+    );
+    status('✗ '+description+' (LINE HTTP '+(Number.isFinite(lineStatus)&&lineStatus>0?lineStatus:res.status)+')');
+  }catch(e){
+    status('✗ เชื่อมต่อระบบส่ง LINE ไม่สำเร็จหรือหมดเวลารอ — ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่');
   }
 }
-
 // Core LINE send function — the browser supplies credentials per request.
 async function sendLineFlex(altText, flex, tokenOverride, userIdOverride){
   const cfg = getLineConfig();
@@ -8325,7 +8363,7 @@ async function fetchAllNAV(onlyPortId) {
     <div style="margin-bottom:16px">
       <label style="font-size:12px;color:var(--tx2);display:block;margin-bottom:4px">Your LINE User ID</label>
       <input type="text" id="line-userid" placeholder="Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="width:100%;font-size:13px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--s2);color:var(--tx)">
-      <div style="font-size:11px;color:var(--tx3);margin-top:4px">LINE OA Manager → Add Friends Guide → Basic ID (หรือดูจาก Webhook event)</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:4px">ใช้ source.userId จาก LINE Messaging API Webhook ของผู้รับ ไม่ใช่ LINE OA Basic ID และผู้รับต้องเพิ่ม LINE OA เป็นเพื่อน</div>
     </div>
 
     <div id="line-test-result" style="font-size:12px;margin-bottom:12px;min-height:18px"></div>

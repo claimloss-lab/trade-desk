@@ -23,9 +23,9 @@
           "atrTP": 2.5409,
           "atrValue": 0.0536,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8965,
-          "srResist": 2.3765,
-          "srUpdated": "2026-10-12",
+          "srSupport": 1.9016,
+          "srResist": 2.3829,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -42,9 +42,9 @@
           "atrTP": 55.798,
           "atrValue": 1.516,
           "atrUpdated": "2026-08-14",
-          "srSupport": 43.2513,
-          "srResist": 52.5234,
-          "srUpdated": "2026-10-12",
+          "srSupport": 43.3676,
+          "srResist": 52.6646,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -61,9 +61,9 @@
           "atrTP": 3.1818,
           "atrValue": 0.1073,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.2711,
-          "srResist": 2.8634,
-          "srUpdated": "2026-10-12",
+          "srSupport": 2.2772,
+          "srResist": 2.8711,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -76,10 +76,10 @@
           "parentTicker": "CRWD",
           "conversion": 250,
           "drCurrency": "USD",
-          "srSupport": 24.0154,
-          "srResist": 39.4544,
-          "srUpdated": "2026-10-12",
-          "srResistIsExt": true
+          "srSupport": 24.08,
+          "srResist": 36.6032,
+          "srUpdated": "2026-10-13",
+          "srResistIsExt": false
         },
         {
           "ticker": "GOOG80",
@@ -95,9 +95,9 @@
           "atrTP": 6.778,
           "atrValue": 0.1427,
           "atrUpdated": "2026-08-14",
-          "srSupport": 5.3274,
-          "srResist": 6.2815,
-          "srUpdated": "2026-10-12",
+          "srSupport": 5.3417,
+          "srResist": 6.2984,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -114,9 +114,9 @@
           "atrTP": 2.2642,
           "atrValue": 0.0681,
           "atrUpdated": "2026-08-14",
-          "srSupport": 1.8671,
-          "srResist": 2.1426,
-          "srUpdated": "2026-10-12",
+          "srSupport": 1.8721,
+          "srResist": 2.1484,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -133,9 +133,9 @@
           "atrTP": 8.9533,
           "atrValue": 0.1844,
           "atrUpdated": "2026-08-14",
-          "srSupport": 6.3857,
-          "srResist": 9.2797,
-          "srUpdated": "2026-10-12",
+          "srSupport": 6.4029,
+          "srResist": 9.4679,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": true
         },
         {
@@ -152,9 +152,9 @@
           "atrTP": 39.8292,
           "atrValue": 0.8597,
           "atrUpdated": "2026-08-14",
-          "srSupport": 31.7982,
-          "srResist": 39.1515,
-          "srUpdated": "2026-10-12",
+          "srSupport": 31.8837,
+          "srResist": 40.0874,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         },
         {
@@ -171,10 +171,10 @@
           "atrTP": 15.0196,
           "atrValue": 0.6065,
           "atrUpdated": "2026-08-14",
-          "srSupport": 10.5146,
-          "srResist": 14.3075,
-          "srUpdated": "2026-10-12",
-          "srResistIsExt": true
+          "srSupport": 10.5429,
+          "srResist": 13.6509,
+          "srUpdated": "2026-10-13",
+          "srResistIsExt": false
         },
         {
           "ticker": "PLTR06",
@@ -190,9 +190,9 @@
           "atrTP": 4.558,
           "atrValue": 0.1993,
           "atrUpdated": "2026-08-14",
-          "srSupport": 2.728,
-          "srResist": 4.7242,
-          "srUpdated": "2026-10-12",
+          "srSupport": 2.7354,
+          "srResist": 4.7369,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": true
         },
         {
@@ -209,10 +209,10 @@
           "atrTP": 21.2432,
           "atrValue": 0.3811,
           "atrUpdated": "2026-08-14",
-          "srSupport": 18.2418,
-          "srResist": 21.3225,
-          "srUpdated": "2026-10-12",
-          "srResistIsExt": true
+          "srSupport": 18.2909,
+          "srResist": 20.9012,
+          "srUpdated": "2026-10-13",
+          "srResistIsExt": false
         },
         {
           "ticker": "SNOW06",
@@ -228,9 +228,9 @@
           "atrTP": 6.3519,
           "atrValue": 0.234,
           "atrUpdated": "2026-08-14",
-          "srSupport": 4.373,
-          "srResist": 6.3987,
-          "srUpdated": "2026-10-12",
+          "srSupport": 4.3848,
+          "srResist": 6.4159,
+          "srUpdated": "2026-10-13",
           "srResistIsExt": true
         },
         {
@@ -637,7 +637,7 @@
           "atrUpdated": "2026-08-14",
           "srSupport": 114.99,
           "srResist": 162.52,
-          "srUpdated": "2026-10-12",
+          "srUpdated": "2026-10-13",
           "srResistIsExt": false
         }
       ],
@@ -6399,7 +6399,6 @@
     "NVDA_resist": "2026-10-11T03:01:38.770Z",
     "sellzone:SNOW": "2026-10-01",
     "oil03:rsi_sell": "2026-09-16",
-    "LLY_support": "2026-09-13T03:00:27.073Z",
     "buyzone:PANW": "2026-09-14",
     "ASML_support": "2026-09-15T03:00:30.556Z",
     "trend:ORCL:Strong Sell": "2026-09-16",
@@ -6416,7 +6415,7 @@
     "buyzone:SHOP": "2026-10-01",
     "sellzone:PLTR": "2026-10-01",
     "PLTR_resist": "2026-10-11T03:01:38.770Z",
-    "SHOP_resist": "2026-10-06T03:00:18.908Z",
+    "SHOP_resist": "2026-10-13T03:01:28.677Z",
     "MRVL_resist": "2026-10-07T03:00:19.244Z"
   },
   "summary": {

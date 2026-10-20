@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-08T18:38:34.974Z",
-  "exportDateTH": "9 ตุลาคม 2569 เวลา 01:38",
+  "exportDate": "2026-10-20T03:14:57.264Z",
+  "exportDateTH": "20 ตุลาคม 2569 เวลา 10:14",
   "portfolios": [
     {
       "id": "dr1",
@@ -30,8 +30,8 @@
         },
         {
           "ticker": "ASML01",
-          "qty": 2025,
-          "buyPrice": 28.33,
+          "qty": 2225,
+          "buyPrice": 30.00820224719101,
           "id": 2,
           "sector": "Tech",
           "underlying": "ASML",
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1792466094252,
+      "ticker": "ASML01",
+      "type": "buy",
+      "date": "2026-10-20",
+      "price": 47,
+      "qty": 200,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1791339180526,
       "ticker": "LIT",
@@ -3071,8 +3084,7 @@
       "note": "DCA_092026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "7 ต.ค. 69",
-      "_notified": true
+      "addedDate": "7 ต.ค. 69"
     }
   ],
   "dcaHistory": [],
@@ -6414,7 +6426,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 81,
-    "totalNetWorth": "฿1,884,773.37"
+    "totalTransactions": 82,
+    "totalNetWorth": "฿1,829,541.97"
   }
 }

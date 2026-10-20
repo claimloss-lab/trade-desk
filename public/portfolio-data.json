@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-20T03:15:15.865Z",
+  "exportDate": "2026-10-20T03:15:49.795Z",
   "exportDateTH": "20 ตุลาคม 2569 เวลา 10:15",
   "portfolios": [
     {
@@ -259,8 +259,8 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 3.01,
-          "qty": 3244,
+          "buyPrice": 3.0151976313841593,
+          "qty": 6755,
           "sector": "Tech",
           "underlying": "Meta",
           "id": 1790655268421,
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1792466146785,
+      "ticker": "META80",
+      "type": "buy",
+      "date": "2026-10-20",
+      "price": 3.02,
+      "qty": 3511,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1792466094252,
       "ticker": "ASML01",
@@ -3085,9 +3098,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "7 ต.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-10-20T03:15:40.124Z",
-      "_notifiedPrice": 125.5
+      "_notified": true
     }
   ],
   "dcaHistory": [],
@@ -6429,7 +6440,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 82,
-    "totalNetWorth": "฿1,829,541.97"
+    "totalTransactions": 83,
+    "totalNetWorth": "฿1,840,145.19"
   }
 }

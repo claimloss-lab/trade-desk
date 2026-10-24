@@ -1,90 +1,96 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LRCX — Research Brief</title><style>
   :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
   @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
-  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
-  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
-  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
-  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
-  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
-  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
-  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
   blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
   code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .company{color:var(--muted);font-size:.9rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
 </style></head><body><div class="wrap">
-<a class="back" href="index.html">← Research</a>
+<a class="back" href="index.html">← Portfolio</a>
 <div class="ticker">LRCX</div>
-<div class="meta">Thesis · 2026-10-01</div>
+<div class="meta">Thesis · สร้างจาก briefs/LRCX.md · 2026-10-24</div>
 <hr>
 <p>ticker: LRCX</p>
 <p>company: Lam Research Corporation</p>
 <p>memo_type: Full investment memo</p>
-<p>updated: 2026-09-17</p>
-<p>sources_fetched: SEC EDGAR 10-K/8-K, Companyfacts, Yahoo chart</p>
-<p>transcript: not verified; StockAnalysis HTTP 403</p>
+<p>updated: 2026-10-23</p>
+<p>sources_fetched: SEC EDGAR 10-Q accession 0000707549-26-000054; Yahoo chart</p>
+<p>transcript: not verified; StockAnalysis HTTP 403; IR release inaccessible</p>
 <hr>
-<h1>LRCX — Lam Research Corporation</h1>
+<h1>LRCX — Lam Research</h1>
 <h2>1. Investment Verdict</h2>
-<li><b>Investment question:</b> AI/memory/foundry capex และ service revenue จะทำให้ Lam โตผ่านรอบ semiconductor cycle ได้มากพอชดเชย valuation ที่สูงและความเสี่ยง export control หรือไม่?</li>
-<li><b>Rating:</b> ไม่มี buy/sell/hold recommendation ตาม house rule; เป็น <b>high-quality but cyclical research candidate</b> ที่ต้องติดตามราคาเทียบกับ normalized earnings</li>
-<li><b>Fair-value frame:</b> Worst $180, Base $300, Bull $440 ต่อหุ้นใน 5 ปี จาก EPS/ตัวคูณ scenario ด้านล่าง ไม่ใช่ราคาเป้าหมายหรือ consensus (source: SEC 8-K/Companyfacts + Yahoo chart, fetched 2026-09-17)</li>
-<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้อหรือ allocation; framework ที่เหมาะกับหุ้น cyclical คือแบ่งไม้และกำหนด cap ก่อนซื้อ โดยใช้ order/service/deferred revenue เป็นด่าน ไม่ใช่ extrapolate Q4 อย่างเดียว (judgment, 2026-09-17)</li>
-<li><b>5Y CAGR:</b> จากราคา $269.23 ณ 2026-09-16: Worst -7.5% ต่อปี, Base 2.2% ต่อปี, Bull 10.3% ต่อปี ก่อนปันผล; เป็น scenario math ไม่ใช่ forecast (source: Yahoo chart + scenario model, fetched 2026-09-17)</li>
+<li><b>Investment question:</b> AI/memory/foundry capex และ service revenue จะทำให้ Lam โตผ่าน semiconductor cycle ได้มากพอชดเชย export-control, China exposure และ valuation risk หรือไม่?</li>
+<li><b>กรอบการอ่าน:</b> September quarter แข็งแรงมากและทั้ง memory/foundry โต แต่ยังต้องทดสอบว่าการเร่งตัวเป็น demand ที่ยั่งยืนหรือเป็นช่วงหนึ่งของ cycle; ไม่มี buy/sell/hold recommendation</li>
+<li><b>Scenario 5 ปีเดิม:</b> Worst $180, Base $300, Bull $440 ต่อหุ้น เป็น stress-test ไม่ใช่ราคาเป้าหมายหรือ consensus (source: brief ก่อนหน้า 2026-09-17)</li>
+<li><b>Current market data:</b> ราคา $230.15; 52-week range $139.59–$433.33 ณ 22 ต.ค. 2026 13:30 UTC (source: Yahoo Finance chart endpoint, fetched 2026-10-23)</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>Lam ขายเครื่อง deposition, etch และอุปกรณ์ wafer-fabrication อื่น ๆ ให้ fabs/ผู้ผลิต memory และ logic; หลังติดตั้งแล้วบริษัทขาย service, spares, upgrades และ Reliant equipment ต่อ (source: SEC EDGAR 10-K, filing 2026-08-07; SEC 8-K, 2026-07-29)</li>
-<li><b>Core:</b> systems revenue Q4 FY2026 $4.250bn; ลูกค้าจ่ายเพื่อเพิ่ม wafer capacity และรองรับ process complexity ที่สูงขึ้น (source: SEC Form 8-K Exhibit 99.1, 2026-07-29)</li>
-<li><b>Option:</b> customer-support-related revenue $2.472bn หรือประมาณ 36.8% ของ Q4 revenue (คำนวณจากตัวเลข release) สร้าง installed-base economics แต่ยังขึ้นกับ utilization และ installed tools (source: SEC Form 8-K Exhibit 99.1, 2026-07-29)</li>
-<li><b>Customer economics:</b> ลูกค้าจ่ายเพื่อ yield, throughput และ process control; qualification, switching cost และ know-how ในขั้นตอนสำคัญให้ process power แต่ลูกค้ามีอำนาจต่อรองสูงและ capex เป็นวัฏจักร (source: SEC 10-K, 2026-08-07; judgment)</li>
+<li>Lam ขาย deposition, etch และอุปกรณ์ wafer-fabrication ให้ fabs/ผู้ผลิต memory และ logic; หลังติดตั้งมี service, spares, upgrades และ Reliant equipment (source: sources/LRCX/10-k-fy2026.md; sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Core:</b> September quarter revenue $8,219.418m และ product mix foundry 46%, memory 46%, logic/IDM 8%; ลูกค้าจ่ายเพื่อ yield, throughput และ process control (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Option:</b> deferred revenue $2.66bn เพิ่มจาก $2.43bn ใน June quarter และ installed-base service ช่วยเพิ่มความต่อเนื่อง แต่ไม่ใช่ backlog หรือรายได้ที่รับรู้แน่นอนทั้งหมด (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Customer economics:</b> qualification, recipe, uptime และ switching cost สร้าง process power; ลูกค้ายังมีอำนาจต่อรองสูงและ capex เป็นวัฏจักร (source: sources/LRCX/10-k-fy2026.md; sources/LRCX/q1-fy2027-10q.md)</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li><b>Process power / switching costs:</b> เมื่อเครื่องถูก qualify ใน fab แล้ว service, recipe และ uptime มีความสำคัญ ทำให้ installed base สนับสนุนรายได้หลังขาย; release แยก service/spares/upgrades ออกจาก systems ชัดเจน (source: SEC 8-K, 2026-07-29)</li>
-<li><b>Scale and R&amp;D:</b> FY2026 revenue $23.233bn, gross profit $11.725bn, operating income $8.200bn และ R&amp;D $2.376bn; scale ช่วย fund technology แต่ไม่ได้ป้องกัน cycle หรือ competition จาก Applied Materials/Tokyo Electron (source: SEC Companyfacts API, fetched 2026-09-17)</li>
-<li><b>Risks:</b> ความเข้มข้นของลูกค้า/ภูมิภาค, memory cycle, export controls และลูกค้าเลื่อน fab capex; Q4 revenue geography มี Taiwan 27%, China 26%, Korea 20% จึงมี geopolitical exposure ชัด (source: SEC 8-K, 2026-07-29)</li>
+<li><b>Fact:</b> revenue โต 54% YoY และ gross margin ขยับเป็น 52.3% จาก 50.4% ปีก่อน; <b>Interpretation:</b> mix/volume และ operating leverage ดี แต่ยังไม่พิสูจน์ normalized margin ผ่าน cycle (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Risk เฉพาะบริษัท:</b> จีนและลูกค้านานาชาติคิดเป็น exposure สูง; จีน/ลูกค้าจีนประมาณ 35% ของ revenue ใน September quarter และ non-U.S. sales ประมาณ 92% (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li>ความเสี่ยงเพิ่มเติมคือ memory/foundry capex เลื่อน, export controls, customer concentration, competition และ AI capex overbuild (source: sources/LRCX/q1-fy2027-10q.md; sources/LRCX/10-k-fy2026.md)</li>
 <h2>4. Financial Quality 5-year</h2>
-<p>| FY ended June | Revenue | Gross profit | Operating income | Net income | CFO | R&amp;D (USD m) |</p>
+<p>| FY ended June | Revenue | Gross profit | Operating income | Net income | CFO | R&amp;D |</p>
 <p>|---|---:|---:|---:|---:|---:|---:|</p>
 <p>| 2022 | 17,227 | 7,872 | 5,382 | 4,605 | 3,100 | 1,604 |</p>
 <p>| 2023 | 17,429 | 7,777 | 5,175 | 4,511 | 5,179 | 1,727 |</p>
 <p>| 2024 | 18,436 | 8,979 | 5,901 | 5,358 | 6,173 | 2,096 |</p>
 <p>| 2025 | 23,233 | 11,725 | 8,200 | 7,265 | 5,858 | 2,376 |</p>
-<li><b>Fact:</b> FY2026 revenue เพิ่มจาก $18.436bn เป็น $23.233bn และ operating income เพิ่มจาก $5.901bn เป็น $8.200bn ในชุดปีที่ดึงได้; gross margin และ operating margin สูงขึ้นตาม mix/operating leverage (source: SEC Companyfacts API, fetched 2026-09-17)</li>
-<li><b>Fact:</b> FY2026 CFO $5.858bn ต่ำกว่า FY2025 $6.173bn แม้กำไรสูงขึ้น; cash conversion จึงต้องตรวจ working capital ไม่ใช่ดู EPS อย่างเดียว (source: SEC Companyfacts API, fetched 2026-09-17)</li>
-<li>ROE/ROIC และ FY2021 comparable series ยังไม่ครบจาก tag ที่ดึงได้; ไม่ใส่ตัวเลขแทนการเดา (source: SEC Companyfacts API, fetched 2026-09-17)</li>
+<p>(source: sources/LRCX/10-k-fy2026.md, SEC Companyfacts, fetched 2026-09-17; USD million; FY2026 label in prior source should be read as year ended 2026-06-28)</p>
+<li><b>Reported:</b> September quarter revenue $8,219.418m, operating income $3,283.727m และ net income $2,753.138m; diluted EPS $2.19 เทียบ $1.24 ปีก่อน (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Reported:</b> R&amp;D $666.398m หรือ 8.1% ของ revenue; company ยังลงทุนใน deposition, etch, clean และ semiconductor processes (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Interpretation:</b> earnings momentum แข็งแรง แต่ต้องติดตาม cash conversion และ systems revenue เมื่อ cycle เปลี่ยน ไม่ดู EPS ไตรมาสเดียว (source: sources/LRCX/q1-fy2027-10q.md)</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>ณ 28 มิ.ย. 2026 cash $5.579bn, long-term debt $3.722bn และ equity $12.471bn; เป็น net cash ตาม long-term debt ที่เลือกดู แต่ต้องรวม lease/หนี้อื่นก่อนสรุป leverage ทั้งหมด (source: SEC Companyfacts API, fetched 2026-09-17)</li>
-<li>Q4 FY2026 cash/cash equivalents/restricted cash $5.60bn และ deferred revenue $2.43bn เทียบ $2.22bn ไตรมาสก่อน; deferred revenue เป็นตัวติดตาม demand หลัง order แต่ไม่ใช่ backlog ทั้งหมด (source: SEC 8-K, 2026-07-29)</li>
-<li>SBC, dilution, buyback และ dividend amount แบบ annual ที่ verify ครบยังไม่พบใน source ชุดนี้; ต้องเปิด 10-K หมวด stock compensation/share repurchase ก่อนใช้ทำ shareholder-return model (source limitation, 2026-09-17)</li>
+<li><b>Reported:</b> gross cash, cash equivalents and restricted cash $7.45bn ณ 27 ก.ย. 2026; CFO $3.498bn และ capex $257.7m ใน quarter (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Reported:</b> share repurchases $1.02bn, dividends paid $325.4m และ September 2026 accelerated share repurchase $1.00bn; บริษัทคาดว่าสภาพคล่องพอสำหรับอย่างน้อย 12 เดือนภายใต้ outlook ปัจจุบัน (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Interpretation:</b> capital return เดินหน้าควบคู่กับการลงทุน แต่ buyback ไม่ได้ลดความเสี่ยงจาก cycle/export control และควรติดตาม net cash หลังรวม debt/lease ให้ครบ (source: sources/LRCX/q1-fy2027-10q.md)</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Reported:</b> Q4 FY2026 revenue $6.722bn, GAAP gross margin 51.7%, operating margin 37.4%, diluted EPS $1.81; revenue โต 15.1% QoQ จาก $5.841bn (source: sources/LRCX/q4-fy2026-earnings-release.md, 2026-07-29)</li>
-<li><b>Reported:</b> systems revenue $4.250bn และ customer-support-related revenue/other $2.472bn; regional mix Taiwan 27%, China 26%, Korea 20% (source: sources/LRCX/q4-fy2026-earnings-release.md, 2026-07-29)</li>
-<li><b>Guidance:</b> Q1 FY2027 revenue $8.10bn ±$0.40bn, GAAP operating margin 39.5% ±1% และ diluted EPS $2.15 ±$0.15; เป็น company guidance ไม่ใช่ consensus (source: sources/LRCX/q4-fy2026-earnings-release.md, 2026-07-29)</li>
-<li><b>Transcript caveat:</b> StockAnalysis direct page ตอบ HTTP 403 ในรอบนี้ จึงใช้ official SEC earnings release เป็น substitute; ไม่มี verbatim management transcript ใน memo นี้ (source: StockAnalysis direct attempt + SEC 8-K, fetched 2026-09-17)</li>
+<li><b>Reported:</b> September 2026 quarter revenue $8.219bn (+54% YoY), gross margin 52.3%, operating income $3.284bn, net income $2.753bn และ diluted EPS $2.19 (source: sources/LRCX/q1-fy2027-10q.md, filed 2026-10-22)</li>
+<li><b>Reported:</b> foundry 46%, memory 46%, logic/IDM 8%; deferred revenue $2.66bn เทียบ $2.43bn ใน June quarter (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Reported:</b> CFO $3.498bn, capex $257.7m, buyback $1.02bn และ dividend $325.4m ใน quarter (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Guidance:</b> ตัวเลข company guidance ของ quarter ถัดไป/earnings release ที่แยกจาก 10-Q <b>ไม่พบที่ verify ได้</b>; ไม่เรียก 10-Q ว่า transcript และไม่แต่ง guidance (source limitation, checked 2026-10-23)</li>
+<li><b>Transcript/IR caveat:</b> StockAnalysis ตอบ HTTP 403; Lam Research newsroom ที่ลองเข้าถึงตอบ 403/404 ในรอบนี้ จึงใช้ SEC 10-Q เป็น primary source (source: direct HTTP attempts, 2026-10-23)</li>
 <h2>7. Valuation</h2>
-<li><b>Price:</b> $269.23; <b>52-week range:</b> $125.00–$438.50; ณ 2026-09-16 20:00 UTC (source: Yahoo Finance chart endpoint, fetched 2026-09-17)</li>
-<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG, historical range และ peer multiples: <b>ไม่พบตัวเลขที่ดึงและตรวจครบในรอบนี้</b>; ไม่แต่งแทน (source limitation, 2026-09-17)</li>
-<li>Scenario anchor ใช้ FY2026 diluted EPS โดย rough run-rate จาก Q4 ไม่ถือเป็น guidance: Worst EPS $15 ×12x=$180; Base $20 ×15x=$300; Bull $25 ×17.6x=$440. Multiple เป็น judgment เพื่อ stress test ไม่ใช่ consensus (source: SEC 8-K/Companyfacts + analyst scenario, 2026-09-17)</li>
+<li><b>Price:</b> $230.15; <b>52-week range:</b> $139.59–$433.33 ณ 22 ต.ค. 2026 13:30 UTC (source: Yahoo Finance chart endpoint, fetched 2026-10-23)</li>
+<li>Market cap, P/E, EV/EBITDA, EV/FCF และ analyst target consensus: <b>ไม่พบตัวเลขที่ดึงและตรวจครบในรอบนี้</b>; Yahoo quote endpoint ตอบ 401 และ analyst sources ที่เข้าถึงได้ไม่พอ (source limitation, 2026-10-23)</li>
+<li>Scenario เดิมคงไว้เพื่อรักษาประวัติ: Worst $180 / Base $300 / Bull $440; current price ต่ำกว่า Base เดิม แต่ไม่ควรตีความเป็น valuation conclusion โดยไม่มี normalized earnings และ consensus ที่ verify (source: brief ก่อนหน้า 2026-09-17; Yahoo chart 2026-10-23)</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<p>| Scenario | สมมติฐาน EPS ปี 5 | Multiple | Target | Probability | Expected contribution |</p>
-<p>|---|---:|---:|---:|---:|---:|</p>
-<p>| Bear | $15 | 12x | $180 | 30% | $54 |</p>
-<p>| Base | $20 | 15x | $300 | 50% | $150 |</p>
-<p>| Bull | $25 | 17.6x | $440 | 20% | $88 |</p>
-<li><b>Bear:</b> memory/AI capex ลดลง, export control จำกัด China, systems revenue หดและ operating margin กลับสู่ระดับต่ำกว่า peak (source: SEC 10-K/8-K, 2026-08-07/2026-07-29; judgment)</li>
-<li><b>Base:</b> service โตตาม installed base, systems โตตาม process complexity และ guidance แปลงเป็นกำไรโดยไม่มี shock ใหญ่ (source: SEC 8-K, 2026-07-29; judgment)</li>
-<li><b>Bull:</b> HBM/advanced memory และ logic investment เร่ง, Lam รักษา process power และ service mix ขยาย ทำให้ EPS compound ตาม scenario (source: SEC 8-K, 2026-07-29; judgment)</li>
-<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
-<li>Catalysts: Q1 FY2027 guidance conversion, deferred revenue โตต่อ, customer-support revenue รักษา margin และ fab capex ของ memory/logic ไม่ถูกเลื่อน (source: SEC 8-K, 2026-07-29)</li>
-<li>Risks: China/Taiwan/Korea exposure, export restrictions, memory oversupply, customer concentration, competition และ valuation compression แม้ earnings ยังโต (source: SEC 10-K/8-K, 2026-08-07/2026-07-29)</li>
+<p>| Scenario | สมมติฐาน | ราคา stress-test |</p>
+<p>|---|---|---:|</p>
+<p>| Bear | memory/AI capex ลด, export controls กด China และ margin กลับลง | $180 |</p>
+<p>| Base | service โต, systems โตตาม process complexity และ cycle ไม่สะดุดหนัก | $300 |</p>
+<p>| Bull | HBM/advanced memory และ logic investment เร่ง พร้อมรักษา process power/service mix | $440 |</p>
+<p>(source: scenario เดิมใน brief 2026-09-17; figures are judgment, not consensus)</p>
+<h2>9. Catalysts &amp; Risks</h2>
+<li><b>Catalysts:</b> deferred revenue โตต่อ, memory/foundry spending ยืน, service mix และ gross margin รักษาระดับสูง, AI/advanced packaging demand (source: sources/LRCX/q1-fy2027-10q.md)</li>
+<li><b>Risks:</b> China/export controls, memory overbuild, fab capex เลื่อน, customer concentration, competition และ multiple compression (source: sources/LRCX/q1-fy2027-10q.md; sources/LRCX/10-k-fy2026.md)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<p>หาก AI capex เป็นการเร่งซื้อเครื่องเพียงช่วงสั้น ลูกค้าอาจ overbuild แล้วหยุด order หลายไตรมาส; service revenue จะช่วยพยุงแต่ไม่สามารถชดเชย systems revenue ที่หายทั้งหมดได้. Bear floor จึงต้องสมมติ EPS ต่ำกว่าปัจจุบันและ multiple ต่ำ ไม่ใช้ deferred revenue $2.43bn เป็นหลักประกันรายได้ถาวร (source: SEC 8-K, 2026-07-29; judgment)</p>
+<p>ถ้า AI capex เป็นการเร่งซื้อเครื่องระยะสั้น ลูกค้าอาจ overbuild แล้วหยุด systems orders หลายไตรมาส; service/deferred revenue จะช่วยพยุงแต่ไม่ชดเชย systems revenue ที่หายทั้งหมด และจีน 35% ของ quarter revenue ทำให้ export controls อาจเปลี่ยน economics ของ thesis โดยตรง (source: sources/LRCX/q1-fy2027-10q.md; judgment)</p>
 <h2>11. Portfolio Strategy</h2>
-<li><b>DCA / sizing:</b> ไม่กำหนด recommendation; สำหรับหุ้น semicap ควร cap สัดส่วนและแบ่งไม้ เพราะ drawdown จาก cycle เป็นความเสี่ยงเชิงโครงสร้าง ไม่ใช่ noise รายวัน (judgment, 2026-09-17)</li>
-<li><b>Exit / kill conditions:</b> (1) fab capex guidance ลดต่อเนื่องหลายไตรมาส, (2) service/deferred revenue หดพร้อม systems bookings, (3) gross/operating margin ลดถาวรโดยไม่มี recovery path, (4) market share ใน etch/deposition ถูกแย่งอย่างต่อเนื่อง, (5) export control ทำให้ China exposure กระทบโครงสร้าง (source: SEC 10-K/8-K; judgment, 2026-09-17)</li>
+<li>ไม่กำหนด buy/sell/hold หรือ allocation; semicap ควรประเมินขนาดจาก drawdown ใน Bear case และไม่ extrapolate quarter เดียว</li>
+<li><b>Kill conditions:</b> (1) fab capex guidance ลดต่อเนื่องหลายไตรมาส, (2) service/deferred revenue หดพร้อม systems bookings, (3) gross/operating margin ลดถาวรโดยไม่มี recovery path, (4) market share ใน etch/deposition ถูกแย่งต่อเนื่อง, (5) export controls ทำให้ China exposure กระทบโครงสร้าง (source: sources/LRCX/q1-fy2027-10q.md; judgment)</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
 <p>| Layer | เนื้อหา |</p>
 <p>|---|---|</p>
-<p>| Fact | FY2026 revenue $23.233bn; Q4 revenue $6.722bn; Q4 service-related $2.472bn; Q1 FY2027 guidance revenue $8.10bn ±$0.40bn (source: SEC Companyfacts/8-K) |</p>
-<p>| Interpretation | installed base และ service ช่วยคุณภาพรายได้ แต่ systems cycle ยังเป็นตัวกำหนดกำไรระยะกลาง (source: SEC 8-K/10-K) |</p>
-<p>| Judgment | Base $300, probability 50% และ 15x multiple เป็น scenario ของผู้เขียน ไม่ใช่ fair value ที่ยืนยันได้ |</p>
-<p><b>ข้อจำกัด:</b> ไม่มี transcript ที่ verify จาก StockAnalysis เพราะ HTTP 403; peer/historical valuation และ SBC/dilution ยังไม่ครบ; DR mapping ใน tradedesk ยืนยัน LRCX01/LRCX19/LRCX23/LRCX80 ได้ แต่ memo ใช้ parent ticker LRCX ตาม pre-run.</p>
+<p>| <b>Fact</b> | September quarter revenue $8.219bn, gross margin 52.3%, EPS $2.19, deferred revenue $2.66bn และจีน/ลูกค้าจีนประมาณ 35% ของ revenue (source: sources/LRCX/q1-fy2027-10q.md) |</p>
+<p>| <b>Interpretation</b> | momentum ทั้ง memory/foundry และ service/deferred revenue สนับสนุน thesis แต่ cycle/export control ยังเป็นตัวกำหนด normalized earnings (source: sources/LRCX/q1-fy2027-10q.md) |</p>
+<p>| <b>Judgment</b> | scenario ราคาเดิมและ Base $300 เป็น stress-test ไม่ใช่ fair value หรือ consensus |</p>
+<h2>Earnings Update — 2026-10-23</h2>
+<li><b>เหตุผลที่อัปเดต:</b> มี SEC 10-Q ใหม่ filing 22 ต.ค. 2026 สำหรับ September 2026 quarter</li>
+<li><b>Fact:</b> revenue, margin, EPS, CFO และ deferred revenue ดีขึ้น; <b>Interpretation:</b> AI/memory/foundry demand thesis ได้รับการยืนยันใน quarter นี้; <b>Judgment:</b> ยังไม่ยกเลิก cycle/export-control risk</li>
+<li><b>สิ่งที่ยืนยัน thesis:</b> growth ทั้ง foundry และ memory, gross margin 52.3%, deferred revenue $2.66bn และ cash generation $3.498bn</li>
+<li><b>สิ่งที่เปลี่ยน/หักล้าง:</b> ไม่มีตัวเลข guidance ที่ verify ได้จาก IR; China exposure ประมาณ 35% ทำให้ความเสี่ยงเชิงนโยบายยังสูง แม้ผลประกอบการดี</li>
+<li><b>Consensus / analyst snapshot ณ 2026-10-23:</b> จำนวน analyst, rating distribution, average/median target และ brokerage-by-brokerage target/rating revisions <b>ไม่พบที่ verify ได้</b>; ไม่ใช้ consensus แทน reported facts</li>
+<li><b>ข้อจำกัด:</b> StockAnalysis HTTP 403, IR newsroom 403/404, Yahoo quote 401; guidance, market cap/P-E/EV metrics และ consensus จึงไม่ครบ</li>
 </div></body></html>

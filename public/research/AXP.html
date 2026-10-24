@@ -1,63 +1,83 @@
-<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AXP — Research Brief</title><style>
   :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
   @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
-  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
-  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
-  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
-  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
-  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
-  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
-  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px} .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px}
+  .meta{color:var(--muted);font-size:.9rem} .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px} h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0} ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
   blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
   code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+  header{max-width:1100px;margin:0 auto;padding:40px 24px 14px} header h1{margin:0 0 6px;font-size:1.9rem;border:none} header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 60px} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px}
+  .card .tk{font-size:1.4rem;font-weight:800} .card .company{color:var(--muted);font-size:.9rem;min-height:2.4em} .card .dt{font-size:.75rem;color:var(--accent);background:var(--accent-bg);align-self:flex-start;padding:3px 9px;border-radius:99px;margin-top:auto}
 </style></head><body><div class="wrap">
-<a class="back" href="index.html">← Research</a>
+<a class="back" href="index.html">← Portfolio</a>
 <div class="ticker">AXP</div>
-<div class="meta">Thesis · 2026-10-01</div>
-<h1>AXP — Full Investment Memo (ข้อมูล ณ 2026-09-15)</h1>
+<div class="meta">Thesis · สร้างจาก briefs/AXP.md · 2026-10-24</div>
+<h1>AXP — Full Investment Memo (อัปเดต 2026-10-24)</h1>
+<blockquote>Research memo สำหรับติดตาม thesis ระยะยาว ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคาตลาดเป็น snapshot</blockquote>
 <h2>1. Investment Verdict</h2>
-<li><b>Rating:</b> ไม่จัดอันดับ; ต้องตรวจ valuation และ credit normalization เพิ่ม (source: internal research rule; 2026-09-15)</li>
-<li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณ เพราะ Yahoo Finance ถูกตอบกลับ 429 และไม่ควรแต่งราคาหรือ multiple (source: Yahoo chart endpoint attempt; 2026-09-15)</li>
-<li><b>Investment question:</b> การเติบโตของรายได้และกระแสเงินสดใน 5 ปี จะชนะความเสี่ยงเฉพาะธุรกิจ—patent cliff สำหรับ AMGN หรือ credit cycle สำหรับ AXP—ได้หรือไม่?</li>
+<li><b>Investment question:</b> American Express จะเปลี่ยนฐานลูกค้าพรีเมียม การใช้จ่าย และค่าธรรมเนียมบัตรให้เป็นการเติบโตระยะ 5 ปีได้หรือไม่ โดยคุม credit loss, rewards cost และแรงกดดันจากเครือข่าย/วิธีจ่ายเงินทางเลือกได้หรือไม่</li>
+<li><b>Fact:</b> Q3 2026 ยืนยัน momentum ใน billings, card fees และคุณภาพเครดิต; บริษัทปรับ guidance EPS ปี 2026 ขึ้นเป็น $18.30–$18.60 หรือ adjusted $17.60–$17.90 (source: sources/AXP/q3-2026-earnings-release.md, 2026-10-23)</li>
+<li><b>Interpretation:</b> สิ่งที่ยืนยัน thesis เดิมคือ premium customer base และ Membership Model ยังสร้าง spend/fee growth; สิ่งที่ต้องระวังคือ EPS GAAP ไตรมาสนี้มี gain จาก GBTG และ reserve release จึงไม่ควร annualize ตรง ๆ</li>
+<li><b>Judgment:</b> ยังไม่ให้ rating, fair value หรือ allocation เพราะ forward consensus และ valuation multiples ที่ตรวจสอบได้จาก Yahoo ไม่พร้อมในรอบนี้</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>เครือข่ายบริการชำระเงินและสินเชื่อสำหรับผู้บริโภค/ธุรกิจ รายได้มาจากค่าธรรมเนียมธุรกรรม ค่าธรรมเนียมบัตร ดอกเบี้ยสุทธิ และการบริหารความเสี่ยงเครดิต ลูกค้าจ่ายเพื่อการยอมรับบัตร สิทธิประโยชน์ และวงเงิน (source: sources/AXP/10-k-2025.md; SEC 10-K filed 2026-02-13/2026-02-06)</li>
-<li><b>THE CORE:</b> ลูกค้าจ่ายเพื่อผลลัพธ์ที่วัดได้—การรักษาโรค หรือการชำระเงิน/สิทธิประโยชน์ที่ใช้งานได้จริง ไม่ใช่เพียง feature (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li><b>THE OPTION:</b> AMGN = pipeline/indication ใหม่; AXP = member acquisition, premium products และ partner ecosystem ทั้งหมดต้องแปลงเป็นกำไรหลังค่าใช้จ่าย (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li>AXP เป็นเครือข่ายการชำระเงินและผู้ออกบัตร/ผู้ให้สินเชื่อ ขายให้ผู้บริโภคพรีเมียม ธุรกิจขนาดเล็ก บริษัทขนาดใหญ่ และร้านค้า ลูกค้าจ่ายผ่าน discount revenue, card fees, net interest income และบริการชำระเงิน/ข้อมูล (source: sources/AXP/10-k-2025.md)</li>
+<li><b>THE CORE:</b> ลูกค้าจ่ายเพื่อการยอมรับบัตร สิทธิประโยชน์ บริการ และวงเงิน; บริษัทได้รายได้จากการใช้จ่ายและยอดคงค้าง ไม่ใช่จากการขายซอฟต์แวร์ครั้งเดียว</li>
+<li><b>THE OPTION:</b> การขยาย merchant acceptance, commercial payments, AI/agentic commerce, banking products และ partnership ใหม่ อาจเพิ่มการใช้ Membership assets แต่ต้องพิสูจน์ economics หลัง rewards/marketing</li>
+<li>Helmer 7 Powers ที่เห็นคือ brand, network scale, switching friction จาก ecosystem/ข้อมูล/partner relationships และ process power ในการบริหารความเสี่ยง; ความแข็งแรงแตกต่างกันตาม segment (source: sources/AXP/10-k-2025.md)</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li>Helmer 7 Powers ที่เห็นได้: brand/reputation, switching friction จาก ecosystem/ข้อมูล/ความสัมพันธ์ และ scale ใน distribution; ความแข็งแรงต่างกันตาม segment (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li>ความเสี่ยงจำเพาะ: วงจรเครดิตกลับตัวทำให้ provisions และ charge-off สูงขึ้น; competition กด rewards/merchant economics และการเติบโตของ loan ไม่คุ้มความเสี่ยง (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li><b>ข้อได้เปรียบ:</b> Q3 billed business $454.0bn โต 8% YoY; T&amp;E โต 10%; card acceptance มากกว่า 190 ล้าน merchant locations และ International Card Services โต 11% (source: sources/AXP/q3-2026-10-q.md; sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>ความเสี่ยงเฉพาะบริษัท:</b> Visa/Mastercard และ alternative payments มี scale/ราคา/การยอมรับกว้างกว่า; surcharging, steering, digital wallets และ agentic commerce อาจลดการใช้บัตรหรือกด merchant discount rate (source: sources/AXP/10-k-2025.md; sources/AXP/q3-2026-10-q.md)</li>
+<li><b>ความเสี่ยงด้านต้นทุน:</b> rewards, card-member services และ marketing โตตามการใช้จ่าย/การ refresh ผลิตภัณฑ์ หากต้นทุน acquisition หรือ benefits สูงกว่ารายได้ที่ลูกค้าสร้าง จะกด operating leverage (source: sources/AXP/q3-2026-10-q.md)</li>
 <h2>4. Financial Quality 5-year</h2>
-<li><b>Reported revenue:</b> FY2023 $37.22bn; FY2023 $37.22bn; FY2024 $38.83bn; FY2024 $38.83bn; FY2025 $41.30bn (source: SEC Companyfacts/XBRL; fetched 2026-09-15)</li>
-<li>Gross margin, operating margin, net income, OCF, CapEx, FCF, R&amp;D, ROE และ ROIC แบบ 5 ปี: ไม่ครบจาก XBRL tag ที่ดึงได้ จึงไม่ใส่ตัวเลขแทน (source: SEC Companyfacts/XBRL; 2026-09-15)</li>
-<li>ทิศทางล่าสุดที่ยืนยันได้จาก Q2 2026: revenue revenue growth, credit performance, credit reserve and expense levels and the effective; net income ไม่พบ. (source: sources/AXP/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Reported:</b> รายได้ FY2023 $37.22bn, FY2024 $38.83bn, FY2025 $41.30bn ตาม extract เดิมจาก SEC XBRL; ตัวเลข 5 ปีที่เทียบเคียงได้ครบทุก margin/ROIC ยังไม่พบ จึงไม่เติมตัวเลข (source: briefs/AXP.md เวอร์ชันเดิม; SEC Companyfacts/XBRL)</li>
+<li><b>Reported Q3 2026:</b> total revenues net of interest expense $20.062bn โต 9%; net income $3.712bn โต 28%; diluted EPS $5.42 โต 31%; adjusted EPS $4.68 โต 13% (source: sources/AXP/q3-2026-10-q.md; sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>Reported 9M 2026:</b> revenue $58.606bn โต 10%, net income $9.794bn โต 17%, diluted EPS $14.22 โต 20%; provision for credit losses 9M $3.320bn ลด 14% YoY (source: sources/AXP/q3-2026-10-q.md)</li>
+<li><b>Interpretation:</b> growth ยัง broad-based แต่ Q3 EPS ได้แรงหนุนจาก GBTG gain $982m pre-tax และ restructuring charge $336m; adjusted EPS สะท้อน operating trend ดีกว่า GAAP headline (source: sources/AXP/q3-2026-earnings-release.md)</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash, total debt, net debt, SBC, dilution และ buyback: ต้องอ่านหมายเหตุประกอบ 10-K/10-Q แบบเต็มเพิ่มเติม; ตัวเลขที่ยืนยันได้ไม่ครบ จึงไม่แต่ง (source: sources/AXP/10-k-2025.md; sources/AXP/q2-2026-call.md; 2026-09-15)</li>
-<li>สำหรับ AMGN ต้องติดตาม deleveraging หลังการซื้อกิจการ; สำหรับ AXP ต้องติดตาม capital adequacy, reserves และ buyback เทียบกับ credit cycle (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li><b>Reported:</b> ณ 30 ก.ย. 2026 cash and cash equivalents $43.203bn, total Card balances and Other loans $233.153bn, customer deposits $155.019bn และ long-term debt $58.538bn (source: sources/AXP/q3-2026-10-q.md)</li>
+<li><b>Reported:</b> CET1 ratio อยู่ใน target range 10–11% และ Q3 คืนทุนผู้ถือหุ้น $2.2bn ผ่าน buyback และ common dividends; Q3 cash dividend ต่อหุ้น $0.95 (source: sources/AXP/q3-2026-10-q.md)</li>
+<li><b>Interpretation/Judgment:</b> balance sheet ยังรองรับการเติบโตได้ แต่ต้องติดตามว่าการเติบโตของ card balances มาจากลูกค้าคุณภาพดีเพียงใด และ reserve release เป็น normalization หรือชั่วคราว</li>
 <h2>6. Latest Earnings</h2>
-<li>Q2 2026 release/8-K ล่าสุดที่ดึงตรงจาก SEC: revenue revenue growth, credit performance, credit reserve and expense levels and the effective; net income ไม่พบ; ไม่พบ transcript จาก StockAnalysis เพราะ endpoint ตอบ 403 จึง <b>ไม่เรียกข้อมูลนี้ว่า transcript</b> (source: sources/AXP/q2-2026-call.md; StockAnalysis transcripts URL attempted 2026-09-15)</li>
-<li>Guidance และ beat/miss เทียบ consensus: ไม่พบข้อมูลที่ verify ได้จากแหล่งบังคับ (source: SEC 8-K; 2026-09-15)</li>
+<li><b>Reported:</b> Q3 2026 revenue $20.1bn โต 9% YoY; billed business $454.0bn โต 8%; net income $3.7bn และ EPS $5.42 เทียบกับ $2.9bn/$4.14 ปีก่อน (source: sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>Reported:</b> discount revenue โต 8%, net card fees โต 16%, net interest income โต 10%; card balances and other loans โต 8% (source: sources/AXP/q3-2026-10-q.md)</li>
+<li><b>Reported:</b> net write-off rate 1.8% เทียบ 1.9% ปีก่อน; delinquency stable; provisions ลดจาก reserve release เทียบกับ reserve build ปีก่อน (source: sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>Guidance:</b> FY2026 EPS $18.30–$18.60 และ adjusted EPS $17.60–$17.90; บริษัทระบุว่ายังอยู่บนเส้นทาง revenue growth 10% ในปี 2026 (source: sources/AXP/q3-2026-earnings-release.md, 2026-10-23)</li>
+<li><b>Transcript/Consensus:</b> ไม่พบ transcript ที่เข้าถึงได้จาก StockAnalysis; ใช้ company earnings release และ SEC 10-Q แทน ไม่พบ consensus estimate ที่ตรวจสอบได้ จึงไม่รายงาน beat/miss หรือ analyst target (source: StockAnalysis direct request, HTTP 403, 2026-10-24)</li>
 <h2>7. Valuation</h2>
-<li>Price, market cap, P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG, historical range และ peer multiple: <b>ไม่พบ/ไม่คำนวณ</b> เนื่องจาก Yahoo chart endpoint ตอบ 429 และไม่มีแหล่ง peer data ที่ดึงตรงได้ในรอบนี้ (source: Yahoo Finance chart endpoint; 2026-09-15)</li>
+<li><b>Price:</b> $312.685; <b>52-week range จากราคาปิดรายวัน:</b> $292.27–$384.89; ณ 2026-10-23 13:30 UTC (source: Yahoo Finance chart endpoint, fetched 2026-10-24)</li>
+<li><b>Market cap, trailing/forward P/E, EV/EBITDA, EV/FCF, FCF yield และ analyst target:</b> ไม่พบจาก Yahoo quote endpoint ในรอบนี้ ซึ่งตอบ HTTP 401; ไม่คำนวณแทน (source: Yahoo Finance quote/quoteSummary endpoint, fetched 2026-10-24)</li>
+<li>Scenario valuation จึงยังไม่ใส่ target/CAGR/probability; ต้องมี price, share count และ forward earnings/multiple ที่ verify ได้ก่อน</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bull:</b> spend และค่าธรรมเนียมโตพร้อมฐานสมาชิกคุณภาพดี ขณะที่ rewards/marketing มีประสิทธิภาพและ credit loss อยู่ในกรอบ; EPS/target/CAGR/probability ไม่ระบุเพราะไม่มีราคาและ consensus ที่ verify ได้ (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li><b>Base:</b> รายได้เติบโตตามฐานธุรกิจและ margin ไม่ขยายมาก; target/CAGR/probability ไม่ระบุ (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li><b>Bear:</b> วงจรเครดิตกลับตัวทำให้ provisions และ charge-off สูงขึ้น; competition กด rewards/merchant economics และการเติบโตของ loan ไม่คุ้มความเสี่ยง; bear floor ไม่ระบุเพราะไม่มี valuation input ที่ตรวจสอบได้ (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li><b>Bull:</b> premium customer acquisition และ commercial payments โตต่อ, card fees/merchant acceptance ขยาย, credit loss อยู่ในกรอบ และ AI/agentic commerce เพิ่ม usage โดยไม่กิน margin; target/CAGR ไม่ระบุเพราะ valuation inputs ไม่ครบ</li>
+<li><b>Base:</b> billed business และ card fees โตต่อระดับ single-to-low-double digit, margin ทรงตัว, credit normalization ค่อย ๆ กลับสู่ค่าเฉลี่ย และ buyback ช่วย EPS; target/CAGR ไม่ระบุ</li>
+<li><b>Bear:</b> premium spending ชะลอ, rewards/marketing แพงขึ้น, merchant discount ถูกกด, alternative payments แย่ง usage และ charge-off/reserves เพิ่มพร้อมกัน; bear floor ไม่คำนวณ</li>
 <h2>9. Catalysts (12m) &amp; Risks (12-24m)</h2>
-<li>Catalysts: ผลิตภัณฑ์/บริการใหม่, volume หรือ spend ที่มีคุณภาพ, และ guidance ที่ยืนยันได้ (source: sources/AXP/q2-2026-call.md; 2026-09-15)</li>
-<li>Risks: วงจรเครดิตกลับตัวทำให้ provisions และ charge-off สูงขึ้น; competition กด rewards/merchant economics และการเติบโตของ loan ไม่คุ้มความเสี่ยง (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li><b>Catalysts:</b> guidance ปี 2026 ทำได้จริง, Platinum/product refresh เปลี่ยนเป็น retention และ fee growth, commercial expense platform/Business Savings, Airbnb/Marriott partnerships และ agentic-commerce integrations (source: sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>Risks:</b> credit metrics แย่ลง, reserve release กลับเป็น reserve build, rewards/benefits ไม่คุ้ม, partner portfolio loss/renegotiation, regulatory pricing/fee caps และแรงกดดันจาก digital wallets/AI commerce (source: sources/AXP/q3-2026-10-q.md; sources/AXP/10-k-2025.md)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>Permanent capital loss อาจเกิดจากการประเมิน durability ของรายได้สูงเกินจริง, leverage/credit loss สูงขึ้น หรือ pipeline ไม่สร้าง cash flow (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li><b>Bear floor:</b> ไม่คำนวณโดยไม่มี price/multiple ที่ verify ได้; สมมติฐานเปราะบางคือการเติบโตต่อเนื่องพร้อมต้นทุนความเสี่ยงคงที่ (source: SEC filings; 2026-09-15)</li>
+<li>ถ้า card spend โตจากลูกค้าที่มีคุณภาพต่ำลงหรือจากการปล่อยกู้มากกว่าการใช้จ่ายที่สร้าง fee economics ธุรกิจอาจดูโตแต่ผลตอบแทนความเสี่ยงแย่ลง</li>
+<li>ถ้า merchant acceptance ไม่เพิ่มตามจำนวนบัตร หรือ partners ขอ economics ที่แย่ลง network value อาจลดลงพร้อม rewards cost ที่สูงขึ้น</li>
+<li><b>จุดเปราะบางของ scenario:</b> annualize Q3 GAAP EPS ไม่ได้ เพราะมี GBTG gain, restructuring และ reserve release; ต้องแยก Reported/Adjusted/Scenario ทุกครั้ง</li>
 <h2>11. Portfolio Strategy</h2>
-<li>ไม่ให้ buy/sell/hold recommendation และไม่กำหนด sizing/DCA จนกว่าจะมีราคาปัจจุบัน, valuation และข้อมูลความเสี่ยงครบ (source: Yahoo/SEC retrieval log; 2026-09-15)</li>
-<li>Exit/kill triggers: credit losses สูงกว่าสมมติฐานหลายไตรมาส; acquisition cost สูงจนผลตอบแทนสมาชิกใหม่ลดลง; regulatory/merchant pricing กระทบ fee economics (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
+<li>ใช้เป็น long-term monitoring thesis ในกลุ่ม SET DR/portfolio เท่านั้น; ไม่กำหนด buy/sell/hold, entry หรือ sizing จากข้อมูลชุดนี้</li>
+<li>ติดตามรายไตรมาส: billed business, card fees, card balances, net write-off/delinquency, rewards/marketing expense, CET1 และ buyback/dividend</li>
+<li><b>Kill conditions:</b> credit losses และ delinquency สูงขึ้นต่อเนื่องจนต้อง build reserve หลายไตรมาส; card fee growth หยุดพร้อม customer attrition; หรือ merchant/partner economics ถูกกดจน revenue growth ไม่แปลงเป็นกำไร</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<li><b>Fact:</b> ตัวเลขรายได้/กำไรที่รายงานใน SEC และข้อจำกัดการดึง transcript/ราคา (source: SEC Companyfacts, SEC 8-K, Yahoo/StockAnalysis attempts; 2026-09-15)</li>
-<li><b>Interpretation:</b> ธุรกิจมี engine เฉพาะตัว แต่ความทนทานขึ้นกับ patent/pipeline หรือ spend/credit economics (source: sources/AXP/10-k-2025.md; 2026-09-15)</li>
-<li><b>Judgment:</b> ยังไม่ควรสรุป fair value หรือ allocation จากข้อมูลรอบนี้; คำถามก่อนถือคือ:</li>
-<p>กำไรปัจจุบันมาจาก spend หรือการปล่อยสินเชื่อมากกว่ากัน?</p>
-<li>credit loss ผ่านจุดต่ำสุดแล้วหรือยัง?</li>
-<li>ค่าใช้จ่าย rewards และ marketing คุมได้หรือไม่? (source: research judgment; 2026-09-15)</li>
+<li><b>Fact:</b> Q3 revenue +9%, billed business +8%, adjusted EPS $4.68, guidance adjusted EPS $17.60–$17.90, net write-off 1.8%, CET1 target 10–11% (source: sources/AXP/q3-2026-10-q.md; sources/AXP/q3-2026-earnings-release.md)</li>
+<li><b>Interpretation:</b> Membership Model ยังทำงานทั้ง acquisition, retention, spend และ fees; credit performance สนับสนุน thesis แต่ reserve release ต้องเฝ้าดู</li>
+<li><b>Judgment:</b> thesis ถูกยืนยันบางส่วนและยังไม่ถูกหักล้าง แต่ยังไม่มีข้อมูล valuation/consensus เพียงพอสำหรับ fair value หรือ allocation</li>
+<h2>Earnings Update — 2026-10-24</h2>
+<li><b>เหตุผลที่อัปเดต:</b> SEC 10-Q งวด 30 ก.ย. 2026 ยื่น 23 ต.ค. 2026 และ earnings release ใหม่</li>
+<li><b>Fact:</b> revenue, billings, fees และ credit metrics แข็งแรง; guidance EPS ถูกยกขึ้น; มี GBTG gain และ restructuring เป็นรายการพิเศษ</li>
+<li><b>Interpretation:</b> operating thesis ดีขึ้นจาก card fee growth และ stable credit แต่ headline EPS ต้องปรับรายการพิเศษออก</li>
+<li><b>Judgment:</b> ยืนยัน long-term monitoring thesis; ยังไม่เปลี่ยนเป็น valuation verdict เพราะ Yahoo multiples และ consensus inaccessible</li>
+<li><b>Analyst consensus snapshot:</b> ไม่พบจำนวน analyst, rating distribution, average/median target หรือ brokerage revisions ที่ verify ได้ในรอบนี้; จึงไม่ใช้ consensus เป็นฐานตัดสิน thesis</li>
+<h2>Thesis History</h2>
+<li><b>2026-09-15:</b> memo เดิมระบุข้อมูล Q2/valuation และ transcript ไม่ครบ; ยังไม่คำนวณ fair value</li>
+<li><b>2026-10-24:</b> เพิ่ม Q3 2026 filing/release, guidance ใหม่, credit/capital allocation data, price/52-week range และแยก Fact/Interpretation/Judgment; ไม่ลบข้อสรุปเดิมเรื่อง valuation ที่ยังไม่ครบ</li>
 </div></body></html>

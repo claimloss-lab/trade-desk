@@ -3110,7 +3110,10 @@
       "note": "DCA_092026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "7 ต.ค. 69"
+      "addedDate": "7 ต.ค. 69",
+      "_notified": true,
+      "_notifiedAt": "2026-10-25T03:00:26.647Z",
+      "_notifiedPrice": 125.5
     }
   ],
   "dcaHistory": [],

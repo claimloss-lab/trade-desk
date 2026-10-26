@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-26T15:49:44.844Z",
-  "exportDateTH": "26 ตุลาคม 2569 เวลา 22:49",
+  "exportDate": "2026-10-26T16:12:04.662Z",
+  "exportDateTH": "26 ตุลาคม 2569 เวลา 23:12",
   "portfolios": [
     {
       "id": "dr1",
@@ -270,7 +270,7 @@
           "srResistIsExt": false
         }
       ],
-      "cash": 19574.77,
+      "cash": 9522.13,
       "snapshots": []
     },
     {
@@ -3079,8 +3079,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -3090,8 +3089,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1788231338104,
@@ -3125,8 +3123,7 @@
       "note": "DCA_092026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "7 ต.ค. 69",
-      "_notified": true
+      "addedDate": "7 ต.ค. 69"
     }
   ],
   "dcaHistory": [],
@@ -6461,6 +6458,6 @@
     "totalPorts": 10,
     "totalStocks": 45,
     "totalTransactions": 85,
-    "totalNetWorth": "฿1,849,981.26"
+    "totalNetWorth": "฿1,839,495.23"
   }
 }

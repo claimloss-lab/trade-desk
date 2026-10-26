@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-22T16:03:27.790Z",
-  "exportDateTH": "22 ตุลาคม 2569 เวลา 23:03",
+  "exportDate": "2026-10-26T15:49:22.189Z",
+  "exportDateTH": "26 ตุลาคม 2569 เวลา 22:49",
   "portfolios": [
     {
       "id": "dr1",
@@ -259,8 +259,8 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 2.9,
-          "qty": 10355,
+          "buyPrice": 2.857503546099291,
+          "qty": 14100,
           "sector": "Tech",
           "underlying": "Meta",
           "id": 1790655268421,
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1793029759174,
+      "ticker": "META80",
+      "type": "buy",
+      "date": "2026-10-26",
+      "price": 2.74,
+      "qty": 3745,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1792684976212,
       "ticker": "META80",
@@ -3066,10 +3079,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-10-25T06:10:25.187Z",
-      "_notifiedPrice": 5.4
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1786645665458,
@@ -3079,10 +3089,7 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-10-25T06:10:25.187Z",
-      "_notifiedPrice": 5.4
+      "addedDate": "14 ส.ค. 69"
     },
     {
       "id": 1788231338104,
@@ -3116,10 +3123,7 @@
       "note": "DCA_092026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "7 ต.ค. 69",
-      "_notified": true,
-      "_notifiedAt": "2026-10-25T03:00:26.647Z",
-      "_notifiedPrice": 125.5
+      "addedDate": "7 ต.ค. 69"
     }
   ],
   "dcaHistory": [],
@@ -6453,7 +6457,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 84,
-    "totalNetWorth": "฿1,824,296.90"
+    "totalTransactions": 85,
+    "totalNetWorth": "฿1,849,981.26"
   }
 }

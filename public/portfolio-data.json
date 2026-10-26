@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-26T15:49:22.189Z",
+  "exportDate": "2026-10-26T15:49:44.844Z",
   "exportDateTH": "26 ตุลาคม 2569 เวลา 22:49",
   "portfolios": [
     {
@@ -259,7 +259,7 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 2.857503546099291,
+          "buyPrice": 2.84,
           "qty": 14100,
           "sector": "Tech",
           "underlying": "Meta",
@@ -3079,7 +3079,8 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69"
+      "addedDate": "14 ส.ค. 69",
+      "_notified": true
     },
     {
       "id": 1786645665458,
@@ -3089,7 +3090,8 @@
       "note": "",
       "cond": "below",
       "status": "pending",
-      "addedDate": "14 ส.ค. 69"
+      "addedDate": "14 ส.ค. 69",
+      "_notified": true
     },
     {
       "id": 1788231338104,
@@ -3123,7 +3125,8 @@
       "note": "DCA_092026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "7 ต.ค. 69"
+      "addedDate": "7 ต.ค. 69",
+      "_notified": true
     }
   ],
   "dcaHistory": [],

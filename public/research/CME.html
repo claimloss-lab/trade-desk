@@ -15,49 +15,69 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">CME</div>
-<div class="meta">Thesis · 2026-10-01</div>
-<h1>CME — Full Investment Memo (ข้อมูล ณ 2026-09-15)</h1>
-<blockquote>เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคากับตัวเลขตลาดเป็น snapshot และควรตรวจซ้ำก่อนตัดสินใจ</blockquote>
+<div class="meta">Thesis · 2026-10-26</div>
+<h1>CME — Full Investment Memo (อัปเดต 2026-10-24)</h1>
+<blockquote>Research memo สำหรับติดตาม thesis ระยะยาว ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ ราคาตลาดเป็น snapshot</blockquote>
 <h2>1. Investment Verdict</h2>
-<li><b>Rating:</b> ไม่จัดอันดับ — investment question คือ CME จะรักษา volume/liquidity และ pricing power ข้ามวัฏจักรได้หรือไม่ โดยที่ product mix ไม่กระจุกเกินไป (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณและไม่กำหนด allocation เพราะไม่มี forward consensus/peer multiples ที่ verify ได้ในชุดข้อมูลนี้; การกำหนดตัวเลขจะกลายเป็นคำแนะนำที่ไม่มีฐาน (source: Yahoo chart; ดึง 2026-09-15)</li>
-<li><b>THE CORE:</b> exchange infrastructure ที่ลูกค้าจ่ายเพื่อ liquidity, price discovery, hedging และการชำระราคา; รายได้หลักคือ transaction-based clearing/execution และ market data (source: sources/CME/10-k-latest.md; filing 2026-02-26)</li>
+<li><b>Investment question:</b> CME จะรักษา liquidity, volume, clearing economics และ market-data growth ข้ามวัฏจักรได้หรือไม่ โดยไม่พึ่ง volatility ชั่วคราวหรือ product/asset class ใดมากเกินไป</li>
+<li><b>Fact:</b> Q3 2026 revenue ทำสถิติสูงสุดของไตรมาสสาม, ADV 29.4 ล้านสัญญาเป็น Q3 record, volume โต double-digit ครบทั้ง 6 asset classes (source: sources/CME/q3-2026-earnings-release.md, 2026-10-21)</li>
+<li><b>Interpretation:</b> earnings update ยืนยัน operating thesis เดิมชัดขึ้น ทั้ง volume, market data และ capital return; แต่ Q3 ยังได้รับแรงหนุนจาก uncertainty/market activity จึงต้องทดสอบความยั่งยืนในช่วง volume ปกติ</li>
+<li><b>Judgment:</b> ยังไม่ให้ rating, fair value หรือ allocation เพราะ forward consensus และ valuation multiples ที่ตรวจสอบได้จาก Yahoo ไม่พร้อม</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>CME ดำเนินตลาด futures/options หลาย asset class; ลูกค้าคือสถาบันการเงิน, asset managers, corporates, hedge funds และผู้ค้าอื่น ๆ ที่ต้องการ hedge หรือรับความเสี่ยงอย่างเป็นระบบ (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li><b>Revenue engine:</b> ปริมาณสัญญา, ค่าธรรมเนียมต่อสัญญา, product mix และ market-data subscriptions; รายได้ที่ยืนยันจาก XBRL: FY2021 $4.69bn, FY2022 $5.02bn, FY2023 $5.58bn, FY2024 $6.13bn, FY2025 $6.52bn (source: SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
-<li><b>THE CORE / THE OPTION / THE PRICE:</b> Core คือ liquidity/network และ clearing; Option คือการขยาย electronic products, data และตลาดใหม่; Price คือ sensitivity ต่อ ADV/product mix และ valuation multiple (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li>CME ดำเนินตลาด futures/options และ clearing ใน interest rates, equity indexes, FX, energy, agriculture, metals และ crypto ลูกค้าคือสถาบันการเงิน ผู้จัดการกองทุน บริษัท และผู้ค้าอื่นที่ต้องการ hedge, price discovery หรือรับความเสี่ยง (source: sources/CME/10-k-latest.md; sources/CME/q3-2026-earnings-release.md)</li>
+<li>รายได้หลักคือ clearing and transaction fees ตาม contract volume/rate per contract, market data subscription/licensing และ other revenue จาก access, collateral management และ strategic relationships (source: sources/CME/q3-2026-10-q.md)</li>
+<li><b>THE CORE:</b> liquidity + clearing + benchmark products ที่ลูกค้าจ่ายเพื่อ execution, risk management และ settlement</li>
+<li><b>THE OPTION:</b> cloud migration, new products, capital efficiencies, market-data pricing และ expansion นอกสหรัฐ; ต้องพิสูจน์ว่าเพิ่ม recurring economics โดยไม่เพิ่ม failure/duplicative cost</li>
+<li>Helmer 7 Powers ที่ชัดคือ network economies, switching costs จาก open interest/clearing workflow และ process power/scale ของ infrastructure; ไม่ใช่ทุก contract มีความแข็งแรงเท่ากัน</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li>Helmer 7 Powers ที่เห็นชัดคือ <b>network economies</b> (liquidity ดึง liquidity), <b>switching costs</b> จาก open interest/ระบบ clearing และ <b>process power/scale</b> ของ infrastructure ที่รองรับปริมาณสูง; ไม่ควรสรุปว่าทุก product มีความแข็งแรงเท่ากัน (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li>ความเสี่ยงเฉพาะบริษัทคือ volume กระจุกในบาง asset class, คู่แข่งพยายามสร้าง liquidity pool ใหม่, การเปลี่ยนกฎ CFTC/clearing และแรงกดดันต่อค่าธรรมเนียม (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li><b>ข้อได้เปรียบ:</b> Q3 ADV 29.4m contracts, non-U.S. ADV 9m และ market-data revenue $243m โต 20%; liquidity ช่วยให้ลูกค้า hedge/ค้นหาราคาในหลาย asset classes (source: sources/CME/q3-2026-earnings-release.md)</li>
+<li><b>ความเสี่ยงเฉพาะบริษัท:</b> คู่แข่งสร้าง liquidity pool ใหม่, pricing/fee pressure, regulation ของ exchange/clearing, การพึ่งพา FCM/distribution partners และ cyber/technology outage (source: sources/CME/q3-2026-10-q.md; sources/CME/10-k-latest.md)</li>
+<li><b>ความเสี่ยงด้าน mix:</b> volume อาจกระจุกใน interest rates/equity/energy และ earnings อาจสะท้อน volatility regime มากกว่าการเติบโตเชิงโครงสร้าง</li>
 <h2>4. Financial Quality 5-year</h2>
-<li><b>Reported revenue:</b> FY2021 $4.69bn, FY2022 $5.02bn, FY2023 $5.58bn, FY2024 $6.13bn, FY2025 $6.52bn; <b>net income:</b> FY2021 $2.64bn, FY2022 $2.69bn, FY2023 $3.23bn, FY2024 $3.53bn, FY2025 $4.07bn; <b>operating income:</b> FY2021 $2.65bn, FY2022 $3.02bn, FY2023 $3.44bn, FY2024 $3.93bn, FY2025 $4.23bn (source: SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
-<li><b>OCF:</b> FY2021 $2.40bn, FY2022 $3.06bn, FY2023 $3.45bn, FY2024 $3.69bn, FY2025 $4.28bn; <b>CapEx:</b> FY2021 $0.13bn, FY2022 $0.09bn, FY2023 $0.08bn, FY2024 $0.09bn, FY2025 $0.08bn; FCF แบบปรับรายการยังไม่ได้คำนวณใน source extract เพื่อหลีกเลี่ยงการตีความผิด (source: SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
-<li>Gross margin, R&amp;D, ROE และ ROIC: ไม่พบ tag ที่เทียบเคียงได้ครบใน extract นี้; ไม่แต่งตัวเลข (source: SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
-<li>Direction ที่อ่านได้คือ revenue, operating income, net income และ OCF เพิ่มขึ้นจาก 2021 ถึง 2025 ในชุดข้อมูลรายงาน แต่ต้องแยกผลของ volume/market regime ออกจากการเติบโตถาวร (source: SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
+<li><b>Reported FY2021–FY2025:</b> revenue $4.69bn, $5.02bn, $5.58bn, $6.13bn, $6.52bn ตามลำดับ; net income $2.64bn, $2.69bn, $3.23bn, $3.53bn, $4.07bn; OCF $2.40bn, $3.06bn, $3.45bn, $3.69bn, $4.28bn (source: SEC Companyfacts/XBRL extract ใน briefs/CME.md)</li>
+<li><b>Reported Q3 2026:</b> revenue $1,737.3m โต 13%, operating margin 65.7% เทียบ 63.3%, net income $1,036.9m โต 14%, diluted EPS $2.89 โต 16% (source: sources/CME/q3-2026-10-q.md)</li>
+<li><b>Reported 9M 2026:</b> revenue $5,323.6m โต 9%, operating margin 66.8% เทียบ 65.9%, net income $3,233.0m โต 12%, diluted EPS $8.96 โต 13%, OCF $3,292.9m โต 5% (source: sources/CME/q3-2026-10-q.md)</li>
+<li><b>Interpretation:</b> operating leverage ยังเห็นได้จาก margin และ net income ที่โตเร็วกว่ารายได้ใน Q3; ต้องแยก recurring market-data/clearing growth จาก market-regime boost</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash reported ล่าสุดใน extract คือ $4.42bn ณ 2025-12-31; total debt/net debt, SBC, dilution และ buyback: ไม่พบตัวเลขที่ extract ได้ครบ (source: sources/CME/10-k-latest.md; SEC Companyfacts/XBRL; ดึง 2026-09-16)</li>
-<li>ธุรกิจ exchange มี operating leverage สูงและ CapEx ต่ำเมื่อเทียบกับ OCF ในชุดตัวเลข แต่ capital allocation ที่แท้จริงต้องอ่านหมายเหตุ debt, dividend และ repurchase ใน filing เต็ม (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li><b>Reported:</b> ณ 30 ก.ย. 2026 cash and cash equivalents $2.1985bn, debt $3.4251bn; balance sheet ยังมี performance bonds/guaranty fund $155.180bn ซึ่งเป็น collateral ของ clearing ecosystem ไม่ใช่ cash ที่เป็นของผู้ถือหุ้นทั้งหมด (source: sources/CME/q3-2026-earnings-release.md; sources/CME/q3-2026-10-q.md)</li>
+<li><b>Reported:</b> Q3 คืนทุนเกือบ $1bn: regular quarterly dividend $465m และ share repurchase $524m; 9M repurchase 6.432m shares มูลค่า $1.7704bn (source: sources/CME/q3-2026-earnings-release.md; sources/CME/q3-2026-10-q.md)</li>
+<li><b>Interpretation/Judgment:</b> capital return สอดคล้องกับ cash-generative model แต่ต้องติดตาม cloud migration cost, debt, acquisition/investment และผลของ collateral-interest income ต่อกำไร</li>
 <h2>6. Latest Earnings</h2>
-<li>10-Q ล่าสุดที่พบเป็นงวดสิ้นสุด 2026-06-30 ยื่น 2026-07-24; transcript จาก StockAnalysis ดึงไม่ได้เพราะ endpoint ตอบ HTTP 403 จึงไม่เรียกข้อมูลนี้ว่า transcript (source: sources/CME/10-q-latest.md; StockAnalysis URL attempted 2026-09-16)</li>
-<li>ตัวเลขรายไตรมาส, guidance และ beat/miss เทียบ consensus: ไม่สรุปเพราะ extract นี้ยังไม่แยก quarterly values และไม่มี consensus ที่ verify ได้ (source: sources/CME/10-q-latest.md; ดึง 2026-09-16)</li>
+<li><b>Reported:</b> Q3 2026 revenue $1.7bn, operating income $1.1bn, net income $1.0bn, diluted EPS $2.89; adjusted operating income $1.2bn, adjusted net income $1.1bn และ adjusted EPS $3.02 (source: sources/CME/q3-2026-earnings-release.md)</li>
+<li><b>Reported:</b> ADV 29.4m contracts เป็น Q3 record; non-U.S. ADV 9m; clearing and transaction fees $1.4bn, average rate per contract $0.679 และ market-data revenue $243m โต 20% (source: sources/CME/q3-2026-earnings-release.md)</li>
+<li><b>Reported:</b> Q3 clearing and transaction fees $1,378.1m โต 12%, market data $243.1m โต 20%, total revenue $1,737.3m โต 13%; operating margin 65.7% (source: sources/CME/q3-2026-10-q.md)</li>
+<li><b>Guidance:</b> earnings release ไม่ให้ตัวเลข EPS/revenue guidance ใหม่ที่ตรวจสอบได้; ไม่มีการแต่ง guidance จาก volume record</li>
+<li><b>Transcript/Consensus:</b> ไม่พบ transcript ที่เข้าถึงได้จาก StockAnalysis; ใช้ SEC 10-Q และ company earnings release แทน ไม่พบ consensus estimate/analyst target ที่ verify ได้ (source: StockAnalysis direct request, HTTP 403, 2026-10-24)</li>
 <h2>7. Valuation</h2>
-<li><b>Price:</b> $275.09; <b>52-week range:</b> $218.31–$329.16; ณ 2026-09-15T13:30:00+00:00 UTC (source: Yahoo Finance chart endpoint; ดึง 2026-09-16)</li>
-<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG, historical multiple range และ peer multiple: ไม่พบจาก endpoint ที่ verify ได้รอบนี้; ไม่คำนวณจากราคาหุ้นอย่างเดียว (source: Yahoo chart; ดึง 2026-09-16)</li>
+<li><b>Price:</b> $305.890; <b>52-week range จากราคาปิดรายวัน:</b> $218.58–$326.46; ณ 2026-10-23 13:30 UTC (source: Yahoo Finance chart endpoint, fetched 2026-10-24)</li>
+<li><b>Market cap, trailing/forward P/E, EV/EBITDA, EV/FCF, FCF yield และ analyst target:</b> ไม่พบจาก Yahoo quote endpoint ในรอบนี้ ซึ่งตอบ HTTP 401; ไม่คำนวณแทน (source: Yahoo Finance quote/quoteSummary endpoint, fetched 2026-10-24)</li>
+<li>Scenario valuation จึงยังไม่ใส่ target/CAGR/probability; ต้องมี forward earnings, share count และ multiple ที่ verify ได้</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bull:</b> volume และ product mix โต, liquidity รักษา pricing power, data โต; EPS/target/CAGR/probability ไม่ระบุเพราะไม่มี forward EPS กับ multiple ที่ verify ได้ (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li><b>Base:</b> volume โตตาม nominal activity แต่มีช่วงตลาดนิ่งสลับ volatility; margin สูงแต่ไม่ขยายมาก; EPS/target/CAGR/probability ไม่ระบุ (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li><b>Bear:</b> ADV ลดหลายปี, product สำคัญเสีย liquidity หรือ fee economics ถูกกำกับ/กดดัน; bear floor ไม่คำนวณเพราะไม่มี valuation inputs (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li><b>Bull:</b> ADV/open interest โตข้าม asset classes, market-data pricing ดีขึ้น, new products/cloud ขยาย access และ clearing/network economies รักษา margin สูง; target/CAGR ไม่ระบุเพราะ valuation inputs ไม่ครบ</li>
+<li><b>Base:</b> volume โตตาม nominal activity สลับ volatility, product mix และ rate per contract ทรงตัว, market data โตระดับกลาง และ margin สูงแต่ไม่ขยายมาก; target/CAGR ไม่ระบุ</li>
+<li><b>Bear:</b> ADV ลดหลายปี, contract สำคัญเสีย liquidity, fee economics ถูกกด, cyber/cloud migration สะดุด หรือกฎใหม่ทำลาย clearing economics; bear floor ไม่คำนวณ</li>
 <h2>9. Catalysts (12m) &amp; Risks (12-24m)</h2>
-<li>Catalysts: ADV และ open interest ที่โตใน interest-rate/equity/commodity products, market-data pricing และ product launch ที่เพิ่ม recurring mix (source: sources/CME/10-q-latest.md; sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li>Risks: market volatility/volume ลด, คู่แข่งดึง liquidity, regulatory change และ valuation compression (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li><b>Catalysts:</b> ADV/open interest โตใน interest rates/equity/commodity, market-data revenue โต, capital efficiencies, new products, cloud migration ที่ลดต้นทุนซ้ำซ้อน และ recurring data mix (source: sources/CME/q3-2026-earnings-release.md; sources/CME/q3-2026-10-q.md)</li>
+<li><b>Risks:</b> volatility/volume ลด, pricing pressure, คู่แข่งดึง liquidity, CFTC/clearing regulation, outage/cyberattack, cloud migration cost และ interest income จาก collateral ลด (source: sources/CME/q3-2026-10-q.md; sources/CME/10-k-latest.md)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>ถ้ากลับด้าน thesis: CME อาจไม่ใช่ compounder ถ้า liquidity advantage อยู่เฉพาะบาง contract และการเติบโตที่เห็นเป็นเพียงช่วง volatility สูง (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li>Permanent capital loss risk มาจาก structural loss ของ open interest/market share หรือการเปลี่ยนกติกาที่ทำลาย economics; bear floor ไม่คำนวณ (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li>ถ้า volume โตเพราะ uncertainty เฉพาะช่วง แต่ open interest/market share ไม่ขยายในช่วงปกติ CME อาจเป็น high-quality cyclical มากกว่า compounder</li>
+<li>ถ้า liquidity advantage อยู่เฉพาะบาง contract และลูกค้าย้ายไป venue ที่ fee ถูกกว่า network economics จะอ่อนลงเร็ว</li>
+<li><b>จุดเปราะบางของ scenario:</b> Q3 record ADV ไม่เท่ากับ normalized 5-year growth; valuation ที่ไม่มี multiple ทำให้ไม่ควรแปลง operating momentum เป็น fair value</li>
 <h2>11. Portfolio Strategy</h2>
-<li>ไม่กำหนด entry, sizing หรือ DCA และไม่ออก buy/sell/hold recommendation จนกว่าจะมี valuation และ latest-quarter transcript/consensus ที่ตรวจสอบได้ (source: Yahoo/StockAnalysis retrieval log; ดึง 2026-09-16)</li>
-<li>Kill/exit triggers: ADV และ open interest ลดต่อเนื่องหลายไตรมาสโดยไม่ใช่ cycle ชั่วคราว; contract หลักเสีย liquidity ให้คู่แข่ง; หรือกฎใหม่ทำลาย fee/clearing economics (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
+<li>ใช้เป็น long-term monitoring thesis ในกลุ่ม SET DR/portfolio เท่านั้น; ไม่กำหนด buy/sell/hold, entry หรือ sizing จากข้อมูลชุดนี้</li>
+<li>ติดตามรายไตรมาส: ADV และ open interest แยก asset class, rate per contract, market-data growth, operating margin, cloud cost, cash/debt และ capital return</li>
+<li><b>Kill conditions:</b> ADV/open interest ลดต่อเนื่องหลายไตรมาสโดยไม่ใช่ cycle ชั่วคราว; contract หลักเสีย liquidity/market share; หรือ regulation/cyber/cloud event ทำลาย clearing/fee economics</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<li><b>Fact:</b> FY2021–FY2025 revenue และ OCF เพิ่มใน SEC XBRL; ราคาล่าสุดใน chart endpoint $275.09; StockAnalysis transcript endpoint 403 (source: SEC Companyfacts; Yahoo chart; StockAnalysis; ดึง 2026-09-16)</li>
-<li><b>Interpretation:</b> network/liquidity และ clearing scale สนับสนุน economics แต่รายได้ยัง sensitive ต่อ market activity (source: sources/CME/10-k-latest.md; ดึง 2026-09-16)</li>
-<li><b>Judgment:</b> คุณภาพธุรกิจน่าสนใจในฐานะ infrastructure แต่ยังไม่ควรแปลงเป็น fair value/allocation จากข้อมูล valuation ที่ขาด (source: research judgment; ดึง 2026-09-16)</li>
+<li><b>Fact:</b> Q3 revenue +13%, net income +14%, EPS +16%, ADV 29.4m, market-data revenue +20%, cash $2.1985bn, debt $3.4251bn และคืนทุนเกือบ $1bn (source: sources/CME/q3-2026-10-q.md; sources/CME/q3-2026-earnings-release.md)</li>
+<li><b>Interpretation:</b> network/liquidity, clearing และ market-data mix ยืนยันคุณภาพ infrastructure; แต่ volume ยัง sensitive ต่อ market activity และ uncertainty</li>
+<li><b>Judgment:</b> thesis แข็งแรงขึ้นจาก Q3 แต่ยังไม่ควรสรุป fair value/allocation จนมี normalized earnings และ valuation/consensus ที่ verify ได้</li>
+<h2>Earnings Update — 2026-10-24</h2>
+<li><b>เหตุผลที่อัปเดต:</b> SEC 10-Q งวด 30 ก.ย. 2026 ยื่น 23 ต.ค. 2026 และ earnings release ลงวันที่ 21 ต.ค. 2026</li>
+<li><b>Fact:</b> Q3 record ADV, revenue, margin, market data และ capital return ดีขึ้น; ไม่มี guidance ตัวเลขใหม่ใน release</li>
+<li><b>Interpretation:</b> thesis เรื่อง liquidity/network และ operating leverage ถูกยืนยัน; thesis เรื่อง recurring growth ยังต้องผ่านช่วง volume ปกติ</li>
+<li><b>Judgment:</b> ยืนยัน long-term monitoring thesis แต่ไม่เปลี่ยนเป็น valuation verdict เพราะ Yahoo multiples และ consensus inaccessible</li>
+<li><b>Analyst consensus snapshot:</b> ไม่พบจำนวน analyst, rating distribution, average/median target หรือ brokerage revisions ที่ verify ได้ในรอบนี้; จึงไม่ใช้ consensus เป็นฐานตัดสิน thesis</li>
+<h2>Thesis History</h2>
+<li><b>2026-09-15:</b> memo เดิมมี FY2021–FY2025 financial quality, Q2 10-Q และ valuation price $275.09/52-week $218.31–$329.16 แต่ transcript/consensus และ multiples ยังไม่ครบ</li>
+<li><b>2026-10-24:</b> เพิ่ม Q3 2026 filing/release, ADV/asset-class data, margin, capital return, updated price/range และแยก Fact/Interpretation/Judgment; ไม่ลบข้อสรุปเดิมเรื่อง cycle sensitivity และ valuation ที่ยังไม่ครบ</li>
 </div></body></html>

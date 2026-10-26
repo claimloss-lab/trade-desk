@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMAT — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">AMAT</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<h1>AMAT — Applied Materials | Full Investment Memo</h1>
+<blockquote><b>ขอบเขตและชั้นข้อมูล:</b> memo นี้ทำเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย/ถือครอง และไม่ใช่การจัดอันดับหุ้นในพอร์ต ตัวเลข Reported มาจาก SEC/XBRL หรือไฟล์ source ในโปรเจกต์; Scenario เป็นสมมติฐานเพื่อทดสอบความคาดหวัง ไม่ใช่ประมาณการของบริษัท</blockquote>
+<h2>1. Investment Verdict</h2>
+<p><b>Investment question:</b> Applied Materials จะเปลี่ยนการลงทุนด้าน wafer fabrication, advanced packaging และจอภาพให้เป็นกระแสเงินสดที่โตต่อเนื่องได้หรือไม่ โดยไม่ให้วัฏจักรเซมิคอนดักเตอร์และข้อจำกัดการส่งออกทำลายอำนาจการทำกำไร?</p>
+<li><b>Analytical rating:</b> Quality cyclical / Watchlist — ธุรกิจมีฐานกำไรและเงินสดแข็งแรง แต่ราคาที่ดึงจาก Yahoo Finance สูงกว่ากำไรปัจจุบันหลายเท่า จึงต้องพิสูจน์ทั้งการเติบโตจาก AI/advanced packaging และความทนทานของ margin ก่อนสรุปเชิงพอร์ต (source: SEC Company Facts API; yfinance <code>AMAT</code>, ดึง 2026-09-15)</li>
+<li><b>Fair-value frame:</b> ยังไม่ประกาศ fair value จุดเดียว เพราะไม่มีโมเดล consensus/DCF ที่ตรวจ input ได้ครบใน source set; ใช้ scenario range ด้านล่างแทน (source: ข้อจำกัดของ source set, ตรวจ 2026-09-15)</li>
+<li><b>Entry / allocation:</b> ไม่ระบุจุดเข้าซื้อหรือสัดส่วนพอร์ตใน memo นี้; กรอบที่ควรถามคือราคาปัจจุบันต้องชดเชยความเสี่ยงวัฏจักร, จีน/ส่งออก และ capex ที่สูงขึ้นได้หรือไม่ (source: SEC 10-K, filing 2025-12-12)</li>
+<li><b>5Y CAGR:</b> เป็นเพียงผลคำนวณจาก scenario target ไม่ใช่ผลตอบแทนคาดการณ์: Bull $600 = 7.2% ต่อปี, Base $450 = 1.2% ต่อปี, Bear $250 = -10.0% ต่อปี จากราคาอ้างอิง $424.21 ณ 2026-09-14 (source: yfinance; calculation run 2026-09-15)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li><b>บริษัททำอะไร:</b> AMAT ขายเครื่องมือและบริการให้ผู้ผลิตเซมิคอนดักเตอร์และจอภาพ เพื่อทำขั้นตอน deposition, etch, inspection/metrology และ packaging ให้ชิปทำงานได้ตาม performance/power ที่ต้องการ ลูกค้าไม่ได้จ่ายเพื่อ “เครื่องจักรหนึ่งตัว” แต่จ่ายเพื่อ yield, throughput, process control และเวลาที่โรงงานเดินเครื่องได้ (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<li><b>Segment engine:</b> Semiconductor Systems เป็นแกนหลัก; Applied Global Services สร้างรายได้ recurring จาก service, spare parts และ upgrades; Display และ Corporate/Other เป็นส่วนที่เล็กกว่า ภาพนี้ทำให้ต้องติดตาม mix ระหว่างเครื่องมือใหม่กับบริการ ไม่ใช่ดูรายได้รวมอย่างเดียว (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<li><b>Growth monetization:</b> ลูกค้าต้องเพิ่มชั้นกระบวนการเมื่อ geometry ซับซ้อนขึ้น, advanced packaging และ HBM/AI เพิ่มขั้นตอนการผลิต; upside จะมีคุณภาพก็ต่อเมื่อเปลี่ยนเป็น shipments, service intensity และ operating profit จริง ไม่ใช่เพียงคำว่า AI (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<li><b>7 Powers ที่เกี่ยวข้อง:</b> process know-how, switching cost จากการ qualify เครื่องมือในโรงงาน, customer co-development และ scale ใน installed base เป็นข้อได้เปรียบเชิงระบบ; แต่ไม่ควรเรียกเป็นสิ่งถาวร เพราะลูกค้ายังมีทางเลือกจาก Lam Research, KLA และ Tokyo Electron และวัฏจักร capex ทำให้คำสั่งซื้อเลื่อนได้ (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<h3>The Core</h3>
+<li>ฐาน installed equipment และ service ช่วยให้รายได้หลังการขายมีความต่อเนื่องกว่ายอดขายเครื่องมือใหม่ และความรู้ในกระบวนการผลิตทำให้การเปลี่ยน supplier มีต้นทุนด้าน qualification และ yield (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<li>รายได้ 2021–2025 เพิ่มจาก $23.063B เป็น $28.368B และ gross margin เชิงคำนวณจาก SEC/XBRL อยู่ราว 47.4% เป็น 48.7%; นี่คือหลักฐานของคุณภาพกำไรย้อนหลัง แต่ยังไม่พิสูจน์ว่าจะคงอยู่ทุกช่วง cycle (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<h3>The Option</h3>
+<li>AI accelerator, HBM และ advanced packaging อาจเพิ่มจำนวน process steps และ demand ต่อ fab แต่บริษัทไม่ได้เปิดเผยตัวเลข “AI revenue” ที่แยกตรวจสอบได้ใน source set จึงจัดเป็น option ไม่ใช่ Reported growth (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<h3>The Risks</h3>
+<li>การควบคุมการส่งออกและความเข้มข้นของลูกค้า/ภูมิภาค โดยเฉพาะจีน อาจทำให้เครื่องมือที่ขายได้และ timing ของคำสั่งซื้อลดลง (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<li>วัฏจักร semiconductor capex, การเลื่อน fab build-out, competition และการพึ่งพา supply chain ภายนอกทำให้รายได้รายไตรมาสผันผวน (source: sources/AMAT/10-k-2025.md, SEC 10-K filed 2025-12-12)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| USD bn, FY | 2021 | 2022 | 2023 | 2024 | 2025 |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| Revenue | 23.063 | 25.785 | 26.517 | 27.176 | 28.368 |</p>
+<p>| Gross profit | 10.914 | 11.993 | 12.384 | 12.897 | 13.808 |</p>
+<p>| Operating income | 6.889 | 7.788 | 7.654 | 7.867 | 8.289 |</p>
+<p>| Net income | 5.888 | 6.525 | 6.856 | 7.177 | 6.998 |</p>
+<p>| OCF | 5.442 | 5.399 | 8.700 | 8.677 | 7.958 |</p>
+<p>| CapEx | 0.668 | 0.787 | 1.106 | 1.190 | 2.260 |</p>
+<p>| R&amp;D | 2.485 | 2.771 | 3.102 | 3.233 | 3.570 |</p>
+<li><b>Reported direction:</b> revenue โตแบบค่อยเป็นค่อยไป ขณะที่ operating margin อยู่ประมาณ 26–30%; net income ปี 2025 ลดจากปี 2024 แม้รายได้สูงขึ้น จึงต้องดู mix, tax และค่าใช้จ่าย ไม่ควรสรุปจากยอดขายอย่างเดียว (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<li><b>Cash conversion:</b> OCF สูงกว่า CapEx ทุกปีในตาราง แต่ปี 2025 CapEx เพิ่มเป็น $2.260B และ OCF ลดเหลือ $7.958B; FCF จึงต้องติดตามหลังช่วงลงทุนใหม่ ไม่ใช่ใช้ปี 2023–2024 เป็นฐานถาวร (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<li><b>ROE/ROIC:</b> ไม่พบชุดข้อมูลที่คำนวณแบบนิยามเดียวกันได้ครบใน source set; ไม่ใส่ตัวเลขแทน (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<p><b>Valuation snapshot:</b> ราคา $424.21; market cap $336.652B; trailing P/E 36.60x; forward P/E 23.05x; EV/EBITDA 35.49x; 52-week range $168.53–$739.67 — ณ ราคาปิด/ข้อมูลล่าสุด 2026-09-14, ดึง 2026-09-15 จาก yfinance (<code>AMAT</code>). ตัวเลขเป็น snapshot ไม่ใช่ข้อสรุปว่าถูกหรือแพง</p>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li><b>Reported balance sheet:</b> FY2025 cash and equivalents $7.241B, long-term debt $6.455B และ stockholders’ equity $20.415B; cash สูงกว่าหนี้ระยะยาว แต่การประเมิน net debt แบบเต็มต้องรวม short-term debt และ lease/other obligations ที่เกี่ยวข้อง (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<li><b>Capital allocation:</b> บริษัทคืนเงินให้ผู้ถือหุ้นและลงทุนใน R&amp;D/โรงงานและอุปกรณ์ตามวัฏจักร; CapEx FY2025 เพิ่มเป็น $2.260B ขณะที่ OCF อยู่ที่ $7.958B จึงยังมี cash buffer แต่ต้องเฝ้าดูผลตอบแทนของการลงทุนก้อนใหม่ (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<li><b>SBC/dilution/buyback:</b> ไม่พบชุดตัวเลข SBC และ diluted-share trend ที่นิยามเดียวกันครบใน source set จึงไม่แต่งตัวเลข ต้องตรวจ footnote ของ 10-K ก่อนใช้ FCF ต่อหุ้น (source: sources/AMAT/10-k-2025.md, ตรวจ 2026-09-15)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported Q3 FY2026:</b> revenue $9.115B, gross profit $4.586B, operating income $3.075B และ net income $2.538B สำหรับไตรมาสสิ้นสุด 2026-07-26 (source: sources/AMAT/q3-2026-call.md, SEC 10-Q filed 2026-08-20)</li>
+<li><b>Reported 9M FY2026:</b> revenue $24.037B และ operating cash flow $5.568B (source: sources/AMAT/q3-2026-call.md, SEC 10-Q filed 2026-08-20)</li>
+<li><b>Guidance / consensus / beat-miss:</b> ไม่พบใน primary source ที่ cache ไว้; ห้ามเรียกไฟล์นี้ว่า transcript และห้ามสรุป commentary ของ management จากมัน (source: sources/AMAT/q3-2026-call.md, ตรวจ 2026-09-15)</li>
+<li><b>Transcript status:</b> ไม่พบ StockAnalysis transcript; source note ระบุว่า StockAnalysis ตอบ HTTP 403 เมื่อ 2026-09-15 จึงใช้ SEC 10-Q substitute (source: sources/AMAT/q3-2026-call.md, ตรวจ 2026-09-15)</li>
+<h2>7. Valuation</h2>
+<li><b>Reported/market snapshot:</b> ราคา $424.21, market cap $336.652B, trailing P/E 36.60x, forward P/E 23.05x และ EV/EBITDA 35.49x ณ 2026-09-14; เป็นตัวเลขตลาด ไม่ใช่ fair value (source: yfinance <code>AMAT</code>, ดึง 2026-09-15)</li>
+<li><b>Valuation limitation:</b> ยังไม่มี historical multiple range และ peer comparison ที่ verify ได้ครบใน source set จึงไม่ใส่ตัวเลขแทน (source: ตรวจ source set 2026-09-15)</li>
+<h2>8. 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานเชิงคุณภาพ | Target 5Y | CAGR จาก $424.21 | Probability |</p>
+<p>|---|---|---:|---:|---:|</p>
+<p>| Bull | AI/advanced packaging เพิ่ม process intensity, service ยังโต, margin ไม่หดแรง | $600 | 7.2% | ไม่กำหนด |</p>
+<p>| Base | รายได้โตตามอุตสาหกรรมแบบวัฏจักร, margin ใกล้ประวัติศาสตร์, multiple ลดบางส่วน | $450 | 1.2% | ไม่กำหนด |</p>
+<p>| Bear | capex ชะลอ, จีน/ส่งออกกดยอดขาย, CapEx สูงและ multiple หด | $250 | -10.0% | ไม่กำหนด |</p>
+<li>Target และ CAGR เป็น <b>Scenario</b> ที่สร้างเพื่อ stress-test เท่านั้น ไม่ใช่ Fair Value และไม่มี probability เพราะ source set ไม่มี forecast ที่ verify ได้เพียงพอ (source: yfinance price; calculation run 2026-09-15)</li>
+<li><b>Anti-thesis:</b> ถ้า growth ของ AI ไม่แปลงเป็น process equipment/service revenue หรือ gross margin หลุดลงพร้อมกับ OCF อ่อนลง ราคาที่สูงกว่ากำไรปัจจุบันอาจเหลือ downside มากกว่าที่เรื่องเล่าอธิบาย (source: SEC Company Facts API; yfinance, ดึง 2026-09-15)</li>
+<h2>9. Catalysts &amp; Risks (12–24 เดือน)</h2>
+<li><b>Catalysts:</b> advanced packaging/HBM capacity additions, service revenue growth, และการฟื้นตัวของ wafer-fab equipment demand หากปรากฏใน reported segment revenue/operating margin (source: sources/AMAT/10-k-2025.md, filed 2025-12-12)</li>
+<li><b>Risks:</b> export controls, customer capex delays, China exposure, supplier constraints และ CapEx ที่สูงขึ้นโดยไม่เพิ่มกำไร/เงินสดตาม (source: sources/AMAT/10-k-2025.md; sources/AMAT/q3-2026-call.md, ตรวจ 2026-09-15)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ความเสี่ยงถาวรต่อเงินต้นคือ AMAT ถูกมองเป็นผู้ได้ประโยชน์จากทุก AI fab แต่รายได้จริงยังขึ้นกับ capex cycle, qualification และนโยบายส่งออก ไม่ใช่ software-like recurring growth (source: SEC 10-K, filed 2025-12-12)</li>
+<li>Bear floor สำหรับการติดตามไม่ใช่ราคาจุดเดียว: คือการเห็น revenue/operating income/OCF อ่อนพร้อมกันหลายงวด ขณะที่ CapEx และ dilution/หนี้เพิ่มขึ้น (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<h2>11. Portfolio Strategy / Kill Conditions</h2>
+<li>ใช้เป็น watchlist framework ไม่ใช่คำสั่งซื้อ: ตรวจ operating margin, OCF conversion, service mix และ China/export exposure ทุกงบ (source: SEC 10-K/10-Q, 2025-12-12 และ 2026-08-20)</li>
+<li><b>Kill condition:</b> รายได้และ operating income ลดลงต่อเนื่องเกินวัฏจักรปกติ โดยไม่มีหลักฐานว่า product mix หรือ service กำลังฟื้น (source: SEC filings, ตรวจ 2026-09-15)</li>
+<li><b>Kill condition:</b> OCF ไม่ครอบคลุม CapEx ต่อเนื่อง หรือ management ใช้หนี้/ออกหุ้นเพื่อพยุงผลตอบแทนโดยไม่เห็นผลต่อกำไรต่อหุ้น (source: SEC Company Facts API, ดึง 2026-09-15)</li>
+<li><b>Kill condition:</b> export control หรือ customer concentration ทำให้ TAM ที่ thesis ใช้หายไปอย่างถาวร (source: SEC 10-K, filed 2025-12-12)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact | FY2025 revenue $28.368B, net income $6.998B, OCF $7.958B, CapEx $2.260B; Q3 FY2026 revenue $9.115B (source: SEC Company Facts; sources/AMAT/q3-2026-call.md, ดึง 2026-09-15) |</p>
+<p>| Interpretation | ธุรกิจมี cash generation และ margin สูง แต่ยังเป็น cyclical equipment maker ไม่ใช่ recurring software (source: SEC filings, ตีความ 2026-09-15) |</p>
+<p>| Judgment | ควรศึกษาต่อเมื่อ price, export risk และ AI/packaging monetization ถูกทดสอบด้วยงบหลายงวด; memo นี้ไม่ให้ rating ซื้อ/ขาย (source: ผู้จัดทำ, 2026-09-15) |</p>
+<h3>Source limitations</h3>
+<li>ไม่มี transcript จาก StockAnalysis ใน source set; ใช้ SEC 10-Q substitute และไม่มี management guidance/consensus beat-miss ที่ตรวจได้</li>
+<li>yfinance เป็น market-data snapshot ณ 2026-09-14; multiples เปลี่ยนได้ตามราคาและนิยามข้อมูล</li>
+</div></body></html>

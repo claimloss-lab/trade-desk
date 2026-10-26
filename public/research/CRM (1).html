@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRM — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">CRM</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<hr>
+<p>ticker: CRM</p>
+<p>company: Salesforce</p>
+<p>updated: 2026-09-13</p>
+<p>source_primary: sources/CRM/earth_evans_thesis_reference.md</p>
+<p>data_anchor: Earth Evans Deep Dive Thesis (Sep 2026) — ข้อมูลถึง 13 Sep 2026, งบล่าสุด 31 Jul 2026</p>
+<hr>
+<h1>Salesforce (CRM) — Research Brief</h1>
+<blockquote><b>คำถามลงทุนที่แท้จริง:</b> ไม่ใช่ &quot;AI จะฆ่า CRM ไหม&quot; แต่คือ — *ถ้าพนักงานเปิดหน้าจอ Salesforce น้อยลง แต่ AI เรียกใช้ข้อมูลและ workflow มากขึ้น Salesforce จะเก็บเงินได้มากกว่าเดิมไหม?*</blockquote>
+<hr>
+<h2>1. Company Snapshot — Follow the Customer</h2>
+<p>ลองนึกถึงบริษัทขนาดใหญ่ที่มีลูกค้าหลายแสนคน ฝ่ายขายถือรายชื่อคนละไฟล์กับฝ่ายบริการ ฝ่ายบัญชีเห็นตัวเลขที่ต่างจากการตลาด ลูกค้าคนเดียวกันจึงดูเหมือนเป็นคนละคนในแต่ละแผนก <b>ปัญหานี้ไม่ได้จบที่ &quot;เก็บเบอร์โทรไว้ที่ไหน&quot; แต่จบที่จะตัดสินใจและทำงานร่วมกันจากข้อมูลชุดเดียวอย่างไร</b> — Salesforce ขายคำตอบนั้น</p>
+<p>ผู้ซื้อจริงในองค์กรจึงไม่ใช่แค่เซลส์ที่นั่งใช้หน้าจอ แต่เป็นหัวหน้าฝ่ายขายที่ต้องการความแม่นยำของ pipeline, ฝ่ายบริการที่ต้องการลด resolution time, ทีมการตลาดที่ต้องการ conversion ดีขึ้น และฝ่าย IT ที่ต้องคุม governance ของข้อมูลทั้งองค์กร <b>ลูกค้าจ่ายเพื่อผลลัพธ์ทางธุรกิจ — ไม่ใช่เพราะคำว่า AI เพียงอย่างเดียว</b></p>
+<p>ปัจจุบัน Salesforce กำลังเชื่อมฐาน CRM เดิมเข้ากับข้อมูล (Data 360), การสั่งงาน (Agentforce), การสื่อสาร (Slack) และชั้นควบคุม platform โดยยังไม่เปิดเผย P&amp;L แยกผลิตภัณฑ์ บริษัทดำเนินงานเป็น <b>หนึ่ง operating segment</b> — รายได้ส่วนใหญ่มาจาก Subscription &amp; Support (~95%)</p>
+<p>(source: earth_evans_thesis_reference.md — Business Model chapter)</p>
+<hr>
+<h2>2. Fundamentals Signal</h2>
+<blockquote><b>ตัวเลขสี่ชั้น:</b> <code>Reported</code> = งบจริง · <code>Guidance</code> = บริษัทคาด · <code>Consensus</code> = นักวิเคราะห์ · <code>Scenario</code> = สมมติฐานผู้วิเคราะห์</blockquote>
+<h3>Revenue &amp; Cash Flow (Reported)</h3>
+<p>| งวด | Revenue | Reported FCF | FCF Margin |</p>
+<p>|-----|---------|-------------|-----------|</p>
+<p>| FY2024 (ม.ค. 2024) | $34.857B | $9.498B | 27.25% |</p>
+<p>| FY2025 (ม.ค. 2025) | $37.895B | $12.434B | 32.81% |</p>
+<p>| FY2026 (ม.ค. 2026) | $41.525B | $14.402B | 34.68% |</p>
+<p>| TTM ถึง ก.ค. 2026 | <b>$43.938B</b> | <b>$15.154B</b> | 34.49% |</p>
+<p>(source: earth_evans_thesis_reference.md — Revenue chapter, bridge จาก FY26 + H1 FY27 − H1 FY26)</p>
+<h3>Income Statement (TTM ถึง 31 ก.ค. 2026)</h3>
+<li><b>Gross Profit:</b> $33.956B (gross margin ~77.3%)</li>
+<li><b>GAAP Operating Income:</b> $8.735B → GAAP operating margin <b>~19.9%</b></li>
+<li><b>Non-GAAP Operating Margin (FY27 Guidance):</b> 34.3% — *แต่หัก SBC ~9% จะเหลือ ~25.3%* ซึ่งยังไม่ใช่ GAAP</li>
+<li><b>Net Income (TTM):</b> $9.662B — รวม Strategic Investment Gains $4.245B (ส่วนใหญ่จากการ mark-to-market เงินลงทุนเอกชน รวม Anthropic ~$5.1B carrying value)</li>
+<li><b>SBC:</b> ~$3.665B (TTM) ≈ 8.3% ของรายได้ — ต้นทุนที่ต้องนับในเชิงเศรษฐกิจ</li>
+<li><b>CapEx:</b> $0.596B (TTM) — asset-light business model ชัดเจน</li>
+<p>(source: earth_evans_thesis_reference.md — Margins/FCF chapters)</p>
+<h3>Balance Sheet (31 ก.ค. 2026)</h3>
+<li><b>เงินสด + short-term investments:</b> $11.403B</li>
+<li><b>Goodwill:</b> $59.250B (~54% ของ total assets $109.620B) — สะท้อนรอยเท้าของการซื้อกิจการขนาดใหญ่ (Slack, MuleSoft, Tableau, Informatica)</li>
+<li><b>Total Debt (รวม leases):</b> $42.376B — บริษัทออก senior notes $25B ในมี.ค. 2026 เพื่อทำ accelerated share repurchase</li>
+<li><b>Net Debt (รวม leases):</b> ~$30.973B — leverage เพิ่มขึ้นมากจากปีก่อน</li>
+<p>(source: earth_evans_thesis_reference.md — Balance Sheet chapter)</p>
+<h3>Guidance (FY27)</h3>
+<li><b>Revenue Guidance:</b> $46.1–46.4B (<b>Guidance</b>) — มี Informatica contribution และ FX อยู่ในสะพาน ไม่ควรเหมาว่าทั้งก้อนมาจาก Agentforce</li>
+<li><b>Non-GAAP EPS Guidance:</b> $16.67–16.71 — รวมผลกำไรลงทุนที่เกิดขึ้นแล้ว ไม่ใช่ operating earnings ล้วน ๆ</li>
+<li><b>Non-GAAP Operating Margin Guidance:</b> ~34.3%</li>
+<h3>Valuation Snapshot (ราคาอ้างอิง 11 Sep 2026 — ไม่ใช่ live feed)</h3>
+<p>| Metric | ค่า | หมายเหตุ |</p>
+<p>|--------|-----|---------|</p>
+<p>| ราคา | $247.72 | สแนปช็อต ณ 11 Sep 2026 |</p>
+<p>| Market Cap | ~$204B | ณ ราคาอ้างอิง |</p>
+<p>| P/E (Trailing) | 22.96x | ราคา $247.72 ÷ EPS $10.79 (snapshot) |</p>
+<p>| Forward P/E | 16.91x | ตาม snapshot — ระวัง: EPS รวม investment gains |</p>
+<p>| P/FCF (Reported) | 13.45x | ยังไม่หัก SBC |</p>
+<p>| P/FCF (FCF−SBC proxy) | ~17.76x | ปรับ SBC ~$3.665B |</p>
+<p>| EV/Revenue (TTM) | ไม่พบในแหล่งนี้ | ตรวจสอบในงบล่าสุด |</p>
+<p>| Dividend Yield | ~0.71% | เป็นส่วนเล็กของ thesis |</p>
+<p><b>DCF Base Scenario (Scenario — ไม่ใช่ target price):</b> ~$225/หุ้น ณ WACC 9.5%, terminal growth 3.5%, operating margin หลัง SBC 30%, RONIC 25%, terminal revenue $82.84B — ราคาอ้างอิง $247.72 สูงกว่า Base ~10.1%</p>
+<p>(source: earth_evans_thesis_reference.md — Valuation/DCF chapters)</p>
+<hr>
+<h2>3. Latest Earnings — Q2 FY2027 (สิ้นสุด 31 ก.ค. 2026)</h2>
+<p>รายงานผลประกอบการ 26 ส.ค. 2026:</p>
+<li><b>รายได้รวม Q2 FY27: $11.345B</b> เทียบ Q2 FY26 $10.236B = +10.83% YoY — แต่ถ้าหัก Informatica contribution $456M แบบหยาบจะเหลือประมาณ +6.38% ซึ่งยังไม่ใช่ organic growth ที่บริษัทรับรอง (source: earth_evans_thesis_reference.md — Execution chapter [S1][S2])</li>
+<li><b>cRPO (Current Remaining Performance Obligation): $33.5B โต 14%</b> — ตัวเลขนี้บอกความต้องการที่มีสัญญารองรับแล้วสำหรับ 12 เดือนข้างหน้า รวมผลจากการซื้อกิจการด้วย (source: earth_evans_thesis_reference.md [S1])</li>
+<li><b>Agentforce ARR มากกว่า $1.5B</b> — ตั้งแต่ Q2 FY27 นิยามรวม AI offerings, Slackbot และ Headless 360 ด้วย <b>ห้ามเทียบกับตัวเลขไตรมาสก่อนโดยไม่ตรวจนิยาม</b> เพราะขอบเขตเปลี่ยน (source: earth_evans_thesis_reference.md [S1])</li>
+<li><b>Agentforce + Data 360 ARR ใกล้ $3.9B</b> — ยอดรวมของสินค้าข้อมูลและ AI ตามนิยามบริษัท ห้ามบวก Agentforce $1.5B ซ้ำกับยอดรวม $3.9B (source: earth_evans_thesis_reference.md [S1])</li>
+<li><b>AWU (Agent Work Unit) สะสม 7.0B; Q2 เพิ่ม 3.2B</b> — วัดกิจกรรมของ agent แต่ AWU ≠ billable credit หนึ่งต่อหนึ่ง ยังต้องดูว่า usage แปลงเป็น revenue ได้เท่าไร (source: earth_evans_thesis_reference.md [S1])</li>
+<li><b>Strategic Investment Gains (TTM): $4.245B</b> — ส่วนใหญ่มาจาก mark-to-market เงินลงทุนเอกชน โดย Anthropic มี carrying value ~$5.1B (ราว 45% ของ strategic portfolio) จึงมีความกระจุกตัวสูง ไม่ควรใช้ตัวเลขนี้ตี P/E เหมือนกำไรซอฟต์แวร์ปกติ (source: earth_evans_thesis_reference.md — EPS Quality chapter [S2])</li>
+<hr>
+<h2>4. Bull Case / Bear Case</h2>
+<blockquote><b>กรอบที่ต้องแยกสามส่วน: THE CORE (ธุรกิจเดิม) · THE OPTION (AI/Agentforce) · THE PRICE (สมมติฐานที่ฝังอยู่ในราคา)</b></blockquote>
+<h3>🟢 Bull Case</h3>
+<p><b>THE CORE — ฐานเดิมมั่นคงพอ</b></p>
+<li>Subscription &amp; Support ~95% ของรายได้ FCF margin ขยับจาก 27% → 34% ใน 3 ปี แสดงว่าธุรกิจเดิมไม่ได้ป่วย — มี operating leverage จริง สิ่งที่ต้องตามคือ organic renewal และ net expansion อย่ามองแค่ headline revenue (source: earth_evans_thesis_reference.md)</li>
+<p><b>THE OPTION — Agentforce เปลี่ยน unit economics ได้จริง</b></p>
+<li>ถ้า AI agent เรียกใช้ข้อมูลและ workflow ผ่าน Salesforce platform โดยไม่ต้องมีพนักงานนั่งหน้าจอ รูปแบบรายได้จะเปลี่ยนจาก per-seat → per-action/consumption ซึ่งอาจทำให้ Total Revenue per Customer สูงขึ้นโดยที่ลูกค้าลดค่าจ้างพนักงานพร้อมกัน Data 360 + MuleSoft + Tableau รวมกันทำให้ switching cost สูงขึ้นจริงถ้าลูกค้า integrate ลึก (source: earth_evans_thesis_reference.md — Moat/Product chapter)</li>
+<p><b>THE PRICE — DCF Base $225 มี room ถ้า execution เหนือกว่า</b></p>
+<li>ถ้า Salesforce ส่งมอบ operating margin หลัง SBC เกิน 30% และ AI consumption revenue เร่งตัว ราคา $247.72 อาจสะท้อนสมมติฐานที่ไม่ได้ซื้อความสำเร็จล่วงหน้าทั้งหมด — แต่ต้องพิสูจน์ด้วยตัวเลข ไม่ใช่ narrative (source: earth_evans_thesis_reference.md — Final Verdict chapter)</li>
+<h3>🔴 Bear Case</h3>
+<p><b>THE CORE — Seat reduction กินรายได้ก่อน AI revenue มาทดแทน</b></p>
+<li>AI ลด seat ก่อน แต่ usage/consumption revenue มาช้ากว่า — มีช่วงเวลาที่รายได้ต่อลูกค้าอาจลดก่อน จังหวะนี้จะกดดัน organic growth ของ Subscription &amp; Support ซึ่งเป็นรายได้หลัก (source: earth_evans_thesis_reference.md — Thesis Tracker)</li>
+<p><b>THE OPTION — ARR โตเพราะเปลี่ยนนิยาม ไม่ใช่ paid adoption จริง</b></p>
+<li>Agentforce ARR $1.5B ที่ดูน่าประทับใจ เปลี่ยนขอบเขตตั้งแต่ Q2 FY27 ให้รวม AI offerings, Slackbot และ Headless 360 การใช้ &quot;+240%&quot; เป็นตัวเลขโตที่แท้จริงจึงทำไม่ได้โดยไม่มี reconciliation — ถ้า paid adoption จริงช้ากว่า narrative, AI จะเป็นแค่การเปลี่ยนชื่อแพ็กเกจ (source: earth_evans_thesis_reference.md [S1][S2])</li>
+<p><b>THE PRICE — Goodwill $59B + Net Debt $31B เมื่อรวมกับ SBC สูงทำให้ owner economics ต่ำกว่าที่ดูเผิน ๆ</b></p>
+<li>ราคา $247.72 สูงกว่า DCF Base ~10% และ Bear scenario ให้มูลค่าต่ำกว่า $180 ได้ ถ้า operating margin หลัง SBC ไม่ถึง 30% หรือ AI revenue ไม่ materialize — leverage ที่เพิ่มขึ้นจาก senior notes $25B เพื่อ buyback ยิ่งเพิ่มความเสี่ยงขาลง (source: earth_evans_thesis_reference.md — Balance Sheet/DCF chapters)</li>
+<hr>
+<h2>5. Kill Conditions</h2>
+<p>*ถ้าเห็นสัญญาณเหล่านี้ ควรทบทวน thesis อย่างจริงจัง — ไม่ใช่รอให้ราคาหุ้นบอก*</p>
+<p>1. <b>Organic cRPO growth ชะลอต่อเนื่อง 2+ ไตรมาส หลังหัก M&amp;A</b> — ถ้า headline cRPO ดูดีแต่ ex-acquisition growth ต่ำกว่า 8-10% ต่อเนื่อง แสดงว่าธุรกิจเดิมชะลอ ไม่ใช่ AI ช่วย (source: earth_evans_thesis_reference.md — Thesis Tracker)</p>
+<p>2. <b>Agentforce/AI ARR โตแต่ contribution margin ไม่ดีขึ้น</b> — ถ้าเก็บ usage revenue เพิ่มได้แต่ต้นทุน inference และ support กินกำไรจนทำให้ GAAP operating margin (หลัง SBC) ไม่เดินหน้า หรือ SBC ยังเพิ่มต่อเนื่อง — AI เพิ่มรายได้แต่ไม่เพิ่ม owner economics (source: earth_evans_thesis_reference.md — Thesis Tracker)</p>
+<p>3. <b>Goodwill impairment หรือ write-down ขนาดใหญ่ + ลูกค้าใหญ่ไม่ต่อสัญญา</b> — Goodwill $59B เป็นผลจากดีลราคาสูง ถ้าบริษัทที่ซื้อมา (เช่น Slack, Tableau, Informatica) ไม่ integrate สำเร็จจนนำมาซึ่ง impairment หรือถ้ามี churn ในกลุ่ม enterprise ขนาดใหญ่ (ลูกค้าลด seat มากกว่าที่ AI consumption ทดแทน) thesis พัง (source: earth_evans_thesis_reference.md — Balance Sheet chapter)</p>
+<hr>
+<h2>6. What to Ask Before Owning It</h2>
+<p>*คำถามที่ต้องตอบได้ก่อนกดซื้อ — ไม่ใช่คำตอบ*</p>
+<p>1. <b>Salesforce เก็บเงินจาก AI ผ่านกลไกอะไร — per-seat เดิม, consumption-based, หรือ platform fee?</b> และแต่ละโมเดลมีต้นทุนต่อหน่วยต่างกันอย่างไร? ถ้าลูกค้าลด 100 seat แต่เพิ่ม Agentforce consumption บริษัทได้รายได้สุทธิมากขึ้นหรือน้อยลง?</p>
+<p>2. <b>Agentforce ARR ที่บริษัทรายงาน — นิยามวันนี้กับ 2 ไตรมาสก่อนเป็นชุดเดียวกันไหม?</b> ถ้านิยามเปลี่ยน ตัวเลขโตที่แท้จริงคืออะไร? มีลูกค้าที่ต่ออายุและขยาย budget จริงหลังทดลองใช้ไหม?</p>
+<p>3. <b>Net Debt ~$31B + SBC ~$3.7B/ปี รวมกันแล้ว owner economics ต่อหุ้นจริงเป็นอย่างไร?</b> FCF margin 34% ดูดี แต่หัก SBC และดอกเบี้ยหนี้ที่เพิ่มแล้วเหลือเท่าไร และ Anthropic position $5.1B มี liquidity risk อะไรไหม?</p>
+<p>4. <b>Informatica ที่เพิ่งซื้อ — integrate เข้ากับ Data 360 ได้เต็มที่หรือยัง?</b> Q2 FY27 Informatica เพิ่ม $456M ให้รายได้ แต่ถ้าลบ contribution นี้ออก organic growth เหลือ ~6% — Informatica ต้องสร้างมูลค่าข้ามผลิตภัณฑ์ได้จริงถึงจะ justify ราคาที่จ่าย</p>
+<p>5. <b>ที่ราคา $247.72 (หรือราคาปัจจุบัน) เราจ่ายเงินเพื่อ thesis อะไร?</b> ถ้า DCF Base ให้ $225 และ Bear scenario ต่ำกว่า $180 — ส่วนต่างนั้นคือมูลค่า AI option ที่เราเชื่อ และเราเชื่อโดยมีหลักฐานอะไร?</p>
+<hr>
+<p>*Brief นี้ไม่ใช่คำแนะนำซื้อ/ขาย เป็นเพียงกรอบการวิเคราะห์สำหรับการศึกษา · ตัวเลขทุกตัวมีแหล่งที่มาจาก Earth Evans Deep Dive Thesis (Sep 2026) ซึ่งรวบรวมจากงบบริษัทและเอกสาร SEC · ราคาอ้างอิง 11 Sep 2026 ไม่ใช่ราคาสด*</p>
+</div></body></html>

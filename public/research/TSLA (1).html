@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TSLA — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">TSLA</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<h1>TSLA — Full Investment Memo (DR universe)</h1>
+<p>ดึงข้อมูลหลัก: 2026-09-20 UTC. บริษัทสหรัฐ; memo นี้เป็น research framework ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. ราคาคือหุ้นสหรัฐ ไม่ใช่ราคา DR ใน SET.</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating เชิงงานวิจัย:</b> Watchlist / ต้องพิสูจน์ execution; ไม่ใช้เป็น buy/sell recommendation. เหตุผลคือรายได้ FY2025 ลดลงจาก FY2024 และ operating income ลดต่อเนื่อง ขณะที่ valuation multiple ยังตรวจสอบไม่ได้จาก source ที่ใช้. (source: <code>sources/TSLA/10-k-2025.md</code>, SEC 10-K, ดึง 2026-09-20)</li>
+<li><b>Investment question:</b> Tesla จะเปลี่ยนเงินลงทุนสูงใน autonomy/AI/energy ให้เป็นกำไรต่อหุ้นที่เติบโตได้จริง โดยไม่ให้ธุรกิจรถยนต์ถูกกด margin จนกลบ option เหล่านั้นได้หรือไม่?</li>
+<li><b>Scenario fair-value framework (Judgment, ไม่ใช่ราคาเป้าหมาย):</b> ใช้ราคาหุ้นสหรัฐ $364.27 ณ 2026-09-18 เป็นฐาน. Bear/Base/Bull ปีที่ 5: $450/$600/$900 ต่อหุ้น; CAGR จากฐานประมาณ 4.3%/10.5%/19.8% ตามลำดับ. ยังไม่มี “fair value เดียว” เพราะ EPS/multiple ของธุรกิจ autonomy ยังไม่ observable. (source: <code>sources/TSLA/market-data.md</code>, Yahoo chart, ดึง 2026-09-20; scenario เป็น Judgment)</li>
+<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้อหรือสัดส่วนพอร์ตใน memo นี้; ถ้าพี่ต้องนำไปใช้ ต้องแยกความเสี่ยงของ DR, FX และความแตกต่างระหว่างราคา DR กับหุ้นอ้างอิงก่อน.</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>ลูกค้าจ่ายให้ Tesla เพื่อรถ EV, ระบบชาร์จ/ซอฟต์แวร์ที่เกี่ยวข้อง และระบบกักเก็บพลังงาน; รายได้ยังขับเคลื่อนด้วยการส่งมอบสินค้าจริงมากกว่า recurring software ในงบที่ตรวจได้. (source: <code>sources/TSLA/10-k-2025.md</code>, SEC 10-K, ดึง 2026-09-20)</li>
+<li><b>Core:</b> automotive volume, pricing, mix และต้นทุนแบตเตอรี่/การผลิต. FY2025 revenue $94.827bn ลดจาก $97.690bn ใน FY2024. (source: <code>sources/TSLA/10-k-2025.md</code>, SEC Companyfacts, ดึง 2026-09-20)</li>
+<li><b>Option:</b> energy storage และ autonomy/AI/robotaxi; thesis จะมีน้ำหนักก็ต่อเมื่อเห็นรายได้และกำไรที่แยกตรวจสอบได้ ไม่ใช่เพียง announcement.</li>
+<li><b>7 Powers ที่เกี่ยวข้อง:</b> scale economies ในโรงงาน/ซัพพลายเชน, process power จาก software/การผลิตที่บูรณาการ และ network effects ที่อาจเกิดจาก charging/autonomy data; ทั้งหมดเป็นสมมติฐานที่ต้องติดตาม ไม่ใช่ข้อสรุปถาวร.</li>
+<li>การเติบโตที่ monetise ได้จริงต้องผ่าน 3 ด่าน: ส่งมอบ/ติดตั้ง, gross margin หลัง incentive และ cash conversion หลัง capex/R&amp;D. FY2025 capex $8.527bn และ R&amp;D $6.411bn. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li>ข้อได้เปรียบที่จับต้องได้คือขนาดการผลิต แบรนด์ ช่องทางชาร์จ และข้อมูลจาก fleet; ขนาดช่วยต้นทุนได้ แต่ไม่ได้รับประกันราคา/volume เมื่อคู่แข่งเพิ่มขึ้น. (source: <code>sources/TSLA/10-k-2025.md</code>, SEC 10-K, ดึง 2026-09-20)</li>
+<li>ความเสี่ยงเฉพาะบริษัท: price competition, product concentration, regulatory/approval risk ของ autonomy, execution ของโรงงาน/ผลิตภัณฑ์ใหม่ และ key-person/governance risk.</li>
+<li>ความเสี่ยงทางการเงินคือกำไรหดเร็วกว่ารายได้: operating income FY2021–FY2025 = $6.523bn/$13.656bn/$8.891bn/$7.076bn/$4.355bn. (source: <code>sources/TSLA/10-k-2025.md</code>, SEC Companyfacts, ดึง 2026-09-20)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported:</b> Revenue FY2021–25 = $53.823bn, $81.462bn, $96.773bn, $97.690bn, $94.827bn; growth ชะลอจาก hyper-growth เป็น plateau/slip. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li><b>Reported:</b> gross profit = $13.606bn, $20.853bn, $17.660bn, $17.450bn, $17.094bn; operating income และ net income หดตัวชัดหลัง 2022. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li><b>Reported:</b> OCF ยังอยู่ $11.497bn–$14.923bn ในช่วง FY2021–25; capex เพิ่มขึ้นเป็น $11.342bn ใน FY2024 ก่อน $8.527bn ใน FY2025. FCF จึงเป็นบวกตามตัวเลข aggregate แต่ buffer แคบลงเมื่อการลงทุนเร่ง. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li><b>Reported:</b> R&amp;D โตจาก $2.593bn เป็น $6.411bn ในห้าปี; ต้องพิสูจน์ผลตอบแทนจาก R&amp;D แยกจาก narrative autonomy. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li>ROE/ROIC และ gross/op margin คำนวณแบบ comparable ไม่ได้ทำในรอบนี้ เพราะ tag/denominator และ non-operating items ต้องตรวจใน 10-K ฉบับเต็ม.</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>FY2025 reported assets $137.806bn, liabilities $54.941bn, cash $16.513bn, equity $82.137bn. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li>บริษัทมีสภาพคล่องและ OCF รองรับการลงทุน แต่ capex + R&amp;D สูงขึ้นพร้อมกำไรจากการดำเนินงานที่ลดลง เป็น trade-off หลักของ capital allocation. (source: <code>sources/TSLA/10-k-2025.md</code>, ดึง 2026-09-20)</li>
+<li>Debt, SBC, diluted-share trend และ buyback ไม่ได้สรุปเป็นตัวเลขใน source extract นี้; ห้ามอนุมานว่าการเติบโตของ EPS จะเท่ากับการเติบโตของธุรกิจ.</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported Q2 2026:</b> revenue $28.236bn vs $22.496bn YoY; gross profit $4.751bn vs $3.878bn. (source: <code>sources/TSLA/q2-2026-10q.md</code>, SEC 10-Q filed 2026-07-23, ดึง 2026-09-20)</li>
+<li><b>Reported Q2 2026:</b> operating income $398m vs $923m; net income $1.114bn vs $1.172bn; diluted EPS $0.32 vs $0.33. Revenue โตแต่กำไรดำเนินงานลดลง. (source: <code>sources/TSLA/q2-2026-10q.md</code>, ดึง 2026-09-20)</li>
+<li><b>Reported H1 2026:</b> OCF $8.634bn vs $4.696bn แต่ capex $8.282bn vs $3.886bn และ R&amp;D $4.317bn vs $2.998bn. (source: <code>sources/TSLA/q2-2026-10q.md</code>, ดึง 2026-09-20)</li>
+<li>ไม่พบ/เข้าถึง transcript StockAnalysis ไม่ได้ในรอบนี้ จึงไม่มี transcript paraphrase หรือ guidance จาก call; ใช้ 10-Q เท่านั้น และไม่เรียก filing ว่า transcript.</li>
+<h2>7. Valuation</h2>
+<li>ราคาล่าสุดที่ดึงได้ $364.27; 52-week observed close range $298.32–$489.88 ณ 2026-09-18 UTC. (source: <code>sources/TSLA/market-data.md</code>, Yahoo chart, ดึง 2026-09-20)</li>
+<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG และ historical/peer multiple: <b>ไม่พบจาก source ที่ดึงได้</b>; ไม่แต่งตัวเลข.</li>
+<li>Scenario valuation เป็น model judgment: Bear $450 (กำไรจากรถ/energy ไม่โตและ option ไม่ monetize), Base $600 (margin ทรงตัวและ energy/autonomy เริ่มมี contribution), Bull $900 (autonomy/energy scale ได้). Probability ไม่ใส่เพราะไม่มีข้อมูลพอ calibrate.</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bear — 30% (Judgment):</b> FY2031 EPS $5–7 × 65–75 = $325–525; ใช้ $450 เป็น midpoint. รถโตต่ำ/price pressure, autonomy ช้า, capex สูง. Expected contribution เป็น downside-risk framework ไม่ใช่ forecast. (source: reported base <code>sources/TSLA/10-k-2025.md</code>; assumptions เป็น Judgment, 2026-09-20)</li>
+<li><b>Base — 50% (Judgment):</b> FY2031 EPS $10–12 × 50 = $500–600; ใช้ $600. automotive ฟื้นระดับกลาง, energy โต, software มีรายได้แต่ยังไม่ใช่กำไรหลัก. (source: reported base <code>sources/TSLA/q2-2026-10q.md</code>; assumptions เป็น Judgment, 2026-09-20)</li>
+<li><b>Bull — 20% (Judgment):</b> FY2031 EPS $15 × 60 = $900; ต้องเห็น autonomy/บริการที่ scale และ gross margin กลับมา. ความน่าจะเป็นเป็นเพียง working prior ไม่ใช่ consensus. (source: reported base <code>sources/TSLA/10-k-2025.md</code>; assumptions เป็น Judgment, 2026-09-20)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: รายงาน deliveries/energy ที่โตพร้อม margin, หลักฐาน paid autonomy ที่เพิ่มขึ้น, capex ต่อรายได้ลดลง และ operating income ฟื้น. (source: SEC 10-Q/10-K framework, ดึง 2026-09-20)</li>
+<li>Risks: automotive price cuts, Q2 pattern ที่ revenue โตแต่ operating income ลด, capex/R&amp;D เร่ง และการอนุมัติ autonomy ล่าช้า. (source: <code>sources/TSLA/q2-2026-10q.md</code>, ดึง 2026-09-20)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Thesis พังถ้า Tesla กลายเป็นผู้ผลิตรถที่ margin ต่ำ ขณะที่มูลค่าถูกพยุงด้วย option ที่ยังไม่สร้าง cash flow; permanent-loss floor จะเกิดจาก multiple compression + earnings decline พร้อมกัน.</li>
+<li>Assumption ที่เปราะที่สุดคือการให้ autonomy/AI ได้ multiple สูงก่อนมีรายได้/กำไรตรวจสอบได้. ถ้า 4–6 ไตรมาสเห็น R&amp;D/capex เพิ่มแต่ operating profit และ cash conversion ไม่ดีขึ้น ให้ลดความเชื่อมั่น.</li>
+<li>Bear floor เชิงกรอบ: อย่าใช้ $450 เป็น “floor” จริง; เป็นเพียง scenario output และอาจต่ำกว่านั้นหาก earnings power ลดลงมาก.</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ไม่ให้ buy/sell/hold recommendation และไม่กำหนด allocation จริง. สำหรับการติดตาม ให้ใช้ cap ที่พอร์ตยอมรับความผันผวนของ single-name และแยก exposure DR/หุ้นแม่/FX.</li>
+<li>DCA ใช้ได้เฉพาะเมื่อ thesis และ kill conditions ยังผ่าน; ไม่ควร DCA เพื่อเฉลี่ยต้นทุนของ thesis ที่พัง.</li>
+<li><b>Kill conditions:</b> (1) revenue รถและ energy หดต่อเนื่องพร้อม operating margin ลด, (2) capex/R&amp;D เพิ่มแต่ OCF/FCF แย่ลงต่อเนื่อง, (3) autonomy ไม่มีหลักฐาน monetization ที่ตรวจสอบได้หรือเกิด regulatory failure สำคัญ, (4) dilution/SBC ทำให้ per-share economics แย่.</li>
+<li>Exit trigger ไม่ใช่ราคาต่ำอย่างเดียว: thesis ต้องถูกทบทวนเมื่อหลักฐานขัดกับ customer demand, unit economics หรือ cash conversion.</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> FY2025 revenue $94.827bn, operating income $4.355bn, OCF $14.747bn, R&amp;D $6.411bn; Q2 2026 revenue $28.236bn และ operating income $398m. (source: SEC files listed above, ดึง 2026-09-20)</li>
+<li><b>Interpretation:</b> ธุรกิจยังสร้าง cash แต่ earnings quality/operating leverage อ่อนลง ขณะที่ลงทุนเพื่อ option มากขึ้น.</li>
+<li><b>Judgment:</b> Base case $600 และ allocation/rating watchlist; เปลี่ยนได้เมื่อมี evidence ของ paid autonomy, margin recovery และ capex productivity.</li>
+<h3>Caveats</h3>
+<li>ไม่มี StockAnalysis transcript ที่เข้าถึงได้ในรอบนี้; ไม่มี current market cap/P-E/EV multiples หรือ peer valuation ที่ verified.</li>
+<li>ตัวเลขทั้งหมดเป็นหุ้นสหรัฐและ USD; ไม่ใช่ราคา/valuation ของ DR ใน SET.</li>
+</div></body></html>

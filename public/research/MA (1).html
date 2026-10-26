@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MA — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">MA</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<h1>Mastercard (MA) — Full Investment Memo</h1>
+<blockquote><b>Investment question:</b> Mastercard ยังสามารถเปลี่ยนการเติบโตของการชำระเงินดิจิทัลและ cross-border ให้เป็นกระแสเงินสดต่อหุ้นที่โตได้อีกนานแค่ไหน เมื่อเครือข่ายถูกกดดันจาก regulation, account-to-account payment และค่าธรรมเนียมที่ถูกตรวจสอบมากขึ้น?</blockquote>
+<p>&gt;</p>
+<blockquote><b>ขอบเขต:</b> หุ้นอ้างอิง MA ซึ่งมี DR ใน SET ตามรายชื่อที่ pre-run ให้มา. เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย. ราคาตลาดดึง 2026-09-18 07:20 UTC; ราคาหุ้นอ้างอิงไม่ใช่ราคา DR และยังไม่รวม FX/ค่าธรรมเนียม/สภาพคล่อง DR.</blockquote>
+<h2>1. Investment Verdict</h2>
+<li><b>Analytical rating:</b> คุณภาพธุรกิจสูง / ต้องการราคาที่มีส่วนเผื่อความผิดพลาด; ไม่แปลงเป็น buy/sell/hold recommendation.</li>
+<li><b>THE CORE:</b> เครือข่ายรับชำระเงินระดับโลกที่มี switching scale และ trust สูง รายได้หลักเป็นค่าธรรมเนียมตามธุรกรรม ไม่ใช่การปล่อยสินเชื่อโดยตรง. (source: MA 10-K FY2025, <code>sources/MA/10-k-fy2025.md</code>, retrieved 2026-09-18)</li>
+<li><b>THE OPTION:</b> cross-border, value-added services, tokenization, fraud/data products และการเชื่อมกับบัญชีธนาคาร/real-time rails. สิ่งเหล่านี้เป็นโอกาส ไม่ใช่รายได้ที่รับรองแล้ว. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li><b>THE PRICE:</b> MA $565.73 ณ 2026-09-17 close; historical/DCF fair value ที่ตรวจซ้ำได้จาก source ที่มีในรอบนี้ <b>ไม่พบ</b>. ดังนั้นไม่กำหนด entry price หรือ allocation เป็นตัวเลขเทียม. (source: Yahoo Finance chart endpoint via yfinance, fetched 2026-09-18)</li>
+<li><b>5-year scenario CAGR:</b> ไม่คำนวณเป็นคำแนะนำ เพราะราคาเป้าหมายและ DR conversion/FX ยังไม่ได้ verify จากแหล่งเดียวกัน. ฉากทัศน์ด้านล่างใช้เพื่อทดสอบสมมติฐาน ไม่ใช่ forecast.</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>ลูกค้าของ Mastercard คือธนาคาร ผู้ออกบัตร ร้านค้า acquirer fintech และผู้ให้บริการชำระเงิน; ผู้จ่ายเงินจริงต้องการให้การชำระเงินผ่านได้เร็ว ปลอดภัย ตรวจสอบได้ และใช้ได้ข้ามประเทศ. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>รายได้ถูกขับด้วย payment volume, switched transactions, cross-border volume และบริการเสริม; Mastercard ไม่รับ credit risk แบบ issuer เป็นหลัก แต่ยังมี client, fraud, regulatory และ network risk. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>เครื่องยนต์ monetization คือการเพิ่มธุรกรรมต่อผู้ใช้, การย้าย cash ไป digital, cross-border recovery, การขาย data/security/consulting และการรักษาความสัมพันธ์กับ ecosystem.</li>
+<li><b>Follow the customer:</b> ธนาคารต้องการ authorization และ settlement ที่เชื่อถือได้; ร้านค้าต้องการ conversion/fraud loss ที่ต่ำ; fintech ต้องการ acceptance และ APIs. Thesis จะอ่อนถ้าลูกค้าหันไปใช้ rails ทางเลือกโดยไม่ต้องพึ่ง network.</li>
+<li><b>7 Powers ที่ specific:</b> scale economies ใน acceptance/fraud data, counter-positioning จากการเป็น network ไม่ใช่ lender, switching costs จากการเชื่อมระบบและ certification, และ brand/trust. Network effect มีจริงแต่ไม่ใช่เกราะถาวรต่อ account-to-account rails.</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li>จุดแข็งคือ acceptance, data และ operating scale ที่สะสมจากหลายประเทศ; ยิ่งมี issuer/merchant มาก ประโยชน์ต่อ ecosystem ยิ่งสูง. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>คู่แข่ง/แรงกดดัน: Visa, American Express, local schemes, closed-loop wallets, bank transfer, instant-payment networks และ big-tech wallets. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>ความเสี่ยงเฉพาะบริษัทคือ regulation เรื่อง interchange/network fees, litigation, data/privacy/cybersecurity, sanctions/geopolitics, customer concentration และการถูก disintermediate โดย account-to-account payment. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>Mastercard มีข้อได้เปรียบด้าน network แต่ไม่ควรเรียกเป็น moat แบบไร้เงื่อนไข: หาก merchant acceptance และ consumer preference เปลี่ยน ต้นทุนเปลี่ยนระบบอาจลดลงมากกว่าที่ thesis คาด.</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| ปีสิ้นสุด | Revenue | Operating income | OCF | CapEx | สัญญาณ |</p>
+<p>|---|---:|---:|---:|---:|---|</p>
+<p>| FY2021 | $18.9B | $10.1B | $9.5B | $0.4B | การฟื้นตัวหลังโควิด |</p>
+<p>| FY2022 | $22.2B | $12.3B | $11.2B | $0.4B | เติบโตและ cash conversion สูง |</p>
+<p>| FY2023 | ไม่พบใน extract ที่ตรวจซ้ำได้ | ไม่พบ | ไม่พบ | ไม่พบ | ต้องตรวจ 10-K ฉบับเต็ม |</p>
+<p>| FY2024 | ไม่พบใน extract ที่ตรวจซ้ำได้ | ไม่พบ | ไม่พบ | ไม่พบ | ต้องตรวจ 10-K ฉบับเต็ม |</p>
+<p>| FY2025 | $32.8B | $18.9B | $17.6B | $0.5B | margin และ OCF แข็งแรง |</p>
+<p>ตัวเลข FY2021–FY2025 ข้างต้นอ้างอิง SEC Companyfacts/MA 10-K ที่ดึง 2026-09-18; ปีที่ระบบ extract ไม่ผูก period ได้ถูกระบุว่าไม่พบ ไม่เติมตัวเลขจากความจำ. FY2025 OCF หัก CapEx ให้ FCF เชิงรายงานราว $17.2B ก่อน SBC และรายการอื่น. (source: SEC Companyfacts CIK0001141391; <code>sources/MA/10-k-fy2025.md</code>, retrieved 2026-09-18)</p>
+<li>Direction: revenue, operating income และ OCF โตในภาพ 5 ปี; capital intensity ต่ำกว่า platform/data-center businesses.</li>
+<li>Gross margin, R&amp;D, ROE และ ROIC แบบ 5 ปี: <b>ไม่พบชุดตัวเลขที่ตรวจซ้ำได้ครบใน source cache</b>; ไม่ควรแต่ง ratio.</li>
+<li><b>Valuation snapshot:</b> MA $565.73; trailing P/E 31.26x; forward P/E 24.57x; EV/EBITDA 22.91x; EV/Revenue 14.50x; market cap และ 52-week high/low แบบ exact จาก yfinance run นี้ไม่คืนค่า. (source: Yahoo Finance/yfinance, fetched 2026-09-18; price close 2026-09-17)</li>
+<h2>5. Latest Earnings</h2>
+<li><b>Reported:</b> Q2 2026 revenue $8.443B เทียบ $7.079B; operating income $5.587B เทียบ $4.777B; net income $4.388B เทียบ $3.701B; diluted EPS $4.97 เทียบ $4.07. (source: <code>sources/MA/q2-2026-call.md</code>, SEC Form 10-Q, retrieved 2026-09-18)</li>
+<li><b>Reported YTD:</b> revenue $16.203B เทียบ $13.909B; net income $8.270B เทียบ $6.981B; diluted EPS $9.32 เทียบ $7.66. (source: <code>sources/MA/q2-2026-call.md</code>, retrieved 2026-09-18)</li>
+<li><b>Transcript:</b> ไม่พบ StockAnalysis transcript จากการลอง direct fetch; source ที่ใช้จึงเป็น primary 10-Q substitute ไม่เรียกว่า transcript. (source: StockAnalysis URL attempt + SEC 10-Q, retrieved 2026-09-18)</li>
+<li><b>Guidance / consensus / beat-miss:</b> ไม่พบข้อมูลที่ verify ได้ใน source cache รอบนี้; ไม่อนุมานจาก Q2 growth.</li>
+<h2>6. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | สมมติฐานเชิงทดสอบ | EPS/Multiple/Target | Probability / contribution |</p>
+<p>|---|---|---|---|</p>
+<p>| Bull | digital + cross-border โตต่อ, services เพิ่ม, regulation ไม่บีบ economics | <b>ไม่พบข้อมูลพอคำนวณ target ที่ trace ได้</b> | ไม่กำหนด probability เพื่อไม่ทำ false precision |</p>
+<p>| Base | payment volume โตตาม nominal GDP, margin ทรงตัว, buyback ช่วย EPS | ใช้เป็นกรอบตรวจ thesis ไม่ใช่ fair value | ไม่กำหนด |</p>
+<p>| Bear | fee compression, A2A/instant rails แย่งธุรกรรม, cross-border ชะลอ, regulatory cost สูง | bear floor ไม่พบจาก source/valuation model ที่ verify ครบ | ไม่กำหนด |</p>
+<h2>7. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts ที่ต้องติดตาม: cross-border volume, switched transactions, value-added services growth, tokenization และ operating expense discipline. (source: MA 10-K FY2025, retrieved 2026-09-18)</li>
+<li>Risks ที่ต้องติดตาม: regulatory fee caps, antitrust/litigation, merchant routing, fraud/cyber incident, recession-sensitive cross-border และ alternative rails.</li>
+<li>ทุกข้อเป็น monitoring list; ไม่ใช่การทำนายว่าราคาจะตอบสนองอย่างไร.</li>
+<h2>8. Inversion / Anti-thesis</h2>
+<li>ถ้า network effect ไม่ได้ทำให้ acceptance เพิ่ม แต่กลายเป็น utility ที่ถูกต่อรองราคา Mastercard อาจโตแต่ผลตอบแทนต่อทุนลดลง.</li>
+<li>ถ้าธุรกรรมย้ายไป account-to-account rails ที่ร้านค้า/ผู้บริโภคยอมรับมากขึ้น รายได้ต่อ transaction เดิมอาจหายเร็วกว่าการเติบโตของตลาด.</li>
+<li>Fragile assumption คือการใช้ margin สูงในอดีตเป็น proxy ของอนาคต โดยไม่หัก regulatory และ competitive take-rate pressure.</li>
+<h2>9. Portfolio Strategy</h2>
+<li>Entry: ยังไม่กำหนดตัวเลข เพราะ fair value model และ DR FX/conversion ยังไม่ verify.</li>
+<li>Sizing/DCA/cap: ให้ตัดสินหลังตรวจ thesis กับราคา DR จริง; memo นี้ไม่ให้ allocation เพื่อหลีกเลี่ยงคำแนะนำซื้อขาย.</li>
+<li>Exit/kill triggers: ดู Section 10; ราคาแกว่งอย่างเดียวไม่ใช่ kill condition.</li>
+<h2>10. Kill Conditions</h2>
+<li>Net revenue growth ชะลอตัวต่อเนื่องพร้อม evidence ว่า payment volume/cross-border ไม่กลับ แต่ค่าใช้จ่ายยังโตเร็วกว่ารายได้. (source: MA 10-K/10-Q, retrieved 2026-09-18)</li>
+<li>Regulatory หรือ merchant routing ทำให้ take rate/operating margin ลดลงแบบ structural ไม่ใช่ไตรมาสเดียว.</li>
+<li>Alternative rails แย่ง transaction share และ Mastercard ต้องลดค่าธรรมเนียมเพื่อรักษา volume ขณะที่ value-added services ชดเชยไม่ได้.</li>
+<h2>11. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> Q2 2026 reported revenue $8.443B และ net income $4.388B. (source: SEC 10-Q, retrieved 2026-09-18)</li>
+<li><b>Interpretation:</b> earnings engine ยังมี operating leverage และ cash conversion สูงเมื่อเทียบกับ CapEx.</li>
+<li><b>Judgment:</b> คุณภาพธุรกิจน่าสนใจสำหรับการศึกษา long-term แต่ราคาที่เหมาะสมต้องชดเชย regulatory/disintermediation risk; ยังไม่สรุป buy/sell/hold.</li>
+<h2>12. Sources &amp; Caveats</h2>
+<li>SEC MA FY2025 10-K cached: <code>sources/MA/10-k-fy2025.md</code>.</li>
+<li>SEC MA Q2 2026 Form 10-Q: <code>sources/MA/q2-2026-call.md</code> (ชื่อไฟล์คงตามระบบ แต่เอกสารระบุชัดว่าไม่ใช่ transcript).</li>
+<li>Yahoo Finance/yfinance chart and quote snapshot, fetched 2026-09-18.</li>
+<li>ขาด StockAnalysis transcript, exact 52-week range/market cap จาก quote response, และ complete 5-year ratio series; sections ที่พึ่งข้อมูลเหล่านี้จึงไม่ใส่ตัวเลขแทน.</li>
+</div></body></html>

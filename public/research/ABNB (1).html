@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABNB — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">ABNB</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<h1>ABNB — Airbnb | Full Investment Memo</h1>
+<p><b>วันที่จัดทำ:</b> 14 กันยายน 2026 (SE Asia)</p>
+<p><b>ขอบเขต:</b> หุ้นที่ pre-run ระบุว่าอยู่ใน DR universe ของ SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Investment question:</b> Airbnb จะเปลี่ยนการเติบโตของการเดินทางและ supply ที่พักให้เป็นกำไรต่อหุ้นที่เติบโตต่อเนื่องได้หรือไม่ โดยไม่ถูกกฎระเบียบและการชะลอการเดินทางบีบ economics ของ marketplace? (Interpretation; sources: <code>sources/ABNB/10-k-2026.md</code>, ดึงข้อมูล 14-09-2026)</li>
+<li><b>Rating:</b> ยังไม่ให้ rating แบบซื้อ/ขาย/ถือ; จัดเป็น <b>ศึกษาต่อ / evidence-dependent</b> เพราะ transcript ล่าสุดตรวจจาก StockAnalysis ไม่สำเร็จ และข้อมูล FY2026 ที่ใช้ใน brief เดิมเป็น third-party summary ไม่ใช่ source file primary.</li>
+<li><b>Fair value / Entry / Allocation:</b> ไม่กำหนดเป็นราคาคำสั่งซื้อหรือ allocation ที่ตายตัว; scenario ด้านล่างเป็น sensitivity เพื่อทดสอบ thesis ไม่ใช่ target price.</li>
+<li><b>5Y scenario frame:</b> Worst/Base/Bull ใช้สมมติฐาน EPS ปีเริ่มต้น $4.42 และราคาอ้างอิง $170.19 จาก Yahoo Finance snapshot วันที่ดึง 14-09-2026; ตัวเลขปลายทางเป็น Scenario ไม่ใช่ guidance. (source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Airbnb เป็น marketplace ที่เชื่อม host กับ guest ในกว่า 220 ประเทศ/ภูมิภาค; บริษัทเก็บ service fee เมื่อการจองเดินทางถึงจุดรับรู้รายได้ ไม่ได้เป็นเจ้าของที่พักส่วนใหญ่ จึงมี capital intensity ต่ำกว่าผู้ประกอบการโรงแรม. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Follow the customer:</b> guest จ่ายเพื่อหาที่พัก/ประสบการณ์ที่ตรงความต้องการและชำระเงินได้สะดวก; host จ่ายค่าธรรมเนียมเพื่อเข้าถึง demand, payment, trust/safety และเครื่องมือบริหาร listing. สิ่งที่ต้องติดตามจึงคือ nights/bookings, conversion, take rate, repeat usage และ supply ที่มีคุณภาพ ไม่ใช่จำนวนฟีเจอร์อย่างเดียว. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li>เครื่องยนต์โตมี 3 ชั้น: เพิ่ม demand/การจองในตลาดเดิม, เพิ่ม supply และ penetration ในตลาดใหม่, และขยายหมวดจากที่พักไป experiences/services/โรงแรม. การเปิดหมวดใหม่เป็น option ที่ต้องพิสูจน์ monetization แยกจาก core. (Interpretation; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<li><b>THE CORE / THE OPTION / THE PRICE:</b> core คือ marketplace ที่มี network และ brand; option คือ AI/conversion และหมวดโรงแรม/บริการ; price คือ valuation ที่ Yahoo snapshot ให้ market cap ราว $101.91B และ EV/EBITDA 32.88x. (Reported/Scenario framing; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>Network effects:</b> liquidity ระหว่าง host–guest และรีวิว/ประวัติการใช้งานช่วยให้ตลาดสองฝั่งทำงานดีขึ้นเมื่อมี supply และ demand มากพอ; แต่เป็น local network effects ไม่ได้แปลว่าป้องกันคู่แข่งได้ทุกเมือง. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Brand / trust / payment scale:</b> การชำระเงินหลายสกุลเงิน, identity/trust, customer support และ protection programs เพิ่มความสะดวกให้ทั้งสองฝั่ง แต่ก็นำ liability, fraud, insurance และ compliance risk เข้ามาด้วย. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Threats:</b> โรงแรม/OTAs, local platforms, direct booking, regulatory limits ต่อ short-term rental, FX และ discretionary travel สามารถลด supply หรือ demand ได้โดยตรง. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<h2>4. Financial Quality 5-year</h2>
+<p>| Fiscal year | Revenue ($B) | Net income ($B) | OCF ($B) | FCF ($B) | R&amp;D ($B) |</p>
+<p>|---|---:|---:|---:|---:|---:|</p>
+<p>| 2022 | 8.40 | 1.89 | 3.43 | 3.43* | 1.50 |</p>
+<p>| 2023 | 9.92 | 4.79 | 3.88 | 3.88* | 1.72 |</p>
+<p>| 2024 | 11.10 | 2.65 | 4.52 | 4.52* | 2.06 |</p>
+<p>| 2025 | 12.24 | 2.51 | 4.65 | 4.65* | 2.35 |</p>
+<p>| 2021 | ไม่พบในชุด yfinance ที่ใช้ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
+<li>รายได้เพิ่มจาก $8.40B ใน 2022 เป็น $12.24B ใน 2025; net income ผันผวนมาก โดยปี 2023 มีรายการภาษี/รายการพิเศษที่ทำให้เทียบข้ามปีต้องระวัง. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<li>OCF/FCF สูงเมื่อเทียบกับ revenue และยังเพิ่มจาก 2022–2025; ในตารางนี้ FCF ใช้ค่าที่ yfinance รายงาน ซึ่งใกล้เคียง OCF เพราะ capex ที่เปิดเผยมีขนาดเล็ก. (*) ต้อง reconcile กับ 10-K ฉบับเต็มก่อนใช้ทำ model. (Reported/caveat; sources: Yahoo Finance via <code>yfinance</code> และ <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li>Gross margin, operating margin, ROE และ ROIC แบบ 5 ปีที่นิยามสอดคล้องกัน <b>ไม่พบใน source set นี้</b>; ไม่ควรแต่งตัวเลขแทน. (Caveat; source: source set ABNB, ตรวจ 14-09-2026)</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li>ณ 31-12-2025 มี cash and equivalents ราว $6.56B, short-term investments ราว $4.45B และ total debt ราว $2.07B ตาม Yahoo statement; balance sheet จึงมี liquidity สูงเมื่อเทียบกับหนี้ทางการเงิน. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<li>10-K ระบุ cash $6.6B, short-term investments $4.5B และเงินที่ถือแทนลูกค้า $7.0B; เงินลูกค้าไม่ควรถูกนับเป็น cash ของผู้ถือหุ้น. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li>บริษัทซื้อหุ้นคืนต่อเนื่อง; Yahoo รายงาน repurchase ราว $3.79B ใน FY2025 ขณะที่ SBC ราว $1.59B. ดังนั้นต้องดู net buyback หลังหัก dilution ไม่ใช่ยอดซื้อคืน headline. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<li>2026 convertible notes มูลค่า $2.0B เป็นรายการที่ต้องติดตามเรื่อง refinancing/repayment และ dilution หากมีการแปลง. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Transcript:</b> ไม่พบ/ดึงไม่ได้จาก StockAnalysis ในรอบนี้ (HTTP 403 จาก direct request และ web extraction ติด billing 402); จึงไม่เรียก filing หรือข่าวสรุปว่า transcript. (Caveat; ตรวจ 14-09-2026)</li>
+<li>brief เดิมระบุ Q2 2026 revenue ราว $3.6B, net income $816M และ FCF $1.3B แต่เป็นข้อมูลจาก third-party summaries และไม่มี <code>q*-call.md</code> ใน source folder จึงถือเป็น <b>unverified context ไม่ใช่ฐานตัวเลขหลักของ memo</b>. (Caveat; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<li>guidance Q3/ทั้งปี FY2026 ใน brief เดิมระบุ revenue Q3 $4.69–$4.77B และการเติบโตทั้งปีระดับ mid-teens; ยังไม่ได้ยืนยันกับ earnings release/IR primary ในรอบนี้. (Caveat; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<h2>7. Valuation</h2>
+<li><b>Snapshot:</b> ราคา $170.19; market cap $101.91B; trailing P/E 38.95x; forward P/E 27.51x; EV/EBITDA 32.88x; EV/Sales 6.90x; 52-week range $110.81–$193.45. (Reported snapshot; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<li>EV/FCF, FCF yield, PEG, historical multiple range และ peer multiple ที่นิยามเดียวกัน <b>ไม่พบ/ยังไม่ได้ reconcile</b> จาก source set นี้. (Caveat; ตรวจ 14-09-2026)</li>
+<li>Scenario valuation: <b>Worst</b> EPS $5.50 × 22x = $121; <b>Base</b> $8.00 × 28x = $224; <b>Bull</b> $11.00 × 34x = $374 ในปีที่ 5. ทั้งหมดเป็น Judgment; ไม่ใช่ consensus หรือ guidance และไม่ใช่ recommendation. (Scenario; ดึง 14-09-2026)</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<p>| Scenario | EPS ปี 5 | Multiple | ราคาเชิงสถานการณ์ | CAGR จาก $170.19 | Probability* | Expected contribution* |</p>
+<p>|---|---:|---:|---:|---:|---:|---:|</p>
+<p>| Worst | $5.50 | 22x | $121 | -6.5% | 25% | -1.6% |</p>
+<p>| Base | $8.00 | 28x | $224 | 5.7% | 50% | 2.9% |</p>
+<p>| Bull | $11.00 | 34x | $374 | 17.0% | 25% | 4.2% |</p>
+<li>Worst = regulation/weak travel ทำให้ growth ต่ำและ multiple ลด; Base = core marketplace โตต่อแต่ option ใหม่ให้ผลแบบค่อยเป็นค่อยไป; Bull = conversion, supply และหมวดใหม่ขยายพร้อม margin. (Scenario/Judgment; source inputs: <code>sources/ABNB/10-k-2026.md</code>, Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
+<li>*Probabilities และ expected contribution เป็น subjective model inputs ไม่ใช่ความน่าจะเป็นจากตลาด. ควรเปลี่ยนทันทีเมื่อมีข้อมูล nights, take rate, FCF และ regulation ใหม่. (Judgment; ดึง 14-09-2026)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> หลักฐานว่า AI เพิ่ม conversion/booking จริง, supply quality ดีขึ้น, โรงแรม/experiences สร้าง incremental revenue และ buyback ลด diluted shares โดยไม่กด R&amp;D. (Scenario; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<li><b>Risks:</b> เมืองสำคัญจำกัด short-term rentals, demand การเดินทางชะลอ, insurance/payment/fraud cost สูงขึ้น, FX และภาษีข้ามประเทศ. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>Thesis จะผิดถ้า Airbnb มี demand แต่ supply ที่ถูกกฎหมาย/คุณภาพไม่พอ หรือมี supply แต่ conversion และ repeat usage ไม่ดีขึ้น; marketplace ใหญ่ไม่ได้รับประกัน unit economics ที่ดีขึ้น. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li>Permanent capital loss อาจเกิดจาก regulatory/tax liability จำนวนมาก, payment/insurance incident ที่ทำลาย trust หรือการใช้เงินซื้อคืนในช่วง economics เสื่อม. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li>Bear floor ใน model คือ $121 ต่อหุ้น เป็นเพียง stress case ไม่ใช่ estimate ต่ำสุดและไม่ใช่ราคาที่รับรองว่าจะเกิด. (Scenario; ดึง 14-09-2026)</li>
+<h2>11. Portfolio Strategy</h2>
+<li>ใช้เป็น <b>watchlist/evidence position framework</b> เท่านั้นจนกว่าจะได้ transcript/earnings release primary และตัวเลข retention/conversion ที่ตรวจซ้ำได้; ไม่กำหนด buy/sell/hold. (Judgment; ตรวจ 14-09-2026)</li>
+<li>หากศึกษา DCA ให้กำหนด cap ล่วงหน้าและอย่าเพิ่มน้ำหนักเพียงเพราะราคาลง; ต้องทบทวน take rate, nights, FCF margin, diluted shares และ regulatory exposure ทุกไตรมาส. (Process judgment; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Exit/kill triggers:</b> กฎใหม่กระทบตลาดหลักหลายแห่งต่อเนื่อง, conversion/booking ติดลบหลายไตรมาส, FCF margin ลดต่ำกว่าเกณฑ์ที่ตั้งไว้เพราะ AI/marketing และ dilution ไม่ลดตาม buyback. (Judgment; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
+<p>| ชั้น | เนื้อหา |</p>
+<p>|---|---|</p>
+<p>| Fact / Reported | FY2025 revenue $12.24B, net income $2.51B, FCF $4.65B; cash/investments และหนี้ตามตาราง; 52-week range และ multiples ตาม Yahoo snapshot. (sources: Yahoo Finance via <code>yfinance</code>, <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026) |</p>
+<p>| Interpretation | Asset-light marketplace มี cash conversion สูง แต่ local regulation และ trust/liability เป็น risk ที่กระทบ economics ได้โดยตรง. (sources: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026) |</p>
+<p>| Judgment | Scenario multiples, probabilities, fair-value framing, kill thresholds และการจัดเป็น evidence-dependent. (ผู้จัดทำ, 14-09-2026) |</p>
+<p><b>ข้อจำกัดสำคัญ:</b> source folder มีเฉพาะ SEC excerpt ที่ cache แล้ว; ไม่มี transcript file และไม่มี verified FY2026 primary earnings source ในรอบนี้.</p>
+</div></body></html>

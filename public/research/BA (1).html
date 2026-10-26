@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BA — Research Brief</title><style>
+  :root{--bg:#f5f5f7;--fg:#1a1a1a;--card:#fff;--border:#dcdce0;--muted:#6b6b76;--accent:#2557d6;--accent-bg:#eaf0fe;--badge:#e6eefc;}
+  @media(prefers-color-scheme:dark){:root{--bg:#14141a;--fg:#eaeaf0;--card:#1e1e26;--border:#33333d;--muted:#a0a0ac;--accent:#7aa2ff;--accent-bg:#202a44;--badge:#1c2438;}}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 64px}
+  .ticker{font-size:2.2rem;font-weight:800;margin:0 0 2px} .meta{color:var(--muted);font-size:.9rem}
+  .back{display:inline-block;margin-bottom:14px;color:var(--accent);text-decoration:none;font-weight:600}
+  h1{font-size:1.8rem;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  h2{font-size:1.25rem;margin-top:26px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{color:var(--accent);font-size:1.02rem;margin:14px 0 4px} p{margin:8px 0}
+  ul{margin:6px 0;padding-left:22px} li{margin:5px 0}
+  blockquote{background:var(--accent-bg);border-left:4px solid var(--accent);margin:12px 0;padding:10px 14px;border-radius:0 8px 8px 0;color:var(--muted)}
+  code{background:var(--badge);padding:1px 5px;border-radius:5px;font-size:.92em}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Research</a>
+<div class="ticker">BA</div>
+<div class="meta">Thesis · 2026-09-25</div>
+<h1>BA — Full Giggs-style Investment Memo</h1>
+<p>ข้อมูล ณ 2026-09-15; universe จาก pre-run ระบุว่า BA มี DR ซื้อขายใน SET. เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
+<h2>1. Investment Verdict</h2>
+<li><b>Rating:</b> ยังไม่จัดอันดับ — thesis เป็นการฟื้นตัวของการผลิตและ cash flow ที่ต้องพิสูจน์ ไม่ใช่กำไรที่มีเสถียรภาพแล้ว (source: sources/BA/10-k-2026.md; SEC 10-K filed 2026-01-30; fetched 2026-09-15)</li>
+<li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณอย่างรับผิดชอบในรอบนี้ เพราะไม่มี fully verified current diluted share count, consensus EPS และ earnings transcript ล่าสุดสำหรับสร้าง multi-method valuation; ราคาที่ดึงได้ใช้เป็น market reference เท่านั้น ไม่ใช่ fair value (source: work/BA_full_data.json; Yahoo Finance chart endpoint fetched 2026-09-15)</li>
+<li><b>Investment question:</b> Boeing จะเปลี่ยน backlog ที่มีอยู่ให้เป็นเครื่องบินส่งมอบตรงเวลาและ free cash flow ที่ยั่งยืนได้หรือไม่ โดยไม่เกิด quality event, reach-forward loss หรือหนี้เพิ่มก่อน?</li>
+<li><b>Judgment:</b> นี่คือ turnaround/industrial execution thesis; upside ต้องมาจากการ normalize ของ production economics ไม่ใช่การสมมติว่า 2025 margin จะคงอยู่</li>
+<h2>2. Business Model &amp; Revenue Engine</h2>
+<li>Boeing ขายเครื่องบินพาณิชย์ให้สายการบิน/lessor, ระบบและอากาศยานป้องกันประเทศให้รัฐบาล และบริการซ่อมบำรุง/ฝึกอบรมตลอดอายุเครื่องบินให้ลูกค้าทั้งสองกลุ่ม รายได้หลักจึงผูกกับการส่งมอบ aircraft, milestone ของสัญญารัฐ และ installed base services (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Segment economics:</b> BCA มี operating leverage สูงแต่สัญญาเครื่องบินเป็น fixed-price และใช้เวลาผลิต/ส่งมอบนาน; BDS พึ่งงบประมาณรัฐบาลและ execution ของโครงการ; BGS มีลักษณะ recurring กว่าเพราะขาย maintenance, logistics, training และ upgrades (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Follow the customer:</b> สายการบินจ่ายเพื่อ capacity, fuel efficiency, reliability และการส่งมอบที่เชื่อถือได้; รัฐบาลจ่ายเพื่อ capability, availability และความปลอดภัย; ลูกค้าจะไม่จ่ายเพิ่มเพื่อ backlog หาก Boeing แปลง backlog เป็น delivery ไม่ได้ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>THE CORE:</b> scale, certification know-how, installed fleet และ supplier/maintenance network เป็น 7 Powers ที่เห็นได้ชัดที่สุด แต่ถูกหักล้างบางส่วนด้วยความเสี่ยงด้านคุณภาพและการกำกับของ FAA (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>THE OPTION:</b> 777X, 737-7/10, defense programs และบริการหลังการขายคือ option value; 10-K ระบุว่า 777X คาด first delivery ปี 2027 และมี reach-forward loss $4.9bn ใน 2025 จึงยังไม่ควรนับ option เป็น base case (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>THE PRICE:</b> Yahoo chart ให้ราคา BA $210.27; 52-week range $179.12–$252.15 ณข้อมูลล่าสุดในชุด fetch วันที่ 2026-09-15. Market cap, P/E และ EV/EBITDA ไม่พบจากแหล่งที่ดึงในรอบนี้ จึงไม่ตีความว่าถูกหรือแพง (source: work/BA_full_data.json; Yahoo Finance chart endpoint; fetched 2026-09-15)</li>
+<h2>3. Financial Quality 5-year</h2>
+<li><b>Reported revenue:</b> SEC Companyfacts ในชุด tag มาตรฐานดึง annual revenue ล่าสุดได้ไม่ครบถึง 2025 จึงไม่แต่งตัวเลข 5 ปี; ต้องใช้ consolidated statements ใน 10-K ฉบับเต็มเพื่อสร้างตาราง revenue ที่สมบูรณ์ (source: work/BA_full_data.json; SEC Companyfacts fetched 2026-09-15)</li>
+<li><b>Reported gross profit:</b> 2023 $7.724bn, 2024 -$1.991bn, 2025 $4.289bn; ทิศทางดีขึ้นจาก loss ปี 2024 แต่ยังต่ำกว่ามาตรฐานธุรกิจที่ควรสะท้อน pricing และ production control ที่เสถียร (source: work/BA_full_data.json; SEC Companyfacts; fetched 2026-09-15)</li>
+<li><b>Reported operating income / net income:</b> 2023 operating loss $0.773bn และ net loss $2.222bn; 2024 operating loss $10.707bn และ net loss $11.817bn; 2025 operating income $4.281bn และ net income $2.235bn. การกลับมาเป็นบวกเป็นสัญญาณฟื้นตัว แต่ยังไม่พอพิสูจน์ normalized earnings (source: work/BA_full_data.json; SEC Companyfacts; fetched 2026-09-15)</li>
+<li><b>OCF, CapEx, FCF, R&amp;D, ROE, ROIC:</b> ไม่ครบ/ไม่สอดคล้องจาก standard XBRL tags ที่ดึงในรอบนี้; ไม่ใส่ตัวเลขแทน และไม่สรุปคุณภาพ cash conversion จากกำไรเพียงอย่างเดียว (source: work/BA_full_data.json; SEC Companyfacts fetched 2026-09-15)</li>
+<li><b>Interpretation:</b> financial direction เปลี่ยนจาก crisis loss ใน 2024 เป็น accounting profit ใน 2025 แต่ downside ของ fixed-price contracts, supplier disruption, labor strike และ FAA constraints ยังทำให้ margin มีความเปราะบาง (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>4. Balance Sheet &amp; Capital Allocation</h2>
+<li>Debt, cash, net debt, SBC และ diluted share count แบบตัวเลขล่าสุดไม่พบครบใน extraction รอบนี้; จึงไม่คำนวณ leverage หรือ per-share value (source: work/BA_full_data.json; SEC Companyfacts fetched 2026-09-15)</li>
+<li>Capital allocation priority ควรอ่านเป็น balance-sheet repair, production quality และการส่งมอบก่อน buyback/dividend; ความเสี่ยงสำคัญคือ turnaround ต้องใช้เงินทุนหมุนเวียนมากกว่าที่คาด (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li>Strike 53 วันในปี 2024 และ 101 วันในปี 2025 กระทบการผลิต/โครงการหลายตัว แสดงว่า labor stability เป็นตัวแปรทางการเงิน ไม่ใช่แค่ HR issue (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>5. Latest Earnings</h2>
+<li>ไม่พบไฟล์ earnings-call transcript ที่ verify ได้สำหรับ BA ใน source cache; StockAnalysis index ระบุว่าเจอ Cloudflare challenge และไฟล์นี้ไม่ใช่ transcript (source: sources/BA/q2-2026-call.md; retrieved 2026-09-15)</li>
+<li>SEC Companyfacts แสดง Q2 2026 operating income $156m และ net loss $444m ใน quarter แต่ revenue ของ quarter ไม่ได้ถูกดึงจาก standard tag ในชุดข้อมูลนี้ จึงไม่อ้าง beat/miss (source: work/BA_full_data.json; SEC Companyfacts filed 2026-07-28; fetched 2026-09-15)</li>
+<li>Guidance, management commentary และ consensus beat/miss: ไม่พบข้อมูลที่ verify ได้จากแหล่งบังคับในรอบนี้; ห้ามเรียก 10-Q ว่า transcript (source: sources/BA/q2-2026-call.md; StockAnalysis attempt 2026-09-15)</li>
+<h2>6. Valuation</h2>
+<li><b>Trailing/Forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG:</b> ไม่พบ/ไม่คำนวณ เพราะ current diluted shares, normalized FCF และ consensus inputs ไม่ครบ (source: work/BA_full_data.json; Yahoo/SEC retrieval 2026-09-15)</li>
+<li><b>Scenario method:</b> ยังไม่ให้ target price หรือ CAGR; การใช้ multiple กับ 2025 reported profit อาจทำให้ valuation ดูถูกเทียม เพราะกำไรอยู่ระหว่างการฟื้นตัวและมี reach-forward-loss risk (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Peer context:</b> Airbus, Lockheed Martin, RTX และ Northrop Grumman เป็นคู่เทียบคนละ mix; 10-K ระบุคู่แข่งเหล่านี้ แต่ไม่มี peer multiples ที่ verify ได้ในรอบนี้ (source: sources/BA/10-k-2026.md; StockAnalysis/MarketBeat retrieval not completed; 2026-09-15)</li>
+<h2>7. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull:</b> 737/787 rate ramp ผ่าน FAA, supplier quality เสถียร, 777X ไม่เกิด loss เพิ่ม และ BGS/BDS ช่วย recurring cash flow; EPS/target/CAGR/probability ยังไม่ระบุเพราะไม่มี normalized base และ diluted shares ที่ verify ได้ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Base:</b> revenue ฟื้นตามการส่งมอบและ backlog แต่ margin ค่อย ๆ normalize; cash flow ดีขึ้นแบบผันผวน และต้องกันเงินแก้คุณภาพ/หนี้ก่อน return capital. EPS/target/CAGR/probability ไม่คำนวณ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Bear:</b> quality event หรือ FAA จำกัด rate, supplier/labor disruption และ fixed-price overrun ทำให้เกิด loss เพิ่ม/ส่งมอบช้า ลูกค้ายกเลิกหรือเลื่อนคำสั่งซื้อ; bear floor ไม่ระบุเพราะไม่มี balance-sheet valuation ครบ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>8. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li>Catalysts: production rate ที่เพิ่มได้จริง, delivery quality, 777X certification/first delivery, cash flow positive ต่อเนื่อง และการลดหนี้ที่ไม่ต้องเพิ่มทุน (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li>Risks: 737-9/production quality, FAA oversight, supplier single-source, strikes, government contract changes, airline financing cycle และ reach-forward loss ของ development programs (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>9. Inversion / Anti-thesis</h2>
+<li>ถ้ากลับด้าน thesis: backlog อาจเป็นภาระมากกว่าสินทรัพย์ หากสัญญา fixed-price ถูก lock ไว้ต่ำกว่าต้นทุนจริงและทุก delivery เพิ่ม cash แต่ไม่เพิ่ม economic profit (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li>Permanent capital loss เกิดได้จาก quality failure ครั้งใหญ่, customer cancellations, supplier failure หรือหนี้/การเพิ่มทุนก่อน turnaround เสร็จ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Bear floor:</b> ยังไม่คำนวณ; fragile assumptions คือ production rate เพิ่มได้โดยไม่เกิด rework และ 777X ไม่สร้าง loss เพิ่ม (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>10. Portfolio Strategy</h2>
+<li>ไม่ออก buy/sell/hold recommendation และไม่กำหนด allocation/DCA จนกว่าจะได้ price-to-normalized-FCF, net debt และ diluted share count ที่ตรวจสอบครบ (source: work/BA_full_data.json; 2026-09-15)</li>
+<li>หากอยู่ใน watchlist ควรติดตาม production/delivery, customer deposits, OCF, debt reduction, quality escapes และ FAA approvals เป็นชุดเดียว ไม่ใช่ดูยอดส่งมอบอย่างเดียว (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<li><b>Kill conditions:</b> quality event หรือ FAA action ที่ทำให้ rate ลดซ้ำ; reach-forward loss เพิ่มหลายงวด; OCF ไม่ฟื้นแม้ delivery เพิ่ม; หรือหนี้/การเพิ่มทุนกลายเป็นแหล่งเงินหลักของธุรกิจ (source: sources/BA/10-k-2026.md; 2026-09-15)</li>
+<h2>11. Fact / Interpretation / Judgment Map</h2>
+<li><b>Fact:</b> 2025 gross profit $4.289bn, operating income $4.281bn, net income $2.235bn; 2024 net loss $11.817bn; Yahoo price $210.27 และ 52-week range $179.12–$252.15 (source: work/BA_full_data.json; fetched 2026-09-15)</li>
+<li><b>Fact:</b> 10-K ระบุความเสี่ยงจาก FAA, fixed-price contracts, supplier, labor strikes และ 777X reach-forward loss $4.9bn ใน 2025 (source: sources/BA/10-k-2026.md; filed 2026-01-30)</li>
+<li><b>Interpretation:</b> เป็น recovery asset ที่ operating leverage สูง แต่ reported profit ยังไม่ใช่หลักฐานของ durable economics (source: SEC 10-K/Companyfacts; 2026-09-15)</li>
+<li><b>Judgment:</b> ก่อนถือควรตอบให้ได้ว่า cash flow จะฟื้นจาก delivery ใด, margin ต่อเครื่องดีขึ้นจริงหรือเพียง accounting timing, และ balance sheet รับ downside ได้กี่ปี (source: research judgment; 2026-09-15)</li>
+<h2>12. What to Verify Next</h2>
+<li>Q2/Q3 earnings release และ transcript ล่าสุดจาก Boeing IR มี guidance อะไรที่ยืนยัน rate และ cash flow ได้จริง?</li>
+<li>Current diluted shares, gross debt, cash และ FCF yield ที่คำนวณจาก filing ล่าสุดเป็นเท่าไร?</li>
+<li>737/787 delivery quality และ rework trend ดีขึ้นต่อเนื่องหรือไม่?</li>
+<li>777X certification schedule และ total remaining program loss มีการเปลี่ยนอย่างไร?</li>
+</div></body></html>

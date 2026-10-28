@@ -19,6 +19,11 @@ test('watchlist distinguishes unconfirmed image entries from confirmed ones',asy
  assert.match(s,/e\.status==='unconfirmed'\?'รอตรวจสอบ'/);
  assert.match(s,/filter\(e=>e\.status!=='unconfirmed'\)/);
 });
+test('public portfolio calendar excludes Earnings Whispers-only screenshot dates',async()=>{
+ const fs=await import('node:fs');const data=JSON.parse(fs.readFileSync(new URL('../public/portfolio-earnings-calendar.json',import.meta.url),'utf8'));
+ assert.ok(data.events.every(e=>e.sourceKind!=='user-image'&&e.sourceUrl&&e.verifiedAt&&!/earningswhispers/i.test(e.source)));
+ for(const t of ['AMZN','PLTR','NVDA'])assert.ok(!data.events.some(e=>e.ticker===t));
+});
 test('rejects unsourced, invalid, duplicate, fabricated, or invalid-status records',()=>{
  const e={ticker:'MSFT',eventDate:'2026-10-29',status:'confirmed',source:'Microsoft IR',sourceUrl:'https://microsoft.com/',verifiedAt:'2026-10-29',session:'after'};
  assert.equal(validateEarnings([e,e]).length,1);

@@ -33,41 +33,31 @@
       "ticker": "GOOGL",
       "eventDate": "2026-10-28",
       "period": "Q3 2026",
-      "status": "unconfirmed",
+      "status": "reported",
       "session": "unknown",
-      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
-      "sourceKind": "user-image",
-      "verifiedAt": "2026-10-07"
+      "source": "Alphabet SEC Form 8-K / Exhibit 99.1",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm",
+      "verifiedAt": "2026-10-29"
     },
     {
       "ticker": "MSFT",
       "eventDate": "2026-10-28",
       "period": "Q1 FY2027",
-      "status": "unconfirmed",
+      "status": "reported",
       "session": "unknown",
-      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
-      "sourceKind": "user-image",
-      "verifiedAt": "2026-10-07"
-    },
-    {
-      "ticker": "AMZN",
-      "eventDate": "2026-10-29",
-      "period": "Q3 2026",
-      "status": "unconfirmed",
-      "session": "unknown",
-      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
-      "sourceKind": "user-image",
-      "verifiedAt": "2026-10-07"
+      "source": "Microsoft SEC Form 8-K",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312526436122/msft-20261028.htm",
+      "verifiedAt": "2026-10-29"
     },
     {
       "ticker": "LLY",
       "eventDate": "2026-10-29",
       "period": "Q3 2026",
-      "status": "unconfirmed",
+      "status": "confirmed",
       "session": "unknown",
-      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
-      "sourceKind": "user-image",
-      "verifiedAt": "2026-10-07"
+      "source": "Eli Lilly Investor Relations — Q3 2026 earnings-call event",
+      "sourceUrl": "https://investor.lilly.com/events/event-details/q3-2026-earnings-call",
+      "verifiedAt": "2026-10-29"
     },
     {
       "ticker": "META",
@@ -75,7 +65,7 @@
       "period": "Q3 2026",
       "status": "reported",
       "session": "unknown",
-      "source": "Meta — SEC Form 8-K (ภาพเดิมระบุ 28 ต.ค. แต่ไม่ตรงกับผลจริง)",
+      "source": "Meta SEC Form 8-K",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066700/meta-20261019.htm",
       "verifiedAt": "2026-10-29"
     },
@@ -85,10 +75,10 @@
       "period": "Q3 2026",
       "status": "reported",
       "session": "unknown",
-      "source": "ASML — SEC ผลประกอบการ",
+      "source": "ASML SEC release",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/937966/000162828026065813/pressreleasefinancialresul.htm",
       "verifiedAt": "2026-10-29"
     }
   ],
-  "note": "Curated reported or company-announced dates only; sources and checked dates required. An absent ticker does not mean no earnings."
+  "note": "Only company- or SEC-announced dates are shown publicly. Third-party calendar dates without independent company confirmation remain private; an absent ticker does not mean no earnings."
 }

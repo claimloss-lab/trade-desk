@@ -1,10 +1,10 @@
-import {eventDay,eventTime,moveDate,risk} from './calendar-model.mjs';
+import {eventDay,eventTime,moveDate} from './calendar-model.mjs';
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shift = (s,n) => {const d=new Date(s+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 const today = () => eventDay({timePrecision:'datetime',timeUtc:new Date().toISOString()},zone);
 const label = (d,options={day:'numeric',month:'short',year:'numeric'}) => new Intl.DateTimeFormat('th-TH',{timeZone:'UTC',...options}).format(new Date(d+'T12:00:00Z'));
-let zone='Asia/Bangkok', view=matchMedia('(max-width: 600px)').matches?'agenda':'month', anchor=today(), selected=anchor, events=[], available=false, requestId=0, loading=false, errors=[];
+let zone='Asia/Bangkok', view=matchMedia('(max-width: 600px)').matches?'agenda':'month', anchor=today(), selected=anchor, events=[], available=false, fedAvailable=false, requestId=0, loading=false, errors=[];
 function visibleDays(){
   const base=view==='month'?anchor.slice(0,7)+'-01':anchor;
   const weekday=new Date(base+'T00:00:00Z').getUTCDay();
@@ -13,6 +13,7 @@ function visibleDays(){
 }
 function safeUrl(value){try{const u=new URL(value);return u.protocol==='https:'?u.href:null}catch{return null}}
 function explanation(title) {
+  if (/fomc/i.test(title)) return 'วันสุดท้ายของการประชุม Fed; นโยบายดอกเบี้ยมีผลต่ออัตราผลตอบแทนและมูลค่าหุ้น โปรดตรวจเวลาและผลประชุมจาก Fed';
   if (/gross domestic product/i.test(title)) return 'GDP สะท้อนการเติบโตของเศรษฐกิจ และอาจส่งผลต่อมุมมองดอกเบี้ย';
   if (/personal income and outlays/i.test(title)) return 'รายงานรายได้และการใช้จ่ายส่วนบุคคล รวมตัววัดเงินเฟ้อ PCE ที่ Fed ติดตาม';
   return 'ตรวจรายละเอียดและความสำคัญจากหน่วยงานต้นทาง';
@@ -26,19 +27,19 @@ function render(){
   const days=visibleDays(), impact=$('impact').value, search=$('search').value.trim().toLowerCase();
   $('range-label').textContent=view==='month'?label(anchor,{month:'long',year:'numeric'}):`${label(days[0],{day:'numeric',month:'short'})} – ${label(days[6])}`;
   $('calendar').setAttribute('aria-busy',String(loading));
-  $('source-status').textContent=loading?'กำลังโหลด…':available?'BEA · บางส่วน':'ไม่พร้อม / ไม่ครบ';
+  $('source-status').textContent=loading?'กำลังโหลด…':available?(fedAvailable?'BEA + Fed · บางส่วน':'BEA · บางส่วน'):fedAvailable?'Fed · บางส่วน':'ไม่พร้อม / ไม่ครบ';
   $('warnings').textContent=errors.join(' · ');
   const dayEvents=d=>events.filter(e=>eventDay(e,zone)===d);
   const filtered=d=>dayEvents(d).filter(e=>(impact==='all'||e.impact===impact)&&String(e.title||'').toLowerCase().includes(search));
-  const score=d=>{const r=risk(dayEvents(d),available);return r.score===null?'ไม่ทราบ':`${r.score} · ไม่ครบ`};
+
   const empty='ไม่พบรายการที่ตรงตัวกรองจากข้อมูลที่มี — ยังอาจมีเหตุการณ์อื่น';
   if(view==='month'){
-    $('calendar').innerHTML=`<div class="month-grid">${['จ','อ','พ','พฤ','ศ','ส','อา'].map(d=>`<div class="weekday">${d}</div>`).join('')}${days.map(d=>{const list=filtered(d);return `<button class="day-cell ${d===selected?'selected':''} ${d.slice(0,7)!==anchor.slice(0,7)?'muted':''}" data-day="${d}" aria-pressed="${d===selected}" aria-label="${esc(label(d))} · คะแนน ${esc(score(d))} · ${list.length} รายการที่ตรงตัวกรอง"><span class="date">${Number(d.slice(-2))}${d===today()?' · วันนี้':''}</span><span class="meta">คะแนน ${esc(score(d))}</span>${list.slice(0,2).map(e=>`<span class="event-preview">${esc(e.title)}</span>`).join('')}${list.length>2?`<span class="meta">+${list.length-2} รายการ</span>`:''}</button>`}).join('')}</div>`;
+    $('calendar').innerHTML=`<div class="month-grid">${['จ','อ','พ','พฤ','ศ','ส','อา'].map(d=>`<div class="weekday">${d}</div>`).join('')}${days.map(d=>{const list=filtered(d);return `<button class="day-cell ${d===selected?'selected':''} ${d.slice(0,7)!==anchor.slice(0,7)?'muted':''}" data-day="${d}" aria-pressed="${d===selected}" aria-label="${esc(label(d))} · ${list.length} รายการที่ตรงตัวกรอง"><span class="date">${Number(d.slice(-2))}${d===today()?' · วันนี้':''}</span>${list.slice(0,2).map(e=>`<span class="event-preview">${esc(e.title)}</span>`).join('')}${list.length>2?`<span class="meta">+${list.length-2} รายการ</span>`:''}</button>`}).join('')}</div>`;
   } else {
-    $('calendar').innerHTML=days.map(d=>{const list=filtered(d);return `<section class="list-day"><button class="day-select" data-day="${d}" aria-pressed="${d===selected}">${esc(label(d,{weekday:'long',day:'numeric',month:'short'}))} · คะแนน ${esc(score(d))}</button>${list.length?`<ul class="list-events">${list.map(e=>`<li>${eventMarkup(e)}</li>`).join('')}</ul>`:`<div class="empty">${empty}</div>`}</section>`}).join('');
+    $('calendar').innerHTML=days.map(d=>{const list=filtered(d);return `<section class="list-day"><button class="day-select" data-day="${d}" aria-pressed="${d===selected}">${esc(label(d,{weekday:'long',day:'numeric',month:'short'}))}</button>${list.length?`<ul class="list-events">${list.map(e=>`<li>${eventMarkup(e)}</li>`).join('')}</ul>`:`<div class="empty">${empty}</div>`}</section>`}).join('');
   }
   const chosen=filtered(selected);
-  $('detail').innerHTML=`<div class="detail-date">${esc(label(selected,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</div><p class="meta">คะแนนจากข้อมูลบางส่วน: ${esc(score(selected))} · ไม่รวม BLS / Fed / งบ</p>${chosen.length?`<ul class="detail-events">${chosen.map(e=>`<li>${eventMarkup(e)}</li>`).join('')}</ul>`:`<p class="empty">${empty}</p>`}`;
+  $('detail').innerHTML=`<div class="detail-date">${esc(label(selected,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</div>${chosen.length?`<ul class="detail-events">${chosen.map(e=>`<li>${eventMarkup(e)}</li>`).join('')}</ul>`:`<p class="empty">${empty}</p>`}`;
 }
 async function load(){
   const id=++requestId; loading=true; available=false; events=[];errors=[];render();
@@ -50,9 +51,11 @@ async function load(){
     const updated=ok[0]?.data.generatedAt;
     $('updated').textContent=updated && Number.isFinite(Date.parse(updated)) ? `ดึงข้อมูล ${new Intl.DateTimeFormat('th-TH',{timeZone:zone,dateStyle:'short',timeStyle:'short'}).format(new Date(updated))}` : 'ไม่ทราบเวลาอัปเดต';
     available=bad.length===0;
+    fedAvailable=ok.length>0 && ok.every(x=>x.data.sources.fed?.available);
     events=[...new Map(ok.flatMap(x=>x.data.events).filter(e=>e.type==='economic' && e.eventDate && (e.timePrecision==='date'||(e.timePrecision==='datetime'&&e.timeUtc&&Number.isFinite(Date.parse(e.timeUtc))))).map(e=>[e.id,e])).values()];
-    if(bad.length)errors.push('โหลดข้อมูลบางช่วงไม่สำเร็จ — คะแนนไม่ทราบ และรายการอาจขาดหาย');
+    if(bad.length)errors.push('โหลดข้อมูลบางช่วงไม่สำเร็จ — รายการอาจขาดหาย');
     if(ok.some(x=>x.data.sources.economic.error)) { available=false; errors.push('ข้อมูล BEA บางรายการอ่านไม่ได้ — ผลอาจไม่ครบ'); }
+    if(ok.some(x=>!x.data.sources.fed?.available)) errors.push('โหลดตารางประชุม Fed ไม่สำเร็จ — วันประชุมอาจขาดหาย');
   } finally {if(id===requestId){loading=false;render()}}
 }
 async function loadWatchlist(){try{const r=await fetch('/portfolio-data.json',{cache:'no-store'});if(!r.ok)throw Error();const data=await r.json();if(!Array.isArray(data.portfolios))throw Error();const tickers=[...new Set(data.portfolios.flatMap(p=>(p.stocks||[]).map(s=>p.type==='realtime_dr'?s.parentTicker:p.type==='realtime_us'?s.ticker:null)).filter(Boolean))].sort();$('watchlist').textContent=tickers.length?`ติดตาม ${tickers.length} หุ้น: ${tickers.join(', ')}`:'ไม่พบ ticker ที่รองรับในข้อมูลพอร์ต';}catch{$('watchlist').textContent='โหลดข้อมูลพอร์ตไม่ได้ จึงไม่สามารถแสดงหุ้นที่ติดตาม';}}

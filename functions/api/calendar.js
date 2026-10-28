@@ -1,3 +1,4 @@
+import {parseFomc,FOMC_URL} from './fomc.mjs';
 // BEA's machine-readable release schedule. Exact times are returned as UTC;
 // eventDate is the UTC date, not a timezone-local grouping key.
 const BEA_URL = 'https://apps.bea.gov/API/signup/release_dates.json';
@@ -72,5 +73,18 @@ export async function onRequestGet({ request }) {
     body.sources.economic.error = `BEA request failed: ${String(error.message || error)}`;
     body.warnings.push('Economic data unavailable.');
   }
-  return Response.json(body, { headers: { 'Cache-Control': body.sources.economic.error ? 'no-store' : 'public, max-age=300', 'X-Content-Type-Options': 'nosniff' } });
+  body.sources.fed = {available:false,provider:'Federal Reserve',error:null};
+  try {
+    const response = await fetch(FOMC_URL,{headers:{Accept:'text/html'},signal:AbortSignal.timeout(12000)});
+    if(!response.ok) throw Error(`Fed HTTP ${response.status}`);
+    const fed = parseFomc(await response.text());
+    const end = new Date(startMs + days * DAY).toISOString().slice(0,10);
+    body.events.push(...fed.filter(e=>e.eventDate>=start && e.eventDate<end));
+    body.sources.fed.available=true;
+    body.events.sort((a,b)=>a.eventDate.localeCompare(b.eventDate)||(a.timeUtc||'').localeCompare(b.timeUtc||''));
+  } catch(error) {
+    body.sources.fed.error=String(error.message||error);
+    body.warnings.push('Fed meeting schedule unavailable.');
+  }
+  return Response.json(body, { headers: { 'Cache-Control': (body.sources.economic.error || body.sources.fed.error) ? 'no-store' : 'public, max-age=300', 'X-Content-Type-Options': 'nosniff' } });
 }

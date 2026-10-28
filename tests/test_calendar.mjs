@@ -35,7 +35,7 @@ test('handles metadata, offsets, date-only releases, duplicates and unknown titl
 });
 
 test('retries transient failures and exposes failure without inventing events', async () => {
- let calls=0; globalThis.fetch=async()=>{calls++; return new Response('',{status:503})};
+ let calls=0; globalThis.fetch=async url=>{if(String(url).includes('bea.gov')) calls++; return new Response('',{status:503})};
  const res=await call('start=2026-01-01&days=42'); const d=await res.json();
  assert.equal(calls,2); assert.equal(res.status,200); assert.equal(d.sources.economic.available,false); assert.ok(d.sources.economic.error); assert.deepEqual(d.events,[]); assert.ok(d.warnings.length); assert.match(res.headers.get('cache-control'),/no-store/);
 });

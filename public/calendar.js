@@ -92,7 +92,7 @@ async function loadWatchlist(){
   portfolioSymbols=new Set(data.portfolios.flatMap(p=>['realtime_dr','realtime_us'].includes(p.type)?(p.stocks||[]).map(normalizeHolding):[]).filter(Boolean));
   earnings=validateEarnings(curated.events).filter(e=>portfolioSymbols.has(e.ticker)).map(e=>({...e,type:'earnings',title:`${e.ticker} · งบ`}));
   const usToday=eventDay({timePrecision:'datetime',timeUtc:new Date().toISOString()},'America/New_York');
-  const upcoming=earnings.filter(e=>e.eventDate>=usToday).sort((a,b)=>a.eventDate.localeCompare(b.eventDate));
+  const upcoming=earnings.filter(e=>e.eventDate>=usToday&&e.status!=='reported').sort((a,b)=>a.eventDate.localeCompare(b.eventDate));
   const covered=new Set(upcoming.filter(e=>e.status!=='unconfirmed').map(e=>e.ticker));
   const missing=(Array.isArray(curated.monitored)?curated.monitored:[]).filter(t=>portfolioSymbols.has(t)&&!covered.has(t));
   $('watchlist').textContent=(upcoming.length?`วันงบที่ตรวจพบ: ${upcoming.map(e=>`${e.ticker} ${e.eventDate} (${e.status==='unconfirmed'?'รอตรวจสอบ':'บริษัทยืนยัน'})`).join(' · ')}`:'ยังไม่พบวันงบที่ยืนยันในข้อมูลที่ตรวจ')+(missing.length?` | ยังไม่ยืนยัน: ${missing.join(', ')}`:'')+` · ฐานข้อมูลปรับล่าสุด ${curated.updatedAt||'ไม่ระบุ'} (ดูวันตรวจรายรายการ)`;

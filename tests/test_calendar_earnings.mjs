@@ -19,6 +19,10 @@ test('watchlist distinguishes unconfirmed image entries from confirmed ones',asy
  assert.match(s,/e\.status==='unconfirmed'\?'รอตรวจสอบ'/);
  assert.match(s,/filter\(e=>e\.status!=='unconfirmed'\)/);
 });
+test('reported earnings do not inflate the upcoming portfolio count',async()=>{
+ const fs=await import('node:fs');const s=fs.readFileSync(new URL('../public/calendar.js',import.meta.url),'utf8');
+ assert.match(s,/earnings\.filter\(e=>e\.eventDate>=usToday&&e\.status!==['"]reported['"]\)/);
+});
 test('public portfolio calendar excludes Earnings Whispers-only screenshot dates',async()=>{
  const fs=await import('node:fs');const data=JSON.parse(fs.readFileSync(new URL('../public/portfolio-earnings-calendar.json',import.meta.url),'utf8'));
  assert.ok(data.events.every(e=>e.sourceKind!=='user-image'&&e.sourceUrl&&e.verifiedAt&&!/earningswhispers/i.test(e.source)));

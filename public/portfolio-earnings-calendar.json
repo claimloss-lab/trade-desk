@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-29",
+  "monitored": ["AMZN", "ASML", "AVGO", "CRWD", "GOOGL", "LLY", "MSFT", "NVDA", "PANW", "PLTR", "SNOW", "MRVL", "SHOP", "META", "ORCL"],
+  "events": [
+    {
+      "ticker": "SHOP",
+      "eventDate": "2026-11-03",
+      "period": "Q3 2026",
+      "status": "confirmed",
+      "session": "before",
+      "source": "Shopify Investor Relations",
+      "sourceUrl": "https://www.shopify.com/investors/press-releases/shopify-announce-third-quarter-2026-financial-results",
+      "verifiedAt": "2026-10-29"
+    }
+  ],
+  "note": "Curated reported or company-announced dates only; sources and checked dates required. An absent ticker does not mean no earnings."
+}

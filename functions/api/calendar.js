@@ -1,4 +1,5 @@
 import {parseFomc,FOMC_URL} from './fomc.mjs';
+import {parseCensus,censusUrl} from './census.mjs';
 // BEA's machine-readable release schedule. Exact times are returned as UTC;
 // eventDate is the UTC date, not a timezone-local grouping key.
 const BEA_URL = 'https://apps.bea.gov/API/signup/release_dates.json';
@@ -86,5 +87,23 @@ export async function onRequestGet({ request }) {
     body.sources.fed.error=String(error.message||error);
     body.warnings.push('Fed meeting schedule unavailable.');
   }
-  return Response.json(body, { headers: { 'Cache-Control': (body.sources.economic.error || body.sources.fed.error) ? 'no-store' : 'public, max-age=300', 'X-Content-Type-Options': 'nosniff' } });
+  const end = new Date(startMs + days * DAY).toISOString().slice(0,10);
+  body.sources.census={available:true,provider:'US Census Bureau',error:null};
+  const years=[...new Set([Number(start.slice(0,4)),Number(new Date(startMs+(days-1)*DAY).getUTCFullYear())])];
+  for(const year of years){
+    let fetched=false;
+    for(const url of [censusUrl(year),'https://www.census.gov/economic-indicators/calendar-listview.html']){
+      try{
+        const r=await fetch(url,{headers:{Accept:'text/html'},signal:AbortSignal.timeout(12000)});
+        if(!r.ok)throw Error(`Census HTTP ${r.status}`);
+        const entries=parseCensus(await r.text(),year);
+        body.events.push(...entries.filter(e=>e.eventDate>=start && e.eventDate<end).map(e=>({...e,sourceUrl:url})));
+        fetched=true;break;
+      }catch(error){body.sources.census.error=String(error.message||error)}
+    }
+    if(!fetched){body.sources.census.available=false;body.warnings.push(`Census schedule unavailable for ${year}.`)}
+  }
+  if(body.sources.census.available)body.sources.census.error=null;
+  body.events.sort((a,b)=>a.eventDate.localeCompare(b.eventDate)||(a.timeUtc||'').localeCompare(b.timeUtc||''));
+  return Response.json(body, { headers: { 'Cache-Control': (body.sources.economic.error || body.sources.fed.error || body.sources.census.error) ? 'no-store' : 'public, max-age=300', 'X-Content-Type-Options': 'nosniff' } });
 }

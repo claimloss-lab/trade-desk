@@ -93,9 +93,9 @@ async function loadWatchlist(){
   earnings=validateEarnings(curated.events).filter(e=>portfolioSymbols.has(e.ticker)).map(e=>({...e,type:'earnings',title:`${e.ticker} · งบ`}));
   const usToday=eventDay({timePrecision:'datetime',timeUtc:new Date().toISOString()},'America/New_York');
   const upcoming=earnings.filter(e=>e.eventDate>=usToday).sort((a,b)=>a.eventDate.localeCompare(b.eventDate));
-  const covered=new Set(upcoming.map(e=>e.ticker));
+  const covered=new Set(upcoming.filter(e=>e.status!=='unconfirmed').map(e=>e.ticker));
   const missing=(Array.isArray(curated.monitored)?curated.monitored:[]).filter(t=>portfolioSymbols.has(t)&&!covered.has(t));
-  $('watchlist').textContent=(upcoming.length?`วันงบที่ตรวจพบ: ${upcoming.map(e=>`${e.ticker} ${e.eventDate}`).join(' · ')}`:'ยังไม่พบวันงบที่ยืนยันในข้อมูลที่ตรวจ')+(missing.length?` | ยังไม่ยืนยัน: ${missing.join(', ')}`:'')+` · ตรวจล่าสุด ${curated.updatedAt||'ไม่ระบุ'}`;
+  $('watchlist').textContent=(upcoming.length?`วันงบที่ตรวจพบ: ${upcoming.map(e=>`${e.ticker} ${e.eventDate} (${e.status==='unconfirmed'?'รอตรวจสอบ':'บริษัทยืนยัน'})`).join(' · ')}`:'ยังไม่พบวันงบที่ยืนยันในข้อมูลที่ตรวจ')+(missing.length?` | ยังไม่ยืนยัน: ${missing.join(', ')}`:'')+` · ฐานข้อมูลปรับล่าสุด ${curated.updatedAt||'ไม่ระบุ'} (ดูวันตรวจรายรายการ)`;
   $('earnings-status').textContent=`ตรวจพบ ${upcoming.length} รายการในพอร์ต · ไม่ครบทุกบริษัท`;
  }catch{if(id!==watchRequestId)return;portfolioSymbols=null;earnings=[];$('watchlist').textContent='โหลดข้อมูลพอร์ตหรือวันงบไม่ได้ — ไม่ได้หมายความว่าไม่มีงบ';$('earnings-status').textContent='โหลดข้อมูลวันงบไม่ได้';}
  render();

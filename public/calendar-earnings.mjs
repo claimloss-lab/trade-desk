@@ -23,7 +23,8 @@ export function validateEarnings(rows) {
  const unique=new Map();
  for(const e of rows){
   if(!e || !/^[A-Z][A-Z.-]{0,9}$/.test(e.ticker||'') || !dateValid(e.eventDate) || !dateValid(e.verifiedAt) || !['confirmed','unconfirmed','reported'].includes(e.status) || !String(e.source||'').trim() || !['before','after','during','unknown'].includes(e.session)) continue;
-  try{if(new URL(e.sourceUrl).protocol!=='https:')continue;}catch{continue;}
+  if(e.sourceKind==='user-image') {if(e.status!=='unconfirmed'||e.sourceUrl)continue;}
+  else {try{if(new URL(e.sourceUrl).protocol!=='https:')continue;}catch{continue;}}
   unique.set(`${e.ticker}:${e.eventDate}`,e);
  }
  return [...unique.values()];

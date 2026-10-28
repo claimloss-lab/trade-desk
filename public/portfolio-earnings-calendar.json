@@ -1,7 +1,23 @@
 {
   "schemaVersion": 1,
   "updatedAt": "2026-10-29",
-  "monitored": ["AMZN", "ASML", "AVGO", "CRWD", "GOOGL", "LLY", "MSFT", "NVDA", "PANW", "PLTR", "SNOW", "MRVL", "SHOP", "META", "ORCL"],
+  "monitored": [
+    "AMZN",
+    "ASML",
+    "AVGO",
+    "CRWD",
+    "GOOGL",
+    "LLY",
+    "MSFT",
+    "NVDA",
+    "PANW",
+    "PLTR",
+    "SNOW",
+    "MRVL",
+    "SHOP",
+    "META",
+    "ORCL"
+  ],
   "events": [
     {
       "ticker": "SHOP",
@@ -11,6 +27,66 @@
       "session": "before",
       "source": "Shopify Investor Relations",
       "sourceUrl": "https://www.shopify.com/investors/press-releases/shopify-announce-third-quarter-2026-financial-results",
+      "verifiedAt": "2026-10-29"
+    },
+    {
+      "ticker": "GOOGL",
+      "eventDate": "2026-10-28",
+      "period": "Q3 2026",
+      "status": "unconfirmed",
+      "session": "unknown",
+      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
+      "sourceKind": "user-image",
+      "verifiedAt": "2026-10-07"
+    },
+    {
+      "ticker": "MSFT",
+      "eventDate": "2026-10-28",
+      "period": "Q1 FY2027",
+      "status": "unconfirmed",
+      "session": "unknown",
+      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
+      "sourceKind": "user-image",
+      "verifiedAt": "2026-10-07"
+    },
+    {
+      "ticker": "AMZN",
+      "eventDate": "2026-10-29",
+      "period": "Q3 2026",
+      "status": "unconfirmed",
+      "session": "unknown",
+      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
+      "sourceKind": "user-image",
+      "verifiedAt": "2026-10-07"
+    },
+    {
+      "ticker": "LLY",
+      "eventDate": "2026-10-29",
+      "period": "Q3 2026",
+      "status": "unconfirmed",
+      "session": "unknown",
+      "source": "ภาพที่ผู้ใช้ส่ง 7 ต.ค. · Wall Street Horizon (กำหนดการเดิม อาจเปลี่ยน)",
+      "sourceKind": "user-image",
+      "verifiedAt": "2026-10-07"
+    },
+    {
+      "ticker": "META",
+      "eventDate": "2026-10-21",
+      "period": "Q3 2026",
+      "status": "reported",
+      "session": "unknown",
+      "source": "Meta — SEC Form 8-K (ภาพเดิมระบุ 28 ต.ค. แต่ไม่ตรงกับผลจริง)",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066700/meta-20261019.htm",
+      "verifiedAt": "2026-10-29"
+    },
+    {
+      "ticker": "ASML",
+      "eventDate": "2026-10-14",
+      "period": "Q3 2026",
+      "status": "reported",
+      "session": "unknown",
+      "source": "ASML — SEC ผลประกอบการ",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/937966/000162828026065813/pressreleasefinancialresul.htm",
       "verifiedAt": "2026-10-29"
     }
   ],

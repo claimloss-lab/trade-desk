@@ -8,6 +8,17 @@ test('uses verified parent or underlying instead of DR symbol; excludes funds',(
  assert.equal(normalizeHolding({ticker:'QQQM19',parentTicker:'QQQM',assetClass:'ETF'}),null);
  assert.equal(normalizeHolding({ticker:'ZZZ80'}),null);
 });
+test('accepts user-supplied image as unconfirmed without inventing a URL, not confirmed',()=>{
+ const e={ticker:'MSFT',eventDate:'2026-10-28',status:'unconfirmed',source:'ภาพที่ผู้ใช้ส่ง · Wall Street Horizon',sourceKind:'user-image',verifiedAt:'2026-10-07',session:'unknown'};
+ assert.equal(validateEarnings([e]).length,1);
+ assert.equal(validateEarnings([{...e,status:'confirmed'}]).length,0);
+ assert.equal(validateEarnings([{...e,sourceKind:'other'}]).length,0);
+});
+test('watchlist distinguishes unconfirmed image entries from confirmed ones',async()=>{
+ const fs=await import('node:fs');const s=fs.readFileSync(new URL('../public/calendar.js',import.meta.url),'utf8');
+ assert.match(s,/e\.status==='unconfirmed'\?'รอตรวจสอบ'/);
+ assert.match(s,/filter\(e=>e\.status!=='unconfirmed'\)/);
+});
 test('rejects unsourced, invalid, duplicate, fabricated, or invalid-status records',()=>{
  const e={ticker:'MSFT',eventDate:'2026-10-29',status:'confirmed',source:'Microsoft IR',sourceUrl:'https://microsoft.com/',verifiedAt:'2026-10-29',session:'after'};
  assert.equal(validateEarnings([e,e]).length,1);

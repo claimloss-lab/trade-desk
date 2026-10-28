@@ -18,6 +18,8 @@ jobs:
           node-version: '22'
       - name: Check JavaScript test suite
         run: node --test tests/*.test.cjs
+      - name: Check market calendar suite
+        run: node --test tests/test_calendar.mjs tests/test_calendar_model.mjs
       - name: Validate UI assets and element bindings
         if: always()
         run: |

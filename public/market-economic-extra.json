@@ -2,6 +2,22 @@
   "updatedAt": "2026-10-29",
   "events": [
     {
+      "id": "fed-fomc-decision-2026-10-28",
+      "type": "economic",
+      "title": "FOMC ผลตัดสินดอกเบี้ย",
+      "eventDate": "2026-10-28",
+      "timeUtc": "2026-10-28T18:00:00Z",
+      "timePrecision": "datetime",
+      "impact": "high",
+      "source": "Federal Reserve — แถลงการณ์ผลประชุม",
+      "sourceUrl": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "verifiedAt": "2026-10-29",
+      "status": "reported",
+      "actual": "คง 3.75–4.00% · มติ 10–2 (2 เสนอขึ้น 0.25 จุดเปอร์เซ็นต์)",
+      "forecast": null,
+      "previous": null
+    },
+    {
       "id": "nyfed-employment-2026-11-06",
       "type": "economic",
       "title": "Employment Situation (NFP)",

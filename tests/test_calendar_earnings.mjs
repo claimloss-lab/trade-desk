@@ -26,7 +26,12 @@ test('reported earnings do not inflate the upcoming portfolio count',async()=>{
 test('public portfolio calendar excludes Earnings Whispers-only screenshot dates',async()=>{
  const fs=await import('node:fs');const data=JSON.parse(fs.readFileSync(new URL('../public/portfolio-earnings-calendar.json',import.meta.url),'utf8'));
  assert.ok(data.events.every(e=>e.sourceKind!=='user-image'&&e.sourceUrl&&e.verifiedAt&&!/earningswhispers/i.test(e.source)));
- for(const t of ['AMZN','PLTR','NVDA'])assert.ok(!data.events.some(e=>e.ticker===t));
+ for(const t of ['AMZN','PLTR'])assert.ok(!data.events.some(e=>e.ticker===t));
+ const nvda=data.events.find(e=>e.ticker==='NVDA');
+ assert.equal(nvda?.eventDate,'2026-11-17');
+ assert.equal(nvda?.status,'confirmed');
+ assert.equal(nvda?.session,'after');
+ assert.equal(nvda?.sourceUrl,'https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873');
 });
 test('rejects unsourced, invalid, duplicate, fabricated, or invalid-status records',()=>{
  const e={ticker:'MSFT',eventDate:'2026-10-29',status:'confirmed',source:'Microsoft IR',sourceUrl:'https://microsoft.com/',verifiedAt:'2026-10-29',session:'after'};

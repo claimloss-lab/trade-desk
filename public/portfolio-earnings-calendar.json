@@ -20,6 +20,16 @@
   ],
   "events": [
     {
+      "ticker": "NVDA",
+      "eventDate": "2026-11-17",
+      "period": "Q3 FY2027",
+      "status": "confirmed",
+      "session": "after",
+      "source": "NVIDIA Newsroom — financial results approximately 1:20 p.m. PT; conference call 2 p.m. PT",
+      "sourceUrl": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+      "verifiedAt": "2026-10-29"
+    },
+    {
       "ticker": "SHOP",
       "eventDate": "2026-11-03",
       "period": "Q3 2026",

@@ -48,6 +48,22 @@
       "actual": null,
       "forecast": null,
       "previous": null
+    },
+    {
+      "id": "nyfed-cpi-2026-12-10",
+      "type": "economic",
+      "title": "Consumer Price Index (CPI)",
+      "eventDate": "2026-12-10",
+      "timeUtc": "2026-12-10T13:30:00Z",
+      "timePrecision": "datetime",
+      "impact": "high",
+      "source": "Federal Reserve Bank of New York",
+      "sourceUrl": "https://www.newyorkfed.org/research/calendars/i-dec26.html",
+      "verifiedAt": "2026-10-29",
+      "status": "tentative",
+      "actual": null,
+      "forecast": null,
+      "previous": null
     }
   ]
 }

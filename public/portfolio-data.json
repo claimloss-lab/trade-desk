@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:36:23.935Z",
-  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:36",
+  "exportDate": "2026-10-30T03:37:41.817Z",
+  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:37",
   "portfolios": [
     {
       "id": "dr1",
@@ -3169,6 +3169,17 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "7 ต.ค. 69",
+      "_notified": true
+    },
+    {
+      "id": 1793331458814,
+      "ticker": "CPALL.BK",
+      "targetPrice": 44.25,
+      "qty": 100,
+      "note": "DCA_10/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "30 ต.ค. 69",
       "_notified": true
     }
   ],

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:32:13.314Z",
+  "exportDate": "2026-10-30T03:32:17.416Z",
   "exportDateTH": "30 ตุลาคม 2569 เวลา 10:32",
   "portfolios": [
     {
@@ -259,7 +259,7 @@
         },
         {
           "ticker": "META80",
-          "buyPrice": 2.7970879440885263,
+          "buyPrice": 2.84,
           "qty": 14100,
           "sector": "Tech",
           "underlying": "Meta",

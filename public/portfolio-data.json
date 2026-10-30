@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:37:41.817Z",
-  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:37",
+  "exportDate": "2026-10-30T03:38:10.034Z",
+  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:38",
   "portfolios": [
     {
       "id": "dr1",
@@ -3176,6 +3176,17 @@
       "ticker": "CPALL.BK",
       "targetPrice": 44.25,
       "qty": 100,
+      "note": "DCA_10/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "30 ต.ค. 69",
+      "_notified": true
+    },
+    {
+      "id": 1793331487030,
+      "ticker": "HMPRO.BK",
+      "targetPrice": 6.4,
+      "qty": 500,
       "note": "DCA_10/2026",
       "cond": "below",
       "status": "pending",

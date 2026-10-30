@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:31:56.571Z",
-  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:31",
+  "exportDate": "2026-10-30T03:32:13.314Z",
+  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:32",
   "portfolios": [
     {
       "id": "dr1",
@@ -260,7 +260,7 @@
         {
           "ticker": "META80",
           "buyPrice": 2.7970879440885263,
-          "qty": 17170,
+          "qty": 14100,
           "sector": "Tech",
           "underlying": "Meta",
           "id": 1790655268421,
@@ -646,6 +646,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1793331130306,
+      "ticker": "META80",
+      "type": "sell",
+      "date": "2026-10-30",
+      "price": 2.6,
+      "qty": 3070,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": -605.0599883517756,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1793331113567,
       "ticker": "META80",
@@ -6470,7 +6483,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 45,
-    "totalTransactions": 86,
-    "totalNetWorth": "฿1,819,397.43"
+    "totalTransactions": 87,
+    "totalNetWorth": "฿1,811,415.43"
   }
 }

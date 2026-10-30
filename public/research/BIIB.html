@@ -15,9 +15,9 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">BIIB</div>
-<div class="meta">Thesis · 2026-10-01</div>
+<div class="meta">Thesis · 2026-10-30</div>
 <h1>BIIB — Full Giggs-style Investment Memo</h1>
-<p>ข้อมูล ณ 2026-09-15; universe จาก pre-run ระบุว่า BIIB มี DR ซื้อขายใน SET. เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
+<p>ข้อมูล ณ 2026-10-28; universe จาก pre-run ระบุว่า BIIB มี DR ซื้อขายใน SET. เอกสารนี้เป็น research memo ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
 <h2>1. Investment Verdict</h2>
 <li><b>Rating:</b> ยังไม่จัดอันดับ — เป็น pipeline-plus-portfolio transition thesis ที่มีตัวเลขไตรมาสและ guidance รองรับบางส่วน แต่มี clinical, integration และ leverage risk สูง (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
 <li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณ fair value/entry/สัดส่วน เพราะไม่มี fully verified diluted shares, peer multiple และ scenario EPS base ที่สอดคล้องกันใน source cache; ราคาจาก Yahoo เป็น reference ไม่ใช่ target (source: work/BIIB_full_data.json; Yahoo Finance chart endpoint fetched 2026-09-15)</li>
@@ -51,10 +51,19 @@
 <li><b>Guidance:</b> บริษัทปรับ 2026 total revenue จาก mid-single-digit decrease เป็น mid-single-digit increase และ non-GAAP diluted EPS เป็น $12–13; คาด Apellis จะ accretive ต่อ non-GAAP diluted EPS ใน 2027 และ synergies อย่างน้อย $250m run-rate สิ้น 2027 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
 <li><b>Transcript status:</b> มี Q2 2026 StockAnalysis transcript ใน cache และใช้เป็นแหล่งหลัก แต่ web re-verification รอบนี้ทำไม่ได้เพราะ retrieval service ตอบ insufficient balance/402; ตัวเลขจึงต้องถือเป็น cached third-party source ที่ยังมี caveat (source: sources/BIIB/q2-2026-call.md; StockAnalysis URL; checked 2026-09-15)</li>
 <li>Beat/miss เทียบ consensus: ไม่พบ consensus ที่ verify ได้จากแหล่งบังคับ จึงไม่สรุปว่า beat หรือ miss (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<h3>Earnings Update — 2026-10-28</h3>
+<li><b>Reported:</b> Q3 2026 revenue $2.804bn (+11% YoY), non-GAAP diluted EPS $2.62 และ GAAP diluted EPS $(0.14); GAAP/non-GAAP ถูกกดด้วย acquired IPR&amp;D, upfront และ milestone expense $284m. Growth portfolio อยู่ราว $1.3bn (+49% YoY); SYFOVRE และ EMPAVELI รวม $243m ในไตรมาสแรกเต็มไตรมาสหลังดีล Apellis (source: sources/BIIB/q3-2026-release.md; filed 2026-10-28; sources/BIIB/q3-2026-call.md)</li>
+<li><b>Reported:</b> SPINRAZA $461m (+23% YoY) ได้แรงจากการเปลี่ยนเป็น high-dose และ one-time transition doses; LEQEMBI in-market $202m (+67%); SYFOVRE $191m (+27%) และ EMPAVELI $52m. ฝั่งที่ต้องจับตาคือ VUMERITY $192m (-11%) จาก formulary dynamics และ SYFOVRE มี inventory build ราว $11m ที่คาดว่าจะ draw down ใน Q4 (source: sources/BIIB/q3-2026-call.md; 2026-10-28)</li>
+<li><b>Reported:</b> FCF Q3 $600m, cash $1.3bn และ net debt $6.4bn; บริษัทชำระ Apellis term loan เพิ่ม $400m ทำให้ชำระสะสม $600m และเหลือ $1.4bn ที่คาดว่าจะชำระภายในสิ้นปี 2027 (source: sources/BIIB/q3-2026-release.md; sources/BIIB/q3-2026-call.md; 2026-10-28)</li>
+<li><b>Guidance:</b> ยก low end ของ FY2026 non-GAAP diluted EPS จาก $12.00 เป็น $12.20 ขณะที่ high end คง $13.00; ยังคาดดีล Apellis accretive ต่อ non-GAAP diluted EPS ในปี 2027 และ synergies อย่างน้อย $250m run-rate สิ้นปี 2027 (source: sources/BIIB/q3-2026-release.md; sources/BIIB/q3-2026-call.md; 2026-10-28)</li>
+<li><b>Transcript:</b> พบ transcript Q3 2026 จาก StockAnalysis และใช้เป็นแหล่งหลัก; earnings release เป็น SEC 8-K Exhibit โดยตรง ไม่พบ consensus beat/miss ที่ตรวจสอบได้จากแหล่งบังคับ (source: sources/BIIB/q3-2026-call.md; sources/BIIB/q3-2026-release.md)</li>
 <h2>7. Valuation</h2>
 <li><b>Trailing/Forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG:</b> ไม่คำนวณครบ เพราะ market cap, diluted shares และ peer/historical multiple dataset ไม่ได้ถูกดึงแบบ verify ในรอบนี้ (source: work/BIIB_full_data.json; Yahoo/SEC retrieval 2026-09-15)</li>
 <li>ใช้ FY2025 net income $1.293bn หรือ 2026 guidance EPS $12–13 เป็น denominator เดี่ยว ๆ ไม่ได้ เพราะ Apellis financing, IPR&amp;D/milestones และ integration ทำให้ GAAP/non-GAAP ต่างกันมาก (source: sources/BIIB/q2-2026-call.md; work/BIIB_full_data.json; 2026-09-15)</li>
 <li><b>Scenario method:</b> ควร value ด้วย probability-weighted product revenue + normalized FCF แล้ว cross-check P/E/EV/FCF; target price, historical range และ peer valuation ยังไม่ระบุจนกว่าจะได้ inputs ครบ (source: research judgment; 2026-09-15)</li>
+<h3>Valuation / consensus snapshot — 2026-10-28</h3>
+<li><b>Market data:</b> ราคาปิดล่าสุดใน Yahoo chart $250.08 ณ 2026-10-28 13:30 UTC; 52-week range จาก daily chart $147.86–$253.84. Market cap, P/E และ EV/EBITDA แบบ verify จาก feed ที่ใช้รอบนี้: ไม่พบ (source: Yahoo Finance chart endpoint, fetched 2026-10-28)</li>
+<li><b>Consensus:</b> จำนวน analyst, rating distribution, average/median target และ brokerage-by-brokerage target/rating revisions หลัง Q3: ไม่พบข้อมูลที่ตรวจสอบได้จากแหล่งบังคับในรอบนี้ จึงไม่ใช้ consensus เป็นข้อเท็จจริงและไม่บอกว่า target unchanged (source: retrieval limitation; checked 2026-10-28)</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
 <li><b>Bull:</b> growth portfolio และ Apellis โตต่อ, IQLIK ขยาย access, SPINRAZA high-dose รักษา franchise, Phase III lupus/AMR/Dravet ให้ผลดี และหนี้ลดตามแผน; EPS/target/CAGR/probability ไม่คำนวณเพราะไม่มี share count/multiple ที่ verify (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
 <li><b>Base:</b> 2026 revenue กลับมาโตตาม guidance, Apellis synergies ค่อย ๆ ชดเชย financing cost, growth products offset legacy decline และ pipeline สำเร็จเพียงบางส่วน; target/CAGR/probability ไม่ระบุ (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
@@ -70,6 +79,7 @@
 <li>ไม่ออก buy/sell/hold recommendation และไม่กำหนด sizing/DCA เพราะยังไม่มี probability-weighted valuation ที่ตรวจสอบครบ (source: work/BIIB_full_data.json; 2026-09-15)</li>
 <li>หากอยู่ใน watchlist ให้แยก “reported growth” จาก “guidance” และ “pipeline option” ทุกไตรมาส; ดู FCF หลัง financing, net debt/EBITDA, patient persistence และ trial readout ไม่ใช่ headline revenue อย่างเดียว (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
 <li><b>Kill conditions:</b> growth portfolio หยุดโตและไม่ชดเชย legacy decline; FCF ไม่พอให้ net debt ลด; Apellis synergies ไม่เกิดตาม timeline; หรือ Phase III failure/safety signal ทำให้ pipeline replacement thesis เสีย (source: sources/BIIB/10-k-2026.md; sources/BIIB/q2-2026-call.md; 2026-09-15)</li>
+<li><b>Q3 monitoring update:</b> หยุดถือ thesis หาก growth portfolio โตจาก one-time SPINRAZA transition/inventory โดยไม่ต่อเนื่อง, net debt ไม่ลดตามแผน $1.4bn ที่เหลือภายในสิ้นปี 2027, หรือ Apellis ไม่รักษา operating neutrality/ไม่เดินไปสู่ synergies อย่างน้อย $250m run-rate สิ้นปี 2027 (source: sources/BIIB/q3-2026-call.md; 2026-10-28)</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
 <li><b>Fact:</b> FY2025 revenue $9.891bn, net income $1.293bn; Q2 2026 revenue $2.7bn, FCF $408m, net debt $6.8bn และ 2026 non-GAAP EPS guidance $12–13 (source: work/BIIB_full_data.json; sources/BIIB/q2-2026-call.md; fetched 2026-09-15)</li>
 <li><b>Fact:</b> Apellis adds SYFOVRE/EMPAVELI; management expects at least $250m run-rate synergies by end-2027 and EPS accretion in 2027 (source: sources/BIIB/q2-2026-call.md; 2026-09-15)</li>

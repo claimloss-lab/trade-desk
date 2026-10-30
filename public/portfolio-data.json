@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:38:10.034Z",
+  "exportDate": "2026-10-30T03:38:36.166Z",
   "exportDateTH": "30 ตุลาคม 2569 เวลา 10:38",
   "portfolios": [
     {
@@ -3187,6 +3187,17 @@
       "ticker": "HMPRO.BK",
       "targetPrice": 6.4,
       "qty": 500,
+      "note": "DCA_10/2026",
+      "cond": "below",
+      "status": "pending",
+      "addedDate": "30 ต.ค. 69",
+      "_notified": true
+    },
+    {
+      "id": 1793331513153,
+      "ticker": "MINT.BK",
+      "targetPrice": 20.5,
+      "qty": 200,
       "note": "DCA_10/2026",
       "cond": "below",
       "status": "pending",

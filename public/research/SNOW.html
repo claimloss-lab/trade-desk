@@ -15,7 +15,7 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">SNOW</div>
-<div class="meta">Thesis · 2026-10-31</div>
+<div class="meta">Thesis · 2026-11-02</div>
 <h1>SNOW — Snowflake | Full Thesis Memo</h1>
 <h2>Investment Verdict</h2>
 <p><b>คำถามการลงทุน:</b> Snowflake จะเปลี่ยนการใช้จ่ายแบบ consumption ของ data/AI ให้เป็นการเติบโตที่ยั่งยืนและ FCF ต่อหุ้นที่ดีขึ้นได้หรือไม่ โดยไม่ให้ต้นทุน cloud, SBC และ convertible notes กิน economics ของผู้ถือหุ้น?</p>
@@ -23,7 +23,7 @@
 <p><b>Judgment:</b> thesis ยังมีแกนที่น่าสนใจในฐานะ long-term data/AI platform แต่ความเสี่ยงหลักคือการพิสูจน์ per-share economics ไม่ใช่เพียงยอด adoption. นี่เป็น research thesis ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ.</p>
 <h3>1. Company snapshot</h3>
 <p>Snowflake ให้บริการแพลตฟอร์มข้อมูลบน public cloud สำหรับเก็บ ประมวลผล วิเคราะห์ และแชร์ข้อมูลระหว่างทีม/องค์กร ลูกค้าจ่ายหลักตามการใช้ compute, storage และ data transfer ผ่านโมเดล consumption-based. ลูกค้าหลักคือองค์กรขนาดใหญ่และหน่วยงานที่ต้องรวม data หลายแหล่ง ใช้ analytics/AI และต้องการ governance ข้าม cloud. รายได้หลักมาจาก product revenue; FY2026 product revenue อยู่ที่ $4.472B จาก total revenue $4.684B. (source: <code>sources/SNOW/10-k-fy2026.md</code>; <code>sources/SNOW/q2-fy2027-call.md</code>)</p>
-<h2>Business Model &amp; Revenue Engine</h2>
+<h3>2. Fundamentals signal &amp; revenue engine</h3>
 <p><b>THE CORE:</b> data platform ที่รวม storage, compute และ cloud services รองรับ Data Engineering, Analytics, Transactions และ AI/Applications บน AWS, Azure และ GCP รวม 53 regional deployments ณ FY2026. การเติบโตมาจากลูกค้าใหม่และการขยาย consumption ของลูกค้าเดิม. (source: <code>sources/SNOW/10-k-fy2026.md</code>)</p>
 <p><b>ลูกค้าจ่ายเพื่ออะไร:</b> การรวมข้อมูล ลด data silos, query/analytics, data sharing และ workload AI ที่อยู่ภายใต้ security/governance; ไม่ใช่แค่ license รายปีแบบคงที่. Capacity arrangements โดยทั่วไปมีอายุ 1–4 ปี แต่รายได้ที่รับรู้ขึ้นกับการใช้จริง. (source: <code>sources/SNOW/10-k-fy2026.md</code>)</p>
 <p><b>THE OPTION:</b> Snowflake Intelligence, Cortex Agents, CoCo/Cortex Code, CoWork, Snowflake Postgres และ Marketplace อาจเพิ่ม use cases และดึง workload ใหม่เข้ามา แต่บริษัทไม่ได้แยกรายได้หรือกำไร AI ที่ตรวจสอบได้เป็นบรรทัดเฉพาะ. Q2 management รายงาน CoCo มากกว่า 9,100 accounts และ CoWork 5,800 accounts; ตัวเลขนี้เป็น adoption ไม่ใช่ AI revenue. (source: <code>sources/SNOW/q2-fy2027-call.md</code>)</p>
@@ -59,7 +59,7 @@
 <li><b>Capital return:</b> FY2026 repurchase 4.9M shares มูลค่า $873.5M ที่ราคาเฉลี่ย $177.37; buyback ช่วยลด shares บางส่วน แต่ต้องดูคู่กับ SBC และการแปลง notes. (source: <code>sources/SNOW/10-k-fy2026.md</code>)</li>
 <li><b>New financing:</b> 0% convertible notes due 2029 $2.0B และ due 2031 $1.75B; estimated net proceeds $3.70B ก่อน option; conversion prices ประมาณ $500.38/$483.98 และ capped-call cap $820.30. ตัวเลือกซื้อ notes เพิ่มสูงสุด $300M/$250M ยังไม่ควรถือว่าใช้สิทธิแล้วโดยไม่มีหลักฐานใหม่. (source: <code>sources/SNOW/convertible-notes-2026-10-02.md</code>)</li>
 <li><b>Interpretation:</b> ไม่มีดอกเบี้ยปกติช่วยลด cash interest ระยะใกล้ แต่ senior obligations และ settlement แบบเงินสด/หุ้น/ผสมเพิ่มความซับซ้อนของ per-share economics. (source: <code>sources/SNOW/convertible-notes-2026-10-02.md</code>)</li>
-<h2>Latest Earnings</h2>
+<h3>3. Latest earnings</h3>
 <li><b>Reported — Q2 FY2027:</b> total revenue $1.55B โต 35% YoY; product revenue $1.4919B โต 37%; NRR 126%; RPO $9.00B โต 30%. (source: <code>sources/SNOW/q2-fy2027-call.md</code>; SEC earnings release, announced 2 ก.ย. 2026)</li>
 <li><b>Reported — customer quality:</b> ลูกค้าที่มี TTM product revenue เกิน $1M จำนวน 828 ราย และ Forbes Global 2000 customers 829 ราย; ตัวเลข customer count ไม่ใช่รายได้ที่รับรู้แล้ว. (source: <code>sources/SNOW/q2-fy2027-call.md</code>)</li>
 <li><b>Reported — profitability/cash:</b> GAAP operating loss $263.0M, non-GAAP operating income $237.0M, CFO $91.4M, FCF $83.8M และ adjusted FCF $92.3M. (source: <code>sources/SNOW/q2-fy2027-call.md</code>)</li>
@@ -100,4 +100,17 @@
 <li><b>31 ต.ค. 2026:</b> สร้าง Full Thesis Memo จากแหล่ง FY2026 10-K, Q2 FY2027 earnings/SEC release, SEC convertible-note filing และ market/analyst snapshot. เหตุผลของการสร้างคือ pre-run ระบุ <code>MISSING_BRIEFS</code> สำหรับ SNOW แม้มี brief รุ่นเก่า 6 sections อยู่แล้ว; จึงรักษาสาระเดิมที่ตรวจสอบได้และขยายเป็น 12-section memo แทนการลบประวัติแบบเงียบ ๆ.</li>
 <li>SEC/IR URLs ตอบกลับ HTTP 200 ในรอบนี้; StockAnalysis transcript/forecast ถูกใช้จาก cached source แต่ web re-verification ไม่สำเร็จเพราะโควตา upstream หมด. ตัวเลขที่สำคัญจึงอ้าง official SEC release/filing เมื่อมี และระบุ caveat สำหรับ third-party data.</li>
 <li>ไม่พบชุดข้อมูล 5 ปีเต็มในไฟล์ที่ cache ไว้; ไม่เติมปีที่ขาด. EV/EBITDA และ GAAP trailing P/E ไม่พบ/ใช้ไม่ได้ตาม source snapshot.</li>
+<h3>6. What to ask before owning it</h3>
+<p>1. ลูกค้าใช้ Snowflake มากขึ้นจาก workload ประจำที่ทำกำไรได้ หรือจาก workload AI ที่ contribution margin ต่ำกว่า?</p>
+<p>2. NRR, product gross margin และ GAAP operating loss เคลื่อนไปในทิศทางที่สอดคล้องกันหรือไม่?</p>
+<p>3. การออก convertible notes, SBC และ buybacks ส่งผลต่อ diluted shares และ FCF ต่อหุ้นอย่างไร?</p>
+<p>4. Snowflake บน OCI สร้างลูกค้า/consumption และผลลัพธ์ที่รายงานได้จริงเมื่อใด?</p>
+<h2>Thesis Update — 2026-11-02</h2>
+<p><b>เหตุผลที่ปรับ:</b> ข่าวผลิตภัณฑ์/ช่องทางลูกค้าใหม่จาก Oracle และ Snowflake วันที่ 27 ต.ค. 2026 เกี่ยวกับการให้บริการ Snowflake AI Data Cloud แบบ native first-party บน OCI ซึ่งยังไม่อยู่ใน memo ก่อนหน้า. (source: <code>sources/SNOW/ir-native-snowflake-on-oci-2026-10-27.md</code>)</p>
+<li><b>Reported / Fact:</b> ลูกค้าจะซื้อ จัดเตรียม และใช้ Snowflake บน OCI ผ่าน Oracle โดย Oracle จัดการราคา ส่วนลด และ billing; ลูกค้าใช้ Oracle Universal Credits ได้. ประกาศครอบคลุม integrations กับ Oracle Fusion Cloud Applications, NetSuite, Autonomous AI Database, MySQL HeatWave และ Oracle NoSQL, พร้อมกล่าวถึง governance/security และการลด egress costs. บริษัทไม่ได้เปิดเผยวัน GA, จำนวนลูกค้า, bookings, รายได้ หรือ margin ในประกาศนี้. (source: <code>sources/SNOW/ir-native-snowflake-on-oci-2026-10-27.md</code>)</li>
+<li><b>Guidance:</b> ไม่มีการเปลี่ยน guidance ทางการเงินในประกาศนี้; ตัวเลข FY2027 ที่บันทึกเดิมยังเป็น guidance จาก Q2 ไม่ใช่ Reported result. (source: <code>sources/SNOW/ir-native-snowflake-on-oci-2026-10-27.md</code>; <code>sources/SNOW/q2-fy2027-call.md</code>)</li>
+<li><b>Interpretation:</b> ช่องทางซื้อและ billing ผ่าน Oracle อาจลด procurement friction และทำให้ลูกค้าใช้ Snowflake กับข้อมูลที่อยู่ใน OCI ได้สะดวกขึ้น; แต่การประกาศร่วมมือยังไม่พิสูจน์การได้ลูกค้าใหม่หรือการเพิ่ม consumption.</li>
+<li><b>Judgment:</b> นับเป็น product/customer-channel catalyst ที่ควรติดตาม แต่ยังไม่เปลี่ยนสมมติฐานรายได้หรือ economics จนกว่าจะมีหลักฐาน adoption, consumption, margin หรือผลใน guidance/Reported.</li>
+<li><b>Consensus snapshot (ข้อมูลล่าสุดที่เข้าถึงได้ ณ 2026-10-31):</b> 52 analysts; Strong Buy 36, Buy 10, Hold 5, Sell 0, Strong Sell 1; average target $426.50, median $443.50; price $306.08 ณ 2026-10-30. หลังข่าว 27 ต.ค. ไม่พบ brokerage revision แบบ old→new ที่ยืนยันได้. BofA Buy/$470 วันที่ 23 ต.ค. เป็นข้อมูลก่อนข่าว ไม่ถือเป็นการตอบสนองต่อ catalyst. แหล่ง StockAnalysis เป็น aggregator; การเข้าถึงสดตอบ 403 จึงใช้ cached snapshot และระบุข้อจำกัด. (source: <code>sources/SNOW/market-analyst-snapshot-2026-10-31.md</code>)</li>
+<li><b>Scenario update:</b> Bull จะดีขึ้นก็ต่อเมื่อ OCI channel สร้าง workload/consumption ที่รายงานได้; Base ยังถือเป็น option เชิงช่องทางที่ยังไม่วัดผล; Bear คือช่องทางใหม่เพิ่ม complexity/การแข่งขันโดยไม่แปลงเป็นรายได้และ cash economics. นี่เป็นกรอบ Scenario ไม่ใช่ forecast.</li>
 </div></body></html>

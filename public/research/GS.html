@@ -15,61 +15,83 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">GS</div>
-<div class="meta">Thesis · 2026-10-01</div>
-<h1>GS — Goldman Sachs Group | Research Brief</h1>
-<blockquote>ขอบเขต: หุ้นมี DR ใน SET ตาม pre-run universe. รายงานนี้เป็น research framework ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. ดึงข้อมูล 2026-09-13; ราคาจาก Yahoo Finance chart endpoint ปิดล่าสุดที่พบ 2026-09-11.</blockquote>
+<div class="meta">Thesis · 2026-11-03</div>
+<h1>GS — Goldman Sachs Group | Full Thesis Memo</h1>
+<blockquote>ขอบเขต: หุ้น Goldman Sachs มี SET DR ตาม pre-run universe. เอกสารนี้เป็น research framework ระยะยาว ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ. Refresh จาก SEC Form 10-Q งวด 30 ก.ย. 2026 ที่ยื่น 2 พ.ย. 2026; transcript earnings call จาก StockAnalysis ยังอ่านไม่ได้ จึงไม่เรียก filing ว่า transcript.</blockquote>
 <h2>1. Investment Verdict</h2>
-<li><b>Rating:</b> ยังไม่ให้ rating; ธนาคารต้องประเมินผ่าน ROE/CET1/credit cycle มากกว่า P/E เดี่ยว และ transcript ล่าสุดตรวจไม่ได้ (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li><b>Fair value:</b> ไม่ตั้ง point fair value; ควรใช้ normalized EPS + P/B/tangible book range และ stress test capital (source: README.md; 2026-09-13)</li>
-<li><b>Entry / allocation:</b> ไม่กำหนด entry/allocation; DR exposure ควรอยู่ภายใต้ risk budget ของ financials และ FX โดยผู้ลงทุนเป็นผู้ตัดสินใจเอง (source: README.md; 2026-09-13)</li>
-<li><b>5Y CAGR:</b> ไม่ใส่ตัวเลขเพราะยังขาด clean five-year revenue/ROE/CET1 series และ peer multiple ที่ยืนยันได้ (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
+<li><b>คำถามลงทุน:</b> Goldman Sachs ยังเปลี่ยน franchise ด้านตลาดทุนและลูกค้าสถาบันให้เป็นผลตอบแทนต่อส่วนของผู้ถือหุ้นที่สูงกว่าต้นทุนทุนได้หรือไม่ เมื่อรอบตลาดและ credit loss เปลี่ยนทิศ?</li>
+<li><b>Reported:</b> 9M 2026 net earnings $17.55bn, net revenue $56.24bn, annualized ROE 20.7% และ EPS $55.56 เทียบ 9M 2025 ที่ $12.56bn, $45.0bnโดยประมาณ, ROE 14.6% และ EPS $37.33. (source: sources/GS/10-q-q3-2026.md; SEC Form 10-Q filed 2026-11-02)</li>
+<li><b>Interpretation:</b> รอบนี้ยืนยัน operating momentum ทั้ง Global Banking &amp; Markets และ Asset &amp; Wealth Management แต่ไม่ได้ลบความผันผวนของธุรกิจ market-making หรือความเสี่ยงจาก wholesale credit.</li>
+<li><b>Judgment:</b> ยังไม่ตั้ง rating, fair value, entry หรือ allocation; สำหรับธนาคารต้องประเมิน ROE/ROTCE, CET1, tangible book และคุณภาพเครดิตเป็นชุด ไม่ใช้ P/E เดี่ยว.</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>Goldman Sachs สร้างรายได้จาก Global Banking &amp; Markets เช่น investment banking, trading/market-making และ financing รวมถึง Asset &amp; Wealth Management ที่มีค่าธรรมเนียมและรายได้จากสินทรัพย์ลูกค้า (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Earnings engine ผูกกับ deal activity, client flows, market volatility, financing balances, asset inflows และ credit provisions; ไม่ใช่ recurring subscription แบบ software (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>FY2025 net income $17.176bn; H1 2026 net income $12.258bn โดย Q2 2026 $6.628bn; ทิศทางดีแต่ cycle sensitivity สูง (source: sources/GS/q2-2026-earnings-release.md; 2026-09-13)</li>
-<li><b>Valuation snapshot:</b> ราคา $1,029.18; 52-week range ที่ดึงได้ $744.60–$1,152.07; market cap ประมาณ $299.7bn คำนวณจากราคา×291.17m shares ณ 2026-07-17; P/E trailing ประมาณ 14.3x ถ้าใช้ FY2025 net income และ 291.17m sharesแบบหยาบ; EV/EBITDA ไม่เหมาะ/ไม่พบ. เวลา 2026-09-13 UTC; sources: Yahoo chart endpoint <code>https://query1.finance.yahoo.com/v8/finance/chart/GS?range=1y&amp;interval=1d</code>; SEC Companyfacts/10-Q (shares 2026-07-17, 2026-09-13).</li>
-<h2>3. Financial Quality 5-year</h2>
-<li>FY2025 NI $17.176bn; H1 2026 $12.258bn. Five-year clean revenue/margin table ไม่จัดทำครบในรอบนี้ เพราะ bank revenue presentation และ SEC tags ต้อง reconcile กับ annual report tables (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Asset base เพิ่มจาก $1.809tn ณ 2025-12-31 เป็น $2.128tn ณ 2026-06-30; growth ต้องอ่านคู่กับ risk-weighted assets ไม่ใช่ตีความเป็น quality โดยอัตโนมัติ (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Equity $124.972bn สิ้นปี 2025 และ $122.742bn สิ้น Q2 2026; สำหรับ bank ต้องติดตาม ROE, ROTCE และ tangible book ต่อหุ้นมากกว่า industrial ROIC (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Capex $2.064bn FY2025 และ $1.067bn H1 2026; OCF/FCF ของ bank ไม่ควรอ่านแบบบริษัทอุตสาหกรรม จึงไม่สร้าง FCF yield ที่ทำให้เข้าใจผิด (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<h2>4. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash/equivalents $164.259bn ณ 2025-12-31 และ $187.266bn ณ 2026-06-30; balance-sheet liquidity ต้องประเมินกับ secured/unsecured funding และ asset encumbrance (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Shares outstanding ลดจาก 296.75m ณ 2026-02-06 เป็น 291.17m ณ 2026-07-17 ตาม SEC data; เป็นสัญญาณ buyback/retirement แต่ต้อง reconcile กับ weighted average shares และ capital ratios (source: SEC Companyfacts CIK 886982; 2026-09-13)</li>
-<li>Debt/net debt แบบ non-bank ใช้ไม่ได้ตรง ๆ; ตัวแปรหลักคือ CET1, stress capital, liquidity และ asset quality ซึ่งค่าล่าสุดไม่อยู่ใน excerpt นี้ (limitation; 2026-09-13)</li>
-<li>Capital allocation มี trade-off ระหว่าง buyback/dividend กับการรักษา capital เพื่อรองรับการขยาย balance sheetและ downturn (interpretation; source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<h2>5. Latest Earnings</h2>
-<li>ไม่มี transcript ที่ยืนยันได้จาก StockAnalysis ในรอบนี้ เพราะหน้า direct fetch คืน 402/billing error; ไฟล์จึงเป็น SEC 8-K/earnings-release ไม่ใช่ transcript (source: sources/GS/q2-2026-earnings-release.md; 2026-09-13)</li>
-<li>Q2 2026 net income $6.628bn และ H1 2026 $12.258bn; FY2025 net income $17.176bn (source: sources/GS/q2-2026-earnings-release.md; 2026-09-13)</li>
-<li>Assets $2.128tn และ equity $122.742bn ณ 2026-06-30; guidance, beat/miss เทียบ consensus และ management commentary ไม่พบใน source ที่เข้าถึงได้ (source: sources/GS/q2-2026-earnings-release.md; 2026-09-13)</li>
-<h2>6. Competitive Advantages &amp; Risks</h2>
-<li><b>Advantages:</b> client relationships, distribution, balance-sheet capacity และการรวมงาน advisory/trading/financing เป็น scope economies และ switching costs เชิงสถาบัน; ไม่เรียกว่า moat ตามกฎ voice (interpretation; source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li><b>Risks:</b> JPMorgan, Morgan Stanley, boutiques, exchanges และ private-credit firms แข่งขันทั้งคน ลูกค้า และ balance sheet; fee pool อาจถูกกดในบางธุรกิจ (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li><b>Specific risk:</b> mark-to-market/trading loss, credit provisions, commercial real estate/private credit exposure, regulatory capital และ compensation operating leverage (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
+<li><b>THE CORE:</b> Global Banking &amp; Markets รับรายได้จาก investment banking, FICC, Equities, financing และ market-making; Q3 net revenue $13.46bn โต 32% YoY. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>THE CORE:</b> Asset &amp; Wealth Management รับค่าธรรมเนียมจากสินทรัพย์ภายใต้การดูแล/คำแนะนำ การลงทุน และ private banking; Q3 net revenue $5.05bn โต 14% YoY. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>THE OPTION:</b> Platform Solutions ยังเป็นธุรกิจเล็กและผันผวน; Q3 net revenue $170m ลด 72% YoY โดยมี markdown จาก Apple Card loan portfolio ที่โอนไป held for sale. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li>ลูกค้าจ่ายเงินให้ Goldman เพื่อระดมทุน/ทำดีล, เข้าถึงสภาพคล่องและตลาด, บริหารสินทรัพย์ และใช้ financing; รายได้จึงขึ้นกับ client activity, volatility, deal completion, asset levels และ credit conditions มากกว่า subscription.</li>
+<li><b>Helmer 7 Powers ที่เห็น:</b> scale economies และ switching costs เชิงสถาบันจากความสัมพันธ์/การกระจายผลิตภัณฑ์; แต่ยังต้องพิสูจน์ว่าแปลงเป็น ROE ต่อเนื่องได้จริง ไม่ใช่เพียงกำไรจากรอบตลาด.</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>ข้อได้เปรียบ:</b> การรวม advisory, underwriting, trading, financing และ wealth distribution ช่วยให้ขายหลายบริการแก่ลูกค้ากลุ่มเดียวกัน; Q3 Equities revenue $6.44bn โต 72% YoY. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>ข้อได้เปรียบ:</b> wealth-management client assets รวมประมาณ $2.1tn ณ ก.ย. 2026 ช่วยสร้างฐานค่าธรรมเนียมระยะยาว แต่ไม่ใช่รายได้ทั้งหมดที่ Goldman รับรู้ทันที. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>ความเสี่ยงเฉพาะบริษัท:</b> investment-banking backlog ลดลงจาก มิ.ย. 2026; backlog เป็น estimate ของดีลที่อาจถูกยกเลิก/แก้ไข ไม่ใช่รายได้ที่รับรองแล้ว. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li>ความเสี่ยงอื่นคือการแข่งขันจาก JPMorgan/Morgan Stanley/boutiques, market-making loss, wholesale/CRE/private-credit exposure, compensation operating leverage และกฎ capital.</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported:</b> FY2025 net income $17.176bn จาก source เดิม; 9M 2026 net earnings $17.55bn เพิ่มจาก $12.56bn ใน 9M 2025. (source: sources/GS/10-k-fy2025.md; sources/GS/10-q-q3-2026.md)</li>
+<li><b>Reported:</b> 9M 2026 net revenue $56.24bn โต 25% YoY และ operating expenses $33.41bn โต 20%; efficiency ratio 59.4% ดีขึ้นจาก 62.1%. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Reported:</b> 9M Global Banking &amp; Markets revenue $41.72bn โต 34%, investment-banking fees $9.46bn โต 40%, FICC $12.07bn โต 6% และ Equities $19.18bn โต 57%. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Interpretation:</b> คุณภาพกำไรดีขึ้นจากกิจกรรมตลาดทุนและ Equities มากกว่าการเติบโตแบบเรียบ; ยังไม่ควร annualize ช่วงที่ market cycle ดี.</li>
+<li>Five-year clean series ของ revenue/ROE/ROTCE/CET1 ยังไม่ถูกรวบรวมครบใน source cache รอบนี้; ไม่เติมตัวเลขที่หาไม่ได้.</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li><b>Reported:</b> สินทรัพย์ $2.180tn ณ 30 ก.ย. 2026 เทียบ $1.809tn สิ้นปี 2025; shareholders’ equity $124.929bn เทียบ $124.972bn. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Reported:</b> common shareholders’ equity $110.151bn, tangible common shareholders’ equity $100.927bn, book value/share $372.64 และ tangible book value/share $341.43. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Reported:</b> CET1 ratio 12.4% Standardized และ 13.6% Advanced ณ ก.ย. 2026; Q3 คืนทุน $4.49bn ผ่าน buyback $3.00bn และ dividend $1.49bn. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Interpretation:</b> capital return ยังแรง แต่ต้องอ่านคู่กับ risk-weighted assets, regulatory requirement และ credit loss ไม่ใช่ดู buyback เป็นบวกโดยอัตโนมัติ.</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported:</b> Q3 2026 net earnings $5.29bn เทียบ $4.10bn, diluted EPS $17.01 เทียบ $12.25, ROE 18.7% เทียบ 14.2% และ book value/share $372.64 เพิ่ม 4.2% จาก ธ.ค. 2025. ตัวเลขสอดคล้องกับ earnings release ของบริษัท. (source: sources/GS/10-q-q3-2026.md; sources/GS/ir-q3-2026-earnings-release.md; 2026-11-02/2026-10-13)</li>
+<li><b>Reported:</b> Q3 net revenue $18.68bn โต 23% YoY; operating expenses $11.31bn โต 20%; efficiency ratio 60.5% เทียบ 62.3%. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Reported:</b> Q3 provision for credit losses $368m เทียบ $339m ปีก่อน และ provision ของ GBM $345m เทียบ $82m โดยหลักมาจาก wholesale-loan impairments. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Guidance:</b> ไม่พบ formal company guidance ใน source ที่ cache; management outlook ที่อ่านได้ระบุความเสี่ยงจากเศรษฐกิจ/ตลาด/credit แต่ไม่ใช่ guidance ตัวเลข. (source: sources/GS/10-q-q3-2026.md; 2026-11-02)</li>
+<li><b>Transcript:</b> StockAnalysis ถูกตรวจสอบก่อน แต่ตอบ HTTP 403; transcript earnings call ล่าสุดจึง <b>ไม่พบ/ไม่สามารถ verify ได้</b> และใช้ SEC 10-Q แทนโดยระบุชัดว่าไม่ใช่ transcript.</li>
 <h2>7. Valuation</h2>
-<li>Headline trailing P/E ประมาณ 14.3x เป็นการคำนวณหยาบจากราคา $1,029.18, FY2025 NI และ 291.17m shares; ไม่ใช่ normalized forward P/E และไม่รวม dilution/quarterly changes อย่างละเอียด (source: Yahoo chart + SEC Companyfacts; 2026-09-13)</li>
-<li>EV/Sales, EV/EBITDA, EV/FCF และ PEG ไม่ใช่ชุดหลักที่เหมาะกับธนาคาร/หาแบบยืนยันได้ไม่ได้; ใช้ P/E, P/B, tangible book, ROTCE และ capital return แทน (interpretation; 2026-09-13)</li>
-<li>Historical range และ peer valuation ยังไม่ครบเพราะ MarketBeat/StockAnalysis data fetch ไม่สำเร็จในรอบนี้; ห้ามเติมตัวเลขจากความจำ (limitation; 2026-09-13)</li>
+<li><b>Observed:</b> ราคาจาก Yahoo chart endpoint $898.72 และ 52-week range $754.00–$1,153.99 ณ snapshot 2026-11-03; source timestamp เป็น regular-market metadata ของ Yahoo. (source: sources/GS/market-data-2026-11-03.md; https://query1.finance.yahoo.com/v8/finance/chart/GS?range=1y&amp;interval=1d)</li>
+<li>Market cap, trailing P/E และ EV/EBITDA ที่ verify ได้จาก endpoint รอบนี้ <b>ไม่พบ</b>; EV/EBITDA ไม่ใช่ตัวชี้หลักของธนาคารอยู่แล้ว.</li>
+<li><b>Consensus:</b> จำนวน analyst, rating distribution, average/median target และ recent brokerage revisions ที่ verify ได้ในรอบนี้ <b>ไม่พบ</b> จาก StockAnalysis/MarketBeat ที่เข้าถึงได้; ห้ามตีความว่าไม่มีการเปลี่ยนแปลง.</li>
+<li><b>Scenario valuation:</b> ควรใช้ normalized EPS/ROE, P/B และ tangible-book multiple โดย stress CET1/credit loss; ยังไม่ใส่ target ราคาเพราะไม่มี normalized assumptions ที่ตรวจครบ.</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bull (25%):</b> deal/trading cycle แข็งแรง, AWM compounding, capital return ต่อเนื่อง และ ROTCE สูงกว่าต้นทุนทุน; target/CAGR ต้องคำนวณจาก forward EPS/tangible book ที่ verify แล้ว (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li><b>Base (50%):</b> earnings normalize หลังช่วงดี, AWM โตชดเชย IB/trading ที่ผันผวน, capital ratio คงตัว; expected return มาจาก EPS/book growth + capital return ไม่ใช่ multiple expansion ที่เดา (interpretation; 2026-09-13)</li>
-<li><b>Bear (25%):</b> credit losses/market shock สูง, regulatory capital บังคับลด payout และ ROTCE ต่ำลงหลายปี; bear floor ต้อง stress tangible book/CET1 จาก 10-K notes เพิ่ม (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<h2>9. Catalysts &amp; Risks (12–24m)</h2>
-<li>Catalysts: sustained advisory/underwriting pipeline, AWM net inflows/fee growth, trading share และ buyback ที่ไม่ทำให้ capital ratio ตึง (judgment; source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Risks: credit provisions, market liquidity event, private-credit/CRE losses, rule changes และ compensation inflation (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>ข่าว 7 วันล่าสุด: ไม่ได้ยืนยันจาก IR/RSS ในรอบนี้ จึงไม่ใส่ข่าวเป็น catalyst (2026-09-13)</li>
+<li><b>Bull:</b> advisory/underwriting และ Equities/financing อยู่ในระดับสูงต่อเนื่อง, AWM fee-based inflows โต, ROE สูงกว่าต้นทุนทุน และ book value โตพร้อม capital return; multiple อาจอิง P/B ที่สูงขึ้น. (Scenario; facts: sources/GS/10-q-q3-2026.md)</li>
+<li><b>Base:</b> กำไร normalize หลัง cycle ดี, AWM ช่วยลดความผันผวน, CET1 ยังรองรับ dividend/buyback และ tangible book โตตาม earnings; ผลตอบแทนขึ้นกับ EPS/book growth มากกว่าการขยาย multiple. (Scenario)</li>
+<li><b>Bear:</b> market activity ลด, backlog แปลงเป็นดีลน้อย, wholesale/CRE losses สูง และ regulator บังคับรักษา capital; ROE/ROTCE และ tangible book ต่อหุ้นถูกกดหลายปี. (Scenario)</li>
+<li>ไม่กำหนด probability หรือ price target เพราะยังขาด normalized five-year series และ peer multiple ที่ verify ครบ.</li>
+<h2>9. Catalysts &amp; Risks (12–24 เดือน)</h2>
+<li><b>Catalysts:</b> investment-banking fees/backlog กลับมาโต, AWM assets/fee-based inflows เพิ่ม, Equities financing รักษา momentum และ capital return ไม่กด CET1. (Scenario/Interpretation; source: sources/GS/10-q-q3-2026.md)</li>
+<li><b>Risks:</b> backlog ลดต่อเนื่อง, FICC/market-making เจอ inventory loss, wholesale-loan impairment เพิ่ม, asset prices ลดจน AWM fees หด และ compensation โตเร็วกว่ารายได้. (Fact/Interpretation; source: sources/GS/10-q-q3-2026.md)</li>
+<li>ข่าว 7 วันจาก IR/RSS ที่ verify ได้โดยตรง: <b>ไม่พบใน source cache รอบนี้</b>; ไม่เติมข่าว.</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>ถ้า Goldman ไม่สามารถรักษา client franchise หรือใช้ balance sheet สร้างผลตอบแทนเหนือ cost of equity ได้ valuation แบบ bank จะหด แม้รายได้ระยะสั้นดี (interpretation; source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Permanent-loss risk อยู่ที่ tail loss และ regulatory dilution/forced capital raise ไม่ใช่แค่กำไรไตรมาสเดียว (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li>Bear floor ต้องใช้ tangible common equity, CET1 stress และ loss severity จาก notes; ข้อมูลยังไม่ครบ จึงไม่ประกาศตัวเลข floor (limitation; 2026-09-13)</li>
+<li><b>Fact:</b> Q3 revenue และ ROE ดีขึ้น แต่ provision ของ GBM เพิ่มเป็น $345m และ investment-banking backlog ลดลงจาก มิ.ย. (source: sources/GS/10-q-q3-2026.md)</li>
+<li><b>Interpretation:</b> headline earnings อาจสะท้อน market cycle มากกว่าการขยาย recurring economics; AWM ช่วยได้แต่ยังไม่ชดเชยความผันผวนทั้งหมด.</li>
+<li><b>Judgment:</b> สมมติฐานที่เปราะที่สุดคือ client activity และ asset prices จะอยู่ในระดับสนับสนุน earnings ต่อเนื่อง; หากไม่จริง valuation แบบ bank จะต้องกลับไปอิง tangible book/CET1 ที่ conservative.</li>
 <h2>11. Portfolio Strategy</h2>
-<li><b>Entry/sizing/DCA:</b> ไม่กำหนด buy/sell/hold หรือ allocation; หากศึกษาต่อให้กำหนด cap ตาม bank/financial concentration, FX และ stress loss ที่ยอมรับได้ (judgment; 2026-09-13)</li>
-<li><b>Monitor:</b> ROTCE/ROE, CET1, tangible book/share, AWM flows, IB backlog, trading revenue, provisions, NPL/charge-off และ share count (source: sources/GS/10-k-fy2025.md; 2026-09-13)</li>
-<li><b>Exit/kill:</b> thesis เสียหาก ROTCE ต่ำกว่าต้นทุนทุนต่อเนื่อง, CET1 ถูกกดจน payout หยุด, credit losses ไม่ใช่แค่ normal cycle หรือ franchise เสีย market share (judgment; 2026-09-13)</li>
+<li>ไม่กำหนด buy/sell/hold, entry หรือ target weight; หากศึกษาต่อให้กำหนด risk budget สำหรับ financials, FX และ tail credit loss แยกจากหุ้นเทคโนโลยี.</li>
+<li>ติดตามรายไตรมาส: ROE/ROTCE, CET1, tangible book/share, investment-banking fees/backlog, FICC/Equities, AWM inflows/AUS, provisions, efficiency ratio และ share count.</li>
+<li><b>Kill conditions:</b> ROTCE/ROE ต่ำกว่าต้นทุนทุนต่อเนื่อง, CET1 ถูกกดจนต้องหยุดคืนทุน, tangible book/share ลดจาก credit loss/markdown แบบไม่ใช่รอบสั้น, หรือ franchise เสียส่วนแบ่งลูกค้าอย่างต่อเนื่อง.</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<li><b>Fact:</b> FY2025 NI $17.176bn; Q2/H1 2026 NI $6.628bn/$12.258bn; assets $2.128tn; equity $122.742bn; price $1,029.18; 52-week $744.60–$1,152.07. (sources: sources/GS/*; Yahoo chart; SEC Companyfacts; 2026-09-13)</li>
-<li><b>Interpretation:</b> earnings momentum ดี แต่ bank cycle และ capital regulation ทำให้ headline P/E ไม่พอ; buyback อาจช่วย per-share value เมื่อ capital แข็งแรง. (source: same; 2026-09-13)</li>
-<li><b>Judgment:</b> ยังไม่ตั้ง fair value/rating/allocation จนกว่าจะได้ clean ROE/CET1/tangible-book history, peer multiples และ transcript/management commentary. (judgment; 2026-09-13)</li>
-<h3>ข้อจำกัด</h3>
-<p>StockAnalysis transcript และ IR pages ไม่สามารถ fetch ผ่านบริการที่มีอยู่ (402/billing error); valuation peer multiples, clean five-year table, guidance และ CET1/ROTCE series จึงยังขาด. ห้ามใช้ memo นี้แทนการตรวจ 10-K/10-Q ฉบับเต็ม.</p>
+<p>| ชั้น | สรุป | แหล่ง |</p>
+<p>|---|---|---|</p>
+<p>| Fact / Reported | Q3 net earnings $5.29bn, EPS $17.01, ROE 18.7%, revenue $18.68bn | sources/GS/10-q-q3-2026.md, SEC 10-Q 2026-11-02 |</p>
+<p>| Fact / Reported | 9M net earnings $17.55bn, revenue $56.24bn, ROE 20.7%, CET1 12.4%/13.6% | sources/GS/10-q-q3-2026.md |</p>
+<p>| Fact / Reported | Book value/share $372.64, tangible book/share $341.43, assets $2.180tn | sources/GS/10-q-q3-2026.md |</p>
+<p>| Interpretation | Earnings momentum broad-based แต่พึ่ง market cycle และ backlog/credit ต้องติดตาม | sources/GS/10-q-q3-2026.md |</p>
+<p>| Judgment | ยังไม่ตั้ง fair value/rating/allocation จนกว่าจะได้ normalized history และ consensus ที่ verify | judgment, 2026-11-03 |</p>
+<h2>Earnings Update — 2026-11-03</h2>
+<li><b>เหตุผลที่อัปเดต:</b> SEC Form 10-Q ใหม่กว่า brief เดิม ถูกยื่น 2026-11-02 สำหรับงวด 30 ก.ย. 2026 จึงอัปเดต Latest Earnings, fundamentals, capital, valuation, risks และ kill conditions โดยคงข้อสรุปเดิมเรื่อง cycle sensitivity และการไม่ตั้ง fair value ไว้.</li>
+<li><b>Fact:</b> Q3/9M earnings, ROE, revenue, CET1, tangible book และ capital return ดีขึ้นตามตัวเลขข้างต้น.</li>
+<li><b>Interpretation:</b> thesis แข็งขึ้นด้าน execution และ capital-market activity แต่ provision/ความเสี่ยง backlog ทำให้ยังไม่ใช่หลักฐานของ earnings ที่เรียบสม่ำเสมอ.</li>
+<li><b>Judgment:</b> ไม่เปลี่ยนเป็นคำแนะนำลงทุน; เพิ่มน้ำหนัก monitoring ที่ wholesale credit, backlog และ capital return.</li>
+<li><b>Consensus:</b> analyst count/rating/target และ brokerage revisions ที่ verify ได้ <b>not found</b> ในรอบนี้; transcript ก็ not found จาก HTTP 403.</li>
+<h2>Thesis History — ก่อน refresh</h2>
+<li>Brief เดิม ณ 2026-09-13 ระบุว่า H1 2026 earnings momentum ดี แต่ยังขาด clean ROE/CET1/tangible-book history, transcript และ peer multiples; ไม่ตั้ง rating/fair value/allocation. ข้อสรุปนี้ยังคงอยู่ และข้อมูล Q3 เพิ่มหลักฐานเชิงบวกพร้อมความเสี่ยง wholesale credit/backlog.</li>
+<h3>ข้อจำกัดและ Sources</h3>
+<li>SEC Form 10-Q: https://www.sec.gov/Archives/edgar/data/886982/000088698226000532/gs-20260930.htm (filed 2026-11-02)</li>
+<li>SEC filing index/accession: https://www.sec.gov/Archives/edgar/data/886982/000088698226000532/</li>
+<li>Yahoo chart: https://query1.finance.yahoo.com/v8/finance/chart/GS?range=1y&amp;interval=1d (fetched 2026-11-03)</li>
+<li>StockAnalysis transcript page ตรวจสอบแล้ว HTTP 403; ไม่มี transcript ที่ verify ได้.</li>
 </div></body></html>

@@ -15,7 +15,7 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">AMZN</div>
-<div class="meta">Thesis · 2026-11-01</div>
+<div class="meta">Thesis · 2026-11-04</div>
 <h1>AMZN — Full Thesis Memo (2026-11-01)</h1>
 <blockquote><b>ขอบเขต:</b> บริษัทแม่ Amazon (หุ้นสหรัฐฯ); เครื่องมือถือครองของพี่ต้องคือ SET DR AMZN80 แต่ memo นี้ไม่รวมจำนวนหน่วย ต้นทุน หรือมูลค่าพอร์ตส่วนบุคคล</blockquote>
 <h2>Earnings Update — 2026-11-01</h2>
@@ -24,6 +24,13 @@
 <li><b>Fact / Reported:</b> เงินลงทุน OpenAI ครบ commitment $50.0B เป็น private-company equity investment แบบ Level 3 ไม่ใช่ capex; cash capex 9M 2026 $172.2B. (source: <code>sources/AMZN/10-q-q3-2026.md</code>)</li>
 <li><b>Interpretation:</b> AWS/AI ยังเป็นเครื่องยนต์เติบโต แต่รอบลงทุนทำให้ต้องพิสูจน์ผลตอบแทนจาก capacity ด้วยเงินสดจริง ไม่ใช่เพียง activity metric</li>
 <li><b>Judgment:</b> thesis ยังมีแกนเดิมคือ AWS + network monetization; สิ่งที่เปลี่ยนคือความเสี่ยง capital intensity และ OpenAI exposure ต้องถูกติดตามแยกจากผลการดำเนินงาน</li>
+<h2>Thesis Update — 2026-11-04</h2>
+<li><b>เหตุผล:</b> Amazon เผย CEO Q3 recap วันที่ 30 ต.ค. หลัง brief เดิม ซึ่งเติมข้อมูล backlog และ Trainium/Graviton commitments ที่ไม่ได้อยู่ใน SEC earnings summary; เป็นข้อมูลความต้องการ/การใช้งาน แต่ยังไม่ใช่รายได้ที่รับรู้.</li>
+<li><b>Reported:</b> AWS โต 39.3% YoY และ backlog $578B โตระดับสามหลัก YoY ตามบริษัท; backlog เป็นภาระงานตามสัญญา ไม่ใช่รายได้ที่รับรู้แล้ว. (source: <code>sources/AMZN/q3-2026-ceo-recap.md</code>)</li>
+<li><b>Reported usage / not separate revenue:</b> Fortune 500 customers ใช้จ่ายกับ Bedrock เกือบ 7x และ token volume เกือบ 17x YoY; Amazon ยังไม่แยกรายได้ Bedrock ในข้อมูลนี้. Revenue commitments ของ Graviton และ Trainium เพิ่มมากกว่า 20x YoY เป็น commitments ไม่ใช่ยอดขายที่รับรู้แล้ว. (source: <code>sources/AMZN/q3-2026-ceo-recap.md</code>)</li>
+<li><b>Interpretation:</b> backlog, service usage และ chip commitments สนับสนุน demand ภายใน AWS ecosystem แต่ยังต้องดูการแปลงเป็น recognized revenue, operating margin และ FCF หลัง capex.</li>
+<li><b>Judgment:</b> ไม่เปลี่ยน scenario จาก activity metrics เพียงอย่างเดียว; ติดตาม AWS backlog conversion, AI margin, capex และ FCF ต่อเนื่อง.</li>
+<li><b>Analyst snapshot:</b> คง snapshot ล่าสุดจาก MarketBeat วันที่ 2026-10-31: 60 analysts (1 Strong Buy/56 Buy/3 Hold), mean target $320.86, ราคา $240.35 ณ 30 ต.ค.; เก้ารายการปรับเป้าหมายใน snapshot ลงวันที่ 30 ต.ค. หลังงบ Q3 แต่เวลาเทียบกับ CEO recap วันเดียวกันไม่ทราบ. ไม่มี revision หลัง recap ที่ verify ได้ใน source cache; เป็นข้อมูล aggregator ไม่ใช่ business fact. (source: <code>sources/AMZN/analyst-snapshot-2026-11-01.md</code>)</li>
 <h2>1. Investment Verdict</h2>
 <p>คำถามการลงทุนคือ <b>Amazon จะเปลี่ยนความต้องการ cloud/AI และเครือข่ายลูกค้า-ผู้ขายให้เป็น operating income และ FCF ที่เติบโต หลังหัก capex และความเสี่ยงจากการลงทุนเอกชนได้หรือไม่</b></p>
 <li><b>แกนหลัก (THE CORE):</b> AWS เป็นธุรกิจ infrastructure/software ที่มีรายได้และกำไรจริง ขณะที่ North America, International, marketplace, Prime และโฆษณาช่วยกระจายช่องทางเก็บเงิน (source: <code>sources/AMZN/10-k-fy2025.md</code>; <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>
@@ -54,6 +61,7 @@
 <h2>6. Latest Earnings</h2>
 <li><b>Reported Q3 FY2026:</b> revenue $201.944B (+12%), operating income $28.076B, net income $20.685B, diluted EPS $1.89; Prime Day timing shift ถูกบริษัทประเมินว่ากด reported growth ราว 4 จุดเปอร์เซ็นต์ (source: <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>
 <li><b>Reported AWS:</b> revenue $45.984B (+39.3%), operating income $17.773B; Bedrock Fortune 500 spend เกือบ 7x YoY และ token volume เกือบ 17x แต่บริษัทไม่ได้เปิดเผย AI revenue แยก (source: <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>
+<li><b>Reported / management commentary:</b> AWS backlog $578B โต triple digits YoY; Graviton และ Trainium revenue commitments แต่ละรายการเพิ่มมากกว่า 20x YoY. Commitments/backlog ไม่ใช่ revenue recognized; Bedrock spend/token activity ก็ไม่ใช่รายได้เฉพาะที่เปิดเผย. (source: <code>sources/AMZN/q3-2026-ceo-recap.md</code>)</li>
 <li><b>Reported cash:</b> TTM operating cash flow $168.300B และ FCF outflow $42.357B; ตัวเลขนี้สะท้อนการลงทุน property/equipment สูง (source: <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>
 <li><b>Guidance:</b> Q4 revenue $240–247B, operating income $28.5–33.5B; FY2026 cash capex ราว $220B; บริษัทคาด AWS revenue growth มากกว่า 40% ทั้งปี 2027 และ 2028 แต่เป็น projection ไม่ใช่ผลรายงาน (source: <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>
 <li><b>Transcript caveat:</b> ไม่พบ/ไม่สามารถ verify Q3 transcript/Q&amp;A ใน cache รอบนี้; <code>sources/AMZN/q2-2026-call.md</code> เป็น Q2 summary จาก Motley Fool และไม่ควรใช้แทน Q3 transcript (source: <code>sources/AMZN/q2-2026-call.md</code>; ข้อจำกัดการตรวจสอบ Q3 อ้างจาก <code>sources/AMZN/q3-2026-earnings-release.md</code>)</li>

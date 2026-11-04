@@ -15,81 +15,71 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">AMD</div>
-<div class="meta">Thesis · 2026-10-01</div>
-<h1>AMD — Advanced Micro Devices | Full Investment Memo</h1>
-<blockquote><b>ขอบเขตและชั้นข้อมูล:</b> memo นี้ทำเพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย/ถือครอง ตัวเลข Reported มาจาก SEC/XBRL หรือ source ในโปรเจกต์; Scenario เป็นสมมติฐาน stress-test ไม่ใช่ guidance ของบริษัท</blockquote>
+<div class="meta">Thesis · 2026-11-04</div>
+<h1>AMD — Advanced Micro Devices | Full Thesis Memo</h1>
+<blockquote>ขอบเขต: memo เพื่อการศึกษา ไม่ใช่คำแนะนำซื้อ/ขาย/ถือครอง ตัวเลข Reported มาจาก SEC/AMD IR; Guidance คือบริษัทระบุ; Consensus/Scenario ไม่ใช่ข้อเท็จจริง</blockquote>
 <h2>1. Investment Verdict</h2>
-<p><b>Investment question:</b> AMD จะเปลี่ยนความได้เปรียบด้าน CPU และการเติบโตของ Data Center AI ให้เป็นกำไรต่อหุ้นและ free cash flow ที่ยืนระยะได้หรือไม่ ขณะที่ต้องไล่ตาม ecosystem ของ GPU/software และรับความเสี่ยงจากลูกค้ารายใหญ่กับ supply chain?</p>
-<li><b>Analytical rating:</b> High-growth execution case / Watchlist — รายได้และ cash flow เร่งขึ้นชัดใน FY2025 แต่ valuation snapshot สูงมาก จึงต้องแยก “การเติบโตที่เกิดแล้ว” ออกจาก “ความสำเร็จของ AI ที่ราคาสมมติล่วงหน้า” (source: SEC Company Facts API; yfinance <code>AMD</code>, ดึง 2026-09-15)</li>
-<li><b>Fair-value frame:</b> ไม่ประกาศ fair value จุดเดียว เพราะยังไม่มี consensus/DCF input ที่ verify ได้ครบใน source set; ใช้ scenario range แทน (source: ข้อจำกัดของ source set, ตรวจ 2026-09-15)</li>
-<li><b>Entry / allocation:</b> ไม่ระบุจุดเข้าซื้อหรือสัดส่วนพอร์ต; สิ่งที่ต้องพิสูจน์คือ Data Center โตพร้อม gross margin/FCF และ ROC ที่คุ้มกับราคาที่จ่ายหรือไม่ (source: SEC 10-K, filed 2026-02-04)</li>
-<li><b>5Y CAGR:</b> เป็นการคำนวณจาก scenario target เท่านั้น: Bull $800 = 10.1% ต่อปี, Base $600 = 4.0% ต่อปี, Bear $300 = -9.5% ต่อปี จากราคาอ้างอิง $493.41 ณ 2026-09-14 (source: yfinance; calculation run 2026-09-15)</li>
+<p><b>Investment question:</b> AMD จะเปลี่ยนการเติบโตของ EPYC และ Instinct/AI infrastructure ให้เป็นกำไรและกระแสเงินสดต่อหุ้นที่ยืนระยะได้หรือไม่ ขณะที่ ROCm, supply chain และการแข่งขันกับ NVIDIA/custom silicon ยังต้องพิสูจน์?</p>
+<li><b>Fact:</b> Q3 FY2026 revenue โต 45% y/y เป็น $13.377B และ Data Center โต 97% y/y เป็น $8.5B (source: sources/AMD/10-q-2026-11-04.md; sources/AMD/q3-2026-call.md, 2026-11-03/04)</li>
+<li><b>Interpretation:</b> ไตรมาสล่าสุดยืนยันว่า AI/Data Center เป็น growth engine และ operating leverage กำลังเกิด แต่ Client/Gaming ยังมีจุดอ่อน (source: sources/AMD/q3-2026-call.md, 2026-11-03)</li>
+<li><b>Judgment:</b> thesis แข็งแรงขึ้นด้าน demand/execution แต่ราคายังต้องรองรับการเติบโตสูงต่อเนื่อง; จึงควรติดตามหลักฐานรายไตรมาส ไม่สรุปจาก guidance ไตรมาสเดียว</li>
+<p><b>Analyst-consensus snapshot ณ 2026-11-04:</b> จำนวน analyst, rating distribution, average/median target และรายสำนักที่ปรับ target/rating ใหม่หลัง Q3 <b>ไม่พบในแหล่งที่เข้าถึงได้รอบนี้</b>; ห้ามใช้ consensus แทน reported facts. ไม่มี baseline ที่ยืนยันได้ให้เปรียบเทียบเก่า→ใหม่ (source: source set/StockAnalysis attempt, 2026-11-04).</p>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li><b>บริษัททำอะไร:</b> AMD ออกแบบ CPU, GPU/AI accelerator, networking, FPGA/adaptive SoC และ software stack แล้วขายผ่าน hyperscalers, OEMs, ODMs, distributors และ ecosystem ของ PC/เกม บริษัทจ่ายให้ foundry และ packaging partners ผลิต จึง monetize ผ่าน design/IP, product shipments และ platform adoption มากกว่าการเป็นโรงงานเอง (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>Segment engine:</b> Data Center คือ server CPU, GPU/AI accelerator, DPU, AI NIC, FPGA และ adaptive SoC; Client and Gaming คือ Ryzen/graphics/console semi-custom; Embedded คือ FPGA, adaptive SoC และ embedded CPU (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>Follow the customer:</b> hyperscaler ซื้อ compute เพื่อ serve cloud/AI workloads; OEM ซื้อ performance-per-watt และ product roadmap; enterprise/industrial buyers ซื้อ lifecycle, reliability และความสามารถเฉพาะงาน ดังนั้นรายได้คุณภาพสูงต้องมาพร้อม design win, software adoption และ repeat platform—not เพียงการขาย chip รุ่นเดียว (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>The Core / Option / Price:</b> Core คือ EPYC และ Ryzen ที่สร้างฐาน; Option คือ Instinct GPU, ROCm, networking และ rack-scale systems; Price คือ valuation ที่ต้องเชื่อว่า option จะกลายเป็นกำไร ไม่ใช่เพียง TAM narrative (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04; yfinance, 2026-09-15)</li>
+<li>AMD ออกแบบ CPU, GPU/AI accelerator, networking, FPGA/adaptive SoC และ software แล้วใช้ foundry/packaging partners ผลิต ขายผ่าน hyperscalers, OEMs, ODMs, distributors และ enterprise customers (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>THE CORE:</b> EPYC server CPU และ Ryzen/embedded products ที่ลูกค้าจ่ายเพื่อ performance-per-watt, reliability และ product lifecycle (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>THE OPTION:</b> Instinct GPU, ROCm, Helios rack-scale systems และ networking; ต้องพิสูจน์ว่า software/system attach แปลงเป็น recurring platform demand และ margin (source: sources/AMD/q3-2026-call.md, 2026-11-03)</li>
+<li><b>THE PRICE:</b> valuation ต้องอาศัยการเติบโตของ Data Center และกำไรต่อหุ้นในอนาคต ไม่ใช่แค่ยอดขาย GPU รุ่นใหม่</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<h3>7 Powers ที่มีหลักฐานรองรับ</h3>
-<li><b>Scale and process know-how:</b> chiplet design, CPU/GPU IP, advanced packaging, customer co-design และ annual product cadence เป็นระบบที่สะสมยาก; AMD ระบุว่าพึ่ง TSMC, GF, UMC, Samsung และ ATMP partners จึงได้ scale โดยไม่แบก fab เต็มรูปแบบ (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>Switching cost / ecosystem:</b> server validation, software stack, OEM qualification และ customer workloads สร้างต้นทุนการเปลี่ยน แต่ ROCm ยังต้องแข่งกับ CUDA ecosystem และ AMD ระบุเองว่าการแข่งขันรุนแรงและเปลี่ยนเร็ว (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>Threats:</b> NVIDIA แข่งใน GPU/networking, Intel ใน CPU, Altera/Lattice ใน FPGA, custom silicon ของ hyperscaler และ Arm-based alternatives; ลูกค้าบางรายพัฒนา accelerator เองได้ (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
+<li><b>Scale/process know-how:</b> chiplet design, CPU/GPU IP, packaging และ customer co-design สะสมยาก; แต่บริษัทพึ่งพา third-party manufacturing และ packaging (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>Switching friction:</b> server validation, software/workload migration และ OEM qualification ช่วยลดการเปลี่ยนผู้ขายบางส่วน แต่ ROCm ยังต้องแข่งขันกับ CUDA ecosystem (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>Company-specific risks:</b> NVIDIA และ custom silicon อาจกด share/economics; export controls, TSMC/packaging capacity, product delay และ customer concentration อาจทำให้ roadmap ไม่แปลงเป็นรายได้ (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
 <h2>4. Financial Quality 5-year</h2>
-<p>| USD bn, FY | 2021 | 2022 | 2023 | 2024 | 2025 |</p>
-<p>|---|---:|---:|---:|---:|---:|</p>
-<p>| Revenue | 16.434 | 23.601 | 22.680 | 25.785 | 34.639 |</p>
-<p>| Gross profit | 7.929 | 10.603 | 10.460 | 12.725 | 17.152 |</p>
-<p>| Operating income | 3.648 | 1.264 | 0.401 | 1.900 | 3.694 |</p>
-<p>| Net income | 3.162 | 1.320 | 0.854 | 1.641 | 4.335 |</p>
-<p>| OCF | 3.521 | 3.565 | 1.667 | 3.041 | 7.709 |</p>
-<p>| CapEx | 0.301 | 0.450 | 0.546 | 0.636 | 0.974 |</p>
-<p>| R&amp;D | 2.845 | 5.005 | 5.872 | 6.456 | 8.091 |</p>
-<li><b>Reported direction:</b> FY2025 revenue โต 34.3% y/y และ gross margin เชิงคำนวณประมาณ 49.5%; operating income และ OCF ดีดขึ้นแรงจาก FY2024 สะท้อน operating leverage/การฟื้นของ mix แต่ต้องระวังว่าปี 2023–2024 แสดงความผันผวนสูง (source: SEC Company Facts API, ดึง 2026-09-15)</li>
-<li><b>Investment in growth:</b> R&amp;D เพิ่มจาก $2.845B ใน 2021 เป็น $8.091B ใน 2025; นี่จำเป็นต่อ CPU/GPU/software roadmap แต่ต้องดูว่ารายจ่ายแปลงเป็น gross profit และ FCF ต่อหุ้นได้จริงหรือไม่ (source: SEC Company Facts API, ดึง 2026-09-15)</li>
-<li><b>Cash conversion:</b> FY2025 OCF $7.709B สูงกว่า CapEx $0.974B; FCF proxy ก่อน SBC จึงแข็งแรง แต่ไม่ควรละเลย SBC, acquisition accounting และ dilution เมื่อประเมินกำไรต่อเจ้าของ (source: SEC Company Facts API; sources/AMD/10-k-2025.md, ดึง 2026-09-15)</li>
-<li><b>ROE/ROIC:</b> ไม่พบชุดข้อมูลที่คำนวณแบบนิยามเดียวกันได้ครบใน source set; ไม่ใส่ตัวเลขแทน (source: SEC Company Facts API, ดึง 2026-09-15)</li>
-<p><b>Valuation snapshot:</b> ราคา $493.41; market cap $805.480B; trailing P/E 125.87x; forward P/E 31.81x; EV/EBITDA 87.19x; 52-week range $149.85–$584.73 — ณ ราคาปิด/ข้อมูลล่าสุด 2026-09-14, ดึง 2026-09-15 จาก yfinance (<code>AMD</code>). เป็น snapshot ไม่ใช่คำตัดสินว่าถูกหรือแพง</p>
+<li><b>Reported:</b> FY2021–FY2025 revenue $16.434B, $23.601B, $22.680B, $25.785B, $34.639B ตามลำดับ; FY2025 โต 34.3% y/y (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>Reported:</b> FY2025 gross profit $17.152B, operating income $3.694B, net income $4.335B, OCF $7.709B และ capex $0.974B (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
+<li><b>Reported ล่าสุด:</b> 9M FY2026 revenue $35.166B เทียบ $24.369B ปีก่อน และ operating income $6.298B เทียบ $1.942B (source: sources/AMD/10-q-2026-11-04.md, 2026-11-04)</li>
+<li><b>Interpretation:</b> growth และ operating leverage ดีขึ้นชัด แต่ต้องดู SBC, dilution และ cash conversion ต่อ diluted share ต่อไป; ROIC แบบนิยามเดียวกัน <b>ไม่พบ</b></li>
+<p><b>Valuation snapshot:</b> ราคา $483.90; 52-week range $188.22–$658.52; ณ 2026-11-04 จาก Yahoo Finance chart endpoint. Market cap, P/E และ EV/EBITDA <b>ไม่พบจาก endpoint ที่เข้าถึงได้</b> (source: Yahoo Finance chart endpoint, fetched 2026-11-04).</p>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li><b>Reported balance sheet:</b> FY2025 cash and equivalents $5.539B, long-term debt $2.348B และ stockholders’ equity $62.999B; เงินสดมากกว่าหนี้ระยะยาวตามตัวเลขที่ดึงจาก SEC แต่ต้องรวม short-term investments และ acquisition obligations เมื่อทำ net debt แบบเต็ม (source: SEC Company Facts API, ดึง 2026-09-15)</li>
-<li><b>Capital allocation:</b> บริษัทใช้เงินกับ R&amp;D สูงและทำ strategic acquisitions เพื่อขยาย software, networking และ full-stack AI; acquisition integration และ goodwill/intangibles เป็นสิ่งที่ต้องติดตามคู่กับ operating profit (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li><b>SBC/dilution/buyback:</b> ไม่พบชุดตัวเลข SBC, diluted share trend และ buyback ที่ครบและนิยามเดียวกันใน source note ที่ cache ไว้; จึงไม่แต่งตัวเลข ต้องกลับไปตรวจ stock-compensation footnote และ statement of equity ใน 10-K ล่าสุด (source: sources/AMD/10-k-2025.md, ตรวจ 2026-09-15)</li>
+<li><b>Reported:</b> ณ 26 ก.ย. 2026 cash $7.404B, short-term investments $8.372B และ long-term debt $7.079B; ภาพสภาพคล่องมีเงินสดและเงินลงทุนระยะสั้นรองรับ แต่หนี้เพิ่มจาก FY2025 (source: sources/AMD/10-q-2026-11-04.md; sources/AMD/10-k-2025.md)</li>
+<li>บริษัทลงทุน R&amp;D สูงเพื่อรักษา roadmap CPU/GPU/software และมี acquisition/integration risk; FY2025 R&amp;D $8.091B (source: sources/AMD/10-k-2025.md)</li>
+<li>SBC, diluted-share trend และ buyback ล่าสุดแบบครบ <b>ไม่พบ</b> ใน source note ที่ใช้รอบนี้ จึงไม่แต่ง</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Reported Q2 FY2026:</b> revenue $11.536B, gross profit $6.203B, operating income $1.990B และ net income $2.297B สำหรับไตรมาสสิ้นสุด 2026-06-27 (source: sources/AMD/q2-2026-call.md, SEC 10-Q filed 2026-08-05)</li>
-<li><b>Reported 1H FY2026:</b> revenue $21.789B และ operating cash flow $5.321B (source: sources/AMD/q2-2026-call.md, SEC 10-Q filed 2026-08-05)</li>
-<li><b>Guidance / consensus / beat-miss:</b> ไม่พบใน primary source ที่ cache; ห้ามแปลงตัวเลข 10-Q ให้เป็น management guidance หรือ transcript commentary (source: sources/AMD/q2-2026-call.md, ตรวจ 2026-09-15)</li>
-<li><b>Transcript status:</b> ไม่พบ StockAnalysis transcript; source note ระบุ HTTP 403 เมื่อ 2026-09-15 จึงใช้ SEC 10-Q substitute (source: sources/AMD/q2-2026-call.md, ตรวจ 2026-09-15)</li>
+<li><b>Reported:</b> Q3 FY2026 revenue $13.377B, gross profit $7.210B, operating income $2.832B, net income $2.428B, diluted EPS $1.46; revenue +45% y/y และ +16% q/q (source: sources/AMD/q3-2026-call.md, 2026-11-03; sources/AMD/10-q-2026-11-04.md)</li>
+<li><b>Reported:</b> Data Center $8.5B, +97% y/y; Client and Gaming $3.7B, -8%; Embedded $1.1B, +29% (source: sources/AMD/q3-2026-call.md, 2026-11-03)</li>
+<li><b>Guidance:</b> Q4 FY2026 revenue ประมาณ $17B +/-3%, midpoint +66% y/y และ +27% q/q; non-GAAP gross margin ประมาณ 55% (source: sources/AMD/q3-2026-call.md, 2026-11-03)</li>
+<li><b>Transcript:</b> ไม่พบ StockAnalysis transcript; ใช้ SEC 10-Q และ AMD IR release เท่านั้น ไม่เรียก release ว่า transcript (source: sources/AMD/q3-2026-call.md, 2026-11-04)</li>
 <h2>7. Valuation</h2>
-<li><b>Reported/market snapshot:</b> ราคา $493.41, market cap $805.480B, trailing P/E 125.87x, forward P/E 31.81x และ EV/EBITDA 87.19x ณ 2026-09-14; เป็นตัวเลขตลาด ไม่ใช่ fair value (source: yfinance <code>AMD</code>, ดึง 2026-09-15)</li>
-<li><b>Valuation limitation:</b> ยังไม่มี historical multiple range และ peer comparison ที่ verify ได้ครบใน source set จึงไม่ใส่ตัวเลขแทน (source: ตรวจ source set 2026-09-15)</li>
-<h2>8. 5-Year Scenarios</h2>
-<p>| Scenario | สมมติฐานเชิงคุณภาพ | Target 5Y | CAGR จาก $493.41 | Probability |</p>
-<p>|---|---|---:|---:|---:|</p>
-<p>| Bull | Data Center AI scale ขึ้น, ROCm/system attach ดีขึ้น, margin และ FCF ต่อหุ้นโต | $800 | 10.1% | ไม่กำหนด |</p>
-<p>| Base | EPYC/Ryzen โตต่อ, AI accelerator ได้ share บางส่วน, multiple ลดจากปัจจุบัน | $600 | 4.0% | ไม่กำหนด |</p>
-<p>| Bear | GPU/software execution ช้ากว่า, custom silicon/NVIDIA กด share, multiple compression | $300 | -9.5% | ไม่กำหนด |</p>
-<li>Target และ CAGR เป็น <b>Scenario</b> ที่สร้างเพื่อทดสอบว่าต้องเกิดอะไร ไม่ใช่ fair value และไม่กำหนด probability เพราะไม่มี forecast ที่ verify ได้ครบ (source: yfinance price; calculation run 2026-09-15)</li>
-<li><b>Multiple risk:</b> trailing P/E สูงมากเพราะกำไรปัจจุบันยังเป็น denominator ที่เล็กเมื่อเทียบกับราคาตลาด; forward P/E ต่ำลงไม่ได้แปลว่าปลอดภัย หาก forward earnings เป็นสมมติฐานที่ต้องพึ่ง AI ramp (source: yfinance, ดึง 2026-09-15)</li>
-<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
-<li><b>Catalysts:</b> Data Center segment growth, next-generation EPYC/Instinct launches, ROCm adoption, networking/rack-scale integration และ customer deployment ที่แปลงเป็น reported revenue/operating margin (source: sources/AMD/10-k-2025.md, filed 2026-02-04)</li>
-<li><b>Risks:</b> NVIDIA ecosystem, Intel response, custom silicon/hyperscaler concentration, export controls, TSMC/packaging capacity, product delays และ acquisition integration (source: sources/AMD/10-k-2025.md, filed 2026-02-04)</li>
-<li><b>Latest-quarter limitation:</b> source ล่าสุดไม่มี guidance หรือ beat/miss comparison จึงยังสรุป momentum เทียบ consensus ไม่ได้อย่างรับผิดชอบ (source: sources/AMD/q2-2026-call.md, ตรวจ 2026-09-15)</li>
+<li><b>Reported/market:</b> ราคา $483.90 และ 52-week range $188.22–$658.52 ณ 2026-11-04; market cap/P/E/EV-EBITDA <b>ไม่พบ</b> (source: Yahoo Finance chart endpoint, 2026-11-04)</li>
+<li><b>Scenario frame:</b> ไม่กำหนด fair value จุดเดียว เพราะ consensus estimates, diluted-share forecast และ multiple history ที่ verify ได้ไม่ครบ</li>
+<li><b>Consensus:</b> จำนวน analyst, target และ rating revisions <b>ไม่พบ</b>; ไม่ใช้ตัวเลขที่หาไม่ได้มาเติม</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull:</b> Data Center/Instinct และ Helios scale ต่อ, ROCm/system attach ดีขึ้น, gross margin และ FCF/share ขยาย; target/probability <b>ไม่กำหนด</b> เพราะไม่มี forecast ที่ verify ได้</li>
+<li><b>Base:</b> EPYC/Ryzen โตต่อ, AI accelerator ได้ส่วนแบ่งบางส่วน แต่ competition กด multiple และ margin; target/probability <b>ไม่กำหนด</b></li>
+<li><b>Bear:</b> NVIDIA/custom silicon ชะลอการยอมรับ, ROCm ไม่ลด friction, supply/export/product execution สะดุด และ Client/Gaming อ่อน; target/probability <b>ไม่กำหนด</b></li>
+<li>ทุกข้อเป็น <b>Scenario</b> ไม่ใช่ Guidance หรือ Consensus (source: ผู้จัดทำจาก sources/AMD/10-k-2025.md และ q3 release, 2026-11-04)</li>
+<h2>9. Catalysts &amp; Risks</h2>
+<li><b>Catalysts:</b> Q4 delivery เทียบ guidance, Data Center growth, Helios/Instinct/EPYC deployments, ROCm adoption และ non-GAAP gross margin (source: sources/AMD/q3-2026-call.md, 2026-11-03)</li>
+<li><b>Risks:</b> Data Center โตช้าลง, gaming decline ลากยาว, NVIDIA/custom silicon, export controls, packaging capacity, acquisition integration และ dilution (source: sources/AMD/10-k-2025.md, 2026-02-04)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>AMD อาจขายชิปที่ดีขึ้นเรื่อย ๆ แต่ยังไม่เก็บ economics ของระบบ AI ได้ หาก software, networking และ customer lock-in ไม่แข็งพอที่จะรักษา margin หลังการแข่งขันตอบโต้ (source: sources/AMD/10-k-2025.md, SEC 10-K filed 2026-02-04)</li>
-<li>Permanent capital-loss risk คือการจ่าย valuation สูงสำหรับกำไรในอนาคตที่ต้องเกิดพร้อมกันหลายข้อ: AI accelerator share, ROCm adoption, supply execution และ gross margin; พลาดเพียง 1–2 ข้ออาจทำให้ทั้ง EPS และ multiple ลดพร้อมกัน (source: yfinance; sources/AMD/10-k-2025.md, ดึง 2026-09-15)</li>
-<li>Bear floor ในเชิงธุรกิจคือ Data Center โตช้าลง ขณะที่ R&amp;D, SBC หรือ acquisition spending ยังสูง และ FCF ต่อ diluted share ไม่ขยายตาม reported revenue (source: SEC Company Facts API; sources/AMD/10-k-2025.md, ดึง 2026-09-15)</li>
+<li>AMD อาจเพิ่ม revenue ได้มาก แต่เก็บ economics ของ AI system ไม่ได้ หาก software/networking attach ไม่พอหรือการแข่งขันบังคับให้ลดราคา</li>
+<li>จุดเปราะบางคือสมมติฐานหลายข้อเกิดพร้อมกัน: product availability, customer deployment, ROCm adoption, margin และ FCF/share</li>
+<li><b>Fact / Interpretation / Judgment:</b> Fact คือ Q3/Data Center โตแรง; Interpretation คือ execution ดีขึ้น; Judgment คือยังต้องพิสูจน์ความยั่งยืนของกำไรต่อหุ้นและ valuation</li>
 <h2>11. Portfolio Strategy / Kill Conditions</h2>
-<li>ใช้เป็น watchlist framework ไม่ใช่คำสั่งซื้อ: แยก Data Center revenue/margin, client/gaming cycle, embedded recovery, FCF/share และ dilution ทุกงบ (source: SEC 10-K/10-Q, 2026-02-04 และ 2026-08-05)</li>
-<li><b>Kill condition:</b> Data Center โตต่ำกว่าที่ thesis ต้องการต่อเนื่อง และไม่มีหลักฐานว่า AI accelerator/software attach กำลังชดเชย (source: SEC filings, ตรวจ 2026-09-15)</li>
-<li><b>Kill condition:</b> gross margin หรือ operating margin ลดลงพร้อมกับ R&amp;D/CapEx/SBC เพิ่ม โดยไม่มี operating leverage และ FCF ต่อหุ้นไม่โต (source: SEC Company Facts API; AMD 10-K, ดึง 2026-09-15)</li>
-<li><b>Kill condition:</b> customer concentration, export restrictions, foundry/packaging dependency หรือคู่แข่งทำให้ AMD ส่งมอบ roadmap ไม่ได้ในระดับที่ economics เปลี่ยนถาวร (source: sources/AMD/10-k-2025.md, filed 2026-02-04)</li>
+<li>ติดตามเป็น long-term evidence framework: Data Center revenue/margin, Q4 delivery, FCF/share, SBC/dilution และ Client/Gaming recovery; ไม่กำหนด buy/sell/hold หรือ sizing</li>
+<li><b>Kill condition:</b> Data Center/AI โตต่ำกว่าความจำเป็นของ thesis ต่อเนื่อง และไม่มีหลักฐานว่า EPYC/ROCm/system attach ชดเชย</li>
+<li><b>Kill condition:</b> revenue โตแต่ gross/operating margin และ FCF ต่อ diluted share ไม่ขยาย หรือ dilution/SBC เร่งจนผลประโยชน์ไม่ถึงผู้ถือหุ้น</li>
+<li><b>Kill condition:</b> roadmap, supply/export restrictions หรือ custom silicon ทำให้ AMD สูญเสีย economics เชิงโครงสร้าง ไม่ใช่เพียงไตรมาสสะดุด</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
 <p>| ชั้น | เนื้อหา |</p>
 <p>|---|---|</p>
-<p>| Fact | FY2025 revenue $34.639B, net income $4.335B, OCF $7.709B, CapEx $0.974B; Q2 FY2026 revenue $11.536B (source: SEC Company Facts; sources/AMD/q2-2026-call.md, ดึง 2026-09-15) |</p>
-<p>| Interpretation | ธุรกิจฟื้นตัวและโตแรง แต่ quality ของการเติบโตขึ้นกับ Data Center AI, software และ dilution—not revenue headline อย่างเดียว (source: SEC filings, ตีความ 2026-09-15) |</p>
-<p>| Judgment | ราคาปัจจุบันต้องการ execution สูง; ควรศึกษาต่อด้วย quarterly evidence และไม่ให้ scenario กลายเป็น fact (source: ผู้จัดทำ, 2026-09-15) |</p>
-<h3>Source limitations</h3>
-<li>ไม่มี StockAnalysis transcript ใน cache; ใช้ SEC 10-Q substitute และไม่มี guidance/consensus beat-miss ที่ตรวจได้</li>
-<li>yfinance เป็น market-data snapshot ณ 2026-09-14; multiples เปลี่ยนได้ตามราคาและนิยามข้อมูล</li>
-<li>SBC, diluted share trend และ ROIC/ROE แบบ normalized ยังขาดตัวเลขที่ verify ได้ครบ จึงไม่แต่ง</li>
+<p>| <b>Fact</b> | Q3 revenue $13.377B, Data Center $8.5B, Q4 guidance $17B +/-3%, cash $7.404B และ long-term debt $7.079B (source: sources/AMD/q3-2026-call.md; sources/AMD/10-q-2026-11-04.md) |</p>
+<p>| <b>Interpretation</b> | Q3 ยืนยัน demand และ operating leverage แต่ mix ยังไม่สม่ำเสมอเพราะ Gaming ลดลง (source: sources/AMD/q3-2026-call.md) |</p>
+<p>| <b>Judgment</b> | thesis ดีขึ้นด้าน execution แต่ valuation และความยั่งยืนของ AI economics ยังเป็นคำถามหลัก; ไม่ใช้ scenario เป็น fact |</p>
+<h2>Earnings Update — 2026-11-04</h2>
+<li><b>เหตุผลที่อัปเดต:</b> AMD ยื่น 10-Q Q3 FY2026 วันที่ 2026-11-04 และประกาศผลผ่าน IR วันที่ 2026-11-03</li>
+<li><b>Fact:</b> Q3 revenue/Data Center โตแรง, Q4 guidance สูง และ balance sheet มีเงินสด/ลงทุนระยะสั้นเพิ่ม แต่หนี้ระยะยาวสูงขึ้น (source: sources/AMD/10-q-2026-11-04.md; sources/AMD/q3-2026-call.md)</li>
+<li><b>Interpretation:</b> ยืนยัน core thesis เรื่อง Data Center/AI demand และ operating leverage; เปลี่ยนจากหลักฐาน Q2 เป็นหลักฐาน Q3 ที่แรงขึ้น</li>
+<li><b>Judgment:</b> ยังไม่ลบ anti-thesis เรื่อง ecosystem, competition, supply และ valuation; ต้องรอผลส่งมอบ Q4 และ cash flow/share</li>
+<li><b>Analyst views:</b> consensus/จำนวน analyst/target/rating changes หลัง catalyst <b>ไม่พบ</b>; จึงไม่มี old→new revision ให้รายงาน</li>
+<li><b>ข้อจำกัด:</b> StockAnalysis transcript ไม่พบ; Yahoo valuation ได้เพียงราคาและ 52-week range; market cap/P/E/EV-EBITDA และ consensus ไม่พบ</li>
 </div></body></html>

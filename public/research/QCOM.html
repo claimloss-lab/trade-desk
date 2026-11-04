@@ -15,73 +15,79 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">QCOM</div>
-<div class="meta">Thesis · 2026-10-01</div>
+<div class="meta">Thesis · 2026-11-05</div>
 <hr>
 <p>ticker: QCOM</p>
 <p>name: QUALCOMM Incorporated</p>
 <p>memo_type: Full Giggs-style investment memo</p>
-<p>updated: 2026-09-20</p>
+<p>updated: 2026-11-05</p>
 <hr>
 <h1>QCOM — Full Investment Memo</h1>
-<blockquote>สถานะข้อมูล: ทำจาก SEC EDGAR JSON/XBRL, StockAnalysis transcript และ Yahoo chart ดึงวันที่ 2026-09-20. ไม่มีคำแนะนำซื้อ/ขาย/ถือ; ตัวเลข valuation บางรายการไม่พบจาก endpoint ที่ใช้ จึงไม่แต่ง</blockquote>
+<blockquote>สถานะข้อมูล: อัปเดตจาก SEC Form 10-K และ earnings release/8-K ลงวันที่ 2026-11-04, งวดสิ้นสุด 2026-09-27; ดึง source ตรงจาก SEC วันที่ 2026-11-05. ไม่มีคำแนะนำซื้อ/ขาย/ถือ</blockquote>
 <h2>1. Investment Verdict</h2>
-<li><b>Investment question:</b> Qualcomm จะเปลี่ยนจากบริษัทที่พึ่งพามือถือเป็นแพลตฟอร์ม compute/connectivity ที่มีรายได้จาก automotive, IoT และ data center มากพอชดเชยความเสี่ยง smartphone ได้จริงหรือไม่? (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li><b>Analytical rating:</b> <b>Watch / ต้องพิสูจน์ execution</b> — มีหลักฐานเชิงบวกจากดีล Amazon และเป้ารายได้ data center แต่ transcript นี้เป็น conference commentary ไม่ใช่ผลประกอบการไตรมาสเต็ม (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li><b>Fair-value framework:</b> ไม่มี fair value เดียวที่เชื่อถือได้จากข้อมูลที่ดึงรอบนี้. Scenario framework ใช้ EPS/multiple เป็น <b>สมมติฐานผู้วิเคราะห์ ไม่ใช่ guidance</b>: Worst $115, Base $210, Bull $300 ในปี 2031; ไม่ควรอ่านเป็นราคาเป้าหมาย (source: assumptions; market anchor <code>sources/QCOM/market-data.md</code>, 2026-09-20)</li>
-<li><b>Entry / allocation:</b> ไม่กำหนดจุดซื้อหรือ allocation แทนผู้ลงทุน; หากใช้เป็น watchlist ให้ cap น้ำหนักตามความเสี่ยงที่ data-center revenue ยังไม่พิสูจน์และ smartphone concentration ยังสูง (Judgment, 2026-09-20)</li>
-<li><b>5Y CAGR:</b> จากราคาตลาด $177.72 ถึง scenario targets: Worst -8.2%, Base 3.4%, Bull 11.0% ต่อปีโดยประมาณ; เป็น calculation จากสมมติฐาน ไม่ใช่ forecast (source: <code>sources/QCOM/market-data.md</code>, 2026-09-20; scenario assumptions)</li>
+<li><b>Investment question:</b> Qualcomm จะเปลี่ยนจากบริษัทที่พึ่งพามือถือเป็นแพลตฟอร์ม compute/connectivity ที่ automotive, IoT และ data center ชดเชย handset ได้จริงหรือไม่?</li>
+<li><b>Reported:</b> FY2026 GAAP revenue $43.1bn และ GAAP EPS $12.70; EPS มี tax benefit $5.7bn หรือ $5.32 ต่อหุ้นจากการ release valuation allowance จึงไม่ควรใช้ GAAP EPS ตรง ๆ เป็น normalized earnings (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Guidance:</b> บริษัทระบุ non-handset revenue FY2027 คาดโตมากกว่า 60% YoY และย้ำเป้า Data Center revenue FY2029 $15bn; เป็น company outlook ไม่ใช่ reported revenue (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Interpretation/Judgment:</b> หลักฐาน diversification แข็งแรงขึ้น แต่ thesis ยังต้องผ่าน data-center conversion, QCT margin และความเสี่ยง customer concentration; ไม่กำหนด fair value หรือ allocation.</li>
+<li><b>THE CORE / THE OPTION / THE PRICE:</b> core คือ QCT semiconductor + QTL licensing; option คือ Dragonwing/data center และ auto/IoT; price คือ $173.19 ณ 2026-11-04 UTC (source: Yahoo Chart, https://query1.finance.yahoo.com/v8/finance/chart/QCOM?range=1y&amp;interval=1d)</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>QCT ขายชิปและระบบเชื่อมต่อให้มือถือ, automotive, IoT และกำลังขยายไป custom silicon, CPU/accelerator และ optical connectivity สำหรับ data center; ลูกค้าจ่ายเพื่อ performance-per-watt, modem/connectivity และการออกแบบที่ผลิตได้จริง (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li>QTL เก็บค่าลิขสิทธิ์จากทรัพย์สินทางปัญญามาตรฐานไร้สาย เป็นรายได้คนละกลไกกับ QCT; memo รอบนี้ไม่มีการดึงตาราง segment ล่าสุดจาก 10-K/10-Q จึงไม่ใส่สัดส่วนหรือ margin ที่ไม่ verify (source: latest filing links in <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>Data center thesis มี 4 ขา: custom silicon, AI accelerator, CPU และ connectivity; ดีล Amazon ครอบคลุม custom silicon/optical connectivity และ warrant ผูกกับ purchases สูงสุด $60B ใน 10 ปี แต่ยอดซื้อไม่เท่ากับรายได้ที่รับรู้แล้ว (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li><b>THE CORE:</b> QCT/QTL และความเชี่ยวชาญชิป low-power; <b>THE OPTION:</b> data center และการโตของ auto/IoT; <b>THE PRICE:</b> ราคาตลาด $177.72 และกรอบ 52 สัปดาห์จาก Yahoo ไม่ได้บอกว่าถูกหรือแพง (source: <code>sources/QCOM/market-data.md</code>, 2026-09-20)</li>
+<li>QCT ขาย integrated circuit platforms/system software สำหรับ handset, automotive, IoT, networking และ robotics; QTL ให้สิทธิใช้ portfolio สิทธิบัตร wireless และเก็บ royalty (source: sources/QCOM/qcom-20260927.htm.md, 2026-11-04)</li>
+<li>FY2026 QCT revenue reported $37.208bn; QTL revenue ตัวเลขใน release ต้องดูตาราง segment เต็มประกอบ และไม่เติมตัวเลขที่ extraction รอบนี้อ่านไม่ครบ (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li>Data Center option ครอบคลุม CPU, AI accelerators, connectivity และ custom silicon; ดีล/เป้าหมายเป็น guidance/commentary ไม่ใช่รายได้ที่รับรู้แล้ว (source: sources/QCOM/qcom-20260927.htm.md และ 8-K release, 2026-11-04)</li>
+<li>7 Powers ที่เห็นคือ process power จาก engineering/scale, switching costs ใน system integration และ IP/standard position ของ QTL; counter-positioning ด้าน low-power compute ช่วยเปิดตลาดใหม่ แต่ Apple, MediaTek และลูกค้าทำชิปเองเป็นแรงกดดัน (source: sources/QCOM/qcom-20260927.htm.md)</li>
+<li><b>Valuation snapshot:</b> ราคา $173.19; 52-week range $121.99–$259.92 จาก Yahoo metadata ณ 2026-11-04 UTC; market cap, P/E และ EV/EBITDA ที่ verify ได้ <b>ไม่พบ</b> (source: Yahoo Chart URL ข้างต้น)</li>
 <h2>3. Competitive Advantages &amp; Risks</h2>
-<li>7 Powers ที่เห็นได้ชัดคือ <b>process power</b> จากการทำชิป advanced node ใน scale และ <b>counter-positioning</b> ด้าน performance-per-watt ในงานที่มีข้อจำกัด power; ผู้บริหารระบุว่าบริษัทนำความสามารถ high-performance/low-power และ yield มาสู่ data center (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li><b>Switching costs / ecosystem:</b> modem, connectivity และ IP ทำให้ลูกค้าต้องประเมินทั้งระบบ ไม่ใช่เปลี่ยนชิ้นส่วนเดี่ยวได้ทันที; อย่างไรก็ดี Apple in-house, MediaTek, hyperscaler custom silicon และผู้ผลิต accelerator เป็นแรงกดดันเฉพาะบริษัท (source: latest filing links <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20; competitive interpretation)</li>
-<li>ความเสี่ยงหลักคือ Amazon/Meta และลูกค้า hyperscaler อาจกระจุกตัว, qualification อาจล่าช้า, และ QCOM เป็นผู้เล่นใหม่ใน data center แม้มีเทคโนโลยีที่เกี่ยวข้อง (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
+<li><b>Advantages:</b> QCT รวม connectivity, compute, AI, software และ system-level integration; QTL มี portfolio สิทธิบัตรมาตรฐาน wireless และ licensees จำนวนมาก (source: sources/QCOM/qcom-20260927.htm.md)</li>
+<li><b>Risks:</b> FY2026 Apple และ Samsung แต่ละรายคิดเป็นอย่างน้อย 10% ของ consolidated revenue; handset/customer concentration จึงยัง material (source: sources/QCOM/qcom-20260927.htm.md)</li>
+<li><b>Risks:</b> ลูกค้าบางรายทำ silicon เอง, semiconductor competition สูง และ data center/auto อาจพึ่งลูกค้าจำนวนน้อย; qualification หรือ ramp ล่าช้าได้ (source: sources/QCOM/qcom-20260927.htm.md)</li>
 <h2>4. Financial Quality 5-year</h2>
-<li>Revenue ที่ SEC facts แสดง: FY2022 $44.20B, FY2023 $35.82B, FY2024 $38.96B, FY2025 $44.28B; direction คือฟื้นจาก trough แต่ยังไม่ใช่เส้นเติบโตเรียบ (source: <code>sources/QCOM/sec-companyfacts.md</code>, retrieved 2026-09-20)</li>
-<li>Operating income: $15.86B, $7.79B, $10.07B, $12.36B ตามลำดับ; net income: $12.94B, $7.23B, $10.14B, $5.54B. FY2025 net income ลดแรงเมื่อเทียบกับ operating income จึงต้องอ่านรายการพิเศษและ tax/other items ใน 10-K เต็ม (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>OCF: FY2022 $9.10B, FY2023 $11.30B, FY2024 $12.20B, FY2025 $14.01B; cash conversion ดูแข็งแรงกว่ากำไรสุทธิ FY2025 แต่ยังไม่มี CapEx ที่ extract ได้ครบใน source รอบนี้ จึงไม่คำนวณ FCF 5 ปี (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>R&amp;D: $8.19B, $8.82B, $8.89B, $9.04B ใน FY2022–FY2025; บริษัทกำลังลงทุนเพื่อขยายตลาด แต่ ROE/ROIC และ gross margin 5 ปี <b>ไม่พบในชุด source ที่ดึงรอบนี้</b> (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
+<li><b>Reported historical:</b> FY2022–FY2025 revenue $44.20bn, $35.82bn, $38.96bn, $44.28bn ตาม source เดิม; direction คือฟื้นจาก trough แต่ไม่เรียบ (source: sources/QCOM/sec-companyfacts.md)</li>
+<li><b>Reported FY2026:</b> GAAP revenue $43.1bn; GAAP EPS $12.70 และ non-GAAP EPS $10.54. GAAP EPS ถูกกระทบจาก tax benefit $5.7bn จึงต้องแยก reported กับ normalized (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Reported segment:</b> FY2026 QCT revenue $37.208bn; Q4 QCT automotive ทำสถิติไตรมาสแรกเกิน $2bn และโต 89% YoY ตาม release (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li>FY2026 OCF, CapEx, FCF, ROIC และ diluted-share bridge ที่ comparable <b>ไม่พบครบใน extraction รอบนี้</b>; ไม่ใช้ FY2025 OCF เดิมแทน current year.</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash, debt, net debt, SBC, dilution และ buyback รายปี <b>ไม่พบตัวเลขที่ verify ได้จาก extraction รอบนี้</b>; ไม่ควรใช้ brief เก่าหรือค่าประมาณแทน 10-K ล่าสุด (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>การมี OCF $14.01B ใน FY2025 เป็นข้อเท็จจริงด้าน cash generation แต่ยังไม่ตอบว่าหลัง R&amp;D, CapEx, dividend และ repurchase เหลือเงินอิสระเท่าใด (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>จุดตรวจสอบก่อนตัดสินใจคือ dilution จาก warrant/stock compensation ที่เกี่ยวข้องกับดีล Amazon และผลกระทบจากการซื้อกิจการ/ลงทุน data center; transcript ยืนยันโครงสร้าง warrant แต่ไม่ได้ให้ accounting impact ครบ (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
+<li><b>Reported:</b> release ระบุว่ามี stock repurchases และ cash dividends ใน FY2026 แต่ยอดรวมที่ใช้ตรวจสอบรอบนี้ยังไม่ครบ จึงไม่ใส่ตัวเลข.</li>
+<li>FY2026 tax benefit เป็นรายการสำคัญที่ต้องแยกจาก operating earning power; balance sheet cash, debt, net debt, SBC และ dilution <b>ไม่พบครบที่ verify ได้</b> ใน source extraction รอบนี้.</li>
+<li>ติดตาม capital allocation ควบคู่กับ data-center investment, acquisition-related items และ diluted shares; อย่าใช้ headline EPS เพียงตัวเดียว (source: SEC 10-K และ earnings release, 2026-11-04)</li>
 <h2>6. Latest Earnings</h2>
-<li>ไฟล์ล่าสุดที่ดึงจาก SEC คือ 10-Q งวดสิ้นสุด 2026-06-28 และ 8-K วันที่ 2026-07-29; memo นี้ไม่ได้สรุปตัวเลขไตรมาสจาก filing เต็ม เพราะ source ที่เก็บเป็น index/JSON facts ไม่ใช่ income statement ไตรมาสครบ (source: <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
-<li>Transcript ล่าสุดจาก StockAnalysis ที่พบเป็น Goldman Sachs Communacopia + Technology Conference 2026 ไม่ใช่ earnings call transcript; ใช้ได้สำหรับ management commentary แต่ไม่เรียกว่า earnings call (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li>Management commentary ระบุเป้ารายได้ data center ประมาณ $5B ใน FY2027 และ $15B ใน FY2029; Amazon เริ่มรับรู้รายได้ตั้งแต่ December quarter ตามคำกล่าวใน transcript — ทั้งหมดเป็น company target/commentary ไม่ใช่ reported revenue (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li>ดีล Amazon มี product หลาย generation และ optical connectivity 1.6T ขึ้นไป; บริษัทระบุว่า production เริ่มแล้ว แต่ยังไม่มีตัวเลข shipment, gross margin หรือ backlog ที่ยืนยันใน source นี้ (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
+<li><b>Reported:</b> FY2026 GAAP revenue $43.1bn, GAAP EPS $12.70 และ non-GAAP EPS $10.54; GAAP EPS รวม tax benefit $5.7bn/$5.32 ต่อหุ้นจาก valuation allowance release (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Reported:</b> Q4 revenue $10.322bn; Q4 QCT revenue $9.015bn. QCT automotive revenue ทำสถิติ quarter แรกเกิน $2bn และโต 89% YoY (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Guidance:</b> Q1 FY2027 revenue $10.4–11.2bn, QCT $9.0–9.6bn, QTL $1.3–1.5bn, GAAP diluted EPS $1.03–1.23 และ non-GAAP diluted EPS $2.15–2.35; guidance รวม Data Center (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Guidance/Risk:</b> บริษัทคาด input costs ใน wafer, assembly, test, packaging และ materials สูงขึ้น; pricing actions คาดสะท้อน QCT gross margin เต็มที่ในครึ่งหลัง FY2027 (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Transcript:</b> พบลิงก์ conference call ใน release แต่ transcript จาก StockAnalysis ที่ verify ได้ <b>ไม่พบ</b> ในรอบนี้; ใช้ earnings release และ 10-K โดยไม่เรียก filing ว่า transcript.</li>
 <h2>7. Valuation</h2>
-<li><b>Market price:</b> $177.72; <b>52-week close range:</b> $124.07–$251.02; fetched 2026-09-20 (source: <code>sources/QCOM/market-data.md</code>)</li>
-<li><b>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, EV/FCF, FCF yield, PEG:</b> ไม่พบจาก direct Yahoo chart endpoint ที่ใช้รอบนี้ จึงเว้นไว้ ไม่แต่ง (source: <code>sources/QCOM/market-data.md</code>, 2026-09-20)</li>
-<li>Scenario multiple method: Worst EPS $10 × 11x = $115; Base EPS $15 × 14x = $210; Bull EPS $20 × 15x = $300 ในปี 2031. EPS/multiple/probability เป็น judgment model ไม่ใช่ consensus (source: assumptions, 2026-09-20)</li>
-<li>Peer valuation และ historical range <b>ยังไม่ได้ดึง</b> จาก StockAnalysis/MarketBeat รอบนี้; fair value จึงมีความไม่แน่นอนสูง (source limitation, 2026-09-20)</li>
+<li><b>Observed:</b> ราคา $173.19; 52-week range $121.99–$259.92 ณ 2026-11-04 UTC (source: Yahoo Chart URL ในหัวข้อ 2)</li>
+<li>Market cap, trailing/forward P/E, EV/Sales, EV/EBITDA, FCF yield และ verified peer range <b>ไม่พบ</b>.</li>
+<li>Scenario method เดิมที่ใช้ EPS/multiple ถูกพักไว้ เพราะ FY2026 GAAP EPS มี tax benefit และ guidance/margin ใหม่ยังต้อง normalize; ไม่สร้าง target ใหม่จากความแม่นยำเทียม.</li>
+<li>Analyst consensus จำนวน analyst, rating distribution, average/median target และ brokerage revisions หลัง earnings <b>ไม่พบที่ verify ได้</b> จาก source ที่ใช้รอบนี้.</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
-<p>| Scenario | 2031 EPS | Multiple | Target | Probability | Expected contribution |</p>
-<p>|---|---:|---:|---:|---:|---:|</p>
-<p>| Bear | $10 | 11x | $115 | 30% | $34.50 |</p>
-<p>| Base | $15 | 14x | $210 | 50% | $105.00 |</p>
-<p>| Bull | $20 | 15x | $300 | 20% | $60.00 |</p>
-<p>| <b>Probability-weighted</b> | — | — | <b>$199.50</b> | 100% | <b>$199.50</b> |</p>
-<li>Bear: smartphone/royalty pressure และ data center ไม่ scale; Base: core ฟื้นและ auto/IoT โต ขณะที่ data center ค่อย ๆ เข้าเป้า; Bull: Amazon/Meta/custom silicon ทำให้เป้า $15B FY2029 มีฐานรองรับ (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20; analyst assumptions)</li>
+<li><b>Bull:</b> non-handset โตตาม guidance, data center ramp, auto/IoT โตต่อ และ QTL รักษา economics; target/probability ไม่ระบุ.</li>
+<li><b>Base:</b> handset ทรงตัว, auto/IoT โต, data center ค่อย ๆ รับรู้ และ input-cost pricing actions ช่วย margin ใน H2 FY2027; ต้องพิสูจน์ผ่าน reported revenue/FCF.</li>
+<li><b>Bear:</b> handset/customer concentration กด QCT, data center ไม่ scale, input costs กด margin และ QTL ถูกกดด้วย licensing/regulation; multiple ลดลง.</li>
 <h2>9. Catalysts &amp; Risks (12–24 เดือน)</h2>
-<li>Catalysts: first Amazon revenue recognition, qualification ของ custom silicon/optical products, data-center target tracking, และ auto/IoT growth (source: <code>sources/QCOM/transcript.md</code>, 2026-09-20)</li>
-<li>Risks: data-center customer concentration, execution/yield, smartphone weakness, licensing disputes/regulation, and capital intensity; ตัวเลข exposure ล่าสุดยังไม่ครบ (source: <code>sources/QCOM/sec-companyfacts.md</code> and transcript, 2026-09-20)</li>
+<li><b>Catalysts:</b> QCT automotive &gt;$2bn quarter, data-center first revenue/ramp, non-handset growth &gt;60% FY2027 guidance และ QTL license renewals กับ Apple/Huawei/Transsion (source: earnings release, 2026-11-04)</li>
+<li><b>Risks:</b> Q1 GAAP/non-GAAP EPS gap, input-cost inflation, customer concentration, custom silicon ของลูกค้า, China/geopolitical exposure และ licensing disputes (source: earnings release และ 10-K, 2026-11-04)</li>
+<li><b>Consensus:</b> ไม่มี snapshot ที่ verify ได้; ไม่ใช้ analyst sentiment มาปรับ thesis.</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>ถ้า Amazon deal มี headline value แต่ purchases ไม่เกิดตาม warrant ceiling, data center จะเป็น narrative มากกว่า cash flow; bear floor ใน model คือ $115 (Judgment, based on source limitations, 2026-09-20)</li>
-<li>ถ้า QTL economics ถูกกดด้วย litigation/regulation พร้อมกับ QCT share loss, ธุรกิจจะเสียทั้ง high-margin layer และ volume layer; ต้องดู segment margin/royalty base จาก 10-K ล่าสุดก่อนสรุป (source: latest filing index <code>sources/QCOM/sec-companyfacts.md</code>, 2026-09-20)</li>
+<li><b>Fact:</b> FY2026 revenue $43.1bn และ QCT automotive โต 89% YoY ใน Q4; บริษัทให้เป้า non-handset และ Data Center เป็น forward-looking guidance (source: earnings release).</li>
+<li><b>Interpretation:</b> diversification มีหลักฐาน operating มากขึ้น แต่ data-center target ยังไม่เท่ากับ backlog หรือ cash flow ที่รับรู้.</li>
+<li><b>Judgment:</b> thesis จะผิดถ้า handset/QTL economics เสื่อมพร้อมกับ data center ไม่แปลงเป็น revenue, margin และ FCF; assumption เปราะที่สุดคือ ramp เกิดตามเวลาโดยไม่เพิ่ม customer concentration.</li>
 <h2>11. Portfolio Strategy</h2>
-<li>ใช้เป็น <b>position ที่ต้องมีหลักฐานยืนยัน</b> ไม่ใช่ thematic bet ล้วน: ติดตาม reported data-center revenue, QCT/QTL margin, customer concentration และ diluted share count ทุกไตรมาส (Judgment, 2026-09-20)</li>
-<li>DCA/entry/position cap ไม่กำหนดเป็นคำแนะนำ; กฎเชิงวินัยคือไม่เพิ่มน้ำหนักเมื่อ valuation model ต้องพึ่ง Bull case และไม่เพิ่มเพราะ headline deal เพียงอย่างเดียว (Judgment, 2026-09-20)</li>
-<li><b>Exit/kill:</b> data-center revenue ต่ำกว่า trajectory ต่อเนื่อง, smartphone/QCT ลดโดยไม่มี auto/IoT ชดเชย, QTL economics เสื่อม, หรือ dilution/FCF แย่ลงแบบถาวร (source basis: transcript + SEC facts, 2026-09-20)</li>
+<li>ไม่กำหนด buy/sell/hold, entry หรือ allocation; earnings รอบนี้ทำให้ต้องติดตาม execution มากกว่าพึ่ง headline data-center.</li>
+<li>ติดตามทุกไตรมาส: QCT/QTL revenue และ margin, auto/IoT/data-center reported revenue, guidance delivery, input-cost pass-through, FCF หลัง CapEx และ diluted shares.</li>
+<li><b>Kill conditions:</b> data-center revenue ไม่เดินตาม trajectory ต่อเนื่อง; QCT handset ลดโดย auto/IoT ไม่ชดเชย; QTL royalty economics เสื่อม; หรือ margin/FCF แย่ลงถาวรจาก input cost และ capital intensity.</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
-<p>| Fact | Interpretation | Judgment |</p>
-<p>|---|---|---|</p>
-<p>| FY2025 revenue $44.28B; OCF $14.01B | Cash generation ฟื้นกว่ากำไรสุทธิ | คุณภาพดีพอให้ติดตาม แต่ต้องตรวจ CapEx/FCF |</p>
-<p>| Amazon warrant tied to up to $60B purchases; targets $5B FY2027 and $15B FY2029 | Data center option มี anchor จริง | ยังไม่ควรนับเป็นรายได้จนกว่าจะ reported |</p>
-<p>| Price $177.72; 52-week close range $124.07–$251.02 | ความผันผวนสูง | ใช้ scenario range ไม่ใช้จุดเดียว |</p>
-<p>| Latest StockAnalysis page is conference transcript | มี management commentary แต่ไม่ใช่ earnings call | ต้องรอ/ดึง earnings release เต็มก่อนอัปเดต thesis |</p>
-<p>Sources for all facts: <code>sources/QCOM/sec-companyfacts.md</code>, <code>sources/QCOM/transcript.md</code>, <code>sources/QCOM/market-data.md</code>, retrieved 2026-09-20.</p>
+<li><b>Fact:</b> FY2026 GAAP revenue $43.1bn, GAAP EPS $12.70, non-GAAP EPS $10.54; Q4 QCT revenue $9.015bn; Q1 FY2027 revenue guidance $10.4–11.2bn (source: sources/QCOM/8k-qcom092726erex991.htm.md, 2026-11-04)</li>
+<li><b>Interpretation:</b> core ฟื้นและ non-handset เริ่มมีหลักฐาน แต่ tax benefit ทำให้ GAAP EPS อ่านตรง ๆ ไม่ได้ และ margin/input-cost risk เพิ่ม.</li>
+<li><b>Judgment:</b> thesis ดีขึ้นด้าน diversification แต่ยังไม่ควรนับ Data Center target เป็นรายได้จนกว่าจะเห็น reported revenue, margin และ cash conversion.</li>
+<h2>Earnings Update — 2026-11-05</h2>
+<li><b>เหตุผลที่อัปเดต:</b> pre-run พบ SEC 10-K และ earnings release ใหม่ลงวันที่ 2026-11-04.</li>
+<li><b>Fact:</b> FY2026 revenue $43.1bn; Q4 QCT automotive เกิน $2bn และโต 89% YoY; Q1 FY2027 guidance revenue $10.4–11.2bn.</li>
+<li><b>Interpretation:</b> auto/IoT และ non-handset thesis แข็งแรงขึ้น แต่ tax benefit และ input-cost warning ทำให้ต้องดู normalized earnings/margin.</li>
+<li><b>Judgment:</b> ไม่เปลี่ยนเป็นคำแนะนำลงทุน; ปรับ kill conditions ให้เน้น reported data-center revenue, QCT margin และ FCF.</li>
+<li><b>Consensus/analyst revisions:</b> ไม่พบจำนวน analyst, target distribution หรือ brokerage revisions ที่ verify ได้ในรอบนี้; ไม่อ้างว่า unchanged.</li>
+<h3>ข้อจำกัดข้อมูล</h3>
+<li>ไม่พบ StockAnalysis earnings-call transcript ที่ verify ได้; ใช้ SEC 10-K และ SEC Exhibit 99 earnings release แทน.</li>
+<li>Current market cap, multiples, peer valuation และ analyst consensus ไม่พบจาก endpoints ที่ตรวจสอบได้.</li>
+<li>Current FY2026 OCF/CapEx/FCF bridge ยัง extract ไม่ครบ จึงไม่คำนวณ normalized valuation.</li>
 </div></body></html>

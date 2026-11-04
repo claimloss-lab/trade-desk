@@ -15,67 +15,81 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">CAT</div>
-<div class="meta">Thesis · 2026-10-01</div>
-<h1>CAT — Full Giggs-style Investment Memo</h1>
-<blockquote><b>ขอบเขตข้อมูล:</b> ใช้ SEC 10-K/10-Q และ Yahoo Finance chart endpoint ที่ดึงได้จริง ณ 16 ก.ย. 2026 (ตลาด ณ 15 ก.ย. 2026 UTC) ตัวเลขที่ไม่พบจะไม่แต่ง</blockquote>
+<div class="meta">Thesis · 2026-11-05</div>
+<h1>CAT — Caterpillar — Full Thesis Update</h1>
+<blockquote><b>Thesis Update — 2026-11-05</b>: อัปเดตจาก SEC Form 10-Q ไตรมาส 3 ที่ยื่น 2026-11-04 และ earnings release ที่ยื่นเป็น Exhibit 99.1 วันที่ 2026-10-29 โดยเปรียบเทียบกับ thesis เดิมที่ใช้ 10-K ปี 2025. <b>Fact</b> คือยอดขาย กำไร กระแสเงินสด และงบดุลที่รายงาน; <b>Interpretation</b> คือผลต่อเครื่องยนต์รายได้; <b>Judgment</b> คือสิ่งที่ต้องติดตาม ไม่ใช่คำแนะนำซื้อ/ขาย</blockquote>
+<p>&gt;</p>
+<blockquote><b>SET DR metadata:</b> พบซีรีส์ CAT19 (KGI), conversion ratio 5,000 DR : 1 หุ้นอ้างอิง ตามข้อมูล mapping ใน <code>tradedesk-backup.json</code>; ไม่พบข้อมูล daily trading Value ที่เปรียบเทียบได้ในรอบนี้ จึงยังยืนยันไม่ได้ว่า CAT19 เป็นซีรีส์ที่ Value สูงสุดของวัน และไม่ใช้ข้อมูลนี้แทน thesis ของ CAT</blockquote>
 <h2>1. Investment Verdict</h2>
-<li><b>Investment question:</b> Caterpillar จะเปลี่ยน installed base ของเครื่องจักรหนักให้เป็นกระแสเงินสดตลอดวัฏจักรได้มากพอชดเชยความผันผวนของ construction/mining หรือไม่? ต้องแยก THE CORE (เครื่องจักร+บริการ), THE OPTION (technology/aftermarket/พลังงาน) และ THE PRICE ออกจากกัน</li>
-<li><b>Rating:</b> Not rated — ไม่ออกคำแนะนำซื้อ/ขาย/ถือ เพราะยังไม่มี normalized mid-cycle EPS และ peer/historical multiple set ที่ตรวจได้ครบในรอบนี้</li>
-<li><b>Fair value / Entry / Allocation / 5Y CAGR:</b> ไม่คำนวณ; การกำหนด target โดยไม่มี forward earnings ที่ตรวจแหล่งและ multiple range จะเป็น false precision (source: SEC 2025 10-K, filed 2026-02-13; Yahoo chart, fetched 2026-09-15 UTC)</li>
-<li><b>Core:</b> ขายเครื่องจักรและเครื่องยนต์ผ่าน dealer network แล้ว monetize ชิ้นส่วน บริการ และ financing; <b>Option:</b> connected assets, autonomy/energy transition และ aftermarket penetration; <b>Price:</b> CAT $781.56 เป็น market snapshot ไม่ใช่ fair value (source: SEC 10-K; Yahoo chart)</li>
+<li><b>Investment question:</b> Caterpillar จะเปลี่ยน installed base ของเครื่องจักรหนักให้เป็นกระแสเงินสดตลอดวัฏจักรได้มากพอชดเชยความผันผวนของ construction, mining และ power หรือไม่? ต้องแยก <b>THE CORE</b> (เครื่องจักรและบริการ), <b>THE OPTION</b> (connected assets, autonomy, energy transition) และ <b>THE PRICE</b> (valuation ที่ตรวจได้) ออกจากกัน</li>
+<li><b>Reported:</b> Q3 2026 ยอดขายและรายได้ $20.682bn เพิ่ม 17% y/y และ operating margin 20.4% เทียบกับ 17.3% ใน Q3 2025; <b>Interpretation:</b> งวดล่าสุดยืนยัน operating leverage และ volume recovery แต่ยังไม่พิสูจน์ mid-cycle earnings (source: <code>sources/CAT/q3-2026-10q.md</code>, SEC filed 2026-11-04)</li>
+<li><b>Judgment:</b> ยังไม่ให้ rating, fair value หรือ allocation เพราะยังไม่มี normalized EPS/FCF, peer multiple และ analyst revision set ที่ตรวจได้ครบ; ราคาตลาดเป็น snapshot ไม่ใช่ fair value</li>
 <h2>2. Business Model &amp; Revenue Engine</h2>
-<li>CAT ขายเครื่องจักร/เครื่องยนต์ให้ลูกค้า construction, resource, energy &amp; transportation และรับรายได้ต่อเนื่องจาก parts/service, dealer support และ financial products; ลูกค้าจ่ายเพื่อ uptime, productivity, fuel efficiency และต้นทุนตลอดอายุสินทรัพย์ ไม่ใช่แค่ราคาซื้อเครื่อง (source: SEC 2025 10-K, filed 2026-02-13)</li>
-<li>Segment หลักคือ Construction Industries, Resource Industries และ Energy &amp; Transportation; Financial Products แยกเป็นธุรกิจสนับสนุนการขายและสินเชื่อ (source: SEC 2025 10-K)</li>
-<li><b>Financial quality 5 ปี (Reported, $bn):</b> Revenue 51.0/59.4/67.1/64.8/67.6 ใน 2021–2025; 2025 ฟื้นจาก 2024 แต่ยังต้องดู volume/price/mix และวัฏจักรลูกค้า (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li>Operating income $6.9bn/$7.9bn/$13.0bn/$13.1bn/$11.2bn ใน 2021–2025; margin แข็งแรงกว่ารายได้แต่ลดลงใน 2025 จาก peak/ต้นทุน/การ mix ที่ต้องอ่านใน 10-K (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li>OCF $7.2bn/$7.8bn/$12.9bn/$12.0bn/$11.7bn และ capex $1.1bn/$1.3bn/$1.6bn/$2.0bn/$2.8bn ตามลำดับ; cash generation สูงแต่ capex เพิ่ม จึงต้องติดตาม FCF หลังลงทุนเพื่อการเติบโต/บำรุงรักษา (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li><b>Balance sheet feel:</b> assets $82.8bn→$98.6bn และ cash $9.3bn→$10.0bn ใน 2021→2025; long-term debt $26.0bn→$30.7bn จึงไม่ควรอ่าน buyback/เงินปันผลโดยละเลย leverage และ captive finance (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li><b>Valuation snapshot (Reported/market snapshot):</b> CAT $781.56; 52-week daily-close range $435.94–$1,064.90; market cap, P/E และ EV/EBITDA ไม่พบจาก quote endpoint ที่ใช้ได้ จึงไม่แต่ง; ณ 15 ก.ย. 2026 UTC, USD (source: Yahoo Finance chart endpoint, fetched 2026-09-15 UTC)</li>
-<h2>3. Business Model &amp; Revenue Engine — Segment Economics</h2>
-<li><b>Construction Industries:</b> ได้แรงหนุนจาก infrastructure/building และ dealer fleet; downside คือลูกค้าเลื่อนซื้อเมื่อดอกเบี้ย/งานก่อสร้างอ่อน (source: SEC 2025 10-K, filed 2026-02-13)</li>
-<li><b>Resource Industries:</b> mining equipment มี ticket ใหญ่และ service opportunity แต่ผูกกับ commodity capex, mine utilization และการเปลี่ยนแปลงของราคาสินค้าโภคภัณฑ์ (source: SEC 2025 10-K)</li>
-<li><b>Energy &amp; Transportation:</b> power generation, oil &amp; gas และ locomotives/engines กระจายตลาด แต่ต้องติดตาม energy capex, emissions rules และ project timing (source: SEC 2025 10-K)</li>
-<li><b>Aftermarket/dealer/finance:</b> installed base สร้าง parts/service demand ที่ recurring กว่าเครื่องใหม่ แต่ dealer inventory, credit losses และ supply chain ยังทำให้ cash flow ผันผวน (source: SEC 2025 10-K)</li>
-<li><b>Latest earnings:</b> ไม่พบ StockAnalysis transcript ของ CAT ในการดึงตรง (HTTP 403 ณ 16 ก.ย. 2026); ใช้ SEC 2025 10-K และ latest 10-Q ที่ดาวน์โหลดได้แทน และระบุชัดว่าไม่มี transcript ไม่เรียก filing ว่า transcript (source: SEC 10-K/10-Q, fetched 2026-09-16)</li>
-<h2>4. Competitive Advantages &amp; Risks</h2>
-<li><b>ข้อได้เปรียบเฉพาะ:</b> global dealer distribution, installed base/parts availability, brand/trust ในงานที่ downtime แพง และ switching friction จาก fleet data/service ecosystem เป็น 7 Powers ที่ต้องวัดผ่าน aftermarket penetration, price realization และ return on capital (source: SEC 2025 10-K)</li>
-<li><b>Bull:</b> replacement/aftermarket cycle แข็งแรง, mining/infrastructure capex ฟื้น, dealer network เพิ่ม service capture และ technology ช่วย productivity; เป็น Scenario ไม่ใช่บริษัท guidance (source: SEC 10-K; Scenario, 16 ก.ย. 2026)</li>
-<li><b>Bear:</b> ลูกค้าชะลอ capex, commodity downturn, dealer destocking, tariffs/supply-chain cost, credit losses หรือคู่แข่งทำเครื่องไฟฟ้า/อัตโนมัติได้ดีกว่า; ทั้งหมด specific ต่อ revenue engine ของ CAT (source: SEC 10-K)</li>
-<h2>5. Financial Quality 5-year</h2>
-<li><b>Reported:</b> Revenue 2025 $67.6bn สูงกว่า 2024 $64.8bn แต่ operating income ลดจาก $13.1bn เป็น $11.2bn; direction บอกว่าการเติบโตของยอดขายไม่ได้แปลว่ากำไรโตตามเสมอ (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li><b>Reported cash:</b> OCF 2025 $11.7bn หัก capex $2.8bn เป็น proxy ก่อน working-capital/finance nuance; ไม่แทน owner FCF ที่ปรับ captive finance และ maintenance/expansion capex แล้ว (source: SEC Companyfacts)</li>
-<li>R&amp;D เพิ่มจาก $1.686bn (2021) เป็น $2.148bn (2025); gross margin, net income, ROE และ ROIC แบบ 5 ปีจากชุด tag ที่ใช้รอบนี้ไม่ครบ จึงไม่ใส่ตัวเลขที่อาจปน definition (source: SEC Companyfacts, fetched 2026-09-16)</li>
-<li>Debt เพิ่มในช่วง 2021–2025 ขณะที่ cash เพิ่มเล็กน้อย; ต้องแยก industrial debt กับ Financial Products debt ก่อนสรุป leverage (source: SEC 2025 10-K; SEC Companyfacts)</li>
-<li>Capital allocation ให้ติดตาม dividend, repurchase, R&amp;D/capex และ finance receivables; SBC/dilution และ buyback share-count ไม่พบในรูป normalized เดียวที่ตรวจได้จาก endpoint นี้ จึงไม่แต่ง (source: SEC 10-K)</li>
-<h2>6. Balance Sheet &amp; Capital Allocation</h2>
-<li>Cash เพิ่มจาก $9.254bn เป็น $9.980bn ขณะที่ long-term debt เพิ่มจาก $26.033bn เป็น $30.696bn ใน 2021–2025; ต้องแยก industrial debt กับ Financial Products debt ก่อนสรุป leverage (source: SEC Companyfacts, fetched 16 ก.ย. 2026)</li>
-<li>ติดตาม dividend, repurchase, R&amp;D, capex และ finance receivables; ยังไม่มี normalized per-share bridge ที่รวม dilution และ buyback ครบในรอบนี้ (source: SEC 2025 10-K; judgment)</li>
-<h2>7. Latest Earnings</h2>
-<li>ไม่พบ StockAnalysis transcript ล่าสุดของ CAT จาก URL ที่บังคับตรวจ (HTTP 403); ใช้ latest SEC 10-Q และ 2025 10-K แทน และไม่มีตัวเลข transcript ให้รายงาน (source: SEC 10-Q/10-K, fetched 16 ก.ย. 2026)</li>
-<h2>8. Valuation</h2>
-<li><b>Valuation methods:</b> ใช้ mid-cycle EPS/P-E, EV/EBITDA และ FCF yield ควบคู่กัน เพราะ peak-cycle margin ทำให้ trailing multiple ดูถูก; ยังไม่คำนวณเนื่องจากไม่มี peer/historical multiple dataset ที่ดึงตรงและตรวจวันที่ได้ในรอบนี้ (source: SEC 10-K; Yahoo chart; methodology judgment, 16 ก.ย. 2026)</li>
-<h2>9. Bull / Base / Bear 5-Year Scenarios</h2>
-<li><b>Bear scenario:</b> EPS CAGR, exit multiple, target, CAGR และ probability ไม่ระบุ; fragile assumptions คือ construction/mining downturn ยาว, price/mix กลับตัว และ finance losses เพิ่ม (source: SEC 10-K; Scenario, not guidance)</li>
-<li><b>Base scenario:</b> ไม่คำนวณ target/CAGR/probability; สมมติฐานเชิงคุณภาพคือยอดขายโตตามวัฏจักร, aftermarket ช่วย margin และ capital allocation ไม่ทำลาย per-share value (source: SEC 10-K; Scenario)</li>
-<li><b>Bull scenario:</b> ไม่คำนวณ target/CAGR/probability; สมมติฐานเชิงคุณภาพคือ mining/infrastructure cycle แข็ง, connected/autonomous products เพิ่ม wallet share และ service annuity โต (source: SEC 10-K; Scenario)</li>
-<h2>10. Catalysts (12m) &amp; Risks (12–24m)</h2>
-<li><b>Catalysts 12 เดือน:</b> order/retail sales ดีขึ้น, dealer inventory ปกติ, aftermarket parts โต, mining utilization ฟื้น และ operating cash flow สูงกว่าการลงทุน (source: SEC 10-K; watchlist ณ 16 ก.ย. 2026)</li>
-<li><b>Risks 12–24 เดือน:</b> construction/mining capex ลด, commodity/energy shock, tariffs, FX, dealer destocking, credit losses และ technology transition ใช้เงินมากกว่าผลตอบแทน (source: SEC 10-K)</li>
-<h2>11. Inversion / Anti-thesis</h2>
-<li>ถ้า aftermarket ไม่สามารถชดเชยเครื่องใหม่ที่เป็นวัฏจักร CAT อาจเป็นผู้ผลิต capital goods ที่มี multiple สูงเกิน mid-cycle earnings ไม่ใช่ cash compounder (source: SEC 10-K; Interpretation, 16 ก.ย. 2026)</li>
-<li>Permanent-loss risk มาจากการซื้อกิจการ/ลงทุน technology ในช่วง peak, หนี้และ finance receivables ที่เสื่อมคุณภาพ, หรือ emissions transition ที่ทำให้ installed base เดิมด้อยค่า (source: SEC 10-K)</li>
-<li><b>Bear floor:</b> ไม่ระบุตัวเลข เพราะไม่มี normalized EPS/FCF และ peer multiple ที่ตรวจครบ; 52-week low ไม่ใช่ intrinsic-value floor (source: Yahoo chart; judgment)</li>
-<h2>12. Portfolio Strategy</h2>
-<li>Entry, sizing, DCA และ cap: <b>ไม่กำหนด</b> ในรอบนี้ เพื่อไม่ออกคำแนะนำซื้อขายจาก valuation ที่ยังไม่ครบ; ควรแยก exposure ต่อ construction, mining, energy และ finance ก่อนตัดสินใจ (source: SEC 10-K; judgment, 16 ก.ย. 2026)</li>
-<li>Exit/kill conditions: (1) aftermarket/service penetration ไม่โตหรือ margin เสื่อมหลายปี, (2) operating cash flow/FCF ต่ำกว่าการลงทุนและผลตอบแทนทุนไม่ฟื้นตลอด cycle, (3) net debt/finance losses เพิ่มพร้อม credit quality แย่, (4) technology transition สูญเสีย share ให้คู่แข่ง (source: SEC 10-K; judgment)</li>
-<h2>13. Fact / Interpretation / Judgment Map</h2>
+<li>CAT ขายเครื่องจักร เครื่องยนต์ และระบบ power ผ่าน dealer network ให้ลูกค้า construction, resource, energy และ transportation; รายได้ต่อเนื่องมาจาก parts, service, dealer support และ Financial Products ลูกค้าจ่ายเพื่อ uptime, productivity, fuel efficiency และต้นทุนตลอดอายุสินทรัพย์ (source: <code>sources/CAT/10-k-2026.md</code>, SEC filed 2026-02-13)</li>
+<li><b>Reported:</b> Q3 2026 sales ของ Power &amp; Energy $8.784bn (+18%), Construction Industries $7.983bn (+18%) และ Resource Industries $4.615bn (+15%); Financial Products revenue $1.028bn (+13%) (source: <code>sources/CAT/q3-2026-10q.md</code>, SEC filed 2026-11-04)</li>
+<li><b>Reported:</b> North America โต 24% เป็น $12.017bn; Latin America โต 15% เป็น $2.124bn; EAME โต 15% เป็น $3.728bn; Asia/Pacific ลด 2% เป็น $2.813bn (source: <code>sources/CAT/q3-2026-10q.md</code>, SEC filed 2026-11-04)</li>
+<li><b>Interpretation:</b> รอบนี้ volume และ end-user equipment เป็นตัวขับหลัก มากกว่าการพึ่ง price realization เพียงอย่างเดียว; dealer inventory เพิ่ม $0.8bn ใน Q3 2026 เทียบกับ $0.6bn ปีก่อน จึงต้องแยก end demand ออกจาก channel fill (source: <code>sources/CAT/q3-2026-10q.md</code>, SEC filed 2026-11-04)</li>
+<li><b>Valuation snapshot:</b> ราคา $587.215; 52-week daily-close range $546.13–$1,064.90; market cap, P/E และ EV/EBITDA <b>ไม่พบ</b> จาก Yahoo chart endpoint; ณ 2026-11-04 19:21:27 UTC, USD (source: <code>sources/CAT/market-data.md</code>, Yahoo fetched 2026-11-05)</li>
+<h2>3. Competitive Advantages &amp; Risks</h2>
+<li><b>ข้อได้เปรียบที่ต้องพิสูจน์ตาม 7 Powers:</b> global dealer distribution, installed base/parts availability, customer trust ในงานที่ downtime แพง และ switching friction จาก fleet data/service ecosystem; ตัวชี้วัดคือ aftermarket penetration, price realization, uptime และ return on capital ไม่ใช่ชื่อเรียกเพียงอย่างเดียว (source: <code>sources/CAT/10-k-2026.md</code>)</li>
+<li><b>Bull:</b> volume ฟื้นพร้อม backlog แข็ง, dealer network เพิ่ม service capture, mining/infrastructure capex ดีขึ้น และ connected/autonomous products ช่วย productivity (Scenario; source: SEC 10-K and Q3 release)</li>
+<li><b>Bear:</b> dealer destocking, commodity downturn, construction capex ชะลอ, tariffs/material cost, credit losses หรือคู่แข่งชนะใน electrification/autonomy ทำให้ installed base เดิมสร้างผลตอบแทนต่ำลง (source: <code>sources/CAT/q3-2026-earnings-release.md</code>)</li>
+<h2>4. Financial Quality 5-year</h2>
+<li><b>Reported:</b> Revenue ปี 2021–2025 อยู่ที่ $51.0bn/$59.4bn/$67.1bn/$64.8bn/$67.6bn; ปี 2025 ฟื้นจาก 2024 แต่ operating income ลดเป็น $11.2bn จาก $13.1bn สะท้อนว่ารายได้โตไม่รับประกันกำไรโต (source: <code>sources/CAT/10-k-2026.md</code>, SEC Companyfacts/10-K)</li>
+<li><b>Reported update:</b> 9M 2026 revenue $58.640bn เทียบกับ $48.456bn และ operating profit $11.594bn เทียบกับ $8.491bn; diluted EPS $20.36 เทียบกับ $13.69 (source: <code>sources/CAT/q3-2026-10q.md</code>, SEC filed 2026-11-04)</li>
+<li><b>Reported:</b> Q3 2026 GAAP EPS $7.13 เทียบกับ $4.88; adjusted EPS $7.20 เทียบกับ $4.95; adjusted margin 20.6% เทียบกับ 17.5% โดย adjusted ตัด restructuring costs (source: <code>sources/CAT/q3-2026-earnings-release.md</code>, filed 2026-10-29)</li>
+<li><b>Interpretation:</b> earnings momentum ล่าสุดดีขึ้นชัด แต่ยังต้องดูว่ากำไรยืนได้เมื่อ volume และ price/mix ปกติหรือไม่; 5-year gross margin, ROIC และ owner FCF แบบแยก industrial/finance ที่ comparable ยังไม่ครบ จึงไม่แต่ง</li>
+<h2>5. Balance Sheet &amp; Capital Allocation</h2>
+<li><b>Reported:</b> ณ 2026-09-30 cash $7.929bn, inventory $22.214bn, current/long-term finance receivables $11.051bn/$14.402bn และ total assets $106.843bn (source: <code>sources/CAT/q3-2026-10q.md</code>)</li>
+<li><b>Reported:</b> Financial Products short-term borrowings $4.855bn, current long-term debt $8.180bn และ long-term debt after one year $32.166bn; Machinery, Power &amp; Energy long-term debt after one year $10.614bn (source: <code>sources/CAT/q3-2026-10q.md</code>)</li>
+<li><b>Reported:</b> Q3 enterprise operating cash flow $4.4bn; cash returned $1.2bn buybacks + $0.7bn dividends = $2.0bn (source: <code>sources/CAT/q3-2026-earnings-release.md</code>)</li>
+<li><b>Judgment:</b> ต้องดู cash conversion หลัง inventory และ finance receivables; อย่าอ่าน buyback/dividend โดยไม่แยก industrial debt, Financial Products debt และ credit quality</li>
+<h2>6. Latest Earnings</h2>
+<li><b>Reported:</b> Q3 2026 sales and revenues $20.682bn เพิ่ม 17% y/y จาก volume $2.207bn และ favorable price realization $0.663bn; end-user equipment เป็นตัวขับหลัก (source: <code>sources/CAT/q3-2026-10q.md</code>)</li>
+<li><b>Reported:</b> Q3 operating profit $4.214bn และ margin 20.4%; profit attributable to common shareholders $3.287bn และ diluted EPS $7.13 (source: <code>sources/CAT/q3-2026-10q.md</code>)</li>
+<li><b>Reported:</b> segment growth กระจายทั้ง Power &amp; Energy, Construction และ Resource; แต่ Asia/Pacific ลด 2% และ dealer inventory เพิ่ม จึงยังมี channel/ภูมิภาคที่ต้องติดตาม (source: <code>sources/CAT/q3-2026-10q.md</code>)</li>
+<li><b>Guidance:</b> release ไม่ได้ให้ตัวเลข full-year revenue/EPS guidance range ที่ครบถ้วน; บริษัทระบุว่าจะพูดถึง adjusted EPS ของ Q4 และ FY2026 โดยไม่รวม mark-to-market pension/postemployment remeasurement (source: <code>sources/CAT/q3-2026-earnings-release.md</code>)</li>
+<li><b>Transcript:</b> ไม่พบ earnings-call transcript จาก StockAnalysis (หน้า transcript/earnings ตอบ HTTP 403 เมื่อ 2026-11-05); จึงใช้ SEC 10-Q และ SEC-filed earnings release แทน และไม่เรียก filing ว่า transcript</li>
+<h2>7. Valuation</h2>
+<li><b>Reported market snapshot:</b> CAT $587.215; 52-week daily-close range $546.13–$1,064.90; ณ 2026-11-04 19:21:27 UTC (source: <code>sources/CAT/market-data.md</code>)</li>
+<li><b>Not found:</b> market cap, P/E และ EV/EBITDA จาก endpoint ที่ตรวจได้; ไม่ใช้การคูณราคากับหุ้นคงค้างเป็นตัวแทนโดยไม่ได้ตรวจ quote/definition เดียวกัน</li>
+<li><b>Scenario method:</b> ควรใช้ mid-cycle EPS/P-E, EV/EBITDA และ FCF yield แยกกัน เพราะ peak-cycle margin ทำให้ trailing multiple อาจหลอกตา; รอบนี้ยังไม่คำนวณ target/CAGR เพื่อเลี่ยง false precision</li>
+<li><b>Consensus:</b> จำนวน analyst, rating distribution, average/median target, individual brokerage target/rating changes และ action dates <b>ไม่พบ</b> จากแหล่งที่เข้าถึงได้ในรอบนี้; จึงไม่อ้าง consensus และไม่เปลี่ยน thesis จาก rating</li>
+<h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
+<li><b>Bull scenario:</b> volume และ backlog แข็งต่อเนื่อง, aftermarket/service capture เพิ่ม, mining/infrastructure ฟื้น และ technology เพิ่ม productivity; numeric EPS, exit multiple, target, CAGR และ probability <b>ไม่ระบุ</b> เพราะฐานข้อมูล normalized ไม่ครบ (Scenario, not guidance)</li>
+<li><b>Base scenario:</b> ยอดขายโตตามวัฏจักร, aftermarket ช่วยพยุง margin, balance sheet แยก industrial/finance ได้ดี และ buyback ไม่ทำลาย per-share value; numeric target/CAGR/probability <b>ไม่พบ</b> (Scenario)</li>
+<li><b>Bear scenario:</b> construction/mining downturn ยาว, dealer inventory กลับทิศ, price/mix อ่อน, finance losses เพิ่ม หรือ technology transition ใช้เงินมากกว่าผลตอบแทน; numeric target/CAGR/probability <b>ไม่พบ</b> (Scenario)</li>
+<h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
+<li><b>Catalysts:</b> order/retail sales แข็ง, backlog แปลงเป็น shipments โดยไม่พึ่ง channel fill, aftermarket parts โต, dealer inventory ปกติ และ operating cash flow ยืนเหนือการลงทุน (source: SEC 10-Q/earnings release)</li>
+<li><b>Risks:</b> construction/mining capex ลด, commodity/energy shock, tariffs, FX, dealer destocking, credit delinquencies/repossessions และ Financial Products liquidity (source: <code>sources/CAT/q3-2026-earnings-release.md</code>)</li>
+<li><b>Analyst monitoring:</b> ไม่มี baseline/revision ที่ verify ได้ในรอบนี้; สถานะคือ inaccessible/not found ไม่ใช่ no change</li>
+<h2>10. Inversion / Anti-thesis</h2>
+<li>ถ้า aftermarket ไม่ชดเชยเครื่องใหม่ที่เป็นวัฏจักร CAT อาจเป็น capital-goods business ที่กำไร peak สูง แต่ cash compounder thesis ไม่เกิด (Interpretation; source: SEC 10-K)</li>
+<li>Permanent-loss risk มาจาก finance receivables เสื่อมคุณภาพ, leverage สูงขึ้นพร้อม credit losses, acquisition/technology spend ที่ให้ผลตอบแทนต่ำ หรือ emissions transition ทำให้ installed base เดิมด้อยค่า</li>
+<li><b>Bear floor:</b> ไม่กำหนดตัวเลข; 52-week low ไม่ใช่ intrinsic-value floor และ normalized EPS/FCF กับ peer multiple ยังไม่ครบ</li>
+<h2>11. Portfolio Strategy</h2>
+<li>CAT มี SET DR mapping เป็น CAT19, KGI, conversion ratio 5,000:1; แต่ daily trading Value ของทุกซีรีส์ในวันเดียวกัน <b>ไม่พบ/เปรียบเทียบไม่ได้</b> จึงยังไม่เลือก primary DR ตามกฎ highest Value</li>
+<li>Entry, sizing, DCA และ cap: <b>ไม่กำหนด</b> ใน memo นี้; การเลือก DR ต้องตรวจ Value วันเดียวกัน ราคา conversion ratio และ issuer ก่อน</li>
+<li><b>Fact / Interpretation / Judgment:</b> Fact คือ Q3 growth และ cash return ที่รายงาน; Interpretation คือ thesis ได้รับการยืนยันด้าน volume/margin ระยะสั้น; Judgment คือยังต้องพิสูจน์ mid-cycle cash conversion และ credit quality ก่อนเปลี่ยน conviction</li>
+<h2>12. Fact / Interpretation / Judgment Map</h2>
 <p>| ชั้น | เนื้อหา | Source/date |</p>
 <p>|---|---|---|</p>
-<p>| Fact | 2025 revenue $67.589bn, operating income $11.151bn, OCF $11.739bn, capex $2.821bn, R&amp;D $2.148bn | SEC Companyfacts, fetched 16 ก.ย. 2026 |</p>
-<p>| Fact | 2025 cash $9.980bn และ long-term debt $30.696bn | SEC Companyfacts, fetched 16 ก.ย. 2026 |</p>
-<p>| Fact | CAT $781.56; 52-week close range $435.94–$1,064.90 | Yahoo chart, fetched 15 ก.ย. 2026 UTC |</p>
-<p>| Fact | Segments: Construction Industries, Resource Industries, Energy &amp; Transportation, Financial Products | SEC 2025 10-K, filed 13 ก.พ. 2026 |</p>
-<p>| Interpretation | Dealer/installed base ทำให้ service economics สำคัญกว่า unit sales เพียงอย่างเดียว | SEC 10-K + ผู้จัดทำ, 16 ก.ย. 2026 |</p>
-<p>| Judgment | ยังไม่ให้ rating/fair value/allocation จนกว่าจะ normalize cycle และแยก industrial/finance leverage | ผู้จัดทำ, 16 ก.ย. 2026 |</p>
-<p><b>ข้อจำกัด:</b> ไม่พบ StockAnalysis transcript; market cap/P/E/EV/EBITDA, peer multiples และ numeric 5Y scenarios ยังไม่ครบ; จึงไม่ให้คำแนะนำซื้อ/ขาย/ถือ</p>
+<p>| Fact | Q3 2026 sales/revenues $20.682bn, operating margin 20.4%, diluted EPS $7.13 | SEC 10-Q, filed 2026-11-04 |</p>
+<p>| Fact | Q3 segment sales: Power &amp; Energy $8.784bn, Construction $7.983bn, Resource $4.615bn | SEC 10-Q, filed 2026-11-04 |</p>
+<p>| Fact | Q3 enterprise operating cash flow $4.4bn; buybacks $1.2bn; dividends $0.7bn | SEC-filed earnings release, 2026-10-29 |</p>
+<p>| Fact | Cash $7.929bn, inventory $22.214bn, total assets $106.843bn ณ 2026-09-30 | SEC 10-Q, filed 2026-11-04 |</p>
+<p>| Fact | CAT $587.215; 52-week daily-close range $546.13–$1,064.90 | Yahoo chart, fetched 2026-11-05 |</p>
+<p>| Interpretation | Earnings recovery broad-based แต่ต้องแยก end demand จาก dealer inventory | SEC 10-Q + ผู้จัดทำ, 2026-11-05 |</p>
+<p>| Judgment | ยังไม่ให้ fair value/allocation จนกว่าจะ normalize cycle และแยก industrial/finance leverage | ผู้จัดทำ, 2026-11-05 |</p>
+<h2>13. Kill Conditions</h2>
+<li><b>ถ้า</b> revenue/volume อ่อนหลายไตรมาสพร้อม dealer inventory สูงขึ้น และ aftermarket ไม่ชดเชย <b>ให้หยุดถือ thesis นี้</b> (source: SEC 10-Q/10-K; judgment)</li>
+<li><b>ถ้า</b> operating cash flow/FCF ต่ำกว่าการลงทุนต่อเนื่อง ขณะที่ Financial Products delinquencies, repossessions หรือ finance losses เพิ่ม <b>ให้หยุดถือ thesis นี้</b> (source: SEC earnings release; judgment)</li>
+<li><b>ถ้า</b> margin และ return on capital เสื่อมถาวร หรือ technology transition ทำให้ CAT เสีย share/installed-base economics โดยไม่สร้างผลตอบแทนชดเชย <b>ให้หยุดถือ thesis นี้</b> (source: SEC 10-K; judgment)</li>
+<h2>14. What to ask before owning it</h2>
+<li>ฉันกำลังจ่ายราคาให้กับ mid-cycle earnings หรือกำลัง extrapolate Q3 ที่แข็งแรงเกินไป?</li>
+<li>รายได้และกำไรส่วนใดมาจาก end-user demand และส่วนใดมาจาก dealer inventory?</li>
+<li>ฉันแยก Machinery, Power &amp; Energy ออกจาก Financial Products และเข้าใจ credit risk แล้วหรือยัง?</li>
+<li>หลัง capex, inventory และ finance receivables แล้ว cash ที่เป็นของผู้ถือหุ้นเหลือเท่าไร?</li>
+<li>ถ้า mining/construction downturn ยาวกว่าคาด ฉันจะใช้ kill condition ข้อใดและเมื่อไร?</li>
+<p><b>ข้อจำกัด:</b> transcript จาก StockAnalysis และ analyst-consensus/brokerage revisions เข้าถึงไม่ได้; market cap/P/E/EV/EBITDA ไม่พบจาก endpoint ที่ใช้; SET DR daily Value comparison ไม่พบ จึงไม่แต่งข้อมูลและไม่ให้ buy/sell/hold recommendation.</p>
 </div></body></html>

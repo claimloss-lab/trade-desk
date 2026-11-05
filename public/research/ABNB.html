@@ -15,7 +15,7 @@
 </style></head><body><div class="wrap">
 <a class="back" href="index.html">← Research</a>
 <div class="ticker">ABNB</div>
-<div class="meta">Thesis · 2026-10-01</div>
+<div class="meta">Thesis · 2026-11-06</div>
 <h1>ABNB — Airbnb | Full Investment Memo</h1>
 <p><b>วันที่จัดทำ:</b> 14 กันยายน 2026 (SE Asia)</p>
 <p><b>ขอบเขต:</b> หุ้นที่ pre-run ระบุว่าอยู่ใน DR universe ของ SET; ไม่ใช่คำแนะนำซื้อ/ขาย/ถือ</p>
@@ -34,29 +34,24 @@
 <li><b>Brand / trust / payment scale:</b> การชำระเงินหลายสกุลเงิน, identity/trust, customer support และ protection programs เพิ่มความสะดวกให้ทั้งสองฝั่ง แต่ก็นำ liability, fraud, insurance และ compliance risk เข้ามาด้วย. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
 <li><b>Threats:</b> โรงแรม/OTAs, local platforms, direct booking, regulatory limits ต่อ short-term rental, FX และ discretionary travel สามารถลด supply หรือ demand ได้โดยตรง. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
 <h2>4. Financial Quality 5-year</h2>
-<p>| Fiscal year | Revenue ($B) | Net income ($B) | OCF ($B) | FCF ($B) | R&amp;D ($B) |</p>
-<p>|---|---:|---:|---:|---:|---:|</p>
-<p>| 2022 | 8.40 | 1.89 | 3.43 | 3.43* | 1.50 |</p>
-<p>| 2023 | 9.92 | 4.79 | 3.88 | 3.88* | 1.72 |</p>
-<p>| 2024 | 11.10 | 2.65 | 4.52 | 4.52* | 2.06 |</p>
-<p>| 2025 | 12.24 | 2.51 | 4.65 | 4.65* | 2.35 |</p>
-<p>| 2021 | ไม่พบในชุด yfinance ที่ใช้ | ไม่พบ | ไม่พบ | ไม่พบ | ไม่พบ |</p>
-<li>รายได้เพิ่มจาก $8.40B ใน 2022 เป็น $12.24B ใน 2025; net income ผันผวนมาก โดยปี 2023 มีรายการภาษี/รายการพิเศษที่ทำให้เทียบข้ามปีต้องระวัง. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
-<li>OCF/FCF สูงเมื่อเทียบกับ revenue และยังเพิ่มจาก 2022–2025; ในตารางนี้ FCF ใช้ค่าที่ yfinance รายงาน ซึ่งใกล้เคียง OCF เพราะ capex ที่เปิดเผยมีขนาดเล็ก. (*) ต้อง reconcile กับ 10-K ฉบับเต็มก่อนใช้ทำ model. (Reported/caveat; sources: Yahoo Finance via <code>yfinance</code> และ <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
-<li>Gross margin, operating margin, ROE และ ROIC แบบ 5 ปีที่นิยามสอดคล้องกัน <b>ไม่พบใน source set นี้</b>; ไม่ควรแต่งตัวเลขแทน. (Caveat; source: source set ABNB, ตรวจ 14-09-2026)</li>
+<li><b>Reported:</b> Q3 2026 revenue $4.9B โต 19% YoY (16% ex-FX), Nights and Seats Booked 155.0M โต 16% และ GBV $27.7B โต 21%; direction ของ demand และ monetization ดีขึ้นจาก Q2. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Reported:</b> Q3 net income $1.9B, net margin 39%, Adjusted EBITDA $2.5B โต 22% และ margin 52%; net income ได้แรงหนุนจาก provision for income taxes ที่ลดลง $135M จึงไม่ควร annualize margin ตรง ๆ. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Reported:</b> Q3 operating cash flow $1.5B และ FCF $1.4B หรือ FCF margin 29%; TTM FCF $4.9B และ margin 35%. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li>Five-year clean series ของ gross margin, operating margin, ROIC และ FCF ที่นิยามสอดคล้องกันยังไม่ถูกจัดทำจากชุด source นี้; ตัวเลขเดิมในตาราง 2022–2025 เป็น context จาก Yahoo ไม่ใช่ฐานใหม่ของ Q3. (caveat; source: sources/ABNB/10-k-2026.md และ earnings-release-q3-2026.md)</li>
 <h2>5. Balance Sheet &amp; Capital Allocation</h2>
-<li>ณ 31-12-2025 มี cash and equivalents ราว $6.56B, short-term investments ราว $4.45B และ total debt ราว $2.07B ตาม Yahoo statement; balance sheet จึงมี liquidity สูงเมื่อเทียบกับหนี้ทางการเงิน. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
-<li>10-K ระบุ cash $6.6B, short-term investments $4.5B และเงินที่ถือแทนลูกค้า $7.0B; เงินลูกค้าไม่ควรถูกนับเป็น cash ของผู้ถือหุ้น. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
-<li>บริษัทซื้อหุ้นคืนต่อเนื่อง; Yahoo รายงาน repurchase ราว $3.79B ใน FY2025 ขณะที่ SBC ราว $1.59B. ดังนั้นต้องดู net buyback หลังหัก dilution ไม่ใช่ยอดซื้อคืน headline. (Reported; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
-<li>2026 convertible notes มูลค่า $2.0B เป็นรายการที่ต้องติดตามเรื่อง refinancing/repayment และ dilution หากมีการแปลง. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Reported:</b> ณ 30-09-2026 มี cash, cash equivalents, short-term investments และ restricted cash รวม $12.6B และ funds held on behalf of customers $7.4B; เงินลูกค้าไม่ใช่ cash ของผู้ถือหุ้น. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Reported:</b> Q3 ซื้อหุ้นคืน Class A $0.7B; เหลือ authorization เดิม $2.7B และประกาศ authorization ใหม่เพิ่ม $12B. Fully diluted share count ลดราว 10% ตั้งแต่เริ่ม buyback ใน Q3 2022 จาก buyback และภาษี RSU รวมกว่า $17B. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Reported:</b> 30-10-2026 บริษัททำ revolving credit facility ใหม่ 5 ปี $1.0B แทน facility เดิม. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Interpretation:</b> liquidity สูง แต่ต้องแยก customer funds, working capital จาก RNPL และเงินที่ใช้ซื้อหุ้นคืนก่อนประเมิน owner earnings. (source: sources/ABNB/earnings-release-q3-2026.md และ 10-k-2026.md)</li>
 <h2>6. Latest Earnings</h2>
-<li><b>Transcript:</b> ไม่พบ/ดึงไม่ได้จาก StockAnalysis ในรอบนี้ (HTTP 403 จาก direct request และ web extraction ติด billing 402); จึงไม่เรียก filing หรือข่าวสรุปว่า transcript. (Caveat; ตรวจ 14-09-2026)</li>
-<li>brief เดิมระบุ Q2 2026 revenue ราว $3.6B, net income $816M และ FCF $1.3B แต่เป็นข้อมูลจาก third-party summaries และไม่มี <code>q*-call.md</code> ใน source folder จึงถือเป็น <b>unverified context ไม่ใช่ฐานตัวเลขหลักของ memo</b>. (Caveat; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
-<li>guidance Q3/ทั้งปี FY2026 ใน brief เดิมระบุ revenue Q3 $4.69–$4.77B และการเติบโตทั้งปีระดับ mid-teens; ยังไม่ได้ยืนยันกับ earnings release/IR primary ในรอบนี้. (Caveat; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<li><b>Reported:</b> Q3 2026 revenue $4.9B (+19% YoY), Nights and Seats Booked 155.0M (+16%), GBV $27.7B (+21%), ADR $179 (+4%) และ first-time bookers โต 13%; app คิดเป็น 66% ของ nights booked. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Reported:</b> Adjusted EBITDA $2.5B, margin 52%; operating cash flow $1.5B และ FCF $1.4B. Revenue growth แข็งแรง แต่ take rate 17.6% ลดลงเพราะ RNPL และ contra revenue. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Guidance:</b> Q4 revenue $3.22–3.28B, โต 16–18%; GBV โต mid-teens, Nights and Seats Booked โตอย่างน้อย low-double-digit และ Adjusted EBITDA margin ลดเล็กน้อย YoY จากจังหวะ marketing. FY2026 revenue growth คาด high teens และ Adjusted EBITDA margin ราว 36%. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Transcript:</b> ไม่พบ transcript จาก StockAnalysis; direct request ได้ 403 จึงใช้ SEC 8-K Exhibit 99.1 และ Form 10-Q แทน และไม่เรียก filing ว่า transcript. (ตรวจ 2026-11-06)</li>
 <h2>7. Valuation</h2>
-<li><b>Snapshot:</b> ราคา $170.19; market cap $101.91B; trailing P/E 38.95x; forward P/E 27.51x; EV/EBITDA 32.88x; EV/Sales 6.90x; 52-week range $110.81–$193.45. (Reported snapshot; source: Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
-<li>EV/FCF, FCF yield, PEG, historical multiple range และ peer multiple ที่นิยามเดียวกัน <b>ไม่พบ/ยังไม่ได้ reconcile</b> จาก source set นี้. (Caveat; ตรวจ 14-09-2026)</li>
-<li>Scenario valuation: <b>Worst</b> EPS $5.50 × 22x = $121; <b>Base</b> $8.00 × 28x = $224; <b>Bull</b> $11.00 × 34x = $374 ในปีที่ 5. ทั้งหมดเป็น Judgment; ไม่ใช่ consensus หรือ guidance และไม่ใช่ recommendation. (Scenario; ดึง 14-09-2026)</li>
+<li><b>Observed:</b> ราคาปิดล่าสุด $170.13; 52-week range จาก Yahoo chart $111.54–$190.50 ณ 2026-11-05 14:30 UTC. Market cap, P/E และ EV/EBITDA จาก endpoint ที่เข้าถึงได้รอบนี้ <b>ไม่พบ</b>. (source: https://query1.finance.yahoo.com/v8/finance/chart/ABNB?range=1y&amp;interval=1d, fetched 2026-11-06)</li>
+<li><b>Consensus:</b> จำนวน analyst, rating distribution, average/median target และ brokerage revisions ที่ตรวจสอบได้จาก StockAnalysis/MarketBeat <b>ไม่พบ</b> ในรอบนี้; ไม่เติมตัวเลข. (ตรวจ 2026-11-06)</li>
+<li>Scenario เดิมยังเป็น Judgment ไม่ใช่ guidance/consensus; ควรปรับ inputs หลังเห็น Q4 delivery, take rate, FCF ต่อ diluted share และผลของ buyback ใหม่. (source: sources/ABNB/earnings-release-q3-2026.md)</li>
 <h2>8. Bull / Base / Bear 5-Year Scenarios</h2>
 <p>| Scenario | EPS ปี 5 | Multiple | ราคาเชิงสถานการณ์ | CAGR จาก $170.19 | Probability* | Expected contribution* |</p>
 <p>|---|---:|---:|---:|---:|---:|---:|</p>
@@ -66,16 +61,22 @@
 <li>Worst = regulation/weak travel ทำให้ growth ต่ำและ multiple ลด; Base = core marketplace โตต่อแต่ option ใหม่ให้ผลแบบค่อยเป็นค่อยไป; Bull = conversion, supply และหมวดใหม่ขยายพร้อม margin. (Scenario/Judgment; source inputs: <code>sources/ABNB/10-k-2026.md</code>, Yahoo Finance via <code>yfinance</code>, ดึง 14-09-2026)</li>
 <li>*Probabilities และ expected contribution เป็น subjective model inputs ไม่ใช่ความน่าจะเป็นจากตลาด. ควรเปลี่ยนทันทีเมื่อมีข้อมูล nights, take rate, FCF และ regulation ใหม่. (Judgment; ดึง 14-09-2026)</li>
 <h2>9. Catalysts (12m) &amp; Risks (12–24m)</h2>
-<li><b>Catalysts:</b> หลักฐานว่า AI เพิ่ม conversion/booking จริง, supply quality ดีขึ้น, โรงแรม/experiences สร้าง incremental revenue และ buyback ลด diluted shares โดยไม่กด R&amp;D. (Scenario; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
-<li><b>Risks:</b> เมืองสำคัญจำกัด short-term rentals, demand การเดินทางชะลอ, insurance/payment/fraud cost สูงขึ้น, FX และภาษีข้ามประเทศ. (Reported; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
+<li><b>Catalysts:</b> Nights/GBV ที่เร่งตัว, Q4 guidance, AI support ที่แก้ปัญหาโดยไม่ใช้คนราว 40% และลด support cost per booking มากกว่า 17% YoY; หากยั่งยืนจะช่วย conversion และ margin. (Reported/Scenario; source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li><b>Risks:</b> take rate ลดลงจาก RNPL/contra revenue, Q4 margin ถูกกดจาก marketing และ regulatory/tax/insurance risk เดิมยังอยู่. (Reported/Fact; source: sources/ABNB/earnings-release-q3-2026.md และ 10-k-2026.md)</li>
+<li><b>Risk ใหม่ที่ต้องติดตาม:</b> การบริจาค $0.10 ต่อ stay ให้ Airbnb.org และ commitment สูงสุด $500M ใน 5 ปี เป็นการใช้เงินเพื่อสังคมที่ควรสะท้อนใน FCF model แม้บริษัทระบุว่า host/guest ไม่จ่ายเพิ่ม. (Reported; source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
 <h2>10. Inversion / Anti-thesis</h2>
-<li>Thesis จะผิดถ้า Airbnb มี demand แต่ supply ที่ถูกกฎหมาย/คุณภาพไม่พอ หรือมี supply แต่ conversion และ repeat usage ไม่ดีขึ้น; marketplace ใหญ่ไม่ได้รับประกัน unit economics ที่ดีขึ้น. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
-<li>Permanent capital loss อาจเกิดจาก regulatory/tax liability จำนวนมาก, payment/insurance incident ที่ทำลาย trust หรือการใช้เงินซื้อคืนในช่วง economics เสื่อม. (Interpretation; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
-<li>Bear floor ใน model คือ $121 ต่อหุ้น เป็นเพียง stress case ไม่ใช่ estimate ต่ำสุดและไม่ใช่ราคาที่รับรองว่าจะเกิด. (Scenario; ดึง 14-09-2026)</li>
+<li><b>Fact:</b> demand, GBV และ FCF เร่งขึ้น แต่ take rate ลดลงและ Q4 margin มีแรงกดดัน. <b>Interpretation:</b> growth อาจมาจาก volume/booking timing มากกว่าการขยาย monetization. <b>Judgment:</b> ต้องดู FCF ต่อ diluted share และ take rate ต่อเนื่องก่อนสรุป economics ดีขึ้น. (source: sources/ABNB/earnings-release-q3-2026.md, 2026-11-05)</li>
+<li>Option เรื่อง AI/experiences/services ยังไม่ใช่ core earnings จนกว่าจะเห็น incremental revenue และต้นทุนที่แยกติดตามได้. (Interpretation; source: sources/ABNB/earnings-release-q3-2026.md)</li>
 <h2>11. Portfolio Strategy</h2>
 <li>ใช้เป็น <b>watchlist/evidence position framework</b> เท่านั้นจนกว่าจะได้ transcript/earnings release primary และตัวเลข retention/conversion ที่ตรวจซ้ำได้; ไม่กำหนด buy/sell/hold. (Judgment; ตรวจ 14-09-2026)</li>
 <li>หากศึกษา DCA ให้กำหนด cap ล่วงหน้าและอย่าเพิ่มน้ำหนักเพียงเพราะราคาลง; ต้องทบทวน take rate, nights, FCF margin, diluted shares และ regulatory exposure ทุกไตรมาส. (Process judgment; source: <code>sources/ABNB/10-k-2026.md</code>, ดึง 14-09-2026)</li>
 <li><b>Exit/kill triggers:</b> กฎใหม่กระทบตลาดหลักหลายแห่งต่อเนื่อง, conversion/booking ติดลบหลายไตรมาส, FCF margin ลดต่ำกว่าเกณฑ์ที่ตั้งไว้เพราะ AI/marketing และ dilution ไม่ลดตาม buyback. (Judgment; source: <code>briefs/ABNB.md</code>, ดึง 14-09-2026)</li>
+<h2>Earnings Update — 2026-11-06</h2>
+<li><b>เหตุผลที่อัปเดต:</b> มี SEC Form 10-Q และ earnings release ใหม่ลงวันที่ 2026-11-05 สำหรับ Q3 2026; ข้อมูลใหม่ยืนยัน demand/FCF ที่เร่งขึ้น แต่เพิ่มประเด็น take rate ลดลง, Q4 margin pressure และ buyback authorization ใหม่.</li>
+<li><b>Fact:</b> Q3 revenue $4.9B, Nights and Seats Booked +16%, GBV +21%, Adjusted EBITDA margin 52%, FCF $1.4B; FY2026 guidance revenue growth high teens และ Adjusted EBITDA margin ~36%.</li>
+<li><b>Interpretation:</b> core marketplace แข็งแรงขึ้น และ AI ลด support cost มีหลักฐานเบื้องต้น แต่ volume growth ยังต้องแปลงเป็น take rate/FCF ต่อหุ้น.</li>
+<li><b>Judgment:</b> ไม่เปลี่ยนเป็นคำแนะนำลงทุน; kill conditions เพิ่มน้ำหนักที่ take rate, diluted-share economics และ regulatory/tax cash cost.</li>
+<li><b>Consensus:</b> analyst count, rating distribution, target และ brokerage revision ที่ verify ได้ <b>ไม่พบ</b> จาก StockAnalysis/MarketBeat ในรอบนี้.</li>
 <h2>12. Fact / Interpretation / Judgment Map</h2>
 <p>| ชั้น | เนื้อหา |</p>
 <p>|---|---|</p>

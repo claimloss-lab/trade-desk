@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-10-30T03:38:36.166Z",
-  "exportDateTH": "30 ตุลาคม 2569 เวลา 10:38",
+  "exportDate": "2026-11-05T00:57:02.719Z",
+  "exportDateTH": "5 พฤศจิกายน 2569 เวลา 07:57",
   "portfolios": [
     {
       "id": "dr1",
@@ -242,18 +242,6 @@
           "id": 1787064242205,
           "srSupport": 5.4853,
           "srResist": 10.0002,
-          "srUpdated": "2026-10-01",
-          "srResistIsExt": false
-        },
-        {
-          "ticker": "SHOP06",
-          "buyPrice": 2.4,
-          "qty": 4000,
-          "sector": "Tech",
-          "underlying": "SHOP",
-          "id": 1790570926902,
-          "srSupport": 1.8735,
-          "srResist": 2.6609,
           "srUpdated": "2026-10-01",
           "srResistIsExt": false
         },
@@ -646,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1793840219716,
+      "ticker": "SHOP06",
+      "type": "sell",
+      "date": "2026-11-05",
+      "price": 2.4,
+      "qty": 4000,
+      "fee": 0,
+      "note": "ขายออก (auto-log จากการแก้จำนวน)",
+      "realizedPnl": 0,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1793331148871,
       "ticker": "GOOG80",
@@ -3201,8 +3202,7 @@
       "note": "DCA_10/2026",
       "cond": "below",
       "status": "pending",
-      "addedDate": "30 ต.ค. 69",
-      "_notified": true
+      "addedDate": "30 ต.ค. 69"
     }
   ],
   "dcaHistory": [],
@@ -6519,8 +6519,8 @@
   },
   "summary": {
     "totalPorts": 10,
-    "totalStocks": 45,
-    "totalTransactions": 88,
-    "totalNetWorth": "฿1,806,133.93"
+    "totalStocks": 44,
+    "totalTransactions": 89,
+    "totalNetWorth": "฿1,778,864.83"
   }
 }

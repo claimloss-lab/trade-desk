@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-11-05T00:57:39.689Z",
-  "exportDateTH": "5 พฤศจิกายน 2569 เวลา 07:57",
+  "exportDate": "2026-11-12T15:18:47.774Z",
+  "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:18",
   "portfolios": [
     {
       "id": "dr1",
@@ -140,8 +140,8 @@
         },
         {
           "ticker": "NVDA80",
-          "qty": 3500,
-          "buyPrice": 31.18,
+          "qty": 3600,
+          "buyPrice": 31.07777777777778,
           "id": 10,
           "sector": "Tech",
           "underlying": "NVIDIA",
@@ -634,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1794496724762,
+      "ticker": "NVDA80",
+      "type": "buy",
+      "date": "2026-11-12",
+      "price": 27.5,
+      "qty": 100,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1793840230278,
       "ticker": "CRWD80",
@@ -3096,7 +3109,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "2 ก.ค. 69",
-      "_notified": true
+      "_notified": false
     },
     {
       "id": 1782969023778,
@@ -3159,7 +3172,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "1 ก.ย. 69",
-      "_notified": true
+      "_notified": false
     },
     {
       "id": 1788231358234,
@@ -3194,7 +3207,7 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "30 ต.ค. 69",
-      "_notified": true
+      "_notified": false
     },
     {
       "id": 1793331487030,
@@ -6528,7 +6541,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 44,
-    "totalTransactions": 90,
-    "totalNetWorth": "฿1,788,560.15"
+    "totalTransactions": 91,
+    "totalNetWorth": "฿1,784,111.95"
   }
 }

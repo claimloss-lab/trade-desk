@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-11-12T15:23:01.277Z",
+  "exportDate": "2026-11-12T15:23:17.411Z",
   "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:23",
   "portfolios": [
     {
@@ -103,7 +103,7 @@
         {
           "ticker": "LLY80",
           "qty": 6000,
-          "buyPrice": 1.74,
+          "buyPrice": 1.7,
           "id": 6,
           "sector": "Healthcare",
           "underlying": "Eli Lilly",

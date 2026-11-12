@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-11-12T15:19:13.940Z",
-  "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:19",
+  "exportDate": "2026-11-12T15:20:12.803Z",
+  "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:20",
   "portfolios": [
     {
       "id": "dr1",
@@ -11,8 +11,8 @@
       "stocks": [
         {
           "ticker": "AMZN80",
-          "qty": 29200,
-          "buyPrice": 1.73,
+          "qty": 30450,
+          "buyPrice": 1.7517569786535303,
           "id": 1,
           "sector": "Consumer",
           "underlying": "Amazon",
@@ -634,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1794496809800,
+      "ticker": "AMZN80",
+      "type": "buy",
+      "date": "2026-11-12",
+      "price": 2.26,
+      "qty": 1250,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1794496724762,
       "ticker": "NVDA80",
@@ -6541,7 +6554,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 44,
-    "totalTransactions": 91,
-    "totalNetWorth": "฿1,770,053.37"
+    "totalTransactions": 92,
+    "totalNetWorth": "฿1,772,878.37"
   }
 }

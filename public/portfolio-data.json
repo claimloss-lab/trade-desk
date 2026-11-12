@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "exportDate": "2026-11-12T15:20:12.803Z",
+  "exportDate": "2026-11-12T15:20:29.186Z",
   "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:20",
   "portfolios": [
     {
@@ -102,8 +102,8 @@
         },
         {
           "ticker": "LLY80",
-          "qty": 4000,
-          "buyPrice": 1.35,
+          "qty": 6000,
+          "buyPrice": 1.74,
           "id": 6,
           "sector": "Healthcare",
           "underlying": "Eli Lilly",
@@ -634,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1794496826176,
+      "ticker": "LLY80",
+      "type": "buy",
+      "date": "2026-11-12",
+      "price": 2.52,
+      "qty": 2000,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1794496809800,
       "ticker": "AMZN80",
@@ -6554,7 +6567,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 44,
-    "totalTransactions": 92,
-    "totalNetWorth": "฿1,772,878.37"
+    "totalTransactions": 93,
+    "totalNetWorth": "฿1,777,918.37"
   }
 }

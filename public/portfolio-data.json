@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "exportDate": "2026-11-12T15:20:29.186Z",
-  "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:20",
+  "exportDate": "2026-11-12T15:22:10.598Z",
+  "exportDateTH": "12 พฤศจิกายน 2569 เวลา 22:22",
   "portfolios": [
     {
       "id": "dr1",
@@ -197,8 +197,8 @@
         },
         {
           "ticker": "QQQM19",
-          "qty": 1500,
-          "buyPrice": 15.95,
+          "qty": 1700,
+          "buyPrice": 16.308823529411764,
           "id": 13,
           "sector": "ETF",
           "underlying": "Invesco QQQM",
@@ -634,6 +634,19 @@
     }
   ],
   "transactions": [
+    {
+      "id": 1794496927583,
+      "ticker": "QQQM19",
+      "type": "buy",
+      "date": "2026-11-12",
+      "price": 19,
+      "qty": 200,
+      "fee": 0,
+      "note": "ซื้อเพิ่ม (auto-log จากการแก้จำนวน)",
+      "realizedPnl": null,
+      "portId": "dr1",
+      "auto": true
+    },
     {
       "id": 1794496826176,
       "ticker": "LLY80",
@@ -6567,7 +6580,7 @@
   "summary": {
     "totalPorts": 10,
     "totalStocks": 44,
-    "totalTransactions": 93,
-    "totalNetWorth": "฿1,777,918.37"
+    "totalTransactions": 94,
+    "totalNetWorth": "฿1,781,718.37"
   }
 }

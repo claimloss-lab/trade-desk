@@ -3211,7 +3211,9 @@
       "cond": "below",
       "status": "pending",
       "addedDate": "1 ก.ย. 69",
-      "_notified": false
+      "_notified": true,
+      "_notifiedAt": "2026-11-16T04:40:07.737Z",
+      "_notifiedPrice": 65.5
     },
     {
       "id": 1788231358234,

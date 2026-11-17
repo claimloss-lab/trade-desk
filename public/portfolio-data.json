@@ -503,8 +503,8 @@
           "sector": "Mutual Fund",
           "underlying": "Krungsri Global Alloc A",
           "currency": "THB",
-          "currentNav": 13.9563,
-          "navDate": "2026-11-12"
+          "currentNav": 13.9182,
+          "navDate": "2026-11-13"
         },
         {
           "id": 2,
@@ -514,8 +514,8 @@
           "sector": "Mutual Fund",
           "underlying": "Mega World 30 Fund A",
           "currency": "THB",
-          "currentNav": 13.1944,
-          "navDate": "2026-11-10"
+          "currentNav": 13.3926,
+          "navDate": "2026-11-13"
         },
         {
           "id": 1778630716727,
@@ -525,8 +525,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี US500 - UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 13.3419,
-          "navDate": "2026-11-10"
+          "currentNav": 13.6369,
+          "navDate": "2026-11-13"
         },
         {
           "id": 1778630781570,
@@ -536,8 +536,8 @@
           "sector": "Mutual Fund",
           "underlying": "กองทุนเปิดเคเคพี NDQ100 – UNHEDGED ชนิด E",
           "currency": "THB",
-          "currentNav": 16.8624,
-          "navDate": "2026-11-10"
+          "currentNav": 17.2676,
+          "navDate": "2026-11-13"
         }
       ]
     },
@@ -557,8 +557,8 @@
           "sector": "Mutual Fund",
           "underlying": "BBL Gold RMF",
           "currency": "THB",
-          "currentNav": 26.9962,
-          "navDate": "2026-11-12"
+          "currentNav": 26.5403,
+          "navDate": "2026-11-16"
         },
         {
           "id": 2,
@@ -568,8 +568,8 @@
           "sector": "Mutual Fund",
           "underlying": "RMF Binnotech",
           "currency": "THB",
-          "currentNav": 34.6076,
-          "navDate": "2026-11-10"
+          "currentNav": 35.4532,
+          "navDate": "2026-11-12"
         },
         {
           "id": 3,
@@ -598,8 +598,8 @@
           "sector": "Mutual Fund",
           "underlying": "TLNDQINCOME-UH-X",
           "currency": "THB",
-          "currentNav": 10.7927,
-          "navDate": "2026-11-10"
+          "currentNav": 10.9734,
+          "navDate": "2026-11-13"
         }
       ],
       "cash": 0,

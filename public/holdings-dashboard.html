@@ -1,35 +1,388 @@
 <!DOCTYPE html>
 <html lang="th"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Holdings Decision Dashboard</title>
+<title>Holdings Dashboard — Trade Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1115;--card:#171a21;--border:#262b35;--fg:#e8eaf0;--muted:#98a0b0;
---accent:#6ea8fe;--ok:#3ddc97;--warn:#ffb454;--bad:#ff6b6b;}
-@media(prefers-color-scheme:light){:root{--bg:#f4f5f8;--card:#fff;--border:#dfe2ea;--fg:#1a1d24;--muted:#5c6472;--accent:#2557d6}}
+:root{
+  --bg:#f5f5f7;--surface:#fff;--s2:#f9f9fb;--bd:rgba(0,0,0,.08);--bd2:rgba(0,0,0,.05);
+  --tx:#1d1d1f;--tx2:#6e6e73;--tx3:#86868b;
+  --blue:#2F6FED;--blue-bg:#eaf2ff;
+  --green:#30d158;--green-bg:#e5f9eb;--green-tx:#1a7f3c;
+  --red:#ff3b30;--red-bg:#fff0ef;--red-tx:#c41e3a;
+  --amber:#ff9500;--amber-bg:#fff4e5;--amber-tx:#c47d00;
+  --purple:#7c3aed;--purple-bg:#f3eeff;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --r:14px;--r2:10px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0f1115;--surface:#171a21;--s2:#1d212b;--bd:rgba(255,255,255,.12);--bd2:rgba(255,255,255,.07);
+  --tx:#e8eaf0;--tx2:#98a0b0;--tx3:#78808f;--blue:#6ea8fe;--blue-bg:#1b2b47;
+  --green-bg:#12301f;--green-tx:#3ddc97;--red-bg:#33191b;--red-tx:#ff6b6b;
+  --amber-bg:#33270f;--amber-tx:#ffb454;--purple-bg:#241b3a;}
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Leelawadee UI","Noto Sans Thai",sans-serif;line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
-h1{font-size:1.5rem;margin:0 0 4px}
-.sub{color:var(--muted);font-size:.86rem;margin-bottom:20px}
-.grid{display:grid;gap:12px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
-.top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.tk{font-size:1.15rem;font-weight:800;letter-spacing:.3px}
-.px{color:var(--muted);font-size:.85rem}
-.badge{margin-left:auto;font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--border)}
-.b-ok{color:var(--ok);border-color:var(--ok)} .b-warn{color:var(--warn);border-color:var(--warn)}
-.b-bad{color:var(--bad);border-color:var(--bad)} .b-mut{color:var(--muted)}
-.row{margin-top:9px;font-size:.9rem}
-.lbl{color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:1px}
-.kill{margin:4px 0 0;padding-left:18px;color:var(--warn);font-size:.85rem}
-.stale{color:var(--bad);font-weight:700}
-.foot{margin-top:26px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);padding-top:12px}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 64px}
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.back{color:var(--blue);text-decoration:none;font-size:13px;font-weight:500}
+h1{font-size:20px;margin:0;font-weight:700;letter-spacing:-.2px}
+.meta{color:var(--tx2);font-size:12.5px;margin:2px 0 16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);padding:12px 14px;box-shadow:var(--sh)}
+.kpi .lbl{color:var(--tx3);font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;display:block;margin-bottom:3px}
+.kpi b{font-size:17px;font-family:var(--mono)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.hcard{background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);box-shadow:var(--sh);padding:14px 15px}
+.hhd{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.tk{font-size:16px;font-weight:700;font-family:var(--mono);letter-spacing:.2px}
+.sub2{color:var(--tx3);font-size:11px;margin-top:1px}
+.wblock{margin-left:auto;text-align:right;min-width:68px}
+.wval{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--blue)}
+.wbar{height:4px;background:var(--bd2);border-radius:3px;margin-top:4px;overflow:hidden}
+.wbar i{display:block;height:100%;background:var(--blue);border-radius:3px}
+.hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:9px 0;border-top:1px solid var(--bd2);border-bottom:1px solid var(--bd2)}
+.hgrid .lbl{color:var(--tx3);font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;display:block}
+.hgrid b{font-size:12.5px;font-family:var(--mono)}
+.chiprow{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0 4px}
+.chip{font-size:10.5px;font-weight:500;padding:2px 8px;border-radius:999px;border:1px solid var(--bd)}
+.c-ok{color:var(--green-tx);background:var(--green-bg);border-color:transparent}
+.c-warn{color:var(--amber-tx);background:var(--amber-bg);border-color:transparent}
+.c-bad{color:var(--red-tx);background:var(--red-bg);border-color:transparent}
+.c-mut{color:var(--tx3)}
+.fld{font-size:12px;line-height:1.55;margin-top:8px;color:var(--tx)}
+.fld .lbl{color:var(--tx3);font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:1px}
+.kills{margin:3px 0 0;padding-left:16px;color:var(--amber-tx);font-size:11.5px}
+.kills li{margin:2px 0}
+.kills li.mut{color:var(--tx3);list-style:none;margin-left:-16px}
+.t-ok{color:var(--green-tx)} .t-bad{color:var(--red-tx)} .t-warn{color:var(--amber-tx)}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);border:1px solid var(--bd2);margin-top:9px}
+th,td{padding:8px 12px;text-align:left;font-size:12px;border-bottom:1px solid var(--bd2)}
+th{color:var(--tx3);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:500}
+td.num{text-align:right;font-family:var(--mono)}
+td.mono{font-family:var(--mono);font-weight:500}
+h2.sec{font-size:14px;margin:26px 0 0;font-weight:700}
+.foot{margin-top:26px;color:var(--tx3);font-size:11.5px;border-top:1px solid var(--bd2);padding-top:12px;line-height:1.6}
 </style></head>
 <body><div class="wrap">
-<h1>Holdings Decision Dashboard</h1>
-<div class="sub">15 หลักทรัพย์ที่ถือจริง · สร้าง 2026-11-19 07:37 · อ่านจาก briefs/*.md โดยตรง ไม่มีการเรียก LLM</div>
-<div class="grid"><article class="card"><div class="top"><span class="tk">AMZN</span><span class="px">2.30 ฿/หน่วย · 30,450 หน่วย</span><span class="badge b-ok">+31.4% vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>คำถามการลงทุนคือ Amazon จะเปลี่ยนความต้องการ cloud/AI และเครือข่ายลูกค้า-ผู้ขายให้เป็น operating income และ FCF ที่เติบโต หลังหัก capex และความเสี่ยงจากการลงทุนเอกชนได้หรือไม่ แกนหลัก (THE CORE): AWS เป็นธุรกิจ infrastructure/software ที่มีรายได้และกำไรจริง ขณะที่ North America, International, marketplace, Prime และโฆษ…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 1 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">ASML</span><span class="px">42.75 ฿/หน่วย · 2,225 หน่วย</span><span class="badge b-ok">+43.3% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>ASML เป็นธุรกิจเครื่องมือผลิตชิปต้นน้ำที่รายได้หลักมาจากระบบ lithography และ installed-base services ลูกค้าคือ foundry, IDM และผู้ผลิต memory; จุดแข็งเชิงโครงสร้างคือบริษัทระบุว่าเป็นผู้ผลิต EUV เพียงรายเดียวในปัจจุบัน แต่ความเสี่ยงยังสูงจากลูกค้ากระจุกตัว, วัฏจักร semiconductor และการพึ่งพา Carl Zeiss SMT สำหรับ optic…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 2 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">AVGO</span><span class="px">2.44 ฿/หน่วย · 39,200 หน่วย</span><span class="badge b-ok">+6.1% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Investment question: Broadcom จะเปลี่ยน custom AI accelerators/networking และ infrastructure software ให้เป็น FCF ต่อหุ้นที่ยืนระยะได้หรือไม่ โดยไม่ให้ customer concentration และ rack backstop เปลี่ยนการเติบโตเป็นความเสี่ยงด้านสินทรัพย์? Analytical frame: ธุรกิจมีหลักฐานการเติบโตและ cash conversion ที่แรงใน Q3 แต่เป็น…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span>—</div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>Judgment: ถ้า FCF/share ไม่โตตาม revenue หรือ backstop เริ่มกลายเป็น realized loss แกน thesis จะอ่อนลง แม้ headline AI ยังดี</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="stale">อัปเดต 18 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">CRWD</span><span class="px">30.25 ฿/หน่วย · 1,600 หน่วย</span><span class="badge b-ok">+116.5% vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Rating เชิงวิจัย: High-quality recurring growth แต่ valuation สูงมากและ GAAP profitability เพิ่งตั้งหลัก; thesis ต้องพึ่ง ARR expansion, retention และการคุม SBC ไม่ใช่ revenue growth อย่างเดียว (Interpretation, 12 ก.ย. 2026; source: SEC 10-K FY2026, StockAnalysis Q2 FY2027 transcript) Fair value: ไม่ใช้จุดเดียว; scenar…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ถ้าลูกค้าไม่ได้ต้องการหลาย module แต่ซื้อ Falcon Flex เพื่อยืดสัญญา/รับส่วนลด net new ARR จะดูดีชั่วคราวแต่ unit economics อ่อนลง (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026, Q2 transcript)</li><li>ถ้า July 19 incident เปลี่ยนจาก one-off เป็น permanent trust discount, renewal และ pricing จะเสียแม้ ARR headline ยังโตจากฐานต่ำ (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 7 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">GOOGL</span><span class="px">4.96 ฿/หน่วย · 17,170 หน่วย</span><span class="badge b-bad">-7.1% vs ทุน</span><span class="badge b-warn">เฝ้าดู</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Rating: Watchlist / ต้องพิสูจน์สมมติฐานก่อนเพิ่มน้ำหนัก — ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ Fair-value framework (historical scenario, 2026-09-12): reference price $338.50; base-case 5-year model $533/share from year-5 EPS around $19.05 and 28x multiple; scenario range $381–$686. These are old model outputs, not current ma…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>Fact: Q3 Cloud โต 103% และ backlog $561B แต่ FCF ติดลบ $9.1B จาก CapEx/inventory/fine. Interpretation: demand แข็งแรงยังไม่เท่ากับผลตอบแทนเงินลงทุนที่ดี. Judgment: thesis ต้องผ่าน FCF หลัง CapEx และ C…</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 2 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">LLY</span><span class="px">2.46 ฿/หน่วย · 6,000 หน่วย</span><span class="badge b-ok">+44.7% vs ทุน</span><span class="badge b-warn">เฝ้าดู</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>สถานะการศึกษา: Watchlist / ต้องพิสูจน์ว่า incretin volume และ access ชดเชย net-price pressure ได้ต่อเนื่อง — ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ Investment question: Lilly จะเปลี่ยน demand ของ incretin ให้เป็นกำไรและกระแสเงินสดระยะยาวได้หรือไม่ เมื่อ payer กดราคาและบริษัทต้องลงทุนโรงงาน/ซื้อ pipeline จำนวนมาก Fair-value fram…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ถ้า debt, capex และ acquisitions กิน OCF ต่อเนื่อง แม้ยอดขายโต thesis เรื่องคุณภาพกระแสเงินสดต้องถูกลดระดับ</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">META</span><span class="px">2.64 ฿/หน่วย · 14,100 หน่วย</span><span class="badge b-bad">-7.0% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>คำถามการลงทุนคือ Meta จะยกระดับ engagement และ advertiser ROI ด้วย AI จนคุ้มกับ capex, compute, legal/regulatory costs และ Reality Labs ได้หรือไม่ โดยไม่ทำให้ FCF ต่อหุ้นถูก dilution หรือถูกบีบลง แกนหลัก (THE CORE): Family of Apps สร้างรายได้โฆษณาและกำไรจาก scale ของผู้ใช้/engagement; FY2025 FoA revenue $198.759B และ o…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">MRVL</span><span class="px">5.55 ฿/หน่วย · 1,500 หน่วย</span><span class="badge b-bad">-22.5% vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Rating: Research-only / ยังไม่ให้ rating ซื้อ-ขาย-ถือ — ข้อมูล 5-year และ valuation หลายวิธียังไม่ครบ (Judgment; source limitation: sources/MRVL/10-k-fy2026.md และ q2-2027-call.md, ดึง 2026-09-13) Fair value: ยังไม่คำนวณเป็นตัวเลข เพราะไม่พบชุดประมาณการ EPS/FCF 5 ปีที่ตรวจสอบได้ครบ และราคาหุ้นมี sensitivity สูงต่อ cust…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">MSFT</span><span class="px">8.85 ฿/หน่วย · 25,400 หน่วย</span><span class="badge b-ok">+22.7% vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>คำถามลงทุน: Microsoft จะเปลี่ยนการลงทุน AI/data-center ที่เร่งตัวให้เป็นรายได้แบบ recurring และ free cash flow ต่อหุ้นที่เติบโตได้หรือไม่ โดยยังรักษาคุณภาพของธุรกิจซอฟต์แวร์เดิมไว้? สถานะ thesis: ยังไม่ถูกหักล้าง แต่กำลังอยู่ในช่วงพิสูจน์ผลตอบแทนของ CapEx. Reported Q1 FY2027 สนับสนุน demand และการเติบโตของ Azure; ในทาง…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ถ้า thesis ผิด สิ่งที่ควรเห็นก่อนคือ Azure/AI growth ชะลอพร้อม margin ลดและ FCF ไม่ฟื้น ไม่ใช่ราคาหุ้นลดเพียงระยะสั้น</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">NVDA</span><span class="px">27.25 ฿/หน่วย · 3,600 หน่วย</span><span class="badge b-bad">-12.3% vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>—</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ถ้า supply pre-booking เป็นการจัดการ bottleneck ที่ดี ต้องเห็น delivery, utilization และ cash return; หากเห็น commitment ใหญ่แต่ส่งมอบ/ใช้ไม่เต็ม นั่นคือ anti-thesis[1]</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">ORCL</span><span class="px">4,809.00 ฿/หน่วย · 7 หน่วย</span><span class="badge b-ok">— vs ทุน</span><span class="badge b-ok">ถือต่อ</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Investment question: Oracle จะเปลี่ยนฐานข้อมูล/แอปองค์กรและ OCI AI infrastructure ให้เป็นรายได้และ FCF ระยะยาวได้หรือไม่ โดยไม่ให้ capex, vendor financing, leases และ dilution ทำลาย economics ต่อหุ้น? Analytical frame: demand และ RPO สนับสนุน growth case แต่ Q1 FCF ติดลบหลัง capex ทำให้ต้องดู cash return ไม่ใช่รายได้อย…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">PANW</span><span class="px">10.90 ฿/หน่วย · 3,982 หน่วย</span><span class="badge b-ok">+103.0% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Palo Alto Networks จะเปลี่ยนการเติบโตของ NGS ARR และการรวมผลิตภัณฑ์ security หลายหมวดให้เป็นรายได้ กำไร GAAP และ FCF ต่อหุ้นที่เติบโตจริงได้หรือไม่ หลังผ่านการซื้อกิจการและ dilution ที่สูง [unverified]? Fact: FY2026 revenue อยู่ที่ $11.480B (+24%), NGS ARR $9.10B (+63%) ใน Q4 และ RPO $21.2B (+34%); หลัง Q1 FY2027 บริษั…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>Judgment: หาก divergence นี้คงอยู่หลายงวดพร้อม ARR growth ชะลอ anti-thesis จะมีน้ำหนักมากขึ้น</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 0 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">PLTR</span><span class="px">3.86 ฿/หน่วย · 7,600 หน่วย</span><span class="badge b-ok">+27.4% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>คำถามลงทุน: Palantir จะเปลี่ยนการทดลองใช้ AI/data workflow ให้เป็นรายได้ commercial ที่ต่อเนื่องและ economics ต่อหุ้นดีพอรองรับ valuation ได้หรือไม่? Fact: Q3 FY2026 revenue $2.313bn โต 96% YoY; US commercial revenue $984m โต 148% และแซง US government revenue $953m เป็นครั้งแรก. (source: sources/PLTR/q3-2026-earnings-r…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 5 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">QQQM</span><span class="px">19.10 ฿/หน่วย · 1,700 หน่วย</span><span class="badge b-ok">+17.1% vs ทุน</span><span class="badge b-warn">เฝ้าดู</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>Rating: core-watchlist / diversified growth vehicle; ไม่ให้ rating ซื้อขาย เพราะ valuation ของกองทุนสะท้อนบริษัทเทคขนาดใหญ่และยังมี concentration risk (Interpretation; Invesco product page + Yahoo chart, ดึง 2026-09-13) กรอบ fair value 5 ปีของ QQQM: bear/base/bull = $260 / $380 / $520 ต่อหน่วย เป็น scenario range ไม่ใช…</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span>—</div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="stale">อัปเดต 66 วันก่อน</span></div></article><article class="card"><div class="top"><span class="tk">SNOW</span><span class="px">5.00 ฿/หน่วย · 6,270 หน่วย</span><span class="badge b-ok">+81.8% vs ทุน</span><span class="badge b-ok">ไม่ระบุใน brief</span></div><div class="row"><span class="lbl">คำถามการลงทุน</span>—</div><div class="row"><span class="lbl">เปลี่ยนล่าสุด</span></div><div class="row"><span class="lbl">kill condition</span><ul class="kill"><li>ไม่พบ kill condition ที่ระบุชัดใน brief</li></ul></div><div class="row"><span class="lbl">ความสดของ brief</span><span class="">อัปเดต 5 วันก่อน</span></div></article></div>
+<div class="topbar"><a class="back" href="./">← Trade Desk</a></div>
+<h1>Holdings Dashboard</h1>
+<div class="meta">พอร์ต SET DR · 14 หลักทรัพย์ที่ถือจริง · snapshot 2026-11-18 · สร้าง 2026-11-19 08:02 · อ่านจาก briefs/*.md โดยตรง ไม่เรียก LLM</div>
+
+<div class="kpis">
+  <div class="kpi"><span class="lbl">มูลค่ารวม (รวมเงินสด)</span><b>฿895,692</b></div>
+  <div class="kpi"><span class="lbl">เงินสด</span><b>฿9,126</b></div>
+  <div class="kpi"><span class="lbl">น้ำหนัก top-5</span><b>64.7%</b></div>
+  <div class="kpi"><span class="lbl">เซมิ/เครื่องมือชิป</span><b>31.2%</b></div>
+</div>
+
+<h2 class="sec">การ์ดตัดสินใจ</h2>
+<div class="grid">
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">MSFT</div><div class="sub2">MSFT80 · Microsoft</div></div>
+            <div class="wblock"><div class="wval">24.44%</div>
+              <div class="wbar"><i style="width:97.8%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>8.62</b></div>
+            <div><span class="lbl">จำนวน</span><b>25,400</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>218,948</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">19.56%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-ok">ถือต่อ</span>
+            <span class="chip c-mut">brief 0 วัน</span>
+            <span class="chip c-mut">รับ 8.13</span><span class="chip c-mut">ต้าน 9.41</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>คำถามลงทุน: Microsoft จะเปลี่ยนการลงทุน AI/data-center ที่เร่งตัวให้เป็นรายได้แบบ recurring และ free cash flow ต่อหุ้นที่เติบโตได้หรือไม่ โดยยังรักษาคุณภาพของธุรกิจซอฟต์แวร์เดิมไว้? สถานะ thesis: ยังไม่ถูกหักล้าง แต่กำลังอยู่ในช่วงพิสูจน์ผล…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>ถ้า thesis ผิด สิ่งที่ควรเห็นก่อนคือ Azure/AI growth ชะลอพร้อม margin ลดและ FCF ไม่ฟื้น ไม่ใช่ราคาหุ้นลดเพียงระยะสั้น</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">NVDA</div><div class="sub2">NVDA80 · NVIDIA</div></div>
+            <div class="wblock"><div class="wval">11.01%</div>
+              <div class="wbar"><i style="width:44.1%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>27.40</b></div>
+            <div><span class="lbl">จำนวน</span><b>3,600</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>98,640</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-bad">-11.81%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-ok">ถือต่อ</span>
+            <span class="chip c-mut">brief 0 วัน</span>
+            <span class="chip c-mut">รับ 28.60</span><span class="chip c-mut">ต้าน 40.52</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>—</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>ถ้า supply pre-booking เป็นการจัดการ bottleneck ที่ดี ต้องเห็น delivery, utilization และ cash return; หากเห็น commitment ใหญ่แต่ส่งมอบ/ใช้ไม่เต็ม นั่นคือ anti-thesis[1]</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">AVGO</div><div class="sub2">AVGO80 · Broadcom</div></div>
+            <div class="wblock"><div class="wval">10.33%</div>
+              <div class="wbar"><i style="width:41.3%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>2.36</b></div>
+            <div><span class="lbl">จำนวน</span><b>39,200</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>92,512</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">2.61%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่ระบุใน brief</span>
+            <span class="chip c-warn">brief 18 วัน</span>
+            <span class="chip c-mut">รับ 1.97</span><span class="chip c-mut">ต้าน 2.83</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>Investment question: Broadcom จะเปลี่ยน custom AI accelerators/networking และ infrastructure software ให้เป็น FCF ต่อหุ้นที่ยืนระยะได้หรือไม่ โดยไม่ให้ customer concentration และ rack backstop เปลี่ยนการเติบโตเป็นความเสี่ยงด้านสินทรัพย์? An…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span>—</div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>Judgment: ถ้า FCF/share ไม่โตตาม revenue หรือ backstop เริ่มกลายเป็น realized loss แกน thesis จะอ่อนลง แม้ headline AI ยังดี</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">ASML</div><div class="sub2">ASML01 · ASML</div></div>
+            <div class="wblock"><div class="wval">9.86%</div>
+              <div class="wbar"><i style="width:39.4%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>39.70</b></div>
+            <div><span class="lbl">จำนวน</span><b>2,225</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>88,332</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">33.04%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่ระบุใน brief</span>
+            <span class="chip c-mut">brief 2 วัน</span>
+            <span class="chip c-mut">รับ 38.29</span><span class="chip c-mut">ต้าน 53.15</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>ASML เป็นธุรกิจเครื่องมือผลิตชิปต้นน้ำที่รายได้หลักมาจากระบบ lithography และ installed-base services ลูกค้าคือ foundry, IDM และผู้ผลิต memory; จุดแข็งเชิงโครงสร้างคือบริษัทระบุว่าเป็นผู้ผลิต EUV เพียงรายเดียวในปัจจุบัน แต่ความเสี่ยงยังสูงจา…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">GOOGL</div><div class="sub2">GOOG80 · Alphabet</div></div>
+            <div class="wblock"><div class="wval">9.09%</div>
+              <div class="wbar"><i style="width:36.3%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>4.74</b></div>
+            <div><span class="lbl">จำนวน</span><b>17,170</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>81,386</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-bad">-11.24%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-warn">เฝ้าดู</span>
+            <span class="chip c-mut">brief 2 วัน</span>
+            <span class="chip c-mut">รับ 4.71</span><span class="chip c-mut">ต้าน 5.94</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>Rating: Watchlist / ต้องพิสูจน์สมมติฐานก่อนเพิ่มน้ำหนัก — ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ Fair-value framework (historical scenario, 2026-09-12): reference price $338.50; base-case 5-year model $533/share from year-5 EPS around $19.05 and 28x…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>Fact: Q3 Cloud โต 103% และ backlog $561B แต่ FCF ติดลบ $9.1B จาก CapEx/inventory/fine. Interpretation: demand แข็งแรงยังไม่เท่ากับผลตอบแทนเงินลงทุนที่ดี. Judgment: thesis ต้องผ่าน FCF หลัง C…</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">AMZN</div><div class="sub2">AMZN80 · Amazon</div></div>
+            <div class="wblock"><div class="wval">7.55%</div>
+              <div class="wbar"><i style="width:30.2%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>2.22</b></div>
+            <div><span class="lbl">จำนวน</span><b>30,450</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>67,599</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">26.73%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-ok">ถือต่อ</span>
+            <span class="chip c-mut">brief 1 วัน</span>
+            <span class="chip c-mut">รับ 2.04</span><span class="chip c-mut">ต้าน 2.29</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>คำถามการลงทุนคือ Amazon จะเปลี่ยนความต้องการ cloud/AI และเครือข่ายลูกค้า-ผู้ขายให้เป็น operating income และ FCF ที่เติบโต หลังหัก capex และความเสี่ยงจากการลงทุนเอกชนได้หรือไม่ แกนหลัก (THE CORE): AWS เป็นธุรกิจ infrastructure/software ที่มี…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">CRWD</div><div class="sub2">CRWD80 · CrowdStrike</div></div>
+            <div class="wblock"><div class="wval">5.43%</div>
+              <div class="wbar"><i style="width:21.7%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>30.40</b></div>
+            <div><span class="lbl">จำนวน</span><b>1,600</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>48,640</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">117.61%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-ok">ถือต่อ</span>
+            <span class="chip c-mut">brief 7 วัน</span>
+            <span class="chip c-mut">รับ 25.12</span><span class="chip c-mut">ต้าน 37.78</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>Rating เชิงวิจัย: High-quality recurring growth แต่ valuation สูงมากและ GAAP profitability เพิ่งตั้งหลัก; thesis ต้องพึ่ง ARR expansion, retention และการคุม SBC ไม่ใช่ revenue growth อย่างเดียว (Interpretation, 12 ก.ย. 2026; source: SEC 10-…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>ถ้าลูกค้าไม่ได้ต้องการหลาย module แต่ซื้อ Falcon Flex เพื่อยืดสัญญา/รับส่วนลด net new ARR จะดูดีชั่วคราวแต่ unit economics อ่อนลง (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026, Q2 tran…</li><li>ถ้า July 19 incident เปลี่ยนจาก one-off เป็น permanent trust discount, renewal และ pricing จะเสียแม้ ARR headline ยังโตจากฐานต่ำ (Anti-thesis, 12 ก.ย. 2026; source: SEC 10-K FY2026)</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">PANW</div><div class="sub2">PANW80 · Palo Alto</div></div>
+            <div class="wblock"><div class="wval">4.73%</div>
+              <div class="wbar"><i style="width:18.9%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>10.65</b></div>
+            <div><span class="lbl">จำนวน</span><b>3,982</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>42,408</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">98.32%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่ระบุใน brief</span>
+            <span class="chip c-mut">brief 0 วัน</span>
+            <span class="chip c-mut">รับ 10.63</span><span class="chip c-mut">ต้าน 14.22</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>Palo Alto Networks จะเปลี่ยนการเติบโตของ NGS ARR และการรวมผลิตภัณฑ์ security หลายหมวดให้เป็นรายได้ กำไร GAAP และ FCF ต่อหุ้นที่เติบโตจริงได้หรือไม่ หลังผ่านการซื้อกิจการและ dilution ที่สูง [unverified]? Fact: FY2026 revenue อยู่ที่ $11.480B…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>Judgment: หาก divergence นี้คงอยู่หลายงวดพร้อม ARR growth ชะลอ anti-thesis จะมีน้ำหนักมากขึ้น</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">META80</div><div class="sub2">META80 · Meta</div></div>
+            <div class="wblock"><div class="wval">4.12%</div>
+              <div class="wbar"><i style="width:16.5%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>2.62</b></div>
+            <div><span class="lbl">จำนวน</span><b>14,100</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>36,942</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-bad">-7.75%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่มี brief</span>
+            <span class="chip c-mut">brief —</span>
+            <span class="chip c-mut">รับ 2.26</span><span class="chip c-mut">ต้าน 3.12</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>—</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span>—</div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">QQQM</div><div class="sub2">QQQM19 · Invesco QQQM</div></div>
+            <div class="wblock"><div class="wval">3.52%</div>
+              <div class="wbar"><i style="width:14.1%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>18.55</b></div>
+            <div><span class="lbl">จำนวน</span><b>1,700</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>31,535</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">13.74%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-warn">เฝ้าดู</span>
+            <span class="chip c-bad">brief 66 วัน</span>
+            <span class="chip c-mut">รับ 18.08</span><span class="chip c-mut">ต้าน 21.19</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>Rating: core-watchlist / diversified growth vehicle; ไม่ให้ rating ซื้อขาย เพราะ valuation ของกองทุนสะท้อนบริษัทเทคขนาดใหญ่และยังมี concentration risk (Interpretation; Invesco product page + Yahoo chart, ดึง 2026-09-13) กรอบ fair value 5 ปี…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span>—</div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">SNOW</div><div class="sub2">SNOW06 · Snowflake</div></div>
+            <div class="wblock"><div class="wval">3.35%</div>
+              <div class="wbar"><i style="width:13.4%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>4.78</b></div>
+            <div><span class="lbl">จำนวน</span><b>6,270</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>29,971</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">73.82%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่ระบุใน brief</span>
+            <span class="chip c-mut">brief 5 วัน</span>
+            <span class="chip c-mut">รับ 4.56</span><span class="chip c-mut">ต้าน 6.25</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>—</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">PLTR</div><div class="sub2">PLTR06 · Palantir</div></div>
+            <div class="wblock"><div class="wval">3.07%</div>
+              <div class="wbar"><i style="width:12.3%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>3.62</b></div>
+            <div><span class="lbl">จำนวน</span><b>7,600</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>27,512</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">19.47%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่ระบุใน brief</span>
+            <span class="chip c-mut">brief 6 วัน</span>
+            <span class="chip c-mut">รับ 3.50</span><span class="chip c-mut">ต้าน 4.72</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>คำถามลงทุน: Palantir จะเปลี่ยนการทดลองใช้ AI/data workflow ให้เป็นรายได้ commercial ที่ต่อเนื่องและ economics ต่อหุ้นดีพอรองรับ valuation ได้หรือไม่? Fact: Q3 FY2026 revenue $2.313bn โต 96% YoY; US commercial revenue $984m โต 148% และแซง US…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">LLY</div><div class="sub2">LLY80 · Eli Lilly</div></div>
+            <div class="wblock"><div class="wval">1.59%</div>
+              <div class="wbar"><i style="width:6.4%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>2.38</b></div>
+            <div><span class="lbl">จำนวน</span><b>6,000</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>14,280</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-ok">40.00%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-warn">เฝ้าดู</span>
+            <span class="chip c-mut">brief 0 วัน</span>
+            <span class="chip c-mut">รับ 1.89</span><span class="chip c-mut">ต้าน 2.43</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>สถานะการศึกษา: Watchlist / ต้องพิสูจน์ว่า incretin volume และ access ชดเชย net-price pressure ได้ต่อเนื่อง — ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ Investment question: Lilly จะเปลี่ยน demand ของ incretin ให้เป็นกำไรและกระแสเงินสดระยะยาวได้หรือไม่ เ…</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span></div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li>ถ้า debt, capex และ acquisitions กิน OCF ต่อเนื่อง แม้ยอดขายโต thesis เรื่องคุณภาพกระแสเงินสดต้องถูกลดระดับ</li></ul></div>
+        </div>
+        <div class="hcard">
+          <div class="hhd">
+            <div><div class="tk">MRVL80</div><div class="sub2">MRVL80 · MRVL</div></div>
+            <div class="wblock"><div class="wval">0.88%</div>
+              <div class="wbar"><i style="width:3.5%"></i></div></div>
+          </div>
+          <div class="hgrid">
+            <div><span class="lbl">ราคา/หน่วย</span><b>5.24</b></div>
+            <div><span class="lbl">จำนวน</span><b>1,500</b></div>
+            <div><span class="lbl">มูลค่า ฿</span><b>7,860</b></div>
+            <div><span class="lbl">เทียบทุน</span><b class="t-bad">-26.82%</b></div>
+          </div>
+          <div class="chiprow">
+            <span class="chip c-mut">ไม่มี brief</span>
+            <span class="chip c-mut">brief —</span>
+            <span class="chip c-mut">รับ 5.49</span><span class="chip c-mut">ต้าน 10.00</span>
+          </div>
+          <div class="fld"><span class="lbl">คำถามการลงทุน</span>—</div>
+          <div class="fld"><span class="lbl">เปลี่ยนล่าสุด</span>—</div>
+          <div class="fld"><span class="lbl">kill condition</span><ul class="kills"><li class='mut'>ไม่พบ kill condition ที่เขียนชัดใน brief</li></ul></div>
+        </div></div>
+
+<h2 class="sec">น้ำหนักพอร์ต (มาก → น้อย)</h2>
+<table>
+<tr><th>Ticker</th><th style="text-align:right">Weight</th><th style="text-align:right">มูลค่า ฿</th><th style="text-align:right">เทียบทุน</th></tr>
+<tr><td class='mono'>MSFT</td><td class='num'>24.44%</td><td class='num'>218,948</td><td class='num t-ok'>19.56%</td></tr><tr><td class='mono'>NVDA</td><td class='num'>11.01%</td><td class='num'>98,640</td><td class='num t-bad'>-11.81%</td></tr><tr><td class='mono'>AVGO</td><td class='num'>10.33%</td><td class='num'>92,512</td><td class='num t-ok'>2.61%</td></tr><tr><td class='mono'>ASML</td><td class='num'>9.86%</td><td class='num'>88,332</td><td class='num t-ok'>33.04%</td></tr><tr><td class='mono'>GOOGL</td><td class='num'>9.09%</td><td class='num'>81,386</td><td class='num t-bad'>-11.24%</td></tr><tr><td class='mono'>AMZN</td><td class='num'>7.55%</td><td class='num'>67,599</td><td class='num t-ok'>26.73%</td></tr><tr><td class='mono'>CRWD</td><td class='num'>5.43%</td><td class='num'>48,640</td><td class='num t-ok'>117.61%</td></tr><tr><td class='mono'>PANW</td><td class='num'>4.73%</td><td class='num'>42,408</td><td class='num t-ok'>98.32%</td></tr><tr><td class='mono'>META80</td><td class='num'>4.12%</td><td class='num'>36,942</td><td class='num t-bad'>-7.75%</td></tr><tr><td class='mono'>QQQM</td><td class='num'>3.52%</td><td class='num'>31,535</td><td class='num t-ok'>13.74%</td></tr><tr><td class='mono'>SNOW</td><td class='num'>3.35%</td><td class='num'>29,971</td><td class='num t-ok'>73.82%</td></tr><tr><td class='mono'>PLTR</td><td class='num'>3.07%</td><td class='num'>27,512</td><td class='num t-ok'>19.47%</td></tr><tr><td class='mono'>LLY</td><td class='num'>1.59%</td><td class='num'>14,280</td><td class='num t-ok'>40.00%</td></tr><tr><td class='mono'>MRVL80</td><td class='num'>0.88%</td><td class='num'>7,860</td><td class='num t-bad'>-26.82%</td></tr>
+</table>
+
 <div class="foot">
 หน้านี้เป็นเครื่องมือติดตามหลักฐานและ kill conditions <b>ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ</b> ·
-ตัวเลขมูลค่าอ้าง portfolio.json (snapshot ล่าสุด) · ช่องที่ขึ้น “—” หมายถึง brief ไม่ได้ระบุข้อมูลนั้นไว้
-</div></div></body></html>
+น้ำหนักคำนวณจาก daily-snapshot ล่าสุด (ราคา DR บน SET) หารด้วยมูลค่ารวมรวมเงินสด ·
+ช่องที่ขึ้น “—” คือ brief ไม่ได้ระบุข้อมูลนั้นไว้ (ไม่มีการเติมข้อมูลเอง)
+</div>
+</div></body></html>

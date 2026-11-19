@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Escrow — Trade Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css">
+<script src="/theme.js" defer></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:22px 16px 64px}
+.back{color:var(--blue);text-decoration:none;font-size:13px;font-weight:500}
+h1{font-size:20px;margin:6px 0 2px;font-weight:700}
+.meta{color:var(--tx2);font-size:12.5px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);padding:12px 14px;box-shadow:var(--sh)}
+.kpi .lbl{color:var(--tx3);font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;display:block;margin-bottom:3px}
+.kpi b{font-size:18px;font-family:var(--mono)}
+.card{background:var(--surface);border:1px solid var(--bd2);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;margin-bottom:12px}
+h2{font-size:13px;margin:22px 0 8px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2)}
+.sig{border-left:3px solid var(--red);padding:10px 12px;background:var(--red-bg);border-radius:0 8px 8px 0;margin-bottom:9px}
+.sig.watch{border-left-color:var(--amber);background:var(--amber-bg)}
+.sig .hd{font-weight:700;font-size:13px;font-family:var(--mono)}
+.sig .cond{font-size:11.5px;color:var(--tx2);margin-top:2px}
+.sig .ev{font-size:11.5px;margin-top:6px;line-height:1.6}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);border:1px solid var(--bd2)}
+th,td{padding:8px 11px;font-size:12px;text-align:left;border-bottom:1px solid var(--bd2)}
+th{color:var(--tx3);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:500}
+td.mono{font-family:var(--mono);font-weight:500}
+td.num{text-align:right;font-family:var(--mono)}
+.t-ok{color:var(--green-tx)} .t-warn{color:var(--amber-tx)} .t-bad{color:var(--red-tx)}
+.bar{height:5px;background:var(--bd2);border-radius:3px;overflow:hidden;min-width:70px}
+.bar i{display:block;height:100%;border-radius:3px}
+.foot{margin-top:24px;color:var(--tx3);font-size:11.5px;border-top:1px solid var(--bd2);padding-top:12px;line-height:1.6}
+.empty{color:var(--tx2);font-size:12.5px;padding:6px 0}
+</style></head>
+<body><div class="wrap">
+<a class="back" href="./">← Trade Desk</a>
+<h1>Escrow — อะไรต้องอ่าน เมื่อไร</h1>
+<div class="meta">รวมสัญญาณ kill-check + นาฬิการีวิว brief · 14 หลักทรัพย์ที่ถือ · สร้าง 2026-11-19 08:47 · kill-check ล่าสุด 2026-11-19 08:14</div>
+
+<div class="kpis">
+  <div class="kpi"><span class="lbl">ต้องอ่านวันนี้</span><b class="t-bad">3</b></div>
+  <div class="kpi"><span class="lbl">เฝ้าดู</span><b class="t-warn">2</b></div>
+  <div class="kpi"><span class="lbl">อยู่ในกรอบ</span><b>9</b></div>
+  <div class="kpi"><span class="lbl">ไม่มี kill condition</span><b class="t-bad">6</b></div>
+</div>
+
+<h2>สัญญาณจาก kill-check ล่าสุด</h2>
+<div class="card"><div class="sig"><div class="hd">AMZN · POSSIBLE TRIGGER</div><div class="cond">FCF / CapEx และงบดุล</div><div class="ev">เงื่อนไขเดิมคือ FCF ติดลบต่อเนื่องขณะ CapEx เพิ่ม และหนี้/lease โตจนสภาพคล่องลดลง. ณ Q3, FCF ย้อนหลัง 12 เดือนลดเป็น **−$42.4B** จาก −$7.6B ณ Q2; เงินสดและหลักทรัพย์ลดจาก **$123B เหลือ $114.2B**. ตัวเลข FCF สองช่วงทับซ้อนกัน ไม่ใช่สองไตรมาสอิสระ และ AWS margin ยังราว **38.7%** จึงยังไม่ยืนยันว่าครบทุกองค์ประกอบ [Amazon Q3, 29 ต.ค.](https://ir.aboutamazon.com/news-release/news-release-details/2026/</div></div><div class="sig"><div class="hd">GOOGL · POSSIBLE TRIGGER</div><div class="cond">คำสั่งจำกัดธุรกิจ Search</div><div class="ev">เงื่อนไขเดิมคือศาลสั่งแยก **หรือจำกัด** ธุรกิจหลัก. ศาลชั้นต้นมีคำพิพากษาจำกัดเงื่อนไขการกระจาย Search แล้วเมื่อ **5 ธ.ค. 2025** แต่คดียังอุทธรณ์ และผลกระทบทางเศรษฐกิจยังไม่ชัด — ไม่ใช่คำสั่งแยกธุรกิจ [DOJ](https://www.justice.gov/atr/case/us-and-plaintiff-states-v-google-llc) · [SEC 10-Q, 29 ต.ค. 2026](https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm)</div></div><div class="sig"><div class="hd">PLTR · POSSIBLE TRIGGER</div><div class="cond">FCF margin ลดจากฐาน 60%+</div><div class="ev">adjusted FCF margin Q3 เหลือ **53% จาก 63% ใน Q2** แต่เป็นการลดที่เห็นเพียงหนึ่งไตรมาส และ Rule of 40 ยังเพิ่มจาก 155% เป็น 158% [SEC Q3, 2 พ.ย.](https://www.sec.gov/Archives/edgar/data/1321655/000132165526000045/a2026q3ex991pressrelease.htm) · [IR Q2, 3 ส.ค.](https://investors.palantir.com/news-details/2026/Palantir-Reports-Q2-2026-U-S--Comm-Revenue-Growth-of-149-YY-and-Revenue-Growth-of-93-YY-Ra</div></div></div>
+
+<h2>นาฬิการีวิว (brief อายุเท่าไร เทียบรอบของตัวเอง)</h2>
+<table>
+<tr><th>Ticker</th><th style="text-align:right">มูลค่า ฿</th><th style="text-align:right">อายุ</th>
+<th style="text-align:right">รอบ</th><th style="text-align:right">กำหนด</th><th>ความสด</th>
+<th style="text-align:right">kill</th><th>สถานะ</th></tr>
+<tr><td class='mono'>GOOGL</td><td class='num'>81,386</td><td class='num'>2d</td><td class='num'>30d</td><td class='num t-bad'>อีก 28d</td><td><div class='bar'><i style='width:7%;background:var(--red)'></i></div></td><td class='num '>1</td><td class='t-bad'>สัญญาณชน — ต้องอ่าน</td></tr><tr><td class='mono'>AMZN</td><td class='num'>67,599</td><td class='num'>1d</td><td class='num'>30d</td><td class='num t-bad'>อีก 29d</td><td><div class='bar'><i style='width:3%;background:var(--red)'></i></div></td><td class='num t-bad'>0</td><td class='t-bad'>สัญญาณชน — ต้องอ่าน</td></tr><tr><td class='mono'>PLTR</td><td class='num'>27,512</td><td class='num'>6d</td><td class='num'>21d</td><td class='num t-bad'>อีก 15d</td><td><div class='bar'><i style='width:29%;background:var(--red)'></i></div></td><td class='num t-bad'>0</td><td class='t-bad'>สัญญาณชน — ต้องอ่าน</td></tr><tr><td class='mono'>AVGO</td><td class='num'>92,512</td><td class='num'>18d</td><td class='num'>21d</td><td class='num t-warn'>อีก 3d</td><td><div class='bar'><i style='width:86%;background:var(--amber)'></i></div></td><td class='num '>1</td><td class='t-warn'>ใกล้ครบกำหนด</td></tr><tr><td class='mono'>QQQM</td><td class='num'>31,535</td><td class='num'>66d</td><td class='num'>60d</td><td class='num t-warn'>เลย 6d</td><td><div class='bar'><i style='width:100%;background:var(--amber)'></i></div></td><td class='num t-bad'>0</td><td class='t-warn'>เลยกำหนดรีวิว</td></tr><tr><td class='mono'>MSFT</td><td class='num'>218,948</td><td class='num'>0d</td><td class='num'>30d</td><td class='num t-ok'>อีก 30d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num '>1</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>NVDA</td><td class='num'>98,640</td><td class='num'>0d</td><td class='num'>14d</td><td class='num t-ok'>อีก 14d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num '>1</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>ASML</td><td class='num'>88,332</td><td class='num'>2d</td><td class='num'>21d</td><td class='num t-ok'>อีก 19d</td><td><div class='bar'><i style='width:10%;background:var(--green)'></i></div></td><td class='num t-bad'>0</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>CRWD</td><td class='num'>48,640</td><td class='num'>7d</td><td class='num'>21d</td><td class='num t-ok'>อีก 14d</td><td><div class='bar'><i style='width:33%;background:var(--green)'></i></div></td><td class='num '>2</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>PANW</td><td class='num'>42,408</td><td class='num'>0d</td><td class='num'>21d</td><td class='num t-ok'>อีก 21d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num '>1</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>META</td><td class='num'>36,942</td><td class='num'>0d</td><td class='num'>30d</td><td class='num t-ok'>อีก 30d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num t-bad'>0</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>SNOW</td><td class='num'>29,971</td><td class='num'>5d</td><td class='num'>21d</td><td class='num t-ok'>อีก 16d</td><td><div class='bar'><i style='width:24%;background:var(--green)'></i></div></td><td class='num t-bad'>0</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>LLY</td><td class='num'>14,280</td><td class='num'>0d</td><td class='num'>30d</td><td class='num t-ok'>อีก 30d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num '>1</td><td class='t-ok'>อยู่ในกรอบ</td></tr><tr><td class='mono'>MRVL</td><td class='num'>7,860</td><td class='num'>0d</td><td class='num'>14d</td><td class='num t-ok'>อีก 14d</td><td><div class='bar'><i style='width:0%;background:var(--green)'></i></div></td><td class='num '>1</td><td class='t-ok'>อยู่ในกรอบ</td></tr>
+</table>
+
+<div class="foot">
+หน้านี้เป็นเครื่องมือคัดกรองว่าควรอ่านอะไร <b>ไม่ใช่คำแนะนำซื้อ ขาย หรือถือ</b> ·
+เกณฑ์: สัญญาณ POSSIBLE TRIGGER/WATCH จาก kill-check มาก่อน, ถ้าไม่มีจึงดูว่าถึงรอบรีวิวหรือยัง ·
+"รอบ" ตั้งตามความเร็วของธุรกิจ (semis/hyper-growth 14–21 วัน, ตัวใหญ่ 30 วัน, ETF 60 วัน)
+</div>
+</div></body></html>
